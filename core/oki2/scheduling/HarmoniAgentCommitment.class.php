@@ -41,7 +41,7 @@ extends AgentCommitment
 	function HarmoniAgentCommitment($id)
 	{
 		$this->_id = $id;
-		$this->_table = 'sc_commitments';
+		$this->_table = 'sc_commit';
 		
 	}
 	
@@ -97,6 +97,34 @@ extends AgentCommitment
     function &getStatus () { 
         return $this->_getType('commit_stat');
     } 
+    
+    
+     /**
+     * Get the Schedule Item this AgentCommitment is associated with.
+     *
+     * <b>Warning!</b> Not in the OSID.  Use at your own risk.
+     *  
+     * @return object ScheduleItem
+     * 
+     * @throws object SchedulingException An exception with one of
+     *         the following messages defined in
+     *         org.osid.scheduling.SchedulingException may be thrown:   {@link
+     *         org.osid.scheduling.SchedulingException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.scheduling.SchedulingException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.scheduling.SchedulingException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.scheduling.SchedulingException#UNIMPLEMENTED
+     *         UNIMPLEMENTED}
+     * 
+     * @access public
+     */
+    function &getScheduleItem () { 
+    	$ret =& new ScheduleItem($this->_id);
+        return $ret;
+    } 
+    
     
     function _typeToIndex($typename, &$type)
 	{	

@@ -26,7 +26,7 @@ require_once(HARMONI."oki2/coursemanagement/CanonicalCourseIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CanonicalCourse.class.php,v 1.17 2006/07/04 17:55:25 jwlee100 Exp $
+ * @version $Id: CanonicalCourse.class.php,v 1.18 2006/07/05 17:28:30 sporktim Exp $
  */
 class HarmoniCanonicalCourse
 	extends CanonicalCourse
@@ -827,10 +827,11 @@ class HarmoniCanonicalCourse
 		$query->addColumn('id');
 		$query->addWhere("equivalent = '".$max."'");
 		$res=& $dbHandler->query($query);
+		$idManager=& Services::getService('id');
 		while($res->hasMoreRows()){
 			$row = $res->getCurrentRow();
 			$res->advanceRow();
-			$course = $cm->getCanonicalCourse($row['id']);
+			$course = $cm->getCanonicalCourse($idManager->getId($row['id']));
 			$course->_setField('equivalent', $min);
 		}
 		
@@ -866,10 +867,11 @@ class HarmoniCanonicalCourse
 		$query->addWhere("equivalent ='".$this->_getField('equivalent')."'");
 		$res=& $dbHandler->query($query);
 		$array=array();
+		$idManager=& Services::getService('id');
 		while($res->hasMoreRows()){
 			$row = $res->getCurrentRow();
 			$res->advanceRow();
-			$array[] = $cm->getCanonicalCourse($row['id']);
+			$array[] = $cm->getCanonicalCourse($idManager->getId($row['id']));
 		}
 		$ret =& new HarmoniCanonicalCourseIterator($array);
 		return $ret;
@@ -994,7 +996,7 @@ class HarmoniCanonicalCourse
 		while($res->hasMoreRows()){
 			$row = $res->getCurrentRow();
 			$res->advanceRow();
-			$array[]=$row['id'];
+			$array[]=$row['topic'];
 		}
 		$ret =& new HarmoniStringIterator($array);
 		return $ret;
@@ -1195,8 +1197,8 @@ class HarmoniCanonicalCourse
 	*/
 	function &getPropertiesByType ( &$propertiesType ) {
 		$courseType =& $this->getCourseType();
-		$propertiesType =& new Type($courseType->getDomain(), $courseType->getAuthority(), "properties"); 		
-		if($propertiesType->isEqualTo($propertiesType)){
+		$propType =& new Type($courseType->getDomain(), $courseType->getAuthority(), "properties"); 		
+		if($propertiesType->isEqualTo($propType)){
 			return $this->_getProperties();
 		}
 		return null;
@@ -1215,7 +1217,7 @@ class HarmoniCanonicalCourse
 		$query =& new SelectQuery();
 		$query->addTable('cm_can');
 		$query->addColumn("*");
-		$query->addWhere("id='".addslashes($this->_id)."'");				
+		$query->addWhere("id='".addslashes($this->_id->getIdString())."'");				
 		$res=& $dbHandler->query($query);
 		
 		//make a type

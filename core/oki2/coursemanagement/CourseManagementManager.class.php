@@ -6,7 +6,7 @@
 * @copyright Copyright &copy; 2006, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.21 2006/07/04 17:55:25 jwlee100 Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.22 2006/07/05 17:28:30 sporktim Exp $
 */
 
 require_once(OKI2."/osid/coursemanagement/CourseManagementManager.php");
@@ -100,7 +100,7 @@ require_once(HARMONI."oki2/coursemanagement/TermIterator.class.php");
 * @copyright Copyright &copy; 2005, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.21 2006/07/04 17:55:25 jwlee100 Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.22 2006/07/05 17:28:30 sporktim Exp $
 */
 class HarmoniCourseManagementManager
 extends CourseManagementManager
@@ -610,12 +610,12 @@ extends CourseManagementManager
 
 		$res=& $dbHandler->query($query);
 		$array=array();
+		$idManager =& Services::getService('id');
 		while($res->hasMoreRows()){
 			$row =& $res->getCurrentRow();
 			$res->advanceRow();
-			$course = $this->getCourseSection($row['id']);
-			//$type = $course->_node->getType();
-			//if($type->getKeyword()=="CourseSection"){
+			$course = $this->getCourseSection($idManager->getId($row['id']));
+			
 			$array[]=$course;
 			//}
 		}
@@ -662,10 +662,11 @@ extends CourseManagementManager
 
 		$res=& $dbHandler->query($query);
 		$array=array();
+		$idManager =& Services::getService('id');
 		while($res->hasMoreRows()){
 			$row =& $res->getCurrentRow();
 			$res->advanceRow();
-			$courseSection = $this->getCourseSection($row['id']);
+			$courseSection = $this->getCourseSection($idManager->getId($row['id']));
 			$courseOffering = $courseSection->getCourseOffering();
 			$courseOfferingId=$courseOffering->getId();
 			foreach($array as $value){				
@@ -767,7 +768,7 @@ extends CourseManagementManager
 		$dbHandler =& Services::getService("DBHandler");
 		$query=& new DeleteQuery;
 		$query->setTable('cm_term');
-		$query->addWhere("id=".addslashes($termId));
+		$query->addWhere("id=".addslashes($termId->getIdString()));
 		$dbHandler->query($query);
 
 	}
@@ -832,10 +833,11 @@ extends CourseManagementManager
 		$query->addColumn('id');
 		$res=& $dbHandler->query($query);
 		$array=array();
+		$idManager =& Services::getService('id');
 		while($res->hasMoreRows()){
 			$row = $res->getCurrentRow();
 			$res->advanceRow();
-			$array[]=$this->getTerm($row['id']);
+			$array[]=$this->getTerm($idManager->getId($row['id']));
 		}
 		$ret =& new HarmoniTermIterator($array);
 		return $ret;
@@ -1266,7 +1268,6 @@ extends CourseManagementManager
 			$row = $res->getCurrentRow();
 			$res->advanceRow();
 			$id =& $idManager->getId($row['id']);
-			//$canonicalCourseArrayByType[] =& $this->getCanonicalCourse($id);
 			$array[] =& new HarmoniCourseGradeRecord($id);
 
 		}

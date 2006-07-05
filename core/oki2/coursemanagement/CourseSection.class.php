@@ -26,7 +26,7 @@ require_once(OKI2."/osid/coursemanagement/CourseSection.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CourseSection.class.php,v 1.11 2006/07/04 20:13:35 sporktim Exp $
+ * @version $Id: CourseSection.class.php,v 1.12 2006/07/05 17:28:30 sporktim Exp $
  */
 class HarmoniCourseSection
 	extends CourseSection
@@ -450,8 +450,8 @@ class HarmoniCourseSection
 	 */
 	function &getPropertyTypes () { 
 		$courseType =& $this->getSectionType();
-		$propertiesType =& new Type($courseType->getDomain(), $courseType->getAuthority(), "properties");
-		$typeIterator =& new HarmoniTypeIterator(array($propertiesType));
+		$propType =& new Type($courseType->getDomain(), $courseType->getAuthority(), "properties");
+		$typeIterator =& new HarmoniTypeIterator(array($propType));
 		return $typeIterator;
 	} 
 
@@ -695,18 +695,18 @@ class HarmoniCourseSection
 		$dbHandler =& Services::getService("DBHandler");
 		$query=& new SelectQuery;
 		$query->addTable('cm_enroll');
-		$query->addWhere("fk_cm_section='".$this->_id."'");
-		$query->addWhere("fk_student_id='".$agentId->getIdString()."'");
+		$query->addWhere("fk_cm_section='".addslashes($this->_id->getIdString())."'");
+		$query->addWhere("fk_student_id='".addslashes($agentId->getIdString())."'");
 		//$query->addColumn('id');
 		$res=& $dbHandler->query($query);
 		if($res->getNumberOfRows()==0){
-			$typeIndex = $this->_typeToIndex($enrollmentStatusType);
+			$typeIndex = $this->_typeToIndex('enroll_stat',$enrollmentStatusType);
 			
 			$query=& new InsertQuery;
 			$query->setTable('cm_enroll');
 			$values[]="'".addslashes($agentId->getIdString())."'";
 			$values[]="'".addslashes($typeIndex)."'";
-			$values[]="'".addslashes($this->_id)."'";
+			$values[]="'".addslashes($this->_id->getIdString())."'";
 			$query->setColumns(array('fk_student_id','fk_cm_enroll_stat_type','fk_cm_section'));
 			$query->addRowOfValues($values);
 			$query->setAutoIncrementColumn('id','id_sequence');
@@ -715,9 +715,7 @@ class HarmoniCourseSection
 			print "<b>Warning!</b> Student with id ".$agentId->getIdString()."is already enrolled in section ".$this->getDisplayName().".";
 		}
 			
-			
-	//	$ret =& new HarmoniTerm($id);
-	//	return $ret;
+
 		
 	} 
 
@@ -748,16 +746,16 @@ class HarmoniCourseSection
 	 */
 	function changeStudent ( &$agentId, &$enrollmentStatusType ) { 
 		
-		$typeIndex = $this->_typeToIndex($enrollmentStatusType);
+		$typeIndex = $this->_typeToIndex('enroll_stat',$enrollmentStatusType);
 		
 		$dbHandler =& Services::getService("DBHandler");
 		$query=& new UpdateQuery;
 		$query->setTable('cm_enroll');
 
 		
-		
-		$query->addWhere("fk_cm_section='".$this->_id."'");
-		$query->addWhere("fk_student_id='".$agentId->getIdString()."'");
+		$query->addWhere("fk_cm_section='".addslashes($this->_id->getIdString())."'");
+		$query->addWhere("fk_student_id='".addslashes($agentId->getIdString())."'");
+
 		
 		$query->setColumns(array('fk_cm_enroll_stat_type'));
 		$query->setValues(array("'".addslashes($typeIndex)."'"));
@@ -792,9 +790,7 @@ class HarmoniCourseSection
 	 * @access public
 	 */
 	function removeStudent ( &$agentId ) { 
-		$this->_hierarchy->deleteNode($canonicalCourseId);
-
-
+		
 
 		$dbHandler =& Services::getService("DBHandler");
 		$query=& new DeleteQuery;
@@ -803,8 +799,8 @@ class HarmoniCourseSection
 		$query->setTable('cm_enroll');
 
 	
-		$query->addWhere("fk_cm_section='".$this->_id."'");
-		$query->addWhere("fk_student_id='".$agentId->getIdString()."'");
+		$query->addWhere("fk_cm_section='".addslashes($this->_id->getIdString())."'");
+		$query->addWhere("fk_student_id='".addslashes($agentId->getIdString())."'");
 		
 		$dbHandler->query($query);
 	} 
@@ -842,26 +838,18 @@ class HarmoniCourseSection
 			$query->setTable('cm_enroll');
 			//$query->addColumn('fk_student_id');
 			$query->addColumn('id');
-			$query->addWhere("fk_cm_section='".addslashes($this->_id)."'");
+			$query->addWhere("fk_cm_section='".addslashes($this->_id->getIdString())."'");
 
 
 			$res=& $dbHandler->query($query);
-
+			$idManager =& Services::getService('id');
 			while($res->hasMoreRows()){
 				$row =& $res->getCurrentRow();
 				$res->advanceRow();
-				//$courseSection = $cm->getCourseSection($row['id']);
-				//$courseOffering = $courseSection->getCourseOffering();
-				//$courseOfferingId=$courseOffering->getId();
-				//foreach($array as $value){
-				//	if($courseOfferingId->isEqualTo($value->getId())){
-				//		continue 2;
-				//	}
-				//}
-				//$array[] =& $node->getType();
-				$array[] =& new HarmoniEnrollmentRecord($row['id']);
+				
+				$array[] =& new HarmoniEnrollmentRecord($idManager->getId($row['id']));
 			}
-		$ret =& new EnrollmentRecordIterator($array);
+		$ret =& new HarmoniEnrollmentRecordIterator($array);
 		return $ret;
 	} 
 
@@ -906,25 +894,17 @@ class HarmoniCourseSection
 			//$query->addColumn('fk_student_id');
 			$query->addColumn('id');
 			//$query->addWhere("fk_cm_section='".addslashes($this->_id)."'");
-$query->addWhere("fk_cm_section='".addslashes($sectionId)."' AND fk_enroll_stat_type='".addslashes($typeIndex)."'");
+$query->addWhere("fk_cm_section='".addslashes($this->_id->getString())."' AND fk_enroll_stat_type='".addslashes($typeIndex)."'");
 
 			$res=& $dbHandler->query($query);
-
+			$idManager =& Services::getService('id');
 			while($res->hasMoreRows()){
 				$row =& $res->getCurrentRow();
 				$res->advanceRow();
-				//$courseSection = $cm->getCourseSection($row['id']);
-				//$courseOffering = $courseSection->getCourseOffering();
-				//$courseOfferingId=$courseOffering->getId();
-				//foreach($array as $value){
-				//	if($courseOfferingId->isEqualTo($value->getId())){
-				//		continue 2;
-				//	}
-				//}
-				//$array[] =& $node->getType();
-				$array[] =& new HarmoniEnrollmentRecord($row['id']);
+				
+				$array[] =& new HarmoniEnrollmentRecord($idManager->getId($row['id']));
 			}
-		$ret =& new EnrollmentRecordIterator($array);
+		$ret =& new HarmoniEnrollmentRecordIterator($array);
 		return $ret; 
 	} 
 
@@ -953,7 +933,7 @@ $query->addWhere("fk_cm_section='".addslashes($sectionId)."' AND fk_enroll_stat_
 	 * @access public
 	 */
 	function updateStatus ( &$statusType ) { 
-		$this->_setField('fk_cm_section_stat_type',$this->_typeToIndex($statusType));
+		$this->_setField('fk_cm_section_stat_type',$this->_typeToIndex('section_stat',$statusType));
 	} 
 
 	/**
@@ -1005,7 +985,7 @@ $query->addWhere("fk_cm_section='".addslashes($sectionId)."' AND fk_enroll_stat_
 		$query =& new SelectQuery();
 		$query->addTable('cm_section');
 		$query->addColumn("*");
-		$query->addWhere("id='".addslashes($this->_id)."'");				
+		$query->addWhere("id='".addslashes($this->_id->getIdString())."'");				
 		$res=& $dbHandler->query($query);
 		
 		//make a type

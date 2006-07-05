@@ -24,7 +24,7 @@ require_once(OKI2."/osid/coursemanagement/CourseOffering.php");
 * @copyright Copyright &copy; 2005, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseOffering.class.php,v 1.14 2006/07/04 20:13:35 sporktim Exp $
+* @version $Id: CourseOffering.class.php,v 1.15 2006/07/05 17:28:30 sporktim Exp $
 */
 class HarmoniCourseOffering
 extends CourseOffering
@@ -872,7 +872,7 @@ extends CourseOffering
 	* @access public
 	*/
 	function updateCourseGradeType ( &$courseGradeType ) {
-		$this->_setField('fk_cm_grade_type',$this->_typeToIndex($courseGradeType));
+		$this->_setField('fk_cm_grade_type',$this->_typeToIndex('grade',$courseGradeType));
 	}
 
 	/**
@@ -900,7 +900,7 @@ extends CourseOffering
 	* @access public
 	*/
 	function updateStatus ( &$statusType ) {
-		$this->_setField('fk_cm_offer_stat_type',$this->_typeToIndex($statusType));
+		$this->_setField('fk_cm_offer_stat_type',$this->_typeToIndex('offer_stat',$statusType));
 	}
 
 	/**
@@ -1030,24 +1030,16 @@ extends CourseOffering
 			$query->setTable('cm_enroll');
 			//$query->addColumn('fk_student_id');
 			$query->addColumn('id');
-			$query->addWhere("fk_cm_section='".addslashes($sectionId)."'");
+			$query->addWhere("fk_cm_section='".addslashes($sectionId->getIdString())."'");
 
 
 			$res=& $dbHandler->query($query);
-
+			$idManager =& Services::getService('id');
 			while($res->hasMoreRows()){
 				$row =& $res->getCurrentRow();
 				$res->advanceRow();
-				//$courseSection = $cm->getCourseSection($row['id']);
-				//$courseOffering = $courseSection->getCourseOffering();
-				//$courseOfferingId=$courseOffering->getId();
-				//foreach($array as $value){
-				//	if($courseOfferingId->isEqualTo($value->getId())){
-				//		continue 2;
-				//	}
-				//}
-				//$array[] =& $node->getType();
-				$array[] =& new HarmoniEnrollmentRecord($row['id']);
+				
+				$array[] =& new HarmoniEnrollmentRecord($idManager->getId($row['id']));
 			}
 		}
 		$ret =& new HarmoniEnrollmentRecordIterator($array);
@@ -1098,16 +1090,16 @@ extends CourseOffering
 			$query->setTable('cm_enroll');
 			//$query->addColumn('fk_student_id');
 			$query->addColumn('id');			
-			$query->addWhere("fk_cm_section='".addslashes($sectionId)."' AND fk_enroll_stat_type='".addslashes($typeIndex)."'");
+			$query->addWhere("fk_cm_section='".addslashes($sectionId->getIdString())."' AND fk_enroll_stat_type='".addslashes($typeIndex)."'");
 
 
 			$res=& $dbHandler->query($query);
-
+			$idManager =& Services::getService('id');
 			while($res->hasMoreRows()){
 				$row =& $res->getCurrentRow();
 				$res->advanceRow();
 				
-				$array[] =& new HarmoniEnrollmentRecord($row['id']);
+				$array[] =& new HarmoniEnrollmentRecord($idManager->getId($row['id']));
 			}
 		}
 		$ret =& new HarmoniEnrollmentRecordIterator($array);
@@ -1142,8 +1134,8 @@ extends CourseOffering
 	*/
 	function &getPropertiesByType ( &$propertiesType ) {
 		$courseType =& $this->getOfferingType();
-		$propertiesType =& new Type($courseType->getDomain(), $courseType->getAuthority(), "properties"); 		
-		if($propertiesType->isEqualTo($propertiesType)){
+		$propType =& new Type($courseType->getDomain(), $courseType->getAuthority(), "properties"); 		
+		if($propertiesType->isEqualTo($propType)){
 			return $this->_getProperties();
 		}
 		return null;
@@ -1161,7 +1153,7 @@ extends CourseOffering
 		$query =& new SelectQuery();
 		$query->addTable('cm_offer');
 		$query->addColumn("*");
-		$query->addWhere("id='".addslashes($this->_id)."'");				
+		$query->addWhere("id='".addslashes($this->_id->getIdString())."'");				
 		$res=& $dbHandler->query($query);
 		
 		//make a type
