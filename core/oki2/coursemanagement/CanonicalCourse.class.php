@@ -26,7 +26,7 @@ require_once(HARMONI."oki2/coursemanagement/CanonicalCourseIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CanonicalCourse.class.php,v 1.20 2006/07/06 15:00:37 sporktim Exp $
+ * @version $Id: CanonicalCourse.class.php,v 1.21 2006/07/06 18:33:53 sporktim Exp $
  */
 class HarmoniCanonicalCourse
 	extends CanonicalCourse
@@ -60,10 +60,10 @@ class HarmoniCanonicalCourse
 	 * @access public
 	 * @return void
 	 */
-	function HarmoniCanonicalCourse($id, $node)
+	function HarmoniCanonicalCourse(&$id, &$node)
 	{
-		$this->_id = $id;
-		$this->_node = $node;
+		$this->_id =& $id;
+		$this->_node =& $node;
 		$this->_table = 'cm_can';
 		$cm =& Services::getService("CourseManagement");
 		$this->_hierarchy =& $cm->_hierarchy;
@@ -375,7 +375,7 @@ class HarmoniCanonicalCourse
 
 
 		$type =& new Type("CourseManagement","edu.middlebury", "CanonicalCourse");
-		$node=$this->_hierarchy->createNode($id,$this->_id,$type,$title,$description);
+		$node=&$this->_hierarchy->createNode($id,$this->_id,$type,$title,$description);
 
 		$dbManager=& Services::getService("DBHandler");
 		$query=& new InsertQuery;
@@ -497,7 +497,7 @@ class HarmoniCanonicalCourse
 
 
 		$type =& new Type("CourseManagement","edu.middlebury", "CourseOffering");
-		$node=$this->_hierarchy->createNode($id,$this->_id,$type,$title,$description);
+		$node=&$this->_hierarchy->createNode($id,$this->_id,$type,$title,$description);
 
 		$dbManager=& Services::getService("DBHandler");
 		$query=& new InsertQuery;
@@ -599,7 +599,7 @@ class HarmoniCanonicalCourse
 		
 
 		
-		$nodeIterator = $this->_node->getChildren();
+		$nodeIterator =& $this->_node->getChildren();
 		
 		$array = array();
 		$idManager= & Services::getService("IdManager");
@@ -607,8 +607,8 @@ class HarmoniCanonicalCourse
 		$typeIndex=$cm->_typeToIndex('offer',$sectionType);
 		
 		while($nodeIterator->hasNextNode()){
-			$childNode = $nodeIterator->nextNode();
-			$nodeType = $childNode->getType();
+			$childNode =& $nodeIterator->nextNode();
+			$nodeType =& $childNode->getType();
 			if($nodeType->getKeyWord()!="CourseOffering"){
 				continue;	
 			}	
@@ -647,7 +647,7 @@ class HarmoniCanonicalCourse
 	 */
 	function &getCourseOfferingsByType ( &$offeringType ) { 
 	
-		$nodeIterator = $this->_node->getChildren();
+		$nodeIterator =& $this->_node->getChildren();
 		
 		$array = array();
 		$idManager= & Services::getService("IdManager");
@@ -655,8 +655,8 @@ class HarmoniCanonicalCourse
 		$typeIndex=$cm->_typeToIndex('offer',$offeringType);
 		
 		while($nodeIterator->hasNextNode()){
-			$childNode = $nodeIterator->nextNode();
-			$nodeType = $childNode->getType();
+			$childNode =& $nodeIterator->nextNode();
+			$nodeType =& $childNode->getType();
 			if($nodeType->getKeyWord()!="CourseOffering"){
 				continue;	
 			}	

@@ -26,7 +26,7 @@ require_once(OKI2."/osid/coursemanagement/CourseSection.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CourseSection.class.php,v 1.14 2006/07/06 15:00:38 sporktim Exp $
+ * @version $Id: CourseSection.class.php,v 1.15 2006/07/06 18:33:53 sporktim Exp $
  */
 class HarmoniCourseSection
 	extends CourseSection
@@ -62,10 +62,10 @@ class HarmoniCourseSection
 	 * @access public
 	 * @return void
 	 */
-	function HarmoniCourseSection($id, $node)
+	function HarmoniCourseSection(&$id, &$node)
 	{
-		$this->_id = $id;
-		$this->_node = $node;
+		$this->_id =& $id;
+		$this->_node =& $node;
 		$this->_table = 'cm_section';
 		$cm =& Services::getService("CourseManagement");
 		$this->_hierarchy =& $cm->_hierarchy;
@@ -505,12 +505,12 @@ class HarmoniCourseSection
 	 * @access public
 	 */
 	function &getCourseOffering () { 
-		$nodeIterator = $this->_node->getParents();
+		$nodeIterator =& $this->_node->getParents();
 		if(!$nodeIterator->hasNextNode()){
 			print "<b>Warning!</b> Course Section ".$this->getDisplayName()." has no Course Offering Parent.";
 			return null;	
 		}
-		$parentNode = $nodeIterator->nextNode();		
+		$parentNode =& $nodeIterator->nextNode();		
 		$cm = Services::getService("CourseMangament");
 		return $cm -> getCourseOffering($parentNode->getID()); 
 	} 

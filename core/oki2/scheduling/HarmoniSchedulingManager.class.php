@@ -91,65 +91,7 @@ class HarmoniSchedulingManager
 	*/
 	function assignConfiguration ( &$configuration ) {
 		
-		/*
-		$this->_configuration =& $configuration;
-
-		$hierarchyId =& $configuration->getProperty('hierarchy_id');
-		$rootId =& $configuration->getProperty('root_id');
-		$courseManagementId =& $configuration->getProperty('course_management_id');
-		$canonicalCoursesId =& $configuration->getProperty('canonical_courses_id');
-		$courseGroupsId =& $configuration->getProperty('course_groups_id');
-
-
-		// ** parameter validation
-		ArgumentValidator::validate($hierarchyId, StringValidatorRule::getRule(), true);
-		ArgumentValidator::validate($rootId, StringValidatorRule::getRule(), true);
-		ArgumentValidator::validate($courseManagementId, StringValidatorRule::getRule(), true);
-		ArgumentValidator::validate($canonicalCoursesId, StringValidatorRule::getRule(), true);
-		ArgumentValidator::validate($courseGroupsId, StringValidatorRule::getRule(), true);
-		// ** end of parameter validation
-
-
-
-		//convert to ids
-		$idManager =& Services::getService("Id");
 		
-		$hierarchyId =& $idManager->getId($hierarchyId);
-		$rootId =& $idManager->getId($rootId);
-		$courseManagementId =& $idManager->getId($courseManagementId);
-		$canonicalCoursesId =& $idManager->getId($canonicalCoursesId);
-		$courseGroupsId =& $idManager->getId($courseGroupsId);
-
-
-
-		$hierarchyManager =& Services::getService("Hierarchy");
-		$this->_hierarchy =& $hierarchyManager->getHierarchy($hierarchyId);
-
-	
-	
-		
-		//initialize nodes
-		$type =& new Type("CourseManagement","edu.middlebury","CourseManagement","These are top level nodes in the CourseManagement part of the Hierarchy");
-		if(!$this->_hierarchy->nodeExists($courseManagementId)){
-			$this->_hierarchy->createNode($courseManagementId,  $rootId, $type,"Course Management","This node is the ancestor of all information about course management in the hierarchy");
-		}
-		if(!$this->_hierarchy->nodeExists($canonicalCoursesId)){
-			$this->_hierarchy->createNode($canonicalCoursesId,$courseManagementId,$type,"Canonical Courses","This node is the parent of all root level canonical courses");
-		}
-		if(!$this->_hierarchy->nodeExists($courseGroupsId)){
-			$this->_hierarchy->createNode($courseGroupsId,$courseManagementId,$type,"Course Groups","This node is the parent of all course groups in the hierarchy");
-		}
-
-
-		$this->_canonicalCoursesId =& $canonicalCoursesId;
-		$this->_courseGroupsId =& $courseGroupsId;
-
-		//$this->_hierarchyId = $idManager->getId($hierarchyId);
-
-		//$hierarchyManager =& Services::getService("Hierarchy");
-		//$this->_hierarchy =& $hierarchyManager->getHierarchy($this->_hierarchyId);
-
-		*/
 	}
 
 	/**
@@ -219,7 +161,11 @@ class HarmoniSchedulingManager
      * @access public
      */
     function &createScheduleItem ( $displayName, $description, &$agents, $start, $end, $masterIdentifier ) { 
-        die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+        
+    	
+    	
+    	$ret =& new ScheduleItem($id);
+    	return $ret; 
     } 
 
     /**

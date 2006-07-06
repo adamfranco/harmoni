@@ -21,7 +21,7 @@ require_once(OKI2."/osid/coursemanagement/EnrollmentRecord.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: EnrollmentRecord.class.php,v 1.7 2006/07/06 15:00:38 sporktim Exp $
+ * @version $Id: EnrollmentRecord.class.php,v 1.8 2006/07/06 18:33:53 sporktim Exp $
  */
 class HarmoniEnrollmentRecord
 	extends EnrollmentRecord
@@ -44,9 +44,9 @@ class HarmoniEnrollmentRecord
 	 * @access public
 	 * @return void
 	 */
-	function HarmoniEnrollmentRecord($id)
+	function HarmoniEnrollmentRecord(&$id)
 	{
-		$this->_id = $id;
+		$this->_id =& $id;
 		$this->_table = 'cm_enroll';
 		
 	}

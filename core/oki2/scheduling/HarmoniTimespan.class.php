@@ -38,11 +38,10 @@ extends Timespan
 	 * @access public
 	 * @return void
 	 */
-	function HarmoniTimespan($id, $node)
+	function HarmoniTimespan($_start, $_end)
 	{
-		$this->_id = $id;
-		$this->_node = $node;
-		$this->_table = 'cm_offer';
+		$this->_start = $_start;
+		$this->_end = $_end;
 		
 	}
 	

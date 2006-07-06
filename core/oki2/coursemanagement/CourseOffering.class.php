@@ -24,7 +24,7 @@ require_once(OKI2."/osid/coursemanagement/CourseOffering.php");
 * @copyright Copyright &copy; 2005, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseOffering.class.php,v 1.17 2006/07/06 15:00:38 sporktim Exp $
+* @version $Id: CourseOffering.class.php,v 1.18 2006/07/06 18:33:53 sporktim Exp $
 */
 class HarmoniCourseOffering
 extends CourseOffering
@@ -61,10 +61,10 @@ extends CourseOffering
 	* @access public
 	* @return void
 	*/
-	function HarmoniCourseOffering($id, $node)
+	function HarmoniCourseOffering(&$id, &$node)
 	{
-		$this->_id = $id;
-		$this->_node = $node;
+		$this->_id =& $id;
+		$this->_node =& $node;
 		$this->_table = 'cm_offer';
 		$cm =& Services::getService("CourseManagement");
 		$this->_hierarchy =& $cm->_hierarchy;
@@ -475,12 +475,12 @@ extends CourseOffering
 	* @access public
 	*/
 	function &getCanonicalCourse () {
-		$nodeIterator = $this->_node->getParents();
+		$nodeIterator =& $this->_node->getParents();
 		if(!$nodeIterator->hasNextNode()){
 			print "<b>Warning!</b> Course Offering ".$this->getDisplayName()." has no Canonical Parent.";
 			return null;
 		}
-		$parentNode = $nodeIterator->nextNode();
+		$parentNode =& $nodeIterator->nextNode();
 		$cm = Services::getService("CourseMangament");
 		return $cm -> getCanonicalCourse($parentNode->getID());
 	}
@@ -523,7 +523,7 @@ extends CourseOffering
 
 
 		$type =& new Type("CourseManagement","edu.middlebury", "CourseSection");
-		$node=$this->_hierarchy->createNode($id,$this->_id,$type,$title,$description);
+		$node=&$this->_hierarchy->createNode($id,$this->_id,$type,$title,$description);
 
 		$dbManager=& Services::getService("DBHandler");
 		$query=& new InsertQuery;
@@ -612,13 +612,13 @@ extends CourseOffering
 	*/
 	function &getCourseSections () {
 
-		$nodeIterator = $this->_node->getChildren();
+		$nodeIterator =& $this->_node->getChildren();
 
 		$array = array();
 		$idManager= & Services::getService("IdManager");
 		$cm= & Services::getService("CourseManagement");
 		while($nodeIterator->hasNextNode()){
-			$childNode = $nodeIterator->nextNode();
+			$childNode =& $nodeIterator->nextNode();
 			$array[] =& $cm->getCourseSection($childNode->getId());
 		}
 		$ret =& new  HarmoniCourseSectionIterator($array);
@@ -676,7 +676,7 @@ extends CourseOffering
 	function &getCourseSectionsByType ( &$sectionType ) {
 
 
-		$nodeIterator = $this->_node->getChildren();
+		$nodeIterator =& $this->_node->getChildren();
 
 		$array = array();
 		$idManager= & Services::getService("IdManager");

@@ -38,9 +38,9 @@ extends AgentCommitment
 	 * @access public
 	 * @return void
 	 */
-	function HarmoniAgentCommitment($id)
+	function HarmoniAgentCommitment(&$id)
 	{
-		$this->_id = $id;
+		$this->_id =& $id;
 		$this->_table = 'sc_commit';
 		
 	}

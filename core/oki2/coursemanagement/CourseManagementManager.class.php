@@ -6,7 +6,7 @@
 * @copyright Copyright &copy; 2006, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.24 2006/07/06 15:00:37 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.25 2006/07/06 18:33:53 sporktim Exp $
 */
 
 require_once(OKI2."/osid/coursemanagement/CourseManagementManager.php");
@@ -100,7 +100,7 @@ require_once(HARMONI."oki2/coursemanagement/TermIterator.class.php");
 * @copyright Copyright &copy; 2005, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.24 2006/07/06 15:00:37 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.25 2006/07/06 18:33:53 sporktim Exp $
 */
 class HarmoniCourseManagementManager
 extends CourseManagementManager
@@ -285,7 +285,7 @@ extends CourseManagementManager
 
 
 		$type =& new Type("CourseManagement","edu.middlebury", "CanonicalCourse");
-		$node=$this->_hierarchy->createNode($id,$this->_canonicalCoursesId,$type,$title,$description);
+		$node =& $this->_hierarchy->createNode($id,$this->_canonicalCoursesId,$type,$title,$description);
 
 		$dbManager=& Services::getService("DBHandler");
 		$query=& new InsertQuery;
@@ -447,7 +447,7 @@ extends CourseManagementManager
 
 		$node =& $this->_hierarchy->getNode($canonicalCourseId);
 		
-		print "---->".$canonicalCourseId." ".$node->getDisplayName();
+		print "Node display name = ".$node->getDisplayName();
 		
 		$ret =& new HarmoniCanonicalCourse($canonicalCourseId, $node);
 		return $ret;
@@ -483,7 +483,7 @@ extends CourseManagementManager
 	function &getCanonicalCoursesByType ( &$courseType ) {
 
 
-		$typeIndex=$this->_typeToIndex('can',$courseType);
+		$typeIndex = $this->_typeToIndex('can',$courseType);
 
 		$dbHandler =& Services::getService("DBHandler");
 		$query=& new SelectQuery;
@@ -497,13 +497,14 @@ extends CourseManagementManager
 		$res=& $dbHandler->query($query);
 
 		$canonicalCourseArrayByType = array();
-		$idManager= & Services::getService("IdManager");
+		$idManager =& Services::getService("IdManager");
 
 		while($res->hasMoreRows()){
 
 			$row = $res->getCurrentRow();
 			$res->advanceRow();
 			$id =& $idManager->getId($row['id']);
+			print "Go fetch!";
 			$canonicalCourseArrayByType[] =& $this->getCanonicalCourse($id);
 
 		}
@@ -1320,7 +1321,7 @@ extends CourseManagementManager
 		$idManager =& Services::getService("IdManager");
 		$id=$idManager->createId();
 
-		$node=$this->_hierarchy->createNode($id,$this->_courseGroupsId,$courseGroupType,"","A group for CanonicalCourses");
+		$node =& $this->_hierarchy->createNode($id,$this->_courseGroupsId,$courseGroupType,"","A group for CanonicalCourses");
 
 
 
@@ -1423,7 +1424,7 @@ extends CourseManagementManager
 		$nodeIterator =& $parent->getChildren();
 		$arrayOfGroups = array();
 		while($nodeIterator->hasNextNode()){
-			$node=$nodeIterator->nextNode();
+			$node =& $nodeIterator->nextNode();
 			if($courseGroupType->isEqualTo($node->getType())){
 				$arrayOfGroups[] =& $this->getCourseGroup($node->getId());
 			}
@@ -1466,7 +1467,7 @@ extends CourseManagementManager
 		$nodeIterator =& $childNode->getParents();
 		$arrayOfGroups = array();
 		while($nodeIterator->hasNextNode()){
-			$parentNode=$nodeIterator->nextNode();
+			$parentNode=&$nodeIterator->nextNode();
 			$grandparents = $parentNode->getParents();
 			if(!$grandparents->hasNextNode()){
 				print "<b>Warning!</b> The CanonicalCourse with id ".$canonicalCourseId." is a root node";
@@ -1509,7 +1510,7 @@ extends CourseManagementManager
 		$nodeIterator =& $parent->getChildren();
 		$arrayOfTypes = array();
 		while($nodeIterator->hasNextNode()){
-			$node=$nodeIterator->nextNode();
+			$node=&$nodeIterator->nextNode();
 			foreach($arrayOfTypes as $value){
 				if($value->isEqualTo($node->getType())){
 					continue 2;

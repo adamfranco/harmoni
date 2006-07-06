@@ -44,9 +44,12 @@ extends ScheduleItem
 	 * @access public
 	 * @return void
 	 */
-	function HarmoniScheduleItem($id)
+	function HarmoniScheduleItem(&$id)
 	{
-		$this->_id = $id;
+		
+		
+		
+		$this->_id =& $id;
 		$this->_table = 'sc_item';
 		
 	}
@@ -661,8 +664,8 @@ extends ScheduleItem
 				
 		//create a custom Properties object
 		
-		$property->addProperty('display_name', $this->_node->getDisplayName());
-		$property->addProperty('description', $this->_node->getDescription());	
+		$property->addProperty('display_name', $this->getDisplayName());
+		$property->addProperty('description', $this->getDescription());	
 		$property->addProperty('id', $row['id']);		
 		$property->addProperty('start', $row['start']);
 		$property->addProperty('end', $row['end']);		

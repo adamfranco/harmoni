@@ -252,99 +252,27 @@
 			$this->assertTrue(!$this->iteratorHas($iterator,"Microbiology" ));
 			$this->assertTrue($this->iteratorHas($iterator,"Real Analaysis"));
 			
-			$canonicalCourseA->updateDisplayName("Fake Analysis");
-			$iterator =& $courseManagementManager->getCanonicalCoursesByType($canonicalCourseA->getCourseType());
 			$this->write(2,"update display name");
+			$canonicalCourseA->updateDisplayName("Fake Analysis");
+			//$canonicalCourseA->_node->updateDisplayName("Fake Analysis");
+			
+			$canonicalCourseCopy =& $courseManagementManager->getCanonicalCourse($canonicalCourseA->getId());
+			
 			$this->assertEqual($canonicalCourseA->getDisplayName(),"Fake Analysis");
-			$this->assertEqual($canonicalCourseB->getDisplayName(),"Microbiology");
-			$this->assertTrue(!$this->iteratorHas($iterator,"Microbiology" ));
+			$this->assertEqual($canonicalCourseCopy->getDisplayName(),"Fake Analysis");
+			
+			
+			$iterator =& $courseManagementManager->getCanonicalCoursesByType($canonicalCourseA->getCourseType());
+			
+			
+			$this->assertEqual($canonicalCourseA->getDisplayName(),"Fake Analysis");
+			$this->assertEqual($canonicalCourseB->getDisplayName(),"Microbiology");			
+			$this->assertTrue(!$this->iteratorHas($iterator,"Microbiology" ));		
 			$this->assertTrue(!$this->iteratorHas($iterator,"Real Analaysis"));
 			$this->assertTrue($this->iteratorHas($iterator,"Fake Analysis" ));
 			
-			/*
-			$this->write(3,"node test");
-			$node =& $canonicalCourseB->_node;
-			$displayName = $node->getDisplayName();
+		
 			
-			$this->assertEqual($node->getDisplayName(),$displayName );
-			
-			
-			$node2= $canonicalCourseB->_hierarchy->getNode($node->getId());
-			$this->assertEqual($node2->getDisplayName(),$displayName );
-			
-			$node->updateDisplayName("Bubba");
-			$this->assertEqual($node->getDisplayName(),"Bubba" );
-			
-			$this->assertEqual($node2->getDisplayName(),"Bubba"  );
-			$node2= $canonicalCourseB->_hierarchy->getNode($node->getId());
-			$this->assertEqual($node2->getDisplayName(),"Bubba"  );*/
-			$this->write(3,"node test");
-			/*
-			$idManager =& Services::getService("IdManager");
-			$id=$idManager->createId();
-			$cm =& Services::getService("CourseManagement");
-
-			$type =& new Type("TestingCourseManagement","edu.middlebury", "Test");
-			
-			$node=$cm->_hierarchy->createNode($id,$cm->_canonicalCoursesId,$type,"foo","This better work");	
-					
-			$this->assertEqual($node->getDisplayName(),"foo" );		
-			$node2= $cm->_hierarchy->getNode($id);
-			$this->assertEqual($node2->getDisplayName(),"foo" );
-			
-			$node->updateDisplayName("bar");
-			$this->assertEqual($node->getDisplayName(),"bar" );
-			
-			$node3 =  $cm->_hierarchy->getNode($id);
-			
-			$this->assertEqual($node3->getDisplayName(),"bar" );			
-			$cm->_hierarchy->clearCache();
-			
-			$node4 =  $cm->_hierarchy->getNode($id);		
-			$this->assertEqual($node4->getDisplayName(),"bar" );*/
-			
-			      //make a node
-            $idManager =& Services::getService("IdManager");
-            $id=$idManager->createId();
-            $cm =& Services::getService("CourseManagement");
-            $type =& new Type("TestingCourseManagement","edu.middlebury", "Test");          
-            $node=$cm->_hierarchy->createNode($id,$cm->_canonicalCoursesId,$type,"foo","This better work");   
- 
-             //update the display name
-            $node->updateDisplayName("bar");
- 
-            //get a copy
-            $node2 =&  $cm->_hierarchy->getNode($id);
-           
-             //see if the change applied--this fails
-            $this->assertEqual($node2->getDisplayName(),"bar" );           
- 
-            //clear the cache and get the node again
-           $cm->_hierarchy->clearCache();          
-           $node3 =&  $cm->_hierarchy->getNode($id);   
-
-            //this passes  
-            $this->assertEqual($node3->getDisplayName(),"bar" );
-			
-			//$canonicalCourseB =& $iterator->nextCanonicalCourse();
-			//$canonicalCourseC =& $courseManagementManager->getCanonicalCourse($canonicalCourseA->getId());
-			
-			
-			/*
-			//$this->assertReference($canonicalCourseB, $canonicalCourseC);
-			$this->assertEqual($canonicalCourseC->getTitle(), $canonicalCourseB->getTitle());
-          	$this->assertEqual($canonicalCourseC->getCredits(), $canonicalCourseB->getCredits());
-          	$this->assertEqual($canonicalCourseC->getDescription(), $canonicalCourseB->getDescription());
-          	$this->assertEqual($canonicalCourseC->getDisplayName(), $canonicalCourseB->getDisplayName());
-			$this->assertEqualTypes($canonicalCourseC->getStatus(),$canonicalCourseB->getStatus());
-			$this->assertEqualTypes($canonicalCourseC->getCourseType(),$canonicalCourseB->getCourseType());
-			
-			$this->assertEqual($canonicalCourseB->getId(), $canonicalCourseC->getId());
-			$this->assertEqual($canonicalCourseB->getTitle(), $canonicalCourseC->getTitle());
-			$this->assertEqual($canonicalCourseB->getTitle(), "Microbiology");
-			$this->assertTrue($canonicalCourseB->getNumber() == "BI310");
-			$this->assertEqual($canonicalCourseC->getNumber(), "BI310");
-			$this->assertFalse($canonicalCourseC->getTitle() == "Real Analaysis");*/
 			
 			// Sixth test - modifying various attributes of canonical course (will use previous values)
 			
@@ -360,6 +288,8 @@
 			$this->assertEqual($canonicalCourseB->getNumber(), "ECON210");
 			$this->assertEqual($canonicalCourseB->getDescription(), "Snore");
 			$this->assertEqual($canonicalCourseC->getTitle(), "Economic Statistics");
+			
+			
 			$courseManagementManager->deleteCanonicalCourse($canonicalCourseA->getId());
 			$courseManagementManager->deleteCanonicalCourse($canonicalCourseB->getId());
 			
@@ -387,17 +317,18 @@
 		//Relies extensively on weak typing
 		function iteratorHas($iter, $name){
 			$bool=false;
-			print "(";	
+			print "(";
 			while($iter->hasNext()){
 				
 					$item =& $iter->next();
-					print "'".$item->getDisplayName()."', ";
+				print $item->getDisplayName().",";
 					if($name == $item->getDisplayName()){
 						$bool=true;;
 					}
 					
 				}
-				print ")";
+			print ")";
+			print "has ".$name."? --> ".$bool;
 				return $bool;
 			/*
 				while($iter->hasNext()){
