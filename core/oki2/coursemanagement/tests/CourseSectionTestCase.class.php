@@ -254,18 +254,6 @@
           	$courseOffering->deleteCourseSection($courseSectionB->getId());
           	$canonicalCourse->deleteCourseOffering($courseOffering->getId());
           	$cmm->deleteCanonicalCourse($canonicalCourse->getId());  
-						            
-            /*tests*/
-				
-		/**
-	
-	function addAsset ( &$assetId ) { 
-	
-	function removeAsset ( &$assetId ) { 
-	
-	function &getAssets () {  
-	
-*/
 		}
 		
 		function assertEqualTypes(&$typeA, &$typeB) {
