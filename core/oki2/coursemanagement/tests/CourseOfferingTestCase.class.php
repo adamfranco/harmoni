@@ -54,7 +54,7 @@
         
         function TestOfCourseOffering() {
         	
-        	print "<font size=7>Test Course Offering</font>";
+        	$this->write(10, "Test Course Offering");
 
           	/* First test case */
           	// Canonical course test
@@ -130,12 +130,12 @@
           	$courseGradeType = new Type("CourseManagement", "edu.middlebury", "LetterGrade");
           	
           	$courseOfferingA->updateTitle($title);
-          	$courseOfferingA->updateTitle($number);
+          	$courseOfferingA->updateNumber($number);
           	$courseOfferingA->updateDescription($description);
           	
           	$this->assertEqual($courseOfferingA->getTitle(), "Data Structures");
           	$this->assertEqual($courseOfferingA->getNumber(), "CS201");
-          	$this->assertNotEqual($courseOfferingA->getDescription, "Yeah, more buggles!");
+          	$this->assertNotEqual($courseOfferingA->getDescription(), "Yeah, more buggles!");
           	$this->assertEqual($courseOfferingA->getDescription(), "No more buggles!");
           	          		
           	$canonicalCourseB->deleteCourseOffering($courseOfferingA->getId());
@@ -148,6 +148,10 @@
 			$this->assertEqual($typeA->getAuthority(),$typeB->getAuthority());
 			$this->assertEqual($typeA->getKeyword(),$typeB->getKeyword());
 			$this->assertEqual($typeA->getDescription(),$typeB->getDescription());
+		}
+		
+		function write($size, $text){	
+			print "<p align=center><font size=".$size." color=#8888FF>".$text."</font></p>\n";		
 		}
     }
 ?>

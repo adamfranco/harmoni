@@ -55,7 +55,7 @@
 
         function TestOfCourseSection() {
         	
-        	
+        	print "<p>";
         	//print "<font size=7>Test Course Section</font>\n";
         	$this->write(10,"Test Course Section");
         	
