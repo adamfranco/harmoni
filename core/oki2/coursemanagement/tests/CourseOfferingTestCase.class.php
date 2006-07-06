@@ -115,6 +115,10 @@
           	$this->assertTrue($courseOfferingB->getDescription() == "Yeah!  Buggles!");
           	$this->assertEqual($courseOfferingB->getNumber(), "CS101");
           	
+          	$canonicalCourseB->updateTitle("Data Structures");
+          	$canonicalCourseB->updateNumber("CS201");
+          	$canonicalCourseB->updateDescription("No more buggles!");
+          	
           	$title = $canonicalCourseB->getTitle();
           	$number = $canonicalCourseB->getNumber();
           	$description = $canonicalCourseB->getDescription();
@@ -126,6 +130,15 @@
           	$offeringStatusType = $courseStatusType;
           	$courseGradeType = new Type("CourseManagement", "edu.middlebury", "LetterGrade");
           	
+          	$courseOfferingA->updateTitle($title);
+          	$courseOfferingA->updateTitle($number);
+          	$courseOfferingA->updateDescription($description);
+          	
+          	$this->assertEqual($courseOfferingA->getTitle(), "Data Structures");
+          	$this->assertEqual($courseOfferingA->getNumber(), "CS201");
+          	$this->assertNotEqual($courseOfferingA->getDescription, "Yeah, more buggles!");
+          	$this->assertEqual($courseOfferingA->getDescription(), "No more buggles!");
+          	          		
           	$canonicalCourseB->deleteCourseOffering($courseOfferingA->getId());
           	$courseManagementManager->deleteCanonicalCourse($canonicalCourseA->getId());
 		}
