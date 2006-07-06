@@ -86,21 +86,14 @@
           	
           	$title = $canonicalCourseB->getTitle();
           	$number = $canonicalCourseB->getNumber();
-          	print "course offering3";
           	$description = $canonicalCourseB->getDescription();
           	$credits = $canonicalCourseB->getCredits();
-          	print "course offering4";
           	$termType =& new Type("CourseManagement", "edu.middlebury", "Fall 2006");
-          	$schedule = "2006-2007";
-          	print "course offering5";
           	$term =& $courseManagementManager->createTerm($termType, $schedule);
-          	print "course offering6";
           	$termId =& $term->getId();
           	$offeringType = $courseType;
           	$offeringStatusType = $courseStatusType;
-          	print "course offering7";
           	$courseGradeType = new Type("CourseManagement", "edu.middlebury", "LetterGrade");
-          	print "course offering8";
           	
           	$courseOfferingA =& $canonicalCourseB->createCourseOffering($title, $number, $description, $termId,
 			  															$offeringType, $offeringStatusType, 
