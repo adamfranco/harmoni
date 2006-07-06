@@ -26,7 +26,7 @@ require_once(HARMONI."oki2/coursemanagement/CanonicalCourseIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CanonicalCourse.class.php,v 1.18 2006/07/05 17:28:30 sporktim Exp $
+ * @version $Id: CanonicalCourse.class.php,v 1.19 2006/07/06 14:28:45 jwlee100 Exp $
  */
 class HarmoniCanonicalCourse
 	extends CanonicalCourse
@@ -550,6 +550,17 @@ class HarmoniCanonicalCourse
 	 * @access public
 	 */
 	function deleteCourseOffering ( &$courseOfferingId ) { 
+	  
+	  $node =& $this->_hierarchy->getNode($courseOfferingId);
+
+	$iterator =& $node->getChildren();
+	
+	if($iterator->hasNextNode()){
+	  print "<b>Warning!</b> Can't delete CourseOfferings without deleting their CourseSections";
+	  return;
+	}
+	  
+	  
 		$this->_hierarchy->deleteNode($courseOfferingId);
 
 

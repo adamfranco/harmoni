@@ -52,7 +52,7 @@
 			unset($this->agent);
 		}
         
-        function TestOfCanonicalCourse() {
+        function TestOfCourseOffering() {
           	/* First test case */
           	// Canonical course test
           	$title = "Intro to Computer Science";
@@ -99,7 +99,6 @@
 			  															$offeringType, $offeringStatusType, 
 																		$courseGradeType);
           	$courseOfferingB =& $courseManagementManager->getCourseOffering($courseOfferingA->getId());
-          	print "course offering9";
           	
           	$this->assertEqual($courseOfferingA->getTitle(), $courseOfferingB->getTitle());
           	$this->assertEqual($courseOfferingA->getDescription(), $courseOfferingB->getDescription());

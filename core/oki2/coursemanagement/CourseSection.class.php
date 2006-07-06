@@ -26,7 +26,7 @@ require_once(OKI2."/osid/coursemanagement/CourseSection.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CourseSection.class.php,v 1.12 2006/07/05 17:28:30 sporktim Exp $
+ * @version $Id: CourseSection.class.php,v 1.13 2006/07/06 14:28:45 jwlee100 Exp $
  */
 class HarmoniCourseSection
 	extends CourseSection
@@ -401,7 +401,8 @@ class HarmoniCourseSection
 	 * @access public
 	 */
 	function &getLocation () { 
-		return $this->_getField('location'); 
+	  	$location = $this->_getField('location');	
+		return $location; 
 	} 
 
 	/**
@@ -425,7 +426,7 @@ class HarmoniCourseSection
 	 * @access public
 	 */
 	function &getStatus () { 
-		return _getType('section_stat');
+		return $this->_getType('section_stat');
 	} 
 
 	/**

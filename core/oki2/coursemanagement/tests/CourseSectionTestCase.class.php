@@ -52,7 +52,7 @@
 			unset($this->agent);
 		}
         
-        function TestOfCourseOffering() {
+        function TestOfCourseSection() {
     		$cmm =& Services::getService("CourseManagement");
     		$title = "Introduction to Computer Science";
     		$number = "CS101";

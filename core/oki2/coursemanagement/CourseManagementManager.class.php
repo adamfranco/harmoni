@@ -6,7 +6,7 @@
 * @copyright Copyright &copy; 2006, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.22 2006/07/05 17:28:30 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.23 2006/07/06 14:28:45 jwlee100 Exp $
 */
 
 require_once(OKI2."/osid/coursemanagement/CourseManagementManager.php");
@@ -100,7 +100,7 @@ require_once(HARMONI."oki2/coursemanagement/TermIterator.class.php");
 * @copyright Copyright &copy; 2005, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.22 2006/07/05 17:28:30 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.23 2006/07/06 14:28:45 jwlee100 Exp $
 */
 class HarmoniCourseManagementManager
 extends CourseManagementManager
@@ -339,6 +339,15 @@ extends CourseManagementManager
 	function deleteCanonicalCourse ( &$canonicalCourseId ) { //fixthis ambiguous
 	//$this->_dr->deleteAsset($canonicalCourseId);
 
+
+	$node =& $this->_hierarchy->getNode($canonicalCourseId);
+
+	$iterator =& $node->getChildren();
+	
+	if($iterator->hasNextNode()){
+	  print "<b>Warning!</b>  Can't delete CanonicalCourses without deleting the CourseOfferings and the CanonicalCourse children first.";
+	  return;
+	}
 
 
 	//$hiHandler =& Services::getService("HierarchyManager");
