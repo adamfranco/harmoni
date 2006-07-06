@@ -5,7 +5,7 @@
 -- @copyright Copyright &copy; 2006, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 -- 
--- @version $Id: MySQL_Scheduling.sql,v 1.2 2006/07/06 18:33:52 sporktim Exp $
+-- @version $Id: MySQL_Scheduling.sql,v 1.3 2006/07/06 20:28:23 sporktim Exp $
 -- */
 -- --------------------------------------------------------
 
@@ -39,3 +39,26 @@ CREATE TABLE `sc_commit` (
   PRIMARY KEY  (`id`),
   KEY `fk_sc_commit_stat_type` (`fk_sc_commit_stat_type`,`fk_sc_item`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table holds the agents that are commited to various Sch' AUTO_INCREMENT=1 ;
+
+-- 
+-- Table structure for table `sc_commit_stat_type`
+-- 
+
+CREATE TABLE `sc_commit_stat_type` (
+  `id` int(170) unsigned NOT NULL auto_increment,
+  `keyword` varchar(255) default NULL,
+  `authority` varchar(255) default NULL,
+  `domain` varchar(255) default NULL,
+  `description` text,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table contains various types of AgentCommitment statuse' AUTO_INCREMENT=20 ;
+
+
+CREATE TABLE `sc_item_stat_type` (
+  `id` int(170) unsigned NOT NULL auto_increment,
+  `keyword` varchar(255) default NULL,
+  `authority` varchar(255) default NULL,
+  `domain` varchar(255) default NULL,
+  `description` text,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table contains various types of ScheduleItem status' AUTO_INCREMENT=20 ;

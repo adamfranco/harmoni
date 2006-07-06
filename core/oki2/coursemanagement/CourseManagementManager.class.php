@@ -6,7 +6,7 @@
 * @copyright Copyright &copy; 2006, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.25 2006/07/06 18:33:53 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.26 2006/07/06 20:28:23 sporktim Exp $
 */
 
 require_once(OKI2."/osid/coursemanagement/CourseManagementManager.php");
@@ -100,7 +100,7 @@ require_once(HARMONI."oki2/coursemanagement/TermIterator.class.php");
 * @copyright Copyright &copy; 2005, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.25 2006/07/06 18:33:53 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.26 2006/07/06 20:28:23 sporktim Exp $
 */
 class HarmoniCourseManagementManager
 extends CourseManagementManager
@@ -337,36 +337,20 @@ extends CourseManagementManager
 	* @access public
 	*/
 	function deleteCanonicalCourse ( &$canonicalCourseId ) { //fixthis ambiguous
-	//$this->_dr->deleteAsset($canonicalCourseId);
-
-
 	$node =& $this->_hierarchy->getNode($canonicalCourseId);
-
-	$iterator =& $node->getChildren();
-	
+	$iterator =& $node->getChildren();	
 	if($iterator->hasNextNode()){
 	  print "<b>Warning!</b>  Can't delete CanonicalCourses without deleting the CourseOfferings and the CanonicalCourse children first.";
 	  return;
 	}
-
-
-	//$hiHandler =& Services::getService("HierarchyManager");
-	//$theHierarchy =& getHierarchy("??????????");//fixthis
 	$this->_hierarchy->deleteNode($canonicalCourseId);
-
 
 
 	$dbHandler =& Services::getService("DBHandler");
 	$query=& new DeleteQuery;
-
-
 	$query->setTable('cm_can');
-
 	$query->addWhere("id=".addslashes($canonicalCourseId->getIdString()));
 	$dbHandler->query($query);
-
-
-
 	}
 
 	/**
@@ -444,11 +428,7 @@ extends CourseManagementManager
 	* @access public
 	*/
 	function &getCanonicalCourse ( &$canonicalCourseId ) {
-
-		$node =& $this->_hierarchy->getNode($canonicalCourseId);
-		
-		print "Node display name = ".$node->getDisplayName();
-		
+		$node =& $this->_hierarchy->getNode($canonicalCourseId);	
 		$ret =& new HarmoniCanonicalCourse($canonicalCourseId, $node);
 		return $ret;
 
@@ -481,36 +461,30 @@ extends CourseManagementManager
 	* @access public
 	*/
 	function &getCanonicalCoursesByType ( &$courseType ) {
-
-
+		//get the index for the type
 		$typeIndex = $this->_typeToIndex('can',$courseType);
 
+		//get all canonical courses with the appropriate type
 		$dbHandler =& Services::getService("DBHandler");
 		$query=& new SelectQuery;
-
-
-
-
 		$query->addTable('cm_can');
 		$query->addColumn('id');
 		$query->addWhere("fk_cm_can_type='".addslashes($typeIndex)."'");
 		$res=& $dbHandler->query($query);
 
+		//convert results to array of Canonical Courses
 		$canonicalCourseArrayByType = array();
 		$idManager =& Services::getService("IdManager");
-
 		while($res->hasMoreRows()){
-
 			$row = $res->getCurrentRow();
 			$res->advanceRow();
 			$id =& $idManager->getId($row['id']);
-			print "Go fetch!";
 			$canonicalCourseArrayByType[] =& $this->getCanonicalCourse($id);
-
 		}
+		
+		//convert to an iterator
 		$ret =& new  HarmoniCanonicalCourseIterator($canonicalCourseArrayByType);
 		return $ret;
-
 	}
 
 	/**

@@ -163,8 +163,30 @@ class HarmoniSchedulingManager
     function &createScheduleItem ( $displayName, $description, &$agents, $start, $end, $masterIdentifier ) { 
         
     	
+		$idManager =& Services::getService("IdManager");
+		$id=$idManager->createId();
+
+		
+		if(!isset($masterIdentifier)|| is_null($masterIdentifier)){
+			$masterIdentifier = $id->getIdString();
+		}
+		
+
+		$dbManager=& Services::getService("DBHandler");
+		$query=& new InsertQuery;
+		$query->setTable('sc_item');
+		$query->setColumns(array('id','name','description','start','end','master_id'));
+		$values[]="'".addslashes($id->getIdString())."'";
+		$values[]="'".addslashes($displayName)."'";
+		$values[]="'".addslashes($description)."'";
+		$values[]="'".addslashes($start)."'";
+		$values[]="'".addslashes($end)."'";
+		$values[]="'".addslashes($masterIdentifier)."'";
+		$query->addRowOfValues($values);
+
+		$dbManager->query($query);
     	
-    	$ret =& new ScheduleItem($id);
+    	$ret =& new HarmoniScheduleItem($id);
     	return $ret; 
     } 
 
@@ -191,7 +213,11 @@ class HarmoniSchedulingManager
      * @access public
      */
     function deleteScheduleItem ( &$scheduleItemId ) { 
-        die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	$dbHandler =& Services::getService("DBHandler");
+	$query=& new DeleteQuery;
+	$query->setTable('sc_item');
+	$query->addWhere("id=".addslashes($scheduleItemId->getIdString()));
+	$dbHandler->query($query); 
     } 
 
     /**
@@ -250,8 +276,9 @@ class HarmoniSchedulingManager
      * 
      * @access public
      */
-    function &getScheduleItem ( &$scheduleItemId ) { 
-        die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+    function &getScheduleItem ( &$scheduleItemId ) {      
+		$ret =& new HarmoniCanonicalCourse($canonicalCourseId, $node);
+		return $ret;
     } 
 
     /**
@@ -285,7 +312,34 @@ class HarmoniSchedulingManager
      * @access public
      */
     function &getScheduleItems ( $start, $end, &$status ) { 
-        die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+        //get the index for the type
+		$typeIndex = $this->_typeToIndex('item_stat',$courseType);
+
+		//get all schedule item rows with the appropriate type
+		$dbHandler =& Services::getService("DBHandler");
+		$query=& new SelectQuery;
+		$query->addTable('sc_item');
+		$query->addColumn('id');
+		$where = "fk_sc_item_stat_type='".addslashes($typeIndex)."'";
+		$where .= "AND (end >= ".addslashes($start)."'";
+		$where .= "OR start <= ".addslashes($end)."')";
+		//$query->addWhere("start <= ".addslashes($typeIndex)."'");
+		//$query->addWhere("end >= ".addslashes($typeIndex)."'");
+		$res=& $dbHandler->query($query);
+
+		//convert results to array of ScheduleItems
+		$array = array();
+		$idManager =& Services::getService("IdManager");
+		while($res->hasMoreRows()){
+			$row = $res->getCurrentRow();
+			$res->advanceRow();
+			$id =& $idManager->getId($row['id']);
+			$array[] =& $this->getScheduleItem($id);
+		}
+		
+		//convert to an iterator
+		$ret =& new  HarmoniScheduleItemIterator($array);
+		return $ret;
     } 
 
     /**
@@ -323,6 +377,7 @@ class HarmoniSchedulingManager
      */
     function &getScheduleItemsForAgents ( $start, $end, &$status, &$agents ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+       
     } 
 
     /**
@@ -353,7 +408,30 @@ class HarmoniSchedulingManager
      * @access public
      */
     function &getScheduleItemsByMasterId ( $masterIdentifier ) { 
-        die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+       //get the index for the type
+		$typeIndex = $this->_typeToIndex('item_stat',$courseType);
+
+		//get all schedule item rows with the appropriate type
+		$dbHandler =& Services::getService("DBHandler");
+		$query=& new SelectQuery;
+		$query->addTable('sc_item');
+		$query->addColumn('id');
+		$where = "master_id='".addslashes($masterIdentifier)."'";
+		$res=& $dbHandler->query($query);
+
+		//convert results to array of ScheduleItems
+		$array = array();
+		$idManager =& Services::getService("IdManager");
+		while($res->hasMoreRows()){
+			$row = $res->getCurrentRow();
+			$res->advanceRow();
+			$id =& $idManager->getId($row['id']);
+			$array[] =& $this->getScheduleItem($id);
+		}
+		
+		//convert to an iterator
+		$ret =& new  HarmoniScheduleItemIterator($array);
+		return $ret;
     } 
 
     /**
@@ -376,7 +454,7 @@ class HarmoniSchedulingManager
      * @access public
      */
     function &getItemStatusTypes () { 
-        die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+        return $this->_getTypes('item_stat');
     } 
 
     /**
@@ -400,7 +478,7 @@ class HarmoniSchedulingManager
      * @access public
      */
     function &getCommitmentStatusTypes () { 
-        die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+         return $this->_getTypes('item_stat');
     } 
     
     
