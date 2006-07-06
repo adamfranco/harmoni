@@ -276,27 +276,27 @@
 		//This method only works if the items have a getDisplaName() method.
 		//Relies extensively on weak typing
 		function iteratorHas($iter, $name){
-				while($iter->hasNext()){
-					//$am =& Services::GetService("AgentManager");
-					$item =& $iter->next();
-					if($name == $item->getDisplayName()){
-						return true;
-					}
+			while($iter->hasNext()){
+			//$am =& Services::GetService("AgentManager");
+				$item =& $iter->next();
+				if($name == $item->getDisplayName()){
+					return true;
 				}
-				return false;
+			}
+			return false;
 		}
 		
 		function enrollmentIteratorHasStudent($iter, $name){
-				while($iter->hasNext()){
-					$am =& Services::GetService("AgentManager");
-					$er =& $iter->next();
-					$agent =& $am->getAgent($er->getStudent());
-					
-					if($name == $agent->getDisplayName()){
-						return true;
-					}
+			while($iter->hasNext()){
+				$am =& Services::GetService("AgentManager");
+				$er =& $iter->next();
+				$agent =& $am->getAgent($er->getStudent());
+				
+				if($name == $agent->getDisplayName()){
+					return true;
 				}
-				return false;
+			}
+			return false;
 		}
 		
 		function printRoster($roster){
