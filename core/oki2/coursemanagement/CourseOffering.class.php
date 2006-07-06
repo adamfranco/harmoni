@@ -24,7 +24,7 @@ require_once(OKI2."/osid/coursemanagement/CourseOffering.php");
 * @copyright Copyright &copy; 2005, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseOffering.class.php,v 1.16 2006/07/06 14:28:45 jwlee100 Exp $
+* @version $Id: CourseOffering.class.php,v 1.17 2006/07/06 15:00:38 sporktim Exp $
 */
 class HarmoniCourseOffering
 extends CourseOffering
@@ -423,7 +423,8 @@ extends CourseOffering
 	function &getPropertyTypes () {
 		$courseType =& $this->getOfferingType();
 		$propertiesType =& new Type($courseType->getDomain(), $courseType->getAuthority(), "properties");
-		$typeIterator =& new HarmoniTypeIterator(array($propertiesType));
+		$array = array($propertiesType);
+		$typeIterator =& new HarmoniTypeIterator($array);
 		return $typeIterator;
 	}
 
@@ -448,7 +449,8 @@ extends CourseOffering
 	* @access public
 	*/
 	function &getProperties () {
-		$ret = new PropertiesIterator(array($this->_getProperties()));		
+		$array = array($this->_getProperties());
+		$ret = new PropertiesIterator($array);		
 		return $ret;//return the iterator
 	}
 
@@ -1028,16 +1030,16 @@ extends CourseOffering
 			$sectionId = $section->getId();
 
 			$query=& new SelectQuery;
-			$query->setTable('cm_enroll');
+			$query->addTable('cm_enroll');
 			//$query->addColumn('fk_student_id');
 			$query->addColumn('id');
 			$query->addWhere("fk_cm_section='".addslashes($sectionId->getIdString())."'");
 
 
 			$res=& $dbHandler->query($query);
-			$idManager =& Services::getService('id');
+			$idManager =& Services::getService('IdManager');
 			while($res->hasMoreRows()){
-				$row =& $res->getCurrentRow();
+				$row = $res->getCurrentRow();
 				$res->advanceRow();
 				
 				$array[] =& new HarmoniEnrollmentRecord($idManager->getId($row['id']));
@@ -1088,16 +1090,16 @@ extends CourseOffering
 			$sectionId = $section->getId();
 
 			$query=& new SelectQuery;
-			$query->setTable('cm_enroll');
+			$query->addTable('cm_enroll');
 			//$query->addColumn('fk_student_id');
 			$query->addColumn('id');			
 			$query->addWhere("fk_cm_section='".addslashes($sectionId->getIdString())."' AND fk_enroll_stat_type='".addslashes($typeIndex)."'");
 
 
 			$res=& $dbHandler->query($query);
-			$idManager =& Services::getService('id');
+			$idManager =& Services::getService('IdManager');
 			while($res->hasMoreRows()){
-				$row =& $res->getCurrentRow();
+				$row = $res->getCurrentRow();
 				$res->advanceRow();
 				
 				$array[] =& new HarmoniEnrollmentRecord($idManager->getId($row['id']));
@@ -1151,7 +1153,7 @@ extends CourseOffering
 		$dbHandler =& Services::getService("DBHandler");
 		
 		//get the record
-		$query =& new SelectQuery();
+		$query =& new SelectQuery;
 		$query->addTable('cm_offer');
 		$query->addColumn("*");
 		$query->addWhere("id='".addslashes($this->_id->getIdString())."'");				

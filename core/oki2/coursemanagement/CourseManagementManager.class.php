@@ -6,7 +6,7 @@
 * @copyright Copyright &copy; 2006, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.23 2006/07/06 14:28:45 jwlee100 Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.24 2006/07/06 15:00:37 sporktim Exp $
 */
 
 require_once(OKI2."/osid/coursemanagement/CourseManagementManager.php");
@@ -100,7 +100,7 @@ require_once(HARMONI."oki2/coursemanagement/TermIterator.class.php");
 * @copyright Copyright &copy; 2005, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.23 2006/07/06 14:28:45 jwlee100 Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.24 2006/07/06 15:00:37 sporktim Exp $
 */
 class HarmoniCourseManagementManager
 extends CourseManagementManager
@@ -446,6 +446,9 @@ extends CourseManagementManager
 	function &getCanonicalCourse ( &$canonicalCourseId ) {
 
 		$node =& $this->_hierarchy->getNode($canonicalCourseId);
+		
+		print "---->".$canonicalCourseId." ".$node->getDisplayName();
+		
 		$ret =& new HarmoniCanonicalCourse($canonicalCourseId, $node);
 		return $ret;
 
@@ -612,16 +615,16 @@ extends CourseManagementManager
 
 		$dbHandler =& Services::getService("DBHandler");
 		$query=& new SelectQuery;
-		$query->setTable('cm_enroll');
+		$query->addTable('cm_enroll');
 		$query->addColumn('fk_cm_section');
 		$query->addWhere("fk_student_id='".addslashes($agentId->getIdString())."'");
 
 
 		$res=& $dbHandler->query($query);
 		$array=array();
-		$idManager =& Services::getService('id');
+		$idManager =& Services::getService('IdManager');
 		while($res->hasMoreRows()){
-			$row =& $res->getCurrentRow();
+			$row = $res->getCurrentRow();
 			$res->advanceRow();
 			$course = $this->getCourseSection($idManager->getId($row['id']));
 			
@@ -664,16 +667,16 @@ extends CourseManagementManager
 
 		$dbHandler =& Services::getService("DBHandler");
 		$query=& new SelectQuery;
-		$query->setTable('cm_enroll');
+		$query->addTable('cm_enroll');
 		$query->addColumn('fk_cm_section');
 		$query->addWhere("fk_student_id='".addslashes($agentId->getIdString())."'");
 
 
 		$res=& $dbHandler->query($query);
 		$array=array();
-		$idManager =& Services::getService('id');
+		$idManager =& Services::getService('IdManager');
 		while($res->hasMoreRows()){
-			$row =& $res->getCurrentRow();
+			$row = $res->getCurrentRow();
 			$res->advanceRow();
 			$courseSection = $this->getCourseSection($idManager->getId($row['id']));
 			$courseOffering = $courseSection->getCourseOffering();
@@ -842,7 +845,7 @@ extends CourseManagementManager
 		$query->addColumn('id');
 		$res=& $dbHandler->query($query);
 		$array=array();
-		$idManager =& Services::getService('id');
+		$idManager =& Services::getService('IdManager');
 		while($res->hasMoreRows()){
 			$row = $res->getCurrentRow();
 			$res->advanceRow();
@@ -1679,13 +1682,14 @@ extends CourseManagementManager
 
 	function _getField(&$id, $table, $key)
 	{
+	
 		$dbHandler =& Services::getService("DBHandler");
 		$query=& new SelectQuery;
 		$query->addTable($table);
 		$query->addWhere("id='".addslashes($id->getIdString())."'");
 		$query->addColumn(addslashes($key));
-		$res=& $dbHandler->query($query);
-		$row = $res->getCurrentRow();
+		$res=& $dbHandler->query($query);		
+		$row = $res->getCurrentRow();	
 		$ret=$row[$key];
 		return $ret;
 	}

@@ -52,7 +52,16 @@
 			unset($this->agent);
 		}
         
+
         function TestOfCourseSection() {
+        	
+        	
+        	//print "<font size=7>Test Course Section</font>\n";
+        	$this->write(7,"Test Course Section");
+        	
+        	$this->write(5,"Making courses");
+        	
+
     		$cmm =& Services::getService("CourseManagement");
     		$title = "Introduction to Computer Science";
     		$number = "CS101";
@@ -90,10 +99,13 @@
 			$this->assertEqual($courseSectionA->getTitle(), "Introduction to Computer Science");
 			$this->assertEqual($courseSectionA->getTitle(), $courseSectionB->getTitle());
           	$this->assertEqual($courseSectionA->getDescription(), $courseSectionB->getDescription());
+          
           	$this->assertEqual($courseSectionA->getDisplayName(), $courseSectionB->getDisplayName());
           	$this->assertEqual($courseSectionA->getNumber(), $courseSectionB->getNumber());
+          
           	$this->assertFalse($courseSectionB->getDescription() == "Intro to Sociocultural Anthropology");
           	$this->assertFalse($courseSectionA->getDescription() == "Newtonian Physics");
+
           	$this->assertFalse($courseSectionB->getDescription() == "Yeah!  Buggles!.");
           	$this->assertTrue($courseSectionB->getDescription() == "Oh, buggle buggle");
           	$this->assertEqual($courseSectionB->getNumber(), "CS101");
@@ -102,14 +114,19 @@
 			  						   $courseSectionB->getStatus());
 			$this->assertEqual($courseSectionA->getLocation(), "Bicentennial Hall 505");
 			$location = "Bicentennial Hall 632";
+			$this->write(3,"update location");
 			$courseSectionA->updateLocation($location);
 			$this->assertNotEqual($courseSectionA->getLocation(), "Bicentennial Hall 505");
 			$this->assertNotEqual($courseSectionA->getLocation(), $courseSectionB->getLocation());
-                    		
+                 
+	
+					
 			// Create enrollment statuses
 			$enrollmentStatusTypeA =& new Type("CourseManagement", "edu.middlebury", "Registered");
-			$enrollemntStatusTypeB =& new Type("CourseManagement", "edu.middlebury", "Audited");
+			$enrollmentStatusTypeB =& new Type("CourseManagement", "edu.middlebury", "Audited");
 			
+			$this->write(5,"Making students");
+			$this->write(2,"SporkTim");
 			// Create new student 1
 			$propertiesTypeA =& new Type("CourseManagement", "edu.middlebury", "student");
 			$propertiesA =& new HarmoniProperties($propertiesTypeA);
@@ -123,6 +140,7 @@
 			$agentA =& $agentHandler->createAgent("Gladius", $agentTypeA, $propertiesA);
 			
 			// Create new student 2
+			$this->write(2,"John");
 			$propertiesTypeB =& new Type("CourseManagement", "edu.middlebury", "student");
 			$propertiesB =& new HarmoniProperties($propertiesTypeB);
 			$name = "John Lee";
@@ -130,8 +148,10 @@
 			$propertiesB->addProperty('student_year', $class);	
 			
 			$agentTypeB =& new Type("CourseManagement", "edu.middlebury", "student");
-			$agentB =& $agentHandler->createAgent("John Lee", $agentTypeB, $propertiesB);
+			$agentB =& $agentHandler->createAgent("jood8", $agentTypeB, $propertiesB);
 			
+			// Create new student 3
+			$this->write(2,"Magda");
 			$propertiesTypeC =& new Type("CourseManagement", "edu.middlebury", "student");
 			$propertiesC =& new HarmoniProperties($propertiesTypeC);
 			$name = "Magdalena Widjaja";
@@ -139,55 +159,94 @@
 			$propertiesC->addProperty('student_year', $class);	
 			
 			$agentTypeC =& new Type("CourseManagement", "edu.middlebury", "student");
-			$agentC =& $agentHandler->createAgent("John Lee", $agentTypeC, $propertiesC);
+			$agentC =& $agentHandler->createAgent("Mags", $agentTypeC, $propertiesC);
 			
 			$agentIdA =& $agentA->getId();
 			$agentIdB =& $agentB->getId();
 			$agentIdC =& $agentC->getId();
 			
+			$this->write(3,"add students to course");
 			// Add students to course section
-			$courseSectionA->addStudent($agentIdA, $enrollmentStautsTypeA);
-			$courseSectionA->addStudent($agentIdB, $enrollmentStautsTypeB);
+			$courseSectionA->addStudent($agentIdA, $enrollmentStatusTypeA);
+			$courseSectionA->addStudent($agentIdB, $enrollmentStatusTypeB);
 			$courseSectionA->addStudent($agentIdC, $enrollmentStatusTypeA);
 			
+			$this->write(3,"getRoster");
 			$roster = $courseSectionA->getRoster();
-			print "\n";
-			print_r($roster);
+			//print "\n";
+			//print_r($roster);
 			
-			// Should print Tim and Mag
-			$registerRoster = $courseSectionA->getRosterByType($enrollmentStatusTypeA);
-			print "\n";
-			print_r($registerRoster);
+			$this->assertTrue($this->enrollmentIteratorHasStudent($roster,"Mags"));
+			$this->assertTrue($this->enrollmentIteratorHasStudent($roster,"jood8"));
+			$this->assertTrue($this->enrollmentIteratorHasStudent($roster,"Gladius"));
+			
+			$this->write(3,"getRosterByType");
+			// Should print Tim and Mag			
+			$registerRoster = $courseSectionA->getRosterByType($enrollmentStatusTypeA);		
+			//print "\n";
+			//print_r($registerRoster);
+			
+			$this->assertTrue($this->enrollmentIteratorHasStudent($registerRoster,"Mags"));
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($registerRoster,"jood8"));
+			$this->assertTrue($this->enrollmentIteratorHasStudent($registerRoster,"Gladius"));
+			
+			
 			// Should print only John
-			$auditRoster = $courseSectionA->getRosterByType($enrollmentStatusTypeB);
-			print "\n";
-			print_r($auditRoster);
+				
 			
+			$auditRoster = $courseSectionA->getRosterByType($enrollmentStatusTypeB);
+			//print "\n";
+			//print_r($auditRoster);
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($auditRoster,"Mags"));
+			$this->assertTrue($this->enrollmentIteratorHasStudent($auditRoster,"jood8"));
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($auditRoster,"Gladius"));
+			
+			
+			$this->write(3,"Change student");
 			$courseSectionA->changeStudent($agentIdA, $enrollmentStatusTypeB);
 			
 			// Should print only Mag
 			$registerRoster = $courseSectionA->getRosterByType($enrollmentStatusTypeA);
-			print "\n";
-			print_r($registerRoster);
+			//print "\n";
+			//print_r($registerRoster);
+			$this->assertTrue($this->enrollmentIteratorHasStudent($registerRoster,"Mags"));
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($registerRoster,"jood8"));
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($registerRoster,"Gladius"));
+			
+			
 			// Should print Tim and John
 			$auditRoster = $courseSectionA->getRosterByType($enrollmentStatusTypeB);
-			print "\n";
-			print_r($auditRoster);
+			//print "\n";
+			//print_r($auditRoster);
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($auditRoster,"Mags"));
+			$this->assertTrue($this->enrollmentIteratorHasStudent($auditRoster,"jood8"));
+			$this->assertTrue($this->enrollmentIteratorHasStudent($auditRoster,"Gladius"));
 			
+			
+			$this->write(3,"remove student");
 			$courseSectionA->removeStudent($agentIdA);
-			$courseSectionA->getRoster();
-			print "\n";
-			print_r($roster);
+			$roster =& $courseSectionA->getRoster();
+			//print "\n";
+			//print_r($roster);
+			$this->assertTrue($this->enrollmentIteratorHasStudent($roster,"Mags"));
+			$this->assertTrue($this->enrollmentIteratorHasStudent($roster,"jood8"));
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,"Gladius"));
 			
 			$courseSectionA->removeStudent($agentIdB);
-			$courseSectionA->getRoster();
-			print "\n";
-			print_r($roster);
+			$roster =& $courseSectionA->getRoster();
+			//print "\n";
+			//print_r($roster);
+			$this->assertTrue($this->enrollmentIteratorHasStudent($roster,"Mags"));
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,"jood8"));
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,"Gladius"));
 			
 			$courseSectionA->removeStudent($agentIdC);
-			$courseSectionA->getRoster();
-			print "\n";
-			print_r($roster);
+			$roster =& $courseSectionA->getRoster();
+			//print "\n";
+			//print_r($roster);
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,"Mags"));
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,"jood8"));
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,"Gladius"));
 			
 			$properties = $courseSectionA->getProperties();
 			print_r($properties);
@@ -224,5 +283,43 @@
 							  $typeA->getAuthority() != $typeB->getAuthority() ||
 							  $typeA->getKeyword() != $typeB->getKeyword()); 
 		}
+		
+		function write($size, $text){
+			
+			print "<p align=center><font size=".$size." color=#8888FF>".$text."</font></p>\n";
+			
+			
+		} 
+		
+		
+		//This method only works if the items have a getDisplaName() method.
+		//Relies extensively on weak typing
+		function iteratorHas($iter, $name){
+				while($iter->hasNext()){
+					//$am =& Services::GetService("AgentManager");
+					$item =& $iter->next();
+					if($name == $item->getDisplayName()){
+						return true;
+					}
+				}
+				return false;
+		}
+		
+		function enrollmentIteratorHasStudent($iter, $name){
+				while($iter->hasNext()){
+					$am =& Services::GetService("AgentManager");
+					$er =& $iter->next();
+					$agent =& $am->getAgent($er->getStudent());
+					
+					if($name == $agent->getDisplayName()){
+						return true;
+					}
+				}
+				return false;
+		}
+		
+		
+		
+		
     }
 ?>

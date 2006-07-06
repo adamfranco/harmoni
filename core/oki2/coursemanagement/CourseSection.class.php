@@ -26,7 +26,7 @@ require_once(OKI2."/osid/coursemanagement/CourseSection.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CourseSection.class.php,v 1.13 2006/07/06 14:28:45 jwlee100 Exp $
+ * @version $Id: CourseSection.class.php,v 1.14 2006/07/06 15:00:38 sporktim Exp $
  */
 class HarmoniCourseSection
 	extends CourseSection
@@ -400,6 +400,7 @@ class HarmoniCourseSection
 	 * 
 	 * @access public
 	 */
+
 	function &getLocation () { 
 	  	$location = $this->_getField('location');	
 		return $location; 
@@ -452,7 +453,8 @@ class HarmoniCourseSection
 	function &getPropertyTypes () { 
 		$courseType =& $this->getSectionType();
 		$propType =& new Type($courseType->getDomain(), $courseType->getAuthority(), "properties");
-		$typeIterator =& new HarmoniTypeIterator(array($propType));
+		$array = array($propType);
+		$typeIterator =& new HarmoniTypeIterator($array);
 		return $typeIterator;
 	} 
 
@@ -476,8 +478,9 @@ class HarmoniCourseSection
 	 * 
 	 * @access public
 	 */
-	function &getProperties () { 
-		$ret = new PropertiesIterator(array($this->_getProperties()));		
+	function &getProperties () {
+		$array = array($this->_getProperties());
+		$ret = new PropertiesIterator($array);		
 		return $ret;//return the iterator
 	} 
 
@@ -589,7 +592,7 @@ class HarmoniCourseSection
 	function removeAsset ( &$assetId ) { 
 			$dbHandler =& Services::getService("DBHandler");
 		$query=& new DeleteQuery;
-		$query->addTable('cm_asset');
+		$query->setTable('cm_asset');
 		$query->addWhere("fk_course_id='".$this->_id->getIdString()."'");
 		$query->addWhere("fk_asset_id='".addslashes($assetId->getIdString())."'");
 		$dbHandler->query($query);
@@ -698,11 +701,14 @@ class HarmoniCourseSection
 		$query->addTable('cm_enroll');
 		$query->addWhere("fk_cm_section='".addslashes($this->_id->getIdString())."'");
 		$query->addWhere("fk_student_id='".addslashes($agentId->getIdString())."'");
-		//$query->addColumn('id');
+		
+		//I don't need Id, but I need to select something for the query to work
+		$query->addColumn('id');
 		$res=& $dbHandler->query($query);
 		if($res->getNumberOfRows()==0){
+			;
 			$typeIndex = $this->_typeToIndex('enroll_stat',$enrollmentStatusType);
-			
+	
 			$query=& new InsertQuery;
 			$query->setTable('cm_enroll');
 			$values[]="'".addslashes($agentId->getIdString())."'";
@@ -836,16 +842,16 @@ class HarmoniCourseSection
 	
 
 			$query=& new SelectQuery;
-			$query->setTable('cm_enroll');
+			$query->addTable('cm_enroll');
 			//$query->addColumn('fk_student_id');
 			$query->addColumn('id');
 			$query->addWhere("fk_cm_section='".addslashes($this->_id->getIdString())."'");
 
 
 			$res=& $dbHandler->query($query);
-			$idManager =& Services::getService('id');
+			$idManager =& Services::getService('IdManager');
 			while($res->hasMoreRows()){
-				$row =& $res->getCurrentRow();
+				$row = $res->getCurrentRow();
 				$res->advanceRow();
 				
 				$array[] =& new HarmoniEnrollmentRecord($idManager->getId($row['id']));
@@ -891,16 +897,16 @@ class HarmoniCourseSection
 	
 
 			$query=& new SelectQuery;
-			$query->setTable('cm_enroll');
+			$query->addTable('cm_enroll');
 			//$query->addColumn('fk_student_id');
 			$query->addColumn('id');
 			//$query->addWhere("fk_cm_section='".addslashes($this->_id)."'");
-$query->addWhere("fk_cm_section='".addslashes($this->_id->getString())."' AND fk_enroll_stat_type='".addslashes($typeIndex)."'");
+$query->addWhere("fk_cm_section='".addslashes($this->_id->getIdString())."' AND fk_cm_enroll_stat_type='".addslashes($typeIndex)."'");
 
 			$res=& $dbHandler->query($query);
-			$idManager =& Services::getService('id');
+			$idManager =& Services::getService('IdManager');
 			while($res->hasMoreRows()){
-				$row =& $res->getCurrentRow();
+				$row = $res->getCurrentRow();
 				$res->advanceRow();
 				
 				$array[] =& new HarmoniEnrollmentRecord($idManager->getId($row['id']));
@@ -983,7 +989,7 @@ $query->addWhere("fk_cm_section='".addslashes($this->_id->getString())."' AND fk
 		$dbHandler =& Services::getService("DBHandler");
 		
 		//get the record
-		$query =& new SelectQuery();
+		$query =& new SelectQuery;
 		$query->addTable('cm_section');
 		$query->addColumn("*");
 		$query->addWhere("id='".addslashes($this->_id->getIdString())."'");				
@@ -1002,8 +1008,10 @@ $query->addWhere("fk_cm_section='".addslashes($this->_id->getString())."' AND fk
 		$property =& new HarmoniProperties($propertiesType);
 				
 		//create a custom Properties object
-		$property->addProperty('display_name', $this->_node->getDisplayName());
-		$property->addProperty('description', $this->_node->getDescription());	
+		$displayName = $this->_node->getDisplayName();
+		$property->addProperty('display_name', $displayName);
+		$description = $this->_node->getDescription();
+		$property->addProperty('description',$description);	
 		$property->addProperty('id', $row['id']);
 		$property->addProperty('number', $row['number']);
 		$property->addProperty('type', $courseType->getKeyword());

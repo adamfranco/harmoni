@@ -106,7 +106,13 @@
         */
         
         function TestOfCanonicalCourse() {
+        	
+        	
+        	$this->write(7,"Canonical Course Test");
+        	
+        	
           	/* First test case */
+          	$this->write(4,"First test");
           	$title = "Intro to Computer Science";
           	$number = "CS101";
           	$description = "Yeah!  Buggles!";
@@ -138,6 +144,7 @@
           	$courseManagementManager->deleteCanonicalCourse($canonicalCourseA->getId());
           	
           	// Second test case
+          	$this->write(4,"Second test");
           	$title = "Intro to Sociocultural Anthropology";
           	$number = "SOAN103";
           	$description = "Life is a mystery";
@@ -160,8 +167,8 @@
           	$courseManagementManager->deleteCanonicalCourse($canonicalCourseB->getId());
           	
 			// Third test case
-			print "third test";
 			
+				$this->write(4,"third test");
 			$title = "Dynamic Earth";
 			$number = "GEOL170";
 			$description = "Rocks for jocks?";
@@ -184,17 +191,20 @@
 			$courseManagementManager->deleteCanonicalCourse($canonicalCourseD->getId());
 			
 			// Fourth test case - getting canonical course by type 
+			$this->write(4,"fourth test");
 			
-			print "fourth test";
 			
 			$title = "Real Analaysis";
 			$number = "MA323";
 			$description = "Arguably the hardest there is";
-			$courseType =& new Type("CourseManagement", "edu.middlebury", "DED");
+			//leave the random numbers in to insure uniqueness
+			$courseType =& new Type("CourseManagement", "edu.middlebury", "DED2348973496083746987");
 			$courseStatusType =& new Type("CourseManagement", "edu.middlebury", "Highly recommended.");
 			$canonicalCourseA =& $courseManagementManager->createCanonicalCourse($title, $number, $description, 
 			  																	$courseType, $courseStatusType,
 												                                $credits);
+												                                
+												                                /*
 			$courseIterator =& $courseManagementManager->getCanonicalCoursesByType($canonicalCourseA->getCourseType());
 			$canonicalCourseB =& $courseIterator->nextCanonicalCourse();
 			
@@ -214,20 +224,113 @@
 			$courseManagementManager->deleteCanonicalCourse($canonicalCourseA->getId());
 			// Fifth test - making sure course type and course id yield equal search results.
 			
-			print "fifth test";
+			*/
 			
+		
 			$title = "Microbiology";
 			$number = "BI310";
 			$description = "Learn about little things";
-			$courseType =& new Type("CourseManagement", "edu.middlebury", "SCI");
+			//leave the random numbers in to insure uniqueness
+			$courseType =& new Type("CourseManagement", "edu.middlebury", "SCI345987345987345987");
 			$courseStatusType =& new Type("CourseManagement", "edu.middlebury", "Wait till next year.");
-			$canonicalCourseA =& $courseManagementManager->createCanonicalCourse($title, $number, $description, 
+			$canonicalCourseB =& $courseManagementManager->createCanonicalCourse($title, $number, $description, 
 			  																	$courseType, $courseStatusType,
 												                                $credits);
-			$iterator =& $courseManagementManager->getCanonicalCoursesByType($canonicalCourseA->getCourseType());
-			$canonicalCourseB =& $iterator->nextCanonicalCourse();
-			$canonicalCourseC =& $courseManagementManager->getCanonicalCourse($canonicalCourseA->getId());
+												                                
+			$iterator =& $courseManagementManager->getCanonicalCoursesByType($canonicalCourseB->getCourseType());
 			
+			$this->assertTrue($this->iteratorHas($iterator,"Microbiology" ));
+			$this->assertTrue(!$this->iteratorHas($iterator,"Real Analaysis"));
+			
+			$iterator =& $courseManagementManager->getCanonicalCoursesByType($courseType);
+			
+			$this->assertTrue($this->iteratorHas($iterator,"Microbiology" ));
+			$this->assertTrue(!$this->iteratorHas($iterator,"Real Analaysis"));
+			
+			$iterator =& $courseManagementManager->getCanonicalCoursesByType($canonicalCourseA->getCourseType());
+			
+			$this->assertTrue(!$this->iteratorHas($iterator,"Microbiology" ));
+			$this->assertTrue($this->iteratorHas($iterator,"Real Analaysis"));
+			
+			$canonicalCourseA->updateDisplayName("Fake Analysis");
+			$iterator =& $courseManagementManager->getCanonicalCoursesByType($canonicalCourseA->getCourseType());
+			$this->write(2,"update display name");
+			$this->assertEqual($canonicalCourseA->getDisplayName(),"Fake Analysis");
+			$this->assertEqual($canonicalCourseB->getDisplayName(),"Microbiology");
+			$this->assertTrue(!$this->iteratorHas($iterator,"Microbiology" ));
+			$this->assertTrue(!$this->iteratorHas($iterator,"Real Analaysis"));
+			$this->assertTrue($this->iteratorHas($iterator,"Fake Analysis" ));
+			
+			/*
+			$this->write(3,"node test");
+			$node =& $canonicalCourseB->_node;
+			$displayName = $node->getDisplayName();
+			
+			$this->assertEqual($node->getDisplayName(),$displayName );
+			
+			
+			$node2= $canonicalCourseB->_hierarchy->getNode($node->getId());
+			$this->assertEqual($node2->getDisplayName(),$displayName );
+			
+			$node->updateDisplayName("Bubba");
+			$this->assertEqual($node->getDisplayName(),"Bubba" );
+			
+			$this->assertEqual($node2->getDisplayName(),"Bubba"  );
+			$node2= $canonicalCourseB->_hierarchy->getNode($node->getId());
+			$this->assertEqual($node2->getDisplayName(),"Bubba"  );*/
+			$this->write(3,"node test");
+			/*
+			$idManager =& Services::getService("IdManager");
+			$id=$idManager->createId();
+			$cm =& Services::getService("CourseManagement");
+
+			$type =& new Type("TestingCourseManagement","edu.middlebury", "Test");
+			
+			$node=$cm->_hierarchy->createNode($id,$cm->_canonicalCoursesId,$type,"foo","This better work");	
+					
+			$this->assertEqual($node->getDisplayName(),"foo" );		
+			$node2= $cm->_hierarchy->getNode($id);
+			$this->assertEqual($node2->getDisplayName(),"foo" );
+			
+			$node->updateDisplayName("bar");
+			$this->assertEqual($node->getDisplayName(),"bar" );
+			
+			$node3 =  $cm->_hierarchy->getNode($id);
+			
+			$this->assertEqual($node3->getDisplayName(),"bar" );			
+			$cm->_hierarchy->clearCache();
+			
+			$node4 =  $cm->_hierarchy->getNode($id);		
+			$this->assertEqual($node4->getDisplayName(),"bar" );*/
+			
+			      //make a node
+            $idManager =& Services::getService("IdManager");
+            $id=$idManager->createId();
+            $cm =& Services::getService("CourseManagement");
+            $type =& new Type("TestingCourseManagement","edu.middlebury", "Test");          
+            $node=$cm->_hierarchy->createNode($id,$cm->_canonicalCoursesId,$type,"foo","This better work");   
+ 
+             //update the display name
+            $node->updateDisplayName("bar");
+ 
+            //get a copy
+            $node2 =&  $cm->_hierarchy->getNode($id);
+           
+             //see if the change applied--this fails
+            $this->assertEqual($node2->getDisplayName(),"bar" );           
+ 
+            //clear the cache and get the node again
+           $cm->_hierarchy->clearCache();          
+           $node3 =&  $cm->_hierarchy->getNode($id);   
+
+            //this passes  
+            $this->assertEqual($node3->getDisplayName(),"bar" );
+			
+			//$canonicalCourseB =& $iterator->nextCanonicalCourse();
+			//$canonicalCourseC =& $courseManagementManager->getCanonicalCourse($canonicalCourseA->getId());
+			
+			
+			/*
 			//$this->assertReference($canonicalCourseB, $canonicalCourseC);
 			$this->assertEqual($canonicalCourseC->getTitle(), $canonicalCourseB->getTitle());
           	$this->assertEqual($canonicalCourseC->getCredits(), $canonicalCourseB->getCredits());
@@ -241,13 +344,13 @@
 			$this->assertEqual($canonicalCourseB->getTitle(), "Microbiology");
 			$this->assertTrue($canonicalCourseB->getNumber() == "BI310");
 			$this->assertEqual($canonicalCourseC->getNumber(), "BI310");
-			$this->assertFalse($canonicalCourseC->getTitle() == "Real Analaysis");
+			$this->assertFalse($canonicalCourseC->getTitle() == "Real Analaysis");*/
 			
 			// Sixth test - modifying various attributes of canonical course (will use previous values)
-			print "sixth test";
 			
-			// $canonicalCourseD is the very first test case - this should not have changed.
-			// $canonicalCourseB AND $canonicalCourseC (as well as $canonicalCourseA) should be updated.
+			$this->write(4,"fifth test");
+			// $canonicalCourseB AND $canonicalCourseC should be updated.
+			$canonicalCourseC =& $courseManagementManager->getCanonicalCourse($canonicalCourseB->getId());
 			$canonicalCourseB->updateTitle("Economic Statistics");
 			$canonicalCourseB->updateNumber("ECON210");
 			$canonicalCourseB->updateDescription("Snore");
@@ -257,7 +360,7 @@
 			$this->assertEqual($canonicalCourseB->getNumber(), "ECON210");
 			$this->assertEqual($canonicalCourseB->getDescription(), "Snore");
 			$this->assertEqual($canonicalCourseC->getTitle(), "Economic Statistics");
-			
+			$courseManagementManager->deleteCanonicalCourse($canonicalCourseA->getId());
 			$courseManagementManager->deleteCanonicalCourse($canonicalCourseB->getId());
 			
 		}
@@ -270,6 +373,43 @@
 			$this->assertEqual($typeA->getKeyword(),$typeB->getKeyword());
 			$this->assertEqual($typeA->getDescription(),$typeB->getDescription());
 		}
+		
+		
+		function write($size, $text){
+			
+			print "<p align=center><font size=".$size." color=#8888FF>".$text."</font></p>\n";
+			
+			
+		} 
+		
+		
+		//This method only works if the items have a getDisplaName() method.
+		//Relies extensively on weak typing
+		function iteratorHas($iter, $name){
+			$bool=false;
+			print "(";	
+			while($iter->hasNext()){
+				
+					$item =& $iter->next();
+					print "'".$item->getDisplayName()."', ";
+					if($name == $item->getDisplayName()){
+						$bool=true;;
+					}
+					
+				}
+				print ")";
+				return $bool;
+			/*
+				while($iter->hasNext()){
+					//$am =& Services::GetService("AgentManager");
+					$item =& $iter->next();
+					if($name == $item->getDisplayName()){
+						return true;
+					}
+				}
+				return false;*/
+		}
+		
 		
 		/*
 		function testCourseOffering() {

@@ -53,6 +53,10 @@
 		}
         
         function TestOfCourseOffering() {
+        	
+        	print "<font size=7>Test Course Offering</font>";
+        	
+
           	/* First test case */
           	// Canonical course test
           	$title = "Intro to Computer Science";

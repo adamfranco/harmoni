@@ -391,7 +391,8 @@ extends ScheduleItem
     function &getPropertyTypes () { 
         $type =& $this->getStatus();
 		$propertiesType =& new Type($type->getDomain(), $type->getAuthority(), "properties");
-		$typeIterator =& new HarmoniTypeIterator(array($propertiesType));
+		$array = array($propertiesType);
+		$typeIterator =& new HarmoniTypeIterator($array);
 		return $typeIterator;
     } 
 
@@ -629,7 +630,8 @@ extends ScheduleItem
      * @access public
      */
     function &getProperties () { 
-         $ret = new PropertiesIterator(array($this->_getProperties()));		
+    	$array = array($this->_getProperties());
+         $ret = new PropertiesIterator($array);		
 		return $ret;//return the iterator
     } 
     

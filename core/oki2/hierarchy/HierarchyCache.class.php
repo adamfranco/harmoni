@@ -33,7 +33,7 @@ require_once(HARMONI."oki2/hierarchy/HarmoniTraversalInfoIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HierarchyCache.class.php,v 1.34 2006/02/28 18:59:59 adamfranco Exp $
+ * @version $Id: HierarchyCache.class.php,v 1.35 2006/07/06 15:00:42 sporktim Exp $
  **/
 
 class HierarchyCache {
@@ -632,6 +632,7 @@ class HierarchyCache {
 			$this->_cache[$idValue][0] =& $nodes[0];
 			$this->_cache[$idValue][1] = 0;
 			$this->_cache[$idValue][2] = 0;
+		
 		}
 		
 		// now that all nodes are cached, just return all children

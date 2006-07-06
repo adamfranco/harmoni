@@ -26,7 +26,7 @@ require_once(HARMONI."oki2/coursemanagement/CanonicalCourseIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CanonicalCourse.class.php,v 1.19 2006/07/06 14:28:45 jwlee100 Exp $
+ * @version $Id: CanonicalCourse.class.php,v 1.20 2006/07/06 15:00:37 sporktim Exp $
  */
 class HarmoniCanonicalCourse
 	extends CanonicalCourse
@@ -597,28 +597,7 @@ class HarmoniCanonicalCourse
 	 */
 	function &getCourseOfferings () { 
 		
-/*
-		$dbHandler =& Services::getService("DBHandler");
-		$query=& new SelectQuery;
 
-
-		$query->addTable('cm_offer');
-		$query->addColumn('id');
-		$res=& $dbHandler->query($query);
-
-		$array = array();
-		$idManager= & Services::getService("IdManager");
-		$cm= & Services::getService("CourseManagement");
-		while($res->hasMoreRows()){
-
-			$row = $res->getCurrentRow();
-			$res->advanceRow();
-			$id =& $idManager->getId($row['id']);
-			$array[] =& $cm->getCourseOffering($id);
-			
-		}
-		$ret =& new  HarmoniCourseOfferingIterator($array);
-		return $ret;*/
 		
 		$nodeIterator = $this->_node->getChildren();
 		
@@ -667,31 +646,7 @@ class HarmoniCanonicalCourse
 	 * @access public
 	 */
 	function &getCourseOfferingsByType ( &$offeringType ) { 
-	/*	$cm= & Services::getService("CourseManagement");
-		$typeIndex=$cm->_typeToIndex('offer',$offeringType);
-
-		$dbHandler =& Services::getService("DBHandler");
-		$query=& new SelectQuery;
-
-
-		$query->addTable('cm_offer');
-		$query->addColumn('id');
-		$query->addWhere("fk_cm_offer_type='".addslashes($typeIndex)."'");
-		$res=& $dbHandler->query($query);
-
-		$array = array();
-		$idManager= & Services::getService("IdManager");
-
-		while($res->hasMoreRows()){
-
-			$row = $res->getCurrentRow();
-			$res->advanceRow();
-			$id =& $idManager->getId($row['id']);
-			$array[] =& $cm->getCourseOffering($id);
-			
-		}
-		$ret =& new  HarmoniCourseOfferingIterator($array);
-		return $ret;*/
+	
 		$nodeIterator = $this->_node->getChildren();
 		
 		$array = array();
@@ -818,19 +773,6 @@ class HarmoniCanonicalCourse
 			$course->_setField('equivalent', $min);
 		}
 		
-		/*
-		$thisEquivalent =& $this->_getField('equivalent');
-		$comp = strcasecmp($courseEquivalent,$thisEquivalent);
-		if($comp==0){
-			return;	
-		} elseif ($comp > 0){
-			$min = $thisEquivalent;
-			$max = $courseEquivalent;
-		}else{
-			$min = $courseEquivalent;
-			$max = $thisEquivalent;
-			
-		}*/
 		
 		
 		$query=& new SelectQuery;
@@ -838,7 +780,7 @@ class HarmoniCanonicalCourse
 		$query->addColumn('id');
 		$query->addWhere("equivalent = '".$max."'");
 		$res=& $dbHandler->query($query);
-		$idManager=& Services::getService('id');
+		$idManager=& Services::getService('IdManager');
 		while($res->hasMoreRows()){
 			$row = $res->getCurrentRow();
 			$res->advanceRow();
@@ -878,7 +820,7 @@ class HarmoniCanonicalCourse
 		$query->addWhere("equivalent ='".$this->_getField('equivalent')."'");
 		$res=& $dbHandler->query($query);
 		$array=array();
-		$idManager=& Services::getService('id');
+		$idManager=& Services::getService('IdManager');
 		while($res->hasMoreRows()){
 			$row = $res->getCurrentRow();
 			$res->advanceRow();
@@ -1145,7 +1087,8 @@ class HarmoniCanonicalCourse
 	function &getPropertyTypes () { 
 		$courseType =& $this->getCourseType();
 		$propertiesType =& new Type($courseType->getDomain(), $courseType->getAuthority(), "properties");
-		$typeIterator =& new HarmoniTypeIterator(array($propertiesType));
+		$array = array($propertiesType);
+		$typeIterator =& new HarmoniTypeIterator($array);
 		return $typeIterator;
 	} 
 
@@ -1171,8 +1114,8 @@ class HarmoniCanonicalCourse
 	 * @access public
 	 */
 	function &getProperties () { 
-	
-		$ret = new PropertiesIterator(array($this->_getProperties()));		
+		$array = array($this->_getProperties());
+		$ret = new PropertiesIterator($array);		
 		return $ret;//return the iterator
 		
 	} 
