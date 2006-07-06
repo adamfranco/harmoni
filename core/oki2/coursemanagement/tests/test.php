@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: test.php,v 1.4 2006/07/06 15:00:41 sporktim Exp $
+ * @version $Id: test.php,v 1.5 2006/07/06 15:05:08 jwlee100 Exp $
  */
  
  require_once(dirname(__FILE__)."/../../../../../concerto/index.php");
@@ -43,9 +43,9 @@ $harmonyLoadupTimer->end();
 	
 	$test =& new GroupTest('CourseManagementTest');
 	
-	//$test->addTestFile(dirname(__FILE__).'/CourseSectionTestCase.class.php');
 	$test->addTestFile(dirname(__FILE__).'/CanonicalTestCase.class.php');
-	//$test->addTestFile(dirname(__FILE__).'/CourseOfferingTestCase.class.php');
+	$test->addTestFile(dirname(__FILE__).'/CourseSectionTestCase.class.php');
+	$test->addTestFile(dirname(__FILE__).'/CourseOfferingTestCase.class.php');
 
 	$test->attachObserver(new DoboTestHtmlDisplay());
 	$test->run();
