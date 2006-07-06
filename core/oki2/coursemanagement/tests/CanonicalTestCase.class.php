@@ -271,9 +271,6 @@
 			$this->assertTrue(!$this->iteratorHas($iterator,"Real Analaysis"));
 			$this->assertTrue($this->iteratorHas($iterator,"Fake Analysis" ));
 			
-		
-			
-			
 			// Sixth test - modifying various attributes of canonical course (will use previous values)
 			
 			$this->write(4,"fifth test");

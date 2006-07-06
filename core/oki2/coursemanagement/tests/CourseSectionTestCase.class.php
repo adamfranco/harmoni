@@ -276,11 +276,8 @@
 							  $typeA->getKeyword() != $typeB->getKeyword()); 
 		}
 		
-		function write($size, $text){
-			
-			print "<p align=center><font size=".$size." color=#8888FF>".$text."</font></p>\n";
-			
-			
+		function write($size, $text){	
+			print "<p align=center><font size=".$size." color=#8888FF>".$text."</font></p>\n";		
 		} 
 		
 		
