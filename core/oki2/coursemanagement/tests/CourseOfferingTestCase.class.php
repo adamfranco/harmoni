@@ -111,6 +111,17 @@
           	$this->assertTrue($courseOfferingB->getDescription() == "Yeah!  Buggles!");
           	$this->assertEqual($courseOfferingB->getNumber(), "CS101");
           	
+          	$title = $canonicalCourseB->getTitle();
+          	$number = $canonicalCourseB->getNumber();
+          	$description = $canonicalCourseB->getDescription();
+          	$credits = $canonicalCourseB->getCredits();
+          	$termType =& new Type("CourseManagement", "edu.middlebury", "Fall 2006");
+          	$term =& $courseManagementManager->createTerm($termType, $schedule);
+          	$termId =& $term->getId();
+          	$offeringType = $courseType;
+          	$offeringStatusType = $courseStatusType;
+          	$courseGradeType = new Type("CourseManagement", "edu.middlebury", "LetterGrade");
+          	
           	$canonicalCourseB->deleteCourseOffering($courseOfferingA->getId());
           	$courseManagementManager->deleteCanonicalCourse($canonicalCourseA->getId());
 		}
