@@ -245,6 +245,10 @@
 			$propertyTypes = $courseSectionA->getPropertyTypes();
 			print "<p>";
 			print_r($propertyTypes);
+			
+			$agentHandler->deleteAgent($agentIdA);
+			$agentHandler->deleteAgent($agentIdB);
+			$agentHandler->deleteAgent($agentIdC);
 								
 			$courseOffering->deleteCourseSection($courseSectionA->getId());
           	$courseOffering->deleteCourseSection($courseSectionB->getId());
