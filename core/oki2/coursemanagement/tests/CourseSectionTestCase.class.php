@@ -118,9 +118,7 @@
 			$courseSectionA->updateLocation($location);
 			$this->assertNotEqual($courseSectionA->getLocation(), "Bicentennial Hall 505");
 			$this->assertNotEqual($courseSectionA->getLocation(), $courseSectionB->getLocation());
-                 
-	
-					
+    					
 			// Create enrollment statuses
 			$enrollmentStatusTypeA =& new Type("CourseManagement", "edu.middlebury", "Registered");
 			$enrollmentStatusTypeB =& new Type("CourseManagement", "edu.middlebury", "Audited");

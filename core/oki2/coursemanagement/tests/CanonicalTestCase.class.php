@@ -51,59 +51,6 @@
 			// perhaps, unset $obj here
 			unset($this->agent);
 		}
-
-		//--------------the tests ----------------------
-        /*
-        function testOfFalse() {
-            $this->assertFalse(true, "True is not false");        // Fail.
-            $this->assertFalse(false, "False is false");
-        }
-        function testOfNull() {
-            $this->assertNull(null);
-            $this->assertNull(false);        // Fail.
-            $this->assertNotNull(null);        // Fail.
-            $this->assertNotNull(false);
-        }
-        function testOfType() {
-            $this->assertIsA("hello", "string");
-            $this->assertIsA(14, "string");        // Fail.
-            $this->assertIsA($this, "TestOfUnitTestCase");
-            $this->assertIsA($this, "UnitTestCase");
-            $this->assertIsA(14, "TestOfUnitTestCase");        // Fail.
-            $this->assertIsA($this, "TestHTMLDisplay");        // Fail.
-        }
-        function testOfEquality() {
-            $this->assertEqual("0", 0);
-            $this->assertEqual(1, 2);        // Fail.
-            $this->assertNotEqual("0", 0);        // Fail.
-            $this->assertNotEqual(1, 2);
-        }
-        function testOfIdentity() {
-            $a = "fred";
-            $b = $a;
-            $this->assertIdentical($a, $b);
-            $this->assertNotIdentical($a, $b);       // Fail.
-            $a = "0";
-            $b = 0;
-            $this->assertIdentical($a, $b);        // Fail.
-            $this->assertNotIdentical($a, $b);
-        }
-        function testOfReference() {
-            $a = "fred";
-            $b = &$a;
-            $this->assertReference($a, $b);
-            $this->assertCopy($a, $b);        // Fail.
-            $c = "Hello";
-            $this->assertReference($a, $c);        // Fail.
-            $this->assertCopy($a, $c);
-        }
-        function testOfPatterns() {
-            $this->assertWantedPattern('/hello/i', "Hello there");
-            $this->assertNoUnwantedPattern('/hello/', "Hello there");
-            $this->assertWantedPattern('/hello/', "Hello there");            // Fail.
-            $this->assertNoUnwantedPattern('/hello/i', "Hello there");      // Fail.
-        }
-        */
         
         function TestOfCanonicalCourse() {
         	
@@ -337,45 +284,5 @@
 				}
 				return false;*/
 		}
-		
-		
-		/*
-		function testCourseOffering() {
-		  	$courseManagementManager =& Services::getService("CourseManagement");
-		  	
-		  	// First test case
-		  	$title = "CS101";
-          	$number = "cs101";
-          	$description = "Intro to Computer Science";
-          	$courseType =& new Type("CourseManagement", "edu.middlebury", "DED", "Deductive Reasoning");
-          	$courseStatusType =& new Type("CourseManagement", "edu.middlebury", "Available", "You can still register.");
-          	$credits = "3.1415927";
-		  	
-			$courseSectionA =& $courseManagementManager->createCourseSection($title, $number, $description, 
-			  																$courseType, $courseStatusType,
-												                            $credits);
-			$courseSectionB =& $courseManagementManager->getCourseSection($courseSectionA->getId());
-		
-			$this->assertReference($canonicalCourseA, $canonicalCourseB);
-			
-			// Second test case
-			$title = "LIT";
-          	$number = "101";
-          	$description = "Intro to Literature";
-          	$courseType =& new Type("CourseManagement", "edu.middlbeury", "LIT");
-          	$courseStatusType =& new Type("CourseManagement", "edu.middlebury", "Available");
-          	$credits = "1.00";
-          	
-  		  	$courseSectionA =& $courseManagementManager->createCourseSection($title, $number, $description, 
-			  																$courseType, $courseStatusType,
-												                            $credits);
-			$courseSectionB =& $courseManagementManager->getCourseSection($canonicalCourseA->getId());
-			
-          	$this->assertEquals($courseSectionA->getTitle(), $courseSectionB->getTitle());
-          	$this->assertFalse($canonicalCourseB->getTitle() == "SOAN");
-          	$this->assertTrue($canonicalCourseB->getTitle() == "LIT");
-          	$this->assertReference($canonicalCourseA, $canonicalCourseB);
-		}
-		*/
     }
 ?>
