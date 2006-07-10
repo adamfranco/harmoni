@@ -26,7 +26,7 @@ require_once(HARMONI."oki2/coursemanagement/CanonicalCourseIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CanonicalCourse.class.php,v 1.21 2006/07/06 18:33:53 sporktim Exp $
+ * @version $Id: CanonicalCourse.class.php,v 1.22 2006/07/10 20:55:38 jwlee100 Exp $
  */
 class HarmoniCanonicalCourse
 	extends CanonicalCourse
@@ -604,7 +604,7 @@ class HarmoniCanonicalCourse
 		$array = array();
 		$idManager= & Services::getService("IdManager");
 		$cm= & Services::getService("CourseManagement");
-		$typeIndex=$cm->_typeToIndex('offer',$sectionType);
+		//$typeIndex=$cm->_typeToIndex('offer',$sectionType);
 		
 		while($nodeIterator->hasNextNode()){
 			$childNode =& $nodeIterator->nextNode();
