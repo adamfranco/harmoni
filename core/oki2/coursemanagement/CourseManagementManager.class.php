@@ -6,7 +6,7 @@
 * @copyright Copyright &copy; 2006, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.27 2006/07/07 19:33:44 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.28 2006/07/10 14:42:43 sporktim Exp $
 */
 
 require_once(OKI2."/osid/coursemanagement/CourseManagementManager.php");
@@ -100,7 +100,7 @@ require_once(HARMONI."oki2/coursemanagement/TermIterator.class.php");
 * @copyright Copyright &copy; 2005, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.27 2006/07/07 19:33:44 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.28 2006/07/10 14:42:43 sporktim Exp $
 */
 class HarmoniCourseManagementManager
 extends CourseManagementManager
@@ -1565,6 +1565,11 @@ extends CourseManagementManager
 	function &_getType(&$id, $table, $typename){
 		//the appropriate table names and fields must be given names according to the pattern indicated below
 		$index=$this->_getField($id,$table,"fk_cm_".$typename."_type");
+		return $this->_indexToType($index,$typename);
+		
+	}
+	
+	function &_indexToType($index, $typename){
 		$dbHandler =& Services::getService("DBHandler");
 		$query=& new SelectQuery;
 		$query->addTable('cm_'.$typename."_type");
@@ -1581,7 +1586,6 @@ extends CourseManagementManager
 			$the_type =& new Type($row['domain'],$row['authority'],$row['keyword'],$row['description']);
 		}
 		return $the_type;
-
 	}
 
 	function _typeToIndex($typename, &$type){
