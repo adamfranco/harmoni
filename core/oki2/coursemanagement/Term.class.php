@@ -15,7 +15,7 @@ require_once(OKI2."/osid/coursemanagement/Term.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Term.class.php,v 1.12 2006/07/06 18:33:53 sporktim Exp $
+ * @version $Id: Term.class.php,v 1.13 2006/07/11 17:34:05 sporktim Exp $
  */
 class HarmoniTerm
 	extends Term
@@ -173,7 +173,26 @@ class HarmoniTerm
 	 * @access public
 	 */
 	function &getSchedule () { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "Term", true)); 
+		$dbHandler =& Services::getService("DBHandler");
+		$query=& new SelectQuery;
+		$query->addTable('cm_schedule');
+		$query->addColumn('fk_sc_item');
+		$query->addWhere("fk_id='".addslashes($this->id->getIdString()).".");
+		//$query->addOrderBy
+		$res=& $dbHandler->query($query);
+		$array=array();
+		$sm =& Services::getService("SchedulingManager");
+		$idManager =& Services::getService("IdManager");
+		while($res->hasMoreRows()){
+			$row = $res->getCurrentRow();
+			$res->advanceRow();
+			$id =& $idManager->getId($row['id']);
+			$si =&  $sm->getScheduleItem($id);
+			$array[$si->getStart()] =& $si;
+		}
+		ksort($array);
+		$ret =& new HarmoniScheduleItemIterator($array);
+		return $ret;
 	} 
 	
 	

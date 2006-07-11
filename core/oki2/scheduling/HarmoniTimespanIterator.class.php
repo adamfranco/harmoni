@@ -1,6 +1,6 @@
 <?php 
  
-require_once(OKI2."/osid/scheduling/HarmoniTimespanIterator.php");
+require_once(OKI2."/osid/scheduling/TimespanIterator.php");
 require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
 
 /**

@@ -1,9 +1,13 @@
 <?php 
 
-require_once(OKI2."/osid/scheduling/Timespan.php");
- 
+//require_once(OKI2."/osid/scheduling/Timespan.php");
+require_once(HARMONI."Primitives/Chronology/Timespan.class.php");
+
+
 /**
- * Timespan defines a time span in terms of a start and end date and time.
+ * Timespan defines a time span in terms of a start and end date and time. 
+ * Warning!  This extends a completely differnt Timespan, so thing may 
+ * get messy.
  * 
  * <p>
  * OSID Version: 2.0
@@ -40,6 +44,10 @@ extends Timespan
 	 */
 	function HarmoniTimespan($_start, $_end)
 	{
+		
+		if($start>$end){
+			throwError(new Error(SchedulingException::END_BEFORE_START(), "HarmoniTimeSpan", true));
+		}
 		$this->_start = $_start;
 		$this->_end = $_end;
 		

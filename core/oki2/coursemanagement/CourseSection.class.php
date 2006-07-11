@@ -26,7 +26,7 @@ require_once(OKI2."/osid/coursemanagement/CourseSection.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CourseSection.class.php,v 1.15 2006/07/06 18:33:53 sporktim Exp $
+ * @version $Id: CourseSection.class.php,v 1.16 2006/07/11 17:34:05 sporktim Exp $
  */
 class HarmoniCourseSection
 	extends CourseSection
@@ -377,7 +377,23 @@ class HarmoniCourseSection
 	 * @access public
 	 */
 	function &getSchedule () { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseSection", true)); 
+		$dbHandler =& Services::getService("DBHandler");
+		$query=& new SelectQuery;
+		$query->addTable('cm_schedule');
+		$query->addColumn('fk_sc_item');
+		$query->addWhere("fk_id='".addslashes($this->id->getIdString()).".");
+		$res=& $dbHandler->query($query);
+		$array=array();
+		$sm =& Services::getService("SchedulingManager");
+		$idManager =& Services::getService("IdManager");
+		while($res->hasMoreRows()){
+			$row = $res->getCurrentRow();
+			$res->advanceRow();
+			$id =& $idManager->getId($row['id']);
+			$array[] =& $sm->getScheduleItem($id);
+		}
+		$ret =& new HarmoniScheduleItemIterator($array);
+		return $ret;
 	} 
 
 	/**

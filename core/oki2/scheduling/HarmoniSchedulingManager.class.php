@@ -2,6 +2,13 @@
  
 require_once(OKI2."/osid/scheduling/SchedulingManager.php");
 
+require_once(HARMONI."oki2/scheduling/HarmoniTimespan.class.php");
+require_once(HARMONI."oki2/scheduling/HarmoniTimespanIterator.class.php");
+require_once(HARMONI."oki2/scheduling/HarmoniAgentCommitment.class.php");
+require_once(HARMONI."oki2/scheduling/HarmoniAgentCommitmentIterator.class.php");
+require_once(HARMONI."oki2/scheduling/HarmoniScheduleItem.class.php");
+require_once(HARMONI."oki2/scheduling/HarmoniScheduleItemIterator.class.php");
+
 /**
  * <p>
  * SchedulingManager creates, deletes, and gets ScheduleItems.  Items include
@@ -162,6 +169,9 @@ class HarmoniSchedulingManager
      */
     function &createScheduleItem ( $displayName, $description, &$agents, $start, $end, $masterIdentifier ) { 
         
+    	if($start>$end){
+			throwError(new Error(SchedulingException::END_BEFORE_START(), "HarmoniSchedulingManager", true));
+		}
     	
 		$idManager =& Services::getService("IdManager");
 		$id=$idManager->createId();
@@ -221,7 +231,8 @@ class HarmoniSchedulingManager
     } 
 
     /**
-     * Get the Timespans during which all Agents are uncommitted.
+     * Get the Timespans during which all Agents are uncommitted.  
+     * The time complexity may not be great on this one.
      * 
      * @param object Id[] $agents
      * @param int $start
@@ -249,8 +260,100 @@ class HarmoniSchedulingManager
      * @access public
      */
     function &getAvailableTimes ( &$agents, $start, $end ) { 
-        die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+      	//get all schedule item rows with the appropriate time and agents
+		$dbHandler =& Services::getService("DBHandler");
+		$query=& new SelectQuery;
+		$query->addTable('sc_item');
+		$query->addColumn('id');
+
+		$where .= "AND (end >= ".addslashes($start)."'";
+		$where .= "OR start <= ".addslashes($end)."') AND (";
+		$firstElement =true;
+		foreach($agents as $agent){
+			if($firstElement){
+				$firstElement=false;
+				$where .= " OR ";
+			}
+			$id =& $agent->getId();
+			$where .= ("'".addslashes($id->getIdString())."'=fk_agent_id");
+		}
+		
+		$where .= ")";
+		$query->addWhere($where);
+		$res=& $dbHandler->query($query);
+
+		//find times not conflictted by these items
+		$array[$start] = new HarmoniTimeSpan($start,$end);
+		$idManager =& Services::getService("IdManager");
+		while($res->hasMoreRows()){
+			
+			
+			
+			$row = $res->getCurrentRow();
+			$res->advanceRow();
+			$id =& $idManager->getId($row['id']);
+			$item =& $this->getScheduleItem($id);
+			$array = $this->_restrict($array,$item);
+		}
+		
+		ksort($array);
+		
+		$ret =& new  TimespanIterator($array);
+		return $ret;
     } 
+    
+    /**
+     * This helper function takes a ScheduleItem and 
+     * and array of timespans and returns the array of 
+     *timespans that donot conflict with the event, but
+     * which contain as much of the original time as possible.
+     **/
+    function  &_restrict($arrayOfTimeSpans, $scheduleItem){
+    	$start = $scheduleItem->getStart();
+    	$end = $scheduleItem->getEnd();
+    	foreach($arrayOfTimespans as $key ->$timespan){
+    		$start2 = $timespan->getStart();
+    		$end2 = $timespan->getEnd();
+    		if($start>=$end2 || $end<=$start2){
+    			$arrayOfTimeSpans2[$key]=$timespan;
+    			continue;//do nothing.  the time intervals do not overlap.
+    			//this actually should not happen if called from getAvailableTimes()
+    		}
+    		if ($end <= $end2){
+    			
+    			
+    			if ($start >= $start2){//Item fully overlaps item
+    				
+    				//unset($arrayOfTimeSpans[$key]);
+    			
+    			
+    			
+    			}else{
+    				$arrayOfTimeSpans2[$end]=new HarmoniTimespan($end,$end2);
+    			
+    			}
+    			
+    			
+    		}else{
+    			
+    			if ($start >= $start2){
+    			
+    				$arrayOfTimeSpans2[$start2]=new HarmoniTimespan($start2,$start);
+    			
+    			
+    			
+    			}else{
+    			
+    				$arrayOfTimeSpans2[$start2]=new HarmoniTimespan($start2,$start);
+    				$arrayOfTimeSpans2[$end]=new HarmoniTimespan($end,$end2);
+    			
+    			}
+    			
+    		}
+    	
+    	}
+    	return $arrayOfTimeSpans2;
+    }
 
     /**
      * Get a ScheduleItem by unique Id.
@@ -323,6 +426,7 @@ class HarmoniSchedulingManager
 		$where = "fk_sc_item_stat_type='".addslashes($typeIndex)."'";
 		$where .= "AND (end >= ".addslashes($start)."'";
 		$where .= "OR start <= ".addslashes($end)."')";
+		$query->addWhere($where);
 		//$query->addWhere("start <= ".addslashes($typeIndex)."'");
 		//$query->addWhere("end >= ".addslashes($typeIndex)."'");
 		$res=& $dbHandler->query($query);
@@ -376,7 +480,46 @@ class HarmoniSchedulingManager
      * @access public
      */
     function &getScheduleItemsForAgents ( $start, $end, &$status, &$agents ) { 
-        die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+         //get the index for the type
+		$typeIndex = $this->_typeToIndex('item_stat',$courseType);
+
+		//get all schedule item rows with the appropriate type
+		$dbHandler =& Services::getService("DBHandler");
+		$query=& new SelectQuery;
+		$query->addTable('sc_item');
+		$query->addColumn('id');
+		$where = "fk_sc_item_stat_type='".addslashes($typeIndex)."'";
+		$where .= "AND (end >= ".addslashes($start)."'";
+		$where .= "OR start <= ".addslashes($end)."') AND (";
+		$firstElement =true;
+		foreach($agents as $agent){
+			if($firstElement){
+				$firstElement=false;
+				$where .= " OR ";
+			}
+			$id =& $agent->getId();
+			$where .= ("'".addslashes($id->getIdString())."'=fk_agent_id");
+		}
+		
+		$where .= ")";
+		$query->addWhere($where);
+		//$query->addWhere("start <= ".addslashes($typeIndex)."'");
+		//$query->addWhere("end >= ".addslashes($typeIndex)."'");
+		$res=& $dbHandler->query($query);
+
+		//convert results to array of ScheduleItems
+		$array = array();
+		$idManager =& Services::getService("IdManager");
+		while($res->hasMoreRows()){
+			$row = $res->getCurrentRow();
+			$res->advanceRow();
+			$id =& $idManager->getId($row['id']);
+			$array[] =& $this->getScheduleItem($id);
+		}
+		
+		//convert to an iterator
+		$ret =& new  HarmoniScheduleItemIterator($array);
+		return $ret;
        
     } 
 

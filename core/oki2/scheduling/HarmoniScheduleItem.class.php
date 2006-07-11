@@ -682,9 +682,9 @@ extends ScheduleItem
     
     
     
-     function &getStatus () { 
-        return $this->_getType('commit_stat');
-    } 
+    // function &getStatus () { 
+    //    return $this->_getType('commit_stat');
+    //} 
     
     function _typeToIndex($typename, &$type)
 	{	
