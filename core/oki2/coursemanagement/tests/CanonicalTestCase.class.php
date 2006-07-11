@@ -233,7 +233,6 @@
 			$this->assertEqual($canonicalCourseB->getDescription(), "Snore");
 			$this->assertEqual($canonicalCourseC->getTitle(), "Economic Statistics");
 			
-			
 			$courseManagementManager->deleteCanonicalCourse($canonicalCourseA->getId());
 			$courseManagementManager->deleteCanonicalCourse($canonicalCourseB->getId());
 			
