@@ -95,21 +95,25 @@
         	$courseGradeRecordA =& $cmm->createCourseGradeRecord($agentId, $courseOfferingId, $courseGradeType, 
 																 $courseGrade);
 			
-			$agentB =& $courseGradeRecordA->getAgent();
-			$agentIdB = $agentB->getId();
-			$courseOfferingB =& $courseGradeRecordA->getCourseOffering();
-			$courseOfferingIdB = $courseOfferingB->getId();
+			$agentA =& $courseGradeRecordA->getAgent();
+			$agentIdA = $agentA->getId();
+			$courseOfferingA =& $courseGradeRecordA->getCourseOffering();
+			$courseOfferingIdA = $courseOfferingA->getId();
 			$this->assertEqual($agentId, $agentIdA);
 			$this->assertEqual($courseOfferingId, $courseOfferingIdA);
 			$this->assertEqualTypes($courseGradeRecordA->getCourseGradeType(), $courseGradeType);
 			$this->assertEqual($courseGradeRecordA->getCourseGrade(), "B+");
-			
-			$courseGradeRecord->updateCourseGrade("A+");
-			$this->assertEqual($courseGradeRecordA->getCourseGrade(), "A+");
+					
+			$newGrade = "A+";
+			$courseGradeRecordA->updateCourseGrade($newGrade);
+			$this->assertEqual($courseGradeRecordA->getCourseGrade(), $newGrade);
 			
 			$cmm->deleteCourseGradeRecord($courseGradeRecordA->getId());
-			$cmm->deleteCourseOffering($courseOffering->getId());
-			$cmm->deleteCanonicalCourse($courseOffering->getId());
+			$courseGradeRecordIterator =& $cmm->getCourseGradeRecords($agentId, $courseOfferingId, $courseGradeType);
+			$this->assertFalse($courseGradeRecordIterator->hasNext());
+			
+			$canonicalCourse->deleteCourseOffering($courseOffering->getId());
+			$cmm->deleteCanonicalCourse($canonicalCourse->getId());
 			$agentHandler->deleteAgent($agentId);
         }
 		

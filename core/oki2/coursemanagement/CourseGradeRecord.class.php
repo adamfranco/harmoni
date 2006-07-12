@@ -15,7 +15,7 @@ require_once(OKI2."/osid/coursemanagement/CourseGradeRecord.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CourseGradeRecord.class.php,v 1.5 2006/06/30 22:45:22 sporktim Exp $
+ * @version $Id: CourseGradeRecord.class.php,v 1.6 2006/07/12 19:32:57 jwlee100 Exp $
  */
 class HarmoniCourseGradeRecord
 	extends CourseGradeRecord
@@ -133,8 +133,9 @@ class HarmoniCourseGradeRecord
 	 * 
 	 * @access public
 	 */
-	function &getCourseGrade () { 
-		return $this->_getField('grade'); 
+	function &getCourseGrade () {
+	  	$grade = $this->_getField('grade'); 
+		return $grade; 
 	} 
 
 	/**
@@ -263,7 +264,7 @@ class HarmoniCourseGradeRecord
 	function &getCourseOffering () { 
 		$idstring = $this->_getField('fk_cm_offer');
 		$idManager =& Services::getService("Id");
-		$cm =& Services::getService("CourseManager");
+		$cm =& Services::getService("CourseManagement");
 		$id =& $idManager->getId($idstring);
 		return $cm->getCourseOffering($id);	
 	} 

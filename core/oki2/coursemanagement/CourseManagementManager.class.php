@@ -6,7 +6,7 @@
 * @copyright Copyright &copy; 2006, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.29 2006/07/12 19:03:45 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.30 2006/07/12 19:32:57 jwlee100 Exp $
 */
 
 require_once(OKI2."/osid/coursemanagement/CourseManagementManager.php");
@@ -100,7 +100,7 @@ require_once(HARMONI."oki2/coursemanagement/TermIterator.class.php");
 * @copyright Copyright &copy; 2005, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.29 2006/07/12 19:03:45 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.30 2006/07/12 19:32:57 jwlee100 Exp $
 */
 class HarmoniCourseManagementManager
 extends CourseManagementManager
@@ -1137,8 +1137,7 @@ extends CourseManagementManager
 		$values[]="'".addslashes($courseOfferingId->getIdString())."'";
 		$values[]="'CourseGradeRecord'";
 		$values[]="'".addslashes($courseGrade)."'";
-		$values[]="'".addslashes("")."'";
-		$values[]="'".$this->_typeToIndex('grade',$courseGrade)."'";
+		$values[]="'".$this->_typeToIndex('grade',$courseGradeType)."'";
 
 		$query->addRowOfValues($values);
 		$query->setAutoIncrementColumn('id','id_sequence');
@@ -1227,12 +1226,12 @@ extends CourseManagementManager
 
 
 
-		$query->addTable('cm_can');
+		$query->addTable('cm_grade_rec');
 		$query->addColumn('id');
 		
 		if(!is_null($courseGradeType)){
-			$courseGradeType=$this->_typeToIndex('can',$courseType);
-			$query->addWhere("fk_cm_can_type='".addslashes($typeIndex)."'");
+			$courseGradeType=$this->_typeToIndex('can',$courseGradeType);
+			$query->addWhere("fk_cm_grade_type='".addslashes($courseGradeType)."'");
 		}
 		if(!is_null($agentId)){			
 			$query->addWhere("fk_student_id='".addslashes($agentId->getIdString())."'");
@@ -1245,7 +1244,7 @@ extends CourseManagementManager
 		
 		
 		
-		$res=& $dbHandler->query($query);
+		$res =& $dbHandler->query($query);
 
 		$array = array();
 		$idManager= & Services::getService("IdManager");
