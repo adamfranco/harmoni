@@ -6,7 +6,7 @@
 * @copyright Copyright &copy; 2006, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.28 2006/07/10 14:42:43 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.29 2006/07/12 19:03:45 sporktim Exp $
 */
 
 require_once(OKI2."/osid/coursemanagement/CourseManagementManager.php");
@@ -100,7 +100,7 @@ require_once(HARMONI."oki2/coursemanagement/TermIterator.class.php");
 * @copyright Copyright &copy; 2005, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.28 2006/07/10 14:42:43 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.29 2006/07/12 19:03:45 sporktim Exp $
 */
 class HarmoniCourseManagementManager
 extends CourseManagementManager
@@ -1591,12 +1591,14 @@ extends CourseManagementManager
 	function _typeToIndex($typename, &$type){
 		//the appropriate table names and fields must be given names according to the pattern indicated below
 
+		ArgumentValidator::validate($type, ExtendsValidatorRule::getRule("Type"), true);
+		
 		$dbHandler =& Services::getService("DBHandler");
 		$query=& new SelectQuery;
 		$query->addTable('cm_'.$typename."_type");
-		$query->addWhere("domain='".$type->getDomain()."'");
-		$query->addWhere("authority='".$type->getAuthority()."'");
-		$query->addWhere("keyword='".$type->getKeyword()."'");
+		$query->addWhere("domain='".addslashes($type->getDomain())."'");
+		$query->addWhere("authority='".addslashes($type->getAuthority())."'");
+		$query->addWhere("keyword='".addslashes($type->getKeyword())."'");
 		$query->addColumn('id');
 		$res=& $dbHandler->query($query);
 
