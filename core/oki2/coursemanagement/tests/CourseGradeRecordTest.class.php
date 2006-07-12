@@ -32,7 +32,7 @@
 	require_once(HARMONI."oki2/coursemanagement/Term.class.php");
 	require_once(HARMONI."oki2/coursemanagement/TermIterator.class.php");
     
-    class CanonicalTestCase extends UnitTestCase {
+    class CourseGradeRecordTest extends UnitTestCase {
       
       	/**
 		 *	  Sets up unit test wide variables at the start
@@ -66,7 +66,8 @@
 			
 			// Create course offering											   
           	$termType =& new Type("CourseManagement", "edu.middlebury", "Fall 2006");
-          	$term =& $courseManagementManager->createTerm($termType, $schedule);
+          	$schedule = "Fall 2006";
+          	$term =& $cmm->createTerm($termType, $schedule);
           	$termId =& $term->getId();
           	$offeringType = $courseType;
           	$offeringStatusType = $courseStatusType;
@@ -76,7 +77,7 @@
 																	 $courseGradeType);
 																	 
 			$courseOfferingId = $courseOffering->getId();
-			$courseGrade = "A+";
+			$courseGrade = "B+";
 		
 			// Create agent	
 			$propertiesTypeA =& new Type("CourseManagement", "edu.middlebury", "student");
@@ -88,15 +89,40 @@
 			
 			$agentTypeA =& new Type("CourseManagement", "edu.middlebury", "student");
 			$agentHandler =& Services::getService("Agent");
-			$agentA =& $agentHandler->createAgent("Gladius", $agentTypeA, $propertiesA);
-			$agentId = $agentA->getId();
+			$agent =& $agentHandler->createAgent("Gladius", $agentTypeA, $propertiesA);
+			$agentId = $agent->getId();
 			
-        	$courseGradeRecordA =& $cmm->createCourseRecord(&$agentId, &$courseOfferingId, &$courseGradeType, 
-															&$courseGrade);
+        	$courseGradeRecordA =& $cmm->createCourseGradeRecord($agentId, $courseOfferingId, $courseGradeType, 
+																 $courseGrade);
 			
-			$this->assertEqual($courseGradeRecordA->getAgent(), $agentA);
-			$this->assertEqual($courseGradeRecordA->getCourseOffering(), $courseOffering);
+			$agentB =& $courseGradeRecordA->getAgent();
+			$agentIdB =& $agentB->getId();
+			$courseOfferingB =& $courseGradeRecordA->getCourseOffering();
+			$courseOfferingIdB =& $courseOfferingB->getId();
+			$this->assertEqual($agentId, $agentIdA);
+			$this->assertEqual($courseOfferingId, $courseOfferingIdA);
+			$this->assertEqualTypes($courseGradeRecordA->getCourseGradeType(), $courseGradeType);
+			$this->assertEqual($courseGradeRecordA->getCourseGrade(), "B+");
+			
+			$courseGradeRecordB =& $cmm->getCourseRecord($courseGradeRecordA->getId());
+			
+			$agentB =& $courseGradeRecordB->getAgent();
+			$agentIdB =& $agentB->getId();
+			$courseOfferingB =& $courseGradeRecordB->getCourseOffering();
+			$courseOfferingIdB =& $courseOfferingB->getId();
+			$this->assertEqual($agentIdA, $agentIdB);
+			$this->assertEqual($courseOfferingIdA, $courseOfferingIdB);
+			$this->assertEqualTypes($courseGradeRecordA->getCourseGradeType(), 
+									$courseGradeRecordA->getCourseGradeType());
+			$this->assertEqual($courseGradeRecordA->getCourseGrade(), $courseGradeRecordB->getCourseGrade());
+			
+			$courseGradeRecord->updateCourseGrade("A+");
 			$this->assertEqual($courseGradeRecordA->getCourseGrade(), "A+");
+			
+			$cmm->deleteCourseGradeRecord($courseGradeRecordA->getId());
+			$cmm->deleteCourseOffering($courseOffering->getId());
+			$cmm->deleteCanonicalCourse($courseOffering->getId());
+			$agentHandler->deleteAgent($agentId);
         }
 		
 		
