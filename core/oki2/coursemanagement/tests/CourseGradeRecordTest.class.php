@@ -96,25 +96,13 @@
 																 $courseGrade);
 			
 			$agentB =& $courseGradeRecordA->getAgent();
-			$agentIdB =& $agentB->getId();
+			$agentIdB = $agentB->getId();
 			$courseOfferingB =& $courseGradeRecordA->getCourseOffering();
-			$courseOfferingIdB =& $courseOfferingB->getId();
+			$courseOfferingIdB = $courseOfferingB->getId();
 			$this->assertEqual($agentId, $agentIdA);
 			$this->assertEqual($courseOfferingId, $courseOfferingIdA);
 			$this->assertEqualTypes($courseGradeRecordA->getCourseGradeType(), $courseGradeType);
 			$this->assertEqual($courseGradeRecordA->getCourseGrade(), "B+");
-			
-			$courseGradeRecordB =& $cmm->getCourseRecord($courseGradeRecordA->getId());
-			
-			$agentB =& $courseGradeRecordB->getAgent();
-			$agentIdB =& $agentB->getId();
-			$courseOfferingB =& $courseGradeRecordB->getCourseOffering();
-			$courseOfferingIdB =& $courseOfferingB->getId();
-			$this->assertEqual($agentIdA, $agentIdB);
-			$this->assertEqual($courseOfferingIdA, $courseOfferingIdB);
-			$this->assertEqualTypes($courseGradeRecordA->getCourseGradeType(), 
-									$courseGradeRecordA->getCourseGradeType());
-			$this->assertEqual($courseGradeRecordA->getCourseGrade(), $courseGradeRecordB->getCourseGrade());
 			
 			$courseGradeRecord->updateCourseGrade("A+");
 			$this->assertEqual($courseGradeRecordA->getCourseGrade(), "A+");
