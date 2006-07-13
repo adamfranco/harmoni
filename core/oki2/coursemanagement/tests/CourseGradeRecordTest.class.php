@@ -53,6 +53,8 @@
 		}
         
         function TestOfCourseGradeRecord() {
+          	$this->write(7, "Course Grade Record Test");
+          
           	// Create canonical course
         	$cmm =& Services::getService("CourseManagement");
         	$title = "Introduction to Microeconomics";

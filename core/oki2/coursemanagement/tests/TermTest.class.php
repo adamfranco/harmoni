@@ -108,14 +108,22 @@
 			
 			$availableTimes =& $scheduling->getAvailableTimes($agents, $start, $end);
 			
+			$this->assertEqual($scheduleA->getDisplayName(), $scheduleB->getDisplayName());
+			$this->assertEqual($scheduleA->getDescription(), $scheduleB->getDescription());
+			$this->assertEqual($scheduleA->getAgents(), $scheduleB->getAgents());
+			$this->assertEqual($scheduleA->getStart(), $scheduleB->getStart());
+			$this->assertEqual($scheduleA->getEnd(), $scheduleB->getEnd());
+			
 			$termType =& new Type("CourseManagement", "edu.middlebury", "Fall 2006");
 			$termA =& $cmm->createTerm($termType, $schedulingItemA);
 			$termB =& $cmm->getTerm($termA->getId());
 			
 			$this->assertEqualTypes($termA->getType(), $termB->getType());
+			
 			$scheduleA =& $termA->getSchedule();
 			$this->assertEqual($scheduleItemA->getDisplayName(), $scheduleA->getDisplayName());
 			$this->assertEqual($scheduleItemA->getDescription(), $scheduleA->getDescription());
+			$this->assertEqual($scheduleItemA->getAgents(), $scheduleA->getAgents());
 			$this->assertEqual($scheduleItemA->getStart(), $scheduleA->getStart());
 			$this->assertEqual($scheduleItemA->getEnd(), $scheduleA->getEnd());
         }
