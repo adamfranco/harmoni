@@ -54,6 +54,8 @@
         
         function TestOfTerm() {
           	// Create canonical course
+          	$this->write(7, "Term and Scheduling Test");
+          	
         	$cmm =& Services::getService("CourseManagement");
         	$scheduling =& Services::getService("Scheduling");
         	$canonicalCourse = $cmm->createCanonicalCourse($title, $number, $description, $courseType, 
@@ -105,6 +107,17 @@
 			$schedulingItemB =& $scheduling->getScheduleItem($schedulingItemA->getId());
 			
 			$availableTimes =& $scheduling->getAvailableTimes($agents, $start, $end);
+			
+			$termType =& new Type("CourseManagement", "edu.middlebury", "Fall 2006");
+			$termA =& $cmm->createTerm($termType, $schedulingItemA);
+			$termB =& $cmm->getTerm($termA->getId());
+			
+			$this->assertEqualTypes($termA->getType(), $termB->getType());
+			$scheduleA =& $termA->getSchedule();
+			$this->assertEqual($scheduleItemA->getDisplayName(), $scheduleA->getDisplayName());
+			$this->assertEqual($scheduleItemA->getDescription(), $scheduleA->getDescription());
+			$this->assertEqual($scheduleItemA->getStart(), $scheduleA->getStart());
+			$this->assertEqual($scheduleItemA->getEnd(), $scheduleA->getEnd());
         }
 		
 		
