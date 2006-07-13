@@ -1,5 +1,5 @@
 <?php
-    // $Id: observer.php,v 1.2 2005/01/19 16:33:26 adamfranco Exp $
+    // $Id: observer.php,v 1.3 2006/07/13 20:39:04 jwlee100 Exp $
     
     if (!defined("SIMPLE_TEST")) {
         define("SIMPLE_TEST", "./");
@@ -167,7 +167,7 @@
          */
         function notify(&$event) {
             for ($i = 0; $i < count($this->_observers); $i++) {
-                $this->_observers[$i]->notify(&$event);
+                $this->_observers[$i]->notify($event);
             }
         }
     }
@@ -219,7 +219,7 @@
          *    @access public
          */
         function notify(&$event) {
-            $event->paint(&$this);
+            $event->paint($this);
         }
         
         /**

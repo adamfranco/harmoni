@@ -58,8 +58,6 @@
           	
         	$cmm =& Services::getService("CourseManagement");
         	$scheduling =& Services::getService("Scheduling");
-        	$canonicalCourse = $cmm->createCanonicalCourse($title, $number, $description, $courseType, 
-														   $courseStatusType, $credits);
 			
 			// Create new student 1
 			$propertiesTypeA =& new Type("CourseManagement", "edu.middlebury", "student");
@@ -99,7 +97,7 @@
 			$agentIdB =& $agentB->getId();
 			$agentIdC =& $agentC->getId();
 			
-			$agents = [$agentIdA, $agentIdB, $agentIdC];
+			$agents = $agentIdA;
 			
 			$start = 152698841;
 			$end = 152898541;
