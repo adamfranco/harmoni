@@ -1,4 +1,4 @@
-<?php 
+3<?php 
 
 //require_once(OKI2."/osid/scheduling/Timespan.php");
 require_once(HARMONI."Primitives/Chronology/Timespan.class.php");

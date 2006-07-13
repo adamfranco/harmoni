@@ -56,26 +56,53 @@
           	// Create canonical course
         	$cmm =& Services::getService("CourseManagement");
         	$scheduling =& Services::getService("Scheduling");
-        	$title = "Introduction to Microeconomics";
-        	$number = "EC155";
-        	$description = "Economics in a micro scale, duh!";
-        	$courseType =& new Type("CourseManagement", "edu.middlebury", "SOC");
-        	$courseStatusType =& new Type("CourseManagement", "edu.middlebury", "Open");
-        	$credits = "1.00";
         	$canonicalCourse = $cmm->createCanonicalCourse($title, $number, $description, $courseType, 
 														   $courseStatusType, $credits);
 			
-			// Create course offering											   
-          	$termType =& new Type("CourseManagement", "edu.middlebury", "Fall 2006");
-          	$schedule = "Fall 2006";
-          	$term =& $cmm->createTerm($termType, $schedule);
-          	$termId =& $term->getId();
-          	$offeringType = $courseType;
-          	$offeringStatusType = $courseStatusType;
-          	$courseGradeType = new Type("CourseManagement", "edu.middlebury", "LetterGrade");
-			$courseOffering =& $canonicalCourse->createCourseOffering($title, $number, $description, $termId,
-																	 $offeringType, $offeringStatusType,
-																	 $courseGradeType);
+			// Create new student 1
+			$propertiesTypeA =& new Type("CourseManagement", "edu.middlebury", "student");
+			$propertiesA =& new HarmoniProperties($propertiesTypeA);
+			$name = "Sporktim Bahls";
+			$class = "2006";
+			$propertiesA->addProperty('student_name', $name);
+			$propertiesA->addProperty('student_year', $class);	
+			
+			$agentTypeA =& new Type("CourseManagement", "edu.middlebury", "student");
+			$agentHandler =& Services::getService("Agent");
+			$agentA =& $agentHandler->createAgent("Gladius", $agentTypeA, $propertiesA);
+			
+			// Create new student 2
+			$this->write(2,"John");
+			$propertiesTypeB =& new Type("CourseManagement", "edu.middlebury", "student");
+			$propertiesB =& new HarmoniProperties($propertiesTypeB);
+			$name = "John Lee";
+			$propertiesB->addProperty('student_name', $name);
+			$propertiesB->addProperty('student_year', $class);	
+			
+			$agentTypeB =& new Type("CourseManagement", "edu.middlebury", "student");
+			$agentB =& $agentHandler->createAgent("jood8", $agentTypeB, $propertiesB);
+			
+			// Create new student 3
+			$this->write(2,"Magda");
+			$propertiesTypeC =& new Type("CourseManagement", "edu.middlebury", "student");
+			$propertiesC =& new HarmoniProperties($propertiesTypeC);
+			$name = "Magdalena Widjaja";
+			$propertiesC->addProperty('student_name', $name);
+			$propertiesC->addProperty('student_year', $class);	
+			
+			$agentTypeC =& new Type("CourseManagement", "edu.middlebury", "student");
+			$agentC =& $agentHandler->createAgent("Mags", $agentTypeC, $propertiesC);
+			
+			$agentIdA =& $agentA->getId();
+			$agentIdB =& $agentB->getId();
+			$agentIdC =& $agentC->getId();
+			
+			$agents = [$agentIdA, $agentIdB, $agentIdC];
+			
+			$start = "September 11, 2006";
+			$end = "December 20, 2006";
+			$schedulingItem = $scheduling->createScheduleItem("Fall 2006", "2006-2007", $agents, $start, $end);
+			$availableTimes = $scheduling->getAvailableTime($agents, $start, $end);
         }
 		
 		
