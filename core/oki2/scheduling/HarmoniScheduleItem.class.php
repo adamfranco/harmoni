@@ -180,7 +180,7 @@ extends ScheduleItem
      * @access public
      */
     function updateStatus ( &$status ) { 
-       $this->setType('item_stat', $description);
+       $this->setType('item_stat', $status);
     } 
 
     /**

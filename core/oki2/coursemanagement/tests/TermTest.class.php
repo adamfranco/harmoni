@@ -99,10 +99,12 @@
 			
 			$agents = [$agentIdA, $agentIdB, $agentIdC];
 			
-			$start = "September 11, 2006";
-			$end = "December 20, 2006";
-			$schedulingItem = $scheduling->createScheduleItem("Fall 2006", "2006-2007", $agents, $start, $end);
-			$availableTimes = $scheduling->getAvailableTime($agents, $start, $end);
+			$start = 152698841;
+			$end = 152898541;
+			$schedulingItemA =& $scheduling->createScheduleItem("Fall 2006", "2006-2007", $agents, $start, $end);
+			$schedulingItemB =& $scheduling->getScheduleItem($schedulingItemA->getId());
+			
+			$availableTimes =& $scheduling->getAvailableTimes($agents, $start, $end);
         }
 		
 		
