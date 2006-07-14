@@ -42,14 +42,14 @@ extends Timespan
 	 * @access public
 	 * @return void
 	 */
-	function HarmoniTimespan($_start, $_end)
+	function HarmoniTimespan($start, $end)
 	{
 		
 		if($start>$end){
 			throwError(new Error(SchedulingException::END_BEFORE_START(), "HarmoniTimeSpan", true));
 		}
-		$this->_start = $_start;
-		$this->_end = $_end;
+		$this->_start = $start;
+		$this->_end = $end;
 		
 	}
 	

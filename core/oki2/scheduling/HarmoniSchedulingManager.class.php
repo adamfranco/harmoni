@@ -264,36 +264,43 @@ class HarmoniSchedulingManager
 		$dbHandler =& Services::getService("DBHandler");
 		$query=& new SelectQuery;
 		$query->addTable('sc_item');
-		$query->addColumn('id');
-
-		$where .= "AND (end >= ".addslashes($start)."'";
-		$where .= "OR start <= ".addslashes($end)."') AND (";
+		$query->addTable('sc_commit', INNER_JOIN, "sc_item.id=sc_commit.fk_sc_item");
+		$query->addColumn('sc_item.id');
+		
+		$where = "(end >= '".addslashes($start)."'";
+		$where .= " OR start <= '".addslashes($end)."') AND (";
 		$firstElement =true;
-		foreach($agents as $agent){
-			if($firstElement){
-				$firstElement=false;
+		foreach($agents as $agentId){
+			if(!$firstElement){			
 				$where .= " OR ";
+			}else{
+			  	$firstElement=false;
 			}
-			$id =& $agent->getId();
-			$where .= ("'".addslashes($id->getIdString())."'=fk_agent_id");
+			
+		
+			$where .= ("sc_commit.fk_agent_id='".addslashes($agentId->getIdString())."'");
 		}
 		
 		$where .= ")";
+		$query->addOrderBy('sc_item.id');
 		$query->addWhere($where);
 		$res=& $dbHandler->query($query);
 
 		//find times not conflictted by these items
 		$array[$start] = new HarmoniTimeSpan($start,$end);
 		$idManager =& Services::getService("IdManager");
+		
+		$lastId = "";
 		while($res->hasMoreRows()){
-			
-			
-			
 			$row = $res->getCurrentRow();
-			$res->advanceRow();
-			$id =& $idManager->getId($row['id']);
-			$item =& $this->getScheduleItem($id);
-			$array = $this->_restrict($array,$item);
+			$res->advanceRow();			
+			$idString = $row['id'];
+			if($lastId!=$idString){
+				$id =& $idManager->getId($idString);
+				$item =& $this->getScheduleItem($id);
+				$array = $this->_restrict($array,$item);
+				$lastId=$idString;
+			}
 		}
 		
 		ksort($array);
@@ -380,7 +387,7 @@ class HarmoniSchedulingManager
      * @access public
      */
     function &getScheduleItem ( &$scheduleItemId ) {      
-		$ret =& new HarmoniCanonicalCourse($canonicalCourseId, $node);
+		$ret =& new HarmoniScheduleItem($scheduleItemId);
 		return $ret;
     } 
 

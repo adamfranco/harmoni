@@ -103,6 +103,7 @@
 			$end = 600;
 			$scheduleA =& $scheduling->createScheduleItem("Fall 2006", "2006-2007", $agents, $start, $end, null);
 			$scheduleB =& $scheduling->getScheduleItem($scheduleA->getId());
+			$schedule = array($scheduleA);
 			
 			$this->write(5, "get times");
 			
@@ -118,7 +119,7 @@
 			$this->assertEqual($scheduleA->getEnd(), $scheduleB->getEnd());
 			
 			$termType =& new Type("CourseManagement", "edu.middlebury", "Fall 2006");
-			$termA =& $cmm->createTerm($termType, $schedulingItemA);
+			$termA =& $cmm->createTerm($termType, $schedule);
 			$termB =& $cmm->getTerm($termA->getId());
 			
 			$this->assertEqualTypes($termA->getType(), $termB->getType());
@@ -126,14 +127,16 @@
 			$scheduleIterator =& $termA->getSchedule();
 			
 			$this->assertTrue($scheduleIterator->hasNextScheduleItem());
-			$scheduleC =& $scheduleIterator->nextScheduleItem();
-			$this->assertTrue(!$scheduleIterator->hasNextScheduleItem());
+			if ($scheduleIterator->hasNextScheduleItem()) {
+				$scheduleC =& $scheduleIterator->nextScheduleItem();
+				$this->assertTrue(!$scheduleIterator->hasNextScheduleItem());
 			
-			$this->assertEqual($scheduleA->getDisplayName(), $scheduleC->getDisplayName());
-			$this->assertEqual($scheduleA->getDescription(), $scheduleC->getDescription());
-			$this->assertEqual($scheduleA->getAgents(), $scheduleC->getAgents());
-			$this->assertEqual($scheduleA->getStart(), $scheduleC->getStart());
-			$this->assertEqual($scheduleA->getEnd(), $scheduleC->getEnd());
+				$this->assertEqual($scheduleA->getDisplayName(), $scheduleC->getDisplayName());
+				$this->assertEqual($scheduleA->getDescription(), $scheduleC->getDescription());
+				$this->assertEqual($scheduleA->getAgents(), $scheduleC->getAgents());
+				$this->assertEqual($scheduleA->getStart(), $scheduleC->getStart());
+				$this->assertEqual($scheduleA->getEnd(), $scheduleC->getEnd());
+			}
 			
 			$scheduling->deleteScheduleItem($scheduleA->getId());
         }
