@@ -426,13 +426,13 @@ extends ScheduleItem
 	
 
 			$query=& new SelectQuery;
-			$query->setTable('sc_commit');
+			$query->addTable('sc_commit');
 			$query->addColumn('id');
 			$query->addWhere("fk_sc_item='".addslashes($this->_id->getIdString())."'");
 
 
 			$res=& $dbHandler->query($query);
-			$idManager =& Services::getService("id");
+			$idManager =& Services::getService("Id");
 			while($res->hasMoreRows()){
 				$row =& $res->getCurrentRow();
 				$res->advanceRow();

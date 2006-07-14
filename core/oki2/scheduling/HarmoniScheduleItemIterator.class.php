@@ -25,7 +25,7 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @package org.osid.scheduling
  */
 class HarmoniScheduleItemIterator
-extends ScheduleItemIterator
+extends HarmoniIterator
 {
     /**
      * Return true if there is an additional  ScheduleItem ; false otherwise.

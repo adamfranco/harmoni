@@ -6,7 +6,7 @@
 * @copyright Copyright &copy; 2006, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.30 2006/07/12 19:32:57 jwlee100 Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.31 2006/07/14 16:33:10 jwlee100 Exp $
 */
 
 require_once(OKI2."/osid/coursemanagement/CourseManagementManager.php");
@@ -100,7 +100,7 @@ require_once(HARMONI."oki2/coursemanagement/TermIterator.class.php");
 * @copyright Copyright &copy; 2005, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.30 2006/07/12 19:32:57 jwlee100 Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.31 2006/07/14 16:33:10 jwlee100 Exp $
 */
 class HarmoniCourseManagementManager
 extends CourseManagementManager
@@ -700,6 +700,9 @@ extends CourseManagementManager
 	* @access public
 	*/
 	function &createTerm ( &$termType, &$schedule ) {
+	  
+	  print "John";
+	  
 		$idManager =& Services::getService("IdManager");
 		$id=$idManager->createId();
 
@@ -722,6 +725,7 @@ extends CourseManagementManager
 		$dbManager->query($query);
 
 		$ret =& new HarmoniTerm($id);
+		print "Lee";
 		return $ret;
 	}
 
