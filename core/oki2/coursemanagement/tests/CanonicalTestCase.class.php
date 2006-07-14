@@ -259,7 +259,7 @@
 		//This method only works if the items have a getDisplaName() method.
 		//Relies extensively on weak typing
 		function iteratorHas($iter, $name){
-			$bool=false;
+			/*$bool=false;
 			print "(";
 			while($iter->hasNext()){
 				
@@ -272,8 +272,8 @@
 				}
 			print ")";
 			print "has ".$name."? --> ".$bool;
-				return $bool;
-			/*
+				return $bool;*/
+			
 				while($iter->hasNext()){
 					//$am =& Services::GetService("AgentManager");
 					$item =& $iter->next();
@@ -281,7 +281,7 @@
 						return true;
 					}
 				}
-				return false;*/
+				return false;
 		}
     }
 ?>

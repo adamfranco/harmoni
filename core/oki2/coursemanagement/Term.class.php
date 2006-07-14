@@ -15,7 +15,7 @@ require_once(OKI2."/osid/coursemanagement/Term.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Term.class.php,v 1.14 2006/07/14 16:33:10 jwlee100 Exp $
+ * @version $Id: Term.class.php,v 1.15 2006/07/14 19:39:23 sporktim Exp $
  */
 class HarmoniTerm
 	extends Term
@@ -173,13 +173,13 @@ class HarmoniTerm
 	 * @access public
 	 */
 	function &getSchedule () { 
-		$dbHandler =& Services::getService("DBHandler");
+		$dbManager =& Services::getService("DatabaseManager");
 		$query=& new SelectQuery;
 		$query->addTable('cm_schedule');
 		$query->addColumn('fk_sc_item');
 		$query->addWhere("fk_id='".addslashes($this->_id->getIdString())."'");
 		//$query->addOrderBy
-		$res=& $dbHandler->query($query);
+		$res=& $dbManager->query($query);
 		$array=array();
 		$sm =& Services::getService("SchedulingManager");
 		$idManager =& Services::getService("IdManager");

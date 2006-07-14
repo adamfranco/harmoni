@@ -124,7 +124,7 @@
 			$enrollmentStatusTypeB =& new Type("CourseManagement", "edu.middlebury", "Audited");
 			
 			$this->write(5,"Making students");
-			$this->write(2,"SporkTim");
+			//$this->write(2,"SporkTim");
 			// Create new student 1
 			$propertiesTypeA =& new Type("CourseManagement", "edu.middlebury", "student");
 			$propertiesA =& new HarmoniProperties($propertiesTypeA);
@@ -138,7 +138,7 @@
 			$agentA =& $agentHandler->createAgent("Gladius", $agentTypeA, $propertiesA);
 			
 			// Create new student 2
-			$this->write(2,"John");
+			//$this->write(2,"John");
 			$propertiesTypeB =& new Type("CourseManagement", "edu.middlebury", "student");
 			$propertiesB =& new HarmoniProperties($propertiesTypeB);
 			$name = "John Lee";
@@ -149,7 +149,7 @@
 			$agentB =& $agentHandler->createAgent("jood8", $agentTypeB, $propertiesB);
 			
 			// Create new student 3
-			$this->write(2,"Magda");
+			//$this->write(2,"Magda");
 			$propertiesTypeC =& new Type("CourseManagement", "edu.middlebury", "student");
 			$propertiesC =& new HarmoniProperties($propertiesTypeC);
 			$name = "Magdalena Widjaja";
@@ -169,9 +169,9 @@
 			$courseSectionA->addStudent($agentIdB, $enrollmentStatusTypeB);
 			$courseSectionA->addStudent($agentIdC, $enrollmentStatusTypeA);
 			
-			$this->write(3, "getRoster");
+			//$this->write(3, "getRoster");
 			$roster = $courseSectionA->getRoster();
-			$this->printRoster($roster);
+			//$this->printRoster($roster);
 			
 			$this->assertTrue($this->enrollmentIteratorHasStudent($roster,"Mags"));
 			$this->assertTrue($this->enrollmentIteratorHasStudent($roster,"jood8"));
@@ -179,17 +179,17 @@
 			
 			$this->write(5, "getRosterByType");
 			// Should print Tim and Mag		
-			$this->write(3, "registerRoster");	
+			//$this->write(3, "registerRoster");	
 			$registerRoster = $courseSectionA->getRosterByType($enrollmentStatusTypeA);		
-			$this->printRoster($roster);			
+			//$this->printRoster($roster);			
 			$this->assertTrue($this->enrollmentIteratorHasStudent($registerRoster,"Mags"));
 			$this->assertTrue(!$this->enrollmentIteratorHasStudent($registerRoster,"jood8"));
 			$this->assertTrue($this->enrollmentIteratorHasStudent($registerRoster,"Gladius"));
 			
 			// Should print only John
-			$this->write(3, "auditRoster");
+			//$this->write(3, "auditRoster");
 			$auditRoster = $courseSectionA->getRosterByType($enrollmentStatusTypeB);
-			$this->printRoster($roster);
+			//$this->printRoster($roster);
 			$this->assertTrue(!$this->enrollmentIteratorHasStudent($auditRoster,"Mags"));
 			$this->assertTrue($this->enrollmentIteratorHasStudent($auditRoster,"jood8"));
 			$this->assertTrue(!$this->enrollmentIteratorHasStudent($auditRoster,"Gladius"));
@@ -198,17 +198,17 @@
 			$courseSectionA->changeStudent($agentIdA, $enrollmentStatusTypeB);
 			
 			// Should print only Mag
-			$this->write(3, "registerRoster");
+			//$this->write(3, "registerRoster");
 			$registerRoster = $courseSectionA->getRosterByType($enrollmentStatusTypeA);
-			$this->printRoster($roster);
+			//$this->printRoster($roster);
 			$this->assertTrue($this->enrollmentIteratorHasStudent($registerRoster,"Mags"));
 			$this->assertTrue(!$this->enrollmentIteratorHasStudent($registerRoster,"jood8"));
 			$this->assertTrue(!$this->enrollmentIteratorHasStudent($registerRoster,"Gladius"));
 						
 			// Should print Tim and John
-			$this->write(3, "auditRoster");
+			//$this->write(3, "auditRoster");
 			$auditRoster = $courseSectionA->getRosterByType($enrollmentStatusTypeB);
-			$this->printRoster($roster);
+			//$this->printRoster($roster);
 			$this->assertTrue(!$this->enrollmentIteratorHasStudent($auditRoster,"Mags"));
 			$this->assertTrue($this->enrollmentIteratorHasStudent($auditRoster,"jood8"));
 			$this->assertTrue($this->enrollmentIteratorHasStudent($auditRoster,"Gladius"));
@@ -216,7 +216,7 @@
 			$this->write(5, "remove student");
 			$courseSectionA->removeStudent($agentIdA);
 			$roster =& $courseSectionA->getRoster();
-			$this->printRoster($roster);
+			//$this->printRoster($roster);
 			$this->assertTrue($this->enrollmentIteratorHasStudent($roster,"Mags"));
 			$this->assertTrue($this->enrollmentIteratorHasStudent($roster,"jood8"));
 			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,"Gladius"));
@@ -231,7 +231,7 @@
 			$this->write(5, "remove one more student");
 			$courseSectionA->removeStudent($agentIdC);
 			$roster =& $courseSectionA->getRoster();
-			$this->printRoster($roster);
+			//$this->printRoster($roster);
 			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,"Mags"));
 			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,"jood8"));
 			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,"Gladius"));

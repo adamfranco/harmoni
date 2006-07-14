@@ -24,7 +24,7 @@ require_once(OKI2."/osid/coursemanagement/CourseOffering.php");
 * @copyright Copyright &copy; 2005, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseOffering.class.php,v 1.18 2006/07/06 18:33:53 sporktim Exp $
+* @version $Id: CourseOffering.class.php,v 1.19 2006/07/14 19:39:23 sporktim Exp $
 */
 class HarmoniCourseOffering
 extends CourseOffering
@@ -517,35 +517,30 @@ extends CourseOffering
 	* @access public
 	*/
 	function &createCourseSection ( $title, $number, $description, &$sectionType, &$sectionStatusType, &$location ) {
-
+		//prepare
 		$idManager =& Services::getService("IdManager");
 		$id=$idManager->createId();
-
-
 		$type =& new Type("CourseManagement","edu.middlebury", "CourseSection");
+		$dbManager=& Services::getService("DatabaseManager");
+		
+		//make node		
 		$node=&$this->_hierarchy->createNode($id,$this->_id,$type,$title,$description);
-
-		$dbManager=& Services::getService("DBHandler");
+		
+		//query
 		$query=& new InsertQuery;
-
 		$query->setTable('cm_section');
-
 		$query->setColumns(array('id','location','schedule','fk_cm_section_type','fk_cm_section_stat_type','title','number'));
-
 		$values[]="'".addslashes($id->getIdString())."'";
-		$values[]="'".addslashes($location)."'";
+		$values[]="'".addslashes("".$location)."'";
 		$values[]="'unimplemented'";
 		$values[]="'".$this->_typeToIndex('section',$sectionType)."'";
 		$values[]="'".$this->_typeToIndex('section_stat',$sectionStatusType)."'";
 		$values[]="'".addslashes($title)."'";
 		$values[]="'".addslashes($number)."'";
-
 		$query->addRowOfValues($values);
-
-
-
 		$dbManager->query($query);
-
+		
+		//create object
 		$ret =& new HarmoniCourseSection($id, $node);
 		return $ret;
 	}
@@ -574,20 +569,13 @@ extends CourseOffering
 	*
 	* @access public
 	*/
-	function deleteCourseSection ( &$courseSectionId ) {
-	  	
+	function deleteCourseSection ( &$courseSectionId ) {	  	
 		$this->_hierarchy->deleteNode($courseSectionId);
-
-
-
-		$dbHandler =& Services::getService("DBHandler");
+		$dbManager =& Services::getService("DatabaseManager");
 		$query=& new DeleteQuery;
-
-
 		$query->setTable('cm_section');
-
 		$query->addWhere("id=".addslashes($courseSectionId->getIdString()));
-		$dbHandler->query($query);
+		$dbManager->query($query);
 	}
 
 	/**
@@ -624,13 +612,13 @@ extends CourseOffering
 		$ret =& new  HarmoniCourseSectionIterator($array);
 		return $ret;
 
-		/*$dbHandler =& Services::getService("DBHandler");
+		/*$dbManager =& Services::getService("DatabaseManager");
 		$query=& new SelectQuery;
 
 
 		$query->addTable('cm_section');
 		$query->addColumn('id');
-		$res=& $dbHandler->query($query);
+		$res=& $dbManager->query($query);
 
 		$array = array();
 		$idManager= & Services::getService("IdManager");
@@ -697,14 +685,14 @@ extends CourseOffering
 		$cm= & Services::getService("CourseManagement");
 		$typeIndex=$cm->_typeToIndex('section',$sectionType);
 
-		$dbHandler =& Services::getService("DBHandler");
+		$dbManager =& Services::getService("DatabaseManager");
 		$query=& new SelectQuery;
 
 
 		$query->addTable('cm_sectopn');
 		$query->addColumn('id');
 		$query->addWhere("fk_cm_section_type='".addslashes($typeIndex)."'");
-		$res=& $dbHandler->query($query);
+		$res=& $dbManager->query($query);
 
 		$array = array();
 		$idManager= & Services::getService("IdManager");
@@ -748,12 +736,12 @@ extends CourseOffering
 	*/
 	function addAsset ( &$assetId ) {
 		
-	$dbHandler =& Services::getService("DBHandler");
+	$dbManager =& Services::getService("DatabaseManager");
 		$query=& new SelectQuery;
 		$query->addTable('cm_asset');
 		$query->addWhere("fk_course_id='".$this->_id->getIdString()."'");
 		$query->addWhere("fk_asset_id='".addslashes($assetId->getIdString())."'");
-		$res=& $dbHandler->query($query);
+		$res=& $dbManager->query($query);
 
 
 
@@ -764,7 +752,7 @@ extends CourseOffering
 			$values[]="'".addslashes($assetId->getIdString())."'";	
 			$query->setColumns(array('fk_course_id','fk_asset_id'));			
 			$query->addRowOfValues($values);			
-			$result =& $dbHandler->query($query);
+			$result =& $dbManager->query($query);
 		}elseif($res->getNumberOfRows()==1){
 			//do nothing
 		}else{
@@ -799,12 +787,12 @@ extends CourseOffering
 	* @access public
 	*/
 	function removeAsset ( &$assetId ) {
-		$dbHandler =& Services::getService("DBHandler");
+		$dbManager =& Services::getService("DatabaseManager");
 		$query=& new DeleteQuery;
 		$query->addTable('cm_asset');
 		$query->addWhere("fk_course_id='".$this->_id->getIdString()."'");
 		$query->addWhere("fk_asset_id='".addslashes($assetId->getIdString())."'");
-		$dbHandler->query($query);
+		$dbManager->query($query);
 	}
 
 	/**
@@ -830,12 +818,12 @@ extends CourseOffering
 	function &getAssets () {
 		
 		
-		$dbHandler =& Services::getService("DBHandler");
+		$dbManager =& Services::getService("DatabaseManager");
 		$query=& new SelectQuery;
 		$query->addTable('cm_asset');
 		$query->addWhere("fk_course_id='".$this->_id->getIdString()."'");
 		$query->addColumn('fk_asset_id');
-		$res=& $dbHandler->query($query);
+		$res=& $dbManager->query($query);
 		$array=array();
 		$idManager =& Services::getService("Id");
 		while($res->hasMoreRows()){
@@ -910,6 +898,9 @@ extends CourseOffering
 	* Add a student to the roster and assign the specified Enrollment Status
 	* Type.
 	*
+	* This method makes little sense in the context of CourseOffering and
+	* remains unimplemented.  Use CourseSections addStudent() instead.
+	*
 	* @param object Id $agentId
 	* @param object Type $enrollmentStatusType
 	*
@@ -939,7 +930,10 @@ extends CourseOffering
 	}
 
 	/**
-	* Change the Enrollment Status Type for the student on the roster.
+	* Change the Enrollment Status Type for the student on the roster.   
+	*
+	* This method makes little sense in the context of CourseOffering and
+	* remains unimplemented.  Use CourseSections changeStudent() instead.
 	*
 	* @param object Id $agentId
 	* @param object Type $enrollmentStatusType
@@ -968,7 +962,7 @@ extends CourseOffering
 	}
 
 	/**
-	* Remove a student from the roster.
+	* Remove a student from all of the course sections of this offering. 
 	*
 	* @param object Id $agentId
 	*
@@ -992,7 +986,11 @@ extends CourseOffering
 	* @access public
 	*/
 	function removeStudent ( &$agentId ) {
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseOffering", true));
+		$courseSections =& getCourseSections();
+		while ($courseSections->hasNextCourseSection()) {
+			$courseSection =& $courseSections->nextCourseSection();
+			$courseSection->removeStudent($agentId);			
+		}
 	}
 
 	/**
@@ -1019,7 +1017,7 @@ extends CourseOffering
 
 
 
-		$dbHandler =& Services::getService("DBHandler");
+		$dbManager =& Services::getService("DatabaseManager");
 
 		$array=array();
 
@@ -1036,7 +1034,7 @@ extends CourseOffering
 			$query->addWhere("fk_cm_section='".addslashes($sectionId->getIdString())."'");
 
 
-			$res=& $dbHandler->query($query);
+			$res=& $dbManager->query($query);
 			$idManager =& Services::getService('IdManager');
 			while($res->hasMoreRows()){
 				$row = $res->getCurrentRow();
@@ -1077,7 +1075,7 @@ extends CourseOffering
 	* @access public
 	*/
 	function &getRosterByType ( &$enrollmentStatusType ) {
-		$dbHandler =& Services::getService("DBHandler");
+		$dbManager =& Services::getService("DatabaseManager");
 
 		$array=array();
 
@@ -1096,7 +1094,7 @@ extends CourseOffering
 			$query->addWhere("fk_cm_section='".addslashes($sectionId->getIdString())."' AND fk_enroll_stat_type='".addslashes($typeIndex)."'");
 
 
-			$res=& $dbHandler->query($query);
+			$res=& $dbManager->query($query);
 			$idManager =& Services::getService('IdManager');
 			while($res->hasMoreRows()){
 				$row = $res->getCurrentRow();
@@ -1150,14 +1148,14 @@ extends CourseOffering
 	
 	function &_getProperties(){
 		
-		$dbHandler =& Services::getService("DBHandler");
+		$dbManager =& Services::getService("DatabaseManager");
 		
 		//get the record
 		$query =& new SelectQuery;
 		$query->addTable('cm_offer');
 		$query->addColumn("*");
 		$query->addWhere("id='".addslashes($this->_id->getIdString())."'");				
-		$res=& $dbHandler->query($query);
+		$res=& $dbManager->query($query);
 		
 		//make a type
 		$courseType =& $this->getOfferingeType();	

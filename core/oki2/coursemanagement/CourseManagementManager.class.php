@@ -6,7 +6,7 @@
 * @copyright Copyright &copy; 2006, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.31 2006/07/14 16:33:10 jwlee100 Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.32 2006/07/14 19:39:23 sporktim Exp $
 */
 
 require_once(OKI2."/osid/coursemanagement/CourseManagementManager.php");
@@ -100,7 +100,7 @@ require_once(HARMONI."oki2/coursemanagement/TermIterator.class.php");
 * @copyright Copyright &copy; 2005, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.31 2006/07/14 16:33:10 jwlee100 Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.32 2006/07/14 19:39:23 sporktim Exp $
 */
 class HarmoniCourseManagementManager
 extends CourseManagementManager
@@ -287,7 +287,7 @@ extends CourseManagementManager
 		$type =& new Type("CourseManagement","edu.middlebury", "CanonicalCourse");
 		$node =& $this->_hierarchy->createNode($id,$this->_canonicalCoursesId,$type,$title,$description);
 
-		$dbManager=& Services::getService("DBHandler");
+		$dbManager=& Services::getService("DatabaseManager");
 		$query=& new InsertQuery;
 
 		$query->setTable('cm_can');
@@ -346,11 +346,11 @@ extends CourseManagementManager
 	$this->_hierarchy->deleteNode($canonicalCourseId);
 
 
-	$dbHandler =& Services::getService("DBHandler");
+	$dbManager =& Services::getService("DatabaseManager");
 	$query=& new DeleteQuery;
 	$query->setTable('cm_can');
 	$query->addWhere("id=".addslashes($canonicalCourseId->getIdString()));
-	$dbHandler->query($query);
+	$dbManager->query($query);
 	}
 
 	/**
@@ -376,14 +376,14 @@ extends CourseManagementManager
 	function &getCanonicalCourses () {
 
 
-		$dbHandler =& Services::getService("DBHandler");
+		$dbManager =& Services::getService("DatabaseManager");
 		$idManager =& Services::getService("Id");
 		$query=& new SelectQuery;
 
 
 		$query->addTable('cm_can');
 		$query->addColumn('id');
-		$res=& $dbHandler->query($query);
+		$res=& $dbManager->query($query);
 
 		$canonicalCourseArray = array();
 
@@ -465,12 +465,12 @@ extends CourseManagementManager
 		$typeIndex = $this->_typeToIndex('can',$courseType);
 
 		//get all canonical courses with the appropriate type
-		$dbHandler =& Services::getService("DBHandler");
+		$dbManager =& Services::getService("DatabaseManager");
 		$query=& new SelectQuery;
 		$query->addTable('cm_can');
 		$query->addColumn('id');
 		$query->addWhere("fk_cm_can_type='".addslashes($typeIndex)."'");
-		$res=& $dbHandler->query($query);
+		$res=& $dbManager->query($query);
 
 		//convert results to array of Canonical Courses
 		$canonicalCourseArrayByType = array();
@@ -588,14 +588,14 @@ extends CourseManagementManager
 	function &getCourseSections ( &$agentId ) {
 
 
-		$dbHandler =& Services::getService("DBHandler");
+		$dbManager =& Services::getService("DatabaseManager");
 		$query=& new SelectQuery;
 		$query->addTable('cm_enroll');
 		$query->addColumn('fk_cm_section');
 		$query->addWhere("fk_student_id='".addslashes($agentId->getIdString())."'");
 
 
-		$res=& $dbHandler->query($query);
+		$res=& $dbManager->query($query);
 		$array=array();
 		$idManager =& Services::getService('IdManager');
 		while($res->hasMoreRows()){
@@ -640,14 +640,14 @@ extends CourseManagementManager
 
 
 
-		$dbHandler =& Services::getService("DBHandler");
+		$dbManager =& Services::getService("DatabaseManager");
 		$query=& new SelectQuery;
 		$query->addTable('cm_enroll');
 		$query->addColumn('fk_cm_section');
 		$query->addWhere("fk_student_id='".addslashes($agentId->getIdString())."'");
 
 
-		$res=& $dbHandler->query($query);
+		$res=& $dbManager->query($query);
 		$array=array();
 		$idManager =& Services::getService('IdManager');
 		while($res->hasMoreRows()){
@@ -709,7 +709,7 @@ extends CourseManagementManager
 
 
 
-		$dbManager=& Services::getService("DBHandler");
+		$dbManager=& Services::getService("DatabaseManager");
 		$query=& new InsertQuery;
 
 		$query->setTable('cm_term');
@@ -756,11 +756,11 @@ extends CourseManagementManager
 	function deleteTerm ( &$termId ) {
 
 
-		$dbHandler =& Services::getService("DBHandler");
+		$dbManager =& Services::getService("DatabaseManager");
 		$query=& new DeleteQuery;
 		$query->setTable('cm_term');
 		$query->addWhere("id=".addslashes($termId->getIdString()));
-		$dbHandler->query($query);
+		$dbManager->query($query);
 
 	}
 
@@ -818,11 +818,11 @@ extends CourseManagementManager
 	*/
 	function &getTerms () {
 
-		$dbHandler =& Services::getService("DBHandler");
+		$dbManager =& Services::getService("DatabaseManager");
 		$query=& new SelectQuery;
 		$query->addTable('cm_term');
 		$query->addColumn('id');
-		$res=& $dbHandler->query($query);
+		$res=& $dbManager->query($query);
 		$array=array();
 		$idManager =& Services::getService('IdManager');
 		while($res->hasMoreRows()){
@@ -836,6 +836,9 @@ extends CourseManagementManager
 
 	/**
 	* Get all the Terms that contain this date.
+	*
+	* The implementation is probably pretty slow.  If I was convinced it was more useful,
+	* I might make it faster.
 	*
 	* @param int $date
 	*
@@ -857,7 +860,31 @@ extends CourseManagementManager
 	* @access public
 	*/
 	function &getTermsByDate ( $date ) {
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseManagementManager", true));
+		$terms =&$this->getTerms();
+		$array = arrray();
+		//iterate through all terms
+		while($terms->hasNextTerm()){
+			$term=&$terms->nextTerm();			
+			$scheduleItems =& $term->getSchedule();
+			
+			//iterate through all ScheduleItems
+			while($scheduleItems->hasNextScheduleItem()){
+				$scheduleItem =& $scheduleItems->nextScheduleItem();			
+				$start = $scheduleItem->getStart();
+				$end = $scheduleItem->getEnd();
+				
+				//if we found a ScheduleItem that overlaps, add it to the array
+				if($date>=$start && $date<=$end){
+					$array[] =& $term;
+					break;
+				}	
+			}
+			
+		}
+		
+		//make iterator
+		$ret =& new HarmoniTermIterator();
+		return $ret;
 	}
 
 	/**
@@ -1130,7 +1157,7 @@ extends CourseManagementManager
 		
 
 
-		$dbManager=& Services::getService("DBHandler");
+		$dbManager=& Services::getService("DatabaseManager");
 		$query=& new InsertQuery;
 
 		$query->setTable('cm_grade_rec');
@@ -1180,14 +1207,14 @@ extends CourseManagementManager
 	function deleteCourseGradeRecord ( &$courseGradeRecordId ) {
 			
 
-	$dbHandler =& Services::getService("DBHandler");
+	$dbManager =& Services::getService("DatabaseManager");
 	$query=& new DeleteQuery;
 
 
 	$query->setTable('cm_grade_rec');
 
 	$query->addWhere("id=".addslashes($courseGradeRecordId->getIdString()));
-	$dbHandler->query($query);
+	$dbManager->query($query);
 	}
 
 	/**
@@ -1224,7 +1251,7 @@ extends CourseManagementManager
 	function &getCourseGradeRecords ( &$agentId, &$courseOfferingId, &$courseGradeType ) {
 		
 
-		$dbHandler =& Services::getService("DBHandler");
+		$dbManager =& Services::getService("DatabaseManager");
 		$query=& new SelectQuery;
 
 
@@ -1248,7 +1275,7 @@ extends CourseManagementManager
 		
 		
 		
-		$res =& $dbHandler->query($query);
+		$res =& $dbManager->query($query);
 
 		$array = array();
 		$idManager= & Services::getService("IdManager");
@@ -1541,14 +1568,14 @@ extends CourseManagementManager
 
 
 	function &_getTypes($typename){
-		$dbHandler =& Services::getService("DBHandler");
+		$dbManager =& Services::getService("DatabaseManager");
 		$query=& new SelectQuery;
 		$query->addTable('cm_'.$typename."_type");
 		$query->addColumn('domain');
 		$query->addColumn('authority');
 		$query->addColumn('keyword');
 		$query->addColumn('description');
-		$res=& $dbHandler->query($query);
+		$res=& $dbManager->query($query);
 		$array=array();
 		while($res->hasMoreRows()){
 			$row = $res->getCurrentRow();
@@ -1573,7 +1600,7 @@ extends CourseManagementManager
 	}
 	
 	function &_indexToType($index, $typename){
-		$dbHandler =& Services::getService("DBHandler");
+		$dbManager =& Services::getService("DatabaseManager");
 		$query=& new SelectQuery;
 		$query->addTable('cm_'.$typename."_type");
 		$query->addWhere("id=".$index);
@@ -1581,7 +1608,7 @@ extends CourseManagementManager
 		$query->addColumn('authority');
 		$query->addColumn('keyword');
 		$query->addColumn('description');
-		$res=& $dbHandler->query($query);
+		$res=& $dbManager->query($query);
 		$row = $res->getCurrentRow();
 		if(is_null($row['description'])){
 			$the_type =& new Type($row['domain'],$row['authority'],$row['keyword']);
@@ -1596,14 +1623,14 @@ extends CourseManagementManager
 
 		ArgumentValidator::validate($type, ExtendsValidatorRule::getRule("Type"), true);
 		
-		$dbHandler =& Services::getService("DBHandler");
+		$dbManager =& Services::getService("DatabaseManager");
 		$query=& new SelectQuery;
 		$query->addTable('cm_'.$typename."_type");
 		$query->addWhere("domain='".addslashes($type->getDomain())."'");
 		$query->addWhere("authority='".addslashes($type->getAuthority())."'");
 		$query->addWhere("keyword='".addslashes($type->getKeyword())."'");
 		$query->addColumn('id');
-		$res=& $dbHandler->query($query);
+		$res=& $dbManager->query($query);
 
 
 
@@ -1624,7 +1651,7 @@ extends CourseManagementManager
 			$query->setAutoIncrementColumn('id','id_sequence');
 
 
-			$result =& $dbHandler->query($query);
+			$result =& $dbManager->query($query);
 
 			return $result->getLastAutoIncrementValue();
 		}elseif($res->getNumberOfRows()==1){
@@ -1647,7 +1674,7 @@ extends CourseManagementManager
 
 	function _setField(&$id, $table, $key, $value)
 	{
-		$dbHandler =& Services::getService("DBHandler");
+		$dbManager =& Services::getService("DatabaseManager");
 		$query=& new UpdateQuery;
 		$query->setTable($table);
 
@@ -1658,7 +1685,7 @@ extends CourseManagementManager
 		$query->setColumns(array(addslashes($key)));
 		$query->setValues(array("'".addslashes($value)."'"));
 
-		$dbHandler->query($query);
+		$dbManager->query($query);
 
 
 	}
@@ -1666,12 +1693,12 @@ extends CourseManagementManager
 	function _getField(&$id, $table, $key)
 	{
 	
-		$dbHandler =& Services::getService("DBHandler");
+		$dbManager =& Services::getService("DatabaseManager");
 		$query=& new SelectQuery;
 		$query->addTable($table);
 		$query->addWhere("id='".addslashes($id->getIdString())."'");
 		$query->addColumn(addslashes($key));
-		$res=& $dbHandler->query($query);		
+		$res=& $dbManager->query($query);		
 		$row = $res->getCurrentRow();	
 		$ret=$row[$key];
 		return $ret;

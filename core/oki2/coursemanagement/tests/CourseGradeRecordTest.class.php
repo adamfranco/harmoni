@@ -53,8 +53,11 @@
 		}
         
         function TestOfCourseGradeRecord() {
-          	$this->write(7, "Course Grade Record Test");
-          
+
+        	
+        	
+        	$this->write(7,"Test of Course Grade Record");
+        	
           	// Create canonical course
         	$cmm =& Services::getService("CourseManagement");
         	$title = "Introduction to Microeconomics";
@@ -164,5 +167,8 @@
 				}
 				return false;*/
 		}
+		
+		
+		
     }
 ?>

@@ -26,7 +26,7 @@ require_once(OKI2."/osid/coursemanagement/CourseSection.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CourseSection.class.php,v 1.16 2006/07/11 17:34:05 sporktim Exp $
+ * @version $Id: CourseSection.class.php,v 1.17 2006/07/14 19:39:23 sporktim Exp $
  */
 class HarmoniCourseSection
 	extends CourseSection
@@ -377,20 +377,23 @@ class HarmoniCourseSection
 	 * @access public
 	 */
 	function &getSchedule () { 
-		$dbHandler =& Services::getService("DBHandler");
+		$dbManager =& Services::getService("DatabaseManager");
 		$query=& new SelectQuery;
 		$query->addTable('cm_schedule');
-		$query->addColumn('fk_sc_item');
-		$query->addWhere("fk_id='".addslashes($this->id->getIdString()).".");
-		$res=& $dbHandler->query($query);
+		$query->addTable('sc_item',INNER_JOIN,'cm_schedule.fk_sc_item = sc_item.id');
+		$query->addColumn('cm_schedule.fk_sc_item');
+		$query->addWhere("cm_schedule.fk_id='".addslashes($this->id->getIdString()).".");
+		$query->orderBy('sc_item.start');
+		$res=& $dbManager->query($query);
 		$array=array();
 		$sm =& Services::getService("SchedulingManager");
 		$idManager =& Services::getService("IdManager");
 		while($res->hasMoreRows()){
 			$row = $res->getCurrentRow();
 			$res->advanceRow();
-			$id =& $idManager->getId($row['id']);
-			$array[] =& $sm->getScheduleItem($id);
+			$id =& $idManager->getId($row['cm_schedule.fk_sc_item']);
+			$si =& $sm->getScheduleItem($id);
+			$array[] =& $si; 
 		}
 		$ret =& new HarmoniScheduleItemIterator($array);
 		return $ret;
@@ -556,12 +559,12 @@ class HarmoniCourseSection
 	 * @access public
 	 */
 	function addAsset ( &$assetId ) { 
-		$dbHandler =& Services::getService("DBHandler");
+		$dbManager =& Services::getService("DatabaseManager");
 		$query=& new SelectQuery;
 		$query->addTable('cm_asset');
 		$query->addWhere("fk_course_id='".$this->_id->getIdString()."'");
 		$query->addWhere("fk_asset_id='".addslashes($assetId->getIdString())."'");
-		$res=& $dbHandler->query($query);
+		$res=& $dbManager->query($query);
 
 
 
@@ -572,7 +575,7 @@ class HarmoniCourseSection
 			$values[]="'".addslashes($assetId->getIdString())."'";	
 			$query->setColumns(array('fk_course_id','fk_asset_id'));			
 			$query->addRowOfValues($values);			
-			$result =& $dbHandler->query($query);
+			$result =& $dbManager->query($query);
 		}elseif($res->getNumberOfRows()==1){
 			//do nothing
 		}else{
@@ -606,12 +609,12 @@ class HarmoniCourseSection
 	 * @access public
 	 */
 	function removeAsset ( &$assetId ) { 
-			$dbHandler =& Services::getService("DBHandler");
+			$dbManager =& Services::getService("DatabaseManager");
 		$query=& new DeleteQuery;
 		$query->setTable('cm_asset');
 		$query->addWhere("fk_course_id='".$this->_id->getIdString()."'");
 		$query->addWhere("fk_asset_id='".addslashes($assetId->getIdString())."'");
-		$dbHandler->query($query);
+		$dbManager->query($query);
 	} 
 
 	/**
@@ -636,12 +639,12 @@ class HarmoniCourseSection
 	 */
 	function &getAssets () { 
 			
-		$dbHandler =& Services::getService("DBHandler");
+		$dbManager =& Services::getService("DatabaseManager");
 		$query=& new SelectQuery;
 		$query->addTable('cm_asset');
 		$query->addWhere("fk_course_id='".$this->_id->getIdString()."'");
 		$query->addColumn('fk_asset_id');
-		$res=& $dbHandler->query($query);
+		$res=& $dbManager->query($query);
 		$array=array();
 		$idManager =& Services::getService("Id");
 		while($res->hasMoreRows()){
@@ -678,7 +681,28 @@ class HarmoniCourseSection
 	 * @access public
 	 */
 	function updateSchedule ( &$scheduleItems ) { 
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseSection", true)); 
+		$dbManager =& Services::getService("DatabaseManager");
+		$query=& new DeleteQuery;
+		$query->setTable('cm_schedule');
+		$query->addWhere('fk_id='.addslashes($this->_id->getIdString()));
+		$dbManager->query($query);
+		
+		
+		//query
+		$query=& new InsertQuery;
+		$query->setTable('cm_schedule');
+		$query->setColumns(array('fk_id','fk_sc_item'));
+		$idString = "'".addslashes($id->getIdString())."'";
+		
+		//iterate through array
+		foreach($scheduleItems as $scheduleItem){
+			$values[]= $idString;
+			$values[]="'".addslashes("".$scheduleItem->getId())."'";
+			$query->addRowOfValues($values);
+		}
+		
+		$dbManager->query($query);
+		
 	} 
 
 	/**
@@ -712,7 +736,7 @@ class HarmoniCourseSection
 	function addStudent ( &$agentId, &$enrollmentStatusType ) { 
 	
 
-		$dbHandler =& Services::getService("DBHandler");
+		$dbManager =& Services::getService("DatabaseManager");
 		$query=& new SelectQuery;
 		$query->addTable('cm_enroll');
 		$query->addWhere("fk_cm_section='".addslashes($this->_id->getIdString())."'");
@@ -720,7 +744,7 @@ class HarmoniCourseSection
 		
 		//I don't need Id, but I need to select something for the query to work
 		$query->addColumn('id');
-		$res=& $dbHandler->query($query);
+		$res=& $dbManager->query($query);
 		if($res->getNumberOfRows()==0){
 			;
 			$typeIndex = $this->_typeToIndex('enroll_stat',$enrollmentStatusType);
@@ -733,7 +757,7 @@ class HarmoniCourseSection
 			$query->setColumns(array('fk_student_id','fk_cm_enroll_stat_type','fk_cm_section'));
 			$query->addRowOfValues($values);
 			$query->setAutoIncrementColumn('id','id_sequence');
-			$dbHandler->query($query);		
+			$dbManager->query($query);		
 		}else{
 			print "<b>Warning!</b> Student with id ".$agentId->getIdString()."is already enrolled in section ".$this->getDisplayName().".";
 		}
@@ -771,7 +795,7 @@ class HarmoniCourseSection
 		
 		$typeIndex = $this->_typeToIndex('enroll_stat',$enrollmentStatusType);
 		
-		$dbHandler =& Services::getService("DBHandler");
+		$dbManager =& Services::getService("DatabaseManager");
 		$query=& new UpdateQuery;
 		$query->setTable('cm_enroll');
 
@@ -783,7 +807,7 @@ class HarmoniCourseSection
 		$query->setColumns(array('fk_cm_enroll_stat_type'));
 		$query->setValues(array("'".addslashes($typeIndex)."'"));
 
-		$dbHandler->query($query);
+		$dbManager->query($query);
 
 
 	} 
@@ -815,7 +839,7 @@ class HarmoniCourseSection
 	function removeStudent ( &$agentId ) { 
 		
 
-		$dbHandler =& Services::getService("DBHandler");
+		$dbManager =& Services::getService("DatabaseManager");
 		$query=& new DeleteQuery;
 
 
@@ -825,7 +849,7 @@ class HarmoniCourseSection
 		$query->addWhere("fk_cm_section='".addslashes($this->_id->getIdString())."'");
 		$query->addWhere("fk_student_id='".addslashes($agentId->getIdString())."'");
 		
-		$dbHandler->query($query);
+		$dbManager->query($query);
 	} 
 
 	/**
@@ -851,7 +875,7 @@ class HarmoniCourseSection
 	function &getRoster () { 
 		
 
-		$dbHandler =& Services::getService("DBHandler");
+		$dbManager =& Services::getService("DatabaseManager");
 
 		$array=array();
 
@@ -864,7 +888,7 @@ class HarmoniCourseSection
 			$query->addWhere("fk_cm_section='".addslashes($this->_id->getIdString())."'");
 
 
-			$res=& $dbHandler->query($query);
+			$res=& $dbManager->query($query);
 			$idManager =& Services::getService('IdManager');
 			while($res->hasMoreRows()){
 				$row = $res->getCurrentRow();
@@ -904,7 +928,7 @@ class HarmoniCourseSection
 	 * @access public
 	 */
 	function &getRosterByType ( &$enrollmentStatusType ) { 
-		$dbHandler =& Services::getService("DBHandler");
+		$dbManager =& Services::getService("DatabaseManager");
 		
 		$typeIndex = $this->_typeToIndex('enroll_stat',$enrollmentStatusType);
 
@@ -919,7 +943,7 @@ class HarmoniCourseSection
 			//$query->addWhere("fk_cm_section='".addslashes($this->_id)."'");
 $query->addWhere("fk_cm_section='".addslashes($this->_id->getIdString())."' AND fk_cm_enroll_stat_type='".addslashes($typeIndex)."'");
 
-			$res=& $dbHandler->query($query);
+			$res=& $dbManager->query($query);
 			$idManager =& Services::getService('IdManager');
 			while($res->hasMoreRows()){
 				$row = $res->getCurrentRow();
@@ -1002,14 +1026,14 @@ $query->addWhere("fk_cm_section='".addslashes($this->_id->getIdString())."' AND 
 	
 	function &_getProperties(){
 		
-		$dbHandler =& Services::getService("DBHandler");
+		$dbManager =& Services::getService("DatabaseManager");
 		
 		//get the record
 		$query =& new SelectQuery;
 		$query->addTable('cm_section');
 		$query->addColumn("*");
 		$query->addWhere("id='".addslashes($this->_id->getIdString())."'");				
-		$res=& $dbHandler->query($query);
+		$res=& $dbManager->query($query);
 		
 		//make a type
 		$courseType =& $this->getSectionType();	
@@ -1036,7 +1060,6 @@ $query->addWhere("fk_cm_section='".addslashes($this->_id->getIdString())."' AND 
 		$property->addProperty('status_type', $statusType->getKeyword());
 		$property->addProperty('location', $row['location']);
 	
-		//add schedule?
 		
 
 		

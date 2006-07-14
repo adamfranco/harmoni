@@ -26,7 +26,7 @@ require_once(HARMONI."oki2/coursemanagement/CanonicalCourseIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CanonicalCourse.class.php,v 1.22 2006/07/10 20:55:38 jwlee100 Exp $
+ * @version $Id: CanonicalCourse.class.php,v 1.23 2006/07/14 19:39:23 sporktim Exp $
  */
 class HarmoniCanonicalCourse
 	extends CanonicalCourse
@@ -377,7 +377,7 @@ class HarmoniCanonicalCourse
 		$type =& new Type("CourseManagement","edu.middlebury", "CanonicalCourse");
 		$node=&$this->_hierarchy->createNode($id,$this->_id,$type,$title,$description);
 
-		$dbManager=& Services::getService("DBHandler");
+		$dbManager=& Services::getService("DatabaseManager");
 		$query=& new InsertQuery;
 
 		$query->setTable('cm_can');
@@ -499,7 +499,7 @@ class HarmoniCanonicalCourse
 		$type =& new Type("CourseManagement","edu.middlebury", "CourseOffering");
 		$node=&$this->_hierarchy->createNode($id,$this->_id,$type,$title,$description);
 
-		$dbManager=& Services::getService("DBHandler");
+		$dbManager=& Services::getService("DatabaseManager");
 		$query=& new InsertQuery;
 
 		$query->setTable('cm_offer');
@@ -565,14 +565,14 @@ class HarmoniCanonicalCourse
 
 
 
-		$dbHandler =& Services::getService("DBHandler");
+		$dbManager =& Services::getService("DatabaseManager");
 		$query=& new DeleteQuery;
 
 
 		$query->setTable('cm_can');
 
 		$query->addWhere("id=".addslashes($courseOfferingId->getIdString()));
-		$dbHandler->query($query);
+		$dbManager->query($query);
 	} 
 
 	/**
@@ -757,7 +757,7 @@ class HarmoniCanonicalCourse
 	 * @access public
 	 */
 	function removeEquivalentCourse ( &$canonicalCourseId ) { 
-		$dbHandler =& Services::getService("DBHandler");
+		$dbManager =& Services::getService("DatabaseManager");
 		$cm =& Services::getService("CourseManagement");
 		
 		$course =& $cm->getCanononicalCourse($canonicalCourseId);		
@@ -779,7 +779,7 @@ class HarmoniCanonicalCourse
 		$query->addTable($this->_table);
 		$query->addColumn('id');
 		$query->addWhere("equivalent = '".$max."'");
-		$res=& $dbHandler->query($query);
+		$res=& $dbManager->query($query);
 		$idManager=& Services::getService('IdManager');
 		while($res->hasMoreRows()){
 			$row = $res->getCurrentRow();
@@ -812,13 +812,13 @@ class HarmoniCanonicalCourse
 	 */
 	function &getEquivalentCourses () { 
 		
-		$dbHandler =& Services::getService("DBHandler");
+		$dbManager =& Services::getService("DatabaseManager");
 		$cm =& Services::getService("CourseManagement");
 		$query=& new SelectQuery;
 		$query->addTable($this->_table);
 		$query->addColumn('id');
 		$query->addWhere("equivalent ='".$this->_getField('equivalent')."'");
-		$res=& $dbHandler->query($query);
+		$res=& $dbManager->query($query);
 		$array=array();
 		$idManager=& Services::getService('IdManager');
 		while($res->hasMoreRows()){
@@ -855,12 +855,12 @@ class HarmoniCanonicalCourse
 	 * @access public
 	 */
 	function addTopic ( $topic ) { 
-		$dbHandler =& Services::getService("DBHandler");
+		$dbManager =& Services::getService("DatabaseManager");
 		$query=& new SelectQuery;
 		$query->addTable('cm_topic');
 		$query->addWhere("fk_cm_can='".$this->_id->getIdString()."'");
 		$query->addWhere("topic='".addslashes($topic)."'");
-		$res=& $dbHandler->query($query);
+		$res=& $dbManager->query($query);
 
 
 
@@ -872,7 +872,7 @@ class HarmoniCanonicalCourse
 			$query->setColumns(array('fk_cm_can','topic'));	
 					
 			$query->addRowOfValues($values);			
-			$result =& $dbHandler->query($query);
+			$result =& $dbManager->query($query);
 		}elseif($res->getNumberOfRows()==1){
 			//do nothing
 		}else{
@@ -904,12 +904,12 @@ class HarmoniCanonicalCourse
 	 * @access public
 	 */
 	function removeTopic ( $topic ) { 
-		$dbHandler =& Services::getService("DBHandler");
+		$dbManager =& Services::getService("DatabaseManager");
 		$query=& new DeleteQuery;
 		$query->setTable('cm_can');
 		$query->addWhere("fk_cm_can='".$this->_id->getIdString()."'");
 		$query->addWhere("topic='".addslashes($topic)."'");
-		$dbHandler->query($query);
+		$dbManager->query($query);
 
 	} 
 
@@ -939,12 +939,12 @@ class HarmoniCanonicalCourse
 		
 		
 		
-		$dbHandler =& Services::getService("DBHandler");
+		$dbManager =& Services::getService("DatabaseManager");
 		$query=& new SelectQuery;
 		$query->addTable('cm_topic');
 		$query->addWhere("fk_cm_can='".$this->_id->getIdString()."'");
 		$query->addColumn('topic');
-		$res=& $dbHandler->query($query);
+		$res=& $dbManager->query($query);
 		$array=array();
 		while($res->hasMoreRows()){
 			$row = $res->getCurrentRow();
@@ -1165,14 +1165,13 @@ class HarmoniCanonicalCourse
 	
 	function &_getProperties(){
 		
-		$dbHandler =& Services::getService("DBHandler");
 		
 		//get the record
 		$query =& new SelectQuery();
 		$query->addTable('cm_can');
 		$query->addColumn("*");
 		$query->addWhere("id='".addslashes($this->_id->getIdString())."'");				
-		$res=& $dbHandler->query($query);
+		$res=& $dbManager->query($query);
 		
 		//make a type
 		$courseType =& $this->getCourseType();	
