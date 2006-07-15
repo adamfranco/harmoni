@@ -25,7 +25,7 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @package org.osid.scheduling
  */
 class HarmoniTimespanIterator
-extends TimespanIterator
+extends HarmoniIterator
 {
     /**
      * Return true if there is an additional  Timespan ; false otherwise.

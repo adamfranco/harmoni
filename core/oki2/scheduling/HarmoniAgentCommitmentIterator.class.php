@@ -25,7 +25,7 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @package org.osid.scheduling
  */
 class HarmoniAgentCommitmentIterator
-extends AgentCommitmentIterator
+extends HarmoniIterator
 {
     /**
      * Return true if there is an additional  AgentCommitment ; false

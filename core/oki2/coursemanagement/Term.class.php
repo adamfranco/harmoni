@@ -15,7 +15,7 @@ require_once(OKI2."/osid/coursemanagement/Term.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Term.class.php,v 1.15 2006/07/14 19:39:23 sporktim Exp $
+ * @version $Id: Term.class.php,v 1.16 2006/07/15 01:07:15 sporktim Exp $
  */
 class HarmoniTerm
 	extends Term
@@ -173,25 +173,35 @@ class HarmoniTerm
 	 * @access public
 	 */
 	function &getSchedule () { 
+		
+
+		
 		$dbManager =& Services::getService("DatabaseManager");
 		$query=& new SelectQuery;
 		$query->addTable('cm_schedule');
 		$query->addColumn('fk_sc_item');
 		$query->addWhere("fk_id='".addslashes($this->_id->getIdString())."'");
 		//$query->addOrderBy
+		
+		
 		$res=& $dbManager->query($query);
 		$array=array();
 		$sm =& Services::getService("SchedulingManager");
+		
+		
 		$idManager =& Services::getService("IdManager");
 		while($res->hasMoreRows()){
 			$row = $res->getCurrentRow();
+		
 			$res->advanceRow();
-			$id =& $idManager->getId($row['id']);
-			$si =&  $sm->getScheduleItem($id);
-			$array[$si->getStart()] =& $si;
+			$id =& $idManager->getId($row['fk_sc_item']);		
+			$si =&  $sm->getScheduleItem($id);	
+			$start = $si->getStart();		
+			$array[$start] =& $si;
 		}
 		ksort($array);
 		$ret =& new HarmoniScheduleItemIterator($array);
+
 		return $ret;
 	} 
 	

@@ -6,7 +6,7 @@
 * @copyright Copyright &copy; 2006, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.32 2006/07/14 19:39:23 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.33 2006/07/15 01:07:15 sporktim Exp $
 */
 
 require_once(OKI2."/osid/coursemanagement/CourseManagementManager.php");
@@ -100,7 +100,7 @@ require_once(HARMONI."oki2/coursemanagement/TermIterator.class.php");
 * @copyright Copyright &copy; 2005, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.32 2006/07/14 19:39:23 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.33 2006/07/15 01:07:15 sporktim Exp $
 */
 class HarmoniCourseManagementManager
 extends CourseManagementManager
@@ -700,12 +700,10 @@ extends CourseManagementManager
 	* @access public
 	*/
 	function &createTerm ( &$termType, &$schedule ) {
-	  
-	  print "John";
-	  
+	
 		$idManager =& Services::getService("IdManager");
 		$id=$idManager->createId();
-
+		
 
 
 
@@ -716,16 +714,45 @@ extends CourseManagementManager
 
 		$query->setColumns(array('id','name','fk_cm_term_type'));
 
+		
+		
 		$values[]="'".addslashes($id->getIdString())."'";
-		$values[]="'".addslashes("")."'";
+		$values[]="''";
 		$values[]="'".$this->_typeToIndex('term',$termType)."'";
 
+		
 		$query->addRowOfValues($values);
 
 		$dbManager->query($query);
 
+		
+		
+		
+		
+		
+		//query to add schedule items
+		$query=& new InsertQuery;
+		$query->setTable('cm_schedule');
+		
+		$query->setColumns(array('fk_id','fk_sc_item'));
+		
+		
+		$idString = "'".addslashes($id->getIdString())."'";
+		
+		
+		//iterate through array
+		foreach($schedule as $scheduleItem){
+			$values = array();
+			$values[]= $idString;
+			$scheduleId =& $scheduleItem->getId();
+			
+			$values[]="'".addslashes($scheduleId->getIdString())."'";
+			$query->addRowOfValues($values);
+			
+		}
+		
+		$dbManager->query($query);
 		$ret =& new HarmoniTerm($id);
-		print "Lee";
 		return $ret;
 	}
 
@@ -1566,17 +1593,29 @@ extends CourseManagementManager
 
 
 
-
+	 /**
+     * Get all the Types from the table specified
+     * 
+     * @param string $typename the type of Types to get
+     *  
+     * @return object HarmoniTypeIterator
+     * 
+     * @access private
+     */
 	function &_getTypes($typename){
-		$dbManager =& Services::getService("DatabaseManager");
+		
+		//query 
+		$dbHandler =& Services::getService("DBHandler");
 		$query=& new SelectQuery;
 		$query->addTable('cm_'.$typename."_type");
 		$query->addColumn('domain');
 		$query->addColumn('authority');
 		$query->addColumn('keyword');
 		$query->addColumn('description');
-		$res=& $dbManager->query($query);
-		$array=array();
+		$res=& $dbHandler->query($query);
+		
+		//iterate through results and add to an array
+		$array=array();		
 		while($res->hasMoreRows()){
 			$row = $res->getCurrentRow();
 			$res->advanceRow();
@@ -1587,20 +1626,31 @@ extends CourseManagementManager
 			}
 			$array[] = $the_type;
 		}
+		
+		//convert to an iterator
 		$ret =& new HarmoniTypeIterator($array);
 		return $ret;
 	}
 
-
+ 	/**
+     * For object in table $table with id $id, get the Type with type $typename
+     * 
+     * @param object Id $id the Id of the object in question
+     * @param string $table the table our object resides in
+     * @param string $typename the type of Type to get
+     *  
+     * @return object Type
+     * 
+     * @access private
+     */
 	function &_getType(&$id, $table, $typename){
 		//the appropriate table names and fields must be given names according to the pattern indicated below
-		$index=$this->_getField($id,$table,"fk_cm_".$typename."_type");
-		return $this->_indexToType($index,$typename);
 		
-	}
-	
-	function &_indexToType($index, $typename){
-		$dbManager =& Services::getService("DatabaseManager");
+		//get the index for the type
+		$index=$this->_getField($id,$table,"fk_cm_".$typename."_type");
+		
+		//query
+		$dbHandler =& Services::getService("DBHandler");
 		$query=& new SelectQuery;
 		$query->addTable('cm_'.$typename."_type");
 		$query->addWhere("id=".$index);
@@ -1608,7 +1658,10 @@ extends CourseManagementManager
 		$query->addColumn('authority');
 		$query->addColumn('keyword');
 		$query->addColumn('description');
-		$res=& $dbManager->query($query);
+		$res=& $dbHandler->query($query);
+		
+		//There should be exactly one result.  Convert it to a type and return it
+		//remember that the description is optional
 		$row = $res->getCurrentRow();
 		if(is_null($row['description'])){
 			$the_type =& new Type($row['domain'],$row['authority'],$row['keyword']);
@@ -1616,25 +1669,40 @@ extends CourseManagementManager
 			$the_type =& new Type($row['domain'],$row['authority'],$row['keyword'],$row['description']);
 		}
 		return $the_type;
+
 	}
 
+	/**
+     * Find the index for our Type of type $type in its table.  If it is not there,
+     * put it into the table and return the index.
+     *    
+     * @param string $typename the type of Type that is passed in.
+     * @param object Type $type the Type itself
+     * 
+     * @return object Type 
+     * 
+     * @access private
+     */
 	function _typeToIndex($typename, &$type){
 		//the appropriate table names and fields must be given names according to the pattern indicated below
 
+		//validate the Type
 		ArgumentValidator::validate($type, ExtendsValidatorRule::getRule("Type"), true);
 		
-		$dbManager =& Services::getService("DatabaseManager");
+		//query to see if it exists
+		$dbHandler =& Services::getService("DBHandler");
 		$query=& new SelectQuery;
 		$query->addTable('cm_'.$typename."_type");
-		$query->addWhere("domain='".addslashes($type->getDomain())."'");
-		$query->addWhere("authority='".addslashes($type->getAuthority())."'");
-		$query->addWhere("keyword='".addslashes($type->getKeyword())."'");
+		$query->addWhere("domain='".$type->getDomain()."'");
+		$query->addWhere("authority='".$type->getAuthority()."'");
+		$query->addWhere("keyword='".$type->getKeyword()."'");
 		$query->addColumn('id');
-		$res=& $dbManager->query($query);
+		$res=& $dbHandler->query($query);
 
 
-
+		
 		if($res->getNumberOfRows()==0){
+			//if not query to create it
 			$query=& new InsertQuery;
 			$query->setTable('cm_'.$typename.'_type');
 			$values[]="'".addslashes($type->getDomain())."'";
@@ -1651,19 +1719,21 @@ extends CourseManagementManager
 			$query->setAutoIncrementColumn('id','id_sequence');
 
 
-			$result =& $dbManager->query($query);
+			$result =& $dbHandler->query($query);
 
 			return $result->getLastAutoIncrementValue();
 		}elseif($res->getNumberOfRows()==1){
-
+			//if it does exist, create it
 			$row = $res->getCurrentRow();
 			$the_index = $row['id'];
 			return $the_index;
 
 		}else{
+			//print a warning if there is more than one such type.  Should never happen.
 			print "\n<b>Warning!<\b> The Type with domain ".$type->getDomain().", authority ".$type->getAuthority().", and keyword ".$type->getKeyword()." is not unique--there are ".$res->getNumberOfRows()." copies.\n";
 
 
+			//return either one anyway.
 			$row = $res->getCurrentRow();
 			$the_index = $row['id'];
 			return $the_index;
@@ -1672,34 +1742,53 @@ extends CourseManagementManager
 
 	}
 
+	/**
+     * Given the object in table $table with id $id, change the field with name $key to $value 
+     * 
+     * @param object Id $id The Id of the object in question
+     * @param string $table The table that our object resides in
+     * @param string $key The name of the field
+     * @param mixed $value The value to pass in
+     * 
+     * 
+     * @access private
+     */
 	function _setField(&$id, $table, $key, $value)
 	{
-		$dbManager =& Services::getService("DatabaseManager");
+		//just an update query
+		$dbHandler =& Services::getService("DBHandler");
 		$query=& new UpdateQuery;
 		$query->setTable($table);
-
-
 		$query->addWhere("id='".addslashes($id->getIdString())."'");
-
-
 		$query->setColumns(array(addslashes($key)));
 		$query->setValues(array("'".addslashes($value)."'"));
-
-		$dbManager->query($query);
+		$dbHandler->query($query);
 
 
 	}
 
+	/**
+     * Given the object in table $table with id $id, get the field with name $key 
+     * 
+     * @param object Id $id The Id of the object in question
+     * @param string $table The table that our object resides in
+     * @param string $key The name of the field
+     * 
+     * @return string 
+     * 
+     * @access private
+     */
 	function _getField(&$id, $table, $key)
 	{
-	
-		$dbManager =& Services::getService("DatabaseManager");
+		
+		//just a select query
+		$dbHandler =& Services::getService("DBHandler");
 		$query=& new SelectQuery;
 		$query->addTable($table);
 		$query->addWhere("id='".addslashes($id->getIdString())."'");
 		$query->addColumn(addslashes($key));
-		$res=& $dbManager->query($query);		
-		$row = $res->getCurrentRow();	
+		$res=& $dbHandler->query($query);
+		$row = $res->getCurrentRow();
 		$ret=$row[$key];
 		return $ret;
 	}

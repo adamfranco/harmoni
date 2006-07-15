@@ -3,6 +3,7 @@
  
 require_once(OKI2."/osid/scheduling/ScheduleItem.php");
 
+
 /**
  * ScheduleItem contains a set of AgentCommitments (e.g. calendar events) as
  * well as the creator of the ScheduleItem and some date information.
@@ -78,7 +79,7 @@ extends ScheduleItem
      * @access public
      */
     function updateDisplayName ( $displayName ) { 
-       	$this->setField('name', $displayName);
+       	$this->_setField('name', $displayName);
     } 
 
     /**
@@ -103,7 +104,7 @@ extends ScheduleItem
      * @access public
      */
     function updateDescription ( $description ) { 
-        $this->setField('description', $description);
+        $this->_setField('description', $description);
     } 
 
     /**
@@ -128,7 +129,7 @@ extends ScheduleItem
      * @access public
      */
     function updateStart ( $start ) { 
-       $this->setField('start', $start);
+       $this->_setField('start', $start);
     } 
 
     /**
@@ -153,7 +154,7 @@ extends ScheduleItem
      * @access public
      */
     function updateEnd ( $end ) { 
-        $this->setField('end', $end);
+        $this->_setField('end', $end);
     } 
 
     /**
@@ -180,7 +181,7 @@ extends ScheduleItem
      * @access public
      */
     function updateStatus ( &$status ) { 
-       $this->setType('item_stat', $status);
+       $this->_setType('item_stat', $status);
     } 
 
     /**

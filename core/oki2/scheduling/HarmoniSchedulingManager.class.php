@@ -635,8 +635,18 @@ class HarmoniSchedulingManager
 
 
 
-
+	 /**
+     * Get all the Types from the table specified
+     * 
+     * @param string $typename the type of Types to get
+     *  
+     * @return object HarmoniTypeIterator
+     * 
+     * @access private
+     */
 	function &_getTypes($typename){
+		
+		//query 
 		$dbHandler =& Services::getService("DBHandler");
 		$query=& new SelectQuery;
 		$query->addTable('sc_'.$typename."_type");
@@ -645,7 +655,9 @@ class HarmoniSchedulingManager
 		$query->addColumn('keyword');
 		$query->addColumn('description');
 		$res=& $dbHandler->query($query);
-		$array=array();
+		
+		//iterate through results and add to an array
+		$array=array();		
 		while($res->hasMoreRows()){
 			$row = $res->getCurrentRow();
 			$res->advanceRow();
@@ -656,14 +668,30 @@ class HarmoniSchedulingManager
 			}
 			$array[] = $the_type;
 		}
+		
+		//convert to an iterator
 		$ret =& new HarmoniTypeIterator($array);
 		return $ret;
 	}
 
-
+ 	/**
+     * For object in table $table with id $id, get the Type with type $typename
+     * 
+     * @param object Id $id the Id of the object in question
+     * @param string $table the table our object resides in
+     * @param string $typename the type of Type to get
+     *  
+     * @return object Type
+     * 
+     * @access private
+     */
 	function &_getType(&$id, $table, $typename){
 		//the appropriate table names and fields must be given names according to the pattern indicated below
+		
+		//get the index for the type
 		$index=$this->_getField($id,$table,"fk_sc_".$typename."_type");
+		
+		//query
 		$dbHandler =& Services::getService("DBHandler");
 		$query=& new SelectQuery;
 		$query->addTable('sc_'.$typename."_type");
@@ -673,6 +701,9 @@ class HarmoniSchedulingManager
 		$query->addColumn('keyword');
 		$query->addColumn('description');
 		$res=& $dbHandler->query($query);
+		
+		//There should be exactly one result.  Convert it to a type and return it
+		//remember that the description is optional
 		$row = $res->getCurrentRow();
 		if(is_null($row['description'])){
 			$the_type =& new Type($row['domain'],$row['authority'],$row['keyword']);
@@ -683,10 +714,24 @@ class HarmoniSchedulingManager
 
 	}
 
-
+	/**
+     * Find the index for our Type of type $type in its table.  If it is not there,
+     * put it into the table and return the index.
+     *    
+     * @param string $typename the type of Type that is passed in.
+     * @param object Type $type the Type itself
+     * 
+     * @return object Type 
+     * 
+     * @access private
+     */
 	function _typeToIndex($typename, &$type){
 		//the appropriate table names and fields must be given names according to the pattern indicated below
 
+		//validate the Type
+		ArgumentValidator::validate($type, ExtendsValidatorRule::getRule("Type"), true);
+		
+		//query to see if it exists
 		$dbHandler =& Services::getService("DBHandler");
 		$query=& new SelectQuery;
 		$query->addTable('sc_'.$typename."_type");
@@ -697,8 +742,9 @@ class HarmoniSchedulingManager
 		$res=& $dbHandler->query($query);
 
 
-
+		
 		if($res->getNumberOfRows()==0){
+			//if not query to create it
 			$query=& new InsertQuery;
 			$query->setTable('sc_'.$typename.'_type');
 			$values[]="'".addslashes($type->getDomain())."'";
@@ -719,15 +765,17 @@ class HarmoniSchedulingManager
 
 			return $result->getLastAutoIncrementValue();
 		}elseif($res->getNumberOfRows()==1){
-
+			//if it does exist, create it
 			$row = $res->getCurrentRow();
 			$the_index = $row['id'];
 			return $the_index;
 
 		}else{
+			//print a warning if there is more than one such type.  Should never happen.
 			print "\n<b>Warning!<\b> The Type with domain ".$type->getDomain().", authority ".$type->getAuthority().", and keyword ".$type->getKeyword()." is not unique--there are ".$res->getNumberOfRows()." copies.\n";
 
 
+			//return either one anyway.
 			$row = $res->getCurrentRow();
 			$the_index = $row['id'];
 			return $the_index;
@@ -736,26 +784,46 @@ class HarmoniSchedulingManager
 
 	}
 
+	/**
+     * Given the object in table $table with id $id, change the field with name $key to $value 
+     * 
+     * @param object Id $id The Id of the object in question
+     * @param string $table The table that our object resides in
+     * @param string $key The name of the field
+     * @param mixed $value The value to pass in
+     * 
+     * 
+     * @access private
+     */
 	function _setField(&$id, $table, $key, $value)
 	{
+		//just an update query
 		$dbHandler =& Services::getService("DBHandler");
 		$query=& new UpdateQuery;
 		$query->setTable($table);
-
-
 		$query->addWhere("id='".addslashes($id->getIdString())."'");
-
-
 		$query->setColumns(array(addslashes($key)));
 		$query->setValues(array("'".addslashes($value)."'"));
-
 		$dbHandler->query($query);
 
 
 	}
 
+	/**
+     * Given the object in table $table with id $id, get the field with name $key 
+     * 
+     * @param object Id $id The Id of the object in question
+     * @param string $table The table that our object resides in
+     * @param string $key The name of the field
+     * 
+     * @return string 
+     * 
+     * @access private
+     */
 	function _getField(&$id, $table, $key)
 	{
+		
+		//just a select query
 		$dbHandler =& Services::getService("DBHandler");
 		$query=& new SelectQuery;
 		$query->addTable($table);

@@ -26,7 +26,7 @@ require_once(OKI2."/osid/coursemanagement/CourseSection.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CourseSection.class.php,v 1.17 2006/07/14 19:39:23 sporktim Exp $
+ * @version $Id: CourseSection.class.php,v 1.18 2006/07/15 01:07:15 sporktim Exp $
  */
 class HarmoniCourseSection
 	extends CourseSection
@@ -696,8 +696,9 @@ class HarmoniCourseSection
 		
 		//iterate through array
 		foreach($scheduleItems as $scheduleItem){
-			$values[]= $idString;
-			$values[]="'".addslashes("".$scheduleItem->getId())."'";
+			$values[]= $idString;			
+			$id =& $scheduleItem->getId();			
+			$values[]="'".addslashes($id->getIdString())."'";
 			$query->addRowOfValues($values);
 		}
 		

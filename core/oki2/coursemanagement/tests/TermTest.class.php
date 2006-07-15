@@ -105,38 +105,52 @@
 			$scheduleB =& $scheduling->getScheduleItem($scheduleA->getId());
 			$schedule = array($scheduleA);
 			
-			$this->write(5, "get times");
+		
 			
 			$availableTimes =& $scheduling->getAvailableTimes($agents, $start, $end);
 			
 			
-			$this->write(5, "Start tests");
+			
 			
 			$this->assertEqual($scheduleA->getDisplayName(), $scheduleB->getDisplayName());
 			$this->assertEqual($scheduleA->getDescription(), $scheduleB->getDescription());
 			$this->assertEqual($scheduleA->getAgentCommitments(), $scheduleB->getAgentCommitments());
+			
+			
+			
+			
 			$this->assertEqual($scheduleA->getStart(), $scheduleB->getStart());
 			$this->assertEqual($scheduleA->getEnd(), $scheduleB->getEnd());
 			
 			$termType =& new Type("CourseManagement", "edu.middlebury", "Fall 2006");
+
+			$schedule = array($scheduleA);
 			$termA =& $cmm->createTerm($termType, $schedule);
+
 			$termB =& $cmm->getTerm($termA->getId());
 			
 			$this->assertEqualTypes($termA->getType(), $termB->getType());
 			
+			
 			$scheduleIterator =& $termA->getSchedule();
 			
+			
 			$this->assertTrue($scheduleIterator->hasNextScheduleItem());
+
 			if ($scheduleIterator->hasNextScheduleItem()) {
 				$scheduleC =& $scheduleIterator->nextScheduleItem();
 				$this->assertTrue(!$scheduleIterator->hasNextScheduleItem());
 			
 				$this->assertEqual($scheduleA->getDisplayName(), $scheduleC->getDisplayName());
 				$this->assertEqual($scheduleA->getDescription(), $scheduleC->getDescription());
-				$this->assertEqual($scheduleA->getAgents(), $scheduleC->getAgents());
-				$this->assertEqual($scheduleA->getStart(), $scheduleC->getStart());
-				$this->assertEqual($scheduleA->getEnd(), $scheduleC->getEnd());
+				$this->assertEqual($scheduleA->getAgentCommitments(), $scheduleB->getAgentCommitments());
+			
 			}
+
+
+	$this->assertEqual($scheduleA->getStart(), $scheduleC->getStart());
+				$this->assertEqual($scheduleA->getEnd(), $scheduleC->getEnd());
+
 			
 			$scheduling->deleteScheduleItem($scheduleA->getId());
         }
