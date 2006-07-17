@@ -6,7 +6,7 @@
 * @copyright Copyright &copy; 2006, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.33 2006/07/15 01:07:15 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.34 2006/07/17 17:11:51 sporktim Exp $
 */
 
 require_once(OKI2."/osid/coursemanagement/CourseManagementManager.php");
@@ -100,7 +100,7 @@ require_once(HARMONI."oki2/coursemanagement/TermIterator.class.php");
 * @copyright Copyright &copy; 2005, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.33 2006/07/15 01:07:15 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.34 2006/07/17 17:11:51 sporktim Exp $
 */
 class HarmoniCourseManagementManager
 extends CourseManagementManager
@@ -277,23 +277,21 @@ extends CourseManagementManager
 	* @access public
 	*/
 	function &createCanonicalCourse ( $title, $number, $description, &$courseType, &$courseStatusType, $credits ) {
-
-
-
+		//make id
 		$idManager =& Services::getService("IdManager");
 		$id=$idManager->createId();
 
-
+		//make node
 		$type =& new Type("CourseManagement","edu.middlebury", "CanonicalCourse");
 		$node =& $this->_hierarchy->createNode($id,$this->_canonicalCoursesId,$type,$title,$description);
 
+		//prepare insert query
 		$dbManager=& Services::getService("DatabaseManager");
 		$query=& new InsertQuery;
-
 		$query->setTable('cm_can');
 
+		//ready values
 		$query->setColumns(array('id','number','credits','equivalent','fk_cm_can_type','title','fk_cm_can_stat_type'));
-
 		$values[]="'".addslashes($id->getIdString())."'";
 		$values[]="'".addslashes($number)."'";
 		$values[]="'".addslashes($credits)."'";
@@ -304,9 +302,10 @@ extends CourseManagementManager
 		$query->addRowOfValues($values);
 
 
-
+		//query
 		$dbManager->query($query);
 
+		//make object
 		$ret =& new HarmoniCanonicalCourse($id, $node);
 		return $ret;
 
