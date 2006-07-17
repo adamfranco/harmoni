@@ -53,11 +53,52 @@
 			unset($this->agent);
 		}
         
-        function TestOfSchedule() {
+        function TestOfTerm() {
           	// Create canonical course
-          	$this->write(7, "Scheduling Test");
+          	$this->write(7, "Term and Scheduling Test");
           	
+        	$cmm =& Services::getService("CourseManagement");
         	$scheduling =& Services::getService("Scheduling");
+			
+			// Create new student 1
+			$propertiesTypeA =& new Type("CourseManagement", "edu.middlebury", "student");
+			$propertiesA =& new HarmoniProperties($propertiesTypeA);
+			$name = "Sporktim Bahls";
+			$class = "2006";
+			$propertiesA->addProperty('student_name', $name);
+			$propertiesA->addProperty('student_year', $class);	
+			
+			$agentTypeA =& new Type("CourseManagement", "edu.middlebury", "student");
+			$agentHandler =& Services::getService("Agent");
+			$agentA =& $agentHandler->createAgent("Gladius", $agentTypeA, $propertiesA);
+			
+			// Create new student 2
+			$this->write(2,"John");
+			$propertiesTypeB =& new Type("CourseManagement", "edu.middlebury", "student");
+			$propertiesB =& new HarmoniProperties($propertiesTypeB);
+			$name = "John Lee";
+			$propertiesB->addProperty('student_name', $name);
+			$propertiesB->addProperty('student_year', $class);	
+			
+			$agentTypeB =& new Type("CourseManagement", "edu.middlebury", "student");
+			$agentB =& $agentHandler->createAgent("jood8", $agentTypeB, $propertiesB);
+			
+			// Create new student 3
+			$this->write(2,"Magda");
+			$propertiesTypeC =& new Type("CourseManagement", "edu.middlebury", "student");
+			$propertiesC =& new HarmoniProperties($propertiesTypeC);
+			$name = "Magdalena Widjaja";
+			$propertiesC->addProperty('student_name', $name);
+			$propertiesC->addProperty('student_year', $class);	
+			
+			$agentTypeC =& new Type("CourseManagement", "edu.middlebury", "student");
+			$agentC =& $agentHandler->createAgent("Mags", $agentTypeC, $propertiesC);
+			
+			$agentIdA =& $agentA->getId();
+			$agentIdB =& $agentB->getId();
+			$agentIdC =& $agentC->getId();
+			
+			$agents = array($agentIdA, $agentIdB, $agentIdC);
 			
 			$start = 300;
 			$end = 600;
