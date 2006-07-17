@@ -148,7 +148,7 @@
 			}
 
 
-	$this->assertEqual($scheduleA->getStart(), $scheduleC->getStart());
+			$this->assertEqual($scheduleA->getStart(), $scheduleC->getStart());
 				$this->assertEqual($scheduleA->getEnd(), $scheduleC->getEnd());
 
 			
@@ -183,7 +183,7 @@
 					$item =& $iter->next();
 				print $item->getDisplayName().",";
 					if($name == $item->getDisplayName()){
-						$bool=true;;
+						$bool=true;
 					}
 					
 				}
