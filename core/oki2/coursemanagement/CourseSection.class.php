@@ -26,7 +26,7 @@ require_once(OKI2."/osid/coursemanagement/CourseSection.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CourseSection.class.php,v 1.18 2006/07/15 01:07:15 sporktim Exp $
+ * @version $Id: CourseSection.class.php,v 1.19 2006/07/18 15:01:37 sporktim Exp $
  */
 class HarmoniCourseSection
 	extends CourseSection
@@ -1036,24 +1036,30 @@ $query->addWhere("fk_cm_section='".addslashes($this->_id->getIdString())."' AND 
 		$query->addWhere("id='".addslashes($this->_id->getIdString())."'");				
 		$res=& $dbManager->query($query);
 		
-		//make a type
-		$courseType =& $this->getSectionType();	
-		$propertiesType =& new Type($courseType->getDomain(), $courseType->getAuthority(), "properties"); 	
+		
 		
 		//make sure we can find that course
 		if(!$res->hasMoreRows()){
 			print "<b>Warning!</b>  Can't get Properties of Course with id ".$this->_id." since that id wasn't found in the database.";
 			return null;	
 		}
-		$row = $res->getCurrentRow();//grab (hopefully) the only row		
-		$property =& new HarmoniProperties($propertiesType);
+		$row = $res->getCurrentRow();//grab (hopefully) the only row	
+		
+		
+		//make a type
+		$courseType =& $this->getSectionType();	
+		$propertiesType =& new Type($courseType->getDomain(), $courseType->getAuthority(), "properties"); 	
+			
+		
 				
 		//create a custom Properties object
+		$idManager =& Services::getService("Id");
+		$property =& new HarmoniProperties($propertiesType);
 		$displayName = $this->_node->getDisplayName();
 		$property->addProperty('display_name', $displayName);
 		$description = $this->_node->getDescription();
 		$property->addProperty('description',$description);	
-		$property->addProperty('id', $row['id']);
+		$property->addProperty('id', $idManager->getId($row['id']));
 		$property->addProperty('number', $row['number']);
 		$property->addProperty('type', $courseType->getKeyword());
 		$property->addProperty('title', $row['']);

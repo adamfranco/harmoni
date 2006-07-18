@@ -26,7 +26,7 @@ require_once(HARMONI."oki2/coursemanagement/CanonicalCourseIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CanonicalCourse.class.php,v 1.23 2006/07/14 19:39:23 sporktim Exp $
+ * @version $Id: CanonicalCourse.class.php,v 1.24 2006/07/18 15:01:37 sporktim Exp $
  */
 class HarmoniCanonicalCourse
 	extends CanonicalCourse
@@ -1162,7 +1162,13 @@ class HarmoniCanonicalCourse
 	}
 	
 	
-	
+	/**
+	* Get a Properties object with the information about this object.
+	*
+	* @return object Properties
+	*
+	* @access private
+	*/
 	function &_getProperties(){
 		
 		
@@ -1173,9 +1179,7 @@ class HarmoniCanonicalCourse
 		$query->addWhere("id='".addslashes($this->_id->getIdString())."'");				
 		$res=& $dbManager->query($query);
 		
-		//make a type
-		$courseType =& $this->getCourseType();	
-		$propertiesType =& new Type($courseType->getDomain(), $courseType->getAuthority(), "properties"); 	
+		
 		
 		//make sure we can find that course
 		if(!$res->hasMoreRows()){
@@ -1183,16 +1187,20 @@ class HarmoniCanonicalCourse
 			return null;	
 		}
 		$row = $res->getCurrentRow();//grab (hopefully) the only row		
-		$property =& new HarmoniProperties($propertiesType);
+		
+		//make a type
+		$courseType =& $this->getCourseType();	
+		$propertiesType =& new Type($courseType->getDomain(), $courseType->getAuthority(), "properties"); 
 				
 		//create a custom Properties object
-		
+		$idManager =& Services::getService("Id");
+		$property =& new HarmoniProperties($propertiesType);
 		$property->addProperty('display_name', $this->_node->getDisplayName());
 		$property->addProperty('description', $this->_node->getDescription());	
-		$property->addProperty('id', $row['id']);
+		$property->addProperty('id', $idManager->getId($row['id']));
 		$property->addProperty('number', $row['number']);
 		$property->addProperty('credits', $row['credits']);
-		$property->addProperty('equivalent_id', $row['equivalent']);
+		$property->addProperty('equivalent_id', $idManager->getId($row['equivalent']));
 		$property->addProperty('type', $courseType->getKeyword());
 		$property->addProperty('title', $row['']);
 		$statusType =& $this->getStatus();

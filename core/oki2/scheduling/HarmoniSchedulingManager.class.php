@@ -1,5 +1,4 @@
 <?php 
- 
 require_once(OKI2."/osid/scheduling/SchedulingManager.php");
 
 require_once(HARMONI."oki2/scheduling/HarmoniTimespan.class.php");
@@ -57,19 +56,14 @@ class HarmoniSchedulingManager
 	/**
 	* @variable object OsidContext $_osidContext the OSID context.
 	* @access private
-	* @variable object Properties $_configuration the configuration for the CourseManagementManager.
-	* @access private
 	**/
 	var $_osidContext;
-	var $_configuration;
 
 
 
 
-	/**
-	* @param ref object $drId A {@link HarmoniId} referencing our DR.
-	*/
-	function HarmoniCourseManagementManager () {
+	
+	function HarmoniSchedulingManager () {
 
 
 	}
@@ -77,10 +71,8 @@ class HarmoniSchedulingManager
 
 
 	/**
-	* Assign the configuration of this Manager. Valid configuration options are as
-	* follows:
-	*	database_index			integer
-	*	database_name			string
+	* Assign the configuration of this Manager. There are no valid configuration options for
+	* this manager.
 	*
 	* @param object Properties $configuration (original type: java.util.Properties)
 	*
@@ -181,6 +173,7 @@ class HarmoniSchedulingManager
 			$masterIdentifier = $id->getIdString();
 		}
 		
+		//@TODO find out how to get the currently authenticated agent
 
 		$dbManager=& Services::getService("DBHandler");
 		$query=& new InsertQuery;

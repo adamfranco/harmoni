@@ -6,7 +6,7 @@
 * @copyright Copyright &copy; 2006, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.34 2006/07/17 17:11:51 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.35 2006/07/18 15:01:37 sporktim Exp $
 */
 
 require_once(OKI2."/osid/coursemanagement/CourseManagementManager.php");
@@ -100,7 +100,7 @@ require_once(HARMONI."oki2/coursemanagement/TermIterator.class.php");
 * @copyright Copyright &copy; 2005, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.34 2006/07/17 17:11:51 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.35 2006/07/18 15:01:37 sporktim Exp $
 */
 class HarmoniCourseManagementManager
 extends CourseManagementManager
@@ -125,9 +125,7 @@ extends CourseManagementManager
 	var $_courseGroupsId;
 
 
-	/**
-	* @param ref object $drId A {@link HarmoniId} referencing our DR.
-	*/
+
 	function HarmoniCourseManagementManager () {
 
 
@@ -138,8 +136,11 @@ extends CourseManagementManager
 	/**
 	* Assign the configuration of this Manager. Valid configuration options are as
 	* follows:
-	*	database_index			integer
-	*	database_name			string
+	*	hierarchy_id				string
+	*	root_id						string
+	*	course_management_id		string
+	*	canonical_courses_id		string
+	*	course_groups_id			string
 	*
 	* @param object Properties $configuration (original type: java.util.Properties)
 	*
@@ -817,8 +818,7 @@ extends CourseManagementManager
 	* @access public
 	*/
 	function &getTerm ( &$termId ) {
-		$ret =& new HarmoniTerm($termId);
-		 
+		$ret =& new HarmoniTerm($termId);		 
 		return $ret;
 	}
 

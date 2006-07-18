@@ -1,7 +1,7 @@
-3<?php 
+<?php 
 
 //require_once(OKI2."/osid/scheduling/Timespan.php");
-require_once(HARMONI."Primitives/Chronology/Timespan.class.php");
+//require_once(HARMONI."Primitives/Chronology/Timespan.class.php");
 
 
 /**
@@ -21,7 +21,6 @@ require_once(HARMONI."Primitives/Chronology/Timespan.class.php");
  * @package org.osid.scheduling
  */
 class HarmoniTimespan
-extends Timespan
 {
 	
 	/**

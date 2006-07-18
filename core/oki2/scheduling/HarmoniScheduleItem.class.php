@@ -275,6 +275,7 @@ extends ScheduleItem
      * @access public
      */
     function &getCreator () { 
+    	//@TODO find out how to get the currently authenticated agent
         throwError(new Error(SchedulingExeption::UNIMPLEMENTED(), "Scheduling", true));
     } 
 
@@ -651,26 +652,29 @@ extends ScheduleItem
 		$query->addWhere("id='".addslashes($this->_id)."'");				
 		$res=& $dbHandler->query($query);
 		
-		//make a type
-		$type =& $this->getStatus();
-		$propertiesType =& new Type($type->getDomain(), $type->getAuthority(), "properties");	
+		
 		
 		//make sure we can find that course
 		if(!$res->hasMoreRows()){
 			print "<b>Warning!</b>  Can't get Properties of ScheduleItem with id ".$this->_id." since that id wasn't found in the database.";
 			return null;	
 		}
-		$row = $res->getCurrentRow();//grab (hopefully) the only row		
-		$property =& new HarmoniProperties($propertiesType);
+		$row = $res->getCurrentRow();//grab (hopefully) the only row	
+		
+		//make a type
+		$type =& $this->getStatus();
+		$propertiesType =& new Type($type->getDomain(), $type->getAuthority(), "properties");		
+		
 				
 		//create a custom Properties object
-		
-		$property->addProperty('display_name', $this->getDisplayName());
-		$property->addProperty('description', $this->getDescription());	
-		$property->addProperty('id', $row['id']);		
+		$idManager =& Services::getService("Id");
+		$property =& new HarmoniProperties($propertiesType);
+		$property->addProperty('display_name', $row['name']);
+		$property->addProperty('description', $row['description']);	
+		$property->addProperty('id', $idManager->getId( $row['id']));		
 		$property->addProperty('start', $row['start']);
 		$property->addProperty('end', $row['end']);		
-		$property->addProperty('master_identifier', $row['master_id']);
+		$property->addProperty('master_identifier',  $idManager->getId($row['master_id']));
 		$property->addProperty('status_type', $type->getKeyword());
 
 		
