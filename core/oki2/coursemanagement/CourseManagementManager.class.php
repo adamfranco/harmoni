@@ -6,7 +6,7 @@
 * @copyright Copyright &copy; 2006, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.36 2006/07/18 16:27:11 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.37 2006/07/18 21:37:26 sporktim Exp $
 */
 
 require_once(OKI2."/osid/coursemanagement/CourseManagementManager.php");
@@ -100,7 +100,7 @@ require_once(HARMONI."oki2/coursemanagement/TermIterator.class.php");
 * @copyright Copyright &copy; 2005, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.36 2006/07/18 16:27:11 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.37 2006/07/18 21:37:26 sporktim Exp $
 */
 class HarmoniCourseManagementManager
 extends CourseManagementManager
@@ -775,6 +775,11 @@ extends CourseManagementManager
 		$query=& new DeleteQuery;
 		$query->setTable('cm_term');
 		$query->addWhere("id=".addslashes($termId->getIdString()));
+		$dbManager->query($query);
+		
+		$query=& new DeleteQuery;
+		$query->setTable('cm_schedule');
+		$query->addWhere("fk_id=".addslashes($termId->getIdString()));
 		$dbManager->query($query);
 
 	}

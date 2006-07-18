@@ -2,6 +2,8 @@
 
 require_once(OKI2."/osid/coursemanagement/CanonicalCourse.php");
 require_once(HARMONI."oki2/coursemanagement/CanonicalCourseIterator.class.php");
+require_once(HARMONI."oki2/shared/HarmoniStringIterator.class.php");
+
 
 /**
  * CanonicalCourse contains general information about a course.	 This is in
@@ -26,7 +28,7 @@ require_once(HARMONI."oki2/coursemanagement/CanonicalCourseIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CanonicalCourse.class.php,v 1.24 2006/07/18 15:01:37 sporktim Exp $
+ * @version $Id: CanonicalCourse.class.php,v 1.25 2006/07/18 21:37:26 sporktim Exp $
  */
 class HarmoniCanonicalCourse
 	extends CanonicalCourse
@@ -707,19 +709,20 @@ class HarmoniCanonicalCourse
 
 		$cm =& Services::getService("CourseManagement");
 		
-		$course =& $cm->getCanononicalCourse($canonicalCourseId);
-		$courseEquivalent =& $course->_getField('equivalent');
-		$thisEquivalent =& $this->_getField('equivalent');
+		$course =& $cm->getCanonicalCourse($canonicalCourseId);
+		$courseEquivalent = $course->_getField('equivalent');
+		$thisEquivalent = $this->_getField('equivalent');
 		$comp = strcasecmp($courseEquivalent,$thisEquivalent);
 		if($comp==0){
 			return;	
 		} elseif ($comp > 0){
 			$min = $thisEquivalent;
 			$courseIterator =& $course->getEquivalentCourses();
-			
+			$course->_setField('equivalent',$min);
 		}else{
 			$min = $courseEquivalent;
 			$courseIterator =& $this->getEquivalentCourses();
+			$this->_setField('equivalent',$min);
 			
 		}
 		while($courseIterator->hasNextCanonicalCourse()){
@@ -756,37 +759,55 @@ class HarmoniCanonicalCourse
 	 * 
 	 * @access public
 	 */
-	function removeEquivalentCourse ( &$canonicalCourseId ) { 
-		$dbManager =& Services::getService("DatabaseManager");
-		$cm =& Services::getService("CourseManagement");
+	function removeEquivalentCourse ( &$canonicalCourseId ) { 		
+		$cm =& Services::getService("CourseManagement");		
+		$course =& $cm->getCanonicalCourse($canonicalCourseId);		
+		$courseIterator =& $course->getEquivalentCourses();	
+
+			
+		if(!$courseIterator->hasNextCanonicalCourse()){
+			return;	
+		}
 		
-		$course =& $cm->getCanononicalCourse($canonicalCourseId);		
-		$courseEquivalent =& $course->_getField('equivalent');
+		
+		$courseEquivalent = $course->_getField('equivalent');
 		$idString=$canonicalCourseId->getIdString();
+		
+		
+				
 		if($courseEquivalent!=$idString){
 			$course->_setField('equivalent',$idString);
 			return;
 		}
 		
+		//Hahahahaa!  I crack myself up.
+		$first =true;
 		while($courseIterator->hasNextCanonicalCourse()){
-			$course = $courseIterator->nextCanonicalCourse();
-			$course->_setField('equivalent', $min);
+			$currCourse =& $courseIterator->nextCanonicalCourse();
+			$currId =& $currCourse->getId();
+			
+			
+			
+			
+			$currIdString = $currId->getIdString();		
+			
+			if($first || strcasecmp($currIdString,$minSoFar) < 0){
+				$minSoFar = $currIdString;		
+				$first=false;		
+			}	
 		}
 		
 		
 		
-		$query=& new SelectQuery;
-		$query->addTable($this->_table);
-		$query->addColumn('id');
-		$query->addWhere("equivalent = '".$max."'");
-		$res=& $dbManager->query($query);
-		$idManager=& Services::getService('IdManager');
-		while($res->hasMoreRows()){
-			$row = $res->getCurrentRow();
-			$res->advanceRow();
-			$course = $cm->getCanonicalCourse($idManager->getId($row['id']));
-			$course->_setField('equivalent', $min);
+		$courseIterator =& $course->getEquivalentCourses();
+		
+		while($courseIterator->hasNextCanonicalCourse()){
+			
+			
+			$course =& $courseIterator->nextCanonicalCourse();
+			$course->_setField('equivalent',$minSoFar);		
 		}
+		
 		
 	} 
 
@@ -821,9 +842,13 @@ class HarmoniCanonicalCourse
 		$res=& $dbManager->query($query);
 		$array=array();
 		$idManager=& Services::getService('IdManager');
+		$myIdString = $this->_id->getIdString();
 		while($res->hasMoreRows()){
 			$row = $res->getCurrentRow();
 			$res->advanceRow();
+			if($row['id']==$myIdString){
+				continue;
+			}
 			$array[] = $cm->getCanonicalCourse($idManager->getId($row['id']));
 		}
 		$ret =& new HarmoniCanonicalCourseIterator($array);
@@ -857,16 +882,18 @@ class HarmoniCanonicalCourse
 	function addTopic ( $topic ) { 
 		$dbManager =& Services::getService("DatabaseManager");
 		$query=& new SelectQuery;
-		$query->addTable('cm_topic');
+		$query->addTable('cm_topics');
 		$query->addWhere("fk_cm_can='".$this->_id->getIdString()."'");
 		$query->addWhere("topic='".addslashes($topic)."'");
+		//not really needed, but it keeps this from crashing.
+		$query->addColumn('topic');
 		$res=& $dbManager->query($query);
 
 
 
 		if($res->getNumberOfRows()==0){
 			$query=& new InsertQuery;
-			$query->setTable('cm_topic');
+			$query->setTable('cm_topics');
 			$values[]="'".addslashes($this->_id->getIdString())."'";
 			$values[]="'".addslashes($topic)."'";	
 			$query->setColumns(array('fk_cm_can','topic'));	
@@ -906,7 +933,7 @@ class HarmoniCanonicalCourse
 	function removeTopic ( $topic ) { 
 		$dbManager =& Services::getService("DatabaseManager");
 		$query=& new DeleteQuery;
-		$query->setTable('cm_can');
+		$query->setTable('cm_topics');
 		$query->addWhere("fk_cm_can='".$this->_id->getIdString()."'");
 		$query->addWhere("topic='".addslashes($topic)."'");
 		$dbManager->query($query);
@@ -941,7 +968,7 @@ class HarmoniCanonicalCourse
 		
 		$dbManager =& Services::getService("DatabaseManager");
 		$query=& new SelectQuery;
-		$query->addTable('cm_topic');
+		$query->addTable('cm_topics');
 		$query->addWhere("fk_cm_can='".$this->_id->getIdString()."'");
 		$query->addColumn('topic');
 		$res=& $dbManager->query($query);
@@ -1059,8 +1086,8 @@ class HarmoniCanonicalCourse
 	 */
 	function updateStatus ( &$statusType ) { 
 
-		$index =& $this->_typeToIndex('can_stat',$statusType);
-		$this->_setField('title',$index);
+		$index = $this->_typeToIndex('can_stat',$statusType);
+		$this->_setField('fk_cm_can_stat_type',$index);
 	} 
 	
 	/**

@@ -1,11 +1,11 @@
 -- /**
--- @package harmoni.osid_v2.scheduling
+-- @package harmoni.osid_v2.grading
 -- 
 -- 
 -- @copyright Copyright &copy; 2006, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 -- 
--- @version $Id: MySQL_Grading.sql,v 1.1 2006/07/18 16:27:11 sporktim Exp $
+-- @version $Id: MySQL_Grading.sql,v 1.2 2006/07/18 21:37:25 sporktim Exp $
 -- */
 -- --------------------------------------------------------
 

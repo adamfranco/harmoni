@@ -74,7 +74,12 @@
 														   $courseStatusType, $credits);
 			
 			$termType =& new Type("CourseManagement", "edu.middlebury", "Fall 2006");
-          	$schedule = "2006-2007";
+          	$scheduleManager =& Services::GetService("Scheduling");
+          	
+          	$schedule[] =& $scheduleManager->createScheduleItem("Term", "The whole shebang",$arr=array(),200,1000,null);
+          	$schedule[] =& $scheduleManager->createScheduleItem("Halloween", "Boo!",$arr=array(),250,300,null);
+          	$schedule[] =& $scheduleManager->createScheduleItem("Christmas", "Unfortunately secular!",$arr=array(),700,800,null);
+          	
           	$term =& $cmm->createTerm($termType, $schedule);
           	$termId =& $term->getId();
           	$offeringType = $courseType;

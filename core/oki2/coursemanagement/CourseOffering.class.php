@@ -24,7 +24,7 @@ require_once(OKI2."/osid/coursemanagement/CourseOffering.php");
 * @copyright Copyright &copy; 2005, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseOffering.class.php,v 1.20 2006/07/18 15:01:37 sporktim Exp $
+* @version $Id: CourseOffering.class.php,v 1.21 2006/07/18 21:37:26 sporktim Exp $
 */
 class HarmoniCourseOffering
 extends CourseOffering
@@ -575,6 +575,11 @@ extends CourseOffering
 		$query=& new DeleteQuery;
 		$query->setTable('cm_section');
 		$query->addWhere("id=".addslashes($courseSectionId->getIdString()));
+		$dbManager->query($query);
+		
+		$query=& new DeleteQuery;
+		$query->setTable('cm_schedule');
+		$query->addWhere("fk_id=".addslashes($courseSectionId->getIdString()));
 		$dbManager->query($query);
 	}
 
