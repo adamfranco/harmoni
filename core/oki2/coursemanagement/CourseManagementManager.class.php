@@ -6,7 +6,7 @@
 * @copyright Copyright &copy; 2006, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.35 2006/07/18 15:01:37 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.36 2006/07/18 16:27:11 sporktim Exp $
 */
 
 require_once(OKI2."/osid/coursemanagement/CourseManagementManager.php");
@@ -100,7 +100,7 @@ require_once(HARMONI."oki2/coursemanagement/TermIterator.class.php");
 * @copyright Copyright &copy; 2005, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.35 2006/07/18 15:01:37 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.36 2006/07/18 16:27:11 sporktim Exp $
 */
 class HarmoniCourseManagementManager
 extends CourseManagementManager
@@ -178,7 +178,7 @@ extends CourseManagementManager
 
 		//convert to ids
 		$idManager =& Services::getService("Id");
-		
+
 		$hierarchyId =& $idManager->getId($hierarchyId);
 		$rootId =& $idManager->getId($rootId);
 		$courseManagementId =& $idManager->getId($courseManagementId);
@@ -190,9 +190,9 @@ extends CourseManagementManager
 		$hierarchyManager =& Services::getService("Hierarchy");
 		$this->_hierarchy =& $hierarchyManager->getHierarchy($hierarchyId);
 
-	
-	
-		
+
+
+
 		//initialize nodes
 		$type =& new Type("CourseManagement","edu.middlebury","CourseManagement","These are top level nodes in the CourseManagement part of the Hierarchy");
 		if(!$this->_hierarchy->nodeExists($courseManagementId)){
@@ -338,10 +338,10 @@ extends CourseManagementManager
 	*/
 	function deleteCanonicalCourse ( &$canonicalCourseId ) { //fixthis ambiguous
 	$node =& $this->_hierarchy->getNode($canonicalCourseId);
-	$iterator =& $node->getChildren();	
+	$iterator =& $node->getChildren();
 	if($iterator->hasNextNode()){
-	  print "<b>Warning!</b>  Can't delete CanonicalCourses without deleting the CourseOfferings and the CanonicalCourse children first.";
-	  return;
+		print "<b>Warning!</b>  Can't delete CanonicalCourses without deleting the CourseOfferings and the CanonicalCourse children first.";
+		return;
 	}
 	$this->_hierarchy->deleteNode($canonicalCourseId);
 
@@ -392,7 +392,7 @@ extends CourseManagementManager
 			$row = $res->getCurrentRow();
 			$res->advanceRow();
 			$canonicalIdString = $row['id'];
-			$canonicalId =& $idManager->getId($canonicalIdString);			
+			$canonicalId =& $idManager->getId($canonicalIdString);
 			$canonicalCourseArray[] = $this->getCanonicalCourse($canonicalId);
 
 		}
@@ -428,7 +428,7 @@ extends CourseManagementManager
 	* @access public
 	*/
 	function &getCanonicalCourse ( &$canonicalCourseId ) {
-		$node =& $this->_hierarchy->getNode($canonicalCourseId);	
+		$node =& $this->_hierarchy->getNode($canonicalCourseId);
 		$ret =& new HarmoniCanonicalCourse($canonicalCourseId, $node);
 		return $ret;
 
@@ -481,7 +481,7 @@ extends CourseManagementManager
 			$id =& $idManager->getId($row['id']);
 			$canonicalCourseArrayByType[] =& $this->getCanonicalCourse($id);
 		}
-		
+
 		//convert to an iterator
 		$ret =& new  HarmoniCanonicalCourseIterator($canonicalCourseArrayByType);
 		return $ret;
@@ -602,7 +602,7 @@ extends CourseManagementManager
 			$row = $res->getCurrentRow();
 			$res->advanceRow();
 			$course = $this->getCourseSection($idManager->getId($row['id']));
-			
+
 			$array[]=$course;
 			//}
 		}
@@ -656,7 +656,7 @@ extends CourseManagementManager
 			$courseSection = $this->getCourseSection($idManager->getId($row['id']));
 			$courseOffering = $courseSection->getCourseOffering();
 			$courseOfferingId=$courseOffering->getId();
-			foreach($array as $value){				
+			foreach($array as $value){
 				if($courseOfferingId->isEqualTo($value->getId())){
 					continue 2;
 				}
@@ -665,10 +665,10 @@ extends CourseManagementManager
 		}
 		$ret =& new CourseOfferingIterator($array);
 		return $ret;
-		
-		
-		
-		
+
+
+
+
 	}
 
 	/**
@@ -700,12 +700,9 @@ extends CourseManagementManager
 	* @access public
 	*/
 	function &createTerm ( &$termType, &$schedule ) {
-	
+
 		$idManager =& Services::getService("IdManager");
 		$id=$idManager->createId();
-		
-
-
 
 		$dbManager=& Services::getService("DatabaseManager");
 		$query=& new InsertQuery;
@@ -714,44 +711,35 @@ extends CourseManagementManager
 
 		$query->setColumns(array('id','name','fk_cm_term_type'));
 
-		
-		
 		$values[]="'".addslashes($id->getIdString())."'";
 		$values[]="''";
 		$values[]="'".$this->_typeToIndex('term',$termType)."'";
 
-		
+
 		$query->addRowOfValues($values);
 
 		$dbManager->query($query);
 
-		
-		
-		
-		
-		
-		//query to add schedule items
-		$query=& new InsertQuery;
-		$query->setTable('cm_schedule');
-		
-		$query->setColumns(array('fk_id','fk_sc_item'));
-		
-		
-		$idString = "'".addslashes($id->getIdString())."'";
-		
-		
-		//iterate through array
-		foreach($schedule as $scheduleItem){
-			$values = array();
-			$values[]= $idString;
-			$scheduleId =& $scheduleItem->getId();
-			
-			$values[]="'".addslashes($scheduleId->getIdString())."'";
-			$query->addRowOfValues($values);
-			
+
+		if(count($schedule)>0){
+			//query to add schedule items
+			$query=& new InsertQuery;
+			$query->setTable('cm_schedule');
+			$query->setColumns(array('fk_id','fk_sc_item'));
+			$idString = "'".addslashes($id->getIdString())."'";
+
+
+			//iterate through array
+			foreach($schedule as $scheduleItem){
+				$values = array();
+				$values[]= $idString;
+				$scheduleId =& $scheduleItem->getId();
+				$values[]="'".addslashes($scheduleId->getIdString())."'";
+				$query->addRowOfValues($values);
+
+			}
+			$dbManager->query($query);
 		}
-		
-		$dbManager->query($query);
 		$ret =& new HarmoniTerm($id);
 		return $ret;
 	}
@@ -818,7 +806,7 @@ extends CourseManagementManager
 	* @access public
 	*/
 	function &getTerm ( &$termId ) {
-		$ret =& new HarmoniTerm($termId);		 
+		$ret =& new HarmoniTerm($termId);
 		return $ret;
 	}
 
@@ -890,24 +878,24 @@ extends CourseManagementManager
 		$array = arrray();
 		//iterate through all terms
 		while($terms->hasNextTerm()){
-			$term=&$terms->nextTerm();			
+			$term=&$terms->nextTerm();
 			$scheduleItems =& $term->getSchedule();
-			
+
 			//iterate through all ScheduleItems
 			while($scheduleItems->hasNextScheduleItem()){
-				$scheduleItem =& $scheduleItems->nextScheduleItem();			
+				$scheduleItem =& $scheduleItems->nextScheduleItem();
 				$start = $scheduleItem->getStart();
 				$end = $scheduleItem->getEnd();
-				
+
 				//if we found a ScheduleItem that overlaps, add it to the array
 				if($date>=$start && $date<=$end){
 					$array[] =& $term;
 					break;
-				}	
+				}
 			}
-			
+
 		}
-		
+
 		//make iterator
 		$ret =& new HarmoniTermIterator();
 		return $ret;
@@ -1180,7 +1168,7 @@ extends CourseManagementManager
 	*/
 	function &createCourseGradeRecord ( &$agentId, &$courseOfferingId, &$courseGradeType, &$courseGrade ) {
 		$idManager =& Services::getService("IdManager");
-		
+
 
 
 		$dbManager=& Services::getService("DatabaseManager");
@@ -1201,7 +1189,7 @@ extends CourseManagementManager
 
 		$result =&  $dbManager->query($query);
 		$id = $result->getLastAutoIncrementValue();
-		
+
 		$ret =& new HarmoniCourseGradeRecord($idManager->getId($id));
 		return $ret;
 	}
@@ -1231,16 +1219,16 @@ extends CourseManagementManager
 	* @access public
 	*/
 	function deleteCourseGradeRecord ( &$courseGradeRecordId ) {
-			
-
-	$dbManager =& Services::getService("DatabaseManager");
-	$query=& new DeleteQuery;
 
 
-	$query->setTable('cm_grade_rec');
+		$dbManager =& Services::getService("DatabaseManager");
+		$query=& new DeleteQuery;
 
-	$query->addWhere("id=".addslashes($courseGradeRecordId->getIdString()));
-	$dbManager->query($query);
+
+		$query->setTable('cm_grade_rec');
+
+		$query->addWhere("id=".addslashes($courseGradeRecordId->getIdString()));
+		$dbManager->query($query);
 	}
 
 	/**
@@ -1275,7 +1263,7 @@ extends CourseManagementManager
 	* @access public
 	*/
 	function &getCourseGradeRecords ( &$agentId, &$courseOfferingId, &$courseGradeType ) {
-		
+
 
 		$dbManager =& Services::getService("DatabaseManager");
 		$query=& new SelectQuery;
@@ -1285,22 +1273,22 @@ extends CourseManagementManager
 
 		$query->addTable('cm_grade_rec');
 		$query->addColumn('id');
-		
+
 		if(!is_null($courseGradeType)){
 			$courseGradeType=$this->_typeToIndex('can',$courseGradeType);
 			$query->addWhere("fk_cm_grade_type='".addslashes($courseGradeType)."'");
 		}
-		if(!is_null($agentId)){			
+		if(!is_null($agentId)){
 			$query->addWhere("fk_student_id='".addslashes($agentId->getIdString())."'");
 		}
 		if(!is_null($courseOfferingId)){
-			
+
 			$query->addWhere("fk_cm_offer='".addslashes($courseOfferingId->getIdString())."'");
 		}
-		
-		
-		
-		
+
+
+
+
 		$res =& $dbManager->query($query);
 
 		$array = array();
@@ -1592,18 +1580,18 @@ extends CourseManagementManager
 
 
 
-	 /**
-     * Get all the Types from the table specified
-     * 
-     * @param string $typename the type of Types to get
-     *  
-     * @return object HarmoniTypeIterator
-     * 
-     * @access private
-     */
+	/**
+	* Get all the Types from the table specified
+	*
+	* @param string $typename the type of Types to get
+	*
+	* @return object HarmoniTypeIterator
+	*
+	* @access private
+	*/
 	function &_getTypes($typename){
-		
-		//query 
+
+		//query
 		$dbHandler =& Services::getService("DBHandler");
 		$query=& new SelectQuery;
 		$query->addTable('cm_'.$typename."_type");
@@ -1612,9 +1600,9 @@ extends CourseManagementManager
 		$query->addColumn('keyword');
 		$query->addColumn('description');
 		$res=& $dbHandler->query($query);
-		
+
 		//iterate through results and add to an array
-		$array=array();		
+		$array=array();
 		while($res->hasMoreRows()){
 			$row = $res->getCurrentRow();
 			$res->advanceRow();
@@ -1625,29 +1613,29 @@ extends CourseManagementManager
 			}
 			$array[] = $the_type;
 		}
-		
+
 		//convert to an iterator
 		$ret =& new HarmoniTypeIterator($array);
 		return $ret;
 	}
 
- 	/**
-     * For object in table $table with id $id, get the Type with type $typename
-     * 
-     * @param object Id $id the Id of the object in question
-     * @param string $table the table our object resides in
-     * @param string $typename the type of Type to get
-     *  
-     * @return object Type
-     * 
-     * @access private
-     */
+	/**
+	* For object in table $table with id $id, get the Type with type $typename
+	*
+	* @param object Id $id the Id of the object in question
+	* @param string $table the table our object resides in
+	* @param string $typename the type of Type to get
+	*
+	* @return object Type
+	*
+	* @access private
+	*/
 	function &_getType(&$id, $table, $typename){
 		//the appropriate table names and fields must be given names according to the pattern indicated below
-		
+
 		//get the index for the type
 		$index=$this->_getField($id,$table,"fk_cm_".$typename."_type");
-		
+
 		//query
 		$dbHandler =& Services::getService("DBHandler");
 		$query=& new SelectQuery;
@@ -1658,7 +1646,7 @@ extends CourseManagementManager
 		$query->addColumn('keyword');
 		$query->addColumn('description');
 		$res=& $dbHandler->query($query);
-		
+
 		//There should be exactly one result.  Convert it to a type and return it
 		//remember that the description is optional
 		$row = $res->getCurrentRow();
@@ -1672,22 +1660,22 @@ extends CourseManagementManager
 	}
 
 	/**
-     * Find the index for our Type of type $type in its table.  If it is not there,
-     * put it into the table and return the index.
-     *    
-     * @param string $typename the type of Type that is passed in.
-     * @param object Type $type the Type itself
-     * 
-     * @return object Type 
-     * 
-     * @access private
-     */
+	* Find the index for our Type of type $type in its table.  If it is not there,
+	* put it into the table and return the index.
+	*
+	* @param string $typename the type of Type that is passed in.
+	* @param object Type $type the Type itself
+	*
+	* @return object Type
+	*
+	* @access private
+	*/
 	function _typeToIndex($typename, &$type){
 		//the appropriate table names and fields must be given names according to the pattern indicated below
 
 		//validate the Type
 		ArgumentValidator::validate($type, ExtendsValidatorRule::getRule("Type"), true);
-		
+
 		//query to see if it exists
 		$dbHandler =& Services::getService("DBHandler");
 		$query=& new SelectQuery;
@@ -1699,7 +1687,7 @@ extends CourseManagementManager
 		$res=& $dbHandler->query($query);
 
 
-		
+
 		if($res->getNumberOfRows()==0){
 			//if not query to create it
 			$query=& new InsertQuery;
@@ -1742,16 +1730,16 @@ extends CourseManagementManager
 	}
 
 	/**
-     * Given the object in table $table with id $id, change the field with name $key to $value 
-     * 
-     * @param object Id $id The Id of the object in question
-     * @param string $table The table that our object resides in
-     * @param string $key The name of the field
-     * @param mixed $value The value to pass in
-     * 
-     * 
-     * @access private
-     */
+	* Given the object in table $table with id $id, change the field with name $key to $value
+	*
+	* @param object Id $id The Id of the object in question
+	* @param string $table The table that our object resides in
+	* @param string $key The name of the field
+	* @param mixed $value The value to pass in
+	*
+	*
+	* @access private
+	*/
 	function _setField(&$id, $table, $key, $value)
 	{
 		//just an update query
@@ -1767,19 +1755,19 @@ extends CourseManagementManager
 	}
 
 	/**
-     * Given the object in table $table with id $id, get the field with name $key 
-     * 
-     * @param object Id $id The Id of the object in question
-     * @param string $table The table that our object resides in
-     * @param string $key The name of the field
-     * 
-     * @return string 
-     * 
-     * @access private
-     */
+	* Given the object in table $table with id $id, get the field with name $key
+	*
+	* @param object Id $id The Id of the object in question
+	* @param string $table The table that our object resides in
+	* @param string $key The name of the field
+	*
+	* @return string
+	*
+	* @access private
+	*/
 	function _getField(&$id, $table, $key)
 	{
-		
+
 		//just a select query
 		$dbHandler =& Services::getService("DBHandler");
 		$query=& new SelectQuery;
