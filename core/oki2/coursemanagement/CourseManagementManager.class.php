@@ -6,7 +6,7 @@
 * @copyright Copyright &copy; 2006, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.37 2006/07/18 21:37:26 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.38 2006/07/20 19:23:37 jwlee100 Exp $
 */
 
 require_once(OKI2."/osid/coursemanagement/CourseManagementManager.php");
@@ -100,7 +100,7 @@ require_once(HARMONI."oki2/coursemanagement/TermIterator.class.php");
 * @copyright Copyright &copy; 2005, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.37 2006/07/18 21:37:26 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.38 2006/07/20 19:23:37 jwlee100 Exp $
 */
 class HarmoniCourseManagementManager
 extends CourseManagementManager
@@ -1772,12 +1772,13 @@ extends CourseManagementManager
 	*/
 	function _getField(&$id, $table, $key)
 	{
-
+		$idString = $id->getIdString();
+		
 		//just a select query
 		$dbHandler =& Services::getService("DBHandler");
 		$query=& new SelectQuery;
 		$query->addTable($table);
-		$query->addWhere("id='".addslashes($id->getIdString())."'");
+		$query->addWhere("id='".addslashes($idString)."'");
 		$query->addColumn(addslashes($key));
 		$res=& $dbHandler->query($query);
 		$row = $res->getCurrentRow();

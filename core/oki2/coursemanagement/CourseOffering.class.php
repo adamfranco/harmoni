@@ -24,7 +24,7 @@ require_once(OKI2."/osid/coursemanagement/CourseOffering.php");
 * @copyright Copyright &copy; 2005, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseOffering.class.php,v 1.21 2006/07/18 21:37:26 sporktim Exp $
+* @version $Id: CourseOffering.class.php,v 1.22 2006/07/20 19:23:37 jwlee100 Exp $
 */
 class HarmoniCourseOffering
 extends CourseOffering
@@ -371,9 +371,11 @@ extends CourseOffering
 	* @access public
 	*/
 	function &getTerm () {
-		$cm = Services::getService("CourseMangament");
+		$cm = Services::getService("CourseManagement");
 		$termId = $this->_getField('fk_cm_term');
-		$cm -> getTerm($termId);
+		$term =& $cm->getTerm($termId);
+		
+		return $term;
 	}
 
 	/**
