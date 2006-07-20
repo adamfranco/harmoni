@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: test.php,v 1.11 2006/07/18 21:37:26 sporktim Exp $
+ * @version $Id: test.php,v 1.12 2006/07/20 19:37:56 sporktim Exp $
  */
  
  require_once(dirname(__FILE__)."/../../../../../concerto/index.php");
@@ -28,6 +28,7 @@ $harmonyLoadupTimer->end();
 
 		
 	require_once(SIMPLE_TEST . 'simple_unit.php');
+	require_once(SIMPLE_TEST . 'oki_simple_unit.php');
 	require_once(SIMPLE_TEST . 'dobo_simple_html_test.php');
 
 /*	if (!defined('CONCERTODBID')) { */
@@ -43,12 +44,14 @@ $harmonyLoadupTimer->end();
 	
 	$test =& new GroupTest('CourseManagementTest');
 	
-	//$test->addTestFile(dirname(__FILE__).'/CanonicalTestCase.class.php');
-	$test->addTestFile(dirname(__FILE__).'/CanonicalCourseTestCase.class.php');
+	
+	//$test->addTestFile(dirname(__FILE__).'/CanonicalCourseTestCase.class.php');
+	//$test->addTestFile(dirname(__FILE__).'/CourseGroupTestCase.class.php');
 	//$test->addTestFile(dirname(__FILE__).'/CourseOfferingTestCase.class.php');
+	$test->addTestFile(dirname(__FILE__).'/TermTest.class.php');
 	//$test->addTestFile(dirname(__FILE__).'/CourseSectionTestCase.class.php');
 	//$test->addTestFile(dirname(__FILE__).'/CourseGradeRecordTest.class.php');
-	//$test->addTestFile(dirname(__FILE__).'/TermTest.class.php');
+	
 
 	$test->attachObserver(new DoboTestHtmlDisplay());
 	$test->run();

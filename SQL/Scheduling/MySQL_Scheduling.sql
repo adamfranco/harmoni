@@ -5,7 +5,7 @@
 -- @copyright Copyright &copy; 2006, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 -- 
--- @version $Id: MySQL_Scheduling.sql,v 1.3 2006/07/06 20:28:23 sporktim Exp $
+-- @version $Id: MySQL_Scheduling.sql,v 1.4 2006/07/20 19:37:55 sporktim Exp $
 -- */
 -- --------------------------------------------------------
 
@@ -51,7 +51,7 @@ CREATE TABLE `sc_commit_stat_type` (
   `domain` varchar(255) default NULL,
   `description` text,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table contains various types of AgentCommitment statuse' AUTO_INCREMENT=20 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE = utf8_bin COMMENT='This table contains various types of AgentCommitment statuse' AUTO_INCREMENT=20 ;
 
 
 CREATE TABLE `sc_item_stat_type` (
@@ -61,4 +61,4 @@ CREATE TABLE `sc_item_stat_type` (
   `domain` varchar(255) default NULL,
   `description` text,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table contains various types of ScheduleItem status' AUTO_INCREMENT=20 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE = utf8_bin COMMENT='This table contains various types of ScheduleItem status' AUTO_INCREMENT=20 ;

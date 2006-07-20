@@ -26,7 +26,7 @@ require_once(OKI2."/osid/coursemanagement/CourseSection.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CourseSection.class.php,v 1.19 2006/07/18 15:01:37 sporktim Exp $
+ * @version $Id: CourseSection.class.php,v 1.20 2006/07/20 19:37:56 sporktim Exp $
  */
 class HarmoniCourseSection
 	extends CourseSection
@@ -561,7 +561,7 @@ class HarmoniCourseSection
 	function addAsset ( &$assetId ) { 
 		$dbManager =& Services::getService("DatabaseManager");
 		$query=& new SelectQuery;
-		$query->addTable('cm_asset');
+		$query->addTable('cm_assets');
 		$query->addWhere("fk_course_id='".$this->_id->getIdString()."'");
 		$query->addWhere("fk_asset_id='".addslashes($assetId->getIdString())."'");
 		$res=& $dbManager->query($query);
@@ -570,7 +570,7 @@ class HarmoniCourseSection
 
 		if($res->getNumberOfRows()==0){
 			$query=& new InsertQuery;
-			$query->setTable('cm_asset');
+			$query->setTable('cm_assets');
 			$values[]="'".addslashes($this->_id->getIdString())."'";
 			$values[]="'".addslashes($assetId->getIdString())."'";	
 			$query->setColumns(array('fk_course_id','fk_asset_id'));			
@@ -611,7 +611,7 @@ class HarmoniCourseSection
 	function removeAsset ( &$assetId ) { 
 			$dbManager =& Services::getService("DatabaseManager");
 		$query=& new DeleteQuery;
-		$query->setTable('cm_asset');
+		$query->setTable('cm_assets');
 		$query->addWhere("fk_course_id='".$this->_id->getIdString()."'");
 		$query->addWhere("fk_asset_id='".addslashes($assetId->getIdString())."'");
 		$dbManager->query($query);
@@ -641,7 +641,7 @@ class HarmoniCourseSection
 			
 		$dbManager =& Services::getService("DatabaseManager");
 		$query=& new SelectQuery;
-		$query->addTable('cm_asset');
+		$query->addTable('cm_assets');
 		$query->addWhere("fk_course_id='".$this->_id->getIdString()."'");
 		$query->addColumn('fk_asset_id');
 		$res=& $dbManager->query($query);

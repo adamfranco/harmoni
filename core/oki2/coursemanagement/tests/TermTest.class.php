@@ -33,7 +33,7 @@
 	require_once(HARMONI."oki2/coursemanagement/Term.class.php");
 	require_once(HARMONI."oki2/coursemanagement/TermIterator.class.php");
     
-    class TermTest extends UnitTestCase {
+    class TermTest extends OKIUnitTestCase {
       
       	/**
 		 *	  Sets up unit test wide variables at the start
@@ -55,151 +55,161 @@
         
         function TestOfTerm() {
           	// Create canonical course
-          	$this->write(7, "Term and Scheduling Test");
+          	$this->write(7, "Term Test");
           	
-        	$cmm =& Services::getService("CourseManagement");
-        	$scheduling =& Services::getService("Scheduling");
+        	$cm =& Services::getService("CourseManagement");
+        	$sm =& Services::getService("Scheduling");
 			
-			// Create new student 1
-			$propertiesTypeA =& new Type("CourseManagement", "edu.middlebury", "student");
-			$propertiesA =& new HarmoniProperties($propertiesTypeA);
-			$name = "Sporktim Bahls";
-			$class = "2006";
-			$propertiesA->addProperty('student_name', $name);
-			$propertiesA->addProperty('student_year', $class);	
-			
-			$agentTypeA =& new Type("CourseManagement", "edu.middlebury", "student");
-			$agentHandler =& Services::getService("Agent");
-			$agentA =& $agentHandler->createAgent("Gladius", $agentTypeA, $propertiesA);
-			
-			// Create new student 2
-			$this->write(2,"John");
-			$propertiesTypeB =& new Type("CourseManagement", "edu.middlebury", "student");
-			$propertiesB =& new HarmoniProperties($propertiesTypeB);
-			$name = "John Lee";
-			$propertiesB->addProperty('student_name', $name);
-			$propertiesB->addProperty('student_year', $class);	
-			
-			$agentTypeB =& new Type("CourseManagement", "edu.middlebury", "student");
-			$agentB =& $agentHandler->createAgent("jood8", $agentTypeB, $propertiesB);
-			
-			// Create new student 3
-			$this->write(2,"Magda");
-			$propertiesTypeC =& new Type("CourseManagement", "edu.middlebury", "student");
-			$propertiesC =& new HarmoniProperties($propertiesTypeC);
-			$name = "Magdalena Widjaja";
-			$propertiesC->addProperty('student_name', $name);
-			$propertiesC->addProperty('student_year', $class);	
-			
-			$agentTypeC =& new Type("CourseManagement", "edu.middlebury", "student");
-			$agentC =& $agentHandler->createAgent("Mags", $agentTypeC, $propertiesC);
-			
-			$agentIdA =& $agentA->getId();
-			$agentIdB =& $agentB->getId();
-			$agentIdC =& $agentC->getId();
-			
-			$agents = array($agentIdA, $agentIdB, $agentIdC);
-			
-			$start = 300;
-			$end = 600;
-			$scheduleA =& $scheduling->createScheduleItem("Fall 2006", "2006-2007", $agents, $start, $end, null);
-			$scheduleB =& $scheduling->getScheduleItem($scheduleA->getId());
-			$schedule = array($scheduleA);
-			
-		
-			
-			$availableTimes =& $scheduling->getAvailableTimes($agents, $start, $end);
-			
-			
-			
-			
-			$this->assertEqual($scheduleA->getDisplayName(), $scheduleB->getDisplayName());
-			$this->assertEqual($scheduleA->getDescription(), $scheduleB->getDescription());
-			$this->assertEqual($scheduleA->getAgentCommitments(), $scheduleB->getAgentCommitments());
-			
-			
-			
-			
-			$this->assertEqual($scheduleA->getStart(), $scheduleB->getStart());
-			$this->assertEqual($scheduleA->getEnd(), $scheduleB->getEnd());
-			
-			$termType =& new Type("CourseManagement", "edu.middlebury", "Fall 2006");
+        
 
-			$schedule = array($scheduleA);
-			$termA =& $cmm->createTerm($termType, $schedule);
-
-			$termB =& $cmm->getTerm($termA->getId());
+        	
+        	$canType =& new Type("CourseManagement", "edu.middlebury", "DED", "Deductive Reasoning");
+          	$canStatType =& new Type("CourseManagement", "edu.middlebury", "Still offered", "Offerd sometimes");
+          	
+          	$offerType1 =& new Type("CourseManagement", "edu.middlebury", "default", "");
+          	$offerType2 =& new Type("CourseManagement", "edu.middlebury", "undefault", "MYSTERIOUS!");
+          	$offerStatType1 =& new Type("CourseManagement", "edu.middlebury", "Full", "You can't still register.");
+          	$offerStatType2 =& new Type("CourseManagement", "edu.middlebury", "Available", "You can still register.");
+          	$gradeType =& new Type("CourseManagement", "edu.middlebury", "AutoFail", "Sucks to be you");
+          	$gradeType2 =& new Type("CourseManagement", "edu.middlebury", "EasyA", "AM LIT!");
+          	
+          	$termType1 =& new Type("CourseManagement", "edu.middlebury", "ItsTheFall");
+          	$termType2 =& new Type("Coursemanagement", "edu.middlebury", "ItsAlsoTheFall","contains Smarch and Febtober");
+          	
+          	$cs1 =& $cm->createCanonicalCourse("Intro to CSCI", "CSCI101", "",$canType, $canStatType,1);
+          	$cs2 =& $cm->createCanonicalCourse("Computer Graphics", "CSCI367", "",$canType, $canStatType,1);
+          	
+          	        	
+			$scheduleItemA1 =& $sm->createScheduleItem("Fall 2006 range", "", $agents, 300, 900, null);
+			$scheduleItemA2 =& $sm->createScheduleItem("Thanksgiving", "", $agents, 350, 400, null);
+			$scheduleItemA3 =& $sm->createScheduleItem("Christmas", "ho ho ho", $agents, 500, 600, null);
 			
-			$this->assertEqualTypes($termA->getType(), $termB->getType());
+			$scheduleItemB1 =& $sm->createScheduleItem("Fall 2006 range", "", $agents, 1300, 1900, null);
+			$scheduleItemB2 =& $sm->createScheduleItem("Thanksgiving", "", $agents, 1350, 1400, null);
+			$scheduleItemB3 =& $sm->createScheduleItem("Christmas", "ho ho ho", $agents, 1500, 1600, null);				
+			
+			$scheduleItemC1 =& $sm->createScheduleItem("Funky time", "", $agents, 100, 500, null);
+			$scheduleItemC2 =& $sm->createScheduleItem("Dance party", "", $agents, 700, 1400, null);
+	
+			
+			$scheduleA = array($scheduleItemA1,$scheduleItemA2,$scheduleItemA3);
+			$scheduleB = array($scheduleItemB1,$scheduleItemB2,$scheduleItemB3);
+			$scheduleC = array($scheduleItemC1,$scheduleItemC2);
+			
+						
+			$term1 =& $cm->createTerm($termType1, $scheduleA);		
+			$term2 =& $cm->createTerm($termType2, $scheduleB);
+			
+	   	
+        	
+        	$this->write(4,"Test of basic get and update methods");   
+          	
+         $this->write(2,"Get");
+         
+          	$this->assertDoesNotCrashTheSystem($term1->getDisplayName());
+          	$this->assertEqualTypes($term1->getType(), $termType1);
+ 
+          	 
+          	$this->assertDoesNotCrashTheSystem($term2->getDisplayName());
+          	$this->assertEqualTypes($term2->getType(), $termType2);
+          	
+          	    $this->write(2,"Update");
+          	    
+          	$term1->updateDisplayName("The Fall of 2005");
+			$term2->updateDisplayName("The Fall of 2006");    
+          	
+          	$this->assertEqual($term1->getDisplayName(), "The Fall of 2005");   
+          	$this->assertEqual($term2->getDisplayName(), "The Fall of 2006");
+          	
+          	
+          $this->write(4,"Test of getSchedule()");   
+        	$iter =& $term1->getSchedule();
+			$this->assertIteratorHasItemWithId($iter, $scheduleItemA1);
+			$this->assertIteratorHasItemWithId($iter, $scheduleItemA2);
+			$this->assertIteratorHasItemWithId($iter, $scheduleItemA3);
+			
+			$this->assertIteratorLacksItemWithId($iter, $scheduleItemB1);
+			$this->assertIteratorLacksItemWithId($iter, $scheduleItemB2);
+			$this->assertIteratorLacksItemWithId($iter, $scheduleItemB3);
+			
+			$iter =& $term2->getSchedule();
+			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA1);
+			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA2);
+			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA3);
+			
+			$this->assertIteratorHasItemWithId($iter, $scheduleItemB1);
+			$this->assertIteratorHasItemWithId($iter, $scheduleItemB2);
+			$this->assertIteratorHasItemWithId($iter, $scheduleItemB3);
+        	
+        	$this->write(4,"Test of getTerm() getTerms()");
+          	
+        		$this->write(1,"Group A");
+        	
+          	$term1a =& $cm->getTerm($term1->getID());     	
+          	$this->assertHasEqualIds($term1a,$term1);
+          	$this->assertEqual($term1a->getDisplayName(), "The Fall of 2005");
+          	$this->assertEqualTypes($term1a->getType(),$termType1);
+        	
+        		$this->write(1,"Group B");
+          	
+          	$iter =& $cm->getTerms();
+			$this->assertIteratorHasItemWithId($iter, $term2);
+			$this->assertIteratorHasItemWithId($iter, $term1);
+			$this->assertIteratorLacksItemWithId($iter, $scheduleItemB1);
 			
 			
-			$scheduleIterator =& $termA->getSchedule();
+				
+				
+				$this->write(4,"Test of getTermsByDate() and updateSchedule()");
+					
+				
+					
+			$this->write(1,"Group A");		
+			$iter =& $cm->getTermsByDate(375);
+			$this->assertIteratorHasItemWithId($iter, $term1);
+			$this->assertIteratorLacksItemWithId($iter, $term2);
+			$this->assertIteratorLacksItemWithId($iter, $scheduleItemB1);
+			
+			$this->write(1,"Group B");		
+			$iter =& $cm->getTermsByDate(325);
+			$this->assertIteratorHasItemWithId($iter, $term1);
+			$this->assertIteratorLacksItemWithId($iter, $term2);
+			$this->assertIteratorLacksItemWithId($iter, $scheduleItemB1);
 			
 			
-			$this->assertTrue($scheduleIterator->hasNextScheduleItem());
-
-			if ($scheduleIterator->hasNextScheduleItem()) {
-				$scheduleC =& $scheduleIterator->nextScheduleItem();
-				$this->assertTrue(!$scheduleIterator->hasNextScheduleItem());
+			$this->write(1,"Group C");		
+			$iter =& $cm->getTermsByDate(1000);
+			$this->assertIteratorLacksItemWithId($iter, $term1);
+			$this->assertIteratorLacksItemWithId($iter, $term2);
+			$this->assertIteratorLacksItemWithId($iter, $scheduleItemB1);
 			
-				$this->assertEqual($scheduleA->getDisplayName(), $scheduleC->getDisplayName());
-				$this->assertEqual($scheduleA->getDescription(), $scheduleC->getDescription());
-				$this->assertEqual($scheduleA->getAgentCommitments(), $scheduleB->getAgentCommitments());
+			$this->write(1,"Group D");		
+			$iter =& $cm->getTermsByDate(1500);
+			$this->assertIteratorLacksItemWithId($iter, $term1);
+			$this->assertIteratorHasItemWithId($iter, $term2);
+			$this->assertIteratorLacksItemWithId($iter, $scheduleItemB1);
+				
+          	
 			
-			}
-
-
-			$this->assertEqual($scheduleA->getStart(), $scheduleC->getStart());
-				$this->assertEqual($scheduleA->getEnd(), $scheduleC->getEnd());
-
+			$term1->updateSchedule($term2->getSchedule());
+			$term2->updateSchedule($scheduleC);
 			
-			$scheduling->deleteScheduleItem($scheduleA->getId());
+			
+        	$this->write(4,"Test of getting Types");
+			
+					
+			$iter =& $cm->getTermTypes();
+			$this->assertTrue($this->typeIteratorHas($iter, $termType1));
+			$this->assertTrue($this->typeIteratorHas($iter, $termType2));
+			$this->assertTrue(!$this->typeIteratorHas($iter,new Type("sadfsz234dfwerwer","sadfszd23fwerwer","asdfwer123")));
+			
+			
+        	
+        	
+        	
+        	
+        
         }
 		
-		
-		function assertEqualTypes(&$typeA,&$typeB){
-			
-			$this->assertEqual($typeA->getDomain(),$typeB->getDomain());
-			$this->assertEqual($typeA->getAuthority(),$typeB->getAuthority());
-			$this->assertEqual($typeA->getKeyword(),$typeB->getKeyword());
-			$this->assertEqual($typeA->getDescription(),$typeB->getDescription());
-		}
-		
-		
-		function write($size, $text){
-			
-			print "<p align=center><font size=".$size." color=#8888FF>".$text."</font></p>\n";
-			
-			
-		} 
-		
-		
-		//This method only works if the items have a getDisplaName() method.
-		//Relies extensively on weak typing
-		function iteratorHas($iter, $name){
-			$bool=false;
-			print "(";
-			while($iter->hasNext()){
-				
-					$item =& $iter->next();
-				print $item->getDisplayName().",";
-					if($name == $item->getDisplayName()){
-						$bool = true;
-					}
-					
-				}
-			print ")";
-			print "has ".$name."? --> ".$bool;
-				return $bool;
-			/*
-				while($iter->hasNext()){
-					//$am =& Services::GetService("AgentManager");
-					$item =& $iter->next();
-					if($name == $item->getDisplayName()){
-						return true;
-					}
-				}
-				return false;*/
-		}
     }
 ?>

@@ -6,7 +6,7 @@
 * @copyright Copyright &copy; 2006, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.38 2006/07/20 19:23:37 jwlee100 Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.39 2006/07/20 19:37:56 sporktim Exp $
 */
 
 require_once(OKI2."/osid/coursemanagement/CourseManagementManager.php");
@@ -100,7 +100,7 @@ require_once(HARMONI."oki2/coursemanagement/TermIterator.class.php");
 * @copyright Copyright &copy; 2005, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.38 2006/07/20 19:23:37 jwlee100 Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.39 2006/07/20 19:37:56 sporktim Exp $
 */
 class HarmoniCourseManagementManager
 extends CourseManagementManager
@@ -880,7 +880,7 @@ extends CourseManagementManager
 	*/
 	function &getTermsByDate ( $date ) {
 		$terms =&$this->getTerms();
-		$array = arrray();
+		$array = array();
 		//iterate through all terms
 		while($terms->hasNextTerm()){
 			$term=&$terms->nextTerm();
@@ -902,7 +902,7 @@ extends CourseManagementManager
 		}
 
 		//make iterator
-		$ret =& new HarmoniTermIterator();
+		$ret =& new HarmoniTermIterator($array);
 		return $ret;
 	}
 
@@ -1378,7 +1378,15 @@ extends CourseManagementManager
 	* @access public
 	*/
 	function deleteCourseGroup ( &$courseGroupId ) {
-
+		//we can't delete non-root nodes, so first break all the connections
+		$node =& $this->_hierarchy->getNode($courseGroupId);
+		$nodeIterator = $node->getChildren();		
+		while($nodeIterator->hasNextNode()){
+			$child =& $nodeIterator->nextNode();			
+			$child->removeParent($courseGroupId);
+		}
+		
+		//now we can delete the node
 		$this->_hierarchy->deleteNode($courseGroupId);
 	}
 
@@ -1497,7 +1505,7 @@ extends CourseManagementManager
 				continue;
 			}
 			$grandparentNode = $grandparents->nextNode();
-			if($this->_courseGroupsId->isEqualTo($grandparentNode->getId())){
+			if($this->_courseGroupsId->isEqual($grandparentNode->getId())){
 				$arrayOfGroups[] =& $this->getCourseGroup($parentNode->getId());
 			}
 		}
@@ -1535,7 +1543,7 @@ extends CourseManagementManager
 		while($nodeIterator->hasNextNode()){
 			$node=&$nodeIterator->nextNode();
 			foreach($arrayOfTypes as $value){
-				if($value->isEqualTo($node->getType())){
+				if($value->isEqual($node->getType())){
 					continue 2;
 				}
 			}
@@ -1639,7 +1647,7 @@ extends CourseManagementManager
 		//the appropriate table names and fields must be given names according to the pattern indicated below
 
 		//get the index for the type
-		$index=$this->_getField($id,$table,"fk_cm_".$typename."_type");
+		$index = $this->_getField($id,$table,"fk_cm_".$typename."_type");
 
 		//query
 		$dbHandler =& Services::getService("DBHandler");

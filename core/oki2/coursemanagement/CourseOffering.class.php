@@ -24,7 +24,7 @@ require_once(OKI2."/osid/coursemanagement/CourseOffering.php");
 * @copyright Copyright &copy; 2005, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseOffering.class.php,v 1.22 2006/07/20 19:23:37 jwlee100 Exp $
+* @version $Id: CourseOffering.class.php,v 1.23 2006/07/20 19:37:56 sporktim Exp $
 */
 class HarmoniCourseOffering
 extends CourseOffering
@@ -371,11 +371,18 @@ extends CourseOffering
 	* @access public
 	*/
 	function &getTerm () {
-		$cm = Services::getService("CourseManagement");
+		$cm =& Services::getService("CourseManagement");
+		$idManager =& Services::getService("Id");
+
+
+
+
 		$termId = $this->_getField('fk_cm_term');
-		$term =& $cm->getTerm($termId);
 		
-		return $term;
+		
+	
+		return $cm -> getTerm($idManager->getId($termId));
+
 	}
 
 	/**
@@ -483,12 +490,16 @@ extends CourseOffering
 			return null;
 		}
 		$parentNode =& $nodeIterator->nextNode();
-		$cm = Services::getService("CourseMangament");
+		$cm = Services::getService("CourseManagement");
 		return $cm -> getCanonicalCourse($parentNode->getID());
 	}
 
 	/**
-	* Create a new CourseSection.  The display name defaults to the title.
+	* Create a new CourseSection.  
+	*
+	* The display name defaults to the title.  If the title,
+	* number or displayName are left null, they default to the values of the creating agent.
+	* Niether of these defaults are in the OSID, however.
 	*
 	* @param string $title
 	* @param string $number
@@ -519,6 +530,19 @@ extends CourseOffering
 	* @access public
 	*/
 	function &createCourseSection ( $title, $number, $description, &$sectionType, &$sectionStatusType, &$location ) {
+		
+		//set any defaults
+		if(is_null($title)){
+			$title = $this->getTitle();
+		}
+		if(is_null($number)){
+			$number = $this->getNumber();
+		}
+		if(is_null($description)){
+			$description = $this->getDescription();
+		}
+		
+		
 		//prepare
 		$idManager =& Services::getService("IdManager");
 		$id=$idManager->createId();
@@ -541,6 +565,7 @@ extends CourseOffering
 		$values[]="'".addslashes($number)."'";
 		$query->addRowOfValues($values);
 		$dbManager->query($query);
+
 		
 		//create object
 		$ret =& new HarmoniCourseSection($id, $node);
@@ -745,16 +770,17 @@ extends CourseOffering
 		
 	$dbManager =& Services::getService("DatabaseManager");
 		$query=& new SelectQuery;
-		$query->addTable('cm_asset');
+		$query->addTable('cm_assets');
 		$query->addWhere("fk_course_id='".$this->_id->getIdString()."'");
 		$query->addWhere("fk_asset_id='".addslashes($assetId->getIdString())."'");
+		$query->addColumn('fk_course_id');
 		$res=& $dbManager->query($query);
 
 
 
 		if($res->getNumberOfRows()==0){
 			$query=& new InsertQuery;
-			$query->setTable('cm_asset');
+			$query->setTable('cm_assets');
 			$values[]="'".addslashes($this->_id->getIdString())."'";
 			$values[]="'".addslashes($assetId->getIdString())."'";	
 			$query->setColumns(array('fk_course_id','fk_asset_id'));			
@@ -796,7 +822,7 @@ extends CourseOffering
 	function removeAsset ( &$assetId ) {
 		$dbManager =& Services::getService("DatabaseManager");
 		$query=& new DeleteQuery;
-		$query->addTable('cm_asset');
+		$query->setTable('cm_assets');
 		$query->addWhere("fk_course_id='".$this->_id->getIdString()."'");
 		$query->addWhere("fk_asset_id='".addslashes($assetId->getIdString())."'");
 		$dbManager->query($query);
@@ -827,7 +853,7 @@ extends CourseOffering
 		
 		$dbManager =& Services::getService("DatabaseManager");
 		$query=& new SelectQuery;
-		$query->addTable('cm_asset');
+		$query->addTable('cm_assets');
 		$query->addWhere("fk_course_id='".$this->_id->getIdString()."'");
 		$query->addColumn('fk_asset_id');
 		$res=& $dbManager->query($query);
