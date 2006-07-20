@@ -6,7 +6,7 @@
 * @copyright Copyright &copy; 2006, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.39 2006/07/20 19:37:56 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.40 2006/07/20 19:44:51 jwlee100 Exp $
 */
 
 require_once(OKI2."/osid/coursemanagement/CourseManagementManager.php");
@@ -100,7 +100,7 @@ require_once(HARMONI."oki2/coursemanagement/TermIterator.class.php");
 * @copyright Copyright &copy; 2005, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.39 2006/07/20 19:37:56 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.40 2006/07/20 19:44:51 jwlee100 Exp $
 */
 class HarmoniCourseManagementManager
 extends CourseManagementManager
@@ -1780,6 +1780,9 @@ extends CourseManagementManager
 	*/
 	function _getField(&$id, $table, $key)
 	{
+	  	// Validate the Id
+		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"), true);
+	  
 		$idString = $id->getIdString();
 		
 		//just a select query
