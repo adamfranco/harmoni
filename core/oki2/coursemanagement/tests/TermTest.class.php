@@ -95,11 +95,13 @@
 			$scheduleA = array($scheduleItemA1,$scheduleItemA2,$scheduleItemA3);
 			$scheduleB = array($scheduleItemB1,$scheduleItemB2,$scheduleItemB3);
 			$scheduleC = array($scheduleItemC1,$scheduleItemC2);
+			$scheduleD = array($scheduleItemA1,$scheduleItemB1,$scheduleItemC1,$scheduleItemC2);
 			
 						
 			$term1 =& $cm->createTerm($termType1, $scheduleA);		
 			$term2 =& $cm->createTerm($termType2, $scheduleB);
-			
+			$term3 =& $cm->createTerm($termType1, $scheduleC);
+			$term4 =& $cm->createTerm($termType1, $scheduleD);
 	   	
         	
         	$this->write(4,"Test of basic get and update methods");   
@@ -117,6 +119,8 @@
           	    
           	$term1->updateDisplayName("The Fall of 2005");
 			$term2->updateDisplayName("The Fall of 2006");    
+			$term3->updateDisplayName("par-tay");
+			$term4->updateDisplayName("Everything"); 
           	
           	$this->assertEqual($term1->getDisplayName(), "The Fall of 2005");   
           	$this->assertEqual($term2->getDisplayName(), "The Fall of 2006");
@@ -146,53 +150,124 @@
         		$this->write(1,"Group A");
         	
           	$term1a =& $cm->getTerm($term1->getID());     	
-          	$this->assertHasEqualIds($term1a,$term1);
+          	$this->assertHaveEqualIds($term1a,$term1);
           	$this->assertEqual($term1a->getDisplayName(), "The Fall of 2005");
           	$this->assertEqualTypes($term1a->getType(),$termType1);
         	
         		$this->write(1,"Group B");
           	
           	$iter =& $cm->getTerms();
-			$this->assertIteratorHasItemWithId($iter, $term2);
 			$this->assertIteratorHasItemWithId($iter, $term1);
+			$this->assertIteratorHasItemWithId($iter, $term2);
+			$this->assertIteratorHasItemWithId($iter, $term3);
+			$this->assertIteratorHasItemWithId($iter, $term4);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemB1);
 			
 			
 				
 				
-				$this->write(4,"Test of getTermsByDate() and updateSchedule()");
-					
-				
+				$this->write(4,"Test of getTermsByDate()");
 					
 			$this->write(1,"Group A");		
-			$iter =& $cm->getTermsByDate(375);
-			$this->assertIteratorHasItemWithId($iter, $term1);
+			$iter =& $cm->getTermsByDate(50);
+			$this->assertIteratorLacksItemWithId($iter, $term1);
 			$this->assertIteratorLacksItemWithId($iter, $term2);
+			$this->assertIteratorLacksItemWithId($iter, $term3);
+			$this->assertIteratorLacksItemWithId($iter, $term4);
+			$this->assertIteratorLacksItemWithId($iter, $scheduleItemB1);	
+					
+			$this->write(1,"Group B");		
+			$iter =& $cm->getTermsByDate(100);
+			$this->assertIteratorLacksItemWithId($iter, $term1);
+			$this->assertIteratorLacksItemWithId($iter, $term2);
+			$this->assertIteratorHasItemWithId($iter, $term3);
+			$this->assertIteratorHasItemWithId($iter, $term4);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemB1);
 			
-			$this->write(1,"Group B");		
+			$this->write(1,"Group C");		
 			$iter =& $cm->getTermsByDate(325);
 			$this->assertIteratorHasItemWithId($iter, $term1);
 			$this->assertIteratorLacksItemWithId($iter, $term2);
+			$this->assertIteratorHasItemWithId($iter, $term3);
+			$this->assertIteratorHasItemWithId($iter, $term4);
+			$this->assertIteratorLacksItemWithId($iter, $scheduleItemB1);
+
+			
+			$this->write(1,"Group D");		
+			$iter =& $cm->getTermsByDate(375);
+			$this->assertIteratorHasItemWithId($iter, $term1);
+			$this->assertIteratorLacksItemWithId($iter, $term2);
+			$this->assertIteratorHasItemWithId($iter, $term3);
+			$this->assertIteratorHasItemWithId($iter, $term4);
+			$this->assertIteratorLacksItemWithId($iter, $scheduleItemB1);
+			
+			$this->write(1,"Group E");		
+			$iter =& $cm->getTermsByDate(500);
+			$this->assertIteratorHasItemWithId($iter, $term1);
+			$this->assertIteratorLacksItemWithId($iter, $term2);
+			$this->assertIteratorHasItemWithId($iter, $term3);
+			$this->assertIteratorHasItemWithId($iter, $term4);
+			$this->assertIteratorLacksItemWithId($iter, $scheduleItemB1);
+			
+			$this->write(1,"Group F");		
+			$iter =& $cm->getTermsByDate(600);
+			$this->assertIteratorHasItemWithId($iter, $term1);
+			$this->assertIteratorLacksItemWithId($iter, $term2);
+			$this->assertIteratorLacksItemWithId($iter, $term3);
+			$this->assertIteratorHasItemWithId($iter, $term4);
+			$this->assertIteratorLacksItemWithId($iter, $scheduleItemB1);
+			
+			$this->write(1,"Group G");		
+			$iter =& $cm->getTermsByDate(700);
+			$this->assertIteratorHasItemWithId($iter, $term1);
+			$this->assertIteratorLacksItemWithId($iter, $term2);
+			$this->assertIteratorHasItemWithId($iter, $term3);
+			$this->assertIteratorHasItemWithId($iter, $term4);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemB1);
 			
 			
-			$this->write(1,"Group C");		
+			
+			$this->write(1,"Group H");		
 			$iter =& $cm->getTermsByDate(1000);
 			$this->assertIteratorLacksItemWithId($iter, $term1);
 			$this->assertIteratorLacksItemWithId($iter, $term2);
+			$this->assertIteratorHasItemWithId($iter, $term3);
+			$this->assertIteratorHasItemWithId($iter, $term4);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemB1);
 			
-			$this->write(1,"Group D");		
+			$this->write(1,"Group I");		
+			$iter =& $cm->getTermsByDate(1300);
+			$this->assertIteratorLacksItemWithId($iter, $term1);
+			$this->assertIteratorHasItemWithId($iter, $term2);
+			$this->assertIteratorHasItemWithId($iter, $term3);
+			$this->assertIteratorHasItemWithId($iter, $term4);
+			$this->assertIteratorLacksItemWithId($iter, $scheduleItemB1);
+			
+			$this->write(1,"Group J");		
 			$iter =& $cm->getTermsByDate(1500);
 			$this->assertIteratorLacksItemWithId($iter, $term1);
 			$this->assertIteratorHasItemWithId($iter, $term2);
+			$this->assertIteratorLacksItemWithId($iter, $term3);
+			$this->assertIteratorHasItemWithId($iter, $term4);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemB1);
 				
-          	
+          	$this->write(1,"Group K");		
+			$iter =& $cm->getTermsByDate(1900);
+			$this->assertIteratorLacksItemWithId($iter, $term1);
+			$this->assertIteratorHasItemWithId($iter, $term2);
+			$this->assertIteratorLacksItemWithId($iter, $term3);
+			$this->assertIteratorHasItemWithId($iter, $term4);
+			$this->assertIteratorLacksItemWithId($iter, $scheduleItemB1);
 			
-			$term1->updateSchedule($term2->getSchedule());
-			$term2->updateSchedule($scheduleC);
+			$this->write(1,"Group L");		
+			$iter =& $cm->getTermsByDate(1901);
+			$this->assertIteratorLacksItemWithId($iter, $term1);
+			$this->assertIteratorLacksItemWithId($iter, $term2);
+			$this->assertIteratorLacksItemWithId($iter, $term3);
+			$this->assertIteratorLacksItemWithId($iter, $term4);
+			$this->assertIteratorLacksItemWithId($iter, $scheduleItemB1);
+			
+			
 			
 			
         	$this->write(4,"Test of getting Types");
@@ -204,8 +279,21 @@
 			$this->assertTrue(!$this->typeIteratorHas($iter,new Type("sadfsz234dfwerwer","sadfszd23fwerwer","asdfwer123")));
 			
 			
+			$sm->deleteScheduleItem($scheduleItemA1->getId());
+			$sm->deleteScheduleItem($scheduleItemA2->getId());
+			$sm->deleteScheduleItem($scheduleItemA3->getId());
+			$sm->deleteScheduleItem($scheduleItemB1->getId());
+			$sm->deleteScheduleItem($scheduleItemB2->getId());
+			$sm->deleteScheduleItem($scheduleItemB3->getId());
+			$sm->deleteScheduleItem($scheduleItemC1->getId());
+			$sm->deleteScheduleItem($scheduleItemC2->getId());
+		
         	
-        	
+        	$cm->deleteTerm($term1->getId());
+			$cm->deleteTerm($term2->getId());
+			$cm->deleteTerm($term3->getId());
+			$cm->deleteTerm($term4->getId());
+	
         	
         	
         

@@ -26,7 +26,7 @@ require_once(OKI2."/osid/coursemanagement/CourseSection.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CourseSection.class.php,v 1.20 2006/07/20 19:37:56 sporktim Exp $
+ * @version $Id: CourseSection.class.php,v 1.21 2006/07/20 20:49:24 sporktim Exp $
  */
 class HarmoniCourseSection
 	extends CourseSection
@@ -530,7 +530,7 @@ class HarmoniCourseSection
 			return null;	
 		}
 		$parentNode =& $nodeIterator->nextNode();		
-		$cm = Services::getService("CourseMangament");
+		$cm = Services::getService("CourseManagement");
 		return $cm -> getCourseOffering($parentNode->getID()); 
 	} 
 

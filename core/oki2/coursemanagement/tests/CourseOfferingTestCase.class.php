@@ -108,8 +108,8 @@
           	$this->assertEqualTypes($cs1A->getOfferingType(),$offerType1);
           	$this->assertEqualTypes($cs1A->getStatus(),$offerStatType1);
           	$this->assertEqualTypes($cs1A->getCourseGradeType(),$gradeType); 	
-          	$this->assertHasEqualIds($cs1A->getCanonicalCourse(),$cs1);
-          	$this->assertHasEqualIds($cs1A->getTerm(),$term1);
+          	$this->assertHaveEqualIds($cs1A->getCanonicalCourse(),$cs1);
+          	$this->assertHaveEqualIds($cs1A->getTerm(),$term1);
 
      
           	
@@ -122,8 +122,8 @@
           	$this->assertEqualTypes($cs1B->getOfferingType(),$offerType2);
           	$this->assertEqualTypes($cs1B->getStatus(),$offerStatType2);
           	$this->assertEqualTypes($cs1B->getCourseGradeType(),$gradeType);
-          	$this->assertHasEqualIds($cs1B->getCanonicalCourse(),$cs1);
-          	$this->assertHasEqualIds($cs1B->getTerm(),$term2);
+          	$this->assertHaveEqualIds($cs1B->getCanonicalCourse(),$cs1);
+          	$this->assertHaveEqualIds($cs1B->getTerm(),$term2);
           	
           	   
           	    
@@ -133,15 +133,15 @@
           	$cs2Aa =& $cm->getCourseOffering($cs2A->getID());
           	
           	
-          	$this->assertHasEqualIds($cs2Aa,$cs2A);
+          	$this->assertHaveEqualIds($cs2Aa,$cs2A);
           	$this->assertEqual($cs2Aa->getTitle(), "Computer Graphics");
           	$this->assertEqual($cs2Aa->getDescription(), "");
           	$this->assertEqual($cs2Aa->getNumber(), "CSCI367");   	
           	$this->assertEqualTypes($cs2Aa->getOfferingType(),$offerType2);
           	$this->assertEqualTypes($cs2Aa->getStatus(),$offerStatType1);
           	$this->assertEqualTypes($cs2Aa->getCourseGradeType(),$gradeType);
-          	$this->assertHasEqualIds($cs2Aa->getCanonicalCourse(),$cs2);
-          	$this->assertHasEqualIds($cs2Aa->getTerm(),$term1);
+          	$this->assertHaveEqualIds($cs2Aa->getCanonicalCourse(),$cs2);
+          	$this->assertHaveEqualIds($cs2Aa->getTerm(),$term1);
           	
           	
           	
@@ -310,6 +310,9 @@
         	  
         	
         	
+			$sm->deleteScheduleItem($scheduleItemA->getId());
+			$sm->deleteScheduleItem($scheduleItemB->getId());
+			
         	$cs1->deleteCourseOffering($cs1A->getId());
         	$cs1->deleteCourseOffering($cs1B->getId());
         	$cs1->deleteCourseOffering($cs2A->getId());
@@ -320,7 +323,9 @@
         	
         	
         
-        	
+        	$cm->deleteTerm($term1->getId());
+			$cm->deleteTerm($term2->getId());
+	
         	
         	
         	
