@@ -476,8 +476,9 @@
 			$cm->deleteCanonicalCourse($cs101->getId());
 			
 			
+			$this->write(4,"I guess I need to test this somewhere");
 			
-			
+			$this->assertTrue($cm->supportsUpdate());
 			
 			
 		}

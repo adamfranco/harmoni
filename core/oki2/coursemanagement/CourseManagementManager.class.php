@@ -6,7 +6,7 @@
 * @copyright Copyright &copy; 2006, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.40 2006/07/20 19:44:51 jwlee100 Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.41 2006/07/20 23:24:23 sporktim Exp $
 */
 
 require_once(OKI2."/osid/coursemanagement/CourseManagementManager.php");
@@ -100,7 +100,7 @@ require_once(HARMONI."oki2/coursemanagement/TermIterator.class.php");
 * @copyright Copyright &copy; 2005, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.40 2006/07/20 19:44:51 jwlee100 Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.41 2006/07/20 23:24:23 sporktim Exp $
 */
 class HarmoniCourseManagementManager
 extends CourseManagementManager
@@ -1660,6 +1660,11 @@ extends CourseManagementManager
 		$query->addColumn('description');
 		$res=& $dbHandler->query($query);
 
+		
+		if(!$res->hasMoreRows()){
+			throwError(new Error("No Type has Id '".$index."' in table 'cm_".$typename."_type'","CourseManagement", true));
+		}
+		
 		//There should be exactly one result.  Convert it to a type and return it
 		//remember that the description is optional
 		$row = $res->getCurrentRow();
@@ -1791,7 +1796,12 @@ extends CourseManagementManager
 		$query->addTable($table);
 		$query->addWhere("id='".addslashes($idString)."'");
 		$query->addColumn(addslashes($key));
-		$res=& $dbHandler->query($query);
+		$res =& $dbHandler->query($query);
+		
+		if(!$res->hasMoreRows()){
+			throwError(new Error("Cannot get key '".$key."' from non-existant object with id '".$idString."'", "CourseManagement", true));
+		}
+		
 		$row = $res->getCurrentRow();
 		$ret=$row[$key];
 		return $ret;

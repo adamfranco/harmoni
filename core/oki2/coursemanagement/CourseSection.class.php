@@ -26,7 +26,7 @@ require_once(OKI2."/osid/coursemanagement/CourseSection.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CourseSection.class.php,v 1.21 2006/07/20 20:49:24 sporktim Exp $
+ * @version $Id: CourseSection.class.php,v 1.22 2006/07/20 23:24:23 sporktim Exp $
  */
 class HarmoniCourseSection
 	extends CourseSection
@@ -382,8 +382,8 @@ class HarmoniCourseSection
 		$query->addTable('cm_schedule');
 		$query->addTable('sc_item',INNER_JOIN,'cm_schedule.fk_sc_item = sc_item.id');
 		$query->addColumn('cm_schedule.fk_sc_item');
-		$query->addWhere("cm_schedule.fk_id='".addslashes($this->id->getIdString()).".");
-		$query->orderBy('sc_item.start');
+		$query->addWhere("cm_schedule.fk_id='".addslashes($this->_id->getIdString())."'");
+		$query->addOrderBy('sc_item.start');
 		$res=& $dbManager->query($query);
 		$array=array();
 		$sm =& Services::getService("SchedulingManager");
@@ -391,7 +391,7 @@ class HarmoniCourseSection
 		while($res->hasMoreRows()){
 			$row = $res->getCurrentRow();
 			$res->advanceRow();
-			$id =& $idManager->getId($row['cm_schedule.fk_sc_item']);
+			$id =& $idManager->getId($row['fk_sc_item']);
 			$si =& $sm->getScheduleItem($id);
 			$array[] =& $si; 
 		}
@@ -399,6 +399,7 @@ class HarmoniCourseSection
 		return $ret;
 	} 
 
+	
 	/**
 	 * Get the location may be a room address, a map, or any other object.
 	 *	
@@ -564,6 +565,7 @@ class HarmoniCourseSection
 		$query->addTable('cm_assets');
 		$query->addWhere("fk_course_id='".$this->_id->getIdString()."'");
 		$query->addWhere("fk_asset_id='".addslashes($assetId->getIdString())."'");
+		$query->addColumn('fk_course_id');//@TODO We don't need fk_course_id here--we only want to check to see if that asset is already there.
 		$res=& $dbManager->query($query);
 
 
@@ -688,14 +690,42 @@ class HarmoniCourseSection
 		$dbManager->query($query);
 		
 		
+		
+		
+		/*
+		
+		
+		$query=& new InsertQuery;
+			$query->setTable('cm_schedule');
+			$query->setColumns(array('fk_id','fk_sc_item'));
+			$idString = "'".addslashes($id->getIdString())."'";
+
+
+			//iterate through array
+			foreach($schedule as $scheduleItem){
+				$values = array();
+				$values[]= $idString;
+				$scheduleId =& $scheduleItem->getId();
+				$values[]="'".addslashes($scheduleId->getIdString())."'";
+				$query->addRowOfValues($values);
+
+			}
+			$dbManager->query($query);
+		
+		*/
+		
+		
+		
+		
 		//query
 		$query=& new InsertQuery;
 		$query->setTable('cm_schedule');
 		$query->setColumns(array('fk_id','fk_sc_item'));
-		$idString = "'".addslashes($id->getIdString())."'";
+		$idString = "'".addslashes($this->_id->getIdString())."'";
 		
 		//iterate through array
 		foreach($scheduleItems as $scheduleItem){
+			$values = array();
 			$values[]= $idString;			
 			$id =& $scheduleItem->getId();			
 			$values[]="'".addslashes($id->getIdString())."'";

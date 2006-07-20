@@ -61,24 +61,8 @@
         	$sm =& Services::getService("Scheduling");
 			
         
-
-        	
-        	$canType =& new Type("CourseManagement", "edu.middlebury", "DED", "Deductive Reasoning");
-          	$canStatType =& new Type("CourseManagement", "edu.middlebury", "Still offered", "Offerd sometimes");
-          	
-          	$offerType1 =& new Type("CourseManagement", "edu.middlebury", "default", "");
-          	$offerType2 =& new Type("CourseManagement", "edu.middlebury", "undefault", "MYSTERIOUS!");
-          	$offerStatType1 =& new Type("CourseManagement", "edu.middlebury", "Full", "You can't still register.");
-          	$offerStatType2 =& new Type("CourseManagement", "edu.middlebury", "Available", "You can still register.");
-          	$gradeType =& new Type("CourseManagement", "edu.middlebury", "AutoFail", "Sucks to be you");
-          	$gradeType2 =& new Type("CourseManagement", "edu.middlebury", "EasyA", "AM LIT!");
-          	
           	$termType1 =& new Type("CourseManagement", "edu.middlebury", "ItsTheFall");
-          	$termType2 =& new Type("Coursemanagement", "edu.middlebury", "ItsAlsoTheFall","contains Smarch and Febtober");
-          	
-          	$cs1 =& $cm->createCanonicalCourse("Intro to CSCI", "CSCI101", "",$canType, $canStatType,1);
-          	$cs2 =& $cm->createCanonicalCourse("Computer Graphics", "CSCI367", "",$canType, $canStatType,1);
-          	
+          	$termType2 =& new Type("Coursemanagement", "edu.middlebury", "ItsAlsoTheFall","contains Smarch and Febtober");               	
           	        	
 			$scheduleItemA1 =& $sm->createScheduleItem("Fall 2006 range", "", $agents, 300, 900, null);
 			$scheduleItemA2 =& $sm->createScheduleItem("Thanksgiving", "", $agents, 350, 400, null);

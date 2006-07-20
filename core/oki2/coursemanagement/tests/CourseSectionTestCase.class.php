@@ -64,8 +64,8 @@
           	$gradeType =& new Type("CourseManagement", "edu.middlebury", "AutoFail", "Sucks to be you");
           	$termType =& new Type("CourseManagement", "edu.middlebury", "Fall");
           	
-          	$sectionType1 =& new Type("CourseManagement", "edu.middlebury", "lab", "");         	
-          	$sectionType2 =& new Type("CourseManagement", "edu.middlebury", "lecture", "");         	
+          	$sectionType1 =& new Type("CourseManagement", "edu.middlebury", "lecture", "");
+          	$sectionType2 =& new Type("CourseManagement", "edu.middlebury", "lab", "");         	          	         	
           	$sectionStatType1 =& new Type("CourseManagement", "edu.middlebury", "Slots open", "register, baby!");
           	$sectionStatType2 =& new Type("CourseManagement", "edu.middlebury", "Full", "You can't still register.");
           	
@@ -92,7 +92,7 @@
 			$scheduleA = array($scheduleItemA1,$scheduleItemA2,$scheduleItemA3);
 			$scheduleB = array($scheduleItemB1,$scheduleItemB2,$scheduleItemB3);
 			$scheduleC = array($scheduleItemC1,$scheduleItemC2);
-			$scheduleD = array($scheduleItemA1,$scheduleItemB1,$scheduleItemC1,$scheduleItemC2);
+			
 			
 			
 						
@@ -110,11 +110,11 @@
           	$loc2 = "Bihall 505";
           	$loc3 = "Bihall 632";
           	
-          	$cs1A_05 =& $cs1_05->createCourseSection("Learn to program","cx121","fun!", $sectionType1, $sectionStatType1,$loc1);
-          	$cs1Z_05 =& $cs1_05->createCourseSection(null,"cx121",null, $sectionType2, $sectionStatType2,$loc3);
-          	$cs1A_06 =& $cs1_06->createCourseSection(null,null,null, $sectionType1, $sectionStatType1,$loc3);
-          	$cs2A_06 =& $cs2_06->createCourseSection(null,null,null, $sectionType1, $sectionStatType2,$loc2);
-          	$cs2Z_06 =& $cs2_06->createCourseSection(null,null,null, $sectionType2, $sectionStatType1,$loc2);
+          	$cs1A_05 =& $cs1_05->createCourseSection("Program 2005 lecture","cx121","fun!", $sectionType1, $sectionStatType1,$loc1);
+          	$cs1Z_05 =& $cs1_05->createCourseSection("Program 2005 lab","cx121",null, $sectionType2, $sectionStatType2,$loc3);
+          	$cs1A_06 =& $cs1_06->createCourseSection("Program 2006 lecture",null,null, $sectionType1, $sectionStatType1,$loc3);
+          	$cs2A_06 =& $cs2_06->createCourseSection("Learn to program 2006 lecture",null,null, $sectionType1, $sectionStatType2,$loc2);
+          	$cs2Z_06 =& $cs2_06->createCourseSection("Graphics 2006 lab",null,null, $sectionType2, $sectionStatType1,$loc2);
           	
           	
           	
@@ -122,7 +122,7 @@
           	
          $this->write(1,"Group A");
          
-          	$this->assertEqual($cs1A_05->getTitle(), "Learn to program");
+          	$this->assertEqual($cs1A_05->getTitle(), "Program 2005 lecture");
           	$this->assertEqual($cs1A_05->getDescription(), "fun!");
           	$this->assertEqual($cs1A_05->getNumber(), "cx121");   	
           	$this->assertEqualTypes($cs1A_05->getSectionType(),$sectionType1);
@@ -135,7 +135,7 @@
           	 $this->write(1,"Group B");
           	
           	
-          	$this->assertEqual($cs2Z_06->getTitle(),"Computer Graphics");
+          	$this->assertEqual($cs2Z_06->getTitle(),"Graphics 2006 lab");
           	$this->assertEqual($cs2Z_06->getDescription(), "descrip");
           	$this->assertEqual($cs2Z_06->getNumber(), "CSCI367");   	
           	$this->assertEqualTypes($cs2Z_06->getSectionType(),$sectionType2);
@@ -153,7 +153,7 @@
           	
           	
           	$this->assertHaveEqualIds($cs2Z_06a,$cs2Z_06);
-			$this->assertEqual($cs2Z_06a->getTitle(),"Computer Graphics");
+			$this->assertEqual($cs2Z_06a->getTitle(),"Graphics 2006 lab");
           	$this->assertEqual($cs2Z_06a->getDescription(), "descrip");
           	$this->assertEqual($cs2Z_06a->getNumber(), "CSCI367");   	
           	$this->assertEqualTypes($cs2Z_06a->getSectionType(),$sectionType2);
@@ -168,31 +168,285 @@
           	
           	$courseStatusType2 =& new Type("CourseManagement", "edu.middlebury", "No longer offered", "You're out of luck");
          	
-          	$cs1Z_05->updateDisplayName("Economic Statistics");          	
+          	$cs1Z_05->updateDisplayName("Economic Statistics (Graphics 2006 lab)");          	
 			$cs1Z_05->updateTitle("Snore");					
 			$cs1Z_05->updateDescription("Boring stuff");
 			$cs1Z_05->updateNumber("EC123");			
 			$cs1Z_05->updateStatus($sectionStatType1);
 			$cs1Z_05->updateLocation($loc2);
 			
-			$this->assertEqual($cs1Z_05->getDisplayName(),"Economic Statistics");
+			$this->assertEqual($cs1Z_05->getDisplayName(),"Economic Statistics (Graphics 2006 lab)");
 			$this->assertEqual($cs1Z_05->getTitle(),"Snore");
           	$this->assertEqual($cs1Z_05->getDescription(), "Boring stuff");
           	$this->assertEqual($cs1Z_05->getNumber(), "EC123");  
           	$this->assertEqualTypes($cs1Z_05->getStatus(),$sectionStatType1);         	
           	$this->assertEqual($cs1Z_05->getLocation(),$loc2); 	
 
+        	$this->write(4,"Test of assets");
+        	
+        	$idManager =& Services::getService("Id");
+        	
+       		//rather than create actual assets, Ids, will work fine.
+       		
+       		$assetA =& $idManager->createId();
+        	$assetB =& $idManager->createId();
+        	$assetC =& $idManager->createId();
+        	
+        	
+        	$this->write(1,"Group A");
+        	$iter =& $cs2Z_06->getAssets();
+        	$this->assertTrue(!$this->idIteratorHas($iter,$assetA));
+        	$this->assertTrue(!$this->idIteratorHas($iter,$assetB));
+        	$this->assertTrue(!$this->idIteratorHas($iter,$assetC));
         	
         	
         	
+        	$cs2Z_06->addAsset($assetA);
+        	
+        	$this->write(1,"Group B");
+        	$iter =& $cs2Z_06->getAssets();
+        	$this->assertTrue($this->idIteratorHas($iter,$assetA));
+        	$this->assertTrue(!$this->idIteratorHas($iter,$assetB));
+        	$this->assertTrue(!$this->idIteratorHas($iter,$assetC));
         	
         	
+        	$cs2Z_06->addAsset($assetB);
+        	
+        	$this->write(1,"Group C");
+        	$iter =& $cs2Z_06->getAssets();
+        	$this->assertTrue($this->idIteratorHas($iter,$assetA));
+        	$this->assertTrue($this->idIteratorHas($iter,$assetB));
+        	$this->assertTrue(!$this->idIteratorHas($iter,$assetC));
+        	
+        	
+        	
+        	$cs2Z_06->addAsset($assetC);
+        	
+        	$this->write(1,"Group D");
+        	$iter =& $cs2Z_06->getAssets();
+        	$this->assertTrue($this->idIteratorHas($iter,$assetA));
+        	$this->assertTrue($this->idIteratorHas($iter,$assetB));
+        	$this->assertTrue($this->idIteratorHas($iter,$assetC));
+        	
+        	
+        	$cs2Z_06->removeAsset($assetA);
+        	
+        	$cs2A_06->addAsset($assetC);
+        	
+        	$this->write(1,"Group E");
+        	$iter =& $cs2Z_06->getAssets();
+        	$this->assertTrue(!$this->idIteratorHas($iter,$assetA));
+        	$this->assertTrue($this->idIteratorHas($iter,$assetB));
+        	$this->assertTrue($this->idIteratorHas($iter,$assetC));
+        	$iter =& $cs2A_06->getAssets();
+        	$this->assertTrue(!$this->idIteratorHas($iter,$assetA));
+        	$this->assertTrue(!$this->idIteratorHas($iter,$assetB));
+        	$this->assertTrue($this->idIteratorHas($iter,$assetC));
+        	
+        	
+        	$cs2Z_06->removeAsset($assetC);
+        	
+        	$this->write(1,"Group F");
+        	$iter =& $cs2Z_06->getAssets();
+        	$this->assertTrue(!$this->idIteratorHas($iter,$assetA));
+        	$this->assertTrue($this->idIteratorHas($iter,$assetB));
+        	$this->assertTrue(!$this->idIteratorHas($iter,$assetC));
+        	
+        	$cs2Z_06->removeAsset($assetB);
+        	
+        	
+        	$this->write(1,"Group G");
+        	$iter =& $cs2Z_06->getAssets();
+        	$this->assertTrue(!$this->idIteratorHas($iter,$assetA));
+        	$this->assertTrue(!$this->idIteratorHas($iter,$assetB));
+        	$this->assertTrue(!$this->idIteratorHas($iter,$assetC));
+  
+        	
+        	/*
+        	
+        	$cs1_05 =& $cs1->createCourseOffering(null,null,null, $term1->getId(),$offerType,$offerStatType,$gradeType);
+          	$cs1_06 =& $cs1->createCourseOffering(null,null,null, $term2->getId(),$offerType,$offerStatType,$gradeType);
+          	$cs2_06 =& $cs2->createCourseOffering(null,null,null, $term2->getId(),$offerType,$offerStatType,$gradeType);
 
+       
+          	
+          	$cs1A_05 =& $cs1_05->createCourseSection("Learn to program","cx121","fun!", $sectionType1, $sectionStatType1,$loc1);
+          	$cs1Z_05 =& $cs1_05->createCourseSection(null,"cx121",null, $sectionType2, $sectionStatType2,$loc3);
+          	$cs1A_06 =& $cs1_06->createCourseSection(null,null,null, $sectionType1, $sectionStatType1,$loc3);
+          	$cs2A_06 =& $cs2_06->createCourseSection(null,null,null, $sectionType1, $sectionStatType2,$loc2);
+          	$cs2Z_06 =& $cs2_06->createCourseSection(null,null,null, $sectionType2, $sectionStatType1,$loc2);
+          	
+          	*/
+        	
+        	$this->write(4,"Test of getting CourseSections");
+        	
+        	$this->write(1,"Group A");
+        	$iter =& $cs1_05->getCourseSections();
+        	$this->assertIteratorHasItemWithId($iter, $cs1A_05);
+        	$this->assertIteratorHasItemWithId($iter, $cs1Z_05);
+        	$this->assertIteratorLacksItemWithId($iter, $cs1A_06);
+        	$this->assertIteratorLacksItemWithId($iter, $cs2A_06);
+        	$this->assertIteratorLacksItemWithId($iter, $cs2Z_06);
+        	
+        	$this->write(1,"Group B");
+        	$iter =& $cs1_06->getCourseSections();
+        	$this->assertIteratorLacksItemWithId($iter, $cs1A_05);
+        	$this->assertIteratorLacksItemWithId($iter, $cs1Z_05);
+        	$this->assertIteratorHasItemWithId($iter, $cs1A_06);
+        	$this->assertIteratorLacksItemWithId($iter, $cs2A_06);
+        	$this->assertIteratorLacksItemWithId($iter, $cs2Z_06);
+        	
+        	$this->write(1,"Group C");
+        	$iter =& $cs2_06->getCourseSections();
+        	$this->assertIteratorLacksItemWithId($iter, $cs1A_05);
+        	$this->assertIteratorLacksItemWithId($iter, $cs1Z_05);
+        	$this->assertIteratorLacksItemWithId($iter, $cs1A_06);
+        	$this->assertIteratorHasItemWithId($iter, $cs2A_06);
+        	$this->assertIteratorHasItemWithId($iter, $cs2Z_06);
+        	
+        	$this->write(1,"Group D");
+        	$iter =& $cs1_05->getCourseSectionsByType($sectionType1);
+        	$this->assertIteratorHasItemWithId($iter, $cs1A_05);
+        	$this->assertIteratorLacksItemWithId($iter, $cs1Z_05);
+        	$this->assertIteratorLacksItemWithId($iter, $cs1A_06);
+        	$this->assertIteratorLacksItemWithId($iter, $cs2A_06);
+        	$this->assertIteratorLacksItemWithId($iter, $cs2Z_06);
+        	
+        	$this->write(1,"Group E");
+        	$iter =& $cs1_06->getCourseSectionsByType($sectionType1);
+        	$this->assertIteratorLacksItemWithId($iter, $cs1A_05);
+        	$this->assertIteratorLacksItemWithId($iter, $cs1Z_05);
+        	$this->assertIteratorHasItemWithId($iter, $cs1A_06);
+        	$this->assertIteratorLacksItemWithId($iter, $cs2A_06);
+        	$this->assertIteratorLacksItemWithId($iter, $cs2Z_06);
+        	
+        	$this->write(1,"Group F");
+        	$iter =& $cs2_06->getCourseSectionsByType($sectionType1);
+        	$this->assertIteratorLacksItemWithId($iter, $cs1A_05);
+        	$this->assertIteratorLacksItemWithId($iter, $cs1Z_05);
+        	$this->assertIteratorLacksItemWithId($iter, $cs1A_06);
+        	$this->assertIteratorHasItemWithId($iter, $cs2A_06);
+        	$this->assertIteratorLacksItemWithId($iter, $cs2Z_06);
+        	
+        	
+        	$this->write(1,"Group G");
+        	$iter =& $cs1_05->getCourseSectionsByType($sectionType2);
+        	$this->assertIteratorLacksItemWithId($iter, $cs1A_05);
+        	$this->assertIteratorHasItemWithId($iter, $cs1Z_05);
+        	$this->assertIteratorLacksItemWithId($iter, $cs1A_06);
+        	$this->assertIteratorLacksItemWithId($iter, $cs2A_06);
+        	$this->assertIteratorLacksItemWithId($iter, $cs2Z_06);
+        	
+        	$this->write(1,"Group H");
+        	$iter =& $cs1_06->getCourseSectionsByType($sectionType2);
+        	$this->assertIteratorLacksItemWithId($iter, $cs1A_05);
+        	$this->assertIteratorLacksItemWithId($iter, $cs1Z_05);
+        	$this->assertIteratorLacksItemWithId($iter, $cs1A_06);
+        	$this->assertIteratorLacksItemWithId($iter, $cs2A_06);
+        	$this->assertIteratorLacksItemWithId($iter, $cs2Z_06);
+        	
+        	$this->write(1,"Group I");
+        	$iter =& $cs2_06->getCourseSectionsByType($sectionType2);
+        	$this->assertIteratorLacksItemWithId($iter, $cs1A_05);
+        	$this->assertIteratorLacksItemWithId($iter, $cs1Z_05);
+        	$this->assertIteratorLacksItemWithId($iter, $cs1A_06);
+        	$this->assertIteratorLacksItemWithId($iter, $cs2A_06);
+        	$this->assertIteratorHasItemWithId($iter, $cs2Z_06);
+
+        	
+        	
+        	
+        	
+        	
+        		
+        	$this->write(4,"Test of getting Types");
+			$this->write(1,"Group A");
+			$iter1 =& $cm->getSectionTypes();
+			$this->assertTrue($this->typeIteratorHas($iter1, $sectionType1));
+			$this->assertTrue($this->typeIteratorHas($iter1, $sectionType2));
+			$this->assertTrue(!$this->typeIteratorHas($iter1,new Type("sadfsz234dfwerwer","sadfszd23fwerwer","asdfwer123")));
+			$this->write(1,"Group B");
+			$iter1 =& $cm->getSectionStatusTypes();
+			$this->assertTrue($this->typeIteratorHas($iter1, $sectionStatType1));
+			$this->assertTrue($this->typeIteratorHas($iter1, $sectionStatType2));
+			$this->assertTrue(!$this->typeIteratorHas($iter1,new Type("sadfsz234dfwerwer","sadfszd23fwerwer","asdfwer123")));
+	
+        	
+        	
+        	
+        	$this->write(4,"Test of update Schedule() and getSchedule()");  
+        	 
+        	$cs1A_05->updateSchedule($scheduleA);
+        	$this->write(1,"Group A");
+        	$iter =& $cs1A_05->getSchedule();
+			$this->assertIteratorHasItemWithId($iter, $scheduleItemA1);
+			$this->assertIteratorHasItemWithId($iter, $scheduleItemA2);
+			$this->assertIteratorHasItemWithId($iter, $scheduleItemA3);			
+			$this->assertIteratorLacksItemWithId($iter, $scheduleItemB1);
+			$this->assertIteratorLacksItemWithId($iter, $scheduleItemB2);
+			$this->assertIteratorLacksItemWithId($iter, $scheduleItemB3);
+			$this->assertIteratorLacksItemWithId($iter, $scheduleItemC1);
+			$this->assertIteratorLacksItemWithId($iter, $scheduleItemC2);
 			
-        	$cs1->deleteCourseOffering($cs1A->getId());
-        	$cs1->deleteCourseOffering($cs1B->getId());
-        	$cs1->deleteCourseOffering($cs2A->getId());
-        	$cs1->deleteCourseOffering($cs2B->getId());
+			
+			$cs1A_06->updateSchedule($scheduleB);
+			$this->write(1,"Group B");
+			$iter =& $cs1A_06->getSchedule();
+			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA1);
+			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA2);
+			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA3);			
+			$this->assertIteratorHasItemWithId($iter, $scheduleItemB1);
+			$this->assertIteratorHasItemWithId($iter, $scheduleItemB2);
+			$this->assertIteratorHasItemWithId($iter, $scheduleItemB3);
+			$this->assertIteratorLacksItemWithId($iter, $scheduleItemC1);
+			$this->assertIteratorLacksItemWithId($iter, $scheduleItemC2);
+			
+			$cs1A_05->updateSchedule($scheduleB);
+			$this->write(1,"Group C");
+			$iter =& $cs1A_05->getSchedule();
+			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA1);
+			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA2);
+			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA3);			
+			$this->assertIteratorHasItemWithId($iter, $scheduleItemB1);
+			$this->assertIteratorHasItemWithId($iter, $scheduleItemB2);
+			$this->assertIteratorHasItemWithId($iter, $scheduleItemB3);
+			$this->assertIteratorLacksItemWithId($iter, $scheduleItemC1);
+			$this->assertIteratorLacksItemWithId($iter, $scheduleItemC2);
+			
+			$this->write(1,"Group D");
+			$iter =& $cs1A_06->getSchedule();
+			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA1);
+			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA2);
+			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA3);			
+			$this->assertIteratorHasItemWithId($iter, $scheduleItemB1);
+			$this->assertIteratorHasItemWithId($iter, $scheduleItemB2);
+			$this->assertIteratorHasItemWithId($iter, $scheduleItemB3);
+			$this->assertIteratorLacksItemWithId($iter, $scheduleItemC1);
+			$this->assertIteratorLacksItemWithId($iter, $scheduleItemC2);
+			
+			$cs1A_06->updateSchedule($scheduleC);
+			$this->write(1,"Group E");
+			$iter =& $cs1A_06->getSchedule();
+			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA1);
+			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA2);
+			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA3);			
+			$this->assertIteratorLacksItemWithId($iter, $scheduleItemB1);
+			$this->assertIteratorLacksItemWithId($iter, $scheduleItemB2);
+			$this->assertIteratorLacksItemWithId($iter, $scheduleItemB3);
+			$this->assertIteratorHasItemWithId($iter, $scheduleItemC1);
+			$this->assertIteratorHasItemWithId($iter, $scheduleItemC2);
+			
+          	
+          	$cs1_05->deleteCourseSection($cs1A_05->getId());
+        	$cs1_05->deleteCourseSection($cs1Z_05->getId());
+        	$cs1_05->deleteCourseSection($cs1A_06->getId());
+        	$cs1_05->deleteCourseSection($cs2A_06->getId());
+        	$cs1_05->deleteCourseSection($cs2Z_06->getId());
+          	
+        	$cs1->deleteCourseOffering($cs1_05->getId());
+        	$cs1->deleteCourseOffering($cs1_06->getId());
+        	$cs1->deleteCourseOffering($cs2_06->getId());
+       
         	
         	$cm->deleteCanonicalCourse($cs1->getId());
         	$cm->deleteCanonicalCourse($cs2->getId());
@@ -210,8 +464,7 @@
         	
         	$cm->deleteTerm($term1->getId());
 			$cm->deleteTerm($term2->getId());
-			$cm->deleteTerm($term3->getId());
-			$cm->deleteTerm($term4->getId());
+		
         	
         	
         	

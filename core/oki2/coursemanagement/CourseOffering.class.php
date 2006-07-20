@@ -24,7 +24,7 @@ require_once(OKI2."/osid/coursemanagement/CourseOffering.php");
 * @copyright Copyright &copy; 2005, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseOffering.class.php,v 1.23 2006/07/20 19:37:56 sporktim Exp $
+* @version $Id: CourseOffering.class.php,v 1.24 2006/07/20 23:24:23 sporktim Exp $
 */
 class HarmoniCourseOffering
 extends CourseOffering
@@ -703,9 +703,10 @@ extends CourseOffering
 		$cm= & Services::getService("CourseManagement");
 		$typeIndex=$cm->_typeToIndex('section',$sectionType);
 
+	
 		while($nodeIterator->hasNextNode()){
 			$childNode = $nodeIterator->nextNode();
-			$courseSection = $cm->getCourseSection($childNode->getId());
+			$courseSection =& $cm->getCourseSection($childNode->getId());	
 			if($typeIndex == $courseSection->_getField('fk_cm_section_type')){
 				$array[] =& $courseSection;
 			}
