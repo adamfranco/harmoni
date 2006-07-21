@@ -24,7 +24,7 @@ require_once(OKI2."/osid/coursemanagement/CourseOffering.php");
 * @copyright Copyright &copy; 2005, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseOffering.class.php,v 1.24 2006/07/20 23:24:23 sporktim Exp $
+* @version $Id: CourseOffering.class.php,v 1.25 2006/07/21 19:04:00 sporktim Exp $
 */
 class HarmoniCourseOffering
 extends CourseOffering
@@ -347,7 +347,8 @@ extends CourseOffering
 	* @access public
 	*/
 	function &getCourseGradeType () {
-		return $this->_getType('grade');
+		$gm =& Services::getService('Grading');
+		return $gm->_getType($this->_id,$this->_table,'grade');
 	}
 
 	/**
@@ -896,8 +897,10 @@ extends CourseOffering
 	*
 	* @access public
 	*/
-	function updateCourseGradeType ( &$courseGradeType ) {
-		$this->_setField('fk_cm_grade_type',$this->_typeToIndex('grade',$courseGradeType));
+	function updateCourseGradeType ( &$courseGradeType ) {		
+		$gm =& Services::getService('Grading');
+		$typeIndex = $gm->_typeToIndex('grade',$courseGradeType);
+		$this->_setField('fk_gr_grade_type',$typeIndex);
 	}
 
 	/**
@@ -960,7 +963,7 @@ extends CourseOffering
 	* @access public
 	*/
 	function addStudent ( &$agentId, &$enrollmentStatusType ) {
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseOffering", true));
+		throwError(new Error("addStudent() is not implemented for CourseOffering--it makes little sense", "CourseOffering", true));
 	}
 
 	/**
@@ -992,7 +995,7 @@ extends CourseOffering
 	* @access public
 	*/
 	function changeStudent ( &$agentId, &$enrollmentStatusType ) {
-		throwError(new Error(CourseManagementExeption::UNIMPLEMENTED(), "CourseOffering", true));
+		throwError(new Error("changeStudent() is not implemented for CourseOffering--it makes little sense", "CourseOffering", true));
 	}
 
 	/**
@@ -1020,7 +1023,7 @@ extends CourseOffering
 	* @access public
 	*/
 	function removeStudent ( &$agentId ) {
-		$courseSections =& getCourseSections();
+		$courseSections =& $this->getCourseSections();
 		while ($courseSections->hasNextCourseSection()) {
 			$courseSection =& $courseSections->nextCourseSection();
 			$courseSection->removeStudent($agentId);			
@@ -1028,7 +1031,9 @@ extends CourseOffering
 	}
 
 	/**
-	* Get the student roster.  This returns all the enrollments of all the course offerings
+	* Get the student roster.  This returns all the enrollments of all the course 
+	* sections.  Keep in mind that they will be ordered by the students that are in
+	* section.  Each student may be enrolled in several courses.
 	*
 	* @return object EnrollmentRecordIterator
 	*
@@ -1050,40 +1055,66 @@ extends CourseOffering
 	function &getRoster () {
 
 
-
+		$idManager =& Services::getService('IdManager');
 		$dbManager =& Services::getService("DatabaseManager");
 
-		$array=array();
+		
 
 		$courseSectionIterator = $this->getCourseSections();
-
+		
+		//quit out if there is not any CourseSection
+		$array=array();
+		if(!$courseSectionIterator->hasNextCourseSection()){
+			$ret =& new HarmoniEnrollmentRecordIterator($array);
+			return $ret;
+		}
+		
+		
+		
+		//set up a query
+		$query=& new SelectQuery;
+		$query->addTable('cm_enroll');
+		$query->addColumn('id');
+		
+		//set up a where
+		$where = "";
+		$first = true;
+		
+		//add necesary or's
 		while($courseSectionIterator->hasNextCourseSection()){
+			if(!$first){
+				$where .= " OR ";
+			}			
+			$first=false;
 			$section = $courseSectionIterator->nextCourseSection();
-			$sectionId = $section->getId();
-
-			$query=& new SelectQuery;
-			$query->addTable('cm_enroll');
-			//$query->addColumn('fk_student_id');
-			$query->addColumn('id');
-			$query->addWhere("fk_cm_section='".addslashes($sectionId->getIdString())."'");
-
-
-			$res=& $dbManager->query($query);
-			$idManager =& Services::getService('IdManager');
-			while($res->hasMoreRows()){
+			$sectionId = $section->getId();			
+			$where .= "fk_cm_section='".addslashes($sectionId->getIdString())."'";				
+		}
+		
+		//finish query
+		$query->addWhere($where);	
+		$query->addOrderBy('id');		
+		$res=& $dbManager->query($query);
+		
+		
+		//add all EnrollmentRecords to an array
+		while($res->hasMoreRows()){
 				$row = $res->getCurrentRow();
 				$res->advanceRow();
 				
 				$array[] =& new HarmoniEnrollmentRecord($idManager->getId($row['id']));
 			}
-		}
+			
+			//return them as an iterator
 		$ret =& new HarmoniEnrollmentRecordIterator($array);
 		return $ret;
 	}
 
 	/**
 	* Get the student roster.	Include only students with the specified
-	* Enrollment Status Type.
+	* Enrollment Status Type.  This returns all the enrollments of all the course 
+	* sections.  Keep in mind that they will be ordered by the students that are in
+	* section.  Each student may be enrolled in several CoursesSctions.
 	*
 	* @param object Type $enrollmentStatusType
 	*
@@ -1109,6 +1140,105 @@ extends CourseOffering
 	* @access public
 	*/
 	function &getRosterByType ( &$enrollmentStatusType ) {
+		
+		$idManager =& Services::getService('IdManager');
+		$dbManager =& Services::getService("DatabaseManager");
+
+		
+
+		$courseSectionIterator = $this->getCourseSections();
+		
+		//quit out if there is not any CourseSection
+		$array=array();
+		if(!$courseSectionIterator->hasNextCourseSection()){
+			$ret =& new HarmoniEnrollmentRecordIterator($array);
+			return $ret;
+		}
+		
+		
+		
+		//set up a query
+		$query=& new SelectQuery;
+		$query->addTable('cm_enroll');
+		$query->addColumn('id');
+		
+		//set up a where
+		$where = "(";
+		$first = true;
+		
+		//add necesary or's
+		while($courseSectionIterator->hasNextCourseSection()){
+			if(!$first){
+				$where .= " OR ";
+			}			
+			$first=false;
+			$section = $courseSectionIterator->nextCourseSection();
+			$sectionId = $section->getId();			
+			$where .= "fk_cm_section='".addslashes($sectionId->getIdString())."'";			
+		}
+		
+		//finish query
+		$typeIndex = $this->_typeToIndex('enroll_stat',$enrollmentStatusType);
+		$query->addWhere($where.") AND fk_cm_enroll_stat_type='".addslashes($typeIndex)."'");	
+		$query->addOrderBy('id');		
+		$res=& $dbManager->query($query);
+		
+		
+		//add all EnrollmentRecords to an array
+		while($res->hasMoreRows()){
+				$row = $res->getCurrentRow();
+				$res->advanceRow();
+				
+				$array[] =& new HarmoniEnrollmentRecord($idManager->getId($row['id']));
+			}
+			
+			//return them as an iterator
+		$ret =& new HarmoniEnrollmentRecordIterator($array);
+		return $ret;
+		
+		//oldcode
+		
+		/*
+		
+		
+		
+		
+		$idManager =& Services::getService('IdManager');
+		$dbManager =& Services::getService("DatabaseManager");
+
+		$query=& new SelectQuery;
+		$query->addTable('cm_enroll');
+		$query->addColumn('id');
+		$typeIndex = $this->_typeToIndex('enroll_stat',$enrollmentStatusType);
+
+		$courseSectionIterator = $this->getCourseSections();
+
+		while($courseSectionIterator->hasNextCourseSection()){
+			$section = $courseSectionIterator->nextCourseSection();
+			$sectionId = $section->getId();			
+			$query->addWhere("fk_cm_section='".addslashes($sectionId->getIdString())."' AND fk_cm_enroll_stat_type='".addslashes($typeIndex)."'");
+		}
+		$query->addOrderBy('id');
+		
+		$res=& $dbManager->query($query);
+		
+		
+		$array=array();
+		while($res->hasMoreRows()){
+				$row = $res->getCurrentRow();
+				$res->advanceRow();
+				
+				$array[] =& new HarmoniEnrollmentRecord($idManager->getId($row['id']));
+			}
+		$ret =& new HarmoniEnrollmentRecordIterator($array);
+		return $ret;
+		
+		*/
+		
+		/*
+		
+		
+		
 		$dbManager =& Services::getService("DatabaseManager");
 
 		$array=array();
@@ -1125,7 +1255,7 @@ extends CourseOffering
 			$query->addTable('cm_enroll');
 			//$query->addColumn('fk_student_id');
 			$query->addColumn('id');			
-			$query->addWhere("fk_cm_section='".addslashes($sectionId->getIdString())."' AND fk_enroll_stat_type='".addslashes($typeIndex)."'");
+			$query->addWhere("fk_cm_section='".addslashes($sectionId->getIdString())."' AND fk_cm_enroll_stat_type='".addslashes($typeIndex)."'");
 
 
 			$res=& $dbManager->query($query);
@@ -1139,6 +1269,7 @@ extends CourseOffering
 		}
 		$ret =& new HarmoniEnrollmentRecordIterator($array);
 		return $ret;
+		*/
 	}
 
 	/**

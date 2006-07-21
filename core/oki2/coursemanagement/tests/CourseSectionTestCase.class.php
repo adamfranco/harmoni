@@ -679,34 +679,7 @@
 		
 		
 		
-		function enrollmentIteratorHasStudent($iter, $name){
-			while($iter->hasNext()){
-				$am =& Services::GetService("AgentManager");
-				$er =& $iter->next();
-				$agent =& $am->getAgent($er->getStudent());
-				
-				if($name == $agent->getDisplayName()){
-					return true;
-				}
-			}
-			return false;
-		}
 		
-		function printRoster($roster){
-			print "\n";
-			print "<center>";
-			$am =& Services::getService("AgentManager");
-			while ($roster->hasNext()) {
-			  	print "<p>";
-			  	$er =& $roster->next();
-			  	$id =& $er->getStudent();
-			  	$agent =& $am->getAgent($id);
-			  	
-				print_r($agent->getDisplayName());
-				print "</p>";
-			}
-			print "</center>";
-		}
 		
 		
 		

@@ -10,7 +10,7 @@
 * @copyright Copyright &copy; 2006, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: oki_simple_unit.php,v 1.1 2006/07/20 20:49:25 sporktim Exp $
+* @version $Id: oki_simple_unit.php,v 1.2 2006/07/21 19:04:02 sporktim Exp $
 */
 
  if (!defined("SIMPLE_TEST")) {
@@ -33,8 +33,7 @@
 				$this->assertTrue(true);
 			}else{
 				$this->assertTrue(false);
-				print "<p align=center><font size=4 color=#FF2200>The Types are eqaul: '".$typeA->getDomain()."'::'".$typeA->getAuthority()."'::'".$typeA->getKeyword()."'";
-				"' and '".$typeB->getAuthority()."' should be equal </font></p>\n";
+				print "<p align=center><font size=4 color=#FF2200>The Types are equal: '".$typeA->getDomain()."'::'".$typeA->getAuthority()."'::'".$typeA->getKeyword()."' but <b>should NOT</b> be equal </font></p>\n";
 			}
 		}
 		
@@ -48,15 +47,50 @@
 			$this->assertTrue($typeA->isEqual($typeB));
 			if($typeA->getDomain()!=$typeB->getDomain()){
 				print "<p align=center><font size=4 color=#FF2200>The domains '".$typeA->getDomain().
-				"' and '".$typeB->getDomain()."' should be equal </font></p>\n";
+				"' and '".$typeB->getDomain()."'  <b>should</b> be equal </font></p>\n";
 			}
 			if($typeA->getAuthority()!=$typeB->getAuthority()){
 				print "<p align=center><font size=4 color=#FF2200>The domains '".$typeA->getAuthority().
-				"' and '".$typeB->getAuthority()."' should be equal </font></p>\n";
+				"' and '".$typeB->getAuthority()."'  <b>should </b> be equal </font></p>\n";
 			}
 			if($typeA->getKeyword()!=$typeB->getKeyword()){
 				print "<p align=center><font size=4 color=#FF2200>The domains '".$typeA->getKeyword().
-				"' and '".$typeB->getKeyword()."' should be equal </font></p>\n";
+				"' and '".$typeB->getKeyword()."'  <b>should </b> be equal </font></p>\n";
+			}
+			
+		}
+		
+		function assertEqualIds(&$idA,&$idB){
+			
+			
+			//parameter validation
+			ArgumentValidator::validate($idA, ExtendsValidatorRule::getRule("Id"), true);
+			ArgumentValidator::validate($idB, ExtendsValidatorRule::getRule("Id"), true);
+			
+		
+			if($idA->isEqual($idB)){
+				$this->assertTrue(true);
+			}else{
+				$this->assertTrue(false);
+				print "<p align=center><font size=4 color=#FF2200>The Ids with strings '".$idA->getIdString()."' and '".$idB->getIdString()."' but <b>should</b> be. </font></p>\n";
+			}
+			
+		}
+		
+		function assertNotEqualIds(&$idA,&$idB){
+			
+			
+			//parameter validation
+			ArgumentValidator::validate($idA, ExtendsValidatorRule::getRule("Id"), true);
+			ArgumentValidator::validate($idB, ExtendsValidatorRule::getRule("Id"), true);
+			
+			
+			if($idA->isEqual($idB)){
+				$this->assertFalse(true);
+				print "<p align=center><font size=4 color=#FF4444>The Ids with strings '".$idA->getIdString()."' and '".$idB->getIdString()."' <b>should NOT</b> be equal. </font></p>\n";
+			}else{
+				$this->assertFalse(false);
+				
 			}
 			
 		}

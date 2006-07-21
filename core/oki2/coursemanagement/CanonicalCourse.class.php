@@ -28,7 +28,7 @@ require_once(HARMONI."oki2/shared/HarmoniStringIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CanonicalCourse.class.php,v 1.26 2006/07/20 19:37:56 sporktim Exp $
+ * @version $Id: CanonicalCourse.class.php,v 1.27 2006/07/21 19:04:00 sporktim Exp $
  */
 class HarmoniCanonicalCourse
 	extends CanonicalCourse
@@ -575,14 +575,16 @@ class HarmoniCanonicalCourse
 
 		$query->setTable('cm_offer');
 
-		$query->setColumns(array('id','fk_cm_grade_type','fk_cm_term',
+		$query->setColumns(array('id','fk_gr_grade_type','fk_cm_term',
 								'fk_cm_offer_stat_type','fk_cm_offer_type','title','number'));
-
+		
 		$values[]="'".addslashes($id->getIdString())."'";
-		$values[]="'".$this->_typeToIndex('grade',$courseGradeType)."'";
+		$gm =& Services::getService('Grading');
+		$typeIndex = $gm->_typeToIndex('grade',$courseGradeType);
+		$values[]="'".addslashes($typeIndex)."'";
 		$values[]="'".addslashes($termId->getIdString())."'";
-		$values[]="'".$this->_typeToIndex('offer_stat',$offeringStatusType)."'";
-		$values[]="'".$this->_typeToIndex('offer',$offeringType)."'";
+		$values[]="'".addslashes($this->_typeToIndex('offer_stat',$offeringStatusType))."'";
+		$values[]="'".addslashes($this->_typeToIndex('offer',$offeringType))."'";
 		$values[]="'".addslashes($title)."'";
 		$values[]="'".addslashes($number)."'";
 		

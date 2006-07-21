@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Host: localhost
--- Generation Time: Jul 20, 2006 at 02:07 PM
+-- Generation Time: Jul 21, 2006 at 02:08 PM
 -- Server version: 4.1.14
 -- PHP Version: 4.4.2
 -- 
@@ -21,7 +21,6 @@ CREATE TABLE `cm_assets` (
   `fk_asset_id` varchar(170) default NULL,
   KEY `fk_course_id` (`fk_course_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table contains the Assets for offerings and sections';
-
 
 -- --------------------------------------------------------
 
@@ -48,12 +47,12 @@ CREATE TABLE `cm_can` (
 
 CREATE TABLE `cm_can_stat_type` (
   `id` int(170) unsigned NOT NULL auto_increment,
-  `keyword` varchar(255) default NULL,
-  `authority` varchar(255) default NULL,
-  `domain` varchar(255) default NULL,
-  `description` text,
+  `keyword` varchar(255) collate utf8_bin default NULL,
+  `authority` varchar(255) collate utf8_bin default NULL,
+  `domain` varchar(255) collate utf8_bin default NULL,
+  `description` text collate utf8_bin,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE = utf8_bin COMMENT='This table contains various canonical course statuses' AUTO_INCREMENT=19 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='This table contains various canonical course statuses' AUTO_INCREMENT=22 ;
 
 -- --------------------------------------------------------
 
@@ -63,12 +62,12 @@ CREATE TABLE `cm_can_stat_type` (
 
 CREATE TABLE `cm_can_type` (
   `id` int(170) unsigned NOT NULL auto_increment,
-  `keyword` varchar(255) default NULL,
-  `authority` varchar(255) default NULL,
-  `domain` varchar(255) default NULL,
-  `description` text,
+  `keyword` varchar(255) collate utf8_bin default NULL,
+  `authority` varchar(255) collate utf8_bin default NULL,
+  `domain` varchar(255) collate utf8_bin default NULL,
+  `description` text collate utf8_bin,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE = utf8_bin COMMENT='This table contains various types of canonical courses' AUTO_INCREMENT=15 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='This table contains various types of canonical courses' AUTO_INCREMENT=17 ;
 
 -- --------------------------------------------------------
 
@@ -84,7 +83,7 @@ CREATE TABLE `cm_enroll` (
   PRIMARY KEY  (`id`),
   KEY `fk_course_id` (`fk_cm_section`),
   KEY `fk_student_id` (`fk_student_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=240 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=567 ;
 
 -- --------------------------------------------------------
 
@@ -94,12 +93,12 @@ CREATE TABLE `cm_enroll` (
 
 CREATE TABLE `cm_enroll_stat_type` (
   `id` int(170) unsigned NOT NULL auto_increment,
-  `keyword` varchar(255) default NULL,
-  `authority` varchar(255) default NULL,
-  `domain` varchar(255) default NULL,
-  `description` text,
+  `keyword` varchar(255) collate utf8_bin default NULL,
+  `authority` varchar(255) collate utf8_bin default NULL,
+  `domain` varchar(255) collate utf8_bin default NULL,
+  `description` text collate utf8_bin,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE = utf8_bin COMMENT='This table contains various types of enrollment statuses' AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='This table contains various types of enrollment statuses' AUTO_INCREMENT=5 ;
 
 -- --------------------------------------------------------
 
@@ -113,24 +112,8 @@ CREATE TABLE `cm_grade_rec` (
   `fk_cm_offer` varchar(170) default NULL,
   `name` varchar(255) default NULL,
   `grade` varchar(255) default NULL,
-  `fk_cm_grade_type` varchar(170) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='All the grade records for all students and courses' AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
--- 
--- Table structure for table `cm_grade_type`
--- 
-
-CREATE TABLE `cm_grade_type` (
-  `id` int(170) unsigned NOT NULL auto_increment,
-  `keyword` varchar(255) default NULL,
-  `authority` varchar(255) default NULL,
-  `domain` varchar(255) default NULL,
-  `description` text,
-  PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE = utf8_bin COMMENT='This table contains various ways to grade a course' AUTO_INCREMENT=2 ;
 
 -- --------------------------------------------------------
 
@@ -140,7 +123,7 @@ CREATE TABLE `cm_grade_type` (
 
 CREATE TABLE `cm_offer` (
   `id` varchar(170) NOT NULL default '',
-  `fk_cm_grade_type` varchar(170) default NULL,
+  `fk_gr_grade_type` varchar(170) default NULL,
   `fk_cm_term` varchar(170) default NULL,
   `fk_cm_offer_stat_type` varchar(255) default NULL,
   `fk_cm_offer_type` varchar(170) default NULL,
@@ -158,12 +141,12 @@ CREATE TABLE `cm_offer` (
 
 CREATE TABLE `cm_offer_stat_type` (
   `id` int(170) unsigned NOT NULL auto_increment,
-  `keyword` varchar(255) default NULL,
-  `authority` varchar(255) default NULL,
-  `domain` varchar(255) default NULL,
-  `description` text,
+  `keyword` varchar(255) collate utf8_bin default NULL,
+  `authority` varchar(255) collate utf8_bin default NULL,
+  `domain` varchar(255) collate utf8_bin default NULL,
+  `description` text collate utf8_bin,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE = utf8_bin COMMENT='This table contains various course offering statuses' AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='This table contains various course offering statuses' AUTO_INCREMENT=8 ;
 
 -- --------------------------------------------------------
 
@@ -173,15 +156,14 @@ CREATE TABLE `cm_offer_stat_type` (
 
 CREATE TABLE `cm_offer_type` (
   `id` int(170) unsigned NOT NULL auto_increment,
-  `keyword` varchar(255) default NULL,
-  `authority` varchar(255) default NULL,
-  `domain` varchar(255) default NULL,
-  `description` text,
+  `keyword` varchar(255) collate utf8_bin default NULL,
+  `authority` varchar(255) collate utf8_bin default NULL,
+  `domain` varchar(255) collate utf8_bin default NULL,
+  `description` text collate utf8_bin,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE = utf8_bin COMMENT='This table contains various types of course offerings' AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='This table contains various types of course offerings' AUTO_INCREMENT=7 ;
 
 -- --------------------------------------------------------
-
 
 -- 
 -- Table structure for table `cm_schedule`
@@ -218,12 +200,12 @@ CREATE TABLE `cm_section` (
 
 CREATE TABLE `cm_section_stat_type` (
   `id` int(170) unsigned NOT NULL auto_increment,
-  `keyword` varchar(255) default NULL,
-  `authority` varchar(255) default NULL,
-  `domain` varchar(255) default NULL,
-  `description` text,
+  `keyword` varchar(255) collate utf8_bin default NULL,
+  `authority` varchar(255) collate utf8_bin default NULL,
+  `domain` varchar(255) collate utf8_bin default NULL,
+  `description` text collate utf8_bin,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE = utf8_bin COMMENT='This table contains various course section statuses' AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='This table contains various course section statuses' AUTO_INCREMENT=5 ;
 
 -- --------------------------------------------------------
 
@@ -233,12 +215,12 @@ CREATE TABLE `cm_section_stat_type` (
 
 CREATE TABLE `cm_section_type` (
   `id` int(170) unsigned NOT NULL auto_increment,
-  `keyword` varchar(255) default NULL,
-  `authority` varchar(255) default NULL,
-  `domain` varchar(255) default NULL,
-  `description` text,
+  `keyword` varchar(255) collate utf8_bin default NULL,
+  `authority` varchar(255) collate utf8_bin default NULL,
+  `domain` varchar(255) collate utf8_bin default NULL,
+  `description` text collate utf8_bin,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE = utf8_bin COMMENT='This table contains various types of course sections' AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='This table contains various types of course sections' AUTO_INCREMENT=6 ;
 
 -- --------------------------------------------------------
 
@@ -261,12 +243,12 @@ CREATE TABLE `cm_term` (
 
 CREATE TABLE `cm_term_type` (
   `id` int(170) unsigned NOT NULL auto_increment,
-  `keyword` varchar(255) default NULL,
-  `authority` varchar(255) default NULL,
-  `domain` varchar(255) default NULL,
-  `description` text,
+  `keyword` varchar(255) collate utf8_bin default NULL,
+  `authority` varchar(255) collate utf8_bin default NULL,
+  `domain` varchar(255) collate utf8_bin default NULL,
+  `description` text collate utf8_bin,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE = utf8_bin COMMENT='This table contains various types of terms' AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='This table contains various types of terms' AUTO_INCREMENT=8 ;
 
 -- --------------------------------------------------------
 
@@ -281,3 +263,4 @@ CREATE TABLE `cm_topics` (
   KEY `fk_cm_can` (`fk_cm_can`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------

@@ -21,7 +21,7 @@ require_once(OKI2."/osid/coursemanagement/EnrollmentRecord.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: EnrollmentRecord.class.php,v 1.8 2006/07/06 18:33:53 sporktim Exp $
+ * @version $Id: EnrollmentRecord.class.php,v 1.9 2006/07/21 19:04:00 sporktim Exp $
  */
 class HarmoniEnrollmentRecord
 	extends EnrollmentRecord
@@ -78,6 +78,38 @@ class HarmoniEnrollmentRecord
 		$idString = $this->_getField('fk_student_id');
 		$ret =& $idManager->getId($idString);
 		return $ret;
+		 
+	} 
+	
+	/**
+	 * Get the CourseSection that this EnrollmentRecord 
+	 * enrolls the student in.
+	 * 
+	 * Warning!  THis is not in the OSID!  Use at your own risk.	
+	 *
+	 * @return object CourseSection
+	 * 
+	 * @throws object CourseManagementException An exception
+	 *		   with one of the following messages defined in
+	 *		   org.osid.coursemanagement.CourseManagementException may be
+	 *		   thrown:	{@link
+	 *		   org.osid.coursemanagement.CourseManagementException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.coursemanagement.CourseManagementException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.coursemanagement.CourseManagementException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}
+	 * 
+	 * @access public
+	 */
+	function &getCourseSection () { 
+		$cm =& Services::getService("CourseManagement");
+		$idManager =& Services::getService("IdManager");
+		$idString = $this->_getField('fk_cm_section');
+		$id =& $idManager->getId($idString);
+		return $cm->getCourseSection($id);
 		 
 	} 
 

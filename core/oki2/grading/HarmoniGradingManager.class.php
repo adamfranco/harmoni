@@ -146,6 +146,7 @@ class HarmoniGradingManager
 	* @access public
 	*/
 	function assignOsidContext ( &$context ) {
+		
 		$this->_osidContext =& $context;
 	}
 	

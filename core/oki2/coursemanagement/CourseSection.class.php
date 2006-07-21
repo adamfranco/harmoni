@@ -26,7 +26,7 @@ require_once(OKI2."/osid/coursemanagement/CourseSection.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CourseSection.class.php,v 1.22 2006/07/20 23:24:23 sporktim Exp $
+ * @version $Id: CourseSection.class.php,v 1.23 2006/07/21 19:04:00 sporktim Exp $
  */
 class HarmoniCourseSection
 	extends CourseSection
@@ -824,9 +824,25 @@ class HarmoniCourseSection
 	 */
 	function changeStudent ( &$agentId, &$enrollmentStatusType ) { 
 		
-		$typeIndex = $this->_typeToIndex('enroll_stat',$enrollmentStatusType);
 		
 		$dbManager =& Services::getService("DatabaseManager");
+		$query=& new SelectQuery;
+		$query->addTable('cm_enroll');
+		$query->addWhere("fk_cm_section='".addslashes($this->_id->getIdString())."'");
+		$query->addWhere("fk_student_id='".addslashes($agentId->getIdString())."'");
+		
+		//I don't need Id, but I need to select something for the query to work
+		$query->addColumn('id');
+		$res=& $dbManager->query($query);
+		if($res->getNumberOfRows()==0){
+			throwError(new Error("Cannot change status of student [".$agentId->getIDString()."] because that student in not enrolled in the course[".$this->_id->getIdString()."]", "CourseManagement", true));
+		}else if($res->getNumberOfRows()>1){
+			print "<b>Warning!</b> Student with id ".$agentId->getIdString()." is already enrolled in section ".$this->getDisplayName()." twice.";
+		}
+		
+		$typeIndex = $this->_typeToIndex('enroll_stat',$enrollmentStatusType);
+		
+		
 		$query=& new UpdateQuery;
 		$query->setTable('cm_enroll');
 
@@ -839,7 +855,6 @@ class HarmoniCourseSection
 		$query->setValues(array("'".addslashes($typeIndex)."'"));
 
 		$dbManager->query($query);
-
 
 	} 
 

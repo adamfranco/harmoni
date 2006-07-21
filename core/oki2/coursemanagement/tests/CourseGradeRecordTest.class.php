@@ -32,7 +32,7 @@
 	require_once(HARMONI."oki2/coursemanagement/Term.class.php");
 	require_once(HARMONI."oki2/coursemanagement/TermIterator.class.php");
     
-    class CourseGradeRecordTest extends UnitTestCase {
+    class CourseGradeRecordTest extends OKIUnitTestCase {
       
       	/**
 		 *	  Sets up unit test wide variables at the start
@@ -58,50 +58,60 @@
         	
         	$this->write(7,"Test of Course Grade Record");
         	
-          	// Create canonical course
-        	$cmm =& Services::getService("CourseManagement");
-        	$title = "Introduction to Microeconomics";
-        	$number = "EC155";
-        	$description = "Economics in a micro scale, duh!";
-        	$courseType =& new Type("CourseManagement", "edu.middlebury", "SOC");
-        	$courseStatusType =& new Type("CourseManagement", "edu.middlebury", "Open");
-        	$credits = "1.00";
-        	$canonicalCourse = $cmm->createCanonicalCourse($title, $number, $description, $courseType, 
-														   $courseStatusType, $credits);
+          	$cm =& Services::getService("CourseManagement");
+        	$sm =& Services::getService("Scheduling");
+        	$am =& Services::getService("Agent");
+        	
+
+        	
+        	$canType =& new Type("CourseManagement", "edu.middlebury", "DED", "Deductive Reasoning");
+          	$canStatType =& new Type("CourseManagement", "edu.middlebury", "Still offered", "Offerd sometimes");          	
+          	$offerType =& new Type("CourseManagement", "edu.middlebury", "default", "");         	
+          	$offerStatType =& new Type("CourseManagement", "edu.middlebury", "Full", "You can't still register.");
+          	$gradeType =& new Type("CourseManagement", "edu.middlebury", "AutoFail", "Sucks to be you");
+          	$termType =& new Type("CourseManagement", "edu.middlebury", "Fall");         	         
+			$propertiesType =& new Type("CourseManagement", "edu.middlebury", "properties");
+			$agentType =& new Type("CourseManagement", "edu.middlebury", "student");
+			$gradeType1 =&  new Type("GradeType", "edu.middlebury", "LetterGrade");
+			$gradeType2 =&  new Type("GradeType", "edu.middlebury", "Pass/Fail");
+			                   	
+          	$cs1 =& $cm->createCanonicalCourse("Intro to CSCI", "CSCI101", "",$canType, $canStatType,1);
+          	$cs2 =& $cm->createCanonicalCourse("Computer Graphics", "CSCI367", "descrip",$canType, $canStatType,1);
+          	
+          	       
+          	$agents = array();
+          	 	
+			$scheduleItemA1 =& $sm->createScheduleItem("Fall 2005 range", "", $agents, 300, 900, null);
+			$scheduleItemA2 =& $sm->createScheduleItem("Thanksgiving", "", $agents, 350, 400, null);
+			$scheduleItemA3 =& $sm->createScheduleItem("Christmas", "ho ho ho", $agents, 500, 600, null);
 			
-			// Create course offering											   
-          	$termType =& new Type("CourseManagement", "edu.middlebury", "Fall 2006");
-          	
-          	$scheduleManager =& Services::GetService("Scheduling");
-          	
-          	$schedule[] =& $scheduleManager->createScheduleItem("Term", "The whole shebang",$arr=array(),200,1000,null);
-          	$schedule[] =& $scheduleManager->createScheduleItem("Halloween", "Boo!",$arr=array(),250,300,null);
-          	$schedule[] =& $scheduleManager->createScheduleItem("Christmas", "Unfortunately secular!",$arr=array(),700,800,null);
-          	
-          	$term =& $cmm->createTerm($termType, $schedule);
-          	$termId =& $term->getId();
-          	$offeringType = $courseType;
-          	$offeringStatusType = $courseStatusType;
-          	$courseGradeType = new Type("CourseManagement", "edu.middlebury", "LetterGrade");
-			$courseOffering =& $canonicalCourse->createCourseOffering($title, $number, $description, $termId,
-																	 $offeringType, $offeringStatusType,
-																	 $courseGradeType);
-																	 
-			$courseOfferingId = $courseOffering->getId();
-			$courseGrade = "B+";
-		
-			// Create agent	
-			$propertiesTypeA =& new Type("CourseManagement", "edu.middlebury", "student");
-			$propertiesA =& new HarmoniProperties($propertiesTypeA);
-			$name = "Sporktim Bahls";
-			$class = "2006";
-			$propertiesA->addProperty('student_name', $name);
-			$propertiesA->addProperty('student_year', $class);	
 			
-			$agentTypeA =& new Type("CourseManagement", "edu.middlebury", "student");
-			$agentHandler =& Services::getService("Agent");
-			$agent =& $agentHandler->createAgent("Gladius", $agentTypeA, $propertiesA);
-			$agentId = $agent->getId();
+			$scheduleA = array($scheduleItemA1,$scheduleItemA2,$scheduleItemA3);
+			
+			$term1 =& $cm->createTerm($termType, $scheduleA);
+			$term1->updateDisplayName("Fall 2005");
+					
+          	$cs1_05 =& $cs1->createCourseOffering(null,null,null, $term1->getId(),$offerType,$offerStatType,$gradeType1);         
+          	$cs2_05 =& $cs2->createCourseOffering(null,null,null, $term1->getId(),$offerType,$offerStatType,$gradeType2);
+
+			$properties =& new HarmoniProperties($propertiesType);
+			$agent1 =& $am->createAgent("Gladius", $agentType, $properties);
+			$properties =& new HarmoniProperties($propertiesType);
+			$agent2 =& $am->createAgent("Madga", $agentType, $properties);
+			$properties =& new HarmoniProperties($propertiesType);
+			$agent3 =& $am->createAgent("nood8?jood8", $agentType, $properties);
+			
+			$grade1 = "A";
+			
+			$rec1 =& $cm->createCourseGradeRecord($agent1->getId(), $cs1_05->getID(), null,$grade1 = "C-");
+			$rec1 =& $cm->createCourseGradeRecord($agent2->getId(), $cs1_05->getID(), null,$grade2 = "B+");
+			$rec1 =& $cm->createCourseGradeRecord($agent3->getId(), $cs1_05->getID(), null,$grade3 = "A-");
+			$rec1 =& $cm->createCourseGradeRecord($agent1->getId(), $cs1_05->getID(), null,$grade4 = "Fail");
+			$rec1 =& $cm->createCourseGradeRecord($agent2->getId(), $cs1_05->getID(), null,$grade5 = "Pass");
+			$rec1 =& $cm->createCourseGradeRecord($agent3->getId(), $cs1_05->getID(), null,$grade6 = "Pass");
+			
+			/*
+        	
 			
         	$courseGradeRecordA =& $cmm->createCourseGradeRecord($agentId, $courseOfferingId, $courseGradeType, 
 																 $courseGrade);
@@ -125,54 +135,10 @@
 			
 			$canonicalCourse->deleteCourseOffering($courseOffering->getId());
 			$cmm->deleteCanonicalCourse($canonicalCourse->getId());
-			$agentHandler->deleteAgent($agentId);
+			$agentHandler->deleteAgent($agentId);*/
         }
 		
 		
-		function assertEqualTypes(&$typeA,&$typeB){
-			
-			$this->assertEqual($typeA->getDomain(),$typeB->getDomain());
-			$this->assertEqual($typeA->getAuthority(),$typeB->getAuthority());
-			$this->assertEqual($typeA->getKeyword(),$typeB->getKeyword());
-			$this->assertEqual($typeA->getDescription(),$typeB->getDescription());
-		}
-		
-		
-		function write($size, $text){
-			
-			print "<p align=center><font size=".$size." color=#8888FF>".$text."</font></p>\n";
-			
-			
-		} 
-		
-		
-		//This method only works if the items have a getDisplaName() method.
-		//Relies extensively on weak typing
-		function iteratorHas($iter, $name){
-			$bool=false;
-			print "(";
-			while($iter->hasNext()){
-				
-					$item =& $iter->next();
-				print $item->getDisplayName().",";
-					if($name == $item->getDisplayName()){
-						$bool=true;;
-					}
-					
-				}
-			print ")";
-			print "has ".$name."? --> ".$bool;
-				return $bool;
-			/*
-				while($iter->hasNext()){
-					//$am =& Services::GetService("AgentManager");
-					$item =& $iter->next();
-					if($name == $item->getDisplayName()){
-						return true;
-					}
-				}
-				return false;*/
-		}
 		
 		
 		

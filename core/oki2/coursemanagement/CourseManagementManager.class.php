@@ -6,7 +6,7 @@
 * @copyright Copyright &copy; 2006, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.41 2006/07/20 23:24:23 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.42 2006/07/21 19:04:00 sporktim Exp $
 */
 
 require_once(OKI2."/osid/coursemanagement/CourseManagementManager.php");
@@ -100,7 +100,7 @@ require_once(HARMONI."oki2/coursemanagement/TermIterator.class.php");
 * @copyright Copyright &copy; 2005, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.41 2006/07/20 23:24:23 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.42 2006/07/21 19:04:00 sporktim Exp $
 */
 class HarmoniCourseManagementManager
 extends CourseManagementManager
@@ -601,12 +601,13 @@ extends CourseManagementManager
 		while($res->hasMoreRows()){
 			$row = $res->getCurrentRow();
 			$res->advanceRow();
-			$course = $this->getCourseSection($idManager->getId($row['id']));
+			$id =& $idManager->getId($row['fk_cm_section']);
+			$course =& $this->getCourseSection($id);
 
-			$array[]=$course;
+			$array[]=&$course;
 			//}
 		}
-		$ret =& new CourseSectionIterator($array);
+		$ret =& new HarmoniCourseSectionIterator($array);
 		return $ret;
 	}
 
@@ -653,17 +654,16 @@ extends CourseManagementManager
 		while($res->hasMoreRows()){
 			$row = $res->getCurrentRow();
 			$res->advanceRow();
-			$courseSection = $this->getCourseSection($idManager->getId($row['id']));
-			$courseOffering = $courseSection->getCourseOffering();
-			$courseOfferingId=$courseOffering->getId();
-			foreach($array as $value){
-				if($courseOfferingId->isEqualTo($value->getId())){
-					continue 2;
-				}
+			$courseSection =& $this->getCourseSection($idManager->getId($row['fk_cm_section']));
+			$courseOffering =& $courseSection->getCourseOffering();
+			$courseOfferingId =& $courseOffering->getId();
+			$courseOfferingIdString = $courseOfferingId->getIdString();
+			if(isset($array[$courseOfferingIdString])){
+				continue;
 			}
-			$array[] =& $node->getType();
+			$array[$courseOfferingIdString] =& $courseOffering;
 		}
-		$ret =& new CourseOfferingIterator($array);
+		$ret =& new HarmoniCourseOfferingIterator($array);
 		return $ret;
 
 
@@ -1111,7 +1111,8 @@ extends CourseManagementManager
 	* @access public
 	*/
 	function &getCourseGradeTypes () {
-		return $this->_getTypes('grade');
+		$gm =& Services::getService("Grading");
+		return $gm->_getTypes('grade');
 	}
 
 	/**
@@ -1173,21 +1174,25 @@ extends CourseManagementManager
 	*/
 	function &createCourseGradeRecord ( &$agentId, &$courseOfferingId, &$courseGradeType, &$courseGrade ) {
 		$idManager =& Services::getService("IdManager");
-
-
-
 		$dbManager=& Services::getService("DatabaseManager");
+		
+
+		$courseOffering =& $this->getCourseOffering($courseOfferingId);
+		if($courseGradeType!=null && !$courseGradeType->isEqual($courseOffering->getGradeType())){
+			throwError(new Error("Cannot create a CourseGradeRecord if the GradeType differs from the CourseOffering","CourseManagementManager",true));
+		}
+
+		
 		$query=& new InsertQuery;
 
 		$query->setTable('cm_grade_rec');
 
-		$query->setColumns(array('fk_student_id','fk_cm_offer','name','grade','fk_cm_grade_type'));
+		$query->setColumns(array('fk_student_id','fk_cm_offer','name','grade'));
 
 		$values[]="'".addslashes($agentId->getIdString())."'";
 		$values[]="'".addslashes($courseOfferingId->getIdString())."'";
 		$values[]="'CourseGradeRecord'";
 		$values[]="'".addslashes($courseGrade)."'";
-		$values[]="'".$this->_typeToIndex('grade',$courseGradeType)."'";
 
 		$query->addRowOfValues($values);
 		$query->setAutoIncrementColumn('id','id_sequence');
@@ -1536,7 +1541,7 @@ extends CourseManagementManager
 	*/
 	function &getCourseGroupTypes () {
 
-
+		
 		$parent =& $this->_hierarchy->getNode($this->_courseGroupsId);
 		$nodeIterator =& $parent->getChildren();
 		$arrayOfTypes = array();

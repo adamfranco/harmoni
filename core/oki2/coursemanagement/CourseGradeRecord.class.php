@@ -15,7 +15,7 @@ require_once(OKI2."/osid/coursemanagement/CourseGradeRecord.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CourseGradeRecord.class.php,v 1.6 2006/07/12 19:32:57 jwlee100 Exp $
+ * @version $Id: CourseGradeRecord.class.php,v 1.7 2006/07/21 19:04:00 sporktim Exp $
  */
 class HarmoniCourseGradeRecord
 	extends CourseGradeRecord
@@ -215,7 +215,7 @@ class HarmoniCourseGradeRecord
 	} 
 
 	/**
-	 * Get the CourseGradeType for this Offering.  GradingType is defined in
+	 * Get the CourseGradeType for the GradeRecord's Offering.  GradingType is defined in
 	 * the grading OSID.  These Types are meaningful to the implementation and
 	 * applications and are not specified by the OSID.
 	 *	
@@ -237,8 +237,9 @@ class HarmoniCourseGradeRecord
 	 * @access public
 	 */
 	function &getCourseGradeType () { 
-		//$index = $this->_getField('fk_cm_grade_type');
-		return $this->_getType('grade');
+		//@TODO could be sped up with an innerjoin
+		$course =& $this->getCourseOffering();
+		return $course->getGradeType();
 	} 
 
 	/**

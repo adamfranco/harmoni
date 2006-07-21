@@ -89,8 +89,7 @@ class HarmoniSchedulingManager
 	* @access public
 	*/
 	function assignConfiguration ( &$configuration ) {
-		
-		
+	
 	}
 
 	/**

@@ -53,6 +53,7 @@
         	
       		$cm =& Services::getService("CourseManagement");
         	$sm =& Services::getService("Scheduling");
+        	$am =& Services::getService("Agent");
         	
         	$this->write(7, "Test EnrollmentRecord");
 
@@ -66,7 +67,8 @@
           	$sectionType1 =& new Type("CourseManagement", "edu.middlebury", "lecture", "");
           	$sectionType2 =& new Type("CourseManagement", "edu.middlebury", "lab", "");         	          	         	
           	$sectionStatType =& new Type("CourseManagement", "edu.middlebury", "Slots open", "register, baby!");
-          
+			$propertiesType =& new Type("CourseManagement", "edu.middlebury", "properties");
+			$agentType =& new Type("CourseManagement", "edu.middlebury", "student");
           	$enrollStatType1 =& new Type("CourseManagement", "edu.middlebury", "attending", ""); 
           	$enrollStatType2 =& new Type("CourseManagement", "edu.middlebury", "auditing", "");   
 			  
@@ -99,32 +101,320 @@
           	
           	$loc = "Bihall 632";
           	
-          	$cs1A_05 =& $cs1_05->createCourseSection(null,null,null, $sectionType1, $sectionStatType,$loc);
-          	$cs1Z_05 =& $cs1_05->createCourseSection(null,null,null, $sectionType2, $sectionStatType,$loc);
-          	$cs2A_05 =& $cs2_05->createCourseSection(null,null,null, $sectionType2, $sectionStatType,$loc);
+          	$cs1A_05 =& $cs1_05->createCourseSection("intro to CS A",null,null, $sectionType1, $sectionStatType,$loc);
+          	$cs1Z_05 =& $cs1_05->createCourseSection("intro to CS Z",null,null, $sectionType2, $sectionStatType,$loc);
+          	$cs2A_05 =& $cs2_05->createCourseSection("Graphics Z",null,null, $sectionType2, $sectionStatType,$loc);
           	
           	
+        	
+        	
+			
+			
+			$properties =& new HarmoniProperties($propertiesType);
+			$agent1 =& $am->createAgent("Gladius", $agentType, $properties);
+			$properties =& new HarmoniProperties($propertiesType);
+			$agent2 =& $am->createAgent("Madga", $agentType, $properties);
+			$properties =& new HarmoniProperties($propertiesType);
+			$agent3 =& $am->createAgent("nood8?jood8", $agentType, $properties);
+        	
+			
+			
+          	$cs1A_05->addStudent($agent3->getId(), $enrollStatType1);         	
+			$cs1Z_05->addStudent($agent1->getId(), $enrollStatType1);
+			$cs2A_05->addStudent($agent3->getId(), $enrollStatType2);			
+		
+			
+			$roster1 =& $cs1A_05->getRoster();
+			$roster2 =& $cs1Z_05->getRoster();
+			$roster3 =& $cs2A_05->getRoster();
+			
+			$this->write(4,"Test of basic get methods");  
+			
+			$this->assertTrue($roster1->hasNextEnrollmentRecord());
+			if($roster1->hasNextEnrollmentRecord()){
+				$record =& $roster1->nextEnrollmentRecord();
+				$this->assertEqualTypes($record->getStatus(),$enrollStatType1);
+				$this->assertEqualIds($record->getStudent(),$agent3->getId());	    	
+          		$this->assertHaveEqualIds($record->getCourseSection(),$cs1A_05);					
+			}
+			
+			$this->assertTrue($roster2->hasNextEnrollmentRecord());
+			if($roster2->hasNextEnrollmentRecord()){
+				$record =& $roster2->nextEnrollmentRecord();
+				$this->assertEqualTypes($record->getStatus(),$enrollStatType1);
+				$this->assertEqualIds($record->getStudent(),$agent1->getId());					  	
+          		$this->assertHaveEqualIds($record->getCourseSection(),$cs1Z_05);					
+			}
+			
+			$this->assertTrue($roster3->hasNextEnrollmentRecord());
+			if($roster3->hasNextEnrollmentRecord()){
+				$record =& $roster3->nextEnrollmentRecord();
+				$this->assertEqualTypes($record->getStatus(),$enrollStatType2);
+				$this->assertEqualIds($record->getStudent(),$agent3->getId());	    	
+          		$this->assertHaveEqualIds($record->getCourseSection(),$cs2A_05);					
+			}
+			
           	
+			 
           	
-          	
-          	
-        	  	$this->write(4,"Test of basic get methods");   
-          	
-       
+       		
          
        	
           	//$this->assertEqualTypes($cs1A_05->getSectionType(),$sectionType1);         	
           	//$this->assertHaveEqualIds($cs1A_05->getCourseOffering(),$cs1_05);		
-       	
+			
+			
           	
+			$this->write(4,"Test of adding and getRoster and getRosterByType");
+          	
+			
+			
+          	$cs1A_05->addStudent($agent1->getId(), $enrollStatType2);
+			$cs1Z_05->addStudent($agent2->getId(), $enrollStatType2);
+			$cs2A_05->addStudent($agent2->getId(), $enrollStatType1);
+          	
+          	
+          	
+			
+			
+			$this->write(1,"Group A");
+          	$toGet =& $cs1A_05;
+			$roster =& $toGet->getRoster();
+			$this->assertTrue($this->enrollmentIteratorHasStudent($roster,$agent1));
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,$agent2));
+			$this->assertTrue($this->enrollmentIteratorHasStudent($roster,$agent3));			
+			$roster =& $toGet->getRosterByType($enrollStatType1);					
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,$agent1));
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,$agent2));
+			$this->assertTrue($this->enrollmentIteratorHasStudent($roster,$agent3));
+			$roster =& $toGet->getRosterByType($enrollStatType2);					
+			$this->assertTrue($this->enrollmentIteratorHasStudent($roster,$agent1));
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,$agent2));
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,$agent3));          	
+          	
+        	$this->write(1,"Group B");
+          	$toGet =& $cs1Z_05;
+			$roster =& $toGet->getRoster();
+			$this->assertTrue($this->enrollmentIteratorHasStudent($roster,$agent1));
+			$this->assertTrue($this->enrollmentIteratorHasStudent($roster,$agent2));
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,$agent3));			
+			$roster =& $toGet->getRosterByType($enrollStatType1);					
+			$this->assertTrue($this->enrollmentIteratorHasStudent($roster,$agent1));
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,$agent2));
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,$agent3));
+			$roster =& $toGet->getRosterByType($enrollStatType2);					
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,$agent1));
+			$this->assertTrue($this->enrollmentIteratorHasStudent($roster,$agent2));
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,$agent3));
+			
+			$this->write(1,"Group C");
+          	$toGet =& $cs2A_05;
+			$roster =& $toGet->getRoster();
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,$agent1));
+			$this->assertTrue($this->enrollmentIteratorHasStudent($roster,$agent2));
+			$this->assertTrue($this->enrollmentIteratorHasStudent($roster,$agent3));			
+			$roster =& $toGet->getRosterByType($enrollStatType1);					
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,$agent1));
+			$this->assertTrue($this->enrollmentIteratorHasStudent($roster,$agent2));
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,$agent3));
+			$roster =& $toGet->getRosterByType($enrollStatType2);					
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,$agent1));
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,$agent2));
+			$this->assertTrue($this->enrollmentIteratorHasStudent($roster,$agent3));
+			
+			$this->write(1,"Group D");
+          	$toGet =& $cs1_05;
+			$roster =& $toGet->getRoster();			
+			$this->assertTrue($this->enrollmentIteratorHasStudent($roster,$agent1));
+			$this->assertTrue($this->enrollmentIteratorHasStudent($roster,$agent2));
+			$this->assertTrue($this->enrollmentIteratorHasStudent($roster,$agent3));			
+			$roster =& $toGet->getRosterByType($enrollStatType1);					
+			$this->assertTrue($this->enrollmentIteratorHasStudent($roster,$agent1));
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,$agent2));
+			$this->assertTrue($this->enrollmentIteratorHasStudent($roster,$agent3));
+			$roster =& $toGet->getRosterByType($enrollStatType2);				
+			$this->assertTrue($this->enrollmentIteratorHasStudent($roster,$agent1));
+			$this->assertTrue($this->enrollmentIteratorHasStudent($roster,$agent2));
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,$agent3));
+			
+			$this->write(1,"Group E");
+          	$toGet =& $cs2_05;
+			$roster =& $toGet->getRoster();	
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,$agent1));
+			$this->assertTrue($this->enrollmentIteratorHasStudent($roster,$agent2));
+			$this->assertTrue($this->enrollmentIteratorHasStudent($roster,$agent3));			
+			$roster =& $toGet->getRosterByType($enrollStatType1);					
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,$agent1));
+			$this->assertTrue($this->enrollmentIteratorHasStudent($roster,$agent2));
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,$agent3));
+			$roster =& $toGet->getRosterByType($enrollStatType2);					
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,$agent1));
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,$agent2));
+			$this->assertTrue($this->enrollmentIteratorHasStudent($roster,$agent3));
+       	
+			
+			$this->write(4,"Test getting courses by agent");
+			
+			
+			
+			$this->write(1,"Group A");
+        	$iter =& $cm->getCourseOfferings($agent1->getId());
+        	$this->assertIteratorHasItemWithId($iter, $cs1_05);
+        	$this->assertIteratorLacksItemWithId($iter, $cs2_05);
+        	$this->assertIteratorLacksItemWithId($iter, $cs1A_05);
+        	$this->assertIteratorLacksItemWithId($iter, $cs1Z_05);
+        	$this->assertIteratorLacksItemWithId($iter, $cs2A_05);
+
+			$this->write(1,"Group B");
+        	$iter =& $cm->getCourseOfferings($agent2->getId());
+        	$this->assertIteratorHasItemWithId($iter, $cs1_05);
+        	$this->assertIteratorHasItemWithId($iter, $cs2_05);
+        	$this->assertIteratorLacksItemWithId($iter, $cs1A_05);
+        	$this->assertIteratorLacksItemWithId($iter, $cs1Z_05);
+        	$this->assertIteratorLacksItemWithId($iter, $cs2A_05);
+        	
+        	$this->write(1,"Group C");
+        	$iter =& $cm->getCourseOfferings($agent3->getId());
+        	$this->assertIteratorHasItemWithId($iter, $cs1_05);
+        	$this->assertIteratorHasItemWithId($iter, $cs2_05);
+        	$this->assertIteratorLacksItemWithId($iter, $cs1A_05);
+        	$this->assertIteratorLacksItemWithId($iter, $cs1Z_05);
+        	$this->assertIteratorLacksItemWithId($iter, $cs2A_05);
+        	
+        	$this->write(1,"Group D");
+        	$iter =& $cm->getCourseSections($agent1->getId());
+        	$this->assertIteratorLacksItemWithId($iter, $cs1_05);
+        	$this->assertIteratorLacksItemWithId($iter, $cs2_05);
+        	$this->assertIteratorHasItemWithId($iter, $cs1A_05);
+        	$this->assertIteratorHasItemWithId($iter, $cs1Z_05);
+        	$this->assertIteratorLacksItemWithId($iter, $cs2A_05);
+        	
+        	$this->write(1,"Group E");
+        	$iter =& $cm->getCourseSections($agent2->getId());
+        	$this->assertIteratorLacksItemWithId($iter, $cs1_05);
+        	$this->assertIteratorLacksItemWithId($iter, $cs2_05);
+        	$this->assertIteratorLacksItemWithId($iter, $cs1A_05);
+        	$this->assertIteratorHasItemWithId($iter, $cs1Z_05);
+        	$this->assertIteratorHasItemWithId($iter, $cs2A_05);
+        	
+        	$this->write(1,"Group F");
+        	$iter =& $cm->getCourseSections($agent3->getId());
+        	$this->assertIteratorLacksItemWithId($iter, $cs1_05);
+        	$this->assertIteratorLacksItemWithId($iter, $cs2_05);
+        	$this->assertIteratorHasItemWithId($iter, $cs1A_05);
+        	$this->assertIteratorLacksItemWithId($iter, $cs1Z_05);
+        	$this->assertIteratorHasItemWithId($iter, $cs2A_05);
+			
+			
+          	$this->write(4,"Test of removeStudent and ChangeStudent");
+          	
+			
+			
+          	$cs2A_05->addStudent($agent1->getId(), $enrollStatType2);
+			$cs2A_05->changeStudent($agent2->getId(), $enrollStatType2);
+			$cs1Z_05->changeStudent($agent2->getId(), $enrollStatType1);
+          	
+          	$cs1A_05->removeStudent($agent3->getId());
+          	
+          	$cs1_05->removeStudent($agent1->getId()); 	
+          	
+			$this->write(1,"Group A");
+          	$toGet =& $cs1A_05;
+			$roster =& $toGet->getRoster();
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,$agent1));
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,$agent2));
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,$agent3));			
+			$roster =& $toGet->getRosterByType($enrollStatType1);					
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,$agent1));
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,$agent2));
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,$agent3));
+			$roster =& $toGet->getRosterByType($enrollStatType2);					
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,$agent1));
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,$agent2));
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,$agent3));          	
+          	
+        	$this->write(1,"Group B");
+          	$toGet =& $cs1Z_05;
+			$roster =& $toGet->getRoster();
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,$agent1));
+			$this->assertTrue($this->enrollmentIteratorHasStudent($roster,$agent2));
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,$agent3));			
+			$roster =& $toGet->getRosterByType($enrollStatType1);					
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,$agent1));
+			$this->assertTrue($this->enrollmentIteratorHasStudent($roster,$agent2));
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,$agent3));
+			$roster =& $toGet->getRosterByType($enrollStatType2);					
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,$agent1));
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,$agent2));
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,$agent3));
+			
+			$this->write(1,"Group C");
+          	$toGet =& $cs2A_05;
+			$roster =& $toGet->getRoster();
+			$this->assertTrue($this->enrollmentIteratorHasStudent($roster,$agent1));
+			$this->assertTrue($this->enrollmentIteratorHasStudent($roster,$agent2));
+			$this->assertTrue($this->enrollmentIteratorHasStudent($roster,$agent3));			
+			$roster =& $toGet->getRosterByType($enrollStatType1);					
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,$agent1));
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,$agent2));
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,$agent3));
+			$roster =& $toGet->getRosterByType($enrollStatType2);					
+			$this->assertTrue($this->enrollmentIteratorHasStudent($roster,$agent1));
+			$this->assertTrue($this->enrollmentIteratorHasStudent($roster,$agent2));
+			$this->assertTrue($this->enrollmentIteratorHasStudent($roster,$agent3));
+			
+			$this->write(1,"Group D");
+          	$toGet =& $cs1_05;
+			$roster =& $toGet->getRoster();			
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,$agent1));
+			$this->assertTrue($this->enrollmentIteratorHasStudent($roster,$agent2));
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,$agent3));			
+			$roster =& $toGet->getRosterByType($enrollStatType1);					
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,$agent1));
+			$this->assertTrue($this->enrollmentIteratorHasStudent($roster,$agent2));
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,$agent3));
+			$roster =& $toGet->getRosterByType($enrollStatType2);				
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,$agent1));
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,$agent2));
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,$agent3));
+			
+			$this->write(1,"Group E");
+          	$toGet =& $cs2_05;
+			$roster =& $toGet->getRoster();	
+			$this->assertTrue($this->enrollmentIteratorHasStudent($roster,$agent1));
+			$this->assertTrue($this->enrollmentIteratorHasStudent($roster,$agent2));
+			$this->assertTrue($this->enrollmentIteratorHasStudent($roster,$agent3));			
+			$roster =& $toGet->getRosterByType($enrollStatType1);					
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,$agent1));
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,$agent2));
+			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,$agent3));
+			$roster =& $toGet->getRosterByType($enrollStatType2);					
+			$this->assertTrue($this->enrollmentIteratorHasStudent($roster,$agent1));
+			$this->assertTrue($this->enrollmentIteratorHasStudent($roster,$agent2));
+			$this->assertTrue($this->enrollmentIteratorHasStudent($roster,$agent3));
 
      
           	
 
+       	 	$cs1_05->removeStudent($agent1->getId());
+       		$cs1_05->removeStudent($agent2->getId());
+        	$cs1_05->removeStudent($agent3->getId());
         
+        	$cs2_05->removeStudent($agent1->getId());
+        	$cs2_05->removeStudent($agent2->getId());
+        	$cs2_05->removeStudent($agent3->getId());
         	
-        	
-        	
+        	$this->write(1,"Group F");
+			$roster =& $cs1A_05->getRoster();
+			$this->assertTrue(!$roster->hasNextEnrollmentRecord());
+        	$roster =& $cs1Z_05->getRoster();
+			$this->assertTrue(!$roster->hasNextEnrollmentRecord());
+			$roster =& $cs2A_05->getRoster();
+			$this->assertTrue(!$roster->hasNextEnrollmentRecord());
+			$roster =& $cs1_05->getRoster();
+			$this->assertTrue(!$roster->hasNextEnrollmentRecord());
+			$roster =& $cs2_05->getRoster();
+			$this->assertTrue(!$roster->hasNextEnrollmentRecord());
         	
         		
         	$this->write(4,"Test of getting Types");
@@ -155,9 +445,8 @@
 	
         	
         	$cm->deleteTerm($term1->getId());
-		
-		
-        	
+
+			
         	
         	
         	/*
@@ -374,13 +663,15 @@
         
         
         
-        function enrollmentIteratorHasStudent($iter, $name){
+        function enrollmentIteratorHasStudent($iter, $agent){
+        	//this relies on usage of the HarmoniIterator
+			$iter->_i=-1;
 			while($iter->hasNext()){
 				$am =& Services::GetService("AgentManager");
 				$er =& $iter->next();
-				$agent =& $am->getAgent($er->getStudent());
+				$currAgent =& $am->getAgent($er->getStudent());
 				
-				if($name == $agent->getDisplayName()){
+				if($agent->getDisplayName() == $currAgent->getDisplayName()){
 					return true;
 				}
 			}
@@ -388,19 +679,22 @@
 		}
 		
 		function printRoster($roster){
+			//this relies on usage of the HarmoniIterator
+			$iter->_i=-1;
 			print "\n";
-			print "<center>";
+			print "<center><p>{";
 			$am =& Services::getService("AgentManager");
 			while ($roster->hasNext()) {
-			  	print "<p>";
+
 			  	$er =& $roster->next();
 			  	$id =& $er->getStudent();
 			  	$agent =& $am->getAgent($id);
 			  	
 				print_r($agent->getDisplayName());
-				print "</p>";
+				print " ";
+		
 			}
-			print "</center>";
+			print "}</p></center>";
 		}
         
         
