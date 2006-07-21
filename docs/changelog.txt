@@ -3,6 +3,11 @@
 Name: Harmoni ChangeLog
 
 
+v. 0.7.2 (2006-07-21)
+----------------------------------------------------
+		
+	* Bug Fix: ImageProcessor: Now doesn't try to convert text files as images. (Adam Franco)
+	
 v. 0.7.1 (2006-06-20)
 ----------------------------------------------------
 		
