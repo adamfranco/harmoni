@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ImageMagickProcessor.class.php,v 1.8 2005/07/22 18:08:40 adamfranco Exp $
+ * @version $Id: ImageMagickProcessor.class.php,v 1.8.2.1 2006/07/21 19:37:34 adamfranco Exp $
  */
 
 class ImageMagickProcessor {
@@ -136,7 +136,7 @@ class ImageMagickProcessor {
 			"tif" => "tif",
 			"tim" => "jpg",
 			"ttf" => "png",
-			"txt" => "txt",
+// 			"txt" => "txt",
 			
 //			"uil" => "uil",
 			"uyvy" => "uyvy",
