@@ -446,7 +446,9 @@
         	
         	$cm->deleteTerm($term1->getId());
 
-			
+			$am->deleteAgent($agent1->getId());
+			$am->deleteAgent($agent2->getId());
+			$am->deleteAgent($agent3->getId());
         	
         	
         	/*

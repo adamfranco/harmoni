@@ -633,6 +633,11 @@
 			$cm->deleteCourseGroup($buddyGroup1->getId());
 			$cm->deleteCourseGroup($buddyGroup2->getId());
 			
+			$cm->deleteCanonicalCourse($ar1->getId());
+			$cm->deleteCanonicalCourse($ar2->getId());
+			$cm->deleteCanonicalCourse($cs1->getId());
+			$cm->deleteCanonicalCourse($cs2->getId());
+			
 			
 			
 			

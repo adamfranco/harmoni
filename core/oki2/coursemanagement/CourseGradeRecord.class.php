@@ -15,7 +15,7 @@ require_once(OKI2."/osid/coursemanagement/CourseGradeRecord.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CourseGradeRecord.class.php,v 1.7 2006/07/21 19:04:00 sporktim Exp $
+ * @version $Id: CourseGradeRecord.class.php,v 1.8 2006/07/21 20:15:54 sporktim Exp $
  */
 class HarmoniCourseGradeRecord
 	extends CourseGradeRecord
@@ -236,10 +236,35 @@ class HarmoniCourseGradeRecord
 	 * 
 	 * @access public
 	 */
-	function &getCourseGradeType () { 
+	function &getType () { 
 		//@TODO could be sped up with an innerjoin
 		$course =& $this->getCourseOffering();
-		return $course->getGradeType();
+		return $course->getCourseGradeType();
+	} 
+	
+	
+	/**
+	 * Calls getType(), which may be the proper name.
+	 *	
+	 * @return object Type
+	 * 
+	 * @throws object CourseManagementException An exception
+	 *		   with one of the following messages defined in
+	 *		   org.osid.coursemanagement.CourseManagementException may be
+	 *		   thrown:	{@link
+	 *		   org.osid.coursemanagement.CourseManagementException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.coursemanagement.CourseManagementException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.coursemanagement.CourseManagementException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}
+	 * 
+	 * @access public
+	 */
+	function &getCourseGradeType () { 
+		return $this->getType();
 	} 
 
 	/**

@@ -101,14 +101,109 @@
 			$properties =& new HarmoniProperties($propertiesType);
 			$agent3 =& $am->createAgent("nood8?jood8", $agentType, $properties);
 			
-			$grade1 = "A";
+			$A = "A";
+			$B = "B";
+			$C = "C";
+			$pass = "Pass";
+			$fail = "Fail";
 			
-			$rec1 =& $cm->createCourseGradeRecord($agent1->getId(), $cs1_05->getID(), null,$grade1 = "C-");
-			$rec1 =& $cm->createCourseGradeRecord($agent2->getId(), $cs1_05->getID(), null,$grade2 = "B+");
-			$rec1 =& $cm->createCourseGradeRecord($agent3->getId(), $cs1_05->getID(), null,$grade3 = "A-");
-			$rec1 =& $cm->createCourseGradeRecord($agent1->getId(), $cs1_05->getID(), null,$grade4 = "Fail");
-			$rec1 =& $cm->createCourseGradeRecord($agent2->getId(), $cs1_05->getID(), null,$grade5 = "Pass");
-			$rec1 =& $cm->createCourseGradeRecord($agent3->getId(), $cs1_05->getID(), null,$grade6 = "Pass");
+			$null = null;
+			
+			$rec1 =& $cm->createCourseGradeRecord($agent1->getId(), $cs1_05->getID(), $null, $C);
+			$rec2 =& $cm->createCourseGradeRecord($agent2->getId(), $cs1_05->getID(), $null, $B);
+			$rec3 =& $cm->createCourseGradeRecord($agent3->getId(), $cs1_05->getID(), $null, $A);
+			$rec4 =& $cm->createCourseGradeRecord($agent1->getId(), $cs2_05->getID(), $null, $fail);
+			$rec5 =& $cm->createCourseGradeRecord($agent2->getId(), $cs2_05->getID(), $null, $pass);
+			$rec6 =& $cm->createCourseGradeRecord($agent3->getId(), $cs2_05->getID(), $null, $pass);
+			
+			
+			
+			
+			$this->write(4,"Test of basic get methods");   
+          	
+         $this->write(1,"Group A");
+         
+         	$this->assertHaveEqualIds($rec1->getAgent(),$agent1);
+         	$this->assertEqual($rec1->getCourseGrade(), $C);
+         	$this->assertHaveEqualIds($rec1->getCourseOffering(),$cs1_05);
+         	$this->assertEqualTypes($rec1->getType(),$gradeType1);
+         	$this->assertDoesNotCrashTheSystem($rec1->getDisplayName());
+         	
+         	$this->write(1,"Group B");
+         
+         	$this->assertHaveEqualIds($rec2->getAgent(),$agent2);
+         	$this->assertEqual($rec2->getCourseGrade(), $B);
+         	$this->assertHaveEqualIds($rec2->getCourseOffering(),$cs1_05);
+         	$this->assertEqualTypes($rec2->getType(),$gradeType1);
+         	$this->assertDoesNotCrashTheSystem($rec2->getDisplayName());
+         	
+         	$this->write(1,"Group C");
+         
+         	$this->assertHaveEqualIds($rec6->getAgent(),$agent3);
+         	$this->assertEqual($rec6->getCourseGrade(), $pass);
+         	$this->assertHaveEqualIds($rec6->getCourseOffering(),$cs2_05);
+         	$this->assertEqualTypes($rec6->getType(),$gradeType2);
+         	$this->assertDoesNotCrashTheSystem($rec6->getDisplayName());
+         	
+         
+          	   
+         	$this->write(4,"Test of basic update methods");
+          	
+          	$rec4->updateDisplayName("Tim's graphics grade");          	
+			$rec4->updateCourseGrade($pass);
+			
+			$rec2->updateDisplayName("Magda's intro grade");          	
+			$rec2->updateCourseGrade($A);					
+			
+			
+			
+			$this->assertEqual($rec4->getDisplayName(),"Tim's graphics grade");	
+			$this->assertEqual($rec4->getCourseGrade(),$pass);	
+		
+			$this->assertEqual($rec2->getDisplayName(),"Magda's intro grade");	
+			$this->assertEqual($rec2->getCourseGrade(),$A);	
+			
+			
+			$rec1->updateDisplayName("Tim's inrto grade");
+			$rec3->updateDisplayName("John's intro grade");
+			$rec5->updateDisplayName("Magda's Graphics grade");
+			$rec6->updateDisplayName("John's  Graphics grade");
+			
+					
+          
+         
+        	/////////////////////@TODO only one grade record per agent
+			
+			
+			
+			$cm->deleteCourseGradeRecord($rec1->getId());
+			$cm->deleteCourseGradeRecord($rec2->getId());
+			$cm->deleteCourseGradeRecord($rec3->getId());
+			$cm->deleteCourseGradeRecord($rec4->getId());
+			$cm->deleteCourseGradeRecord($rec5->getId());
+			$cm->deleteCourseGradeRecord($rec6->getId());
+			
+			$am->deleteAgent($agent1->getId());
+			$am->deleteAgent($agent2->getId());
+			$am->deleteAgent($agent3->getId());
+          	
+        	$cs1->deleteCourseOffering($cs1_05->getId());
+        	$cs1->deleteCourseOffering($cs2_05->getId());
+       
+        	
+        	$cm->deleteCanonicalCourse($cs1->getId());
+        	$cm->deleteCanonicalCourse($cs2->getId());
+        	
+        	
+        	$sm->deleteScheduleItem($scheduleItemA1->getId());
+			$sm->deleteScheduleItem($scheduleItemA2->getId());
+			$sm->deleteScheduleItem($scheduleItemA3->getId());
+		
+        	
+        	
+        	$cm->deleteTerm($term1->getId());
+			
+			
 			
 			/*
         	

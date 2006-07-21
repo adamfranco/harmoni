@@ -6,7 +6,7 @@
 * @copyright Copyright &copy; 2006, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.42 2006/07/21 19:04:00 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.43 2006/07/21 20:15:54 sporktim Exp $
 */
 
 require_once(OKI2."/osid/coursemanagement/CourseManagementManager.php");
@@ -100,7 +100,7 @@ require_once(HARMONI."oki2/coursemanagement/TermIterator.class.php");
 * @copyright Copyright &copy; 2005, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.42 2006/07/21 19:04:00 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.43 2006/07/21 20:15:54 sporktim Exp $
 */
 class HarmoniCourseManagementManager
 extends CourseManagementManager
@@ -336,7 +336,10 @@ extends CourseManagementManager
 	*
 	* @access public
 	*/
-	function deleteCanonicalCourse ( &$canonicalCourseId ) { //fixthis ambiguous
+	function deleteCanonicalCourse ( &$canonicalCourseId ) { 
+	
+	ArgumentValidator::validate($canonicalCourseId, ExtendsValidatorRule::getRule("Id"), true);
+	
 	$node =& $this->_hierarchy->getNode($canonicalCourseId);
 	$iterator =& $node->getChildren();
 	if($iterator->hasNextNode()){
@@ -770,6 +773,7 @@ extends CourseManagementManager
 	*/
 	function deleteTerm ( &$termId ) {
 
+		ArgumentValidator::validate($termId, ExtendsValidatorRule::getRule("Id"), true);
 
 		$dbManager =& Services::getService("DatabaseManager");
 		$query=& new DeleteQuery;
@@ -1230,7 +1234,10 @@ extends CourseManagementManager
 	*/
 	function deleteCourseGradeRecord ( &$courseGradeRecordId ) {
 
+		ArgumentValidator::validate($courseGradeRecordId, ExtendsValidatorRule::getRule("Id"), true);
 
+		
+		
 		$dbManager =& Services::getService("DatabaseManager");
 		$query=& new DeleteQuery;
 
@@ -1383,6 +1390,9 @@ extends CourseManagementManager
 	* @access public
 	*/
 	function deleteCourseGroup ( &$courseGroupId ) {
+		
+		ArgumentValidator::validate($courseGroupId, ExtendsValidatorRule::getRule("Id"), true);
+		
 		//we can't delete non-root nodes, so first break all the connections
 		$node =& $this->_hierarchy->getNode($courseGroupId);
 		$nodeIterator = $node->getChildren();		
