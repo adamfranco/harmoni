@@ -3,11 +3,17 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.130.2.1 2006/07/21 20:13:12 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.130.2.2 2006/07/24 20:07:05 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
+	<version number="0.7.3" date="The Future">
+		<fix author='adam'>
+			Repository: Now enforces deleting of file/thumbnail data properly. 
+			Previously, file records were being orphened when assets were deleted.
+		</fix>
+	</version>
 	<version number="0.7.2" date="2006-07-21">
 		<fix author='adam'>
 			ImageProcessor: Now doesn't try to convert text files as images.
