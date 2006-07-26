@@ -88,12 +88,10 @@ extends GradeRecord
      * 
      * @access public
      */
-    function &getGradableObject () { 
-        $grManager =& Services::getService("Grading");
+    function &getGradableObject () {       
     	$idManager =& Services::getService("Id");
     	$idString = $this->_getField("fk_gr_gradable");
-    	$id =& $idManager->getId($idString);  	
-    	return $grManager->getGradableObject($id); 
+    	return $idManager->getId($idString);  	
     } 
 
     /**
@@ -142,7 +140,8 @@ extends GradeRecord
      * @access public
      */
     function &getGradeValue () { 
-        return $this->_getField("value");
+        $ret = $this->_getField("value");
+         return $ret;
     } 
 
     /**
@@ -165,7 +164,7 @@ extends GradeRecord
      */
     function &getModifiedBy () { 
          $agentId =& $this->_getField("fk_modified_by_agent");
-    	if(is_null($agentId)){
+    	if(""==$agentId){
     		return null;	
     	}   	 
     	$idManager =& Services::getService("Id"); 
@@ -238,7 +237,9 @@ extends GradeRecord
      * @access public
      */
     function &getGradeType () {
-    	$gradableObject =& getGradableObject();
+    	 $grManager =& Services::getService("Grading");
+    	$id =&  $this->getGradableObject();
+    	$gradableObject =& $grManager->getGradableObject($id);  	
         return $gradableObject->getGradeType();
     } 
 
@@ -261,8 +262,8 @@ extends GradeRecord
      * @access public
      */
     function &getPropertyTypes () { 
-        $type =& $this->getRecordType();
-		$propertiesType =& new Type($type->getDomain(), $type->getAuthority(), "properties");
+        $type =& $this->getGradeRecordType();
+		$propertiesType =& new Type("PropertiesType", $type->getAuthority(), "properties"); 	
 		$array = array($propertiesType);
 		$typeIterator =& new HarmoniTypeIterator($array);
 		return $typeIterator;
@@ -292,8 +293,8 @@ extends GradeRecord
      * @access public
      */
     function &getPropertiesByType ( &$propertiesType ) { 
-        $type =& $this->getRecordType();
-		$propType =& new Type($type->getDomain(), $type->getAuthority(), "properties"); 		
+        $type =& $this->getGradeRecordType();
+		$propType =& new Type("PropertiesType", $type->getAuthority(), "properties"); 		
 		if($propertiesType->isEqualTo($propType)){
 			return $this->_getProperties();
 		}
@@ -320,7 +321,7 @@ extends GradeRecord
      */
     function &getProperties () { 
          $array = array($this->_getProperties());
-		$ret = new PropertiesIterator($array);		
+		$ret = new HarmoniPropertiesIterator($array);		
 		return $ret;//return the iterator
     } 
     
@@ -336,6 +337,7 @@ extends GradeRecord
 		
 		
 		//get the record
+		$dbManager =& Services::getService("DatabaseManager");
 		$query =& new SelectQuery();
 		$query->addTable('gr_record');
 		$query->addColumn("*");
@@ -353,26 +355,47 @@ extends GradeRecord
 		$row = $res->getCurrentRow();//grab (hopefully) the only row		
 		
 		//make a type
-		$type =& $this->getRecordType();
-		$propertiesType =& new Type($type->getDomain(), $type->getAuthority(), "properties"); 
+		$type =& $this->getGradeRecordType();
+		$propertiesType =& new Type("PropertiesType", $type->getAuthority(), "properties"); 
 		
 	
 		
 		//create a custom Properties object		
 		$idManager =& Services::getService("Id");
 		$property =& new HarmoniProperties($propertiesType);
-		$property->addProperty('id', $row['id']);
+		$property->addProperty('id', $this->_id);
 		$property->addProperty('value', $row['value']);
 		$property->addProperty('gradable_object_id', $idManager->getId($row['fk_gr_gradable']));
 		$property->addProperty('agent_id', $idManager->getId($row['fk_agent_id']));
 		$property->addProperty('modified_by_agent_id', $idManager->getId($row['fk_modified_by_agent']));
 		$property->addProperty('modified_date', $row['modified_date']);
-		$recordType =& $this->getRecordType();
-		$property->addProperty('type', $recordType->getKeyword());
+		$recordType =& $this->getGradeRecordType();
+		$property->addProperty('type', $recordType);
 	
 		$res->free();	
 		return $property;
 		
+		
+	}
+	
+		
+	function _setModifiedDateAndAgent(){
+		$this->_setField('modified_date',time()*1000);	
+		//@TODO use the timestamp feature in SQL?
+		
+		//try to get the creator of this ScheduleItem
+		$authN =& Services::getService("AuthN");
+		$authNTypesIterator =& $authN->getAuthenticationTypes();
+		if($authNTypesIterator->hasNextType()){
+			$authNType1 =& $authNTypesIterator->nextType();
+			//hopefully the first one is the right one to choose.
+			$creatorId =& $authN->getUserId($authNType1);
+			$creatorIdString = $creatorId->getIdString();
+		}else{
+			$creatorIdString = "";
+		}
+		$this->_setField('fk_modified_by_agent',$creatorIdString);
+
 		
 	}
     

@@ -10,7 +10,7 @@
 * @copyright Copyright &copy; 2006, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: oki_simple_unit.php,v 1.3 2006/07/26 05:09:55 sporktim Exp $
+* @version $Id: oki_simple_unit.php,v 1.4 2006/07/26 07:25:48 sporktim Exp $
 */
 
  if (!defined("SIMPLE_TEST")) {
@@ -85,7 +85,7 @@
 				$this->assertTrue(true);
 			}else{
 				$this->assertTrue(false);
-				print "<p align=center><font size=4 color=#FF2200>The Ids with strings '".$idA->getIdString()."' and '".$idB->getIdString()."' but <b>should</b> be. </font></p>\n";
+				print "<p align=center><font size=4 color=#FF2200>The Ids with strings '".$idA->getIdString()."' and '".$idB->getIdString()."' are not equal but <b>should</b> be. </font></p>\n";
 			}
 			
 		}

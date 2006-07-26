@@ -392,7 +392,7 @@ class HarmoniGradingManager
 		$values[]="'".addslashes($gradeValue)."'";
 		$values[]="'".addslashes($gradableObjectId->getIdString())."'";
 		$values[]="'".addslashes($agentId->getIdString())."'";
-		$values[]="'".$this->_typeToIndex('scoring',$GradeRecordType)."'";
+		$values[]="'".$this->_typeToIndex('record',$GradeRecordType)."'";
 		$query->addRowOfValues($values);
 
 

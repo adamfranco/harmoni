@@ -81,8 +81,8 @@
           	$defCommitStat =& new Type("AgentCommitmentStatusType", $sm->_defaultAuthority, "default");             	
           	$propertiesType =& new Type("PropertiesType", "edu.middlebury", "properties");              	
           	$agentType =& new Type("AgentType", "edu.middlebury", "student");              	
-          	$commitType1 =& new Type("agent3ommitmentStatusType", "edu.middlebury", "accepted");              	
-          	$commitType2 =& new Type("agent3ommitmentStatusType", "edu.middlebury", "rejected");             
+          	$commitType1 =& new Type("AgentCommitmentStatusType", "edu.middlebury", "accepted");              	
+          	$commitType2 =& new Type("AgentCommitmentStatusType", "edu.middlebury", "rejected");             
           	
           	
           	
