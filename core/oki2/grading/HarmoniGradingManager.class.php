@@ -243,8 +243,19 @@ class HarmoniGradingManager
      * 
      * @access public
      */
-    function deleteGradableObject ( &$gradableObjectId ) {        
+    function deleteGradableObject ( &$gradableObjectId ) {
+
+    	    
 		$dbManager =& Services::getService("DatabaseManager");
+		
+		//first delete the GradeRecords
+		$query=& new DeleteQuery;
+		$query->setTable('gr_record');
+		$where = "fk_gr_gradable='".addslashes($gradableObjectId->getIdString())."'";
+		$query->addWhere($where);
+		$dbManager->query($query);
+		
+		//next delete the GradableObject
 		$query=& new DeleteQuery;
 		$query->setTable('gr_gradable');
 		$query->addWhere("id=".addslashes($gradableObjectId->getIdString()));
@@ -406,7 +417,8 @@ class HarmoniGradingManager
     } 
 
     /**
-     * Delete a GradeRecord.
+     * Delete a GradeRecord.  The first two parameters are required, but the
+     * third may be left null to dignify any Type
      * 
      * @param object Id $gradableObjectId
      * @param object Id $agentId
@@ -428,14 +440,15 @@ class HarmoniGradingManager
      * 
      * @access public
      */
-    function deleteGradeRecord ( &$gradableObjectId, &$agentId, &$GradeRecordType ) { 
+    function deleteGradeRecord ( &$gradableObjectId, &$agentId, $GradeRecordType = null) { 
         $dbManager =& Services::getService("DatabaseManager");
 		$query=& new DeleteQuery;
-		$query->setTable('gr_gradable');
-		$where = "fk_gr_gradable='".addslashes($gradableObjectId->getIdString())."'";
-		$where .= "fk_gr_gradable='".addslashes($agentId->getIdString())."'";
-		$where .= "fk_gr_record_type='".addslashes($this->_typeToIndex('record',$GradeRecordType))."'";
-		$query->addWhere($where);
+		$query->setTable('gr_record');
+		$query->addWhere("fk_gr_gradable='".addslashes($gradableObjectId->getIdString())."'");
+		$query->addWhere("fk_agent_id='".addslashes($agentId->getIdString())."'");
+		if(!is_null($GradeRecordType)){
+			$query->addWhere("fk_gr_record_type='".addslashes($this->_typeToIndex('record',$GradeRecordType))."'");
+		}
 		$dbManager->query($query);
     } 
 
@@ -485,10 +498,13 @@ class HarmoniGradingManager
 		//inner join?
 		if(!is_null($externalReferenceId) || !is_null($courseSectionId)){
 			$query->addTable('gr_gradable',INNER_JOIN,"gr_gradable.id=gr_record.fk_gr_gradable");
+			
 		}
 		
 		
-		$query->addColumn('gr_record.id');
+		$query->addColumn('id','id','gr_record');
+		
+		
 		
 		
 		//add appropriate wheres
@@ -499,13 +515,13 @@ class HarmoniGradingManager
 			$query->addWhere("gr_gradable.fk_reference_id = '".addslashes($externalReferenceId->getIdString())."'");	
 		}
 		if(!is_null($gradableObjectId)){			
-			$query->addWhere("gr_gradable.fk_gr_gradable = '".addslashes($gradableObjectId->getIdString())."'");
+			$query->addWhere("gr_record.fk_gr_gradable = '".addslashes($gradableObjectId->getIdString())."'");
 		}
 		if(!is_null($agentId)){			
-			$query->addWhere("gr_gradable.fk_agent_id='".addslashes($agentId->getIdString())."'");
+			$query->addWhere("gr_record.fk_agent_id='".addslashes($agentId->getIdString())."'");
 		}
 		if(!is_null($GradeRecordType)){			
-			$query->addWhere("gr_gradable.fk_gr_record_type='".addslashes($this->_typeToIndex('record',$GradeRecordType))."'");
+			$query->addWhere("gr_record.fk_gr_record_type='".addslashes($this->_typeToIndex('record',$GradeRecordType))."'");
 		}
 		
 		$res =& $dbManager->query($query);
@@ -517,7 +533,7 @@ class HarmoniGradingManager
 
 			$row = $res->getCurrentRow();
 			$res->advanceRow();
-			$id =& $idManager->getId($row['gr_record.id']);
+			$id =& $idManager->getId($row['id']);
 			$array[] =& new HarmoniGradeRecord($id);
 
 		}

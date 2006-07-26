@@ -208,6 +208,28 @@
 			$this->write(4,"Test of GradableObject Properties 3");
 			$this->goTestPropertiesFunctions1($gradable3);
 			
+			$this->write(4, "Test of GetGradableObjects");
+			
+			$iter =& $gm->getGradableObjects($sec1->getID(),$ref1);
+			$this->assertIteratorHasItemWithId($iter, $gradable1);
+			$this->assertIteratorHasItemWithId($iter, $gradable2);
+			$this->assertIteratorLacksItemWithId($iter, $gradable3);
+			
+			$iter =& $gm->getGradableObjects($sec2->getID(),$ref1);
+			$this->assertIteratorLacksItemWithId($iter, $gradable1);
+			$this->assertIteratorLacksItemWithId($iter, $gradable2);
+			$this->assertIteratorLacksItemWithId($iter, $gradable3);
+			
+			$iter =& $gm->getGradableObjects($sec1->getID(),$ref2);
+			$this->assertIteratorLacksItemWithId($iter, $gradable1);
+			$this->assertIteratorLacksItemWithId($iter, $gradable2);
+			$this->assertIteratorLacksItemWithId($iter, $gradable3);
+			
+			$iter =& $gm->getGradableObjects($sec2->getID(),$ref2);
+			$this->assertIteratorLacksItemWithId($iter, $gradable1);
+			$this->assertIteratorLacksItemWithId($iter, $gradable2);
+			$this->assertIteratorHasItemWithId($iter, $gradable3);
+			
 			
 			$this->write(6, "Test of GradeRecord");
 			
@@ -252,8 +274,7 @@
           	
           	$this->write(4,"Test of basic update methods");
           	
-     
-          	
+   
           	
                     	
 			$gradeRec1->updateGradeValue($p7="7");
@@ -266,44 +287,374 @@
 			
 			
 			
+			$this->write(4, "Test of GetGradeRecords");
 			
-			$this->write(4,"Test of GradeRecord Properties 1");			
+			$null = null;
+			
+			$this->write(3, "Group A");
+			
+			$this->write(2, "Subgroup 1");
+			
+			$this->write(1, "Subsubgroup a");
+			$iter =& $gm->getGradeRecords($sec1->getID(),$ref1,$gradable1->getId(),$agent1->getId(),$recType1);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec1);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec2);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec3);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec4);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec5);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec6);
+	
+			$this->write(1, "Subsubgroup b");
+			$iter =& $gm->getGradeRecords($sec1->getID(),$ref1,$gradable1->getId(),$agent1->getId(),$null);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec1);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec2);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec3);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec4);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec5);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec6);
+			
+			$this->write(1, "Subsubgroup c");
+			$iter =& $gm->getGradeRecords($sec1->getID(),$ref1,$gradable1->getId(),$null,$recType1);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec1);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec2);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec3);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec4);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec5);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec6);
+	
+			$this->write(1, "Subsubgroup d");
+			$iter =& $gm->getGradeRecords($sec1->getID(),$ref1,$gradable1->getId(),$null,$null);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec1);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec2);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec3);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec4);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec5);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec6);
+			
+			$this->write(2, "Subgroup 2");
+			
+			$this->write(1, "Subsubgroup a");
+			$iter =& $gm->getGradeRecords($sec1->getID(),$ref1,$null,$agent1->getId(),$recType1);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec1);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec2);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec3);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec4);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec5);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec6);
+	
+			$this->write(1, "Subsubgroup b");
+			$iter =& $gm->getGradeRecords($sec1->getID(),$ref1,$null,$agent1->getId(),$null);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec1);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec2);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec3);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec4);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec5);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec6);
+			
+			$this->write(1, "Subsubgroup c");
+			$iter =& $gm->getGradeRecords($sec1->getID(),$ref1,$null,$null,$recType1);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec1);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec2);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec3);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec4);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec5);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec6);
+	
+			$this->write(1, "Subsubgroup d");
+			$iter =& $gm->getGradeRecords($sec1->getID(),$ref1, $null,$null,$null);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec1);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec2);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec3);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec4);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec5);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec6);
+			
+			$this->write(3, "Group B");
+			
+			$this->write(2, "Subgroup 1");
+			
+			$this->write(1, "Subsubgroup a");
+			$iter =& $gm->getGradeRecords($sec1->getID(),$null,$gradable1->getId(),$agent1->getId(),$recType1);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec1);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec2);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec3);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec4);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec5);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec6);
+	
+			$this->write(1, "Subsubgroup b");
+			$iter =& $gm->getGradeRecords($sec1->getID(),$null,$gradable1->getId(),$agent1->getId(),$null);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec1);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec2);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec3);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec4);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec5);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec6);
+			
+			$this->write(1, "Subsubgroup c");
+			$iter =& $gm->getGradeRecords($sec1->getID(),$null,$gradable1->getId(),$null,$recType1);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec1);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec2);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec3);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec4);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec5);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec6);
+	
+			$this->write(1, "Subsubgroup d");
+			$iter =& $gm->getGradeRecords($sec1->getID(),$null,$gradable1->getId(),$null,$null);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec1);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec2);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec3);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec4);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec5);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec6);
+			
+			$this->write(2, "Subgroup 2");
+			
+			$this->write(1, "Subsubgroup a");
+			$iter =& $gm->getGradeRecords($sec1->getID(),$null,$null,$agent1->getId(),$recType1);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec1);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec2);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec3);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec4);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec5);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec6);
+	
+			$this->write(1, "Subsubgroup b");
+			$iter =& $gm->getGradeRecords($sec1->getID(),$null,$null,$agent1->getId(),$null);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec1);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec2);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec3);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec4);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec5);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec6);
+			
+			$this->write(1, "Subsubgroup c");
+			$iter =& $gm->getGradeRecords($sec1->getID(),$null,$null,$null,$recType1);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec1);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec2);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec3);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec4);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec5);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec6);
+	
+			$this->write(1, "Subsubgroup d");
+			$iter =& $gm->getGradeRecords($sec1->getID(),$null, $null,$null,$null);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec1);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec2);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec3);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec4);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec5);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec6);
+	
+			
+			$this->write(3, "Group C");
+			
+			$this->write(2, "Subgroup 1");
+			
+			$this->write(1, "Subsubgroup a");
+			$iter =& $gm->getGradeRecords($null,$ref1,$gradable1->getId(),$agent1->getId(),$recType1);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec1);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec2);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec3);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec4);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec5);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec6);
+	
+			$this->write(1, "Subsubgroup b");
+			$iter =& $gm->getGradeRecords($null,$ref1,$gradable1->getId(),$agent1->getId(),$null);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec1);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec2);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec3);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec4);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec5);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec6);
+			
+			$this->write(1, "Subsubgroup c");
+			$iter =& $gm->getGradeRecords($null,$ref1,$gradable1->getId(),$null,$recType1);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec1);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec2);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec3);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec4);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec5);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec6);
+	
+			$this->write(1, "Subsubgroup d");
+			$iter =& $gm->getGradeRecords($null,$ref1,$gradable1->getId(),$null,$null);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec1);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec2);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec3);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec4);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec5);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec6);
+			
+			$this->write(2, "Subgroup 2");
+			
+			$this->write(1, "Subsubgroup a");
+			$iter =& $gm->getGradeRecords($null,$ref1,$null,$agent1->getId(),$recType1);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec1);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec2);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec3);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec4);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec5);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec6);
+	
+			$this->write(1, "Subsubgroup b");
+			$iter =& $gm->getGradeRecords($null,$ref1,$null,$agent1->getId(),$null);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec1);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec2);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec3);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec4);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec5);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec6);
+			
+			$this->write(1, "Subsubgroup c");
+			$iter =& $gm->getGradeRecords($null,$ref1,$null,$null,$recType1);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec1);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec2);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec3);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec4);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec5);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec6);
+	
+			$this->write(1, "Subsubgroup d");
+			$iter =& $gm->getGradeRecords($null,$ref1, $null,$null,$null);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec1);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec2);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec3);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec4);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec5);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec6);
+			
+			$this->write(3, "Group D");
+			
+			$this->write(2, "Subgroup 1");
+			
+			$this->write(1, "Subsubgroup a");
+			$iter =& $gm->getGradeRecords($null,$null,$gradable1->getId(),$agent1->getId(),$recType1);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec1);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec2);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec3);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec4);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec5);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec6);
+	
+			$this->write(1, "Subsubgroup b");
+			$iter =& $gm->getGradeRecords($null,$null,$gradable1->getId(),$agent1->getId(),$null);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec1);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec2);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec3);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec4);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec5);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec6);
+			
+			$this->write(1, "Subsubgroup c");
+			$iter =& $gm->getGradeRecords($null,$null,$gradable1->getId(),$null,$recType1);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec1);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec2);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec3);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec4);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec5);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec6);
+	
+			$this->write(1, "Subsubgroup d");
+			$iter =& $gm->getGradeRecords($null,$null,$gradable1->getId(),$null,$null);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec1);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec2);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec3);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec4);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec5);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec6);
+			
+			$this->write(2, "Subgroup 2");
+			
+			$this->write(1, "Subsubgroup a");
+			$iter =& $gm->getGradeRecords($null,$null,$null,$agent1->getId(),$recType1);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec1);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec2);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec3);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec4);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec5);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec6);
+	
+			$this->write(1, "Subsubgroup b");
+			$iter =& $gm->getGradeRecords($null,$null,$null,$agent1->getId(),$null);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec1);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec2);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec3);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec4);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec5);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec6);
+			
+			$this->write(1, "Subsubgroup c");
+			$iter =& $gm->getGradeRecords($null,$null,$null,$null,$recType1);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec1);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec2);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec3);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec4);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec5);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec6);
+	
+			$this->write(1, "Subsubgroup d");
+			$iter =& $gm->getGradeRecords($null,$null, $null,$null,$null);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec1);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec2);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec3);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec4);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec5);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec6);
+			
+			
+			
+			$this->write(5,"Test of GradeRecord Properties 1");			
 			$this->goTestPropertiesFunctions2($gradeRec1);
-			$this->write(4,"Test of GradeRecord Properties 2");
+			$this->write(5,"Test of GradeRecord Properties 2");
 			$this->goTestPropertiesFunctions2($gradeRec2);
-			$this->write(4,"Test of GradeRecord Properties 3");
+			$this->write(5,"Test of GradeRecord Properties 3");
 			$this->goTestPropertiesFunctions2($gradeRec6);
 			
 			
+			$this->write(5, "Test of deleting GradeRecords");
+			
+			$gm->deleteGradeRecord($gradable1->getId(),$agent1->getId(),$recType1);
+			
+			$this->write(1, "Group A");
+			$iter =& $gm->getGradeRecords($null,$null,$null,$null,$null);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec1);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec2);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec3);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec4);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec5);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec6);
+			
+			$gm->deleteGradeRecord($gradable1->getId(),$agent3->getId(),$null);
+	
+			$this->write(1, "Group B");
+			$iter =& $gm->getGradeRecords($null,$null, $null,$null,$null);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec1);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec2);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec3);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec4);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec5);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec6);
+			
+			$gm->deleteGradeRecord($gradable2->getId(),$agent2->getId());
+	
+			$this->write(1, "Group C");
+			$iter =& $gm->getGradeRecords($null,$null, $null,$null,$null);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec1);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec2);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec3);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec4);
+			$this->assertIteratorLacksGradeRecord($iter, $gradeRec5);
+			$this->assertIteratorHasGradeRecord($iter, $gradeRec6);
 			
 			
-			/*
-			$agentType =& new Type("AgentType", "edu.middlebury", "student");              	           	        	      
-          	$canType =& new Type("CanonicalCourseType", "edu.middlebury", "DED", "Deductive Reasoning");
-          	$canStatType =& new Type("CanonicalCourseStatusType", "edu.middlebury", "Still offered");          	
-          	$offerType =& new Type("CourseOfferingType", "edu.middlebury", "default", "");         	
-          	$offerStatType =& new Type("CourseOfferingStatusType", "edu.middlebury", "Full");        	
-          	$termType =& new Type("TermType", "edu.middlebury", "Fall");	
-          	$sectionType =& new Type("CourseSectionType", "edu.middlebury", "lecture", "");	 	          	         	
-          	$sectionStatType =& new Type("CourseSectionStatusType", "edu.middlebury", "Slots open", "register, baby!");
-
-
-          	$gradeType1 =& new Type("GradeType", "edu.middlebury", "Number grade", "Mathish");
-          	$gradeType2 =& new Type("GradeType", "edu.middlebury", "Letter grade", "with plusses and minuses");
-          	
-          	$scoring1 =& new Type("ScoringDefinitionType", "edu.middlebury", "Number grade");
-          	$scoring2 =& new Type("ScoringDefinitionType", "edu.middlebury", "Letter grade");
-          	
-          	$scale1 =& new Type("GradeScaleType", "edu.middlebury", "1-10");
-          	$scale2 =& new Type("GradeScaleType", "edu.middlebury", "1-100");
-          	$scale3 =& new Type("GradeScaleType", "edu.middlebury", "A-F");
-  
-          	
-          	$recType1 =& new Type("GradeRecordType", "edu.middlebury", "Final");
-          	$recType2 =& new Type("GradeRecordType", "edu.middlebury", "suggested");
 			
 			
-			*/
+			
+			
+			
 			
 			
 			
@@ -601,6 +952,37 @@
 			
 		}
 		
+				function assertIteratorHasGradeRecord($iter, $rec){
+			//this relies on usage of the HarmoniIterator
+			$iter->_i=-1;		
+				while($iter->hasNextGradeRecord()){
+					//$am =& Services::GetService("AgentManager");
+					$item =& $iter->nextGradeRecord();
+					
+					if($item->_id == $rec->_id){
+						$this->assertTrue(true);
+						return;
+					}
+				}
+				$this->assertTrue(false);
+				return false;
+		}
+		
+			function assertIteratorLacksGradeRecord($iter, $rec){
+			//this relies on usage of the HarmoniIterator
+			$iter->_i=-1;		
+				while($iter->hasNextGradeRecord()){
+					//$am =& Services::GetService("AgentManager");
+					$item =& $iter->nextGradeRecord();
+					
+					if($item->_id == $rec->_id){
+						$this->assertTrue(false);
+						return;
+					}
+				}
+				$this->assertTrue(true);
+				return false;
+		}
 		
 		
     }
