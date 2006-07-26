@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: test.php,v 1.1 2006/07/17 19:55:39 jwlee100 Exp $
+ * @version $Id: test.php,v 1.2 2006/07/26 05:09:55 sporktim Exp $
  */
  
  require_once(dirname(__FILE__)."/../../../../../concerto/index.php");
@@ -28,6 +28,7 @@ $harmonyLoadupTimer->end();
 
 		
 	require_once(SIMPLE_TEST . 'simple_unit.php');
+	require_once(SIMPLE_TEST . 'oki_simple_unit.php');
 	require_once(SIMPLE_TEST . 'dobo_simple_html_test.php');
 
 /*	if (!defined('CONCERTODBID')) { */

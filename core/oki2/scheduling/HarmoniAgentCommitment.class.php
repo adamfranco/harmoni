@@ -67,7 +67,7 @@ extends AgentCommitment
      * @access public
      */
     function &getAgentId () { 
-    	$idManager =& Services::getService("id");
+    	$idManager =& Services::getService("Id");
     	$id = $this->_getField('fk_agent_id');
     	return $idManager->getId($id);
        

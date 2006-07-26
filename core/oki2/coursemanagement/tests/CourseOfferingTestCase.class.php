@@ -309,6 +309,14 @@
 			$this->assertTrue(!$this->typeIteratorHas($iter1,new Type("sadfsz234dfwerwer","sadfszd23fwerwer","asdfwer123")));
         	  
         	
+			
+			$this->write(4,"Test of Properties 1");
+			$this->goTestPropertiesFunctions($cs1A);
+			$this->write(4,"Test of Properties 2");
+			$this->goTestPropertiesFunctions($cs1B);
+			$this->write(4,"Test of Properties 3");
+			$this->goTestPropertiesFunctions($cs2B);
+			
         	
 			$sm->deleteScheduleItem($scheduleItemA->getId());
 			$sm->deleteScheduleItem($scheduleItemB->getId());
@@ -331,6 +339,111 @@
         	
         	
         }
+        
+        
+		//This function's name can't start with test or it is called without parameters
+		function goTestPropertiesFunctions($itemToTest){
+			$this->write(1,"Group A");
+			$courseType =& $itemToTest->getOfferingType();
+			$correctType =& new Type("PropertiesType", $courseType->getAuthority(), "properties");  
+			$propertyType =& $itemToTest->getPropertyTypes();
+			$this->assertTrue($propertyType->hasNextType());
+			if($propertyType->hasNextType()){
+				$type1 =&  $propertyType->nextType();		
+				$this->assertEqualTypes($type1, $correctType);
+				$this->assertFalse($propertyType->hasNextType());		
+			}
+			$this->write(1,"Group B");
+			//multiple objects of type properties?  Propertiesies!
+			$propertiesies =& $itemToTest->getProperties();
+			$this->assertTrue($propertiesies->hasNextProperties());
+			if($propertiesies->hasNextProperties()){
+				$properties =&  $propertiesies->nextProperties();
+				$type1 =&  $properties->getType();		
+				$this->assertEqualTypes($type1, $correctType);
+				$this->goTestProperties($properties,$itemToTest);
+				$this->assertFalse($propertiesies->hasNextProperties());		
+			}
+			$this->write(1,"Group C");
+			$properties =& $itemToTest->getPropertiesByType($correctType);
+			$this->assertNotEqual($properties,null);
+			if(!is_null($properties)){
+				$type1 =&  $properties->getType();		
+				$this->assertEqualTypes($type1, $correctType);
+				$this->goTestProperties($properties,$itemToTest);
+			}	
+			
+		}
+		
+		
+
+		//This function's name can't start with test or it is called without parameters
+		function goTestProperties($prop, $itemToTest){
+			
+			
+			
+			
+			$idManager =& Services::getService("Id");
+			
+			
+			$keys =& $prop->getKeys();
+			
+			$key = "display_name";			
+			$this->assertTrue($this->primitiveIteratorHas($keys,$key));
+			if($this->primitiveIteratorHas($keys,$key)){
+				$this->assertEqual($prop->getProperty($key),$itemToTest->getDisplayName());
+			}
+			
+			$key = "title";			
+			$this->assertTrue($this->primitiveIteratorHas($keys,$key));
+			if($this->primitiveIteratorHas($keys,$key)){
+				$this->assertEqual($prop->getProperty($key),$itemToTest->getTitle());
+			}
+			
+			$key = "description";			
+			$this->assertTrue($this->primitiveIteratorHas($keys,$key));
+			if($this->primitiveIteratorHas($keys,$key)){
+				$this->assertEqual($prop->getProperty($key),$itemToTest->getDescription());
+			}
+			
+			$key = "id";			
+			$this->assertTrue($this->primitiveIteratorHas($keys,$key));
+			if($this->primitiveIteratorHas($keys,$key)){
+				$this->assertEqual($prop->getProperty($key),$itemToTest->getId());
+			}
+			
+			$key = "number";			
+			$this->assertTrue($this->primitiveIteratorHas($keys,$key));
+			if($this->primitiveIteratorHas($keys,$key)){
+				$this->assertEqual($prop->getProperty($key),$itemToTest->getNumber());
+			}
+			
+			$key = "grade_type";			
+			$this->assertTrue($this->primitiveIteratorHas($keys,$key));
+			if($this->primitiveIteratorHas($keys,$key)){
+				$this->assertEqualTypes($prop->getProperty($key),$itemToTest->getCourseGradeType());
+			}
+			
+			$key = "term";			
+			$this->assertTrue($this->primitiveIteratorHas($keys,$key));
+			if($this->primitiveIteratorHas($keys,$key)){					
+				$this->assertHaveEqualIds($prop->getProperty($key),$itemToTest->getTerm());
+			}
+			
+			$key = "type";			
+			$this->assertTrue($this->primitiveIteratorHas($keys,$key));
+			if($this->primitiveIteratorHas($keys,$key)){
+				$this->assertEqualTypes($prop->getProperty($key),$itemToTest->getOfferingType());
+			}
+			
+			$key = "status_type";			
+			$this->assertTrue($this->primitiveIteratorHas($keys,$key));
+			if($this->primitiveIteratorHas($keys,$key)){
+				$this->assertEqualTypes($prop->getProperty($key),$itemToTest->getStatus());
+			}
+			
+		}
+		
 		
 		
     }

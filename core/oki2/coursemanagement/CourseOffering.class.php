@@ -24,7 +24,7 @@ require_once(OKI2."/osid/coursemanagement/CourseOffering.php");
 * @copyright Copyright &copy; 2005, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseOffering.class.php,v 1.25 2006/07/21 19:04:00 sporktim Exp $
+* @version $Id: CourseOffering.class.php,v 1.26 2006/07/26 05:09:53 sporktim Exp $
 */
 class HarmoniCourseOffering
 extends CourseOffering
@@ -432,7 +432,7 @@ extends CourseOffering
 	*/
 	function &getPropertyTypes () {
 		$courseType =& $this->getOfferingType();
-		$propertiesType =& new Type($courseType->getDomain(), $courseType->getAuthority(), "properties");
+		$propertiesType =& new Type("PropertiesType", $courseType->getAuthority(), "properties");
 		$array = array($propertiesType);
 		$typeIterator =& new HarmoniTypeIterator($array);
 		return $typeIterator;
@@ -460,7 +460,7 @@ extends CourseOffering
 	*/
 	function &getProperties () {
 		$array = array($this->_getProperties());
-		$ret = new PropertiesIterator($array);		
+		$ret = new HarmoniPropertiesIterator($array);		
 		return $ret;//return the iterator
 	}
 
@@ -1300,7 +1300,7 @@ extends CourseOffering
 	*/
 	function &getPropertiesByType ( &$propertiesType ) {
 		$courseType =& $this->getOfferingType();
-		$propType =& new Type($courseType->getDomain(), $courseType->getAuthority(), "properties"); 		
+		$propType =& new Type("PropertiesType", $courseType->getAuthority(), "properties"); 		
 		if($propertiesType->isEqualTo($propType)){
 			return $this->_getProperties();
 		}
@@ -1332,25 +1332,25 @@ extends CourseOffering
 		$row = $res->getCurrentRow();//grab (hopefully) the only row	
 		
 		//make a type
-		$courseType =& $this->getOfferingeType();	
-		$propertiesType =& new Type($courseType->getDomain(), $courseType->getAuthority(), "properties"); 	
+		$courseType =& $this->getOfferingType();	
+		$propertiesType =& new Type("PropertiesType", $courseType->getAuthority(), "properties"); 	
 
 				
 		//create a custom Properties object
 		$idManager =& Services::getService("Id");
 		$property =& new HarmoniProperties($propertiesType);
 		$property->addProperty('display_name', $this->_node->getDisplayName());
+		$property->addProperty('title', $row['title']);
 		$property->addProperty('description', $this->_node->getDescription());	
 		$property->addProperty('id',  $idManager->getId($row['id']));
 		$property->addProperty('number', $row['number']);
-		$gradeType =& $this->getGradeType();
-		$property->addProperty('grade_type', $gradeType->getKeyword());
+		$gradeType =& $this->getCourseGradeType();
+		$property->addProperty('grade_type', $gradeType);
 		$term =& $this->getTerm();
-		$property->addProperty('term', $term->getDisplayName());
-		$property->addProperty('type', $courseType->getKeyword());
-		$property->addProperty('title', $row['']);
+		$property->addProperty('term', $term);
+		$property->addProperty('type', $courseType);
 		$statusType =& $this->getStatus();
-		$property->addProperty('status_type', $statusType->getKeyword());
+		$property->addProperty('status_type', $statusType);
 
 		
 		$res->free();	

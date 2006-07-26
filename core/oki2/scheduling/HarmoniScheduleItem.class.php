@@ -180,8 +180,9 @@ extends ScheduleItem
      * 
      * @access public
      */
-    function updateStatus ( &$status ) { 
-       $this->_setType('item_stat', $status);
+    function updateStatus ( &$status ) {
+    	$index = $this->_typeToIndex('item_stat',$status);
+       $this->_setField('fk_sc_item_stat_type', $index);
     } 
 
     /**
@@ -275,8 +276,16 @@ extends ScheduleItem
      * @access public
      */
     function &getCreator () { 
-    	//@TODO find out how to get the currently authenticated agent
-        throwError(new Error(SchedulingExeption::UNIMPLEMENTED(), "Scheduling", true));
+    	$idManager =& Services::getServices("Id");
+    	
+    	$creatorIdString =& $this->_getField('fk_creator_id');
+    	//not created by anyone in particular
+    	if($creatorIdString ===""){
+    		return null;	
+    	}
+    	return $idManager->getId($creatorIdString);
+    	
+    	
     } 
 
     /**
@@ -344,8 +353,8 @@ extends ScheduleItem
      * 
      * @access public
      */
-    function &getStatus () { 
-        return $this->_getType('item_stat');
+    function &getStatus () {
+		return $this->_getType('item_stat');
     } 
 
     /**
@@ -371,7 +380,7 @@ extends ScheduleItem
      * @access public
      */
     function getMasterIdentifier () { 
-         return $this->_getField('masterid');
+         return $this->_getField('master_id');
     } 
 
     /**
@@ -395,7 +404,7 @@ extends ScheduleItem
      */
     function &getPropertyTypes () { 
         $type =& $this->getStatus();
-		$propertiesType =& new Type($type->getDomain(), $type->getAuthority(), "properties");
+		$propertiesType =& new Type("PropertiesType", $type->getAuthority(), "properties");
 		$array = array($propertiesType);
 		$typeIterator =& new HarmoniTypeIterator($array);
 		return $typeIterator;
@@ -436,7 +445,7 @@ extends ScheduleItem
 			$res=& $dbHandler->query($query);
 			$idManager =& Services::getService("Id");
 			while($res->hasMoreRows()){
-				$row =& $res->getCurrentRow();
+				$row = $res->getCurrentRow();
 				$res->advanceRow();
 				
 				$array[] =& new HarmoniAgentCommitment($idManager->getId($row['id']));
@@ -446,6 +455,48 @@ extends ScheduleItem
     } 
 
     /**
+      * <b>Warning!</b> Not in the OSID.  Use at your own risk.
+     *
+     * Remove a previously added Agent commitment for this ScheduleItem.
+     * 
+     * @param object Id $agentId
+     * 
+     * @throws object SchedulingException An exception with one of
+     *         the following messages defined in
+     *         org.osid.scheduling.SchedulingException may be thrown:   {@link
+     *         org.osid.scheduling.SchedulingException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.scheduling.SchedulingException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.scheduling.SchedulingException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.scheduling.SchedulingException#UNIMPLEMENTED
+     *         UNIMPLEMENTED}, {@link
+     *         org.osid.scheduling.SchedulingException#UNKNOWN_ID UNKNOWN_ID},
+     *         {@link org.osid.scheduling.SchedulingException#UNKNOWN_TYPE
+     *         UNKNOWN_TYPE}
+     * 
+     * @access public
+     */
+    function removeAgentCommitment ( &$agentId) { 
+        
+		$dbHandler =& Services::getService("DBHandler");
+		$query=& new DeleteQuery;
+		$query->setTable('sc_commit');
+
+		
+		
+		$query->addWhere("fk_sc_item='".addslashes($this->_id->getIdString())."'");
+		$query->addWhere("fk_agent_id='".addslashes($agentId->getIdString())."'");
+
+		$res =& $dbHandler->query($query);
+		
+		if($res->getNumberOfRows() == 0){
+			print "<b>Warning!</b> Agent with Id [".$agentId->getIdString()."] is not added to ScheduleItem ".$this->getdisplayName()." [".$this->_id->getIdString()."] yet.  Do not delete agents that are not added.";
+		}
+    } 
+    
+      /**
      * Change a previously added Agent commitment for this ScheduleItem.
      * 
      * @param object Id $agentId
@@ -478,12 +529,18 @@ extends ScheduleItem
 		
 		
 		$query->addWhere("fk_sc_item='".addslashes($this->_id->getIdString())."'");
-		$query->addWhere("fk_student_id='".addslashes($agentId->getIdString())."'");
+		$query->addWhere("fk_agent_id='".addslashes($agentId->getIdString())."'");
 		
 		$query->setColumns(array('fk_sc_commit_stat_type'));
 		$query->setValues(array("'".addslashes($typeIndex)."'"));
 
-		$dbHandler->query($query);
+		$res =& $dbHandler->query($query);
+		
+		if($res->getNumberOfRows()==0){
+			print "<b>Warning!</b> Agent with Id [".$agentId->getIdString()."] is not added to ScheduleItem ".$this->getdisplayName()." [".$this->_id->getIdString()."] yet.  Use addAgentCommitment() to add the Agent before changing it.";
+		}else if($res->getNumberOfRows()>1){
+			print "<b>Warning!</b> Agent with Id [".$agentId->getIdString()."] is added ".$res->getNumberOfRows()." times to ScheduleItem ".$this->getdisplayName()." [".$this->_id->getIdString()."] when only one is acceptable.";
+		}
     } 
 
     /**
@@ -517,8 +574,8 @@ extends ScheduleItem
 		$query=& new SelectQuery;
 		$query->addTable('sc_commit');
 		$query->addWhere("fk_sc_item='".addslashes($this->_id->getIdString())."'");
-		$query->addWhere("fk_student_id='".addslashes($agentId->getIdString())."'");
-		//$query->addColumn('id');
+		$query->addWhere("fk_agent_id='".addslashes($agentId->getIdString())."'");
+		$query->addColumn('id');//@TODO id is not really needed here--a count should probably be returned.
 		$res=& $dbHandler->query($query);
 		if($res->getNumberOfRows()==0){
 			$typeIndex = $this->_typeToIndex('commit_stat',$agentStatus);
@@ -540,44 +597,6 @@ extends ScheduleItem
     	
     } 
     
-    
-        /**
-     * Delete a previously added Agent commitment for this ScheduleItem.
-     * 
-     * <b>Warning!</b> Not in the OSID.  Use at your own risk.
-     *  
-     * @param object Id $agentId
-     * @param object Type $agentStatus
-     * 
-     * @throws object SchedulingException An exception with one of
-     *         the following messages defined in
-     *         org.osid.scheduling.SchedulingException may be thrown:   {@link
-     *         org.osid.scheduling.SchedulingException#OPERATION_FAILED
-     *         OPERATION_FAILED}, {@link
-     *         org.osid.scheduling.SchedulingException#PERMISSION_DENIED
-     *         PERMISSION_DENIED}, {@link
-     *         org.osid.scheduling.SchedulingException#CONFIGURATION_ERROR
-     *         CONFIGURATION_ERROR}, {@link
-     *         org.osid.scheduling.SchedulingException#UNIMPLEMENTED
-     *         UNIMPLEMENTED}, {@link
-     *         org.osid.scheduling.SchedulingException#UNKNOWN_ID UNKNOWN_ID},
-     *         {@link org.osid.scheduling.SchedulingException#UNKNOWN_TYPE
-     *         UNKNOWN_TYPE}
-     * 
-     * @access public
-     */
-    function removeAgentCommitment ( &$agentId) { 
-      
-		$dbHandler =& Services::getService("DBHandler");
-		$query=& new DeleteQuery;
-
-
-		$query->addTable('sc_commit');
-		$query->addWhere("fk_sc_item='".addslashes($this->_id->getIdString())."'");
-		$query->addWhere("fk_student_id='".addslashes($agentId->getIdString())."'");
-		
-		$dbHandler->query($query);
-    } 
     
 
     /**
@@ -607,7 +626,7 @@ extends ScheduleItem
      */
     function &getPropertiesByType ( &$propertiesType ) { 
     	$type =& $this->getStatus();
-		$propertiesType =& new Type($type->getDomain(), $type->getAuthority(), "properties");	
+		$propertiesType =& new Type("PropertiesType", $type->getAuthority(), "properties");
 		if($propertiesType->isEqualTo($propertiesType)){
 			return $this->_getProperties();
 		}
@@ -636,7 +655,7 @@ extends ScheduleItem
      */
     function &getProperties () { 
     	$array = array($this->_getProperties());
-         $ret = new PropertiesIterator($array);		
+         $ret = new HarmoniPropertiesIterator($array);		
 		return $ret;//return the iterator
     } 
     
@@ -649,7 +668,7 @@ extends ScheduleItem
 		$query =& new SelectQuery();
 		$query->addTable('sc_item');
 		$query->addColumn("*");
-		$query->addWhere("id='".addslashes($this->_id)."'");				
+		$query->addWhere("id='".addslashes($this->_id->getIdString())."'");				
 		$res=& $dbHandler->query($query);
 		
 		
@@ -662,8 +681,8 @@ extends ScheduleItem
 		$row = $res->getCurrentRow();//grab (hopefully) the only row	
 		
 		//make a type
-		$type =& $this->getStatus();
-		$propertiesType =& new Type($type->getDomain(), $type->getAuthority(), "properties");		
+		        $type =& $this->getStatus();
+		$propertiesType =& new Type("PropertiesType", $type->getAuthority(), "properties");	
 		
 				
 		//create a custom Properties object
@@ -674,8 +693,8 @@ extends ScheduleItem
 		$property->addProperty('id', $idManager->getId( $row['id']));		
 		$property->addProperty('start', $row['start']);
 		$property->addProperty('end', $row['end']);		
-		$property->addProperty('master_identifier',  $idManager->getId($row['master_id']));
-		$property->addProperty('status_type', $type->getKeyword());
+		$property->addProperty('master_identifier', $row['master_id']);
+		$property->addProperty('status_type', $type);
 
 		
 		$res->free();	

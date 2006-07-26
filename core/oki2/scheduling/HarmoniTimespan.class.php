@@ -45,7 +45,7 @@ class HarmoniTimespan
 	{
 		
 		if($start>$end){
-			throwError(new Error(SchedulingException::END_BEFORE_START(), "HarmoniTimeSpan", true));
+			throwError(new Error("The end of a Timespan cannot come before the end", "HarmoniTimespan", true));
 		}
 		$this->_start = $start;
 		$this->_end = $end;

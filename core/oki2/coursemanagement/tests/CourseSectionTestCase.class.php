@@ -436,6 +436,14 @@
 			$this->assertIteratorHasItemWithId($iter, $scheduleItemC1);
 			$this->assertIteratorHasItemWithId($iter, $scheduleItemC2);
 			
+				
+			$this->write(4,"Test of Properties 1");
+			$this->goTestPropertiesFunctions($cs1A_05);
+			$this->write(4,"Test of Properties 2");
+			$this->goTestPropertiesFunctions($cs1A_06);
+			$this->write(4,"Test of Properties 3");
+			$this->goTestPropertiesFunctions($cs2Z_06);
+			
           	
           	$cs1_05->deleteCourseSection($cs1A_05->getId());
         	$cs1_05->deleteCourseSection($cs1Z_05->getId());
@@ -466,220 +474,116 @@
 			$cm->deleteTerm($term2->getId());
 		
         	
-        	
-        	
-        	/*
-        	$this->write(7,"Test Course Section");
-        	
-        	$this->write(3,"Making courses");
-        	
-
-    		$cmm =& Services::getService("CourseManagement");
-    		$title = "Introduction to Computer Science";
-    		$number = "CS101";
-    		$description = "Oh, buggle buggle";
-    		$courseType =& new Type("CourseManagement", "edu.middlebury", "DED", "Deductive Reasoning");
-    		$courseStatusType =& new Type("CourseManagement", "edu.middlebury", "Available", "Highly recommended");
-    		$credits = "3.14159";
-    		
-    		$canonicalCourse = $cmm->createCanonicalCourse($title, $number, $description, $courseType,
-														   $courseStatusType, $credits);
-			
-			$termType =& new Type("CourseManagement", "edu.middlebury", "Fall 2006");
-          	$scheduleManager =& Services::GetService("Scheduling");
-          	
-          	$schedule[] =& $scheduleManager->createScheduleItem("Term", "The whole shebang",$arr=array(),200,1000,null);
-          	$schedule[] =& $scheduleManager->createScheduleItem("Halloween", "Boo!",$arr=array(),250,300,null);
-          	$schedule[] =& $scheduleManager->createScheduleItem("Christmas", "Unfortunately secular!",$arr=array(),700,800,null);
-          	
-          	$term =& $cmm->createTerm($termType, $schedule);
-          	$termId =& $term->getId();
-          	$offeringType = $courseType;
-          	$offeringStatusType = $courseStatusType;
-          	$courseGradeType = new Type("CourseManagement", "edu.middlebury", "LetterGrade");
-			
-			$courseOffering = $canonicalCourse->createCourseOffering($title, $number, $description, $termId,
-			  														 $offeringType, $offeringStatusType, 
-																	 $courseGradeType);
-			
-			$sectionType = new Type("CourseManagement", "edu.middlebury", "A", "CSCI");
-			$sectionStatusType = new Type("CourseManagement", "edu.middlebury", "Open", "You can still register");
-			$location = "Bicentennial Hall 505";
-			$courseSectionA = $courseOffering->createCourseSection($title, $number, $description, $sectionType, 
-																   $sectionStatusType, $location);
-																   
-			$sectionType = new Type("CourseManagement", "edu.middlebury", "B", "CSCI");
-			$sectionStatusType = new Type("CourseManagement", "edu.middlebury", "Full", "Closed");
-			$courseSectionB = $courseOffering->createCourseSection($title, $number, $description, $sectionType, 
-																   $sectionStatusType, $location);
-			
-			$this->assertEqual($courseSectionA->getTitle(), "Introduction to Computer Science");
-			$this->assertEqual($courseSectionA->getTitle(), $courseSectionB->getTitle());
-          	$this->assertEqual($courseSectionA->getDescription(), $courseSectionB->getDescription());
-          
-          	$this->assertEqual($courseSectionA->getDisplayName(), $courseSectionB->getDisplayName());
-          	$this->assertEqual($courseSectionA->getNumber(), $courseSectionB->getNumber());
-          
-          	$this->assertFalse($courseSectionB->getDescription() == "Intro to Sociocultural Anthropology");
-          	$this->assertFalse($courseSectionA->getDescription() == "Newtonian Physics");
-
-          	$this->assertFalse($courseSectionB->getDescription() == "Yeah!  Buggles!.");
-          	$this->assertTrue($courseSectionB->getDescription() == "Oh, buggle buggle");
-          	$this->assertEqual($courseSectionB->getNumber(), "CS101");
-          	$this->assertNotEqualTypes($courseSectionA->getSectionType(), $courseSectionB->getSectionType());
-          	$this->assertNotEqualTypes($courseSectionA->getStatus(), 
-			  						   $courseSectionB->getStatus());
-			$this->assertEqual($courseSectionA->getLocation(), "Bicentennial Hall 505");
-			$location = "Bicentennial Hall 632";
-			$this->write(3,"update location");
-			$courseSectionA->updateLocation($location);
-			$this->assertNotEqual($courseSectionA->getLocation(), "Bicentennial Hall 505");
-			$this->assertNotEqual($courseSectionA->getLocation(), $courseSectionB->getLocation());
-    					
-			// Create enrollment statuses
-			$enrollmentStatusTypeA =& new Type("CourseManagement", "edu.middlebury", "Registered");
-			$enrollmentStatusTypeB =& new Type("CourseManagement", "edu.middlebury", "Audited");
-			
-			$this->write(5,"Making students");
-			//$this->write(2,"SporkTim");
-			// Create new student 1
-			$propertiesTypeA =& new Type("CourseManagement", "edu.middlebury", "student");
-			$propertiesA =& new HarmoniProperties($propertiesTypeA);
-			$name = "Sporktim Bahls";
-			$class = "2006";
-			$propertiesA->addProperty('student_name', $name);
-			$propertiesA->addProperty('student_year', $class);	
-			
-			$agentTypeA =& new Type("CourseManagement", "edu.middlebury", "student");
-			$agentHandler =& Services::getService("Agent");
-			$agentA =& $agentHandler->createAgent("Gladius", $agentTypeA, $propertiesA);
-			
-			// Create new student 2
-			//$this->write(2,"John");
-			$propertiesTypeB =& new Type("CourseManagement", "edu.middlebury", "student");
-			$propertiesB =& new HarmoniProperties($propertiesTypeB);
-			$name = "John Lee";
-			$propertiesB->addProperty('student_name', $name);
-			$propertiesB->addProperty('student_year', $class);	
-			
-			$agentTypeB =& new Type("CourseManagement", "edu.middlebury", "student");
-			$agentB =& $agentHandler->createAgent("jood8", $agentTypeB, $propertiesB);
-			
-			// Create new student 3
-			//$this->write(2,"Magda");
-			$propertiesTypeC =& new Type("CourseManagement", "edu.middlebury", "student");
-			$propertiesC =& new HarmoniProperties($propertiesTypeC);
-			$name = "Magdalena Widjaja";
-			$propertiesC->addProperty('student_name', $name);
-			$propertiesC->addProperty('student_year', $class);	
-			
-			$agentTypeC =& new Type("CourseManagement", "edu.middlebury", "student");
-			$agentC =& $agentHandler->createAgent("Mags", $agentTypeC, $propertiesC);
-			
-			$agentIdA =& $agentA->getId();
-			$agentIdB =& $agentB->getId();
-			$agentIdC =& $agentC->getId();
-			
-			$this->write(3,"add students to course");
-			// Add students to course section
-			$courseSectionA->addStudent($agentIdA, $enrollmentStatusTypeA);
-			$courseSectionA->addStudent($agentIdB, $enrollmentStatusTypeB);
-			$courseSectionA->addStudent($agentIdC, $enrollmentStatusTypeA);
-			
-			//$this->write(3, "getRoster");
-			$roster = $courseSectionA->getRoster();
-			//$this->printRoster($roster);
-			
-			$this->assertTrue($this->enrollmentIteratorHasStudent($roster,"Mags"));
-			$this->assertTrue($this->enrollmentIteratorHasStudent($roster,"jood8"));
-			$this->assertTrue($this->enrollmentIteratorHasStudent($roster,"Gladius"));
-			
-			$this->write(5, "getRosterByType");
-			// Should print Tim and Mag		
-			//$this->write(3, "registerRoster");	
-			$registerRoster = $courseSectionA->getRosterByType($enrollmentStatusTypeA);		
-			//$this->printRoster($roster);			
-			$this->assertTrue($this->enrollmentIteratorHasStudent($registerRoster,"Mags"));
-			$this->assertTrue(!$this->enrollmentIteratorHasStudent($registerRoster,"jood8"));
-			$this->assertTrue($this->enrollmentIteratorHasStudent($registerRoster,"Gladius"));
-			
-			// Should print only John
-			//$this->write(3, "auditRoster");
-			$auditRoster = $courseSectionA->getRosterByType($enrollmentStatusTypeB);
-			//$this->printRoster($roster);
-			$this->assertTrue(!$this->enrollmentIteratorHasStudent($auditRoster,"Mags"));
-			$this->assertTrue($this->enrollmentIteratorHasStudent($auditRoster,"jood8"));
-			$this->assertTrue(!$this->enrollmentIteratorHasStudent($auditRoster,"Gladius"));
-			
-			$this->write(5, "Change student");
-			$courseSectionA->changeStudent($agentIdA, $enrollmentStatusTypeB);
-			
-			// Should print only Mag
-			//$this->write(3, "registerRoster");
-			$registerRoster = $courseSectionA->getRosterByType($enrollmentStatusTypeA);
-			//$this->printRoster($roster);
-			$this->assertTrue($this->enrollmentIteratorHasStudent($registerRoster,"Mags"));
-			$this->assertTrue(!$this->enrollmentIteratorHasStudent($registerRoster,"jood8"));
-			$this->assertTrue(!$this->enrollmentIteratorHasStudent($registerRoster,"Gladius"));
-						
-			// Should print Tim and John
-			//$this->write(3, "auditRoster");
-			$auditRoster = $courseSectionA->getRosterByType($enrollmentStatusTypeB);
-			//$this->printRoster($roster);
-			$this->assertTrue(!$this->enrollmentIteratorHasStudent($auditRoster,"Mags"));
-			$this->assertTrue($this->enrollmentIteratorHasStudent($auditRoster,"jood8"));
-			$this->assertTrue($this->enrollmentIteratorHasStudent($auditRoster,"Gladius"));
-			
-			$this->write(5, "remove student");
-			$courseSectionA->removeStudent($agentIdA);
-			$roster =& $courseSectionA->getRoster();
-			//$this->printRoster($roster);
-			$this->assertTrue($this->enrollmentIteratorHasStudent($roster,"Mags"));
-			$this->assertTrue($this->enrollmentIteratorHasStudent($roster,"jood8"));
-			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,"Gladius"));
-			
-			$courseSectionA->removeStudent($agentIdB);
-			$roster =& $courseSectionA->getRoster();
-		
-			$this->assertTrue($this->enrollmentIteratorHasStudent($roster,"Mags"));
-			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,"jood8"));
-			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,"Gladius"));
-			
-			$this->write(5, "remove one more student");
-			$courseSectionA->removeStudent($agentIdC);
-			$roster =& $courseSectionA->getRoster();
-			//$this->printRoster($roster);
-			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,"Mags"));
-			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,"jood8"));
-			$this->assertTrue(!$this->enrollmentIteratorHasStudent($roster,"Gladius"));
-			
-			$properties = $courseSectionA->getProperties();
-			print "<p>";
-			print_r($properties);
-			
-			$propertyTypes = $courseSectionA->getPropertyTypes();
-			print "<p>";
-			print_r($propertyTypes);
-			
-			$agentHandler->deleteAgent($agentIdA);
-			$agentHandler->deleteAgent($agentIdB);
-			$agentHandler->deleteAgent($agentIdC);
-								
-			$courseOffering->deleteCourseSection($courseSectionA->getId());
-          	$courseOffering->deleteCourseSection($courseSectionB->getId());
-          	$canonicalCourse->deleteCourseOffering($courseOffering->getId());
-          	$cmm->deleteCanonicalCourse($canonicalCourse->getId());  
-          	
-          	
-          	
-          	
-          	
-          	*/
 		}
 		
 		
 		
 		
+		        
+		//This function's name can't start with test or it is called without parameters
+		function goTestPropertiesFunctions($itemToTest){
+			$this->write(1,"Group A");
+			$courseType =& $itemToTest->getSectionType();
+			$correctType =& new Type("PropertiesType", $courseType->getAuthority(), "properties");  
+			$propertyType =& $itemToTest->getPropertyTypes();
+			$this->assertTrue($propertyType->hasNextType());
+			if($propertyType->hasNextType()){
+				$type1 =&  $propertyType->nextType();		
+				$this->assertEqualTypes($type1, $correctType);
+				$this->assertFalse($propertyType->hasNextType());		
+			}
+			$this->write(1,"Group B");
+			//multiple objects of type properties?  Propertiesies!
+			$propertiesies =& $itemToTest->getProperties();
+			$this->assertTrue($propertiesies->hasNextProperties());
+			if($propertiesies->hasNextProperties()){
+				$properties =&  $propertiesies->nextProperties();
+				$type1 =&  $properties->getType();		
+				$this->assertEqualTypes($type1, $correctType);
+				$this->goTestProperties($properties,$itemToTest);
+				$this->assertFalse($propertiesies->hasNextProperties());		
+			}
+			$this->write(1,"Group C");
+			$properties =& $itemToTest->getPropertiesByType($correctType);
+			$this->assertNotEqual($properties,null);
+			if(!is_null($properties)){
+				$type1 =&  $properties->getType();		
+				$this->assertEqualTypes($type1, $correctType);
+				$this->goTestProperties($properties,$itemToTest);
+			}	
+			
+		}
+		
+		
+		/*
+		
+		$property->addProperty('type', $courseType);		
+		$statusType =& $this->getStatus();
+		$property->addProperty('status_type', $statusType);
+		$property->addProperty('location', $row['location']);
+		*/
+
+		//This function's name can't start with test or it is called without parameters
+		function goTestProperties($prop, $itemToTest){
+			
+			
+			
+			
+			$idManager =& Services::getService("Id");
+			
+			
+			$keys =& $prop->getKeys();
+			
+			$key = "display_name";			
+			$this->assertTrue($this->primitiveIteratorHas($keys,$key));
+			if($this->primitiveIteratorHas($keys,$key)){
+				$this->assertEqual($prop->getProperty($key),$itemToTest->getDisplayName());
+			}
+			
+			$key = "title";			
+			$this->assertTrue($this->primitiveIteratorHas($keys,$key));
+			if($this->primitiveIteratorHas($keys,$key)){
+				$this->assertEqual($prop->getProperty($key),$itemToTest->getTitle());
+			}
+			
+			$key = "description";			
+			$this->assertTrue($this->primitiveIteratorHas($keys,$key));
+			if($this->primitiveIteratorHas($keys,$key)){
+				$this->assertEqual($prop->getProperty($key),$itemToTest->getDescription());
+			}
+			
+			$key = "id";			
+			$this->assertTrue($this->primitiveIteratorHas($keys,$key));
+			if($this->primitiveIteratorHas($keys,$key)){
+				$this->assertEqual($prop->getProperty($key),$itemToTest->getId());
+			}
+			
+			$key = "number";			
+			$this->assertTrue($this->primitiveIteratorHas($keys,$key));
+			if($this->primitiveIteratorHas($keys,$key)){
+				$this->assertEqual($prop->getProperty($key),$itemToTest->getNumber());
+			}
+			
+	
+			$key = "type";			
+			$this->assertTrue($this->primitiveIteratorHas($keys,$key));
+			if($this->primitiveIteratorHas($keys,$key)){
+				$this->assertEqualTypes($prop->getProperty($key),$itemToTest->getSectionType());
+			}
+			
+			$key = "status_type";			
+			$this->assertTrue($this->primitiveIteratorHas($keys,$key));
+			if($this->primitiveIteratorHas($keys,$key)){
+				$this->assertEqualTypes($prop->getProperty($key),$itemToTest->getStatus());
+			}
+			
+			$key = "location";			
+			$this->assertTrue($this->primitiveIteratorHas($keys,$key));
+			if($this->primitiveIteratorHas($keys,$key)){
+				$this->assertEqual($prop->getProperty($key),$itemToTest->getLocation());
+			}
+			
+		}
 		
 		
 		

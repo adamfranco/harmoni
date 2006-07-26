@@ -10,7 +10,7 @@
 * @copyright Copyright &copy; 2006, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: oki_simple_unit.php,v 1.2 2006/07/21 19:04:02 sporktim Exp $
+* @version $Id: oki_simple_unit.php,v 1.3 2006/07/26 05:09:55 sporktim Exp $
 */
 
  if (!defined("SIMPLE_TEST")) {
@@ -27,7 +27,7 @@
 		
 		
 		
-		
+		//@TODO  currently assumes the types are not null
 		function assertNotEqualTypes(&$typeA, &$typeB) {  
 			if(!$typeA->isEqual($typeB)){
 				$this->assertTrue(true);
@@ -39,10 +39,23 @@
 		
 		function assertEqualTypes(&$typeA,&$typeB){
 			
-			
 			//parameter validation
 			ArgumentValidator::validate($typeA, ExtendsValidatorRule::getRule("Type"), true);
 			ArgumentValidator::validate($typeB, ExtendsValidatorRule::getRule("Type"), true);
+			
+			if(is_null($typeA)){
+				$this->assertTrue(is_null($typeB));
+				if(!is_null($typeB)){
+					print "<p align=center><font size=4 color=#FF2200>The Type '".$typeA->getDomain()."'::'".$typeA->getAuthority()."'::'".$typeA->getKeyword()."' is not equal to null </font></p>\n";					
+				}
+				return;
+			}
+			if(is_null($typeB)){
+				print "<p align=center><font size=4 color=#FF2200>Null is not equal to Type '".$typeA->getDomain()."'::'".$typeA->getAuthority()."'::'".$typeA->getKeyword()."'</font></p>\n";					
+				
+				return;
+				
+			}
 			
 			$this->assertTrue($typeA->isEqual($typeB));
 			if($typeA->getDomain()!=$typeB->getDomain()){
@@ -77,6 +90,7 @@
 			
 		}
 		
+		//currently assumes the ids are not null
 		function assertNotEqualIds(&$idA,&$idB){
 			
 			
@@ -95,6 +109,7 @@
 			
 		}
 		
+		//currently assumes the ids are not null
 		function assertHaveEqualIds(&$thingA,&$thingB){
 			
 			
@@ -152,13 +167,29 @@
 				return false;
 		}
 		
+		function primitiveIteratorHas($iter, $goal){
+			//this relies on usage of the HarmoniIterator
+			$iter->_i=-1;
+			
+				while($iter->hasNext()){
+					//$am =& Services::GetService("AgentManager");
+					$item =& $iter->next();
+					if($goal === $item){
+						return true;
+					}
+				}
+				return false;
+		}
+		
+		
+		
 		
 		function stringIteratorHas($iter, $string){
 				//this relies on usage of the HarmoniIterator
 				$iter->_i=-1;
 				while($iter->hasNextString()){
 					$item = $iter->nextString();
-					if($item==$string){						
+					if($item===$string){						
 						return true;
 					}
 				}

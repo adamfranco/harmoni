@@ -26,7 +26,7 @@ require_once(OKI2."/osid/coursemanagement/CourseSection.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CourseSection.class.php,v 1.23 2006/07/21 19:04:00 sporktim Exp $
+ * @version $Id: CourseSection.class.php,v 1.24 2006/07/26 05:09:53 sporktim Exp $
  */
 class HarmoniCourseSection
 	extends CourseSection
@@ -472,7 +472,7 @@ class HarmoniCourseSection
 	 */
 	function &getPropertyTypes () { 
 		$courseType =& $this->getSectionType();
-		$propType =& new Type($courseType->getDomain(), $courseType->getAuthority(), "properties");
+		$propType =& new Type("PropertiesType", $courseType->getAuthority(), "properties");
 		$array = array($propType);
 		$typeIterator =& new HarmoniTypeIterator($array);
 		return $typeIterator;
@@ -500,7 +500,7 @@ class HarmoniCourseSection
 	 */
 	function &getProperties () {
 		$array = array($this->_getProperties());
-		$ret = new PropertiesIterator($array);		
+		$ret = new HarmoniPropertiesIterator($array);		
 		return $ret;//return the iterator
 	} 
 
@@ -1057,7 +1057,7 @@ $query->addWhere("fk_cm_section='".addslashes($this->_id->getIdString())."' AND 
 	 */
 	function &getPropertiesByType ( &$propertiesType ) { 
 		$courseType =& $this->getSectionType();
-		$propertiesType =& new Type($courseType->getDomain(), $courseType->getAuthority(), "properties"); 		
+		$propertiesType =& new Type("PropertiesType", $courseType->getAuthority(), "properties"); 		
 		if($propertiesType->isEqualTo($propertiesType)){
 			return $this->_getProperties();
 		}
@@ -1093,7 +1093,7 @@ $query->addWhere("fk_cm_section='".addslashes($this->_id->getIdString())."' AND 
 		
 		//make a type
 		$courseType =& $this->getSectionType();	
-		$propertiesType =& new Type($courseType->getDomain(), $courseType->getAuthority(), "properties"); 	
+		$propertiesType =& new Type("PropertiesType", $courseType->getAuthority(), "properties"); 	
 			
 		
 				
@@ -1102,14 +1102,14 @@ $query->addWhere("fk_cm_section='".addslashes($this->_id->getIdString())."' AND 
 		$property =& new HarmoniProperties($propertiesType);
 		$displayName = $this->_node->getDisplayName();
 		$property->addProperty('display_name', $displayName);
+		$property->addProperty('title', $row['title']);
 		$description = $this->_node->getDescription();
 		$property->addProperty('description',$description);	
 		$property->addProperty('id', $idManager->getId($row['id']));
 		$property->addProperty('number', $row['number']);
-		$property->addProperty('type', $courseType->getKeyword());
-		$property->addProperty('title', $row['']);
+		$property->addProperty('type', $courseType);		
 		$statusType =& $this->getStatus();
-		$property->addProperty('status_type', $statusType->getKeyword());
+		$property->addProperty('status_type', $statusType);
 		$property->addProperty('location', $row['location']);
 	
 		
