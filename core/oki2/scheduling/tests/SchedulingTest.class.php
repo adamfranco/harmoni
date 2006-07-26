@@ -947,16 +947,7 @@
 			$this->assertTrue(!$this->typeIteratorHas($iter, $itemStat2));
 			$this->assertTrue(!$this->typeIteratorHas($iter, new Type("sadfsz234dfwerwer","sadfszd23fwerwer","asdfwer123")));
 			
-			$this->write(1,"Group B");
-			$iter =& $sm->getCommitmentStatusTypes();
-			$this->assertTrue($this->typeIteratorHas($iter, $commitType1));
-			$this->assertTrue($this->typeIteratorHas($iter, $commitType2));
-			$this->assertTrue(!$this->typeIteratorHas($iter, $itemStat1));
-			$this->assertTrue(!$this->typeIteratorHas($iter, $itemStat2));
-			$this->assertTrue(!$this->typeIteratorHas($iter, new Type("sadfsz234dfwerwer","sadfszd23fwerwer","asdfwer123")));
-		
-			
-		
+	
 			
 			
 			$sm->deleteScheduleItem($si1->getId());
