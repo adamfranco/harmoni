@@ -6,7 +6,7 @@
 * @copyright Copyright &copy; 2006, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.44 2006/07/29 02:12:00 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.45 2006/07/29 06:33:49 sporktim Exp $
 */
 
 require_once(OKI2."/osid/coursemanagement/CourseManagementManager.php");
@@ -100,7 +100,7 @@ require_once(HARMONI."oki2/coursemanagement/TermIterator.class.php");
 * @copyright Copyright &copy; 2005, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.44 2006/07/29 02:12:00 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.45 2006/07/29 06:33:49 sporktim Exp $
 */
 class HarmoniCourseManagementManager
 extends CourseManagementManager
@@ -216,13 +216,13 @@ extends CourseManagementManager
 		if($createTerms){
 			$sm =& Services::getService("Scheduling");
 			foreach($terms as $array){
-				
+
 				$name = $array['name'];
 				
 				$start = $array['start']->asUnixTimeStamp();
 				$end = $array['end']->asUnixTimeStamp()-1;
 				
-				$schedule[] =& $sm->createScheduleItem($name." range","The start and end of the ".$name." Term",
+				$schedule[0] =& $sm->createScheduleItem($name." range","The start and end of the ".$name." Term",
 								$p = array(),$start,$end,null);
 				$term =& $this->createTerm($array['type'],$schedule);
 				$term->updateDisplayName($name);
