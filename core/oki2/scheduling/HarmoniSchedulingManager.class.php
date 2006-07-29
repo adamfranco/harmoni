@@ -171,7 +171,7 @@ extends SchedulingManager
 	*
 	* @access public
 	*/
-	function &createScheduleItem ( $displayName, $description, &$agents, $start, $end, $masterIdentifier ) {
+	function &createScheduleItem ( $displayName, $description, &$agents, $start, $end, $masterIdentifier = null ) {
 
 		if($start>$end){
 			throwError(new Error("The end of a ScheduleItem cannot come before the end", "HarmoniSchedulingManager", true));
@@ -195,7 +195,7 @@ extends SchedulingManager
 		}
 
 
-		if(!isset($masterIdentifier)|| is_null($masterIdentifier)){
+		if(is_null($masterIdentifier)){
 			$masterIdentifier = $id->getIdString();
 		}
 

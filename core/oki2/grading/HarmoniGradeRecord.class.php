@@ -172,7 +172,7 @@ extends GradeRecord
     } 
 
     /**
-     * Get the date when this GradeRecord was modified.
+     * Get the date when this GradeRecord was modified, using the UNIX timestamp.
      *  
      * @return long
      * 
@@ -380,7 +380,7 @@ extends GradeRecord
 	
 		
 	function _setModifiedDateAndAgent(){
-		$this->_setField('modified_date',time()*1000);	
+		$this->_setField('modified_date',time());	
 		//@TODO use the timestamp feature in SQL?
 		
 		//try to get the creator of this ScheduleItem

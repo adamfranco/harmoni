@@ -417,7 +417,7 @@ extends GradableObject
     } 
 
     /**
-     * Get the date when this GradableObject was modified.
+     * Get the date when this GradableObject was modified, using the UNIX timestamp.
      *  
      * @return int
      * 
@@ -499,7 +499,7 @@ extends GradableObject
 	
 	
 	function _setModifiedDateAndAgent(){
-		$this->_setField('modified_date',time()*1000);	
+		$this->_setField('modified_date',time());	
 		//@TODO use the timestamp feature in SQL?
 		
 		//try to get the creator of this ScheduleItem

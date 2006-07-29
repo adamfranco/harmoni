@@ -83,7 +83,7 @@
 			
 						
 			$term1 =& $cm->createTerm($termType1, $scheduleA);		
-			$term2 =& $cm->createTerm($termType2, $scheduleB);
+			$term2 =& $cm->createTerm($termType2, $scheduleB,"The Fall of 2006");
 			$term3 =& $cm->createTerm($termType1, $scheduleC);
 			$term4 =& $cm->createTerm($termType1, $scheduleD);
 	   	
@@ -96,13 +96,13 @@
           	$this->assertEqualTypes($term1->getType(), $termType1);
  
           	 
-          	$this->assertDoesNotCrashTheSystem($term2->getDisplayName());
+          	$this->assertEqual($term2->getDisplayName(), "The Fall of 2006");
           	$this->assertEqualTypes($term2->getType(), $termType2);
           	
           	    $this->write(2,"Update");
           	    
           	$term1->updateDisplayName("The Fall of 2005");
-			$term2->updateDisplayName("The Fall of 2006");    
+			//$term2->updateDisplayName("The Fall of 2006");    
 			$term3->updateDisplayName("par-tay");
 			$term4->updateDisplayName("Everything"); 
           	

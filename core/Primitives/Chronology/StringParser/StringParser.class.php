@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StringParser.class.php,v 1.4 2006/06/26 12:55:08 adamfranco Exp $
+ * @version $Id: StringParser.class.php,v 1.5 2006/07/29 02:11:59 sporktim Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -54,7 +54,7 @@ require_once(dirname(__FILE__)."/../Month.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StringParser.class.php,v 1.4 2006/06/26 12:55:08 adamfranco Exp $
+ * @version $Id: StringParser.class.php,v 1.5 2006/07/29 02:11:59 sporktim Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -104,8 +104,10 @@ class StringParser
 		
 		if ($handled && is_object($parser))
 			return $parser;
-		else
-			return FALSE;
+		else{
+			$false =FALSE;
+			return $false;
+		}
 	}
 
 /*********************************************************

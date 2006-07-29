@@ -6,7 +6,7 @@
 * @copyright Copyright &copy; 2006, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.43 2006/07/21 20:15:54 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.44 2006/07/29 02:12:00 sporktim Exp $
 */
 
 require_once(OKI2."/osid/coursemanagement/CourseManagementManager.php");
@@ -100,7 +100,7 @@ require_once(HARMONI."oki2/coursemanagement/TermIterator.class.php");
 * @copyright Copyright &copy; 2005, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.43 2006/07/21 20:15:54 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.44 2006/07/29 02:12:00 sporktim Exp $
 */
 class HarmoniCourseManagementManager
 extends CourseManagementManager
@@ -164,7 +164,7 @@ extends CourseManagementManager
 		$courseManagementId =& $configuration->getProperty('course_management_id');
 		$canonicalCoursesId =& $configuration->getProperty('canonical_courses_id');
 		$courseGroupsId =& $configuration->getProperty('course_groups_id');
-
+		$terms =& $configuration->getProperty('terms_to_add');
 
 		// ** parameter validation
 		ArgumentValidator::validate($hierarchyId, StringValidatorRule::getRule(), true);
@@ -193,10 +193,12 @@ extends CourseManagementManager
 
 
 
-		//initialize nodes
+		//initialize nodes and terms
 		$type =& new Type("CourseManagement","edu.middlebury","CourseManagement","These are top level nodes in the CourseManagement part of the Hierarchy");
+		$createTerms =false;
 		if(!$this->_hierarchy->nodeExists($courseManagementId)){
 			$this->_hierarchy->createNode($courseManagementId,  $rootId, $type,"Course Management","This node is the ancestor of all information about course management in the hierarchy");
+			$createTerms =true;		
 		}
 		if(!$this->_hierarchy->nodeExists($canonicalCoursesId)){
 			$this->_hierarchy->createNode($canonicalCoursesId,$courseManagementId,$type,"Canonical Courses","This node is the parent of all root level canonical courses");
@@ -209,11 +211,23 @@ extends CourseManagementManager
 		$this->_canonicalCoursesId =& $canonicalCoursesId;
 		$this->_courseGroupsId =& $courseGroupsId;
 
-		//$this->_hierarchyId = $idManager->getId($hierarchyId);
-
-		//$hierarchyManager =& Services::getService("Hierarchy");
-		//$this->_hierarchy =& $hierarchyManager->getHierarchy($this->_hierarchyId);
-
+			//create terms only if the coursemanagement node was not created
+		
+		if($createTerms){
+			$sm =& Services::getService("Scheduling");
+			foreach($terms as $array){
+				
+				$name = $array['name'];
+				
+				$start = $array['start']->asUnixTimeStamp();
+				$end = $array['end']->asUnixTimeStamp()-1;
+				
+				$schedule[] =& $sm->createScheduleItem($name." range","The start and end of the ".$name." Term",
+								$p = array(),$start,$end,null);
+				$term =& $this->createTerm($array['type'],$schedule);
+				$term->updateDisplayName($name);
+			}
+		}
 
 	}
 
@@ -678,8 +692,12 @@ extends CourseManagementManager
 	* Create a new Term with a specific type and Schedule.	 Schedules are
 	* defined in the scheduling OSID.
 	*
+	* Warning!  The third (optional) parameter is not included in the OSIDs.
+	* Use at your own risk.
+	*
 	* @param object Type $termType
 	* @param object ScheduleItem[] $schedule
+	* @param string $displayname The displayname.  This defaults to "" if not included.
 	*
 	* @return object Term
 	*
@@ -702,7 +720,7 @@ extends CourseManagementManager
 	*
 	* @access public
 	*/
-	function &createTerm ( &$termType, &$schedule ) {
+	function &createTerm ( &$termType, &$schedule, $displayname = "" ) {
 
 		$idManager =& Services::getService("IdManager");
 		$id=$idManager->createId();
@@ -715,7 +733,7 @@ extends CourseManagementManager
 		$query->setColumns(array('id','name','fk_cm_term_type'));
 
 		$values[]="'".addslashes($id->getIdString())."'";
-		$values[]="''";
+		$values[]="'".$displayname."'";
 		$values[]="'".$this->_typeToIndex('term',$termType)."'";
 
 

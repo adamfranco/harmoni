@@ -26,7 +26,7 @@ require_once(OKI2."/osid/coursemanagement/CourseSection.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CourseSection.class.php,v 1.24 2006/07/26 05:09:53 sporktim Exp $
+ * @version $Id: CourseSection.class.php,v 1.25 2006/07/29 02:12:00 sporktim Exp $
  */
 class HarmoniCourseSection
 	extends CourseSection
@@ -777,7 +777,6 @@ class HarmoniCourseSection
 		$query->addColumn('id');
 		$res=& $dbManager->query($query);
 		if($res->getNumberOfRows()==0){
-			;
 			$typeIndex = $this->_typeToIndex('enroll_stat',$enrollmentStatusType);
 	
 			$query=& new InsertQuery;
@@ -790,7 +789,7 @@ class HarmoniCourseSection
 			$query->setAutoIncrementColumn('id','id_sequence');
 			$dbManager->query($query);		
 		}else{
-			print "<b>Warning!</b> Student with id ".$agentId->getIdString()."is already enrolled in section ".$this->getDisplayName().".";
+			print "<b>Warning!</b> Student with id ".$agentId->getIdString()." is already enrolled in section ".$this->getDisplayName().".";
 		}
 			
 
