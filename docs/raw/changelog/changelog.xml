@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.130.2.3 2006/08/01 18:32:34 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.130.2.4 2006/08/01 18:59:18 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -21,6 +21,10 @@
 			Logging: Improved performance of the LogEntryIterator to
 			make a more reponsive interface.
 		</fix>
+		<change author='adam'>
+			Logging: Errors now log the query string as well as the referer to
+			better trace errors.
+		</change>
 	</version>
 	<version number="0.7.2" date="2006-07-21">
 		<fix author='adam'>

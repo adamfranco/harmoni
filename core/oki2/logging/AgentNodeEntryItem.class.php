@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AgentNodeEntryItem.class.php,v 1.4 2006/03/07 21:34:15 adamfranco Exp $
+ * @version $Id: AgentNodeEntryItem.class.php,v 1.4.2.1 2006/08/01 18:59:18 adamfranco Exp $
  */ 
 
 require_once(HARMONI."errorHandler/SimpleHTMLErrorPrinter.class.php");
@@ -20,7 +20,7 @@ require_once(HARMONI."errorHandler/SimpleHTMLErrorPrinter.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AgentNodeEntryItem.class.php,v 1.4 2006/03/07 21:34:15 adamfranco Exp $
+ * @version $Id: AgentNodeEntryItem.class.php,v 1.4.2.1 2006/08/01 18:59:18 adamfranco Exp $
  */
 class AgentNodeEntryItem {
 		
@@ -44,6 +44,7 @@ class AgentNodeEntryItem {
 		$this->_nodeIds = $nodeIds;
 		$this->_agentIds = array();
 		$this->_backtrace = '';
+		$this->_additionalBactraceText = '';
 	}
 	
 	/**
@@ -76,7 +77,8 @@ class AgentNodeEntryItem {
 	 * @since 3/6/06
 	 */
 	function getBacktrace () {
-		return $this->_backtrace;
+		return "<div>".$this->_backtrace."</div>\n<div>"
+			.$this->_additionalBactraceText."</div>";
 	}
 	
 	/**
@@ -94,6 +96,18 @@ class AgentNodeEntryItem {
 			$this->_backtrace = ob_get_clean();
 		} else
 			$this->_backtrace = $backtrace;
+	}
+	
+	/**
+	 * Add HTML text to the bactrace, usefull for storing source URLs, etc
+	 * 
+	 * @param string $additionalText
+	 * @return void
+	 * @access public
+	 * @since 8/1/06
+	 */
+	function addTextToBactrace ($additionalText) {
+		$this->_additionalBactraceText .= $additionalText;
 	}
 	
 	/**
