@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: IsAuthorizedCache.class.php,v 1.3 2006/05/30 20:36:41 adamfranco Exp $
+ * @version $Id: IsAuthorizedCache.class.php,v 1.3.2.1 2006/08/01 18:32:17 adamfranco Exp $
  */ 
 
 /**
@@ -69,7 +69,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: IsAuthorizedCache.class.php,v 1.3 2006/05/30 20:36:41 adamfranco Exp $
+ * @version $Id: IsAuthorizedCache.class.php,v 1.3.2.1 2006/08/01 18:32:17 adamfranco Exp $
  */
 class IsAuthorizedCache {
 		
@@ -443,7 +443,10 @@ class IsAuthorizedCache {
 		$query =& new SelectQuery();
 		$query->addColumn("*");
 		$query->addTable("az_authorization");
-		$query->addWhere("fk_agent IN('".implode("', '", $this->getAgentIdStringArray($agentIdString))."')");
+		$agentIdStrings = $this->getAgentIdStringArray($agentIdString);
+		foreach($agentIdStrings as $key => $val)
+			$agentIdStrings[$key] = "'".addslashes($val)."'";
+		$query->addWhere("fk_agent IN(".implode(", ", $agentIdStrings).")");
 		$query->addWhere("(authorization_effective_date IS NULL OR authorization_effective_date < NOW())");
 		$query->addWhere("(authorization_expiration_date IS NULL OR authorization_expiration_date > NOW())");
 		
@@ -555,8 +558,14 @@ class IsAuthorizedCache {
 		$query->addColumn("fk_node");
 		$query->addTable("az_authorization");
 		$query->addTable("node_ancestry", LEFT_JOIN, "fk_qualifier = fk_ancestor");
-		$query->addWhere("fk_node IN('".implode("', '", $this->_queue[$agentIdString])."')");
-		$query->addWhere("fk_agent IN('".implode("', '", $this->getAgentIdStringArray($agentIdString))."')");
+		$nodeIdStrings = $this->_queue[$agentIdString];
+		foreach($nodeIdStrings as $key => $val)
+			$nodeIdStrings[$key] = "'".addslashes($val)."'";
+		$query->addWhere("fk_node IN(".implode(", ", $nodeIdStrings).")");
+		$agentIdStrings = $this->getAgentIdStringArray($agentIdString);
+		foreach($agentIdStrings as $key => $val)
+			$agentIdStrings[$key] = "'".addslashes($val)."'";
+		$query->addWhere("fk_agent IN(".implode(", ", $agentIdStrings).")");
 		$query->addWhere("(authorization_effective_date IS NULL OR authorization_effective_date < NOW())");
 		$query->addWhere("(authorization_expiration_date IS NULL OR authorization_expiration_date > NOW())");
 		
