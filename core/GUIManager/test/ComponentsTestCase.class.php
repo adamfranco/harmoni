@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ComponentsTestCase.class.php,v 1.8 2005/04/07 16:33:26 adamfranco Exp $
+ * @version $Id: ComponentsTestCase.class.php,v 1.9 2006/08/02 23:50:28 sporktim Exp $
  */
 require_once(HARMONI."GUIManager/Component.class.php");
 require_once(HARMONI."GUIManager/Container.class.php");
@@ -32,7 +32,7 @@ require_once(HARMONI."GUIManager/Components/Menu.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ComponentsTestCase.class.php,v 1.8 2005/04/07 16:33:26 adamfranco Exp $
+ * @version $Id: ComponentsTestCase.class.php,v 1.9 2006/08/02 23:50:28 sporktim Exp $
  */
 
     class ComponentsTestCase extends UnitTestCase {
@@ -90,7 +90,7 @@ require_once(HARMONI."GUIManager/Components/Menu.class.php");
 
 			$style =& $comp1->removeStyle("body");
 			$this->assertReference($style, $bodyStyle);
-			$this->assertNull($comp1->_styleCollections["body"]);
+			$this->assertTrue(!isset($comp1->_styleCollections["body"]));
 		}
 	
 		function test_generic_container() {
@@ -144,7 +144,7 @@ require_once(HARMONI."GUIManager/Components/Menu.class.php");
 		}
 		
 		function test_menu_components() {
-			$theme =& new Theme();
+			$theme =& new Theme("","");
 
 			$heading =& new MenuItemHeading("hoho", 3);
 			$this->assertIdentical($heading->getType(), MENU_ITEM_HEADING);
@@ -187,7 +187,7 @@ require_once(HARMONI."GUIManager/Components/Menu.class.php");
 			$menuStyle->addSP(new BorderSP("1px", "solid", "#FFFFFF"));
 			
 			$menu =& new Menu(new XLayout(), 4, $menuStyle);
-			$this->assertNull($comp->_selectedId);
+			$this->assertTrue(!isset($comp->_selectedId));
 			$menu->add($comp, "100px", null, CENTER);
 			$this->assertIdentical($menu->_selectedId, 1);
 			$this->assertIdentical($comp->isSelected(), true);

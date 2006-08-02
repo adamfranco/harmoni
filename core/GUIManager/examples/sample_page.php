@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: sample_page.php,v 1.7 2005/08/22 15:11:56 adamfranco Exp $
+ * @version $Id: sample_page.php,v 1.8 2006/08/02 23:50:28 sporktim Exp $
  */
 
 // =============================================================================
@@ -130,7 +130,7 @@
 	$mainBox->add($temp, "100%", null, RIGHT, CENTER);
 	$mainBox->add($mainContent, "100%", null, null, null);
 	
-	$theme =& new Theme();
+	$theme =& new Theme("Sample Page Theme","This is the theme from examples/sample_page.php");
 	$theme->addGlobalStyle($bodyStyle);
 	$theme->setComponent($mainBox);
 	$theme->printPage();

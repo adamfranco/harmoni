@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: test.php,v 1.16 2006/07/21 20:15:55 sporktim Exp $
+ * @version $Id: test.php,v 1.17 2006/08/02 23:50:29 sporktim Exp $
  */
  
  require_once(dirname(__FILE__)."/../../../../../concerto/index.php");
@@ -61,6 +61,8 @@ $timer->end();
 
 print "\n<br />Harmoni Load Time: ".$harmonyLoadupTimer->printTime();
 print "\n<br />Overall Time: ".$timer->printTime();
+$dbhandler =& Services::getService("DBHandler");
+printpre("NumQueries: ".$dbhandler->getTotalNumberOfQueries());
 print "\n</p>";
 
 // $num = $dbHandler->getTotalNumberOfQueries();

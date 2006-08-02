@@ -24,7 +24,7 @@ require_once(HARMONI."GUIManager/StyleCollection.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Theme.class.php,v 1.23 2006/06/02 15:56:06 cws-midd Exp $
+ * @version $Id: Theme.class.php,v 1.24 2006/08/02 23:50:27 sporktim Exp $
  */
 class Theme extends ThemeInterface {
 
@@ -73,7 +73,7 @@ class Theme extends ThemeInterface {
 	/**
 	 * An array storing style collections for the different
 	 * component types. The first dimension is the component type. The second
-	 * dimension is the index. The thrid dimension is the selector of the style
+	 * dimension is the index. The third dimension is the selector of the style
 	 * collection.
 	 * @var array _componentStyles 
 	 * @access private
@@ -148,6 +148,7 @@ class Theme extends ThemeInterface {
 		$this->_pageTitle = "";
 		$this->_componentStyles = array();
 		$this->_globalStyles = array();
+		$this->_styles = array();
 		$this->_registeredSPs = array();
 		$this->_postImportMethods = array();
 		$this->_displayName = $displayName;
@@ -178,8 +179,12 @@ class Theme extends ThemeInterface {
 	 * @since 4/26/06
 	 */
 	function &getId () {
-		if (isset($this->_id))
+		if (isset($this->_id)){
 			return $this->_id;
+		}else{
+			$null =  null;
+			return $null;
+		}
 	}
 
 	/**
@@ -783,13 +788,15 @@ class Theme extends ThemeInterface {
 		$sp =& $this->getRegisteredSP($id);
 		
 		// now get its StyleComponents
-		$scs =& $sp->getSCs();
+		$scs = $sp->getSCs();
+		//print "Here it comes!!!!!!";
+		//print_r($scs);
 		
 		// this is the export data - simply an array storing the values
 		// of each style component
 		$exportData = array();
 		foreach (array_keys($scs) as $i => $key)
-			$exportData[] = $scs[$key]->getValue();
+			$exportData[$key] = $scs[$key]->getValue();
 			
 		return $exportData;
 	}
@@ -844,6 +851,7 @@ class Theme extends ThemeInterface {
 			throwError(new Error($err, "GUIManager", true));
 			return;
 		}
+		
 		
 		// now set the value of each style component
 		foreach (array_keys($importData) as $i => $key)

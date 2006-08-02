@@ -22,7 +22,7 @@ require_once(HARMONI."GUIManager/StyleComponent.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ColorSC.class.php,v 1.8 2005/07/07 18:30:14 adamfranco Exp $
+ * @version $Id: ColorSC.class.php,v 1.9 2006/08/02 23:50:27 sporktim Exp $
  */
 class ColorSC extends StyleComponent {
 
@@ -42,7 +42,6 @@ class ColorSC extends StyleComponent {
 		(R stands for Red, G stands for Green, and B stands for Blue):
 		#RGB, #RRGGBB (R,G,B are 0-F hexadecimal digits), rgb(R,G,B) (R,G,B are
 		0-255 decimals), rgb(R%,G%,B%) (R%,G%,B% are floating-point 0-100 percentages).";
-		
 		$this->StyleComponent($value, $rule, null, null, $errDescription, $displayName, $description);
 	}
 }

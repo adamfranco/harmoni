@@ -32,7 +32,7 @@ require_once(HARMONI."GUIManager/StyleComponent.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StyleComponent.class.php,v 1.11 2006/06/02 15:56:06 cws-midd Exp $
+ * @version $Id: StyleComponent.class.php,v 1.12 2006/08/02 23:50:27 sporktim Exp $
  **/
 
 class StyleComponent extends StyleComponentInterface {
@@ -112,7 +112,11 @@ class StyleComponent extends StyleComponentInterface {
 			$this->_rule =& $rule;
 		else
 			$this->_rule =& AlwaysTrueValidatorRule::getRule();
-
+	
+		if(func_num_args()<7){
+			throwError(new Error("Too few parameters for StyleComponent", "GUIManager", true));
+		}
+			
 		$this->_displayName = $displayName;
 		$this->_description = $description;
 		$this->_errorDescription = $errorDescription;
@@ -161,8 +165,13 @@ class StyleComponent extends StyleComponentInterface {
 	 * @since 4/26/06
 	 */
 	function &getId () {
-		if (isset($this->_id))
+		if (isset($this->_id)){
 			return $this->_id;
+		}else{
+			$im =& Services::getService("Id");		
+			$this->_id  = 	$im->createId();
+			return $this->_id;
+		}
 	}
 
 	/**

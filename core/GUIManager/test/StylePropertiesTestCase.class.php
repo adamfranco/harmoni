@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StylePropertiesTestCase.class.php,v 1.10 2005/04/07 16:33:27 adamfranco Exp $
+ * @version $Id: StylePropertiesTestCase.class.php,v 1.11 2006/08/02 23:50:28 sporktim Exp $
  */
  
 require_once(HARMONI."GUIManager/StyleProperty.class.php");
@@ -70,7 +70,7 @@ require_once(HARMONI."GUIManager/StyleProperties/BackgroundSP.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StylePropertiesTestCase.class.php,v 1.10 2005/04/07 16:33:27 adamfranco Exp $
+ * @version $Id: StylePropertiesTestCase.class.php,v 1.11 2006/08/02 23:50:28 sporktim Exp $
  */
 
     class StylePropertiesTestCase extends UnitTestCase {
@@ -98,10 +98,11 @@ require_once(HARMONI."GUIManager/StyleProperties/BackgroundSP.class.php");
 	
 		function test_generic_sp() {
 			$sp =& new StyleProperty("border", "border", "The border");
-			$sp->addSC(new StyleComponent("solid", null));
-			$sp->addSC(new StyleComponent("1px", null));
-			$sp->addSC(new StyleComponent("#000", null));
-			$this->assertIdentical($sp->getDisplayName(), "border");
+			$sp->addSC(new BorderStyleSC("solid"));
+			$sp->addSC(new LineHeightSC("1px"));
+			$sp->addSC(new ColorSC("#000"));
+			
+			$this->assertIdentical($sp->getName(), "border");
 			$this->assertIdentical($sp->getDescription(), "The border");
 			$this->assertIdentical($sp->getCSS(), "border: solid 1px #000;");
 		}

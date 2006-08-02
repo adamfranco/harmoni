@@ -380,7 +380,7 @@ extends GradeRecord
 	
 		
 	function _setModifiedDateAndAgent(){
-		$this->_setField('modified_date',time());	
+		$this->_setField('modified_date',time()*1000);	
 		//@TODO use the timestamp feature in SQL?
 		
 		//try to get the creator of this ScheduleItem

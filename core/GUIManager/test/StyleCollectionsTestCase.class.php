@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StyleCollectionsTestCase.class.php,v 1.7 2005/04/07 16:33:27 adamfranco Exp $
+ * @version $Id: StyleCollectionsTestCase.class.php,v 1.8 2006/08/02 23:50:28 sporktim Exp $
  */
 require_once(HARMONI."GUIManager/StyleCollection.class.php");
 require_once(HARMONI."GUIManager/StyleProperties/ColorSP.class.php");
@@ -21,7 +21,7 @@ require_once(HARMONI."GUIManager/StyleProperties/BorderSP.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StyleCollectionsTestCase.class.php,v 1.7 2005/04/07 16:33:27 adamfranco Exp $
+ * @version $Id: StyleCollectionsTestCase.class.php,v 1.8 2006/08/02 23:50:28 sporktim Exp $
  */
 
     class StyleCollectionsTestCase extends UnitTestCase {
@@ -51,7 +51,7 @@ require_once(HARMONI."GUIManager/StyleProperties/BorderSP.class.php");
 			$collection =& new StyleCollection("div", null, "The Block", "Some Blocky Block");
 			$collection->addSP(new ColorSP("#FFBBAA"));
 			
-			$css1 =& $collection->getCSS();
+			$css1 = $collection->getCSS();
 			$css2 = "div {\n\tcolor: #FFBBAA;\n}\n";
 			$this->assertIdentical($css1, $css2);
 			$this->assertFalse($collection->canBeApplied());
@@ -61,7 +61,7 @@ require_once(HARMONI."GUIManager/StyleProperties/BorderSP.class.php");
 			$sp =& $collection->addSP(new ColorSP("#FFBBAA"));
 			$collection->addSP(new BorderSP("3em", "solid", "#421"));
 			
-			$css1 =& $collection->getCSS("\t\t");
+			$css1 = $collection->getCSS("\t\t");
 			$css2 = "\t\tp.col3 {\n\t\t\tcolor: #FFBBAA;\n\t\t\tborder: 3em solid #421;\n\t\t}\n";
 			$this->assertIdentical($css1, $css2);
 			$this->assertTrue($collection->canBeApplied());
@@ -70,9 +70,9 @@ require_once(HARMONI."GUIManager/StyleProperties/BorderSP.class.php");
 			$this->assertNotNull($collection->_SPs['color']);
 			$sp1 =& $collection->removeSP($sp);			
 			$this->assertReference($sp1, $sp);
-			$this->assertNull($collection->_SPs['color']);
+			$this->assertTrue(!isset($collection->_SPs['color']));
 			$sps =& $collection->getSPs();
-			$this->assertNull($sps['color']);
+			$this->assertTrue(!isset($sps['color']));
 		}
 		
 		

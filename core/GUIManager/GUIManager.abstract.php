@@ -16,7 +16,7 @@ require_once(HARMONI."GUIManager/Layout.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GUIManager.abstract.php,v 1.4 2006/04/26 14:21:29 cws-midd Exp $
+ * @version $Id: GUIManager.abstract.php,v 1.5 2006/08/02 23:50:26 sporktim Exp $
  */
 class GUIManagerAbstract
 	extends OutputHandler
@@ -212,25 +212,17 @@ END;
 	/**
 	 * Saves the theme state to the database. The theme state is saved by 
 	 * exporting the theme's style properties, and then serializing the output
-	 * and storing it into the database.
+	 * and storing it into the database.  If the Theme already exists, it is 
+	 * merely replaced.
 	 * @access public
 	 * @param ref object theme The theme whose state needs to be saved.
 	 * @return ref object A HarmoniId objecting identifying the saved state uniquely.
 	 **/
-	function &saveThemeState(& $theme) {
+	function &saveTheme(& $theme) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
-	/**
-	 * This method is like <code>saveThemeState</code>, but instead of creating
-	 * a new database entry for the theme state, it replaces an existing theme state.
-	 * @access public
-	 * @param ref object stateId The id of the theme state that will be replaced.
-	 * @param ref object theme The theme whose state needs to be saved.
-	 **/
-	function replaceThemeState(& $stateId, & $theme) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
+
 	
 	/**
 	 * Loads the theme state stored priorly with <code>saveThemeState()</code>. This 
@@ -241,7 +233,7 @@ END;
 	 * @param ref object stateId The id of the theme state that will be loaded.
 	 * @param ref object theme The theme whose state needs to be loaded.
 	 **/
-	function loadThemeState(& $stateId, & $theme) {
+	function loadTheme(& $stateId, & $theme) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -252,7 +244,7 @@ END;
 	 * @param ref object $id A HarmoniId identifying the theme state that needs to
 	 * be deleted.
 	 **/
-	function deleteThemeState(& $id) {
+	function deleteTheme(& $id) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 }

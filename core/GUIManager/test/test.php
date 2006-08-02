@@ -9,15 +9,31 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: test.php,v 1.12 2005/08/22 15:11:56 adamfranco Exp $
+ * @version $Id: test.php,v 1.13 2006/08/02 23:50:28 sporktim Exp $
  */
 
+  require_once(dirname(__FILE__)."/../../../../concerto/index.php");
+  
+  require_once dirname(__FILE__)."/../../../core/utilities/Timer.class.php";
+$timer =& new Timer;
+$timer->start();
+
+$harmonyLoadupTimer =& new Timer;
+$harmonyLoadupTimer->start();
+
+require_once(dirname(__FILE__)."/../../../harmoni.inc.php");
+
+//require_once(dirname(__FILE__)."/../../../../../concerto/main/include/setup.inc.php");
+
+$harmonyLoadupTimer->end();
+
+/*
+ 
 	define("LOAD_HIERARCHY", false);
-	define("LOAD_STORAGE",false);
-	define("LOAD_AUTHN",false);
+	define("LOAD_STORAGE",false);	
 	define("LOAD_AGENTINFORMATION", false);
 	define("LOAD_DATAMANAGER", false);
-	define("LOAD_AUTHN", false);
+	if(!defined("LOAD_AUTHN")) define("LOAD_AUTHN", false);
 	define("LOAD_DR", false);
 	define("LOAD_SETS", false);
 
@@ -26,7 +42,6 @@
     }
 
 	$errorHandler =& Services::getService("ErrorHandler");
-	
 	$dbHandler =& Services::getService("DatabaseManager");
 	$dbIndex = $dbHandler->addDatabase( new MySQLDatabase("devo.middlebury.edu","doboHarmoniTest","test","test") );
 	$dbHandler->pConnect($dbIndex);
@@ -35,7 +50,7 @@
 
     if (!defined('SIMPLE_TEST')) {
         define('SIMPLE_TEST', HARMONI.'simple_test/');
-    }
+    }*/
 
     require_once(SIMPLE_TEST . 'simple_unit.php');
     require_once(SIMPLE_TEST . 'dobo_simple_html_test.php');

@@ -6,7 +6,7 @@
 * @copyright Copyright &copy; 2006, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.45 2006/07/29 06:33:49 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.46 2006/08/02 23:50:28 sporktim Exp $
 */
 
 require_once(OKI2."/osid/coursemanagement/CourseManagementManager.php");
@@ -100,7 +100,7 @@ require_once(HARMONI."oki2/coursemanagement/TermIterator.class.php");
 * @copyright Copyright &copy; 2005, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.45 2006/07/29 06:33:49 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.46 2006/08/02 23:50:28 sporktim Exp $
 */
 class HarmoniCourseManagementManager
 extends CourseManagementManager
@@ -113,14 +113,17 @@ extends CourseManagementManager
 	* @access private
 	* @variable object Hierarchy $_hierarchy the hierarchy
 	* @access private
-	* @variable object Id $_canonicalCoursesId the hierarchy
+	* @variable object Id $_courseManagementRootId the root id of the CourseManagement part of the hierarchy
 	* @access private
-	* @variable object Id $_courseGroupsId the hierarchy
+	* @variable object Id $_canonicalCoursesId the parent of all top level CanonicalCourses
+	* @access private
+	* @variable object Id $_courseGroupsId the parent of all top level CourseGroups
 	* @access private
 	**/
 	var $_osidContext;
 	var $_configuration;
 	var $_hierarchy;
+	var $_courseManagementRootId;
 	var $_canonicalCoursesId;
 	var $_courseGroupsId;
 
@@ -160,18 +163,14 @@ extends CourseManagementManager
 		$this->_configuration =& $configuration;
 
 		$hierarchyId =& $configuration->getProperty('hierarchy_id');
-		$rootId =& $configuration->getProperty('root_id');
 		$courseManagementId =& $configuration->getProperty('course_management_id');
-		$canonicalCoursesId =& $configuration->getProperty('canonical_courses_id');
-		$courseGroupsId =& $configuration->getProperty('course_groups_id');
 		$terms =& $configuration->getProperty('terms_to_add');
+		$makeTerms =& $configuration->getProperty('whether_to_add_terms');
 
 		// ** parameter validation
 		ArgumentValidator::validate($hierarchyId, StringValidatorRule::getRule(), true);
-		ArgumentValidator::validate($rootId, StringValidatorRule::getRule(), true);
 		ArgumentValidator::validate($courseManagementId, StringValidatorRule::getRule(), true);
-		ArgumentValidator::validate($canonicalCoursesId, StringValidatorRule::getRule(), true);
-		ArgumentValidator::validate($courseGroupsId, StringValidatorRule::getRule(), true);
+		ArgumentValidator::validate($makeTerms, BooleanValidatorRule::getRule(), true);
 		// ** end of parameter validation
 
 
@@ -180,55 +179,53 @@ extends CourseManagementManager
 		$idManager =& Services::getService("Id");
 
 		$hierarchyId =& $idManager->getId($hierarchyId);
-		$rootId =& $idManager->getId($rootId);
+		
+		$canonicalCoursesId =& $idManager->getId($courseManagementId.".canonicalcourses");
+		$courseGroupsId =& $idManager->getId($courseManagementId.".coursegroups");
 		$courseManagementId =& $idManager->getId($courseManagementId);
-		$canonicalCoursesId =& $idManager->getId($canonicalCoursesId);
-		$courseGroupsId =& $idManager->getId($courseGroupsId);
-
 
 
 		$hierarchyManager =& Services::getService("Hierarchy");
 		$this->_hierarchy =& $hierarchyManager->getHierarchy($hierarchyId);
-
-
-
-
-		//initialize nodes and terms
-		$type =& new Type("CourseManagement","edu.middlebury","CourseManagement","These are top level nodes in the CourseManagement part of the Hierarchy");
-		$createTerms =false;
-		if(!$this->_hierarchy->nodeExists($courseManagementId)){
-			$this->_hierarchy->createNode($courseManagementId,  $rootId, $type,"Course Management","This node is the ancestor of all information about course management in the hierarchy");
-			$createTerms =true;		
-		}
-		if(!$this->_hierarchy->nodeExists($canonicalCoursesId)){
-			$this->_hierarchy->createNode($canonicalCoursesId,$courseManagementId,$type,"Canonical Courses","This node is the parent of all root level canonical courses");
-		}
-		if(!$this->_hierarchy->nodeExists($courseGroupsId)){
-			$this->_hierarchy->createNode($courseGroupsId,$courseManagementId,$type,"Course Groups","This node is the parent of all course groups in the hierarchy");
-		}
-
-
+		$this->_courseManagementRootId =& $courseManagementId;
 		$this->_canonicalCoursesId =& $canonicalCoursesId;
 		$this->_courseGroupsId =& $courseGroupsId;
 
-			//create terms only if the coursemanagement node was not created
-		
-		if($createTerms){
-			$sm =& Services::getService("Scheduling");
-			foreach($terms as $array){
 
-				$name = $array['name'];
-				
-				$start = $array['start']->asUnixTimeStamp();
-				$end = $array['end']->asUnixTimeStamp()-1;
-				
-				$schedule[0] =& $sm->createScheduleItem($name." range","The start and end of the ".$name." Term",
-								$p = array(),$start,$end,null);
-				$term =& $this->createTerm($array['type'],$schedule);
-				$term->updateDisplayName($name);
+		//terms
+		if($makeTerms){
+
+			if (!isset($_SESSION['terms_have_been_taken_care_of'])) {
+
+				/*********************************************************
+				* Check for existing data in the database
+				*********************************************************/
+				$dbManager =& Services::getService("DatabaseManager");
+				$query =& new SelectQuery();
+				$query->addTable('cm_term');
+				$query->addColumn('id');
+				$res=& $dbManager->query($query);
+
+				//create terms only if the term table is empty
+				if(!$res->hasMoreRows()){
+					$sm =& Services::getService("Scheduling");
+					foreach($terms as $array){
+
+						$name = $array['name'];
+
+						$start = $array['start']->asUnixTimeStamp()*1000;
+						$end = $array['end']->asUnixTimeStamp()*1000-1;
+
+						$schedule[0] =& $sm->createScheduleItem($name." range","The start and end of the ".$name." Term",
+						$p = array(),$start,$end,null);
+						$term =& $this->createTerm($array['type'],$schedule);
+						$term->updateDisplayName($name);
+
+					}
+					$_SESSION['table_setup_complete'] = TRUE;
+				}
 			}
 		}
-
 	}
 
 	/**
@@ -350,24 +347,24 @@ extends CourseManagementManager
 	*
 	* @access public
 	*/
-	function deleteCanonicalCourse ( &$canonicalCourseId ) { 
-	
-	ArgumentValidator::validate($canonicalCourseId, ExtendsValidatorRule::getRule("Id"), true);
-	
-	$node =& $this->_hierarchy->getNode($canonicalCourseId);
-	$iterator =& $node->getChildren();
-	if($iterator->hasNextNode()){
-		print "<b>Warning!</b>  Can't delete CanonicalCourses without deleting the CourseOfferings and the CanonicalCourse children first.";
-		return;
-	}
-	$this->_hierarchy->deleteNode($canonicalCourseId);
+	function deleteCanonicalCourse ( &$canonicalCourseId ) {
+
+		ArgumentValidator::validate($canonicalCourseId, ExtendsValidatorRule::getRule("Id"), true);
+
+		$node =& $this->_hierarchy->getNode($canonicalCourseId);
+		$iterator =& $node->getChildren();
+		if($iterator->hasNextNode()){
+			print "<b>Warning!</b>  Can't delete CanonicalCourses without deleting the CourseOfferings and the CanonicalCourse children first.";
+			return;
+		}
+		$this->_hierarchy->deleteNode($canonicalCourseId);
 
 
-	$dbManager =& Services::getService("DatabaseManager");
-	$query=& new DeleteQuery;
-	$query->setTable('cm_can');
-	$query->addWhere("id=".addslashes($canonicalCourseId->getIdString()));
-	$dbManager->query($query);
+		$dbManager =& Services::getService("DatabaseManager");
+		$query=& new DeleteQuery;
+		$query->setTable('cm_can');
+		$query->addWhere("id=".addslashes($canonicalCourseId->getIdString()));
+		$dbManager->query($query);
 	}
 
 	/**
@@ -798,7 +795,7 @@ extends CourseManagementManager
 		$query->setTable('cm_term');
 		$query->addWhere("id=".addslashes($termId->getIdString()));
 		$dbManager->query($query);
-		
+
 		$query=& new DeleteQuery;
 		$query->setTable('cm_schedule');
 		$query->addWhere("fk_id=".addslashes($termId->getIdString()));
@@ -1197,14 +1194,14 @@ extends CourseManagementManager
 	function &createCourseGradeRecord ( &$agentId, &$courseOfferingId, &$courseGradeType, &$courseGrade ) {
 		$idManager =& Services::getService("IdManager");
 		$dbManager=& Services::getService("DatabaseManager");
-		
+
 
 		$courseOffering =& $this->getCourseOffering($courseOfferingId);
 		if($courseGradeType!=null && !$courseGradeType->isEqual($courseOffering->getGradeType())){
 			throwError(new Error("Cannot create a CourseGradeRecord if the GradeType differs from the CourseOffering","CourseManagementManager",true));
 		}
 
-		
+
 		$query=& new InsertQuery;
 
 		$query->setTable('cm_grade_rec');
@@ -1254,8 +1251,8 @@ extends CourseManagementManager
 
 		ArgumentValidator::validate($courseGradeRecordId, ExtendsValidatorRule::getRule("Id"), true);
 
-		
-		
+
+
 		$dbManager =& Services::getService("DatabaseManager");
 		$query=& new DeleteQuery;
 
@@ -1408,17 +1405,17 @@ extends CourseManagementManager
 	* @access public
 	*/
 	function deleteCourseGroup ( &$courseGroupId ) {
-		
+
 		ArgumentValidator::validate($courseGroupId, ExtendsValidatorRule::getRule("Id"), true);
-		
+
 		//we can't delete non-root nodes, so first break all the connections
 		$node =& $this->_hierarchy->getNode($courseGroupId);
-		$nodeIterator = $node->getChildren();		
+		$nodeIterator = $node->getChildren();
 		while($nodeIterator->hasNextNode()){
-			$child =& $nodeIterator->nextNode();			
+			$child =& $nodeIterator->nextNode();
 			$child->removeParent($courseGroupId);
 		}
-		
+
 		//now we can delete the node
 		$this->_hierarchy->deleteNode($courseGroupId);
 	}
@@ -1569,7 +1566,7 @@ extends CourseManagementManager
 	*/
 	function &getCourseGroupTypes () {
 
-		
+
 		$parent =& $this->_hierarchy->getNode($this->_courseGroupsId);
 		$nodeIterator =& $parent->getChildren();
 		$arrayOfTypes = array();
@@ -1693,11 +1690,11 @@ extends CourseManagementManager
 		$query->addColumn('description');
 		$res=& $dbHandler->query($query);
 
-		
+
 		if(!$res->hasMoreRows()){
 			throwError(new Error("No Type has Id '".$index."' in table 'cm_".$typename."_type'","CourseManagement", true));
 		}
-		
+
 		//There should be exactly one result.  Convert it to a type and return it
 		//remember that the description is optional
 		$row = $res->getCurrentRow();
@@ -1818,11 +1815,11 @@ extends CourseManagementManager
 	*/
 	function _getField(&$id, $table, $key)
 	{
-	  	// Validate the Id
+		// Validate the Id
 		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"), true);
-	  
+
 		$idString = $id->getIdString();
-		
+
 		//just a select query
 		$dbHandler =& Services::getService("DBHandler");
 		$query=& new SelectQuery;
@@ -1830,11 +1827,11 @@ extends CourseManagementManager
 		$query->addWhere("id='".addslashes($idString)."'");
 		$query->addColumn(addslashes($key));
 		$res =& $dbHandler->query($query);
-		
+
 		if(!$res->hasMoreRows()){
 			throwError(new Error("Cannot get key '".$key."' from non-existant object with id '".$idString."'", "CourseManagement", true));
 		}
-		
+
 		$row = $res->getCurrentRow();
 		$ret=$row[$key];
 		return $ret;

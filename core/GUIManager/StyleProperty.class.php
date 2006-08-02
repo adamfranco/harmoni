@@ -32,7 +32,7 @@ require_once(HARMONI."GUIManager/StyleProperty.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StyleProperty.class.php,v 1.9 2006/06/02 15:56:06 cws-midd Exp $
+ * @version $Id: StyleProperty.class.php,v 1.10 2006/08/02 23:50:27 sporktim Exp $
  */
 class StyleProperty extends StylePropertyInterface {
 
@@ -103,8 +103,13 @@ class StyleProperty extends StylePropertyInterface {
 	 * @since 4/26/06
 	 */
 	function &getId () {
-		if (isset($this->_id))
+		if (isset($this->_id)){
 			return $this->_id;
+		}else{
+			$im =& Services::getService("Id");		
+			$this->_id = 	$im->createId();
+			return $this->_id;
+		}
 	}
 
 	/**
@@ -170,10 +175,10 @@ class StyleProperty extends StylePropertyInterface {
 	/**
 	 * Returns the StyleComponents of this StyleProperty in a suitable
 	 * for CSS generation order.
-	 * @access public
+	 * @access public$this->_SCs
 	 * @return array An array of the StyleComponents of this StyleProperty.
 	 **/
-	function getSCs() {
+	function &getSCs() {
 		return $this->_SCs;
 	}
 	

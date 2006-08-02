@@ -28,7 +28,7 @@ require_once(HARMONI."GUIManager/StyleCollection.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StyleCollection.class.php,v 1.11 2006/06/02 15:56:06 cws-midd Exp $
+ * @version $Id: StyleCollection.class.php,v 1.12 2006/08/02 23:50:27 sporktim Exp $
  */
 class StyleCollection extends StyleCollectionInterface {
 
@@ -99,6 +99,9 @@ class StyleCollection extends StyleCollectionInterface {
 	 * @param string description The description of this StyleCollection.
 	 **/
 	function StyleCollection($selector, $classSelector, $displayName, $description) {
+		if(func_num_args()<=3){
+			throwError(new Error("Too few arguments--only ".func_num_args()." of 4","GUIManager",true));	
+		}		
 		$this->_selector = $selector;
 		$this->_classSelector = $classSelector;
 		$this->_SPs = array();
@@ -116,7 +119,7 @@ class StyleCollection extends StyleCollectionInterface {
 	 */
 	function setId (&$id) {
 		if (!is_object($id))
-			throwError(new Error("GUIMANAGER", "STRING ID PASSED"));
+			throwError(new Error("String Id Passed","GUIManager",true));
 		$this->_id =& $id;
 	}
 	
@@ -128,8 +131,13 @@ class StyleCollection extends StyleCollectionInterface {
 	 * @since 4/26/06
 	 */
 	function &getId () {
-		if (isset($this->_id))
+		if (isset($this->_id)){
 			return $this->_id;
+		}else{
+			$im =& Services::getService("Id");		
+			$this->_id = 	$im->createId();
+			return $this->_id;
+		}
 	}
 
 	/**

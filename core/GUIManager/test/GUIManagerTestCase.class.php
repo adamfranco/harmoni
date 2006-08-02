@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GUIManagerTestCase.class.php,v 1.10 2005/08/11 17:58:36 cws-midd Exp $
+ * @version $Id: GUIManagerTestCase.class.php,v 1.11 2006/08/02 23:50:28 sporktim Exp $
  */
 require_once(HARMONI."GUIManager/GUIManager.class.php");
 require_once(HARMONI."GUIManager/Theme.class.php");
@@ -20,7 +20,7 @@ require_once(HARMONI."GUIManager/Theme.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GUIManagerTestCase.class.php,v 1.10 2005/08/11 17:58:36 cws-midd Exp $
+ * @version $Id: GUIManagerTestCase.class.php,v 1.11 2006/08/02 23:50:28 sporktim Exp $
  */
 
     class GUIManagerTestCase extends UnitTestCase {
@@ -37,12 +37,13 @@ require_once(HARMONI."GUIManager/Theme.class.php");
 		*    @access public
 		*/
 		function setUp() {
-			$dbHandler=&Services::getService("DatabaseManager");
-			$dbIndex = $dbHandler->addDatabase( new MySQLDatabase("devo","doboHarmoniTest","test","test") );
-			$dbHandler->connect($dbIndex);
-			unset($dbHandler); // done with that for now
+			//$dbHandler=&Services::getService("DatabaseManager");
+			//$dbIndex = $dbHandler->addDatabase( new MySQLDatabase("devo","doboHarmoniTest","test","test") );
+			//$dbHandler->connect($dbIndex);
+			//unset($dbHandler); // done with that for now
 			
-			$this->manager =& new GUIManager($dbIndex, "doboHarmoniTest");
+			//$this->manager =& new GUIManager($dbIndex, "doboHarmoniTest");
+			$this->manager =& Services::getService("GUI");
 		}
 		
 		/**
@@ -53,9 +54,9 @@ require_once(HARMONI."GUIManager/Theme.class.php");
 			// perhaps, unset $obj here
 		}
 	
-		function test_constructor() {
+		function test_constructor() {			
 			$this->assertTrue(is_int($this->manager->_dbIndex));
-			$this->assertIdentical($this->manager->_guiDB, "doboHarmoniTest");
+			$this->assertTrue(is_string($this->manager->_dbName));
 		}
 	
 		function test_db_methods() {
@@ -68,7 +69,9 @@ require_once(HARMONI."GUIManager/Theme.class.php");
 			$sp3 =& new FontSP("Verdana", "10pt");
 			$id3 = $theme->registerSP($sp3);
 			
-			$id =& $this->manager->saveThemeState($theme);
+			$this->manager->setTheme($theme);
+			$this->manager->saveTheme();
+			$id =& $theme->getId();
 			$this->assertIsA($id, "HarmoniId");
 			
 			$theme1 =& new Theme("Master", "And Servant");
@@ -80,10 +83,10 @@ require_once(HARMONI."GUIManager/Theme.class.php");
 			$sp3 =& new FontSP("Arial", "9pt");
 			$id3 = $theme1->registerSP($sp3);
 			
-			$this->manager->loadThemeState($id, $theme1);
-			
-			$this->assertIdentical($theme, $theme1);
-			
+			$this->manager->loadTheme($id);
+			$themea =& $this->manager->getTheme();
+			$this->assertIdentical($theme, $themea);
+				
 			/*** testing method replaceThemeState ***/
 			$theme2 =& new Theme("Master", "And Servant");
 
@@ -94,8 +97,9 @@ require_once(HARMONI."GUIManager/Theme.class.php");
 			$sp3 =& new FontSP("Arial", "9pt");
 			$id3 = $theme2->registerSP($sp3);
 			
-			$this->manager->replaceThemeState($id, $theme2);
-			$this->manager->loadThemeState($id, $theme1);
+			$this->manager->saveTheme($id, $theme2);
+			$this->manager->loadTheme($id, $theme1);
+
 			$this->assertIdentical($theme2,$theme1);
 			
 			/*** testing method deleteThemeState ***/
@@ -105,7 +109,7 @@ require_once(HARMONI."GUIManager/Theme.class.php");
 			$dbHandler->connect($dbIndex);
 			
 			
-			$this->manager->deleteThemeState($id);
+			$this->manager->deleteTheme($id);
 			$idValue = $id->getIdString();
 			$query =& new SelectQuery;
 			$query->addColumn("gui_theme");

@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ThemesTestCase.class.php,v 1.10 2005/04/07 16:33:27 adamfranco Exp $
+ * @version $Id: ThemesTestCase.class.php,v 1.11 2006/08/02 23:50:28 sporktim Exp $
  */
  
 require_once(HARMONI."GUIManager/Theme.class.php");
@@ -28,7 +28,7 @@ require_once(HARMONI."GUIManager/StyleProperties/FontSP.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ThemesTestCase.class.php,v 1.10 2005/04/07 16:33:27 adamfranco Exp $
+ * @version $Id: ThemesTestCase.class.php,v 1.11 2006/08/02 23:50:28 sporktim Exp $
  */
 
     class ThemesTestCase extends UnitTestCase {
@@ -104,7 +104,7 @@ require_once(HARMONI."GUIManager/StyleProperties/FontSP.class.php");
 		// test registering and exporting sps
 		function test_register_sps() {
 			$theme =& new Theme("Master", "And Servant");
-
+			
 			$sp1 =& new BackgroundColorSP("#FFFCF0");
 			$id1 = $theme->registerSP($sp1);
 			$sp2 =& new ColorSP("#2E2B33");
@@ -115,32 +115,32 @@ require_once(HARMONI."GUIManager/StyleProperties/FontSP.class.php");
 			$this->assertReference($sp1, $theme->getRegisteredSP($id1));
 			$this->assertReference($sp2, $theme->getRegisteredSP($id2));
 			$this->assertReference($sp3, $theme->getRegisteredSP($id3));
-			
 			$exportData1 = $theme->exportRegisteredSP($id1);
-			$this->assertIdentical($exportData1, array("#FFFCF0"));
+			
+			
+			
+			
+			$this->assertIdentical($exportData1, array("colorsc" => "#FFFCF0"));
 			$exportData2 = $theme->exportRegisteredSP($id2);
-			$this->assertIdentical($exportData2, array("#2E2B33"));
+			$this->assertIdentical($exportData2, array("colorsc" => "#2E2B33"));
 			$exportData3 = $theme->exportRegisteredSP($id3);
-			$this->assertIdentical($exportData3, array("10pt", "Verdana"));
-		
+			$this->assertIdentical($exportData3, array("fontsizesc" => "10pt", "fontfamilysc" =>"Verdana"));
 			$exportData4 = $theme->exportAllRegisteredSPs();
 			$this->assertIdentical($exportData4, array($id1 => $exportData1, 
 													   $id2 => $exportData2, 
 													   $id3 => $exportData3));
-													   
+									   
 			$sp3_copy = $sp3;
 			$theme->importRegisteredSP($id3, $exportData3);
 			$this->assertIdentical($sp3, $sp3_copy);
 
 			// ***
-			
-			$bodyStyle =& new StyleCollection("body", "hey", "Body Style", "Global style settings.");
+			$bodyStyle =& new StyleCollection("body", "hey", "Body Style", "Global style settings.");	
 			$bodyStyle->addSP($sp2);
-
 			$theme->addGlobalStyle($bodyStyle);
-			$theme->importRegisteredSP($id2, array("#AAA"));
+			$theme->importRegisteredSP($id2, array("colorsc" =>"#AAA"));
 			$sp2a =& $bodyStyle->_SPs["color"];
-			$this->assertIdentical($sp2a->_SCs[0]->getValue(), "#AAA");
+			$this->assertIdentical($sp2a->_SCs["colorsc"]->getValue(), "#AAA");
 
 		}
 
@@ -153,8 +153,7 @@ require_once(HARMONI."GUIManager/StyleProperties/FontSP.class.php");
 			$menu =& new Menu(new XLayout(), 4, $menuStyle);			
 			
 			$theme =& new MenuThemeAbstract("Master", "And Servant");
-			$theme->setMenu($menu, 1);
-			
+			$theme->addMenu($menu, 1);
 			$menu1 =& $theme->getMenu(1);
 			$this->assertReference($menu, $menu1);
 		}

@@ -42,7 +42,7 @@ require_once(HARMONI."GUIManager/StyleProperties/FloatSP.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SimpleTheme1.class.php,v 1.4 2005/02/07 21:38:17 adamfranco Exp $
+ * @version $Id: SimpleTheme1.class.php,v 1.5 2006/08/02 23:50:27 sporktim Exp $
  */
 class SimpleTheme1 extends Theme {
 
@@ -52,7 +52,7 @@ class SimpleTheme1 extends Theme {
 	 * @access public
 	 **/
 	function SimpleTheme1() {
-		$this->Theme("Simple Lines Theme", "A basic theme based on simple borders and colored blocks.");
+		$this->Theme("Simple Theme One", "A basic theme based on simple borders and colored blocks.");
 		
 		// =====================================================================
 		// global Theme style
@@ -72,7 +72,7 @@ class SimpleTheme1 extends Theme {
 		$links_hover->addSP(new TextDecorationSP("underline"));
 		$this->addGlobalStyle($links_hover);
 
-		$person =& new StyleCollection("*.person", "person");
+		$person =& new StyleCollection("*.person", "person","Person","Person?");
 		$person->addSP(new TextAlignSP("left"));
 		$this->addGlobalStyle($person, BLOCK, 1);
 		
