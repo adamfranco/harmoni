@@ -6,6 +6,11 @@
 	</style><div style="font-family: Verdana; font-size: 12px;"><h1>Harmoni ChangeLog</h1><h2>Version 0.7.3</h2><h3>2006-08-02</h3><ul>
 		<li/> Bug Fix:
 	 
+			Chronology: Now does not die when fromString is called on an invalid date.
+			Returns false instead.
+		 (<i>Adam Franco</i>)
+		<li/> Bug Fix:
+	 
 			Repository: Now enforces deleting of file/thumbnail data properly. 
 			Previously, file records were being orphened when assets were deleted.
 		 (<i>Adam Franco</i>)

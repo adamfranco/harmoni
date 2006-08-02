@@ -1,12 +1,12 @@
 <?php
 /**
  * @since 5/2/05
- * @package harmoni.primitives.chronology
+ * @package harmoni.chronology
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTime.class.php,v 1.4 2006/06/26 12:55:07 adamfranco Exp $
+ * @version $Id: DateAndTime.class.php,v 1.3.2.1 2006/08/02 19:43:09 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -59,12 +59,12 @@ require_once(dirname(__FILE__)."/../Magnitudes/Magnitude.class.php");
  *		- {@link yesterday DateAndTime::yesterday()}
  * 
  * @since 5/2/05
- * @package harmoni.primitives.chronology
+ * @package harmoni.chronology
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTime.class.php,v 1.4 2006/06/26 12:55:07 adamfranco Exp $
+ * @version $Id: DateAndTime.class.php,v 1.3.2.1 2006/08/02 19:43:09 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -207,8 +207,11 @@ class DateAndTime
 	function &fromString ( $aString, $class = 'DateAndTime' ) {
 		$parser =& StringParser::getParserFor($aString);
 		
-		if (!$parser)
-			die("'".$aString."' is not in a valid format.");
+		if (!$parser) {
+ 			$null = null;
+ 			return $null;
+			// die("'".$aString."' is not in a valid format.");
+		}
 		
 		if (!is_null($parser->offsetHour()))
 			eval('$result =& '.$class.'::withYearMonthDayHourMinuteSecondOffset(

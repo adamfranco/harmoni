@@ -1,12 +1,12 @@
 <?php
 /**
  * @since 5/23/05
- * @package harmoni.primitives.chronology.string_parsers
+ * @package harmoni.chronology.string_parsers
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StringParser.class.php,v 1.4 2006/06/26 12:55:08 adamfranco Exp $
+ * @version $Id: StringParser.class.php,v 1.3.2.1 2006/08/02 19:43:09 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -49,12 +49,12 @@ require_once(dirname(__FILE__)."/../Month.class.php");
  * To create new StringParsers, implement the canHandle() and parse() methods.
  * 
  * @since 5/23/05
- * @package harmoni.primitives.chronology.string_parsers
+ * @package harmoni.chronology.string_parsers
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StringParser.class.php,v 1.4 2006/06/26 12:55:08 adamfranco Exp $
+ * @version $Id: StringParser.class.php,v 1.3.2.1 2006/08/02 19:43:09 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -104,8 +104,10 @@ class StringParser
 		
 		if ($handled && is_object($parser))
 			return $parser;
-		else
-			return FALSE;
+		else {
+			$false = false;
+			return $false;
+		}
 	}
 
 /*********************************************************

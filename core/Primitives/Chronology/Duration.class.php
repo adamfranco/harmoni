@@ -1,12 +1,12 @@
 <?php
 /**
  * @since 5/2/05
- * @package harmoni.primitives.chronology
+ * @package harmoni.chronology
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Duration.class.php,v 1.3 2006/06/26 12:55:07 adamfranco Exp $
+ * @version $Id: Duration.class.php,v 1.2.2.1 2006/08/02 19:43:09 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -36,12 +36,12 @@ require_once(dirname(__FILE__)."/../Magnitudes/Magnitude.class.php");
  *		- {@link zero Duration::zero()}
  * 
  * @since 5/2/05
- * @package harmoni.primitives.chronology
+ * @package harmoni.chronology
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Duration.class.php,v 1.3 2006/06/26 12:55:07 adamfranco Exp $
+ * @version $Id: Duration.class.php,v 1.2.2.1 2006/08/02 19:43:09 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -66,8 +66,11 @@ class Duration
  	function &fromString ( $aString ) {
  		$parser =& new ANSI58216StringParser ($aString);
  		
- 		if (!$parser)
-			die("'".$aString."' is not in a valid format.");
+ 		if (!$parser) {
+ 			$null = null;
+ 			return $null;
+			// die("'".$aString."' is not in a valid format.");
+		}
 		
 		$obj =& Duration::withDaysHoursMinutesSeconds(
 					$parser->day(), $parser->hour(), $parser->minute(), $parser->second());

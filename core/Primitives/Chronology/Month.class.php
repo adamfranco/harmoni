@@ -1,12 +1,12 @@
 <?php
 /**
  * @since 5/4/05
- * @package harmoni.primitives.chronology
+ * @package harmoni.chronology
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Month.class.php,v 1.2 2006/06/26 12:55:07 adamfranco Exp $
+ * @version $Id: Month.class.php,v 1.1.2.1 2006/08/02 19:43:09 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -29,12 +29,12 @@ require_once(dirname(__FILE__)."/Timespan.class.php");
  *		- {@link withMonthYear Month::withMonthYear($anIntegerOrStringMonth, $anIntYear)}
  * 
  * @since 5/4/05
- * @package harmoni.primitives.chronology
+ * @package harmoni.chronology
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Month.class.php,v 1.2 2006/06/26 12:55:07 adamfranco Exp $
+ * @version $Id: Month.class.php,v 1.1.2.1 2006/08/02 19:43:09 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -183,8 +183,11 @@ class Month
 	function &fromString ( $aString, $class = 'Month' ) {
 		$parser =& StringParser::getParserFor($aString);
 		
-		if (!$parser)
-			die("'".$aString."' is not in a valid format.");
+		if (!$parser){
+ 			$null = null;
+ 			return $null;
+			// die("'".$aString."' is not in a valid format.");
+		}
 		
 		eval('$result =& '.$class.'::withMonthYear($parser->month(), 
 					$parser->year(), $class);');

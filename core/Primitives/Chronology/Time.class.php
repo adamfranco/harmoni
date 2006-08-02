@@ -1,12 +1,12 @@
 <?php
 /**
  * @since 5/5/05
- * @package harmoni.primitives.chronology
+ * @package harmoni.chronology
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Time.class.php,v 1.3 2006/06/26 12:55:07 adamfranco Exp $
+ * @version $Id: Time.class.php,v 1.2.2.1 2006/08/02 19:43:09 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -36,12 +36,12 @@ require_once(dirname(__FILE__)."/Year.class.php");
  *		- {@link withSeconds Time::withSeconds($anIntSeconds)}
  * 
  * @since 5/5/05
- * @package harmoni.primitives.chronology
+ * @package harmoni.chronology
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Time.class.php,v 1.3 2006/06/26 12:55:07 adamfranco Exp $
+ * @version $Id: Time.class.php,v 1.2.2.1 2006/08/02 19:43:09 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -79,8 +79,11 @@ class Time
 	function &fromString ( $aString, $class = 'Time' ) {
 		$parser =& StringParser::getParserFor($aString);
 		
-		if (!$parser)
-			die("'".$aString."' is not in a valid format.");
+		if (!$parser) {
+ 			$null = null;
+ 			return $null;
+			// die("'".$aString."' is not in a valid format.");
+		}
 		
 		eval('$result =& '.$class.'::withHourMinuteSecond($parser->hour(),
 						$parser->minute(), $parser->second(), $class);');

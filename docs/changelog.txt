@@ -6,6 +6,8 @@ Name: Harmoni ChangeLog
 v. 0.7.3 (2006-08-02)
 ----------------------------------------------------
 		
+	* Bug Fix: Chronology: Now does not die when fromString is called on an invalid date. Returns false instead. (Adam Franco)
+		
 	* Bug Fix: Repository: Now enforces deleting of file/thumbnail data properly. Previously, file records were being orphened when assets were deleted. (Adam Franco)
 		
 	* Bug Fix: Authorization: Now calls addslashes() on agent and group ids to prevent errors when those ids contain apostrophes. (Adam Franco)
