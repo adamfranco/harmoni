@@ -3,6 +3,17 @@
 Name: Harmoni ChangeLog
 
 
+v. 0.7.3 (2006-08-02)
+----------------------------------------------------
+		
+	* Bug Fix: Repository: Now enforces deleting of file/thumbnail data properly. Previously, file records were being orphened when assets were deleted. (Adam Franco)
+		
+	* Bug Fix: Authorization: Now calls addslashes() on agent and group ids to prevent errors when those ids contain apostrophes. (Adam Franco)
+		
+	* Bug Fix: Logging: Improved performance of the LogEntryIterator to make a more reponsive interface. (Adam Franco)
+		
+	* Change: Logging: Errors now log the query string as well as the referer to better trace errors. (Adam Franco)
+	
 v. 0.7.2 (2006-07-21)
 ----------------------------------------------------
 		

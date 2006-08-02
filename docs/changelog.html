@@ -3,7 +3,27 @@
 	h1, h2 {color: #005;}
 	h1 {font-size: 18pt;}
 	li {padding-bottom: 3px;}
-	</style><div style="font-family: Verdana; font-size: 12px;"><h1>Harmoni ChangeLog</h1><h2>Version 0.7.2</h2><h3>2006-07-21</h3><ul>
+	</style><div style="font-family: Verdana; font-size: 12px;"><h1>Harmoni ChangeLog</h1><h2>Version 0.7.3</h2><h3>2006-08-02</h3><ul>
+		<li/> Bug Fix:
+	 
+			Repository: Now enforces deleting of file/thumbnail data properly. 
+			Previously, file records were being orphened when assets were deleted.
+		 (<i>Adam Franco</i>)
+		<li/> Bug Fix:
+	 
+			Authorization: Now calls addslashes() on agent and group ids to prevent
+			errors when those ids contain apostrophes.
+		 (<i>Adam Franco</i>)
+		<li/> Bug Fix:
+	 
+			Logging: Improved performance of the LogEntryIterator to
+			make a more reponsive interface.
+		 (<i>Adam Franco</i>)
+		<li/> Change:  
+			Logging: Errors now log the query string as well as the referer to
+			better trace errors.
+		 (<i>Adam Franco</i>)
+	</ul><br/><h2>Version 0.7.2</h2><h3>2006-07-21</h3><ul>
 		<li/> Bug Fix:
 	 
 			ImageProcessor: Now doesn't try to convert text files as images.
