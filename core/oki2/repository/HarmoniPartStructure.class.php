@@ -21,7 +21,7 @@ require(OKI2."osid/repository/PartStructure.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniPartStructure.class.php,v 1.17 2006/06/08 15:53:50 adamfranco Exp $  
+ * @version $Id: HarmoniPartStructure.class.php,v 1.17.2.1 2006/08/03 16:57:22 adamfranco Exp $  
  */
 class HarmoniPartStructure extends PartStructure
 //	extends java.io.Serializable
@@ -442,8 +442,11 @@ class HarmoniPartStructure extends PartStructure
 			$this->_loadAuthoritativeValueStrings();
 			$this->_authoritativeValueObjects = array();
 			
-			foreach ($this->_authoritativeValueStrings as $valueString)
-				eval('$this->_authoritativeValueObjects[$valueString] =& '.$class.'::fromString($valueString);');
+			foreach ($this->_authoritativeValueStrings as $valueString) {
+				eval('$valueObject =& '.$class.'::fromString($valueString);');
+				if ($valueObject)
+					$this->_authoritativeValueObjects[$valueString] =& $valueObject;				
+			}
 		}
 		$iterator =& new HarmoniIterator($this->_authoritativeValueObjects);
 		return $iterator;
