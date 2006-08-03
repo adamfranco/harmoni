@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Date.class.php,v 1.1.2.1 2006/08/02 19:43:09 adamfranco Exp $
+ * @version $Id: Date.class.php,v 1.1.2.2 2006/08/03 16:57:40 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -40,7 +40,7 @@ require_once(dirname(__FILE__)."/DateAndTime.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Date.class.php,v 1.1.2.1 2006/08/02 19:43:09 adamfranco Exp $
+ * @version $Id: Date.class.php,v 1.1.2.2 2006/08/03 16:57:40 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -122,7 +122,7 @@ class Date
 	function &fromString ( $aString, $class = 'Date' ) {
 		$parser =& StringParser::getParserFor($aString);
 		
-		if (!$parser){
+		if (!is_string($aString) || !preg_match('/[^\W]/', $aString) || !$parser) {
  			$null = null;
  			return $null;
 			// die("'".$aString."' is not in a valid format.");
