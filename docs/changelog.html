@@ -3,7 +3,18 @@
 	h1, h2 {color: #005;}
 	h1 {font-size: 18pt;}
 	li {padding-bottom: 3px;}
-	</style><div style="font-family: Verdana; font-size: 12px;"><h1>Harmoni ChangeLog</h1><h2>Version 0.7.3</h2><h3>2006-08-02</h3><ul>
+	</style><div style="font-family: Verdana; font-size: 12px;"><h1>Harmoni ChangeLog</h1><h2>Version 0.7.4</h2><h3>2006-08-04</h3><ul>
+		<li/> Bug Fix:
+	 
+			Chronology: fromString() methods now return null for invalid strings
+			rather than doing a die(). 
+		 (<i>Adam Franco</i>)
+		<li/> Bug Fix:
+	 
+			Repository: Authoritative values are now only added if a valid
+			data object is passed.
+		 (<i>Adam Franco</i>)
+	</ul><br/><h2>Version 0.7.3</h2><h3>2006-08-02</h3><ul>
 		<li/> Bug Fix:
 	 
 			Chronology: Now does not die when fromString is called on an invalid date.

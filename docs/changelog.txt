@@ -3,6 +3,13 @@
 Name: Harmoni ChangeLog
 
 
+v. 0.7.4 (2006-08-04)
+----------------------------------------------------
+		
+	* Bug Fix: Chronology: fromString() methods now return null for invalid strings rather than doing a die(). (Adam Franco)
+		
+	* Bug Fix: Repository: Authoritative values are now only added if a valid data object is passed. (Adam Franco)
+	
 v. 0.7.3 (2006-08-02)
 ----------------------------------------------------
 		
