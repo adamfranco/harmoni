@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HTTPAuthNamePassTokenCollector.class.php,v 1.2.4.1 2006/08/04 19:54:47 adamfranco Exp $
+ * @version $Id: HTTPAuthNamePassTokenCollector.class.php,v 1.2.4.2 2006/08/07 15:16:49 adamfranco Exp $
  */ 
 
 require_once(dirname(__FILE__)."/NamePassTokenCollector.abstract.php");
@@ -19,7 +19,7 @@ require_once(dirname(__FILE__)."/NamePassTokenCollector.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HTTPAuthNamePassTokenCollector.class.php,v 1.2.4.1 2006/08/04 19:54:47 adamfranco Exp $
+ * @version $Id: HTTPAuthNamePassTokenCollector.class.php,v 1.2.4.2 2006/08/07 15:16:49 adamfranco Exp $
  */
 class HTTPAuthNamePassTokenCollector
 	extends NamePassTokenCollector
@@ -36,7 +36,7 @@ class HTTPAuthNamePassTokenCollector
 		
 		if ((isset($_SESSION['__LastLoginTokens']) 
 				&& 	md5($_SERVER['PHP_AUTH_USER'].$_SERVER['PHP_AUTH_PW'])
-			 		== $_SESSION['__LastLoginTokens']) 
+			 		!= $_SESSION['__LastLoginTokens']) 
 			 || !$_SERVER['PHP_AUTH_USER']) 
 		{
 			$this->prompt();
