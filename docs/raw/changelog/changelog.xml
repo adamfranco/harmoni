@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.130.2.8 2006/08/07 15:20:50 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.130.2.9 2006/08/07 16:57:10 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -14,9 +14,10 @@
 			to allow HTTP authentication (interrupting the execution cycle) to 
 			update the currently authenticated agent.
 		</fix>
-		<fix author='adam'>
-			Authentication: Fixing what I think is a logic error in HTTP authentication.
-		</fix>
+		<change author='adam'>
+			Authentication: Now can pass custom relm and callback function to 
+			execute on cancel for the HTTP authentication.
+		</change>
 	</version>
 	<version number="0.7.4" date="2006-08-04">
 		<fix author='adam'>

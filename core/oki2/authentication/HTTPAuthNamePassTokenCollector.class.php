@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HTTPAuthNamePassTokenCollector.class.php,v 1.2.4.2 2006/08/07 15:16:49 adamfranco Exp $
+ * @version $Id: HTTPAuthNamePassTokenCollector.class.php,v 1.2.4.3 2006/08/07 16:57:09 adamfranco Exp $
  */ 
 
 require_once(dirname(__FILE__)."/NamePassTokenCollector.abstract.php");
@@ -19,11 +19,33 @@ require_once(dirname(__FILE__)."/NamePassTokenCollector.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HTTPAuthNamePassTokenCollector.class.php,v 1.2.4.2 2006/08/07 15:16:49 adamfranco Exp $
+ * @version $Id: HTTPAuthNamePassTokenCollector.class.php,v 1.2.4.3 2006/08/07 16:57:09 adamfranco Exp $
  */
 class HTTPAuthNamePassTokenCollector
 	extends NamePassTokenCollector
 {
+	
+	/**
+	 * Constructor, pass params
+	 * 
+	 * @param <##>
+	 * @return <##>
+	 * @access public
+	 * @since 8/7/06
+	 */
+	function HTTPAuthNamePassTokenCollector ($relm = null, $cancelFunction = null) 
+	{
+		if (is_null($relm))
+			$this->relm = "Harmoni-protected Realm";
+		else
+			$this->relm = $relm;
+		
+		if (is_null($cancelFunction))
+			$this->cancelFunction = '$this->printCancelMessage();';
+		else
+			$this->cancelFunction = $cancelFunction;
+	}
+	
 	/**
 	 * Run the token collection sequence involving prompting for and collecting
 	 * tokens.
@@ -36,8 +58,8 @@ class HTTPAuthNamePassTokenCollector
 		
 		if ((isset($_SESSION['__LastLoginTokens']) 
 				&& 	md5($_SERVER['PHP_AUTH_USER'].$_SERVER['PHP_AUTH_PW'])
-			 		!= $_SESSION['__LastLoginTokens']) 
-			 || !$_SERVER['PHP_AUTH_USER']) 
+			 		== $_SESSION['__LastLoginTokens']) 
+			 || !isset($_SERVER['PHP_AUTH_USER']) || !$_SERVER['PHP_AUTH_USER']) 
 		{
 			$this->prompt();
 		}
@@ -56,11 +78,9 @@ class HTTPAuthNamePassTokenCollector
 	 * @since 3/16/05
 	 */
 	function prompt () {
-		header("WWW-Authenticate: Basic realm=\"Harmoni-protected Realm\"");
+		header("WWW-Authenticate: Basic realm=\"".$this->relm."\"");
 		header('HTTP/1.0 401 Unauthorized');
-		print "The Username/Password pair that you entered were not valid.";
-		print "<br />Please go back";
-		print " and try again.";
+		eval($this->cancelFunction);
 		exit;
 	}
 	
@@ -86,6 +106,20 @@ class HTTPAuthNamePassTokenCollector
 	 */
 	function collectPassword () {
 		return $_SERVER['PHP_AUTH_PW'];
+	}
+	
+	/**
+	 * Print out a message if the user hits cancel in the HTTP authentication
+	 * dialog.
+	 * 
+	 * @return void
+	 * @access public
+	 * @since 8/7/06
+	 */
+	function printCancelMessage () {
+		print "The Username/Password pair that you entered were not valid.";
+		print "<br />Please go back";
+		print " and try again.";
 	}
 }
 
