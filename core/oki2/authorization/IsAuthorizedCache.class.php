@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: IsAuthorizedCache.class.php,v 1.3.2.1 2006/08/01 18:32:17 adamfranco Exp $
+ * @version $Id: IsAuthorizedCache.class.php,v 1.3.2.2 2006/08/07 15:20:50 adamfranco Exp $
  */ 
 
 /**
@@ -69,7 +69,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: IsAuthorizedCache.class.php,v 1.3.2.1 2006/08/01 18:32:17 adamfranco Exp $
+ * @version $Id: IsAuthorizedCache.class.php,v 1.3.2.2 2006/08/07 15:20:50 adamfranco Exp $
  */
 class IsAuthorizedCache {
 		
@@ -708,6 +708,19 @@ class IsAuthorizedCache {
 // 		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
 					
 		$queryResult =& $dbHandler->query($query, $dbIndex);
+	}
+	
+	/**
+	 * Unset the cache for the the user as the user has just changed.
+	 * 
+	 * @return void
+	 * @access public
+	 * @since 8/7/06
+	 */
+	function dirtyUser () {
+		unset($this->_agentIdStrings['USER']);
+		unset($_SESSION['__isAuthorizedCache']['USER']);
+		$_SESSION['__isAuthorizedCache']['USER'] = array();
 	}
 }
 

@@ -64,7 +64,7 @@ require_once(dirname(__FILE__)."/FormActionNamePassTokenCollector.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthenticationManager.class.php,v 1.22 2006/05/30 20:18:24 adamfranco Exp $
+ * @version $Id: HarmoniAuthenticationManager.class.php,v 1.22.2.1 2006/08/07 15:20:49 adamfranco Exp $
  */
 class HarmoniAuthenticationManager 
 	extends AuthenticationManager
@@ -232,6 +232,10 @@ class HarmoniAuthenticationManager
 				$authenticationTypeString = $this->_getTypeString($authenticationType);
 				$_SESSION['__AuthenticatedAgents'][$authenticationTypeString]
 					=& $agentId;
+				
+				// Ensure that the Authorization Cache gets the new users
+				$isAuthorizedCache =& IsAuthorizedCache::instance();
+				$isAuthorizedCache->dirtyUser();
 			}
 			
 			// Log the success or failure
