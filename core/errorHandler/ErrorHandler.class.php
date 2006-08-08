@@ -13,7 +13,7 @@ require_once(HARMONI."errorHandler/SimpleHTMLErrorPrinter.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ErrorHandler.class.php,v 1.16.2.1 2006/08/01 18:59:18 adamfranco Exp $
+ * @version $Id: ErrorHandler.class.php,v 1.16.2.2 2006/08/08 19:48:35 adamfranco Exp $
  */
 
 class ErrorHandler extends ErrorHandlerInterface{
@@ -140,7 +140,6 @@ class ErrorHandler extends ErrorHandlerInterface{
 				break;
 			}
 		}
-		printpre($_SERVER);
 		if (Services::serviceRunning("Logging") && !$errorLoggingRecursion) {
 			$loggingManager =& Services::getService("Logging");
 			$log =& $loggingManager->getLogForWriting("Harmoni");
@@ -153,7 +152,8 @@ class ErrorHandler extends ErrorHandlerInterface{
 			$item =& new AgentNodeEntryItem($error->getType(), $error->getDescription());
 			$item->setBacktrace($error->getDebugBacktrace());
 			$item->addTextToBactrace("\n<div><strong>REQUEST_URI: </strong>".$_SERVER['REQUEST_URI']."</div>");
-			$item->addTextToBactrace("\n<div><strong>HTTP_REFERER: </strong>".$_SERVER['HTTP_REFERER']."</div>");
+			if (isset($_SERVER['HTTP_REFERER']))
+				$item->addTextToBactrace("\n<div><strong>HTTP_REFERER: </strong>".$_SERVER['HTTP_REFERER']."</div>");
 			$log->appendLogWithTypes($item,	$formatType, $priorityType);
 			
 		}

@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.130.2.9 2006/08/07 16:57:10 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.130.2.10 2006/08/08 19:52:36 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -18,6 +18,9 @@
 			Authentication: Now can pass custom relm and callback function to 
 			execute on cancel for the HTTP authentication.
 		</change>
+		<fix author="adam">
+			ErrorHandler: Removed debugging line.
+		</fix>
 	</version>
 	<version number="0.7.4" date="2006-08-04">
 		<fix author='adam'>
