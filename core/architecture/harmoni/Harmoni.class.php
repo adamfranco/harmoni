@@ -28,7 +28,7 @@ $__harmoni = null;
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Harmoni.class.php,v 1.47 2005/12/20 16:28:28 adamfranco Exp $
+ * @version $Id: Harmoni.class.php,v 1.47.2.1 2006/08/09 18:28:34 adamfranco Exp $
  **/
 class Harmoni {
 
@@ -456,13 +456,25 @@ class Harmoni {
 	function startSession() {
 		// let's start the session
 		if (session_id()) return;
+		
+		ini_set("session.use_cookies",
+			($this->config->get("sessionUseCookies")?1:0));
+		ini_set("session.use_only_cookies",
+			($this->config->get("sessionUseOnlyCookies")?1:0));
+		
 		session_name($this->config->get("sessionName"));
-		if (!isset($_COOKIE[$this->config->get("sessionName")]) && !isset($_REQUEST[$this->config->get("sessionName")]))
+		
+		if (!isset($_COOKIE[$this->config->get("sessionName")]) 
+			&& (!isset($_REQUEST[$this->config->get("sessionName")])
+				&& !$this->config->get("sessionUseOnlyCookies")))
+		{
 			session_id(uniqid(str_replace(".","",$_SERVER['REMOTE_ADDR']))); // make new session id.
+		}
 		$path = $this->config->get("sessionCookiePath");
-		if ($path[strlen($path) - 1] != '/') $path .= '/';
-		session_set_cookie_params(0,$path,$this->config->get("sessionCookieDomain"));
-		ini_set("session.use_cookies",($this->config->get("sessionUseCookies")?1:0));
+		if ($path[strlen($path) - 1] != '/') 
+			$path .= '/';
+		
+		session_set_cookie_params(0, $path, $this->config->get("sessionCookieDomain"));
 		session_start(); // yay!
 	}
 

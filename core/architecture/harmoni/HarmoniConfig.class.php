@@ -13,7 +13,7 @@ require_once(HARMONI . "errorHandler/throw.inc.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniConfig.class.php,v 1.11 2006/01/18 14:57:09 adamfranco Exp $
+ * @version $Id: HarmoniConfig.class.php,v 1.11.2.1 2006/08/09 18:28:34 adamfranco Exp $
  */
 
 class HarmoniConfig extends DataContainer {
@@ -42,6 +42,8 @@ class HarmoniConfig extends DataContainer {
 		$this -> set("sessionName","Harmoni");
 		$this -> add("sessionUseCookies", BooleanValidatorRule::getRule());
 		$this -> set("sessionUseCookies",true);
+		$this -> add("sessionUseOnlyCookies", BooleanValidatorRule::getRule());
+		$this -> set("sessionUseOnlyCookies",true);
 		$this -> add("sessionCookiePath", FieldRequiredValidatorRule::getRule());
 		$this -> set("sessionCookiePath","/");
 		$this -> add("sessionCookieDomain", StringValidatorRule::getRule(), new Error("HarmoniConfig - You must set the 'sessionDomain' to the DNS domain you would like your session cookie sent to! (eg, '.mydomain.com')","Harmoni",true));
