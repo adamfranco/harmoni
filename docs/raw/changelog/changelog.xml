@@ -3,12 +3,16 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.130.2.10 2006/08/08 19:52:36 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.130.2.11 2006/08/09 18:30:34 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
 	<version number="0.7.5" date="The Future">
+		<fix author='adam'>
+			Now can force cookie usage to prevent accidental or intentional 
+			session hijacking by the passing of session ids in the url.
+		</fix>
 		<fix author='adam'>
 			Authentication/Authorization: Now can dirty the authentication cache 
 			to allow HTTP authentication (interrupting the execution cycle) to 
