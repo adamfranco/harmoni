@@ -3,7 +3,31 @@
 	h1, h2 {color: #005;}
 	h1 {font-size: 18pt;}
 	li {padding-bottom: 3px;}
-	</style><div style="font-family: Verdana; font-size: 12px;"><h1>Harmoni ChangeLog</h1><h2>Version 0.7.4</h2><h3>2006-08-04</h3><ul>
+	</style><div style="font-family: Verdana; font-size: 12px;"><h1>Harmoni ChangeLog</h1><h2>Version 0.7.5</h2><h3>2006-08-10</h3><ul>
+		<li/> Bug Fix:
+	 
+			Fixed incomplete method in RegexValidator rule.
+		 (<i>Adam Franco</i>)
+		<li/> Bug Fix:
+	 
+			Now can force cookie usage to prevent accidental or intentional 
+			session hijacking by the passing of session ids in the url.
+		 (<i>Adam Franco</i>)
+		<li/> Bug Fix:
+	 
+			Authentication/Authorization: Now can dirty the authentication cache 
+			to allow HTTP authentication (interrupting the execution cycle) to 
+			update the currently authenticated agent.
+		 (<i>Adam Franco</i>)
+		<li/> Change:  
+			Authentication: Now can pass custom relm and callback function to 
+			execute on cancel for the HTTP authentication.
+		 (<i>Adam Franco</i>)
+		<li/> Bug Fix:
+	 
+			ErrorHandler: Removed debugging line.
+		 (<i>Adam Franco</i>)
+	</ul><br/><h2>Version 0.7.4</h2><h3>2006-08-04</h3><ul>
 		<li/> Bug Fix:
 	 
 			Chronology: fromString() methods now return null for invalid strings

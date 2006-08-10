@@ -3,6 +3,19 @@
 Name: Harmoni ChangeLog
 
 
+v. 0.7.5 (2006-08-10)
+----------------------------------------------------
+		
+	* Bug Fix: Fixed incomplete method in RegexValidator rule. (Adam Franco)
+		
+	* Bug Fix: Now can force cookie usage to prevent accidental or intentional session hijacking by the passing of session ids in the url. (Adam Franco)
+		
+	* Bug Fix: Authentication/Authorization: Now can dirty the authentication cache to allow HTTP authentication (interrupting the execution cycle) to update the currently authenticated agent. (Adam Franco)
+		
+	* Change: Authentication: Now can pass custom relm and callback function to execute on cancel for the HTTP authentication. (Adam Franco)
+		
+	* Bug Fix: ErrorHandler: Removed debugging line. (Adam Franco)
+	
 v. 0.7.4 (2006-08-04)
 ----------------------------------------------------
 		

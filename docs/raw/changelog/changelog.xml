@@ -3,12 +3,12 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.130.2.12 2006/08/09 21:40:12 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.130.2.13 2006/08/10 20:24:07 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
-	<version number="0.7.5" date="The Future">
+	<version number="0.7.5" date="2006-08-10">
 		<fix author='adam'>
 			Fixed incomplete method in RegexValidator rule.
 		</fix>
