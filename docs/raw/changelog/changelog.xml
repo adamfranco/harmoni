@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.130.2.13 2006/08/10 20:24:07 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.130.2.14 2006/08/11 19:33:59 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -20,6 +20,11 @@
 			Authentication/Authorization: Now can dirty the authentication cache 
 			to allow HTTP authentication (interrupting the execution cycle) to 
 			update the currently authenticated agent.
+		</fix>
+		<fix author='adam'>
+			Authentication: Now passes an auth type key to the token collectors
+			to allow them to differentiate between prompting again for an auth type
+			and just trying to get the tokens for another auth type.
 		</fix>
 		<change author='adam'>
 			Authentication: Now can pass custom relm and callback function to 

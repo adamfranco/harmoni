@@ -64,7 +64,7 @@ require_once(dirname(__FILE__)."/FormActionNamePassTokenCollector.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthenticationManager.class.php,v 1.22.2.1 2006/08/07 15:20:49 adamfranco Exp $
+ * @version $Id: HarmoniAuthenticationManager.class.php,v 1.22.2.2 2006/08/11 19:33:58 adamfranco Exp $
  */
 class HarmoniAuthenticationManager 
 	extends AuthenticationManager
@@ -502,7 +502,7 @@ class HarmoniAuthenticationManager
 			$tokenCollector =& $this->_defaultTokenCollector;
 		}
 		
-		$tokens = $tokenCollector->collectTokens();
+		$tokens = $tokenCollector->collectTokens(Type::typeToString($authenticationType));
 		
 		
 		// if we have tokens, create an AuthNTokens object for them.

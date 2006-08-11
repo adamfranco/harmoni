@@ -12,6 +12,8 @@ v. 0.7.5 (2006-08-10)
 		
 	* Bug Fix: Authentication/Authorization: Now can dirty the authentication cache to allow HTTP authentication (interrupting the execution cycle) to update the currently authenticated agent. (Adam Franco)
 		
+	* Bug Fix: Authentication: Now passes an auth type key to the token collectors to allow them to differentiate between prompting again for an auth type and just trying to get the tokens for another auth type. (Adam Franco)
+		
 	* Change: Authentication: Now can pass custom relm and callback function to execute on cancel for the HTTP authentication. (Adam Franco)
 		
 	* Bug Fix: ErrorHandler: Removed debugging line. (Adam Franco)

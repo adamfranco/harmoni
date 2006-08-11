@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HTTPAuthNamePassTokenCollector.class.php,v 1.2.4.3 2006/08/07 16:57:09 adamfranco Exp $
+ * @version $Id: HTTPAuthNamePassTokenCollector.class.php,v 1.2.4.4 2006/08/11 19:33:58 adamfranco Exp $
  */ 
 
 require_once(dirname(__FILE__)."/NamePassTokenCollector.abstract.php");
@@ -19,7 +19,7 @@ require_once(dirname(__FILE__)."/NamePassTokenCollector.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HTTPAuthNamePassTokenCollector.class.php,v 1.2.4.3 2006/08/07 16:57:09 adamfranco Exp $
+ * @version $Id: HTTPAuthNamePassTokenCollector.class.php,v 1.2.4.4 2006/08/11 19:33:58 adamfranco Exp $
  */
 class HTTPAuthNamePassTokenCollector
 	extends NamePassTokenCollector
@@ -50,21 +50,24 @@ class HTTPAuthNamePassTokenCollector
 	 * Run the token collection sequence involving prompting for and collecting
 	 * tokens.
 	 * 
+	 * @param string $authTypeKey Allows the token colletor to know whether it
+	 * 			has prompted for tokens for the particular auth type yet, allowing
+	 *			one prompting to return tokens for each authtype in an execution cycle.
 	 * @return mixed
 	 * @access public
 	 * @since 3/18/05
 	 */
-	function collectTokens () {
+	function collectTokens ($authTypeKey) {
 		
-		if ((isset($_SESSION['__LastLoginTokens']) 
+		if ((isset($_SESSION['__LastLoginTokens '.$authTypeKey]) 
 				&& 	md5($_SERVER['PHP_AUTH_USER'].$_SERVER['PHP_AUTH_PW'])
-			 		== $_SESSION['__LastLoginTokens']) 
+			 		== $_SESSION['__LastLoginTokens '.$authTypeKey]) 
 			 || !isset($_SERVER['PHP_AUTH_USER']) || !$_SERVER['PHP_AUTH_USER']) 
 		{
 			$this->prompt();
 		}
 		
-		$_SESSION['__LastLoginTokens'] 
+		$_SESSION['__LastLoginTokens '.$authTypeKey] 
 			= md5($_SERVER['PHP_AUTH_USER'].$_SERVER['PHP_AUTH_PW']);
 		
 		return $this->collect();
@@ -117,9 +120,7 @@ class HTTPAuthNamePassTokenCollector
 	 * @since 8/7/06
 	 */
 	function printCancelMessage () {
-		print "The Username/Password pair that you entered were not valid.";
-		print "<br />Please go back";
-		print " and try again.";
+		print _("The Username/Password pair that you entered were not valid. <br />Please go back and try again.");
 	}
 }
 
