@@ -3,7 +3,12 @@
 Name: Harmoni ChangeLog
 
 
-v. 0.7.5 (2006-08-10)
+v. 0.7.6 (2006-08-14)
+----------------------------------------------------
+		
+	* Bug Fix: Fixed incomplete method in RegexValidator rule. (Adam Franco)
+	
+v. 0.7.5 (2006-08-11)
 ----------------------------------------------------
 		
 	* Bug Fix: Fixed incomplete method in RegexValidator rule. (Adam Franco)
