@@ -3,10 +3,10 @@
 Name: Harmoni ChangeLog
 
 
-v. 0.7.6 (2006-08-14)
+v. 0.7.6 (2006-08-15)
 ----------------------------------------------------
 		
-	* Bug Fix: Fixed incomplete method in RegexValidator rule. (Adam Franco)
+	* Bug Fix: Repository: RepositoryManager now returns false instead of an error if the asset with the specified Id does not exist. (Adam Franco)
 	
 v. 0.7.5 (2006-08-11)
 ----------------------------------------------------
