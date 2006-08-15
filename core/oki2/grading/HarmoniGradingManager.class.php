@@ -673,22 +673,41 @@ class HarmoniGradingManager
 	}
 
  	/**
-     * For object in table $table with id $id, get the Type with type $typename
-     * 
-     * @param object Id $id the Id of the object in question
-     * @param string $table the table our object resides in
-     * @param string $typename the type of Type to get
-     *  
-     * @return object Type
-     * 
-     * @access private
-     */
+	* For object in table $table with id $id, get the Type with type $typename
+	*
+	* @param object Id $id the Id of the object in question
+	* @param string $table the table our object resides in
+	* @param string $typename the type of Type to get
+	*
+	* @return object Type
+	*
+	* @access private
+	*/
 	function &_getType(&$id, $table, $typename){
 		//the appropriate table names and fields must be given names according to the pattern indicated below
-		
+
 		//get the index for the type
-		$index=$this->_getField($id,$table,"fk_gr_".$typename."_type");
+		$index = $this->_getField($id,$table,"fk_gr_".$typename."_type");
+
 		
+		return $this->_indexToType($index,$typename);
+
+	}
+	
+	
+	/**
+	* For get the Type with type $typename with id $index
+	*
+	* @param string $index the index of the type
+	* @param string $typename the type of Type to get
+	*
+	* @return object Type
+	*
+	* @access private
+	*/
+	function &_indexToType($index, $typename){
+		//the appropriate table names and fields must be given names according to the pattern indicated below
+
 		//query
 		$dbHandler =& Services::getService("DBHandler");
 		$query=& new SelectQuery;
@@ -699,7 +718,12 @@ class HarmoniGradingManager
 		$query->addColumn('keyword');
 		$query->addColumn('description');
 		$res=& $dbHandler->query($query);
-		
+
+
+		if(!$res->hasMoreRows()){
+			throwError(new Error("No Type has Id '".$index."' in table 'gr_".$typename."_type'","CourseManagement", true));
+		}
+
 		//There should be exactly one result.  Convert it to a type and return it
 		//remember that the description is optional
 		$row = $res->getCurrentRow();

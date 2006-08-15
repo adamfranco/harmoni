@@ -6,7 +6,7 @@
 * @copyright Copyright &copy; 2006, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.46 2006/08/02 23:50:28 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.47 2006/08/15 20:44:59 sporktim Exp $
 */
 
 require_once(OKI2."/osid/coursemanagement/CourseManagementManager.php");
@@ -100,7 +100,7 @@ require_once(HARMONI."oki2/coursemanagement/TermIterator.class.php");
 * @copyright Copyright &copy; 2005, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.46 2006/08/02 23:50:28 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.47 2006/08/15 20:44:59 sporktim Exp $
 */
 class HarmoniCourseManagementManager
 extends CourseManagementManager
@@ -1661,6 +1661,9 @@ extends CourseManagementManager
 		$ret =& new HarmoniTypeIterator($array);
 		return $ret;
 	}
+	
+	
+	
 
 	/**
 	* For object in table $table with id $id, get the Type with type $typename
@@ -1678,6 +1681,25 @@ extends CourseManagementManager
 
 		//get the index for the type
 		$index = $this->_getField($id,$table,"fk_cm_".$typename."_type");
+
+		
+		return $this->_indexToType($index,$typename);
+
+	}
+	
+	
+	/**
+	* For get the Type with type $typename with id $index
+	*
+	* @param string $index the index of the type
+	* @param string $typename the type of Type to get
+	*
+	* @return object Type
+	*
+	* @access private
+	*/
+	function &_indexToType($index, $typename){
+		//the appropriate table names and fields must be given names according to the pattern indicated below
 
 		//query
 		$dbHandler =& Services::getService("DBHandler");

@@ -28,7 +28,7 @@ require_once(HARMONI."GUIManager/StyleCollection.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StyleCollection.class.php,v 1.12 2006/08/02 23:50:27 sporktim Exp $
+ * @version $Id: StyleCollection.class.php,v 1.13 2006/08/15 20:44:57 sporktim Exp $
  */
 class StyleCollection extends StyleCollectionInterface {
 
@@ -285,6 +285,23 @@ class StyleCollection extends StyleCollectionInterface {
 	}
 	
 	/**
+	 * Returns the StyleProperty with the given name
+	 * 
+	 * @param string $name the name of the Styleproperty
+	 * @access public
+	 * @return ref object StyleProperty
+	 **/
+	function &getStyleProperty($name) {
+		if(isset($this->_SPs[$name])){
+			return $this->_SPs[$name];
+		}else{
+			$null=null;
+			return $null;
+		}
+		
+	}
+	
+	/**
 	 * Remove the given StyleProperty from this Style Collection.
 	 * @access public
 	 * @param ref object The style property to remove.
@@ -309,46 +326,58 @@ class StyleCollection extends StyleCollectionInterface {
 	 * @access public
 	 * @since 5/4/06
 	 */
-	function &getWizardRepresentation ($removable = false) {
+	function &getWizardRepresentation ($callBack,$removable = false) {
 		$wizStyle =& new WizardStep();
 		$guiManager =& Services::getService('GUI');
 		
 		// table in buffer for WHOLE Style Collection
 		ob_start();
-		print "<table border=3>";
+		print "<table border=3 width='100%'>";
 
 		print "<td>".$this->getDisplayName()."</td>";
-		print "<td><table border=2>";
+		print "<td><table border=2 width='100%'>";
 
 		// build individula SP markup chunks that can be unset
 		$SPs =& $this->getSPs();
-		foreach ($SPs as $SP) {
-			$spid =& $SP->getId();
-			$wizStyle->addComponent($spid->getIdString(),
-									$SP->getWizardRepresentation());
+		$i = 0;
+		foreach (array_keys($SPs) as $key) {
 			
+		
+			$spid =& $SPs[$key]->getId();
+			$wizStyle->addComponent("property_".$i,
+									$SPs[$key]->getWizardRepresentation($callBack,$this->getSelector()));
+			
+			
+									
 			// buffer for SP markup
 			ob_start();
-			print "<tr><td>".$SP->getDisplayName()."</td>";
-			print "<td>[[".$spid->getIdString()."]]</td>";
+			print "<tr><td>".$SPs[$key]->getDisplayName()."</td>";
+			print "<td>[[property_".$i."]]</td>";
 
+			
+			
+			
 			// create remove button for each SP
 			if ($removable) {
 				$wizStyle->addComponent('remove-'.$spid->getIdString(),
 										WEventButton::withLabel('-'));
-				print "<td>[[remove-".$spid->getIdString()."]]</td>";
+				print "<td>[[remove-property_".$i."]]</td>";
 			}
+			
 			print "</tr>";
-			$wizStyle->setMarkupForComponent(ob_get_clean(), 
-											 $spid->getIdString());
+			$wizStyle->setContent(ob_get_clean(), 
+											 $spid->getIdString()); 
+			
 		}
 		
 		print "</table></td>";
 		
 		// insert all the markup chunks that exist
-		foreach ($wizStyle->getMarkups() as $key => $markup) {
-			print $markup;
-		}
+		//foreach ($wizStyle->getMarkups() as $key => $markup) {
+		//	print $markup;
+		//}
+		print $wizStyle->getMarkup($this->getSelector());
+		
 		
 		// create list and button for adding SPs
 		if ($removable) {

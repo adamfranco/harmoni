@@ -98,19 +98,19 @@
 			$agents2[] =& $agent2->getId();
                       	
           	        	
-			$scheduleItemA1 =& $sm->createScheduleItem("Fall 2006 range", "Fallin' leaves!", $agents, 300, 900, null);
+			$scheduleItemA1 =& $sm->createScheduleItem("Fall 2006 range", "Fallin' leaves!", $itemStat2, 300, 900, null);
 			$masterIdA = $scheduleItemA1->getMasterIdentifier();
-			$scheduleItemA2 =& $sm->createScheduleItem("Thanksgiving", "", $agents, 350, 400, $masterIdA);
-			$scheduleItemA3 =& $sm->createScheduleItem("Christmas", "ho ho ho", $agents2, 500, 600, $masterIdA);
+			$scheduleItemA2 =& $sm->createScheduleItem("Thanksgiving", "", $itemStat1, 350, 400, $masterIdA);
+			$scheduleItemA3 =& $sm->createScheduleItem("Christmas", "ho ho ho", $itemStat2, 500, 600, $masterIdA);
 			
-			$scheduleItemB1 =& $sm->createScheduleItem("Fall 2006 range", "", $agents, 1300, 1900, null);
+			$scheduleItemB1 =& $sm->createScheduleItem("Fall 2006 range", "", $itemStat1, 1300, 1900, null);
 			$masterIdB = $scheduleItemB1->getMasterIdentifier();
-			$scheduleItemB2 =& $sm->createScheduleItem("Thanksgiving", "", $agents, 1350, 1400, $masterIdB);
-			$scheduleItemB3 =& $sm->createScheduleItem("Christmas", "ho ho ho", $agents, 1500, 1600, $masterIdB);				
+			$scheduleItemB2 =& $sm->createScheduleItem("Thanksgiving", "", $itemStat1, 1350, 1400, $masterIdB);
+			$scheduleItemB3 =& $sm->createScheduleItem("Christmas", "ho ho ho", $itemStat2, 1500, 1600, $masterIdB);				
 			
-			$scheduleItemC1 =& $sm->createScheduleItem("Funky time", "", $agents, 100, 500, null);
+			$scheduleItemC1 =& $sm->createScheduleItem("Funky time", "", $itemStat1, 100, 500, null);
 			$masterIdC = $scheduleItemC1->getMasterIdentifier();
-			$scheduleItemC2 =& $sm->createScheduleItem("Dance party", "", $agents, 700, 1400, $masterIdC);
+			$scheduleItemC2 =& $sm->createScheduleItem("Dance party", "", $itemStat2, 700, 1400, $masterIdC);
         	
         	
 			
@@ -131,8 +131,7 @@
           	$this->assertEqual($scheduleItemA1->getStart(), 300);
           	$this->assertEqual($scheduleItemA1->getEnd(), 900);       	
           	$this->assertEqual($scheduleItemA1->getMasterIdentifier(), $masterIdA);
-          	//implementation specific
-          	$this->assertEqualTypes($scheduleItemA1->getStatus(),$defStat);
+          	$this->assertEqualTypes($scheduleItemA1->getStatus(),$itemStat2);
           	
           	$this->write(1,"Group B");   
           	$this->assertEqualIds($scheduleItemB2->getID(),$scheduleItemB2->getID());
@@ -141,10 +140,9 @@
           	$this->assertEqual($scheduleItemB2->getStart(), 1350);
           	$this->assertEqual($scheduleItemB2->getEnd(), 1400);       	
           	$this->assertEqual($scheduleItemB2->getMasterIdentifier(), $masterIdB);
-          	//implementation specific
-          	$this->assertEqual($scheduleItemB2->getStatus(),$defStat);
+          	$this->assertEqual($scheduleItemB2->getStatus(),$itemStat1);
           	
-          	$this->write(4,"Test of getting passed in agents with default type");  
+          	/*$this->write(4,"Test of getting passed in agents with default type");  
           	
           	$iter =& $scheduleItemA3->getAgentCommitments();
           	$this->assertTrue($this->iteratorHasAgentWithStatus($iter, $agent1,$defCommitStat));
@@ -158,7 +156,7 @@
 			$this->assertTrue(!$this->iteratorHasAgentWithStatus($iter, $agent3,$commitType2));
 			
 			$scheduleItemA3->removeAgentCommitment($agent1->getId());
-			$scheduleItemA3->removeAgentCommitment($agent2->getId());
+			$scheduleItemA3->removeAgentCommitment($agent2->getId());*/
           	
           	$this->write(4,"Test of getScheduleItem()");
           	
@@ -173,7 +171,7 @@
           	$this->assertEqual($scheduleItemA1a->getEnd(), 900);       	
           	$this->assertEqual($scheduleItemA1a->getMasterIdentifier(), $masterIdA);
           	//implementation specific
-          	$this->assertEqual($scheduleItemA1a->getStatus(),$defStat);
+          	$this->assertEqual($scheduleItemA1a->getStatus(),$itemStat2);
           	
           	
           	
@@ -789,12 +787,12 @@
 			
 			$agents = array();
 			
-			$si1 =& $sm->createScheduleItem("", "", $agents, 100, 200, null);
-			$si2 =& $sm->createScheduleItem("", "", $agents, 150, 300, null);
-			$si3 =& $sm->createScheduleItem("", "", $agents, 250, 400, null);
-			$si4 =& $sm->createScheduleItem("", "", $agents, 300, 350, null);
-			$si5 =& $sm->createScheduleItem("", "", $agents, 351, 450, null);
-			$si6 =& $sm->createScheduleItem("", "", $agents, 500, 650, null);
+			$si1 =& $sm->createScheduleItem("", "", $defStat, 100, 200, null);
+			$si2 =& $sm->createScheduleItem("", "", $defStat, 150, 300, null);
+			$si3 =& $sm->createScheduleItem("", "", $defStat, 250, 400, null);
+			$si4 =& $sm->createScheduleItem("", "", $defStat, 300, 350, null);
+			$si5 =& $sm->createScheduleItem("", "", $defStat, 351, 450, null);
+			$si6 =& $sm->createScheduleItem("", "", $defStat, 500, 650, null);
 			
 			$si1->addAgentCommitment($agent3->getId(),$defCommitStat);
 			$si2->addAgentCommitment($agent1->getId(),$defCommitStat);

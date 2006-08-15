@@ -28,7 +28,7 @@ require_once(HARMONI."GUIManager/StyleComponents/LengthSC.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: FontSizeSC.class.php,v 1.8 2006/06/02 15:56:07 cws-midd Exp $
+ * @version $Id: FontSizeSC.class.php,v 1.9 2006/08/15 20:44:58 sporktim Exp $
  */
 class FontSizeSC extends StyleComponent {
 
@@ -47,7 +47,7 @@ class FontSizeSC extends StyleComponent {
 						   in, %, etc).";
 		
 		
-		$rule =& CSSLengthValidatorRule::getRule();
+		$rule =& CSSLengthValidatorRuleWithOptions::getRule($options);
 		
 		$displayName = "Font Size";
 		$description = "Specifies the font size to use. Allowed values are: ".implode(", ", $options)."

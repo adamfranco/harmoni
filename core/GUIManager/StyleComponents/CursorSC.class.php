@@ -34,7 +34,7 @@ require_once(HARMONI."GUIManager/StyleComponent.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CursorSC.class.php,v 1.6 2005/02/07 21:38:15 adamfranco Exp $
+ * @version $Id: CursorSC.class.php,v 1.7 2006/08/15 20:44:58 sporktim Exp $
  */
 class CursorSC extends StyleComponent {
 
@@ -54,8 +54,9 @@ class CursorSC extends StyleComponent {
 		$displayName = "Cursor";
 		$description = "Specifies the cursor type to use when the pointing device is over
 					    the element . Allowed values are: ".implode(", ", $options).".";
-  					    		
-		$this->StyleComponent($value, null, $options, true, $errDescription, $displayName, $description);
+  					
+		$rule = RegexValidatorRule::getRuleByArray($options);    		
+		$this->StyleComponent($value, $rule, $options, true, $errDescription, $displayName, $description);
 	}
 }
 ?>

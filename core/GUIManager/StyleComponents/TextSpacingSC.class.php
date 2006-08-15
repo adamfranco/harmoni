@@ -21,7 +21,7 @@ require_once(HARMONI."GUIManager/StyleComponents/LengthSC.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TextSpacingSC.class.php,v 1.8 2005/03/29 19:44:11 adamfranco Exp $
+ * @version $Id: TextSpacingSC.class.php,v 1.9 2006/08/15 20:44:58 sporktim Exp $
  */
 class TextSpacingSC extends StyleComponent {
 
@@ -49,4 +49,79 @@ class TextSpacingSC extends StyleComponent {
 		$this->StyleComponent($value, $rule, $options, false, $errDescription, $displayName, $description);
 	}
 }
+
+
+
+class CSSTextSpacingValidatorRule extends ValidatorRuleInterface {
+
+	
+	var $_regex;
+	
+	function CSSColorValidatorRule(){
+
+		$this->_regex="^(normal|-?[0-9]+(\.[0-9]+)?(in|cm|mm|em|ex|pt|pc|px))$";
+	}
+	
+	//@todo not tested
+	
+	
+	/**
+	 * Returns a block of javascript code defining a function like so:
+	 * 
+	 * function(element) {
+	 * 		return el.value.match(/\w+/);
+	 * }
+	 * @access public
+	 * @return string
+	 */
+	function generateJavaScript () {
+		$re = addslashes($this->_regex);
+		return "function(el) {\n" .
+				"var re = new RegExp(\"$re\");\n" .
+				"return el.value.match(re);\n" .
+				"}";
+	}
+		
+	/**
+	 * Returns true if the passed value validates against this rule.
+	 * @param string $val
+	 * @access public
+	 * @return boolean
+	 */
+	function check($val) {
+		if (preg_match("/".$this->_regex."/", $val)) return true;
+		return false;
+	}
+	
+	
+
+	
+	/**
+	 * This is a static method to return an already-created instance of a validator
+	 * rule. There are at most about a hundred unique rule objects in use durring
+	 * any given execution cycle, but rule objects are instantiated hundreds of
+	 * thousands of times. 
+	 *
+	 * This method follows a modified Singleton pattern
+	 * 
+	 * @return object ValidatorRule
+	 * @access public
+	 * @static
+	 * @since 3/28/05
+	 */
+	function &getRule () {
+		// Because there is no way in PHP to get the class name of the descendent
+		// class on which this method is called, this method must be implemented
+		// in each descendent class.
+
+		if (!is_array($GLOBALS['validator_rules']))
+			$GLOBALS['validator_rules'] = array();
+		
+		$class = __CLASS__;
+		if (!isset($GLOBALS['validator_rules'][$class]))
+			$GLOBALS['validator_rules'][$class] =& new $class;
+		
+		return $GLOBALS['validator_rules'][$class];
+	}
+
 ?>

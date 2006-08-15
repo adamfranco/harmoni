@@ -26,7 +26,7 @@ require_once(HARMONI."GUIManager/StyleComponent.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LengthSC.class.php,v 1.9 2005/07/07 18:30:15 adamfranco Exp $
+ * @version $Id: LengthSC.class.php,v 1.10 2006/08/15 20:44:58 sporktim Exp $
  */
 class LengthSC extends StyleComponent {
 
@@ -37,9 +37,10 @@ class LengthSC extends StyleComponent {
 	 **/
 	function LengthSC($value) {
 		$errDescription = "Could not validate the length StyleComponent value \"%s\". ";
-		$errDescription .= "Allowed untis are: %, in, cm, mm, em, ex, pt, pc, px.";
+		$errDescription .= "Allowed units are: %, in, cm, mm, em, ex, pt, pc, px.";
 		
 		$rule =& CSSLengthValidatorRule::getRule();
+
 		
 		$displayName = "Length";
 		$description = "Specifies the length (width, size, etc) in percentages (%),
@@ -50,10 +51,10 @@ class LengthSC extends StyleComponent {
 	}
 }
 
-class CSSLengthValidatorRule extends ValidatorRuleInterface {
+class CSSLengthValidatorRule extends RegexValidatorRule {
 
-	function check(& $val) {
-		return ereg("^-?[0-9]+(\.[0-9]+)?(%|in|cm|mm|em|ex|pt|pc|px)$", $val);
+	function CSSLengthValidatorRule(){		
+		$this->_regex= "^-?[0-9]+(\.[0-9]+)?(%|in|cm|mm|em|ex|pt|pc|px)$";
 	}
 	
 	/**
@@ -82,6 +83,66 @@ class CSSLengthValidatorRule extends ValidatorRuleInterface {
 			$GLOBALS['validator_rules'][$class] =& new $class;
 		
 		return $GLOBALS['validator_rules'][$class];
+	}
+}
+
+
+
+	
+	
+
+
+class CSSLengthValidatorRuleWithOptions extends RegexValidatorRule {
+
+	
+	
+	//@todo not tested
+	
+	/**
+	 * Note:  this class takes a parameter and may have several instantiations.
+	 *
+	 * This is a static method to return an already-created instance of a validator
+	 * rule. There are at most about a hundred unique rule objects in use during
+	 * any given execution cycle, but rule objects are instantiated hundreds of
+	 * thousands of times. 
+	 *
+	 * This method follows a modified Singleton pattern
+	 * 
+	 * @return object ValidatorRule
+	 * @access public
+	 * @static
+	 * @since 3/28/05
+	 */
+	function &getRule (&$options) {
+		// Because there is no way in PHP to get the class name of the descendent
+		// class on which this method is called, this method must be implemented
+		// in each descendent class.
+		
+		
+		
+		if(count($options)==0){
+			$regex = "^-?[0-9]+(\.[0-9]+)?(%|in|cm|mm|em|ex|pt|pc|px)$";
+		}else{
+			
+			$regex = "^(".$options[0];
+			for($i = 1; $i < count($options); $i++){
+				$regex .= "|".$options[$i];
+			}
+			$regex .= "|-?[0-9]+(\.[0-9]+)?(%|in|cm|mm|em|ex|pt|pc|px))$";
+		}
+
+		if (!isset($GLOBALS['validator_rules']) || !is_array($GLOBALS['validator_rules']))
+			$GLOBALS['validator_rules'] = array();
+		
+
+		$class = __CLASS__;
+		$ruleKey = $class."(".strtolower($regex).")";
+		
+		if (!isset($GLOBALS['validator_rules'][$ruleKey])){
+			eval('$newRule =& new '.$class.'($regex);');
+			$GLOBALS['validator_rules'][$ruleKey] =& $newRule;
+		}
+		return 	$GLOBALS['validator_rules'][$ruleKey];
 	}
 }
 ?>

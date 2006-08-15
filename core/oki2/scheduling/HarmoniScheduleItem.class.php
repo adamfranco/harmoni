@@ -455,7 +455,7 @@ extends ScheduleItem
     } 
 
     /**
-      * <b>Warning!</b> Not in the OSID.  Use at your own risk.
+      * <b>Warning!</b> Not yet in the OSID, but will likely be in v3.
      *
      * Remove a previously added Agent commitment for this ScheduleItem.
      * 

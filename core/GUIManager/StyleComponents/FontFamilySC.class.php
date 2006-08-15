@@ -27,7 +27,7 @@ require_once(HARMONI."GUIManager/StyleComponent.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: FontFamilySC.class.php,v 1.9 2006/06/02 15:56:07 cws-midd Exp $
+ * @version $Id: FontFamilySC.class.php,v 1.10 2006/08/15 20:44:58 sporktim Exp $
  */
 class FontFamilySC extends StyleComponent {
 
@@ -56,8 +56,29 @@ class FontFamilySC extends StyleComponent {
 	}
 }
 
-class CSSFontFamilyValidatorRule extends ValidatorRuleInterface {
 
+
+class CSSFontFamilyValidatorRule extends RegexValidatorRule {
+	//@todo not tested
+	
+	
+	function CSSFontFamilyValidatorRule(){
+		
+		$singleQuote = "'[- A-Za-z0-9]+'";
+		$doubleQuote = "\"[- A-Za-z0-9]+\"";
+		$noQuote = "[-A-Za-z0-9]+";
+		
+		$fontName = "(".$singleQuote."|".$doubleQuote."|".$noQuote.")";
+		
+		
+		$re = "^(serif|sans-serif|cursive|fantasy|monospace|".$fontName."(, *".$fontName.")?)$";
+		
+		$this->_regex=$re;
+	}
+	
+	
+	
+	/*
 	function check(& $val) {
 		$regs = array();
 		$fonts = explode(",", $val);
@@ -77,6 +98,7 @@ class CSSFontFamilyValidatorRule extends ValidatorRuleInterface {
 
 		return true;
 	}
+	*/
 	
 	/**
 	 * This is a static method to return an already-created instance of a validator
@@ -106,4 +128,8 @@ class CSSFontFamilyValidatorRule extends ValidatorRuleInterface {
 		return $GLOBALS['validator_rules'][$class];
 	}
 }
+
+	
+	
+
 ?>

@@ -22,7 +22,7 @@ require_once(HARMONI."GUIManager/StyleComponent.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ColorSC.class.php,v 1.9 2006/08/02 23:50:27 sporktim Exp $
+ * @version $Id: ColorSC.class.php,v 1.10 2006/08/15 20:44:58 sporktim Exp $
  */
 class ColorSC extends StyleComponent {
 
@@ -33,7 +33,7 @@ class ColorSC extends StyleComponent {
 	 **/
 	function ColorSC($value) {
 		$errDescription = "Could not validate the color StyleComponent value \"%s\". ";
-		$errDescription .= "Allowed formats are: #RGB, #RRGGBB, rgb(R,G,B), and rgb(R%,G%,B%).";
+		$errDescription .= "Allowed formats are: #RGB, #RRGGBB, rgb(R,G,B), and rgb(R%%,G%%,B%%).";
 		
 		$rule =& CSSColorValidatorRule::getRule();
 		
@@ -44,10 +44,98 @@ class ColorSC extends StyleComponent {
 		0-255 decimals), rgb(R%,G%,B%) (R%,G%,B% are floating-point 0-100 percentages).";
 		$this->StyleComponent($value, $rule, null, null, $errDescription, $displayName, $description);
 	}
+	
+
+	/**
+	* Converts the color to a standard format--an array of the form (R, G, B).
+	*
+	*@ return array The resulting array.
+	*/
+	function getRGBArray($val=null){//@todo this has not been rigorously tested
+		
+		if(func_num_args()<1){
+			$val = $this->getValue();
+		}
+		
+		$array = array();
+		// check for #RGB and #RRGGBB format
+		if (ereg("^#[0-9a-fA-F]{3}$", $val)){
+			$array[0] = 17 * hexdec(substr($val,1,1));
+			$array[1] = 17 * hexdec(substr($val,2,1));
+			$array[2] = 17 * hexdec(substr($val,3,1));
+			return $array;
+		}
+		if (ereg("^#[0-9a-fA-F]{6}$", $val)){
+			$array[0] = hexdec(substr($val,1,2));
+			$array[1] = hexdec(substr($val,3,2));
+			$array[2] = hexdec(substr($val,5,2));
+			return $array;
+		}
+		
+		
+		$regs = array();	
+		// check for rgb(R,G,B) format
+		if (ereg("^rgb\(([0-9]{0,3}),\ *([0-9]{0,3}),\ *([0-9]{0,3})\)$", $val, $regs)) {
+			if (($regs[1] >= 0) && ($regs[1] <= 255) &&
+				($regs[2] >= 0) && ($regs[2] <= 255) &&
+				($regs[3] >= 0) && ($regs[3] <= 255)){
+					$array = array($regs[1],$regs[2],$regs[3]);
+					return $array;	
+				}else{
+					return null;
+				}				
+		}
+		// check for rgb(R%,G%,B%) format
+		if (ereg("^rgb\(([0-9]{0,3}(\.[0-9]+)?)%,\ *([0-9]{0,3}(\.[0-9]+)?)%,\ *([0-9]{0,3}(\.[0-9]+)?)%\)$",
+		    $val, $regs)) {
+			if (($regs[1] >= 0) && ($regs[1] <= 100) &&
+				($regs[3] >= 0) && ($regs[3] <= 100) &&
+				($regs[5] >= 0) && ($regs[5] <= 100)){
+					$array[0] = ($regs[1].$regs[2])*2.55;
+					$array[1] = ($regs[3].$regs[4])*2.55;
+					$array[2] = ($regs[5].$regs[6])*2.55;
+					return $array;	
+				}else{
+					return null;
+				}				
+		}
+		
+		//not valid
+		return null;
+		
+	}
+	
 }
 
-class CSSColorValidatorRule extends ValidatorRuleInterface {
 
+
+class CSSColorValidatorRule extends RegexValidatorRule {
+	//@todo not tested
+	
+	var $_regex;
+	
+	
+	
+	function CSSColorValidatorRule(){
+		
+		$type1 = "#[0-9a-fA-F]{3}([0-9a-fA-F]{3})?";
+		
+		
+		$intUpTo256 = "(1?[0-9]{1,2}|2([0-4][0-9]|5[0-5]))";
+		$type2 = "rgb(".$intUpTo256.",".$intUpTo256.",".$intUpTo256.")";
+		
+		$oneHundred ="100(\.0+)?";
+		$underOneHundred = "[0-9]{1,2}(\.[0-9]+)?";
+		
+		$percent = "(".$oneHundred."|".$underOneHundred.")%";
+		$type3 = "rgb(".$percent.",".$percent.",".$percent.")";
+		
+		$re = "^(".$type1."|".$type2."|".$type3.")$";
+		$this->_regex=$re;
+	}
+	
+	/*
+	
 	function check(& $val) {
 		$regs = array();
 		// check for #RGB and #RRGGBB format
@@ -75,6 +163,7 @@ class CSSColorValidatorRule extends ValidatorRuleInterface {
 		
 		return false;
 	}
+	*/
 	
 	/**
 	 * This is a static method to return an already-created instance of a validator
@@ -104,4 +193,5 @@ class CSSColorValidatorRule extends ValidatorRuleInterface {
 		return $GLOBALS['validator_rules'][$class];
 	}
 }
+
 ?>

@@ -32,7 +32,7 @@ require_once(HARMONI."GUIManager/StyleProperty.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StyleProperty.class.php,v 1.10 2006/08/02 23:50:27 sporktim Exp $
+ * @version $Id: StyleProperty.class.php,v 1.11 2006/08/15 20:44:57 sporktim Exp $
  */
 class StyleProperty extends StylePropertyInterface {
 
@@ -183,6 +183,23 @@ class StyleProperty extends StylePropertyInterface {
 	}
 	
 	/**
+	 * Returns the StyleComponent with the given class
+	 * 
+	 * @param string $class the class of the StyleComponent
+	 * @access public
+	 * @return ref object StyleComponent
+	 **/
+	function &getStyleComponent($class) {
+		$class = strtolower($class);
+		if(isset($this->_SCs[$class])){
+			return $this->_SCs[$class];
+		}else{
+			$null=null;
+			return $null;
+		}
+	}
+	
+	/**
 	 * Answers the list of possible SCs for the SP as an array of class names.
 	 * 
 	 * @return array
@@ -206,34 +223,49 @@ class StyleProperty extends StylePropertyInterface {
 	 * @access public
 	 * @since 5/2/06
 	 */
-	function &getWizardRepresentation () {
+	function &getWizardRepresentation ($callBack,$collection) {
 		$wizSP =& new WizardStep();
 		// the list of existing SCs
-		$scs = $this->getSCs();
+		$scs =& $this->getSCs();
 		// the list of SC types for this SP
 		$scList = $this->getSCList();
 		ob_start();
 		print "<table border=1>";
 		// for each existing SC built request an input for it
-		foreach ($scs as $sc) {
-			$scid =& $sc->getId();
-			$wizSP->addComponent($scid->getIdString(),
-								 $sc->getWizardRepresentation());
+		$i = 0;
+		
+		
+
+		
+		foreach (array_keys($scs) as $key) {
+			$class = get_class($scs[$key]);
+			
+			//printpre($scs);
+			
+			//print "   $key>-->'".$class."' ";
+			
+			$scComp =& new WStyleComponent($callBack, $class ,$this->getName(),$collection,true);
+			$wizSP->addComponent("comp".$i, $scComp);
 			// table row [displayName][input][description]
-			print "<tr><td>".$sc->getDisplayName().":</td>";
-			print "<td>[[".$scid->getIdString()."]]</td>";
-			print "<td>".$sc->getDescription()."</td></tr>";
+			print "<tr><td>".$scs[$key]->getDisplayName().":</td>";
+			print "<td>[["."comp".$i."]]</td>";
+			print "<td>".$scs[$key]->getDescription()."</td></tr>";
+			$i++;	
 		}
+		
+		
+		
 		$empties = array_diff($scList, array_keys($scs));
 		// for each SC not populated create their options too
 		foreach ($empties as $empty) {
 			$emptySC =& new $empty();
-			$wizSP->addComponent($empty,
-								 $emptySC->getWizardRepresentation());
+			$emptyComp =& new WStyleComponent($emptySC,true);
+			$wizSP->addComponent("comp".$i, $emptyComp);
 			// table row [displayName][input][description]
 			print "<tr><td>".$emptySC->getDisplayName().":</td>";
-			print "<td>[[$empty]]</td>";
+			print "<td>[["."comp".$i."]]</td>";
 			print "<td>".$emptySC->getDescription()."</td></tr>";
+			$i++;
 		}
 		print "</table>";
 		$wizSP->setContent(ob_get_clean());

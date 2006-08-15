@@ -18,7 +18,7 @@ require_once(HARMONI."GUIManager/StyleComponent.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AttachmentSC.class.php,v 1.4 2005/01/20 17:47:30 nstamato Exp $
+ * @version $Id: AttachmentSC.class.php,v 1.5 2006/08/15 20:44:58 sporktim Exp $
  */
 class AttachmentSC extends StyleComponent {
 
@@ -37,7 +37,8 @@ class AttachmentSC extends StyleComponent {
 		$description = "Specifies the values for CSS property 'attachment'. Allowed values are: 
 						".implode(", ", $options).".";
 		
-		$this->StyleComponent($value, null, $options, true, $errDescription, $displayName, $description);
+		$rule = RegexValidatorRule::getRuleByArray($options);
+		$this->StyleComponent($value, $rule, $options, true, $errDescription, $displayName, $description);
 	}
 }
 ?>

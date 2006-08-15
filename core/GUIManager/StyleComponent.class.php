@@ -32,7 +32,7 @@ require_once(HARMONI."GUIManager/StyleComponent.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StyleComponent.class.php,v 1.12 2006/08/02 23:50:27 sporktim Exp $
+ * @version $Id: StyleComponent.class.php,v 1.13 2006/08/15 20:44:57 sporktim Exp $
  **/
 
 class StyleComponent extends StyleComponentInterface {
@@ -108,10 +108,14 @@ class StyleComponent extends StyleComponentInterface {
 	 * @access public
 	 **/
 	function StyleComponent($value, $rule, $options, $limitedToOptions, $errorDescription, $displayName, $description) {
-		if (isset($rule))
+		if (isset($rule)&&!is_null($rule)){
 			$this->_rule =& $rule;
-		else
-			$this->_rule =& AlwaysTrueValidatorRule::getRule();
+		}else{
+			//always true regex rule
+			$this->_rule =& RegexValidatorRule::getRule(".*");
+		}
+		
+		
 	
 		if(func_num_args()<7){
 			throwError(new Error("Too few parameters for StyleComponent", "GUIManager", true));
@@ -129,16 +133,18 @@ class StyleComponent extends StyleComponentInterface {
 			if ($limitedToOptions) {
 				// create the appropriate ChoiceValidatorRule with the given options
 				$this->_limitedToOptions = true;
-				$choiceRule =& ChoiceValidatorRule::getRule($options);
-				$this->_rule =& AndValidatorRule::getRule($this->_rule, $choiceRule);
+				//$choiceRule =& ChoiceValidatorRule::getRule($options);
+				//$this->_rule =& AndValidatorRule::getRule($this->_rule, $choiceRule);
 			}
-			else
-				$this->_rule =& OrValidatorRule::getRule($this->_rule, ChoiceValidatorRule::getRule($options));
+			//else
+			//	$this->_rule =& OrValidatorRule::getRule($this->_rule, ChoiceValidatorRule::getRule($options));
 		}
-
-		// validate the value
-		if (!$this->_rule->check($value))
-			throwError(new Error($this->_errorDescription, "GUIManager", false));
+	
+		
+		// validate the value		
+		if (!$this->_rule->check($value)){
+			throwError(new Error($this->_errorDescription, "GUIManager", true));
+		}
 			
 		$this->_value = $value;
 	}
@@ -202,41 +208,25 @@ class StyleComponent extends StyleComponentInterface {
 	}
 	
 	/**
-	 * Answers the Wizard Representation of this component
-	 * 
-	 * @return ref object WizardComponent
+	 * Get the error description of this SC.
 	 * @access public
-	 * @since 5/4/06
-	 */
-	function &getWizardRepresentation () {
-		if (get_class($this) == 'colorsc') {
-			$input =& new WSelectOrNew();
-			$input->addOption('', "(not set)");
-			// make sure the current color is a possibility.
-			if (!is_null($this->_value))
-				$input->addOption($this->_value, $this->_value, "background-color:$this->_value;");
-// 			if (/*colorwheel colors*/)
-// 				// generate options for colors
-			$input->setValue($this->_value);
-		} else if ($this->_limitedToOptions) {
-			$input =& new WSelectList();
-			$input->addOption('', "(not set)");
-			foreach ($this->_options as $opt) {
-				$input->addOption($opt, $opt, strtolower(preg_replace("/[^a-zA-Z0-9:_-]/", "-", $this->_displayName)).": $opt;");
-			}
-			$input->setValue($this->_value);
-		} else if ($this->hasOptions()) {
-			$input =& new WSelectOrNew();
-			$input->addOption('', "(not set)");
-			foreach ($this->_options as $opt) {
-				$input->addOption($opt, $opt, strtolower(preg_replace("/[^a-zA-Z0-9:_-]/", "-", $this->_displayName)).": $opt;");
-			}
-			$input->setValue($this->_value);
-		} else {
-			$input =& new WTextField();
-		}
-		return $input;
+	 * @return string The error description of this SC.
+	 **/
+	function getErrorDescription() {
+		return $this->_errorDescription;
 	}
+	
+	/**
+	 * Get the rule of this SC.
+	 * @access public
+	 * @return object ValidatorRule The rule of this SC.
+	 **/
+	function &getRule() {
+		return $this->_rule;
+	}
+	
+	
+	
 
 	/**
 	 * Sets the value of this SC and validates it using the attached <code>ValidatorRule</code>.

@@ -10,7 +10,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/ValidatorRule.interface.
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RegexValidatorRule.class.php,v 1.4 2005/06/01 17:58:58 gabeschine Exp $
+ * @version $Id: RegexValidatorRule.class.php,v 1.5 2006/08/15 20:45:00 sporktim Exp $
  */
 class RegexValidatorRule
 	extends ValidatorRuleInterface
@@ -45,6 +45,16 @@ class RegexValidatorRule
 	}
 	
 	/**
+	 * gets the regular expression
+	 * 
+	 * @access public
+	 * @return string the regular expression
+	 **/
+	 function getRegularExpression() {
+		return $this->_regex;
+	}
+	
+	/**
 	 * This is a static method to return an already-created instance of a validator
 	 * rule. There are at most about a hundred unique rule objects in use durring
 	 * any given execution cycle, but rule objects are instantiated hundreds of
@@ -66,8 +76,70 @@ class RegexValidatorRule
 		$class = __CLASS__;
 		$ruleKey = $class."(".strtolower($regex).")";
 		
-		if (!isset($GLOBALS['validator_rules'][$class]))
-			$GLOBALS['validator_rules'][$class] =& new $class;
+		if (!isset($GLOBALS['validator_rules'][$ruleKey])){
+			eval('$newRule =& new '.$class.'($regex);');
+			$GLOBALS['validator_rules'][$ruleKey] =& $newRule;
+		}
+		return 	$GLOBALS['validator_rules'][$ruleKey];
+	}
+	
+	/**
+	 * Returns a block of javascript code defining a function like so:
+	 * 
+	 * function(element) {
+	 * 		return el.value.match(/\w+/);
+	 * }
+	 * @access public
+	 * @return string
+	 */
+	function generateJavaScript () {
+		$re = addslashes($this->_regex);
+		return "function(el) {\n" .
+				"var re = new RegExp(\"$re\");\n" .
+				"return el.value.match(re);\n" .
+				"}";
+	}
+	
+	/**
+	 * This is a static method to return an already-created instance of a validator
+	 * rule. There are at most about a hundred unique rule objects in use durring
+	 * any given execution cycle, but rule objects are instantiated hundreds of
+	 * thousands of times. 
+	 *
+	 * This one genrates a regular expression from an array of regular expressions.  The whole string must match.
+	 *
+	 * This method follows a modified Singleton pattern.
+	 * 
+	 * @param string $regex
+	 * @return object ValidatorRule
+	 * @access public
+	 * @static
+	 * @since 3/28/05
+	 */
+	function &getRuleByArray ($options) {
+		
+		if(!is_array($options) || count($options)==0){
+			throwError(new Error("RegexValidatorRule::getRuleByArray() requires an array with at least one value","RegexValidatorRule",true));		
+		}
+		
+		$regex = "^(".$options[0];
+		for($i =1; $i<count($options); $i++){
+			$regex .= "|".$options[$i];
+		}
+		$regex.= ")$";
+		
+		if (!isset($GLOBALS['validator_rules']) || !is_array($GLOBALS['validator_rules']))
+			$GLOBALS['validator_rules'] = array();
+		
+
+		$class = __CLASS__;
+		$ruleKey = $class."(".strtolower($regex).")";
+		
+		if (!isset($GLOBALS['validator_rules'][$ruleKey])){
+			eval('$newRule =& new '.$class.'($regex);');
+			$GLOBALS['validator_rules'][$ruleKey] =& $newRule;
+		}
+		return 	$GLOBALS['validator_rules'][$ruleKey];
 	}
 	
 	/**

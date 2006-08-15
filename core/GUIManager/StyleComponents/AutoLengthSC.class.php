@@ -20,7 +20,7 @@ require_once(HARMONI."GUIManager/StyleComponents/LengthSC.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AutoLengthSC.class.php,v 1.9 2005/03/29 19:44:10 adamfranco Exp $
+ * @version $Id: AutoLengthSC.class.php,v 1.10 2006/08/15 20:44:58 sporktim Exp $
  */
 class AutoLengthSC extends StyleComponent {
 
@@ -36,7 +36,7 @@ class AutoLengthSC extends StyleComponent {
 						   Allowed values are: ".implode(", ", $options).", or a specific 
 						   value (a length value, i.e. px, in, %, etc.).";
 		
-		$rule =& CSSLengthValidatorRule::getRule();
+		$rule =& CSSLengthValidatorRuleWithOptions::getRule($options);
 		
 		$displayName = "AutoLength";
 		$description = "Specifies the values for CSS properties 'top', 'left', 'right',

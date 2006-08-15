@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: sample_page1.php,v 1.8 2005/08/22 15:11:56 adamfranco Exp $
+ * @version $Id: sample_page1.php,v 1.9 2006/08/15 20:44:59 sporktim Exp $
  */
 
 // =============================================================================
@@ -14,7 +14,6 @@
 
 	define("LOAD_HIERARCHY", false);
 	define("LOAD_STORAGE",false);
-	define("LOAD_AUTHN",false);
 	define("LOAD_AGENTINFORMATION", false);
 	define("LOAD_DATAMANAGER", false);
 	define("LOAD_AUTHN", false);
@@ -143,7 +142,7 @@
 						goals: 1) to save you the time of writing the same code over and over again, and 2) to offer a uniform
 						environment and abstraction layer between a specific function and the back-end implementation of that function.
 						In simpler words, the File StorageHandler, for example, is used by your program by calling methods like
-						<em>$storageHandler->store($thisFile, $here)</em>. Someone using your program can configure Harmoni
+						<em>".'$storageHandler->store($thisFile, $here)'."</em>. Someone using your program can configure Harmoni
 						to store that file in a database, on a filesystem, to make backups transparently, or store on a 
 						mixture of databases and filesystems and other mediums. This allows your program, using the same 
 						code, to store files in a very flexible manner, extending your audience and making for easier installation.

@@ -28,7 +28,7 @@ require_once(HARMONI."GUIManager/StyleCollection.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CornersStyleCollection.class.php,v 1.1 2006/04/26 14:21:31 cws-midd Exp $
+ * @version $Id: CornersStyleCollection.class.php,v 1.2 2006/08/15 20:44:58 sporktim Exp $
  */
 class CornersStyleCollection 
 	extends StyleCollection 
@@ -156,7 +156,7 @@ class CornersStyleCollection
 		$css .= "
 
 /* In the CSS below, the numbers used are the following:
-    1px: the width of the border
+    111111111111px: the width of the border
     3px: a fudge factor needed for IE5/win (see below)
     4px: the width of the border (1px) plus the 3px IE5/win fudge factor
     14px: the width or height of the border image

@@ -132,7 +132,12 @@ extends SchedulingManager
 
 
 	/**
-	* Create a ScheduleItem.  The masterIdentifier argument is optional--it.
+	*<b>Warning!</b> This method is designed to comply with V3 of the OSIDs, at least
+	* How Tom suggested they were headed 
+	* <a href="http://okicommunity.mit.edu/forum/viewtopic.php?forum=1&showtopic=67&show=10&page=2">
+	* here </a>.  Leave out the agent parameter, and add a statusType instead.
+	*
+	* Create a ScheduleItem.  The masterIdentifier argument is optional--it
 	* can be set to null.  If master identifier is passed in as null, then the
 	* id string will be used.  Master Identifier is a key, rule, or function that can be used to
 	* associated more than one ScheduleItem together.  An example can be
@@ -140,8 +145,6 @@ extends SchedulingManager
 	* Identifier.   An unique Id is generated for this ScheduleItem by the
 	* implementation.
 	*
-	* Since no type is passed in, a defualt one is created based on the configuration's
-	* default authority property.
 	*
 	* @param string $displayName
 	* @param string $description
@@ -171,7 +174,7 @@ extends SchedulingManager
 	*
 	* @access public
 	*/
-	function &createScheduleItem ( $displayName, $description, &$agents, $start, $end, $masterIdentifier = null ) {
+	function &createScheduleItem ( $displayName, $description, &$scheduleItemStatusType, $start, $end, $masterIdentifier = null ) {
 
 		if($start>$end){
 			throwError(new Error("The end of a ScheduleItem cannot come before the end", "HarmoniSchedulingManager", true));
@@ -195,7 +198,7 @@ extends SchedulingManager
 		}
 
 
-		if(is_null($masterIdentifier)){
+		if(func_num_args()<6 || is_null($masterIdentifier)){
 			$masterIdentifier = $id->getIdString();
 		}
 
@@ -213,7 +216,7 @@ extends SchedulingManager
 		$values[]="'".addslashes($description)."'";
 		$values[]="'".addslashes($start)."'";
 		$values[]="'".addslashes($end)."'";
-		$values[]="'".addslashes($defIndex)."'";
+		$values[]="'".$this->_typeToIndex('item_stat',$scheduleItemStatusType)."'";
 		$values[]="'".addslashes($masterIdentifier)."'";
 		$values[]="'".addslashes($creatorIdString)."'";
 		$query->addRowOfValues($values);
@@ -222,14 +225,7 @@ extends SchedulingManager
 
 		$ret =& new HarmoniScheduleItem($id);
 
-		//@TODO I think this should actually be taken out of the OSIDS, but if it stays, this could be done in one query.
-		if(count($agents)!=0){
-			//set up a default commitment status type
-			$defType =& new Type("AgentCommitmentStatusType",$this->_defaultAuthority,"default");
-			foreach($agents as $agentId){
-				$ret->addAgentCommitment($agentId, $defType);
-			}
-		}
+	
 
 		return $ret;
 	}
@@ -376,7 +372,8 @@ extends SchedulingManager
 
 		$arrayOfTimeSpans2 =array();
 
-		foreach($mister11 as $key => $timespan){
+		foreach(array_keys($mister11) as $key){
+			$timespan =& $mister11[$key];
 			$start2 = $timespan->getStart();
 			$end2 = $timespan->getEnd();
 			if($start>=$end2 || $end<=$start2){
@@ -391,9 +388,9 @@ extends SchedulingManager
 					$arrayOfTimeSpans2[$end] =& new HarmoniTimespan($start2,$start);
 				}
 			}else{
-				print " >".__LINE__;
+	
 				if ($start2 >= $start){
-					print " >".__LINE__;
+	
 					$arrayOfTimeSpans2[$start2] =& new HarmoniTimespan($end,$end2);
 				}else{
 					$arrayOfTimeSpans2[$start2] =& new HarmoniTimespan($start2,$start);
@@ -839,18 +836,42 @@ extends SchedulingManager
 		//the appropriate table names and fields must be given names according to the pattern indicated below
 
 		//get the index for the type
-		$index=$this->_getField($id,$table,"fk_sc_".$typename."_type");
+		$index = $this->_getField($id,$table,"fk_sc_".$typename."_type");
+
+		
+		return $this->_indexToType($index,$typename);
+
+	}
+	
+	
+	/**
+	* For get the Type with type $typename with id $index
+	*
+	* @param string $index the index of the type
+	* @param string $typename the type of Type to get
+	*
+	* @return object Type
+	*
+	* @access private
+	*/
+	function &_indexToType($index, $typename){
+		//the appropriate table names and fields must be given names according to the pattern indicated below
 
 		//query
 		$dbHandler =& Services::getService("DBHandler");
 		$query=& new SelectQuery;
 		$query->addTable('sc_'.$typename."_type");
-		$query->addWhere("id=".addslashes($index));
+		$query->addWhere("id=".$index);
 		$query->addColumn('domain');
 		$query->addColumn('authority');
 		$query->addColumn('keyword');
 		$query->addColumn('description');
 		$res=& $dbHandler->query($query);
+
+
+		if(!$res->hasMoreRows()){
+			throwError(new Error("No Type has Id '".$index."' in table 'sc_".$typename."_type'","CourseManagement", true));
+		}
 
 		//There should be exactly one result.  Convert it to a type and return it
 		//remember that the description is optional
@@ -863,7 +884,6 @@ extends SchedulingManager
 		return $the_type;
 
 	}
-
 
 
 

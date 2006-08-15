@@ -20,7 +20,7 @@ require_once(HARMONI."GUIManager/StyleComponent.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OverflowSC.class.php,v 1.6 2005/02/07 21:38:15 adamfranco Exp $
+ * @version $Id: OverflowSC.class.php,v 1.7 2006/08/15 20:44:58 sporktim Exp $
  */
 class OverflowSC extends StyleComponent {
 
@@ -38,7 +38,8 @@ class OverflowSC extends StyleComponent {
 		$displayName = "Overflow";
 		$description = "Specifies the overflow property value. Allowed values are: ".implode(", ", $options).".";
 		
-		$this->StyleComponent($value, null, $options, true, $errDescription, $displayName, $description);
+		$rule = RegexValidatorRule::getRuleByArray($options);
+		$this->StyleComponent($value, $rule, $options, true, $errDescription, $displayName, $description);
 	}
 }
 ?>

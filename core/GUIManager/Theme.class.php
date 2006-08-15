@@ -24,7 +24,7 @@ require_once(HARMONI."GUIManager/StyleCollection.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Theme.class.php,v 1.24 2006/08/02 23:50:27 sporktim Exp $
+ * @version $Id: Theme.class.php,v 1.25 2006/08/15 20:44:57 sporktim Exp $
  */
 class Theme extends ThemeInterface {
 
@@ -287,7 +287,25 @@ class Theme extends ThemeInterface {
 	 * @since 4/26/06
 	 */
 	function &getStyleCollections () {
-		return $this->_styles;
+		return $this->_styles;	
+		
+	}
+		
+	/**
+	 * Returns the StyleCollection with the given selector
+	 * 
+	 * @param string $selector the selector of the StyleCollection
+	 * @access public
+	 * @return ref object StyleCollection
+	 **/
+	function &getStyleCollection($selector) {	
+		if(array_key_exists($selector,$this->_styles)){
+			return $this->_styles[$selector];
+		}else{
+			$null=null;
+			return $null;
+		}
+		
 	}
 
 	/**
@@ -311,23 +329,28 @@ class Theme extends ThemeInterface {
 	}
 
 	/**
-	 * removes the style collection from the theme, and the DB
+	 * removes the style collection from the theme, and the DB is called for
 	 * 
-	 * @param ref object StyleCollection
+	 * @param boolean $removeFromDatabase whether to remove the data from the database
+	 * @param ref object StyleCollection $style the style
 	 * @return void
 	 * @access public
 	 * @since 5/16/06
 	 */
-	function removeStyleCollection (&$style) {
+	function removeStyleCollection (&$style, $removeFromDatabase=false) {
 		$guiManager =& Services::getService("GUI");
-		$dbHandler =& Services::getService('DB');
+		$dbHandler =& Services::getService('DBHandler');
 		
 		$guiManager->deletePropertiesForCollection($style);
 
-		$query =& new DeleteQuery();
-		$query->addTable($guiManager->_dbName.".tm_style_collection");
-		$query->addWhere("FK_theme_id = $idValue");
-		$result =& $dbHandler->query($query, $guiManager->_dbIndex);
+		if(is_object($style->_id)){
+			$id =& $style->getId();
+			$idValue = $id->getIdString();
+			$query =& new DeleteQuery();
+			$query->setTable($guiManager->_dbName.".tm_style_collection");
+			$query->addWhere("FK_theme_id = $idValue");
+			$result =& $dbHandler->query($query, $guiManager->_dbIndex);
+		}
 		
 		unset($this->_styles[$style->getSelector()]);
 	}
@@ -465,8 +488,9 @@ class Theme extends ThemeInterface {
 		if (!isset($this->_componentStyles[$type][$index][$styleCollection->getSelector()]))
 			$this->_componentStyles[$type][$index][$styleCollection->getSelector()] =& $styleCollection;
 			
-		if (!isset($this->_styles[$styleCollection->getSelector()]))
+		if (!isset($this->_styles[$styleCollection->getSelector()])){
 			$this->_styles[$styleCollection->getSelector()] =& $styleCollection;
+		}
 	}
 
 	/**
@@ -655,10 +679,11 @@ class Theme extends ThemeInterface {
 		// collection of the component and any subcomponents it might have.
 		if (isset($this->_component)) {
 			$this->_getAllStyles($this->_component, $styleCollections);
-		}
-	
+		}	
+		
 		// Now convert the array of style collections to a string with CSS code.
-		foreach (array_keys($styleCollections) as $key) {
+		
+		foreach (array_keys($styleCollections) as $key) {		
 			if (is_string($styleCollections[$key]))
 				$css .= $styleCollections[$key];
 			else{//printpre($styleCollections[$key]);

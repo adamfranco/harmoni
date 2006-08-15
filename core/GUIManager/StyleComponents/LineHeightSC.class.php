@@ -21,7 +21,7 @@ require_once(HARMONI."GUIManager/StyleComponents/LengthSC.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LineHeightSC.class.php,v 1.6 2005/03/29 19:44:10 adamfranco Exp $
+ * @version $Id: LineHeightSC.class.php,v 1.7 2006/08/15 20:44:58 sporktim Exp $
  */
 class LineHeightSC extends StyleComponent {
 
@@ -38,7 +38,7 @@ class LineHeightSC extends StyleComponent {
 						   multiplier, or a specific line-height value 
 						   (a length value, i.e. px, in, %, etc.).";
 		
-		$rule =& OrValidatorRule::getRule(CSSLengthValidatorRule::getRule(), NumericValidatorRule::getRule());
+		$rule =& RegexValidatorRule::getRule("^(normal|-?[0-9]+(\.[0-9]+)?(%|in|cm|mm|em|ex|pt|pc|px)|[0-9]+(\.[0-9]+)?)$");
 		
 		$displayName = "Line Height";
 		$description = "Specifies the line height. This property allows one to modify
@@ -50,4 +50,6 @@ class LineHeightSC extends StyleComponent {
 		$this->StyleComponent($value, $rule, $options, false, $errDescription, $displayName, $description);
 	}
 }
+
+
 ?>
