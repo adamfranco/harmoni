@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPConnector.class.php,v 1.10 2006/08/19 19:32:45 jwlee100 Exp $
+ * @version $Id: LDAPConnector.class.php,v 1.11 2006/08/19 21:14:39 jwlee100 Exp $
  */ 
 
 /**
@@ -17,7 +17,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPConnector.class.php,v 1.10 2006/08/19 19:32:45 jwlee100 Exp $
+ * @version $Id: LDAPConnector.class.php,v 1.11 2006/08/19 21:14:39 jwlee100 Exp $
  */
 class LDAPConnector {
 		
@@ -180,7 +180,7 @@ class LDAPConnector {
 	 * @access public
 	 * @since 3/4/05
 	 */
-	function getUserDNsBySearch ( $filter ) {
+	function getClassesDNsBySearch ( $filter ) {
 		return $this->getDNsBySearch($filter, $this->_configuration->getProperty("ClassesBaseDN"));
 	}
 	

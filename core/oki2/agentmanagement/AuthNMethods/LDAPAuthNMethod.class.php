@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPAuthNMethod.class.php,v 1.14 2006/03/03 17:45:52 adamfranco Exp $
+ * @version $Id: LDAPAuthNMethod.class.php,v 1.15 2006/08/19 21:14:39 jwlee100 Exp $
  */ 
  
 require_once(dirname(__FILE__)."/AuthNMethod.abstract.php");
@@ -20,7 +20,7 @@ require_once(dirname(__FILE__)."/LDAPGroup.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPAuthNMethod.class.php,v 1.14 2006/03/03 17:45:52 adamfranco Exp $
+ * @version $Id: LDAPAuthNMethod.class.php,v 1.15 2006/08/19 21:14:39 jwlee100 Exp $
  */
 class LDAPAuthNMethod
 	extends AuthNMethod
@@ -172,6 +172,50 @@ class LDAPAuthNMethod
 		
 		return $obj;
 	}
+	
+	/**
+	 * Get an iterator of the AuthNTokens that match the search string passed.
+	 * The '*' wildcard character can be present in the string and will be
+	 * converted to the system wildcard for the AuthNMethod if wildcards are
+	 * supported or removed (and the exact string searched for) if they are not
+	 * supported.
+	 *
+	 * When multiple fields are searched on an OR search is performed, i.e.
+	 * '*ach*' would match username/fullname 'achapin'/'Chapin, Alex' as well as
+	 *  'zsmith'/'Smith, Zach'.
+	 * 
+	 * @param string $searchString
+	 * @return object ObjectIterator
+	 * @access public
+	 * @since 3/3/05
+	 */
+	function &getClassTokensBySearch ( $searchString ) {
+		ArgumentValidator::validate ($searchString, StringValidatorRule::getRule());
+		$propertiesFields =& $this->_configuration->getProperty('properties_fields');
+				
+		if (is_array($propertiesFields) && count($propertiesFields)) {
+					
+			$filter = "(|";
+			foreach ($propertiesFields as $propertyKey => $fieldName) {
+				$filter .= " (".$fieldName."=".$searchString.")";
+			}
+			$filter .= ")";
+			
+			$dns = $this->_connector->getClassesDNsBySearch($filter);
+		} else 
+			$dns = array();
+
+		$tokens = array();
+		foreach ($dns as $dn) {
+			$tokens[] =& $this->createTokensForIdentifier($dn);
+		}
+		
+		$obj =& new HarmoniObjectIterator($tokens);
+		
+		return $obj;
+	}
+		
+
 	
 		
 	

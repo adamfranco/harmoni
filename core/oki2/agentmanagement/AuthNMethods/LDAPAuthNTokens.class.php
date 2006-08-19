@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPAuthNTokens.class.php,v 1.8 2006/03/06 21:39:30 adamfranco Exp $
+ * @version $Id: LDAPAuthNTokens.class.php,v 1.9 2006/08/19 21:14:39 jwlee100 Exp $
  */ 
 
 require_once(dirname(__FILE__)."/UsernamePasswordAuthNTokens.class.php");
@@ -19,7 +19,7 @@ require_once(dirname(__FILE__)."/UsernamePasswordAuthNTokens.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPAuthNTokens.class.php,v 1.8 2006/03/06 21:39:30 adamfranco Exp $
+ * @version $Id: LDAPAuthNTokens.class.php,v 1.9 2006/08/19 21:14:39 jwlee100 Exp $
  */
 class LDAPAuthNTokens
 	extends UsernamePasswordAuthNTokens
@@ -83,6 +83,7 @@ class LDAPAuthNTokens
 		// itself.
 		$this->_identifier = $tokens['username'];
 	}
+	
 }
 
 ?>
