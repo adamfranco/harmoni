@@ -61,16 +61,17 @@
         	$this->write(7, "Test Course Offering");
 
         	
-        	$canType =& new Type("CourseManagement", "edu.middlebury", "DED", "Deductive Reasoning");
-          	$canStatType =& new Type("CourseManagement", "edu.middlebury", "Still offered", "Offerd sometimes");
+        	$canType =& new Type("CanonicalCourseType", "edu.middlebury", "DED", "Deductive Reasoning");
+          	$canStatType =& new Type("CanonicalCourseStatusType", "edu.middlebury", "Still offered", "Offerd sometimes");
           	
-          	$offerType1 =& new Type("CourseManagement", "edu.middlebury", "default", "");
-          	$offerType2 =& new Type("CourseManagement", "edu.middlebury", "undefault", "MYSTERIOUS!");
-          	$offerStatType1 =& new Type("CourseManagement", "edu.middlebury", "Full", "You can't still register.");
-          	$offerStatType2 =& new Type("CourseManagement", "edu.middlebury", "Available", "You can still register.");
-          	$gradeType =& new Type("CourseManagement", "edu.middlebury", "AutoFail", "Sucks to be you");
-          	$gradeType2 =& new Type("CourseManagement", "edu.middlebury", "EasyA", "AM LIT!");
-          	$termType =& new Type("CourseManagement", "edu.middlebury", "Fall");
+          	$offerType1 =& new Type("CourseOfferingType", "edu.middlebury", "default", "");
+          	$offerType2 =& new Type("CourseOfferingType", "edu.middlebury", "undefault", "MYSTERIOUS!");
+          	$offerStatType1 =& new Type("CourseOfferingStatusType", "edu.middlebury", "Full", "You can't still register.");
+          	$offerStatType2 =& new Type("CourseOfferingStatusType", "edu.middlebury", "Available", "You can still register.");
+          	$gradeType =& new Type("GradeType", "edu.middlebury", "AutoFail", "Sucks to be you");
+          	$gradeType2 =& new Type("GradeType", "edu.middlebury", "EasyA", "AM LIT!");
+          	$termType =& new Type("TermType", "edu.middlebury", "Fall");
+          	$scheduleItemType =& new Type("ScheduleItemStatusType", "edu.middlebury", "default");
           	
           	
           	$cs1 =& $cm->createCanonicalCourse("Intro to CSCI", "CSCI101", "",$canType, $canStatType,1);
@@ -79,8 +80,8 @@
           	       
           	$agents = array();
           	 	
-			$scheduleItemA =& $sm->createScheduleItem("Fall 2006 range", "", $agents, 300, 600, null);
-			$scheduleItemB =& $sm->createScheduleItem("Fall 2006 range", "", $agents, 1300, 1600, null);				
+			$scheduleItemA =& $sm->createScheduleItem("Fall 2006 range", "", $scheduleItemType, 300, 600, null);
+			$scheduleItemB =& $sm->createScheduleItem("Fall 2006 range", "", $scheduleItemType, 1300, 1600, null);				
 			$scheduleA = array($scheduleItemA);
 			$scheduleB = array($scheduleItemA);
 						

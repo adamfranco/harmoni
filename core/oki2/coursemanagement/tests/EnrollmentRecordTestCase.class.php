@@ -58,19 +58,22 @@
         	$this->write(7, "Test EnrollmentRecord");
 
         	
-        	$canType =& new Type("CourseManagement", "edu.middlebury", "DED", "Deductive Reasoning");
-          	$canStatType =& new Type("CourseManagement", "edu.middlebury", "Still offered", "Offerd sometimes");          	
-          	$offerType =& new Type("CourseManagement", "edu.middlebury", "default", "");         	
-          	$offerStatType =& new Type("CourseManagement", "edu.middlebury", "Full", "You can't still register.");
-          	$gradeType =& new Type("CourseManagement", "edu.middlebury", "AutoFail", "Sucks to be you");
-          	$termType =& new Type("CourseManagement", "edu.middlebury", "Fall");         	
-          	$sectionType1 =& new Type("CourseManagement", "edu.middlebury", "lecture", "");
-          	$sectionType2 =& new Type("CourseManagement", "edu.middlebury", "lab", "");         	          	         	
-          	$sectionStatType =& new Type("CourseManagement", "edu.middlebury", "Slots open", "register, baby!");
-			$propertiesType =& new Type("CourseManagement", "edu.middlebury", "properties");
-			$agentType =& new Type("CourseManagement", "edu.middlebury", "student");
-          	$enrollStatType1 =& new Type("CourseManagement", "edu.middlebury", "attending", ""); 
-          	$enrollStatType2 =& new Type("CourseManagement", "edu.middlebury", "auditing", "");   
+        	
+        	$canType =& new Type("CanonicalCourseType", "edu.middlebury", "DED", "Deductive Reasoning");
+          	$canStatType =& new Type("CanonicalCourseStatusType", "edu.middlebury", "Still offered", "Offered sometimes");          	
+          	$offerType =& new Type("CourseOfferingType", "edu.middlebury", "default", "");         	
+          	$offerStatType =& new Type("CourseOfferingStatusType", "edu.middlebury", "Full", "You can't still register.");
+          	$gradeType =& new Type("GradeType", "edu.middlebury", "AutoFail", "Sucks to be you");
+          	$termType =& new Type("TermType", "edu.middlebury", "Fall");
+          	$scheduleItemType =& new Type("ScheduleItemStatusType", "edu.middlebury", "default");
+          	       	
+          	$sectionType1 =& new Type("CourseSectionType", "edu.middlebury", "lecture", "");
+          	$sectionType2 =& new Type("CourseSectionType", "edu.middlebury", "lab", "");         	          	         	
+          	$sectionStatType =& new Type("CourseSectionStatusType", "edu.middlebury", "Slots open", "register, baby!");
+			$propertiesType =& new Type("PropertiesType", "edu.middlebury", "properties");
+			$agentType =& new Type("AgentType", "edu.middlebury", "student");
+          	$enrollStatType1 =& new Type("EnrollmentStatusType", "edu.middlebury", "attending", ""); 
+          	$enrollStatType2 =& new Type("EnrollmentStatusType", "edu.middlebury", "auditing", "");   
 			  
           	
           	
@@ -78,11 +81,10 @@
           	$cs2 =& $cm->createCanonicalCourse("Computer Graphics", "CSCI367", "descrip",$canType, $canStatType,1);
           	
           	       
-          	$agents = array();
-          	 	
-			$scheduleItemA1 =& $sm->createScheduleItem("Fall 2006 range", "", $agents, 300, 900, null);
-			$scheduleItemA2 =& $sm->createScheduleItem("Thanksgiving", "", $agents, 350, 400, null);
-			$scheduleItemA3 =& $sm->createScheduleItem("Christmas", "ho ho ho", $agents, 500, 600, null);
+          
+			$scheduleItemA1 =& $sm->createScheduleItem("Fall 2006 range", "", $scheduleItemType, 300, 900, null);
+			$scheduleItemA2 =& $sm->createScheduleItem("Thanksgiving", "", $scheduleItemType, 350, 400, null);
+			$scheduleItemA3 =& $sm->createScheduleItem("Christmas", "ho ho ho", $scheduleItemType, 500, 600, null);
 			
 			
 			$scheduleA = array($scheduleItemA1,$scheduleItemA2,$scheduleItemA3);

@@ -61,19 +61,19 @@
         	$sm =& Services::getService("Scheduling");
 			
         
-          	$termType1 =& new Type("CourseManagement", "edu.middlebury", "ItsTheFall");
-          	$termType2 =& new Type("Coursemanagement", "edu.middlebury", "ItsAlsoTheFall","contains Smarch and Febtober");               	
+          	$termType1 =& new Type("TermType", "edu.middlebury", "ItsTheFall");
+          	$termType2 =& new Type("TermType", "edu.middlebury", "ItsAlsoTheFall","contains Smarch and Febtober");               					$scheduleItemType =& new Type("ScheduleItemStatusType", "edu.middlebury", "default");
           	        	
-			$scheduleItemA1 =& $sm->createScheduleItem("Fall 2006 range", "", $agents, 300, 900, null);
-			$scheduleItemA2 =& $sm->createScheduleItem("Thanksgiving", "", $agents, 350, 400, null);
-			$scheduleItemA3 =& $sm->createScheduleItem("Christmas", "ho ho ho", $agents, 500, 600, null);
+			$scheduleItemA1 =& $sm->createScheduleItem("Fall 2006 range", "", $scheduleItemType, 300, 900, null);
+			$scheduleItemA2 =& $sm->createScheduleItem("Thanksgiving", "", $scheduleItemType, 350, 400, null);
+			$scheduleItemA3 =& $sm->createScheduleItem("Christmas", "ho ho ho", $scheduleItemType, 500, 600, null);
 			
-			$scheduleItemB1 =& $sm->createScheduleItem("Fall 2006 range", "", $agents, 1300, 1900, null);
-			$scheduleItemB2 =& $sm->createScheduleItem("Thanksgiving", "", $agents, 1350, 1400, null);
-			$scheduleItemB3 =& $sm->createScheduleItem("Christmas", "ho ho ho", $agents, 1500, 1600, null);				
+			$scheduleItemB1 =& $sm->createScheduleItem("Fall 2006 range", "", $scheduleItemType, 1300, 1900, null);
+			$scheduleItemB2 =& $sm->createScheduleItem("Thanksgiving", "", $scheduleItemType, 1350, 1400, null);
+			$scheduleItemB3 =& $sm->createScheduleItem("Christmas", "ho ho ho", $scheduleItemType, 1500, 1600, null);				
 			
-			$scheduleItemC1 =& $sm->createScheduleItem("Funky time", "", $agents, 100, 500, null);
-			$scheduleItemC2 =& $sm->createScheduleItem("Dance party", "", $agents, 700, 1400, null);
+			$scheduleItemC1 =& $sm->createScheduleItem("Funky time", "", $scheduleItemType, 100, 500, null);
+			$scheduleItemC2 =& $sm->createScheduleItem("Dance party", "", $scheduleItemType, 700, 1400, null);
 	
 			
 			$scheduleA = array($scheduleItemA1,$scheduleItemA2,$scheduleItemA3);

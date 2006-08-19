@@ -32,7 +32,7 @@ require_once(HARMONI."GUIManager/StyleProperty.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StyleProperty.class.php,v 1.11 2006/08/15 20:44:57 sporktim Exp $
+ * @version $Id: StyleProperty.class.php,v 1.12 2006/08/19 21:14:17 sporktim Exp $
  */
 class StyleProperty extends StylePropertyInterface {
 
@@ -213,64 +213,6 @@ class StyleProperty extends StylePropertyInterface {
 		return array();
 	}
 	
-	/**
-	 * Answers a WizardStep, this step is a simple container of the inputs
-	 * necessary for populating this SP from a wizard.  The step will be 
-	 * populated with all data from the DB, and empty SC's for unpopulated SCs
-	 * allowed for in the SP.
-	 * 
-	 * @return ref object WizardStep
-	 * @access public
-	 * @since 5/2/06
-	 */
-	function &getWizardRepresentation ($callBack,$collection) {
-		$wizSP =& new WizardStep();
-		// the list of existing SCs
-		$scs =& $this->getSCs();
-		// the list of SC types for this SP
-		$scList = $this->getSCList();
-		ob_start();
-		print "<table border=1>";
-		// for each existing SC built request an input for it
-		$i = 0;
-		
-		
-
-		
-		foreach (array_keys($scs) as $key) {
-			$class = get_class($scs[$key]);
-			
-			//printpre($scs);
-			
-			//print "   $key>-->'".$class."' ";
-			
-			$scComp =& new WStyleComponent($callBack, $class ,$this->getName(),$collection,true);
-			$wizSP->addComponent("comp".$i, $scComp);
-			// table row [displayName][input][description]
-			print "<tr><td>".$scs[$key]->getDisplayName().":</td>";
-			print "<td>[["."comp".$i."]]</td>";
-			print "<td>".$scs[$key]->getDescription()."</td></tr>";
-			$i++;	
-		}
-		
-		
-		
-		$empties = array_diff($scList, array_keys($scs));
-		// for each SC not populated create their options too
-		foreach ($empties as $empty) {
-			$emptySC =& new $empty();
-			$emptyComp =& new WStyleComponent($emptySC,true);
-			$wizSP->addComponent("comp".$i, $emptyComp);
-			// table row [displayName][input][description]
-			print "<tr><td>".$emptySC->getDisplayName().":</td>";
-			print "<td>[["."comp".$i."]]</td>";
-			print "<td>".$emptySC->getDescription()."</td></tr>";
-			$i++;
-		}
-		print "</table>";
-		$wizSP->setContent(ob_get_clean());
-		return $wizSP;
-	}
 	
 	/**
 	 * Return HTML to nested inside of the component's block. This includes

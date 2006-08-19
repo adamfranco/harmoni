@@ -28,7 +28,7 @@ require_once(HARMONI."GUIManager/StyleCollection.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StyleCollection.class.php,v 1.13 2006/08/15 20:44:57 sporktim Exp $
+ * @version $Id: StyleCollection.class.php,v 1.14 2006/08/19 21:14:17 sporktim Exp $
  */
 class StyleCollection extends StyleCollectionInterface {
 
@@ -317,93 +317,7 @@ class StyleCollection extends StyleCollectionInterface {
 		return $result;
 	}
 	
-	/**
-	 * Answers the wizard representation for the style collection
-	 * if the style is removable then it should support removing SPs
-	 * 
-	 * @param boolean $removable whether or not the collection (and SPs) are removable
-	 * @return ref object WizardStep
-	 * @access public
-	 * @since 5/4/06
-	 */
-	function &getWizardRepresentation ($callBack,$removable = false) {
-		$wizStyle =& new WizardStep();
-		$guiManager =& Services::getService('GUI');
-		
-		// table in buffer for WHOLE Style Collection
-		ob_start();
-		print "<table border=3 width='100%'>";
-
-		print "<td>".$this->getDisplayName()."</td>";
-		print "<td><table border=2 width='100%'>";
-
-		// build individula SP markup chunks that can be unset
-		$SPs =& $this->getSPs();
-		$i = 0;
-		foreach (array_keys($SPs) as $key) {
-			
-		
-			$spid =& $SPs[$key]->getId();
-			$wizStyle->addComponent("property_".$i,
-									$SPs[$key]->getWizardRepresentation($callBack,$this->getSelector()));
-			
-			
-									
-			// buffer for SP markup
-			ob_start();
-			print "<tr><td>".$SPs[$key]->getDisplayName()."</td>";
-			print "<td>[[property_".$i."]]</td>";
-
-			
-			
-			
-			// create remove button for each SP
-			if ($removable) {
-				$wizStyle->addComponent('remove-'.$spid->getIdString(),
-										WEventButton::withLabel('-'));
-				print "<td>[[remove-property_".$i."]]</td>";
-			}
-			
-			print "</tr>";
-			$wizStyle->setContent(ob_get_clean(), 
-											 $spid->getIdString()); 
-			
-		}
-		
-		print "</table></td>";
-		
-		// insert all the markup chunks that exist
-		//foreach ($wizStyle->getMarkups() as $key => $markup) {
-		//	print $markup;
-		//}
-		print $wizStyle->getMarkup($this->getSelector());
-		
-		
-		// create list and button for adding SPs
-		if ($removable) {
-			$SL =& $wizStyle->addComponent('add-SP', new WSelectList());		
-			$wizStyle->addComponent('plus', WEventButton::withLabel('+'));
-			$SupSPs = $guiManager->getSupportedSPs();
-			$available = array_diff($SupSPs, array_keys($SPs));
-			
-			foreach ($available as $option) {
-				$SL->addOption($option, $option);
-			}
-			
-			ob_start();
-			print "<tr><td>"._("Add another Property:")."</td>";
-			print "<td>[[add-SP]]</td><td>[[plus]]</td></tr>";
-			$wizStyle->setMarkupForComponent(ob_get_clean(), 'add-property');
-			
-			// why? i don't know!
-			print $wizStyle->getMarkupForComponent('add-property');
-		}
-		
-		print "</table>";
-		$wizStyle->setContent(ob_get_clean());
-		
-		return $wizStyle;
-	}
+	
 	
 	/**
 	 * Return HTML to nested inside of the component's block. This includes
