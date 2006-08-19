@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPConnector.class.php,v 1.9 2006/03/06 21:39:30 adamfranco Exp $
+ * @version $Id: LDAPConnector.class.php,v 1.10 2006/08/19 19:32:45 jwlee100 Exp $
  */ 
 
 /**
@@ -17,7 +17,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPConnector.class.php,v 1.9 2006/03/06 21:39:30 adamfranco Exp $
+ * @version $Id: LDAPConnector.class.php,v 1.10 2006/08/19 19:32:45 jwlee100 Exp $
  */
 class LDAPConnector {
 		
@@ -62,6 +62,10 @@ class LDAPConnector {
 			
 		ArgumentValidator::validate (
 			$this->_configuration->getProperty('UserBaseDN'), 
+			FieldRequiredValidatorRule::getRule());
+			
+		ArgumentValidator::validate (
+			$this->_configuration->getProperty('ClassesBaseDN'), 
 			FieldRequiredValidatorRule::getRule());
 			
 		ArgumentValidator::validate (
@@ -166,6 +170,18 @@ class LDAPConnector {
 		$this->_disconnect();
 
 		return false;
+	}
+	
+	/**
+	 * Get the course DNs that match the search
+	 * 
+	 * @param string $systemName
+	 * @return string
+	 * @access public
+	 * @since 3/4/05
+	 */
+	function getUserDNsBySearch ( $filter ) {
+		return $this->getDNsBySearch($filter, $this->_configuration->getProperty("ClassesBaseDN"));
 	}
 	
 	/**

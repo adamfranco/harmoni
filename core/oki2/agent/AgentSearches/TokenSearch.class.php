@@ -11,7 +11,7 @@ require_once(dirname(__FILE__)."/AgentSearch.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TokenSearch.class.php,v 1.2 2006/01/17 20:06:21 adamfranco Exp $
+ * @version $Id: TokenSearch.class.php,v 1.3 2006/08/19 19:32:43 jwlee100 Exp $
  */
 
 class TokenSearch
@@ -42,9 +42,12 @@ class TokenSearch
 			$authNMethod =& $authNMethodManager->getAuthNMethodForType($type);
 			$tokensIterator =& $authNMethod->getTokensBySearch($searchCriteria);
 			
+		
+			
 			while ($tokensIterator->hasNextObject()) {
-				$agentId =& $authenticationManager->_getAgentIdForAuthNTokens(
-					$tokensIterator->nextObject(), $type);
+				$token =& $tokensIterator->nextObject();
+				$agentId =& $authenticationManager->_getAgentIdForAuthNTokens($token
+				, $type);
 				$allAgents[] =& $agentManager->getAgent($agentId);
 			}
 		}
