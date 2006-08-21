@@ -1,11 +1,11 @@
 <?php
 /** 
- * @package harmoni.primitives.chronology.tests
+ * @package harmoni.chronology.tests
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ISO8601StringParserTestCase.class.php,v 1.3 2006/06/26 12:55:08 adamfranco Exp $
+ * @version $Id: ISO8601StringParserTestCase.class.php,v 1.2.2.1 2006/08/21 21:07:56 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -22,12 +22,12 @@ require_once(dirname(__FILE__)."/../ISO8601TimeStringParser.class.php");
  *
  * @since 5/3/05
  *
- * @package harmoni.primitives.chronology.tests
+ * @package harmoni.chronology.tests
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ISO8601StringParserTestCase.class.php,v 1.3 2006/06/26 12:55:08 adamfranco Exp $
+ * @version $Id: ISO8601StringParserTestCase.class.php,v 1.2.2.1 2006/08/21 21:07:56 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -117,6 +117,19 @@ class ISO8601StringParserTestCase extends UnitTestCase {
 		$this->assertEqual($parser->hour(), 15);
 		$this->assertEqual($parser->minute(), 25);
 		$this->assertEqual($parser->second(), 10);
+		$this->assertEqual($parser->offsetHour(), 0);
+		$this->assertEqual($parser->offsetMinute(), 0);
+		$this->assertEqual($parser->offsetSecond(), 0);
+		
+		$parser =& new ISO8601StringParser(
+			'2006-11-12 18:00:00');
+		$this->assertTrue($parser->canHandle());
+		$this->assertEqual($parser->year(), 2006);
+		$this->assertEqual($parser->month(), 11);
+		$this->assertEqual($parser->day(), 12);
+		$this->assertEqual($parser->hour(), 18);
+		$this->assertEqual($parser->minute(), 0);
+		$this->assertEqual($parser->second(), 0);
 		$this->assertEqual($parser->offsetHour(), 0);
 		$this->assertEqual($parser->offsetMinute(), 0);
 		$this->assertEqual($parser->offsetSecond(), 0);

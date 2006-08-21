@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTime.class.php,v 1.3.2.2 2006/08/03 16:57:40 adamfranco Exp $
+ * @version $Id: DateAndTime.class.php,v 1.3.2.3 2006/08/21 21:07:54 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -64,7 +64,7 @@ require_once(dirname(__FILE__)."/../Magnitudes/Magnitude.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTime.class.php,v 1.3.2.2 2006/08/03 16:57:40 adamfranco Exp $
+ * @version $Id: DateAndTime.class.php,v 1.3.2.3 2006/08/21 21:07:54 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -111,7 +111,7 @@ class DateAndTime
 	 * @static
 	 */
 	function &clockPrecision () {
-		$obj =& Duration::zero();
+		$obj =& Duration::withSeconds(1);
 		return $obj;
 	}
 	

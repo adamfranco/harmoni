@@ -11,14 +11,14 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: test.php,v 1.1 2005/07/13 21:38:06 adamfranco Exp $
+ * @version $Id: test.php,v 1.1.2.1 2006/08/21 21:07:56 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
  */
 
 	if (!defined('HARMONI')) {
-		define('HARMONI', "../../../../core/");
+		define('HARMONI', "../../../../../core/");
 	}
 
 	if (!defined('SIMPLE_TEST')) {
