@@ -3,12 +3,19 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.130.2.18 2006/08/18 20:42:52 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.130.2.19 2006/08/24 13:05:34 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
-	<version number="0.7.7" date="The Future">
+	<version number="0.7.7" date="2006-08-24">
+		<fix author='adam'>
+			UnitTests: Removed depricated pass-by-reference call.
+		</fix>
+		<fix author='adam'>
+			Chronology: Fixed error, ClockPrecision must be non-zero as otherwise 
+			dates span two days rather than a clock-tick less than 24 hours.
+		</fix>
 		<new author='adam'>
 			GUI: The table layout can now handle rendering direction of elements 
 			other than Left-Right/Top-Bottom.

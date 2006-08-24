@@ -1,5 +1,5 @@
 <?php
-    // $Id: observer.php,v 1.3 2006/07/13 20:39:04 jwlee100 Exp $
+    // $Id: observer.php,v 1.2.4.1 2006/08/24 13:05:34 adamfranco Exp $
     
     if (!defined("SIMPLE_TEST")) {
         define("SIMPLE_TEST", "./");
