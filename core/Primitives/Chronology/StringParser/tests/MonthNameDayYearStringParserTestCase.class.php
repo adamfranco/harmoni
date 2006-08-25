@@ -1,11 +1,11 @@
 <?php
 /** 
- * @package harmoni.primitives.chronology.tests
+ * @package harmoni.chronology.tests
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MonthNameDayYearStringParserTestCase.class.php,v 1.2 2006/06/26 12:55:08 adamfranco Exp $
+ * @version $Id: MonthNameDayYearStringParserTestCase.class.php,v 1.1.2.1 2006/08/25 13:36:49 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -21,12 +21,12 @@ require_once(dirname(__FILE__)."/../MonthNameDayYearStringParser.class.php");
  *
  * @since 5/3/05
  *
- * @package harmoni.primitives.chronology.tests
+ * @package harmoni.chronology.tests
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MonthNameDayYearStringParserTestCase.class.php,v 1.2 2006/06/26 12:55:08 adamfranco Exp $
+ * @version $Id: MonthNameDayYearStringParserTestCase.class.php,v 1.1.2.1 2006/08/25 13:36:49 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -100,6 +100,19 @@ class MonthNameDayYearStringParserTestCase extends UnitTestCase {
 		$this->assertEqual($parser->year(), 1982);
 		$this->assertEqual($parser->month(), 4);
 		$this->assertEqual($parser->day(), 5);
+		$this->assertEqual($parser->hour(), NULL);
+		$this->assertEqual($parser->minute(), NULL);
+		$this->assertEqual($parser->second(), NULL);
+		$this->assertEqual($parser->offsetHour(), NULL);
+		$this->assertEqual($parser->offsetMinute(), NULL);
+		$this->assertEqual($parser->offsetSecond(), NULL);
+		
+		$parser =& new MonthNameDayYearStringParser(
+			'August 10th, 2006');
+		
+		$this->assertEqual($parser->year(), 2006);
+		$this->assertEqual($parser->month(), 8);
+		$this->assertEqual($parser->day(), 10);
 		$this->assertEqual($parser->hour(), NULL);
 		$this->assertEqual($parser->minute(), NULL);
 		$this->assertEqual($parser->second(), NULL);
