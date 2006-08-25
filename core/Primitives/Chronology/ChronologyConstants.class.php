@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ChronologyConstants.class.php,v 1.2 2006/06/26 12:55:07 adamfranco Exp $
+ * @version $Id: ChronologyConstants.class.php,v 1.1.2.1 2006/08/25 15:29:17 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -18,12 +18,12 @@
  *
  * 
  * @since 5/2/05
- * @package harmoni.primitives.chronology
+ *@package harmoni.primitives.chronology
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ChronologyConstants.class.php,v 1.2 2006/06/26 12:55:07 adamfranco Exp $
+ * @version $Id: ChronologyConstants.class.php,v 1.1.2.1 2006/08/25 15:29:17 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>

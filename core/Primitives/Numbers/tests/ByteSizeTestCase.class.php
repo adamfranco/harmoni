@@ -1,11 +1,11 @@
 <?php
 /** 
- * @package harmoni.primitives.chronology.tests
+ *@package harmoni.primitives.chronology.tests
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ByteSizeTestCase.class.php,v 1.3 2006/06/26 12:55:11 adamfranco Exp $
+ * @version $Id: ByteSizeTestCase.class.php,v 1.2.2.1 2006/08/25 15:29:22 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -21,12 +21,12 @@ require_once(dirname(__FILE__)."/../ByteSize.class.php");
  *
  * @since 5/25/05
  *
- * @package harmoni.primitives.chronology.tests
+ *@package harmoni.primitives.chronology.tests
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ByteSizeTestCase.class.php,v 1.3 2006/06/26 12:55:11 adamfranco Exp $
+ * @version $Id: ByteSizeTestCase.class.php,v 1.2.2.1 2006/08/25 15:29:22 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>

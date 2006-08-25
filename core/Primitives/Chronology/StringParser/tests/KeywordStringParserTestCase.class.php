@@ -1,11 +1,11 @@
 <?php
 /** 
- * @package harmoni.primitives.chronology.tests
+ *@package harmoni.primitives.chronology.tests
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: KeywordStringParserTestCase.class.php,v 1.2 2006/06/26 12:55:08 adamfranco Exp $
+ * @version $Id: KeywordStringParserTestCase.class.php,v 1.1.2.1 2006/08/25 15:29:19 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -22,12 +22,12 @@ require_once(dirname(__FILE__)."/../../Date.class.php");
  *
  * @since 5/3/05
  *
- * @package harmoni.primitives.chronology.tests
+ *@package harmoni.primitives.chronology.tests
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: KeywordStringParserTestCase.class.php,v 1.2 2006/06/26 12:55:08 adamfranco Exp $
+ * @version $Id: KeywordStringParserTestCase.class.php,v 1.1.2.1 2006/08/25 15:29:19 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>

@@ -1,11 +1,11 @@
 <?php
 /** 
- * @package harmoni.primitives.chronology.tests
+ *@package harmoni.primitives.chronology.tests
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HtmlStringTestCase.class.php,v 1.9 2006/06/26 12:55:10 adamfranco Exp $
+ * @version $Id: HtmlStringTestCase.class.php,v 1.8.2.1 2006/08/25 15:29:21 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -21,12 +21,12 @@ require_once(dirname(__FILE__)."/../HtmlString.class.php");
  *
  * @since 5/3/05
  *
- * @package harmoni.primitives.chronology.tests
+ *@package harmoni.primitives.chronology.tests
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HtmlStringTestCase.class.php,v 1.9 2006/06/26 12:55:10 adamfranco Exp $
+ * @version $Id: HtmlStringTestCase.class.php,v 1.8.2.1 2006/08/25 15:29:21 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>

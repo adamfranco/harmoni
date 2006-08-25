@@ -1,12 +1,12 @@
 <?php
 /**
  * @since 5/4/05
- * @package harmoni.chronology
+ *@package harmoni.primitives.chronology
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Date.class.php,v 1.1.2.2 2006/08/03 16:57:40 adamfranco Exp $
+ * @version $Id: Date.class.php,v 1.1.2.3 2006/08/25 15:29:17 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -35,12 +35,12 @@ require_once(dirname(__FILE__)."/DateAndTime.class.php");
  *		- {@link yesterday Date::yesterday()}
  * 
  * @since 5/4/05
- * @package harmoni.chronology
+ *@package harmoni.primitives.chronology
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Date.class.php,v 1.1.2.2 2006/08/03 16:57:40 adamfranco Exp $
+ * @version $Id: Date.class.php,v 1.1.2.3 2006/08/25 15:29:17 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>

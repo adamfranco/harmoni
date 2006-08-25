@@ -6,12 +6,12 @@ require_once(dirname(__FILE__)."/../Objects/SObject.class.php");
 /**
  * A simple Boolean data type.
  *
- * @package harmoni.primitives
+ * @package harmoni.primitives.objects
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Boolean.class.php,v 1.8 2006/06/26 12:55:12 adamfranco Exp $
+ * @version $Id: Boolean.class.php,v 1.7.2.1 2006/08/25 15:29:23 adamfranco Exp $
  */
 class Boolean 
 	extends SObject
