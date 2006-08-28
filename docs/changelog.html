@@ -3,7 +3,25 @@
 	h1, h2 {color: #005;}
 	h1 {font-size: 18pt;}
 	li {padding-bottom: 3px;}
-	</style><div style="font-family: Verdana; font-size: 12px;"><h1>Harmoni ChangeLog</h1><h2>Version 0.7.6</h2><h3>2006-08-15</h3><ul>
+	</style><div style="font-family: Verdana; font-size: 12px;"><h1>Harmoni ChangeLog</h1><h2>Version 0.7.7</h2><h3>2006-08-28</h3><ul>
+		<li/> Bug Fix:
+	 
+			UnitTests: Removed depricated pass-by-reference call.
+		 (<i>Adam Franco</i>)
+		<li/> Bug Fix:
+	 
+			Chronology: Fixed error, ClockPrecision must be non-zero as otherwise 
+			dates span two days rather than a clock-tick less than 24 hours.
+		 (<i>Adam Franco</i>)
+		<li/> New feature:  
+			GUI: The table layout can now handle rendering direction of elements 
+			other than Left-Right/Top-Bottom.
+		 (<i>Adam Franco</i>)
+		<li/> New feature:  
+			GUI: TThe XLayout and YLayout can now handle rendering direction of 
+			elements other than Left-Right and Top-Bottom.
+		 (<i>Adam Franco</i>)
+	</ul><br/><h2>Version 0.7.6</h2><h3>2006-08-15</h3><ul>
 		<li/> Bug Fix:
 	 
 			Repository: RepositoryManager now returns false instead of an error 

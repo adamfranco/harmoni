@@ -6,6 +6,8 @@ Name: Harmoni ChangeLog
 v. 0.7.7 (2006-08-28)
 ----------------------------------------------------
 		
+	* Bug Fix: Chronology: Now parses dates of the form 'August 10th, 2006' and doesn't choke on the 'th'. (Adam Franco)
+		
 	* Bug Fix: UnitTests: Removed depricated pass-by-reference call. (Adam Franco)
 		
 	* Bug Fix: Chronology: Fixed error, ClockPrecision must be non-zero as otherwise dates span two days rather than a clock-tick less than 24 hours. (Adam Franco)
