@@ -3,6 +3,17 @@
 Name: Harmoni ChangeLog
 
 
+v. 0.7.7 (2006-08-28)
+----------------------------------------------------
+		
+	* Bug Fix: UnitTests: Removed depricated pass-by-reference call. (Adam Franco)
+		
+	* Bug Fix: Chronology: Fixed error, ClockPrecision must be non-zero as otherwise dates span two days rather than a clock-tick less than 24 hours. (Adam Franco)
+		
+	* New feature: GUI: The table layout can now handle rendering direction of elements other than Left-Right/Top-Bottom. (Adam Franco)
+		
+	* New feature: GUI: TThe XLayout and YLayout can now handle rendering direction of elements other than Left-Right and Top-Bottom. (Adam Franco)
+	
 v. 0.7.6 (2006-08-15)
 ----------------------------------------------------
 		
