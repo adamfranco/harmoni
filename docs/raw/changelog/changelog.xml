@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.130.2.21 2006/08/28 17:03:41 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.130.2.22 2006/08/28 20:07:32 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -28,6 +28,11 @@
 			GUI: TThe XLayout and YLayout can now handle rendering direction of 
 			elements other than Left-Right and Top-Bottom.
 		</new>
+		<fix author='adam'>
+			ImageProcessor: Now if Image Magick barfs on some multi-page PDFs and 
+			generates a single black pixel as a thumbnail, it won't be saved and 
+			the nice default icon will be used instead.
+		</fix>
 	</version>
 	<version number="0.7.6" date="2006-08-15">
 		<fix author='adam'>

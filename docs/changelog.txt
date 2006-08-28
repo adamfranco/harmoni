@@ -15,6 +15,8 @@ v. 0.7.7 (2006-08-28)
 	* New feature: GUI: The table layout can now handle rendering direction of elements other than Left-Right/Top-Bottom. (Adam Franco)
 		
 	* New feature: GUI: TThe XLayout and YLayout can now handle rendering direction of elements other than Left-Right and Top-Bottom. (Adam Franco)
+		
+	* Bug Fix: ImageProcessor: Now if Image Magick barfs on some multi-page PDFs and generates a single black pixel as a thumbnail, it won't be saved and the nice default icon will be used instead. (Adam Franco)
 	
 v. 0.7.6 (2006-08-15)
 ----------------------------------------------------
