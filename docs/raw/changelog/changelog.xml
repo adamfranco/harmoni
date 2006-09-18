@@ -3,11 +3,17 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.130.2.22 2006/08/28 20:07:32 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.130.2.23 2006/09/18 14:43:06 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
+	<version number="0.7.8" date="The Future">
+		<fix author='adam'>
+			Errors: Now includes User-Agent, Referer, Request URI, GET, and POST
+			with the logged backtrace.
+		</fix>
+	</version>
 	<version number="0.7.7" date="2006-08-28">
 		<fix author='adam'>
 			Chronology: Now parses dates of the form 'August 10th, 2006' and 
