@@ -19,7 +19,7 @@ require_once(HARMONI."GUIManager/StyleProperties/BorderSP.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TableLayout.class.php,v 1.2.2.1 2006/08/18 20:22:11 adamfranco Exp $
+ * @version $Id: TableLayout.class.php,v 1.2.2.2 2006/09/18 14:51:19 adamfranco Exp $
  */
 class TableLayout 
 	extends LayoutInterface 
@@ -32,6 +32,8 @@ class TableLayout
 	 * @access public
 	 **/
 	function TableLayout( $numberOfColumns, $tdStyles = null ) {
+		ArgumentValidator::validate($numberOfColumns, IntegerValidatorRule::getRule());
+		
 		$this->_numColumns = $numberOfColumns;
 		$this->_tdStyles = $tdStyles;
 		$this->_renderDirection ='Left-Right/Top-Bottom';
