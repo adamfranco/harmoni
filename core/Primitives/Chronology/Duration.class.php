@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Duration.class.php,v 1.2.2.3 2006/08/25 15:29:17 adamfranco Exp $
+ * @version $Id: Duration.class.php,v 1.2.2.4 2006/09/19 19:45:21 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -41,7 +41,7 @@ require_once(dirname(__FILE__)."/../Magnitudes/Magnitude.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Duration.class.php,v 1.2.2.3 2006/08/25 15:29:17 adamfranco Exp $
+ * @version $Id: Duration.class.php,v 1.2.2.4 2006/09/19 19:45:21 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -153,7 +153,8 @@ class Duration
 	function &withMonth ( $anIntOrStrMonth ) {
 		$currentYear =& Year::current();
 		$month =& Month::withMonthYear($anIntOrStrMonth, $currentYear->startYear());
-		return $month->duration();
+		$obj =& $month->duration();
+		return $obj;
 	}
 	
 	/**
@@ -446,7 +447,8 @@ class Duration
 	 * @since 5/3/05
 	 */
 	function &minus ( &$aDuration ) {
-		return $this->plus($aDuration->negated());
+		$obj =& $this->plus($aDuration->negated());
+		return $obj;
 	}
 	
 	/**

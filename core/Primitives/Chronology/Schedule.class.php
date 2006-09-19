@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Schedule.class.php,v 1.1.2.1 2006/08/25 15:29:17 adamfranco Exp $
+ * @version $Id: Schedule.class.php,v 1.1.2.2 2006/09/19 19:45:22 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -32,7 +32,7 @@ require_once(dirname(__FILE__)."/Timespan.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Schedule.class.php,v 1.1.2.1 2006/08/25 15:29:17 adamfranco Exp $
+ * @version $Id: Schedule.class.php,v 1.1.2.2 2006/09/19 19:45:22 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -65,7 +65,8 @@ class Schedule
 	 * @static
 	 */
 	function &current ( $class = 'Schedule' ) {
-		return parent::current($class);
+		$obj =& parent::current($class);
+		return $obj;
 	}
 	
 	/**
@@ -81,7 +82,8 @@ class Schedule
 	 * @static
 	 */
 	function &epoch ( $class = 'Schedule' ) {
-		return parent::epoch($class);
+		$obj =& parent::epoch($class);
+		return $obj;
 	}
 	
 	/**
@@ -98,7 +100,8 @@ class Schedule
 	 * @static
 	 */
 	function &starting ( &$aDateAndTime, $class = 'Schedule' ) {
-		return parent::starting($aDateAndTime, $class);
+		$obj =& parent::starting($aDateAndTime, $class);
+		return $obj;
 	}
 	
 	/**
@@ -117,7 +120,8 @@ class Schedule
 	function &startingEnding ( &$startDateAndTime, &$endDateAndTime, 
 		$class = 'Schedule' ) 
 	{
-		return parent::startingEnding ( $startDateAndTime, $endDateAndTime, $class);
+		$obj =& parent::startingEnding ( $startDateAndTime, $endDateAndTime, $class);
+		return $obj;
 	}
 	
 		
@@ -136,7 +140,8 @@ class Schedule
 	 * @static
 	 */
 	function &startingDuration ( &$aDateAndTime, &$aDuration, $class = 'Schedule' ) {
-		return parent::startingDuration ( $aDateAndTime, $aDuration, $class);
+		$obj =& parent::startingDuration ( $aDateAndTime, $aDuration, $class);
+		return $obj;
 	}
 
 /*********************************************************
@@ -191,7 +196,8 @@ class Schedule
  	 * @since 5/25/05
  	 */
  	function &dateAndTimes () {
- 		return $this->between($this->start, $this->end());
+ 		$obj =& $this->between($this->start, $this->end());
+ 		return $obj;
  	}
 	
 	/**

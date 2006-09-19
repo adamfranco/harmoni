@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Time.class.php,v 1.2.2.3 2006/08/25 15:29:18 adamfranco Exp $
+ * @version $Id: Time.class.php,v 1.2.2.4 2006/09/19 19:45:22 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -41,7 +41,7 @@ require_once(dirname(__FILE__)."/Year.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Time.class.php,v 1.2.2.3 2006/08/25 15:29:18 adamfranco Exp $
+ * @version $Id: Time.class.php,v 1.2.2.4 2006/09/19 19:45:22 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -480,7 +480,8 @@ class Time
 	 */
 	function &asDateAndTime () {
 		$dateAndTime =& DateAndTime::today();
-		return $dateAndTime->plus($this);
+		$obj =& $dateAndTime->plus($this);
+		return $obj;
 	}
 	
 	/**
@@ -505,7 +506,8 @@ class Time
 	 */
 	function &asMonth () {
 		$asDateAndTime =& $this->asDateAndTime();
-		return $asDateAndTime->asMonth();
+		$obj =& $asDateAndTime->asMonth();
+		return $obj;
 	}
 	
 	/**
@@ -539,7 +541,8 @@ class Time
 	 */
 	function &asTimeStamp () {
 		$asDateAndTime =& $this->asDateAndTime();
-		return $asDateAndTime->asTimeStamp();
+		$obj =& $asDateAndTime->asTimeStamp();
+		return $obj;
 	}
 	
 	/**
@@ -551,7 +554,8 @@ class Time
 	 */
 	function &asWeek () {
 		$asDateAndTime =& $this->asDateAndTime();
-		return $asDateAndTime->asWeek();
+		$obj =& $asDateAndTime->asWeek();
+		return $obj;
 	}
 	
 	/**
@@ -563,7 +567,8 @@ class Time
 	 */
 	function &asYear () {
 		$asDateAndTime =& $this->asDateAndTime();
-		return $asDateAndTime->asYear();
+		$obj =& $asDateAndTime->asYear();
+		return $obj;
 	}
 	
 	/**
@@ -576,7 +581,8 @@ class Time
 	 */
 	function &to ( &$anEnd ) {
 		$asDateAndTime =& $this->asDateAndTime();
-		return $asDateAndTime->to($anEnd);
+		$obj =& $asDateAndTime->to($anEnd);
+		return $obj;
 	}
 }
 

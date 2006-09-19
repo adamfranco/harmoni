@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTime.class.php,v 1.3.2.4 2006/08/25 15:29:17 adamfranco Exp $
+ * @version $Id: DateAndTime.class.php,v 1.3.2.5 2006/09/19 19:45:21 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -64,7 +64,7 @@ require_once(dirname(__FILE__)."/../Magnitudes/Magnitude.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTime.class.php,v 1.3.2.4 2006/08/25 15:29:17 adamfranco Exp $
+ * @version $Id: DateAndTime.class.php,v 1.3.2.5 2006/09/19 19:45:21 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -244,7 +244,8 @@ class DateAndTime
 	 */
 	function &midnight ( $class = 'DateAndTime' ) {
 		eval('$result =& '.$class.'::now("'.$class.'");');
-		return $result->atMidnight();
+		$obj =& $result->atMidnight();
+		return $obj;
 	}
 	
 	/**
@@ -261,7 +262,8 @@ class DateAndTime
 	 */
 	function &noon ( $class = 'DateAndTime' ) {
 		eval('$result =& '.$class.'::now('.$class.');');
-		return $result->atNoon();
+		$obj =& $result->atNoon();
+		return $obj;
 	}
 	
 	/**
@@ -325,7 +327,8 @@ class DateAndTime
 		eval('$today =& '.$class.'::today($class);');
 		$todaysDate =& $today->asDate();
 		$tomorowsDate =& $todaysDate->next();
-		return $tomorowsDate->asDateAndTime();
+		$obj =& $tomorowsDate->asDateAndTime();
+		return $obj;
 	}
 	
 	/**
@@ -471,7 +474,8 @@ class DateAndTime
 				$class
 			);');
 		$day =& Duration::withDays($anIntDayOfYear - 1);
-		return $result->plus($day);
+		$obj =& $result->plus($day);
+		return $obj;
 	}
 	
 	/**
@@ -649,7 +653,8 @@ class DateAndTime
 		eval('$today =& '.$class.'::today($class);');
 		$todaysDate =& $today->asDate();
 		$yesterdaysDate =& $todaysDate->previous();
-		return $yesterdaysDate->asDateAndTime();
+		$obj =& $yesterdaysDate->asDateAndTime();
+		return $obj;
 	}
 	
 	
@@ -1123,10 +1128,11 @@ class DateAndTime
 			if ($this->offset->isEqualTo($zoneArray[$key]->offset()))
 				return $zoneArray[$key];
 		}
-		return TimeZone::offsetNameAbbreviation(
+		$obj =& TimeZone::offsetNameAbbreviation(
 						$this->offset,
 						$tzAbbreviation,
 						$tzAbbreviation);
+		return $obj;
 	}
 	
 	/**
@@ -1314,14 +1320,17 @@ class DateAndTime
 			$opLocal =& $opDAndT->asLocal();
 			$rticks = $opLocal->ticks();
 			
-			return Duration::withSeconds(
+			$obj =& Duration::withSeconds(
 				(($lticks[0] - $rticks[0]) * ChronologyConstants::SecondsInDay())
 				+ ($lticks[1] - $rticks[1]));
+			
+			return $obj;
 			
 		} 
 		// If this conforms to the Duration protocal
 		else {
-			return $this->plus($operand->negated());
+			$obj =& $this->plus($operand->negated());
+			return $obj;
 		}
 	}
 	
@@ -1402,8 +1411,10 @@ class DateAndTime
 		$myOffset =& $this->offset();
 		if ($myOffset->isEqualTo(DateAndTime::localOffset()))
 			return $this;
-		else
-			return $this->utcOffset(DateAndTime::localOffset());
+		else {
+			$obj =& $this->utcOffset(DateAndTime::localOffset());
+			return $obj;
+		}
 	}
 	
 	/**
@@ -1451,7 +1462,8 @@ class DateAndTime
 	 * @since 5/5/05
 	 */
 	function &asTimeStamp () {
-		return $this->asA('TimeStamp');
+		$obj =& $this->asA('TimeStamp');
+		return $obj;
 	}
 	
 	/**
@@ -1462,7 +1474,8 @@ class DateAndTime
 	 * @since 5/4/05
 	 */
 	function &asUTC () {
-		return $this->utcOffset(Duration::withHours(0));
+		$obj =& $this->utcOffset(Duration::withHours(0));
+		return $obj;
 	}
 	
 	/**
@@ -1500,9 +1513,11 @@ class DateAndTime
 	function &middleOf ( &$aDuration ) {
 		$duration =& $aDuration->asDuration();
 		
-		return Timespan::startingDuration(
+		$obj =& Timespan::startingDuration(
 			$this->minus($duration->dividedBy(2)),
 			$duration);
+		
+		return $obj;
 	}
 	
 	/**

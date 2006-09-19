@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Week.class.php,v 1.2.2.1 2006/08/25 15:29:18 adamfranco Exp $
+ * @version $Id: Week.class.php,v 1.2.2.2 2006/09/19 19:45:22 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -32,7 +32,7 @@ require_once(dirname(__FILE__)."/Timespan.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Week.class.php,v 1.2.2.1 2006/08/25 15:29:18 adamfranco Exp $
+ * @version $Id: Week.class.php,v 1.2.2.2 2006/09/19 19:45:22 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -122,7 +122,8 @@ class Week
 	 * @static
 	 */
 	function &current ( $class = 'Week' ) {
-		return parent::current($class);
+		$obj =& parent::current($class);
+		return $obj;
 	}
 	
 	/**
@@ -138,7 +139,8 @@ class Week
 	 * @static
 	 */
 	function &epoch ( $class = 'Week' ) {
-		return parent::epoch($class);
+		$obj =& parent::epoch($class);
+		return $obj;
 	}
 	
 	/**
@@ -155,7 +157,8 @@ class Week
 	 * @static
 	 */
 	function &starting ( &$aDateAndTime, $class = 'Week' ) {
-		return parent::starting($aDateAndTime, $class);
+		$obj =& parent::starting($aDateAndTime, $class);
+		return $obj;
 	}
 	
 	/**
@@ -174,7 +177,8 @@ class Week
 	function &startingEnding ( &$startDateAndTime, &$endDateAndTime, 
 		$class = 'Week' ) 
 	{
-		return parent::startingEnding ( $startDateAndTime, $endDateAndTime, $class);
+		$obj =& parent::startingEnding ( $startDateAndTime, $endDateAndTime, $class);
+		return $obj;
 	}
 	
 		
@@ -210,7 +214,9 @@ class Week
 		
 		$adjusted =& $midnight->minus(Duration::withDays($delta));
 		
-		return parent::startingDuration($adjusted, Duration::withWeeks(1), $class);
+		$obj =& parent::startingDuration($adjusted, Duration::withWeeks(1), $class);
+		
+		return $obj;
 	}
 
 	
