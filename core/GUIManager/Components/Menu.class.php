@@ -13,7 +13,7 @@ require_once(HARMONI."GUIManager/Components/Menu.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Menu.class.php,v 1.12 2006/04/05 16:08:33 adamfranco Exp $
+ * @version $Id: Menu.class.php,v 1.12.2.1 2006/09/22 14:29:34 adamfranco Exp $
  */
 class Menu extends Container /* implements MenuInterface */ {
 
@@ -79,9 +79,11 @@ class Menu extends Container /* implements MenuInterface */ {
 		$rule1 =& ExtendsValidatorRule::getRule("MenuItemLink");
 		$rule2 =& ExtendsValidatorRule::getRule("MenuItemHeading");
 		$rule3 =& ExtendsValidatorRule::getRule("MenuItem");
+		$rule4 =& ExtendsValidatorRule::getRule("SubMenu");
 		ArgumentValidator::validate($menuItem, 
 			OrValidatorRule::getRule(
-				OrValidatorRule::getRule($rule1, $rule2), $rule3), 
+				OrValidatorRule::getRule(
+					OrValidatorRule::getRule($rule1, $rule2), $rule3), $rule4),
 			true);
 		// ** end of parameter validation
 

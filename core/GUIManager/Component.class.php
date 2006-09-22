@@ -16,7 +16,7 @@ require_once(HARMONI."GUIManager/StyleCollection.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Component.class.php,v 1.19 2006/04/07 15:09:14 adamfranco Exp $
+ * @version $Id: Component.class.php,v 1.19.2.1 2006/09/22 14:29:33 adamfranco Exp $
  */
 class Component extends ComponentInterface {
 
@@ -101,8 +101,8 @@ class Component extends ComponentInterface {
 		$rule =& OptionalRule::getRule(StringValidatorRule::getRule());
 		ArgumentValidator::validate($content, $rule, true);
 		$rule =& ChoiceValidatorRule::getRule(BLANK, HEADING, HEADER, FOOTER, BLOCK, MENU, 
-										 MENU_ITEM_LINK_UNSELECTED, MENU_ITEM_LINK_SELECTED, 
-										 MENU_ITEM_HEADING, OTHER);
+										SUB_MENU, MENU_ITEM_LINK_UNSELECTED,
+										MENU_ITEM_LINK_SELECTED, MENU_ITEM_HEADING, OTHER);
 		ArgumentValidator::validate($type, $rule, true);
 		ArgumentValidator::validate($index, IntegerValidatorRule::getRule(), true);
 		// ** end of parameter validation	

@@ -42,6 +42,13 @@ define("BLOCK", 8);
  * @package harmoni.gui
  */
 define("MENU", 9);
+
+/**
+ * A constant defining the MENU component type.
+ * @const integer MENU
+ * @package harmoni.gui
+ */
+define("SUB_MENU", "SUB_MENU");
  
 /**
  * A constant defining the MENU_ITEM_LINK_UNSELECTED component type.
@@ -127,7 +134,7 @@ define("ALERT_BLOCK", 4);
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Component.interface.php,v 1.12 2005/11/30 18:48:07 adamfranco Exp $
+ * @version $Id: Component.interface.php,v 1.12.2.1 2006/09/22 14:29:33 adamfranco Exp $
  */
 class ComponentInterface {
 
