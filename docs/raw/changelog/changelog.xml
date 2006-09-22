@@ -3,12 +3,15 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.130.2.24 2006/09/19 19:45:22 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.130.2.25 2006/09/22 14:41:50 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
 	<version number="0.7.8" date="The Future">
+		<new author='adam'>
+			GUI: New GUI component, SubMenu.
+		</new>
 		<fix author='adam'>
 			Errors: Now includes User-Agent, Referer, Request URI, GET, and POST
 			with the logged backtrace.
@@ -34,7 +37,7 @@
 			other than Left-Right/Top-Bottom.
 		</new>
 		<new author='adam'>
-			GUI: TThe XLayout and YLayout can now handle rendering direction of 
+			GUI: The XLayout and YLayout can now handle rendering direction of 
 			elements other than Left-Right and Top-Bottom.
 		</new>
 		<fix author='adam'>
