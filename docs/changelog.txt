@@ -3,6 +3,17 @@
 Name: Harmoni ChangeLog
 
 
+v. 0.7.8 (2006-10-25)
+----------------------------------------------------
+		
+	* New feature: GUI: New GUI component, SubMenu. (Adam Franco)
+		
+	* Bug Fix: Errors: Now includes User-Agent, Referer, Request URI, GET, and POST with the logged backtrace. (Adam Franco)
+		
+	* Bug Fix: Chronology: Fixed a number of PHP notices that were occuring in PHP 4.4. (Adam Franco)
+		
+	* Bug Fix: ActionHandler: Now strips any non-word characters from the action and module strings to prevent dynamic including of files outside of the modules directory. (Adam Franco)
+	
 v. 0.7.7 (2006-08-28)
 ----------------------------------------------------
 		
@@ -14,7 +25,7 @@ v. 0.7.7 (2006-08-28)
 		
 	* New feature: GUI: The table layout can now handle rendering direction of elements other than Left-Right/Top-Bottom. (Adam Franco)
 		
-	* New feature: GUI: TThe XLayout and YLayout can now handle rendering direction of elements other than Left-Right and Top-Bottom. (Adam Franco)
+	* New feature: GUI: The XLayout and YLayout can now handle rendering direction of elements other than Left-Right and Top-Bottom. (Adam Franco)
 		
 	* Bug Fix: ImageProcessor: Now if Image Magick barfs on some multi-page PDFs and generates a single black pixel as a thumbnail, it won't be saved and the nice default icon will be used instead. (Adam Franco)
 	

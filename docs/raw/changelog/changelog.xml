@@ -3,12 +3,12 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.130.2.25 2006/09/22 14:41:50 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.130.2.26 2006/10/25 22:59:57 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
-	<version number="0.7.8" date="The Future">
+	<version number="0.7.8" date="2006-10-25">
 		<new author='adam'>
 			GUI: New GUI component, SubMenu.
 		</new>
@@ -18,6 +18,11 @@
 		</fix>
 		<fix author='adam'>
 			Chronology: Fixed a number of PHP notices that were occuring in PHP 4.4.
+		</fix>
+		<fix author='adam'>
+			ActionHandler: Now strips any non-word characters from the action and
+			module strings to prevent dynamic including of files outside of the
+			modules directory.
 		</fix>
 	</version>
 	<version number="0.7.7" date="2006-08-28">

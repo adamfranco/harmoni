@@ -3,7 +3,26 @@
 	h1, h2 {color: #005;}
 	h1 {font-size: 18pt;}
 	li {padding-bottom: 3px;}
-	</style><div style="font-family: Verdana; font-size: 12px;"><h1>Harmoni ChangeLog</h1><h2>Version 0.7.7</h2><h3>2006-08-28</h3><ul>
+	</style><div style="font-family: Verdana; font-size: 12px;"><h1>Harmoni ChangeLog</h1><h2>Version 0.7.8</h2><h3>2006-10-25</h3><ul>
+		<li/> New feature:  
+			GUI: New GUI component, SubMenu.
+		 (<i>Adam Franco</i>)
+		<li/> Bug Fix:
+	 
+			Errors: Now includes User-Agent, Referer, Request URI, GET, and POST
+			with the logged backtrace.
+		 (<i>Adam Franco</i>)
+		<li/> Bug Fix:
+	 
+			Chronology: Fixed a number of PHP notices that were occuring in PHP 4.4.
+		 (<i>Adam Franco</i>)
+		<li/> Bug Fix:
+	 
+			ActionHandler: Now strips any non-word characters from the action and
+			module strings to prevent dynamic including of files outside of the
+			modules directory.
+		 (<i>Adam Franco</i>)
+	</ul><br/><h2>Version 0.7.7</h2><h3>2006-08-28</h3><ul>
 		<li/> Bug Fix:
 	 
 			Chronology: Now parses dates of the form 'August 10th, 2006' and 
@@ -23,7 +42,7 @@
 			other than Left-Right/Top-Bottom.
 		 (<i>Adam Franco</i>)
 		<li/> New feature:  
-			GUI: TThe XLayout and YLayout can now handle rendering direction of 
+			GUI: The XLayout and YLayout can now handle rendering direction of 
 			elements other than Left-Right and Top-Bottom.
 		 (<i>Adam Franco</i>)
 		<li/> Bug Fix:
