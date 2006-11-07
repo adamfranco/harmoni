@@ -10,7 +10,7 @@ require_once HARMONI."dataManager/versionConstraints/VersionConstraint.interface
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PruneAllVersionConstraint.class.php,v 1.3 2005/01/19 21:09:59 adamfranco Exp $
+ * @version $Id: PruneAllVersionConstraint.class.php,v 1.3.4.1 2006/11/07 21:19:19 adamfranco Exp $
  */
 class PruneAllVersionConstraint extends VersionConstraint {
 
@@ -32,7 +32,7 @@ class PruneAllVersionConstraint extends VersionConstraint {
 	}
 	
 	function checkTags(&$record) {
-		$mgr =& Services::getService("TagManager");
+		$mgr =& Services::getService("RecordTagManager");
 		
 		$mgr->pruneTags($record);
 	}

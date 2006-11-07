@@ -33,7 +33,7 @@ define("RECORD_FULL",4);
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Record.class.php,v 1.37 2006/06/14 15:54:28 adamfranco Exp $
+ * @version $Id: Record.class.php,v 1.37.2.1 2006/11/07 21:19:18 adamfranco Exp $
 */
 class Record {
 	
@@ -554,7 +554,7 @@ class Record {
 			// check if we have to delete any dataset tags based on our constraints
 			$constraint->checkTags($this);
 			
-			$tagMgr =& Services::getService("TagManager");
+			$tagMgr =& Services::getService("RecordTagManager");
 			
 			// if we are no good any more, delete ourselves completely
 			if ($this->_delete) {
@@ -596,13 +596,13 @@ class Record {
 	}
 	
 	/**
-	* Uses the {@link TagManager} service to add a tag of the current state (in the DB) of this Record.
+	* Uses the {@link RecordTagManager} service to add a tag of the current state (in the DB) of this Record.
 	* @return void
 	* @param optional object $date An optional {@link DateAndTime} to specify the date that should be attached to the tag instead of the current date/time.
 	*/
 	function tag($date=null) {
 		$this->makeCurrent();
-		$tagMgr =& Services::getService("TagManager");
+		$tagMgr =& Services::getService("RecordTagManager");
 		$tagMgr->tagRecord($this, $date);
 	}
 	
@@ -679,7 +679,7 @@ class Record {
 	/**
 	* Takes a tag object and activates the appropriate versions of values based on the tag mappings.
 	* @return bool
-	* @param ref object $tag A {@link Tag} object.
+	* @param ref object $tag A {@link RecordTag} object.
 	*/
 	function activateTag(&$tag) {
 		// check to make sure the tag is affiliated with us
@@ -705,7 +705,7 @@ class Record {
 				foreach (array_keys($vers) as $verID) {
 					$verObj =& $vers[$verID];
 					
-					// if it's our active vers in the Tag, activate it
+					// if it's our active vers in the RecordTag, activate it
 					if ($verID == $newVerID) {
 						if (!$verObj->isActive()) {
 							$verObj->setActiveFlag(true);

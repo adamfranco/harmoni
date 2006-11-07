@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: VersionConstraint.interface.php,v 1.3 2005/07/13 21:17:44 gabeschine Exp $
+ * @version $Id: VersionConstraint.interface.php,v 1.3.2.1 2006/11/07 21:19:19 adamfranco Exp $
  */
 class VersionConstraint {
 	
@@ -24,7 +24,7 @@ class VersionConstraint {
 	
 	/**
 	 * Takes a {@link Record} and checks all the tags to make sure
-	 * none of them fail the constraints. If they do, it asks the {@link TagManager} to delete
+	 * none of them fail the constraints. If they do, it asks the {@link RecordTagManager} to delete
 	 * them from the database.
 	 * @param ref object $record
 	 * @return void
