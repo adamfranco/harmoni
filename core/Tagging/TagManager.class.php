@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TagManager.class.php,v 1.1.2.2 2006/11/08 20:43:16 adamfranco Exp $
+ * @version $Id: TagManager.class.php,v 1.1.2.3 2006/11/08 22:00:25 adamfranco Exp $
  */ 
 
 /**
@@ -35,7 +35,7 @@ require_once(dirname(__FILE__)."/UrlTaggedItem.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TagManager.class.php,v 1.1.2.2 2006/11/08 20:43:16 adamfranco Exp $
+ * @version $Id: TagManager.class.php,v 1.1.2.3 2006/11/08 22:00:25 adamfranco Exp $
  */
 class TagManager
 	extends OsidManager	
@@ -306,7 +306,7 @@ class TagManager
      * @access public
      * @since 11/6/06
      */
-    function getCurrentUserId () {
+    function &getCurrentUserId () {
     	if (!isset($this->_currentUserId)) {
     		$authN =& Services::getService("AuthN");
 			$idM =& Services::getService("Id");
