@@ -6,8 +6,10 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Tag.class.php,v 1.1.2.1 2006/11/07 21:19:43 adamfranco Exp $
+ * @version $Id: Tag.class.php,v 1.1.2.2 2006/11/08 20:43:16 adamfranco Exp $
  */ 
+
+require_once(dirname(__FILE__)."/TaggedItemIterator.class.php");
 
 /**
  * <##>
@@ -18,7 +20,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Tag.class.php,v 1.1.2.1 2006/11/07 21:19:43 adamfranco Exp $
+ * @version $Id: Tag.class.php,v 1.1.2.2 2006/11/08 20:43:16 adamfranco Exp $
  */
 class Tag {
 	
@@ -69,10 +71,10 @@ class Tag {
 		$query->setColumns(array('value', 'user_id', 'fk_item'));
 		$query->setValues(array(
 			"'".addslashes($this->getValue())."'",
-			"'".addslashes($this->getCurrentUserId())."'",
+			"'".addslashes($this->getCurrentUserIdString())."'",
 			"'".addslashes($item->getDabaseId())."'"));
 		
-		$dbc =& Services::getService("Database");
+		$dbc =& Services::getService("DatabaseManager");
 		$result =& $dbc->query($query, $this->getDatabaseIndex());
 		
 		return $item;
@@ -92,9 +94,9 @@ class Tag {
 			$query->addTable('tag');
 			$query->addWhere("value='".addslashes($this->getValue())."'");
 			
-			$dbc =& Services::getService("Database");
+			$dbc =& Services::getService("DatabaseManager");
 			$result =& $dbc->query($query, $this->getDatabaseIndex());
-			$this->_allOccurances = $result->field('occurrances');
+			$this->_allOccurances = $result->field('occurances');
 		}
 		return $this->_allOccurances;
 	}
@@ -130,7 +132,7 @@ class Tag {
 			$query->addWhere("value='".addslashes($this->getValue())."'");
 			$query->addWhere("user_id='".addslashes($agentId->getIdString())."'");
 			
-			$dbc =& Services::getService("Database");
+			$dbc =& Services::getService("DatabaseManager");
 			$result =& $dbc->query($query, $this->getDatabaseIndex());
 			$this->_agentOccurances[$agentId->getIdString()] = $result->field('occurrances');
 		}
@@ -156,7 +158,7 @@ class Tag {
 	/**
 	 * Answer all items with this tag
 	 * 
-	 * @return object ItemIterator
+	 * @return object TaggedItemIterator
 	 * @access public
 	 * @since 11/2/06
 	 */
@@ -169,12 +171,12 @@ class Tag {
 		$query->addTable('tag_item', INNER_JOIN, "tag.fk_item = tag_item.db_id");
 		$query->addWhere("tag.value='".addslashes($this->getValue())."'");
 		
-		$query->addOrderBy('tag.tstamp', DESC);
+		$query->addOrderBy('tag.tstamp', DESCENDING);
 		
-		$dbc =& Services::getService("Database");
+		$dbc =& Services::getService("DatabaseManager");
 		$result =& $dbc->query($query, $this->getDatabaseIndex());
 		
-		$iterator =& new ItemIterator($result);
+		$iterator =& new TaggedItemIterator($result);
 		return $iterator;
 	}
 	
@@ -197,23 +199,23 @@ class Tag {
 		$query->addWhere("tag.value='".addslashes($this->getValue())."'");
 		$query->addWhere("tag_item.system='".addslashes($system)."'");
 		
-		$query->addOrderBy('tag.tstamp', DESC);
+		$query->addOrderBy('tag.tstamp', DESCENDING);
 		
-		$dbc =& Services::getService("Database");
+		$dbc =& Services::getService("DatabaseManager");
 		$result =& $dbc->query($query, $this->getDatabaseIndex());
 		
-		$iterator =& new ItemIterator($result);
+		$iterator =& new TaggedItemIterator($result);
 		return $iterator;
 	}
 	
 	/**
 	 * Answer all items with this tag
 	 * 
-	 * @return object ItemIterator
+	 * @return object TaggedItemIterator
 	 * @access public
 	 * @since 11/2/06
 	 */
-	function &getItemsForCurrentUser () {
+	function &getItemsForAgent ( &$agentId ) {
 		$query =& new SelectQuery;
 		$query->addColumn('tag_item.db_id');
 		$query->addColumn('tag_item.id');
@@ -221,14 +223,53 @@ class Tag {
 		$query->addTable('tag');
 		$query->addTable('tag_item', INNER_JOIN, "tag.fk_item = tag_item.db_id");
 		$query->addWhere("tag.value='".addslashes($this->getValue())."'");
-		$query->addWhere("tag.user_id='".addslashes($this->getCurrentUserId())."'");
+		$query->addWhere("tag.user_id='".addslashes($agentId->getIdString())."'");
 		
-		$query->addOrderBy('tag.tstamp', DESC);
+		$query->addOrderBy('tag.tstamp', DESCENDING);
 		
-		$dbc =& Services::getService("Database");
+		$dbc =& Services::getService("DatabaseManager");
 		$result =& $dbc->query($query, $this->getDatabaseIndex());
 		
-		$iterator =& new ItemIterator($result);
+		$iterator =& new TaggedItemIterator($result);
+		return $iterator;
+	}
+	
+	/**
+	 * Answer all items with this tag in a particular system
+	 * 
+	 * @return object ItemsIterator
+	 * @access public
+	 * @since 11/2/06
+	 */
+	function &getItemsForAgentInSystem ( &$agentId, $system ) {
+		$query =& new SelectQuery;
+		$query->addColumn('tag_item.db_id');
+		$query->addColumn('tag_item.id');
+		$query->addColumn('tag_item.system');
+		$query->addTable('tag');
+		$query->addTable('tag_item', INNER_JOIN, "tag.fk_item = tag_item.db_id");
+		$query->addWhere("tag.value='".addslashes($this->getValue())."'");
+		$query->addWhere("tag.user_id='".addslashes($agentId->getIdString())."'");
+		$query->addWhere("tag_item.system='".addslashes($system)."'");
+		
+		$query->addOrderBy('tag.tstamp', DESCENDING);
+		
+		$dbc =& Services::getService("DatabaseManager");
+		$result =& $dbc->query($query, $this->getDatabaseIndex());
+		
+		$iterator =& new TaggedItemIterator($result);
+		return $iterator;
+	}
+	
+	/**
+	 * Answer all items with this tag
+	 * 
+	 * @return object TaggedItemIterator
+	 * @access public
+	 * @since 11/2/06
+	 */
+	function &getItemsForCurrentUser () {
+		$iterator =& $this->getItemsForAgent($this->getCurrentUserId());
 		return $iterator;
 	}
 	
@@ -242,22 +283,7 @@ class Tag {
 	 * @since 11/2/06
 	 */
 	function &getItemsForCurrentUserInSystem ( $system) {
-		$query =& new SelectQuery;
-		$query->addColumn('tag_item.db_id');
-		$query->addColumn('tag_item.id');
-		$query->addColumn('tag_item.system');
-		$query->addTable('tag');
-		$query->addTable('tag_item', INNER_JOIN, "tag.fk_item = tag_item.db_id");
-		$query->addWhere("tag.value='".addslashes($this->getValue())."'");
-		$query->addWhere("tag.user_id='".addslashes($this->getCurrentUserId())."'");
-		$query->addWhere("tag_item.system='".addslashes($system)."'");
-		
-		$query->addOrderBy('tag.tstamp', DESC);
-		
-		$dbc =& Services::getService("Database");
-		$result =& $dbc->query($query, $this->getDatabaseIndex());
-		
-		$iterator =& new ItemIterator($result);
+		$iterator =& $this->getItemsForAgentInSystem($this->getCurrentUserId(), $system);
 		return $iterator;
 	}
 	
@@ -277,7 +303,7 @@ class Tag {
 	 * Remove the tag from one or more items, skipping those where authorization
 	 * is lacking.
 	 * 
-	 * @param mixed $items This can be a single Item object, an ItemIterator, 
+	 * @param mixed $items This can be a single Item object, an TaggedItemIterator, 
 	 * 		or an array of Item objects.
 	 * @return void
 	 * @access public
@@ -309,10 +335,10 @@ class Tag {
 		$query =& new DeleteQuery;
 		$query->setTable('tag');
 		$query->addWhere("tag.value='".addslashes($this->getValue())."'");
-		$query->addWhere("tag.user_id='".addslashes($this->getCurrentUserId())."'");
+		$query->addWhere("tag.user_id='".addslashes($this->getCurrentUserIdString())."'");
 		$query->addWhere("tag.fk_item IN (".implode(", ", $itemDbIds).")");		
 		
-		$dbc =& Services::getService("Database");
+		$dbc =& Services::getService("DatabaseManager");
 		$dbc->query($query, $this->getDatabaseIndex()); 
 	}
 	
@@ -327,9 +353,9 @@ class Tag {
 		$query =& new DeleteQuery;
 		$query->setTable('tag');
 		$query->addWhere("tag.value='".addslashes($this->getValue())."'");
-		$query->addWhere("tag.user_id='".addslashes($this->getCurrentUserId())."'");
+		$query->addWhere("tag.user_id='".addslashes($this->getCurrentUserIdString())."'");
 		
-		$dbc =& Services::getService("Database");
+		$dbc =& Services::getService("DatabaseManager");
 		$dbc->query($query, $this->getDatabaseIndex());
 	}
 	
@@ -361,6 +387,21 @@ class Tag {
     		$this->_currentUserId = $taggingManager->getCurrentUserId();
 		}
 		return $this->_currentUserId;
+    }
+    
+    /**
+     * Answer the current user id
+     * 
+     * @return string
+     * @access public
+     * @since 11/6/06
+     */
+    function getCurrentUserIdString () {
+    	if (!isset($this->_currentUserIdString)) {
+    		$taggingManager =& Services::getService("Tagging");
+    		$this->_currentUserIdString = $taggingManager->getCurrentUserIdString();
+		}
+		return $this->_currentUserIdString;
     }
 }
 

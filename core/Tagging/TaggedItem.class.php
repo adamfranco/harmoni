@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TaggedItem.class.php,v 1.1.2.1 2006/11/07 21:19:43 adamfranco Exp $
+ * @version $Id: TaggedItem.class.php,v 1.1.2.2 2006/11/08 20:43:16 adamfranco Exp $
  */ 
 
 /**
@@ -18,7 +18,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TaggedItem.class.php,v 1.1.2.1 2006/11/07 21:19:43 adamfranco Exp $
+ * @version $Id: TaggedItem.class.php,v 1.1.2.2 2006/11/08 20:43:16 adamfranco Exp $
  */
 class TaggedItem {
 		
@@ -33,12 +33,12 @@ class TaggedItem {
 	 */
 	function &forId ( $id, $system, $class='TaggedItem' ) {
 		$item =& new $class;
-		$this->_id = $id;
+		$item->_id = $id;
 		if (method_exists($id, 'getIdString'))
-			$this->_idString = $id->getIdString();
+			$item->_idString = $id->getIdString();
 		else
-			$this->_idString = $id;
-		$this->_system = $system;
+			$item->_idString = $id;
+		$item->_system = $system;
 		return $item;
 	}
 	
@@ -50,7 +50,7 @@ class TaggedItem {
 	 * @access public
 	 * @since 11/6/06
 	 */
-	function forDatabaseRow ($row) {
+	function &forDatabaseRow ($row) {
 		$taggingManager =& Services::getService("Tagging");
 		$class = $taggingManager->getItemClassForSystem($row['system']);
 		eval('$item =& '.$class.'::forId($row["id"], $row["system"]);');
@@ -92,6 +92,22 @@ class TaggedItem {
 	}
 	
 	/**
+	 * Answer the tags for this  item
+	 * 
+	 * @param string $sortBy Return tags in alphanumeric order or by frequency of usage.
+	 * @param integer $max The maximum number of tags to return. The least frequently used
+	 * 		tags will be dropped first. If $max is 0, all tags will be returned.
+	 * @return object TagIterator
+	 * @access public
+	 * @since 11/1/06
+	 */
+	function &getTags ( $sortBy = TAG_SORT_ALFA, $max = 0 ) {
+		$taggingManager =& Services::getService("Tagging");
+		$tags =& $taggingManager->getTagsForItems($this);
+		return $tags;
+	}
+	
+	/**
 	 * Insert [if needed] into the item table and return the database id of this
 	 * item
 	 * 
@@ -99,9 +115,9 @@ class TaggedItem {
 	 * @access public
 	 * @since 11/6/06
 	 */
-	function getDabaseId () {
+	function getDatabaseId () {
 		if (!isset($this->_dbid)) {
-			$dbc =& Services::getService("Database");
+			$dbc =& Services::getService("DatabaseManager");
 			
 			$query =& new SelectQuery;
 			$query->addColumn('db_id');

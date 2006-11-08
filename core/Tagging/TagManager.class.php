@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TagManager.class.php,v 1.1.2.1 2006/11/07 21:19:43 adamfranco Exp $
+ * @version $Id: TagManager.class.php,v 1.1.2.2 2006/11/08 20:43:16 adamfranco Exp $
  */ 
 
 /**
@@ -35,7 +35,7 @@ require_once(dirname(__FILE__)."/UrlTaggedItem.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TagManager.class.php,v 1.1.2.1 2006/11/07 21:19:43 adamfranco Exp $
+ * @version $Id: TagManager.class.php,v 1.1.2.2 2006/11/08 20:43:16 adamfranco Exp $
  */
 class TagManager
 	extends OsidManager	
@@ -57,21 +57,21 @@ class TagManager
 		$query->addColumn('value');
 		$query->addColumn('COUNT(value)', 'occurances');
 		$query->addTable('tag');
-		$query->addGroupBy('value');
-		$query->addOrderBy('occurances', DESC);
+		$query->setGroupBy(array('value'));
+		$query->addOrderBy('occurances', DESCENDING);
 		
 		$query->addWhere("user_id='".addslashes($agentId->getIdString())."'");
 		
 		if ($max)
 			$query->addLimit($max);
 		
-		$dbc =& Services::getService("Database");
+		$dbc =& Services::getService("DatabaseManager");
 		$result =& $dbc->query($query, $this->getDatabaseIndex());
 		
 		// Add tag objects to an array, still sorted by frequency of usage
 		$tags = array();
-		while ($results->hasNext()) {
-			$row = $results->next();
+		while ($result->hasNext()) {
+			$row = $result->next();
 			$tags[$row['value']] =& new Tag($row['value']);
 			$tags[$row['value']]->setOccurancesForAgent($agentId, $row['occurances']);
 		}
@@ -99,19 +99,19 @@ class TagManager
 		$query->addColumn('value');
 		$query->addColumn('COUNT(value)', 'occurances');
 		$query->addTable('tag');
-		$query->addGroupBy('value');
-		$query->addOrderBy('occurances', DESC);
+		$query->setGroupBy(array('value'));
+		$query->addOrderBy('occurances', DESCENDING);
 				
 		if ($max)
 			$query->addLimit($max);
 		
-		$dbc =& Services::getService("Database");
+		$dbc =& Services::getService("DatabaseManager");
 		$result =& $dbc->query($query, $this->getDatabaseIndex());
 		
 		// Add tag objects to an array, still sorted by frequency of usage
 		$tags = array();
-		while ($results->hasNext()) {
-			$row = $results->next();
+		while ($result->hasNext()) {
+			$row = $result->next();
 			$tags[$row['value']] =& new Tag($row['value']);
 			$tags[$row['value']]->setOccurances($row['occurances']);
 		}
@@ -137,7 +137,57 @@ class TagManager
 	 * @since 11/1/06
 	 */
 	function &getTagsForItems ( &$items, $sortBy = TAG_SORT_ALFA, $max = 0 ) {
-		 die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+		$query =& new SelectQuery;
+		$query->addColumn('value');
+		$query->addColumn('COUNT(value)', 'occurances');
+		$query->addTable('tag');
+		$query->setGroupBy(array('value'));
+		$query->addOrderBy('occurances', DESCENDING);
+		
+		if ($max)
+			$query->addLimit($max);
+		
+		
+		$itemDbIds = array();
+		// array
+		if (is_array($items)) {
+			foreach(array_keys($items) as $key) {
+				$itemDbIds[] = "'".addslashes($items[$key]->getDatabaseId())."'";
+			}
+		} 
+		// iterator
+		else if (method_exists($items, 'next')) {
+			while($items->hasNext()) {
+				$item =& $items->next();
+				$itemDbIds[] = "'".addslashes($item->getDatabaseId())."'";
+			}
+		} 
+		// Single item
+		else if (method_exists($items, 'getDatabaseId')) {
+			$itemDbIds[] = "'".addslashes($items->getDatabaseId())."'";
+		} else {
+			throwError(new Error("Invalid parameter, ".get_class($items).", for \$items", "Tagging"));
+		}
+		$query->addWhere("tag.fk_item IN (".implode(", ", $itemDbIds).")");
+		
+		
+		$dbc =& Services::getService("DatabaseManager");
+		$result =& $dbc->query($query, $this->getDatabaseIndex());
+		
+		// Add tag objects to an array, still sorted by frequency of usage
+		$tags = array();
+		while ($result->hasNext()) {
+			$row = $result->next();
+			$tags[$row['value']] =& new Tag($row['value']);
+			$tags[$row['value']]->setOccurances($row['occurances']);
+		}
+		
+		// If necessary, sort these top tags alphabetically
+		if ($sortBy == TAG_SORT_ALFA)
+			ksort($tags);
+		
+		$iterator =& new HarmoniIterator($tags);
+		return $iterator;
 	}
 	
 	/**
@@ -199,7 +249,12 @@ class TagManager
      * @since 11/6/06
      */
     function getItemClassForSystem ($system) {
+    	if ($system == ARBITRARY_URL)
+    		return "UrlTaggedItem";
+    	
     	$systemConfiguration = $this->getConfigurationForSystem($system);
+    	if (!$systemConfiguration['ItemClass'])
+    		throwError(new Error("Unconfigured ItemClass for system, '$system'", "Tagging"));
     	return $systemConfiguration['ItemClass'];
     }
     
@@ -215,9 +270,39 @@ class TagManager
     }
     
     /**
+	 * Answer agentIds that have stored tags
+	 * 
+	 * @return object IdIterator
+	 * @access public
+	 * @since 11/1/06
+	 */
+	function &getAgentIds () {
+		$query =& new SelectQuery;
+		$query->addColumn('user_id');
+		$query->addColumn('COUNT(user_id)', 'occurances');
+		$query->addTable('tag');
+		$query->setGroupBy(array('user_id'));
+		$query->addOrderBy('occurances', DESCENDING);
+		
+		$dbc =& Services::getService("DatabaseManager");
+		$result =& $dbc->query($query, $this->getDatabaseIndex());
+		
+		// Add tag objects to an array, still sorted by frequency of usage
+		$agentIds = array();
+		$idManager =& Services::getService('Id');
+		while ($result->hasNext()) {
+			$row = $result->next();
+			$agentIds[] =& $idManager->getId($row['user_id']);
+		}
+				
+		$iterator =& new HarmoniIterator($agentIds);
+		return $iterator;
+	}
+    
+    /**
      * Answer the current user id
      * 
-     * @return string
+     * @return object
      * @access public
      * @since 11/6/06
      */
@@ -230,12 +315,26 @@ class TagManager
 				$authType =& $authTypes->next();
 				$id =& $authN->getUserId($authType);
 				if (!$id->isEqual($idM->getId('edu.middlebury.agents.anonymous'))) {
-					$this->_currentUserId = $id->getIdString();
+					$this->_currentUserId =& $id;
+					$this->_currentUserIdString = $id->getIdString();
 					break;
 				}
 			}
 		}
 		return $this->_currentUserId;
+    }
+    
+    /**
+     * Answer the current user id string value
+     * 
+     * @return string
+     * @access public
+     * @since 11/6/06
+     */
+    function getCurrentUserIdString () {
+    	if (!isset($this->_currentUserIdString))
+    		$this->getCurrentUserId();
+    	return $this->_currentUserIdString;
     }
     
 	/**
@@ -248,7 +347,7 @@ class TagManager
      * @access public
      */
     function &getOsidContext () { 
-        die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+		return $this->_osidContext;
     } 
 
     /**
@@ -263,7 +362,7 @@ class TagManager
      * @access public
      */
     function assignOsidContext ( &$context ) { 
-        die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+		$this->_osidContext =& $context;
     }  
 	
 }

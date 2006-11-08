@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniNodeTaggedItem.class.php,v 1.1.2.1 2006/11/07 21:19:43 adamfranco Exp $
+ * @version $Id: HarmoniNodeTaggedItem.class.php,v 1.1.2.2 2006/11/08 20:43:16 adamfranco Exp $
  */ 
 
 /**
@@ -18,7 +18,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniNodeTaggedItem.class.php,v 1.1.2.1 2006/11/07 21:19:43 adamfranco Exp $
+ * @version $Id: HarmoniNodeTaggedItem.class.php,v 1.1.2.2 2006/11/08 20:43:16 adamfranco Exp $
  */
 class HarmoniNodeTaggedItem
 	extends	TaggedItem
@@ -50,9 +50,12 @@ class HarmoniNodeTaggedItem
 	 * @since 11/3/06
 	 */
 	function getUrl () {
-		$this->_loadConfiguration();
-		$callback = $this->_config['UrlCallback'];
-		return $callback($this);
+		if (!isset($this->_url)) {
+			$this->_loadConfiguration();
+			$callback = $this->_config['UrlCallback'];
+			$this->_url = $callback($this);
+		}
+		return $this->_url;
 	}
 	
 	/**
@@ -87,11 +90,14 @@ class HarmoniNodeTaggedItem
 	 * @since 11/3/06
 	 */
 	function getThumbnailUrl () {
-		$this->_loadConfiguration();
-		if ($callback = $this->_config['ThumbUrlCallback'])
-			return $callback($this);
-		else
-			return null;
+		if (!isset($this->_thumbnailUrl)) {
+			$this->_loadConfiguration();
+			if (isset($this->_config['ThumbUrlCallback']) && $callback = $this->_config['ThumbUrlCallback'])
+				$this->_thumbnailUrl = $callback($this);
+			else
+				$this->_thumbnailUrl = null;
+		}
+		return $this->_thumbnailUrl;
 	}
 	
 	/**
@@ -121,12 +127,15 @@ class HarmoniNodeTaggedItem
 	 * @access public
 	 * @since 11/6/06
 	 */
-	function getNode () {
+	function &getNode () {
 		if (!isset($this->_node)) {
 			$this->_loadConfiguration();
 			$hierarchyManager =& Services::getService("Hierarchy");
-			$hierarchy =& $hierarchyManager->getHierarchy($this->_config['HierarchyId']);
-			$this->_node =& $hierarchy->getNode($this->getId());
+			$idManager =& Services::getService("Id");
+			$hierarchy =& $hierarchyManager->getHierarchy(
+								$idManager->getId($this->_config['HierarchyId']));
+			$id = $this->getId();
+			$this->_node =& $hierarchy->getNode($id);
 		}
 		
 		return $this->_node;
