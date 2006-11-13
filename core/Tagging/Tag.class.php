@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Tag.class.php,v 1.1.2.2 2006/11/08 20:43:16 adamfranco Exp $
+ * @version $Id: Tag.class.php,v 1.1.2.3 2006/11/13 21:55:42 adamfranco Exp $
  */ 
 
 require_once(dirname(__FILE__)."/TaggedItemIterator.class.php");
@@ -20,7 +20,7 @@ require_once(dirname(__FILE__)."/TaggedItemIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Tag.class.php,v 1.1.2.2 2006/11/08 20:43:16 adamfranco Exp $
+ * @version $Id: Tag.class.php,v 1.1.2.3 2006/11/13 21:55:42 adamfranco Exp $
  */
 class Tag {
 	
@@ -39,7 +39,9 @@ class Tag {
 						 preg_replace('/_{2,}/', '_', 
 							// Replace anything not allowed with an underbar
 							preg_replace('/[^a-z0-9_\-:]/i', '_', 
-								strtolower($value))), '_');
+								// drop any quotes
+								preg_replace('/[\'"]/', '',
+									strtolower($value)))), '_');
 	}
 	
 	/**
@@ -72,7 +74,7 @@ class Tag {
 		$query->setValues(array(
 			"'".addslashes($this->getValue())."'",
 			"'".addslashes($this->getCurrentUserIdString())."'",
-			"'".addslashes($item->getDabaseId())."'"));
+			"'".addslashes($item->getDatabaseId())."'"));
 		
 		$dbc =& Services::getService("DatabaseManager");
 		$result =& $dbc->query($query, $this->getDatabaseIndex());
@@ -259,6 +261,33 @@ class Tag {
 		
 		$iterator =& new TaggedItemIterator($result);
 		return $iterator;
+	}
+	
+	/**
+	 * Answer true if the current agent has tagged the item
+	 * 
+	 * @param object TaggedItem $item
+	 * @return boolean
+	 * @access public
+	 * @since 11/13/06
+	 */
+	function isItemTagged ( &$item ) {
+		$query =& new SelectQuery;
+		$query->addColumn('COUNT(*)', 'count');
+		$query->addTable('tag');
+		$query->addTable('tag_item', INNER_JOIN, "tag.fk_item = tag_item.db_id");
+		$query->addWhere("tag.value='".addslashes($this->getValue())."'");
+		$query->addWhere("tag.user_id='".addslashes($this->getCurrentUserIdString())."'");
+		$query->addWhere("tag_item.id='".addslashes($item->getIdString())."'");
+		$query->addWhere("tag_item.system='".addslashes($item->getSystem())."'");
+				
+		$dbc =& Services::getService("DatabaseManager");
+		$result =& $dbc->query($query, $this->getDatabaseIndex());
+		
+		if (intval($result->field('count')) > 0)
+			return true;
+		else
+			return false;
 	}
 	
 	/**

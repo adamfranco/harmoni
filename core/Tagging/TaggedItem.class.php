@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TaggedItem.class.php,v 1.1.2.2 2006/11/08 20:43:16 adamfranco Exp $
+ * @version $Id: TaggedItem.class.php,v 1.1.2.3 2006/11/13 21:55:42 adamfranco Exp $
  */ 
 
 /**
@@ -18,7 +18,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TaggedItem.class.php,v 1.1.2.2 2006/11/08 20:43:16 adamfranco Exp $
+ * @version $Id: TaggedItem.class.php,v 1.1.2.3 2006/11/13 21:55:42 adamfranco Exp $
  */
 class TaggedItem {
 		
@@ -103,7 +103,73 @@ class TaggedItem {
 	 */
 	function &getTags ( $sortBy = TAG_SORT_ALFA, $max = 0 ) {
 		$taggingManager =& Services::getService("Tagging");
-		$tags =& $taggingManager->getTagsForItems($this);
+		$tags =& $taggingManager->getTagsForItems($this, $sortBy, $max);
+		return $tags;
+	}
+	
+	/**
+	 * Answer the tags for this item created by a given agent
+	 * 
+	 * @param object Id $agentId
+	 * @param string $sortBy Return tags in alphanumeric order or by frequency of usage.
+	 * @param integer $max The maximum number of tags to return. The least frequently used
+	 * 		tags will be dropped first. If $max is 0, all tags will be returned.
+	 * @return object TagIterator
+	 * @access public
+	 * @since 11/1/06
+	 */
+	function &getTagsByAgent ( &$agentId, $sortBy = TAG_SORT_ALFA, $max = 0 ) {
+		$taggingManager =& Services::getService("Tagging");
+		$tags =& $taggingManager->getTagsForItemsByAgent($this, $agentId, $sortBy, $max);
+		return $tags;
+	}
+	
+	/**
+	 * Answer the tags for this item created by the current user
+	 * 
+	 * @param string $sortBy Return tags in alphanumeric order or by frequency of usage.
+	 * @param integer $max The maximum number of tags to return. The least frequently used
+	 * 		tags will be dropped first. If $max is 0, all tags will be returned.
+	 * @return object TagIterator
+	 * @access public
+	 * @since 11/1/06
+	 */
+	function &getUserTags ( $sortBy = TAG_SORT_ALFA, $max = 0 ) {
+		$taggingManager =& Services::getService("Tagging");
+		$tags =& $this->getTagsByAgent($taggingManager->getCurrentUserId(), $sortBy, $max);
+		return $tags;
+	}
+	
+	/**
+	 * Answer the tags for this item created by a given agent
+	 * 
+	 * @param object Id $agentId
+	 * @param string $sortBy Return tags in alphanumeric order or by frequency of usage.
+	 * @param integer $max The maximum number of tags to return. The least frequently used
+	 * 		tags will be dropped first. If $max is 0, all tags will be returned.
+	 * @return object TagIterator
+	 * @access public
+	 * @since 11/1/06
+	 */
+	function &getTagsNotByAgent ( &$agentId, $sortBy = TAG_SORT_ALFA, $max = 0 ) {
+		$taggingManager =& Services::getService("Tagging");
+		$tags =& $taggingManager->getTagsForItemsNotByAgent($this, $agentId, $sortBy, $max);
+		return $tags;
+	}
+	
+	/**
+	 * Answer the tags for this item not created by the current user
+	 * 
+	 * @param string $sortBy Return tags in alphanumeric order or by frequency of usage.
+	 * @param integer $max The maximum number of tags to return. The least frequently used
+	 * 		tags will be dropped first. If $max is 0, all tags will be returned.
+	 * @return object TagIterator
+	 * @access public
+	 * @since 11/1/06
+	 */
+	function &getNonUserTags ( $sortBy = TAG_SORT_ALFA, $max = 0 ) {
+		$taggingManager =& Services::getService("Tagging");
+		$tags =& $this->getTagsNotByAgent($taggingManager->getCurrentUserId(), $sortBy, $max);
 		return $tags;
 	}
 	
@@ -116,7 +182,7 @@ class TaggedItem {
 	 * @since 11/6/06
 	 */
 	function getDatabaseId () {
-		if (!isset($this->_dbid)) {
+		if (!isset($this->_dbId)) {
 			$dbc =& Services::getService("DatabaseManager");
 			
 			$query =& new SelectQuery;
@@ -125,7 +191,7 @@ class TaggedItem {
 			$query->addWhere("id='".addslashes($this->getIdString())."'");
 			$query->addWhere("system='".addslashes($this->getSystem())."'");
 			
-			$result =& $dbc->query($query, $this->_config['DatabaseIndex']);
+			$result =& $dbc->query($query, $this->getDatabaseIndex());
 			if ($result->getNumberOfRows() && $result->field('db_id')) {
 				$this->_dbId = intval($result->field('db_id'));
 			} 
@@ -143,7 +209,7 @@ class TaggedItem {
 			}
 		}
 		
-		return $this->_dbid;
+		return $this->_dbId;
 	}
 	/**
 	 * Answer the url to this item
