@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Tag.class.php,v 1.1.2.4 2006/11/14 20:29:51 adamfranco Exp $
+ * @version $Id: Tag.class.php,v 1.1.2.5 2006/11/14 23:53:12 adamfranco Exp $
  */ 
 
 require_once(dirname(__FILE__)."/TaggedItemIterator.class.php");
@@ -21,7 +21,7 @@ require_once(dirname(__FILE__)."/TaggedItemIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Tag.class.php,v 1.1.2.4 2006/11/14 20:29:51 adamfranco Exp $
+ * @version $Id: Tag.class.php,v 1.1.2.5 2006/11/14 23:53:12 adamfranco Exp $
  */
 class Tag {
 	
@@ -184,6 +184,45 @@ class Tag {
 		$query->setGroupBy(array('db_id'));
 		
 // 		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
+		
+		$result =& $dbc->query($query, $this->getDatabaseIndex());
+		
+		$iterator =& new TaggedItemIterator($result);
+		return $iterator;
+	}
+	
+	/**
+	 * Answer all items with this tag that match a particular list
+	 * 
+	 * @param object IdIterator $ids
+	 * @return object ItemsIterator
+	 * @access public
+	 * @since 11/2/06
+	 */
+	function &getItemsWithIdsInSystem ( &$ids, $system) {
+		$dbc =& Services::getService("DatabaseManager");
+		
+		$subQuery =& new SelectQuery;
+		$subQuery->addColumn('tag_item.db_id');
+		$subQuery->addColumn('tag_item.id');
+		$subQuery->addColumn('tag_item.system');
+		$subQuery->addColumn('tag.tstamp');
+		$subQuery->addTable('tag');
+		$subQuery->addTable('tag_item', INNER_JOIN, "tag.fk_item = tag_item.db_id");
+		$subQuery->addWhere("tag.value='".addslashes($this->getValue())."'");
+		$subQuery->addWhere("tag_item.system='".addslashes($system)."'");
+		$idList = array();
+		while ($ids->hasNext()) {
+			$id =& $ids->next();
+			$idList[] = "'".addslashes($id->getIdString())."'";
+		}
+		$subQuery->addWhere("tag_item.id IN (".implode(", ", $idList).")");
+		$subQuery->addOrderBy('tag.tstamp', DESCENDING);
+		
+		$query = new SelectQuery;
+		$query->addColumn('*');
+		$query->addTable("(".$dbc->generateSQL($subQuery, $this->getDatabaseIndex()).") AS tag_results");
+		$query->setGroupBy(array('db_id'));
 		
 		$result =& $dbc->query($query, $this->getDatabaseIndex());
 		
