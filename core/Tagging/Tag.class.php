@@ -6,10 +6,11 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Tag.class.php,v 1.1.2.3 2006/11/13 21:55:42 adamfranco Exp $
+ * @version $Id: Tag.class.php,v 1.1.2.4 2006/11/14 20:29:51 adamfranco Exp $
  */ 
 
 require_once(dirname(__FILE__)."/TaggedItemIterator.class.php");
+// require_once(HARMONI."/DBHandler/GenericSQLQuery.class.php");
 
 /**
  * <##>
@@ -20,7 +21,7 @@ require_once(dirname(__FILE__)."/TaggedItemIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Tag.class.php,v 1.1.2.3 2006/11/13 21:55:42 adamfranco Exp $
+ * @version $Id: Tag.class.php,v 1.1.2.4 2006/11/14 20:29:51 adamfranco Exp $
  */
 class Tag {
 	
@@ -165,17 +166,25 @@ class Tag {
 	 * @since 11/2/06
 	 */
 	function &getItems () {
-		$query =& new SelectQuery;
-		$query->addColumn('tag_item.db_id');
-		$query->addColumn('tag_item.id');
-		$query->addColumn('tag_item.system');
-		$query->addTable('tag');
-		$query->addTable('tag_item', INNER_JOIN, "tag.fk_item = tag_item.db_id");
-		$query->addWhere("tag.value='".addslashes($this->getValue())."'");
-		
-		$query->addOrderBy('tag.tstamp', DESCENDING);
-		
 		$dbc =& Services::getService("DatabaseManager");
+		
+		$subQuery =& new SelectQuery;
+		$subQuery->addColumn('tag_item.db_id');
+		$subQuery->addColumn('tag_item.id');
+		$subQuery->addColumn('tag_item.system');
+		$subQuery->addColumn('tag.tstamp');
+		$subQuery->addTable('tag');
+		$subQuery->addTable('tag_item', INNER_JOIN, "tag.fk_item = tag_item.db_id");
+		$subQuery->addWhere("tag.value='".addslashes($this->getValue())."'");
+		$subQuery->addOrderBy('tag.tstamp', DESCENDING);
+	
+		$query = new SelectQuery;
+		$query->addColumn('*');
+		$query->addTable("(".$dbc->generateSQL($subQuery, $this->getDatabaseIndex()).") AS tag_results");
+		$query->setGroupBy(array('db_id'));
+		
+// 		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
+		
 		$result =& $dbc->query($query, $this->getDatabaseIndex());
 		
 		$iterator =& new TaggedItemIterator($result);
@@ -185,25 +194,29 @@ class Tag {
 	/**
 	 * Answer all items with this tag in a particular system
 	 * 
-	 * @param integer $max The maximum number of tags to return. The least frequently used
-	 * 		tags will be dropped first. If $max is 0, all tags will be returned.
 	 * @return object ItemsIterator
 	 * @access public
 	 * @since 11/2/06
 	 */
 	function &getItemsInSystem ( $system) {
-		$query =& new SelectQuery;
-		$query->addColumn('tag_item.db_id');
-		$query->addColumn('tag_item.id');
-		$query->addColumn('tag_item.system');
-		$query->addTable('tag');
-		$query->addTable('tag_item', INNER_JOIN, "tag.fk_item = tag_item.db_id");
-		$query->addWhere("tag.value='".addslashes($this->getValue())."'");
-		$query->addWhere("tag_item.system='".addslashes($system)."'");
-		
-		$query->addOrderBy('tag.tstamp', DESCENDING);
-		
 		$dbc =& Services::getService("DatabaseManager");
+		
+		$subQuery =& new SelectQuery;
+		$subQuery->addColumn('tag_item.db_id');
+		$subQuery->addColumn('tag_item.id');
+		$subQuery->addColumn('tag_item.system');
+		$subQuery->addColumn('tag.tstamp');
+		$subQuery->addTable('tag');
+		$subQuery->addTable('tag_item', INNER_JOIN, "tag.fk_item = tag_item.db_id");
+		$subQuery->addWhere("tag.value='".addslashes($this->getValue())."'");
+		$subQuery->addWhere("tag_item.system='".addslashes($system)."'");
+		$subQuery->addOrderBy('tag.tstamp', DESCENDING);
+		
+		$query = new SelectQuery;
+		$query->addColumn('*');
+		$query->addTable("(".$dbc->generateSQL($subQuery, $this->getDatabaseIndex()).") AS tag_results");
+		$query->setGroupBy(array('db_id'));
+		
 		$result =& $dbc->query($query, $this->getDatabaseIndex());
 		
 		$iterator =& new TaggedItemIterator($result);
@@ -211,7 +224,7 @@ class Tag {
 	}
 	
 	/**
-	 * Answer all items with this tag
+	 * Answer all items with this tag where the tag was added by the given agent
 	 * 
 	 * @return object TaggedItemIterator
 	 * @access public
