@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OracleDatabase.class.php,v 1.12 2006/06/01 14:41:07 adamfranco Exp $
+ * @version $Id: OracleDatabase.class.php,v 1.12.2.1 2006/11/14 20:30:35 adamfranco Exp $
  */
  
 require_once(HARMONI."DBHandler/Database.interface.php");
@@ -23,7 +23,7 @@ require_once(HARMONI."DBHandler/Oracle/Oracle_SQLGenerator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OracleDatabase.class.php,v 1.12 2006/06/01 14:41:07 adamfranco Exp $
+ * @version $Id: OracleDatabase.class.php,v 1.12.2.1 2006/11/14 20:30:35 adamfranco Exp $
  */
 class OracleDatabase 
 	extends DatabaseInterface 
@@ -279,8 +279,17 @@ class OracleDatabase
 		return $result;
 	}
 	
-
-
+	/**
+	 * Answer the string SQL for the query
+	 * 
+	 * @param object $query
+	 * @return string
+	 * @access public
+	 * @since 11/14/06
+	 */
+	function generateSQL ($query) {
+		return Oracle_SQLGenerator::generateSQLQuery($query);
+	}
 
 	/**
 	 * Executes an SQL query.

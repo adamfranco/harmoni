@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DBHandler.class.php,v 1.20 2005/07/15 22:25:33 gabeschine Exp $
+ * @version $Id: DBHandler.class.php,v 1.20.2.1 2006/11/14 20:30:34 adamfranco Exp $
  */
  
 /**
@@ -68,7 +68,7 @@ require_once(HARMONI."Primitives/Chronology/include.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DBHandler.class.php,v 1.20 2005/07/15 22:25:33 gabeschine Exp $
+ * @version $Id: DBHandler.class.php,v 1.20.2.1 2006/11/14 20:30:34 adamfranco Exp $
  */
 
 class DBHandler { 
@@ -523,6 +523,19 @@ class DBHandler {
 			throwError(new Error("Invalid database index.", "DBHandler", true));
 			return false;
 		}
+	}
+	
+	/**
+	 * Generate the SQL string for the specified Query and Database
+	 * 
+	 * @param object $query
+	 * @param int $dbIndex
+	 * @return string
+	 * @access public
+	 * @since 11/14/06
+	 */
+	function generateSQL ($query, $dbIndex = 0) {
+		return $this->_databases[$dbIndex]->generateSQL($query);
 	}
 }
 ?>
