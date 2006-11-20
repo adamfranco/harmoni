@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TagManager.class.php,v 1.1.2.4 2006/11/13 21:55:42 adamfranco Exp $
+ * @version $Id: TagManager.class.php,v 1.1.2.5 2006/11/20 19:48:44 adamfranco Exp $
  */ 
 
 /**
@@ -35,7 +35,7 @@ require_once(dirname(__FILE__)."/UrlTaggedItem.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TagManager.class.php,v 1.1.2.4 2006/11/13 21:55:42 adamfranco Exp $
+ * @version $Id: TagManager.class.php,v 1.1.2.5 2006/11/20 19:48:44 adamfranco Exp $
  */
 class TagManager
 	extends OsidManager	
@@ -160,7 +160,7 @@ class TagManager
 		$query->addOrderBy('occurances', DESCENDING);
 		
 		if ($max)
-			$query->addLimit($max);
+			$query->limitNumberOfRows($max);
 		
 		
 		$itemDbIds = array();
