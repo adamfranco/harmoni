@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TagManager.class.php,v 1.1.2.5 2006/11/20 19:48:44 adamfranco Exp $
+ * @version $Id: TagManager.class.php,v 1.1.2.6 2006/11/21 15:00:14 adamfranco Exp $
  */ 
 
 /**
@@ -35,7 +35,7 @@ require_once(dirname(__FILE__)."/UrlTaggedItem.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TagManager.class.php,v 1.1.2.5 2006/11/20 19:48:44 adamfranco Exp $
+ * @version $Id: TagManager.class.php,v 1.1.2.6 2006/11/21 15:00:14 adamfranco Exp $
  */
 class TagManager
 	extends OsidManager	
@@ -183,8 +183,14 @@ class TagManager
 		} else {
 			throwError(new Error("Invalid parameter, ".get_class($items).", for \$items", "Tagging"));
 		}
-		$query->addWhere("tag.fk_item IN (".implode(", ", $itemDbIds).")");
 		
+		// Return an empty iterator if we have no item ids
+		if (!count($itemDbIds)) {
+			$iterator =& new HarmoniIterator($itemDbIds);
+			return $iterator;
+		}
+		
+		$query->addWhere("tag.fk_item IN (".implode(", ", $itemDbIds).")");
 		
 		$dbc =& Services::getService("DatabaseManager");
 		$result =& $dbc->query($query, $this->getDatabaseIndex());
