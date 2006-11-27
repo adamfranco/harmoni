@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Tag.class.php,v 1.1.2.6 2006/11/27 14:40:13 adamfranco Exp $
+ * @version $Id: Tag.class.php,v 1.1.2.7 2006/11/27 22:40:25 adamfranco Exp $
  */ 
 
 require_once(dirname(__FILE__)."/TaggedItemIterator.class.php");
@@ -21,7 +21,7 @@ require_once(dirname(__FILE__)."/TaggedItemIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Tag.class.php,v 1.1.2.6 2006/11/27 14:40:13 adamfranco Exp $
+ * @version $Id: Tag.class.php,v 1.1.2.7 2006/11/27 22:40:25 adamfranco Exp $
  */
 class Tag {
 	
@@ -493,6 +493,41 @@ class Tag {
 		
 		$dbc =& Services::getService("DatabaseManager");
 		$dbc->query($query, $this->getDatabaseIndex()); 
+	}
+	
+	/**
+	 * Rename the tag for the given agent
+	 * 
+	 * @param object Id $agentId
+	 * @param string $newValue
+	 * @return void
+	 * @access public
+	 * @since 11/27/06
+	 */
+	function renameForAgent ( &$agentId, $newValue ) {
+		$newTag = new Tag($newValue);
+		
+		$query =& new UpdateQuery;
+		$query->setTable('tag');
+		$query->setColumns(array('value'));
+		$query->setValues(array("'".addslashes($newTag->getValue())."'"));
+		$query->addWhere("tag.value='".addslashes($this->getValue())."'");
+		$query->addWhere("tag.user_id='".addslashes($agentId->getIdString())."'");
+		
+		$dbc =& Services::getService("DatabaseManager");
+		$dbc->query($query, $this->getDatabaseIndex());
+	}
+	
+	/**
+	 *Rename the tag for the current user
+	 * 
+	 * @param string $newValue
+	 * @return void
+	 * @access public
+	 * @since 11/27/06
+	 */
+	function renameForCurrentUser ( $newValue ) {
+		$this->renameForAgent($this->getCurrentUserId(), $newValue);
 	}
 	
 	/**
