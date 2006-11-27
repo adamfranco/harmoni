@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TaggedItem.class.php,v 1.1.2.3 2006/11/13 21:55:42 adamfranco Exp $
+ * @version $Id: TaggedItem.class.php,v 1.1.2.4 2006/11/27 20:30:52 adamfranco Exp $
  */ 
 
 /**
@@ -18,7 +18,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TaggedItem.class.php,v 1.1.2.3 2006/11/13 21:55:42 adamfranco Exp $
+ * @version $Id: TaggedItem.class.php,v 1.1.2.4 2006/11/27 20:30:52 adamfranco Exp $
  */
 class TaggedItem {
 		
@@ -122,6 +122,23 @@ class TaggedItem {
 		$taggingManager =& Services::getService("Tagging");
 		$tags =& $taggingManager->getTagsForItemsByAgent($this, $agentId, $sortBy, $max);
 		return $tags;
+	}
+	
+	/**
+	 * Delete the tags for this item created by a given agent
+	 * 
+	 * @param object Id $agentId
+	 * @return void
+	 * @access public
+	 * @since 11/27/06
+	 */
+	function deleteTagsByAgent ( &$agentId ) {
+		$taggingManager =& Services::getService("Tagging");
+		$tags =& $taggingManager->getTagsForItemsByAgent($this, $agentId);
+		while ($tags->hasNext()) {
+			$tag =& $tags->next();
+			$tag->removeFromItemsForAgent($this, $agentId);
+		}
 	}
 	
 	/**
