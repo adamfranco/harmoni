@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ISO8601StringParser.class.php,v 1.2.2.1 2006/08/25 15:29:19 adamfranco Exp $
+ * @version $Id: ISO8601StringParser.class.php,v 1.2.2.2 2006/11/27 20:29:14 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -29,7 +29,7 @@ require_once(dirname(__FILE__)."/StringParser.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ISO8601StringParser.class.php,v 1.2.2.1 2006/08/25 15:29:19 adamfranco Exp $
+ * @version $Id: ISO8601StringParser.class.php,v 1.2.2.2 2006/11/27 20:29:14 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -57,7 +57,7 @@ class ISO8601StringParser
 	(?:										# The date component
 		([0-9]{4})							# Four-digit year
 		
-		[\-\/]?									# Optional Hyphen
+		[\-\/:]?							# Optional Hyphen, slash, or colon delimiter
 		
 		(?:									# Two-digit month
 			(
@@ -66,7 +66,7 @@ class ISO8601StringParser
 			(?:  1[0-2])
 			)
 		
-			[\-\/]?									# Optional Hyphen
+			[\-\/:]?						# Optional Hyphen, slash, or colon delimiter
 			
 			(?:									# Two-digit day
 				(
