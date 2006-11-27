@@ -42,3 +42,17 @@ CREATE TABLE `tag_item` (
   KEY `id` (`id`),
   KEY `system` (`system`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Tagged items';
+
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `tag_part_map`
+-- 
+
+CREATE TABLE tag_part_map (
+  fk_repository varchar(100) collate utf8_bin NOT NULL default '',
+  fk_partstruct varchar(150) collate utf8_bin NOT NULL default '',
+  KEY fk_repository (fk_repository),
+  KEY fk_partstruct (fk_partstruct)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Used for tag auto-generation';

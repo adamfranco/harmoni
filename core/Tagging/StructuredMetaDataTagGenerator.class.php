@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StructuredMetaDataTagGenerator.class.php,v 1.1.2.1 2006/11/27 20:30:52 adamfranco Exp $
+ * @version $Id: StructuredMetaDataTagGenerator.class.php,v 1.1.2.2 2006/11/27 21:07:54 adamfranco Exp $
  */ 
 
 /**
@@ -19,7 +19,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StructuredMetaDataTagGenerator.class.php,v 1.1.2.1 2006/11/27 20:30:52 adamfranco Exp $
+ * @version $Id: StructuredMetaDataTagGenerator.class.php,v 1.1.2.2 2006/11/27 21:07:54 adamfranco Exp $
  */
 class StructuredMetaDataTagGenerator {
 
@@ -82,7 +82,7 @@ class StructuredMetaDataTagGenerator {
 			$this->_cache[$repositoryId->getIdString()] = array();
 			$query =& new SelectQuery;
 			$query->addColumn('fk_partstruct');
-			$query->addTable('concerto_tag_part_map');
+			$query->addTable('tag_part_map');
 			$query->addWhere("fk_repository ='".addslashes($repositoryId->getIdString())."'");
 			
 			$dbc =& Services::getService("DatabaseManager");
@@ -141,7 +141,7 @@ class StructuredMetaDataTagGenerator {
 		$query->addRowOfValues(array(
 			"'".addslashes($repositoryId->getIdString())."'",
 			"'".addslashes($partStructureId->getIdString())."'"));
-		$query->setTable('concerto_tag_part_map');
+		$query->setTable('tag_part_map');
 		$dbc =& Services::getService("DatabaseManager");
 		$result =& $dbc->query($query, $this->getDatabaseIndex());
 			
@@ -161,7 +161,7 @@ class StructuredMetaDataTagGenerator {
 	function removePartStructureIdForTagGeneration ( &$repositoryId, &$partStructureId ) {
 		// Delete it into the database
 		$query =& new DeleteQuery;
-		$query->setTable('concerto_tag_part_map');
+		$query->setTable('tag_part_map');
 		$query->addWhere("fk_repository='".addslashes($repositoryId->getIdString())."'");
 		$query->addWhere("fk_partstruct='".addslashes($partStructureId->getIdString())."'");
 		$dbc =& Services::getService("DatabaseManager");
