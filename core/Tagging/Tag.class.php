@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Tag.class.php,v 1.1.2.5 2006/11/14 23:53:12 adamfranco Exp $
+ * @version $Id: Tag.class.php,v 1.1.2.6 2006/11/27 14:40:13 adamfranco Exp $
  */ 
 
 require_once(dirname(__FILE__)."/TaggedItemIterator.class.php");
@@ -21,7 +21,7 @@ require_once(dirname(__FILE__)."/TaggedItemIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Tag.class.php,v 1.1.2.5 2006/11/14 23:53:12 adamfranco Exp $
+ * @version $Id: Tag.class.php,v 1.1.2.6 2006/11/27 14:40:13 adamfranco Exp $
  */
 class Tag {
 	
@@ -75,6 +75,34 @@ class Tag {
 		$query->setValues(array(
 			"'".addslashes($this->getValue())."'",
 			"'".addslashes($this->getCurrentUserIdString())."'",
+			"'".addslashes($item->getDatabaseId())."'"));
+		
+		$dbc =& Services::getService("DatabaseManager");
+		$result =& $dbc->query($query, $this->getDatabaseIndex());
+		
+		return $item;
+	}
+	
+	/**
+	 * Add this tag to an Item for a particular agent
+	 * 
+	 * @param object TaggedItem $item
+	 * @param object Id $agentId
+	 * @return object The item
+	 * @access public
+	 * @since 11/6/06
+	 */
+	function &tagItemForAgent ( &$item, $agentId ) {
+		// Make sure the item is not already tagged
+		if ($this->isItemTagged($item))
+			return $item;
+		
+		$query =& new InsertQuery;
+		$query->setTable('tag');
+		$query->setColumns(array('value', 'user_id', 'fk_item'));
+		$query->setValues(array(
+			"'".addslashes($this->getValue())."'",
+			"'".addslashes($agentId->getIdString())."'",
 			"'".addslashes($item->getDatabaseId())."'"));
 		
 		$dbc =& Services::getService("DatabaseManager");
@@ -417,6 +445,50 @@ class Tag {
 		$query->setTable('tag');
 		$query->addWhere("tag.value='".addslashes($this->getValue())."'");
 		$query->addWhere("tag.user_id='".addslashes($this->getCurrentUserIdString())."'");
+		$query->addWhere("tag.fk_item IN (".implode(", ", $itemDbIds).")");		
+		
+		$dbc =& Services::getService("DatabaseManager");
+		$dbc->query($query, $this->getDatabaseIndex()); 
+	}
+	
+	/**
+	 * Remove the tag from one or more items, skipping those where authorization
+	 * is lacking.
+	 * 
+	 * @param mixed $items This can be a single Item object, an TaggedItemIterator, 
+	 * 		or an array of Item objects.
+	 * @param object Id $agentId
+	 * @return void
+	 * @access public
+	 * @since 11/2/06
+	 */
+	function removeFromItemsForAgent ( &$items, &$agentId ) {
+		$itemDbIds = array();
+		
+		// array
+		if (is_array($items)) {
+			foreach(array_keys($items) as $key) {
+				$itemDbIds[] = "'".addslashes($items[$key]->getDatabaseId())."'";
+			}
+		} 
+		// iterator
+		else if (method_exists($items, 'next')) {
+			while($items->hasNext()) {
+				$item =& $items->next();
+				$itemDbIds[] = "'".addslashes($item->getDatabaseId())."'";
+			}
+		} 
+		// Single item
+		else if (method_exists($items, 'getDatabaseId')) {
+			$itemDbIds[] = "'".addslashes($items->getDatabaseId())."'";
+		} else {
+			throwError(new Error("Invalid parameter, $items, for \$items", "Tagging"));
+		}
+		
+		$query =& new DeleteQuery;
+		$query->setTable('tag');
+		$query->addWhere("tag.value='".addslashes($this->getValue())."'");
+		$query->addWhere("tag.user_id='".addslashes($agentId->getIdString())."'");
 		$query->addWhere("tag.fk_item IN (".implode(", ", $itemDbIds).")");		
 		
 		$dbc =& Services::getService("DatabaseManager");

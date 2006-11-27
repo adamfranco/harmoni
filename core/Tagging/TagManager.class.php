@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TagManager.class.php,v 1.1.2.6 2006/11/21 15:00:14 adamfranco Exp $
+ * @version $Id: TagManager.class.php,v 1.1.2.7 2006/11/27 14:40:13 adamfranco Exp $
  */ 
 
 /**
@@ -25,6 +25,7 @@ require_once(dirname(__FILE__)."/Tag.class.php");
 require_once(dirname(__FILE__)."/TaggedItem.class.php");
 require_once(dirname(__FILE__)."/HarmoniNodeTaggedItem.class.php");
 require_once(dirname(__FILE__)."/UrlTaggedItem.class.php");
+require_once(dirname(__FILE__)."/StructuredMetaDataTagGenerator.class.php");
 
 /**
  * The TagManager handles the creation and retreval of tags.
@@ -35,7 +36,7 @@ require_once(dirname(__FILE__)."/UrlTaggedItem.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TagManager.class.php,v 1.1.2.6 2006/11/21 15:00:14 adamfranco Exp $
+ * @version $Id: TagManager.class.php,v 1.1.2.7 2006/11/27 14:40:13 adamfranco Exp $
  */
 class TagManager
 	extends OsidManager	
@@ -362,6 +363,54 @@ class TagManager
 		
 		$iterator =& new HarmoniIterator($tags);
 		return $iterator;
+	}
+	
+	/**
+	 * Delete the item and all tags for it. This should be done when deleting
+	 * the thing the item represents
+	 * 
+	 * @param mixed $items This can be a single Item object, an TaggedItemIterator, 
+	 * 		or an array of Item objects.
+	 * @return void
+	 * @access public
+	 * @since 11/2/06
+	 */
+	function deleteItems ( &$items ) {
+		$itemDbIds = array();
+		
+		// array
+		if (is_array($items)) {
+			foreach(array_keys($items) as $key) {
+				$itemDbIds[] = "'".addslashes($items[$key]->getDatabaseId())."'";
+			}
+		} 
+		// iterator
+		else if (method_exists($items, 'next')) {
+			while($items->hasNext()) {
+				$item =& $items->next();
+				$itemDbIds[] = "'".addslashes($item->getDatabaseId())."'";
+			}
+		} 
+		// Single item
+		else if (method_exists($items, 'getDatabaseId')) {
+			$itemDbIds[] = "'".addslashes($items->getDatabaseId())."'";
+		} else {
+			throwError(new Error("Invalid parameter, $items, for \$items", "Tagging"));
+		}
+		
+		$dbc =& Services::getService("DatabaseManager");
+		
+		$query =& new DeleteQuery;
+		$query->setTable('tag');
+		$query->addWhere("tag.fk_item IN (".implode(", ", $itemDbIds).")");		
+		
+		$dbc->query($query, $this->getDatabaseIndex()); 
+		
+		$query =& new DeleteQuery;
+		$query->setTable('tag_item');
+		$query->addWhere("id IN (".implode(", ", $itemDbIds).")");		
+		
+		$dbc->query($query, $this->getDatabaseIndex()); 
 	}
 	
 	/**
