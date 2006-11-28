@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TagManager.class.php,v 1.1.2.7 2006/11/27 14:40:13 adamfranco Exp $
+ * @version $Id: TagManager.class.php,v 1.1.2.8 2006/11/28 21:55:27 adamfranco Exp $
  */ 
 
 /**
@@ -36,7 +36,7 @@ require_once(dirname(__FILE__)."/StructuredMetaDataTagGenerator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TagManager.class.php,v 1.1.2.7 2006/11/27 14:40:13 adamfranco Exp $
+ * @version $Id: TagManager.class.php,v 1.1.2.8 2006/11/28 21:55:27 adamfranco Exp $
  */
 class TagManager
 	extends OsidManager	
@@ -64,7 +64,7 @@ class TagManager
 		$query->addWhere("user_id='".addslashes($agentId->getIdString())."'");
 		
 		if ($max)
-			$query->addLimit($max);
+			$query->limitNumberOfRows($max);
 		
 		$dbc =& Services::getService("DatabaseManager");
 		$result =& $dbc->query($query, $this->getDatabaseIndex());
@@ -119,7 +119,7 @@ class TagManager
 		$query->addOrderBy('occurances', DESCENDING);
 				
 		if ($max)
-			$query->addLimit($max);
+			$query->limitNumberOfRows($max);
 		
 		$dbc =& Services::getService("DatabaseManager");
 		$result =& $dbc->query($query, $this->getDatabaseIndex());
@@ -235,7 +235,7 @@ class TagManager
 		$query->addWhere("user_id='".addslashes($agentId->getIdString())."'");
 		
 		if ($max)
-			$query->addLimit($max);
+			$query->limitNumberOfRows($max);
 		
 		
 		$itemDbIds = array();
@@ -320,7 +320,7 @@ class TagManager
 		$query->addWhere("user_id!='".addslashes($agentId->getIdString())."'");
 		
 		if ($max)
-			$query->addLimit($max);
+			$query->limitNumberOfRows($max);
 		
 		
 		$itemDbIds = array();
