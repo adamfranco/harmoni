@@ -46,7 +46,7 @@ require_once(dirname(__FILE__)."/SearchModules/AuthoritativeValuesSearch.class.p
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepository.class.php,v 1.54 2006/06/13 21:19:00 adamfranco Exp $ 
+ * @version $Id: HarmoniRepository.class.php,v 1.54.2.1 2006/11/28 21:59:19 adamfranco Exp $ 
  */
 
 class HarmoniRepository
@@ -914,7 +914,7 @@ class HarmoniRepository
 		if (!isset($this->_createdAssets[$assetId->getIdString()])) {
 			
 			if ($verifyExistance) {
-				// Get the node for this asset to make sure its availible
+				// Get the node for this asset to make sure its available
 				if (!$this->_hierarchy->getNode($assetId))
 					throwError(new Error(RepositoryException::UNKNOWN_ID(), "Repository", 1));
 				
