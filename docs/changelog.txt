@@ -3,6 +3,19 @@
 Name: Harmoni ChangeLog
 
 
+v. 0.7.9 (2006-11-28)
+----------------------------------------------------
+		
+	* New feature: Database: Can now generate the appropriate query string for use in building complex subqueries. (Adam Franco)
+		
+	* Change: Actions: Removing need to pass the harmoni object from all actions. (Adam Franco)
+		
+	* Change: Chronology: Allowing colon date delimiters to support dates from EXIF. (Adam Franco)
+		
+	* Bug Fix: Repository: Generating thumbnails now doesn't update the Asset modification date. (Adam Franco)
+		
+	* New feature: Tagging back-end added. (Adam Franco)
+	
 v. 0.7.8 (2006-10-25)
 ----------------------------------------------------
 		

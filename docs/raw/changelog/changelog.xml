@@ -3,11 +3,30 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.130.2.26 2006/10/25 22:59:57 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.130.2.27 2006/11/28 22:20:19 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
+	<version number="0.7.9" date="2006-11-28">
+		<new author='adam'>
+			Database: Can now generate the appropriate query string for use in 
+			building complex subqueries.
+		</new>
+		<change author='adam'>
+			Actions: Removing need to pass the harmoni object from all actions.
+		</change>
+		<change author='adam'>
+			Chronology: Allowing colon date delimiters to support dates from EXIF.
+		</change>
+		<fix author='adam'>
+			Repository: Generating thumbnails now doesn't update the Asset 
+			modification date.
+		</fix>
+		<new author='adam'>
+			Tagging back-end added.
+		</new>
+	</version>
 	<version number="0.7.8" date="2006-10-25">
 		<new author='adam'>
 			GUI: New GUI component, SubMenu.
