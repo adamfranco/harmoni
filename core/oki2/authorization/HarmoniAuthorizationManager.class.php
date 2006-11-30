@@ -60,7 +60,7 @@ require_once(HARMONI.'oki2/shared/HarmoniIdIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthorizationManager.class.php,v 1.35 2006/05/25 17:23:28 adamfranco Exp $
+ * @version $Id: HarmoniAuthorizationManager.class.php,v 1.35.2.1 2006/11/30 15:32:50 adamfranco Exp $
  */
 class HarmoniAuthorizationManager 
 	extends AuthorizationManager 
@@ -845,18 +845,11 @@ class HarmoniAuthorizationManager
 		// ArgumentValidator::validate($isActiveNow, BooleanValidatorRule::getRule(), true);
 		// ** end of parameter validation
 		
-		$authorizations =& $this->_cache->getAZs(
-				null,								// aid
-				 $functionId->getIdString(),		// fid
-				 (isset($qualifierId)) ? $qualifierId->getIdString() : null, // qid
-				 null, 								// ftype
-				 true, 								// returnExplicitOnly
-				 false,								// searchUp
-				 true);								// isActiveNow
+		$authorizations =& $this->getAllAZs($null = null, $functionId, $qualifierId, true);
 											
 		$agentIds = array();
-		foreach (array_keys($authorizations) as $i => $key) {
-			$authorization =& $authorizations[$key];
+		while ($authorizations->hasNext()) {
+			$authorization =& $authorizations->next();
 			$agentId =& $authorization->getAgentId();
 			if (!isset($agentIds[$agentId->getIdString()]))
 				$agentIds[$agentId->getIdString()] =& $agentId;
