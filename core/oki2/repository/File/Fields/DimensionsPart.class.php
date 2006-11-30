@@ -5,7 +5,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: DimensionsPart.class.php,v 1.8 2006/05/04 20:36:19 adamfranco Exp $
+ * @version $Id: DimensionsPart.class.php,v 1.9 2006/11/30 22:02:21 adamfranco Exp $
  */
  
 require_once(dirname(__FILE__)."/../getid3.getimagesize.php");
@@ -21,7 +21,7 @@ require_once(dirname(__FILE__)."/../getid3.getimagesize.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: DimensionsPart.class.php,v 1.8 2006/05/04 20:36:19 adamfranco Exp $
+ * @version $Id: DimensionsPart.class.php,v 1.9 2006/11/30 22:02:21 adamfranco Exp $
  */
 class DimensionsPart 
 	extends Part
@@ -294,8 +294,10 @@ class DimensionsPart
 			
 			$dbHandler->query($query, 
 				$this->_configuration->getProperty("database_index"));
-				
-			$this->_asset->updateModificationDate();
+			
+			// This gets done during thumbnail generation, so don't change our
+			// asset's modification date.
+// 			$this->_asset->updateModificationDate();
 		}
 	}
 

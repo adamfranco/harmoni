@@ -13,7 +13,7 @@ require_once(HARMONI."errorHandler/SimpleHTMLErrorPrinter.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ErrorHandler.class.php,v 1.16 2006/05/30 20:18:23 adamfranco Exp $
+ * @version $Id: ErrorHandler.class.php,v 1.17 2006/11/30 22:02:17 adamfranco Exp $
  */
 
 class ErrorHandler extends ErrorHandlerInterface{
@@ -140,7 +140,6 @@ class ErrorHandler extends ErrorHandlerInterface{
 				break;
 			}
 		}
-		
 		if (Services::serviceRunning("Logging") && !$errorLoggingRecursion) {
 			$loggingManager =& Services::getService("Logging");
 			$log =& $loggingManager->getLogForWriting("Harmoni");
@@ -152,6 +151,12 @@ class ErrorHandler extends ErrorHandlerInterface{
 			
 			$item =& new AgentNodeEntryItem($error->getType(), $error->getDescription());
 			$item->setBacktrace($error->getDebugBacktrace());
+			$item->addTextToBactrace("\n<div><strong>REQUEST_URI: </strong>".$_SERVER['REQUEST_URI']."</div>");
+			if (isset($_SERVER['HTTP_REFERER']))
+					$item->addTextToBactrace("\n<div><strong>HTTP_REFERER: </strong>".$_SERVER['HTTP_REFERER']."</div>");
+			$item->addTextToBactrace("\n<div><strong>GET: </strong><pre>".print_r($_GET, true)."</pre></div>");
+			$item->addTextToBactrace("\n<div><strong>POST: </strong><pre>".print_r($_POST, true)."</pre></div>");
+			$item->addTextToBactrace("\n<div><strong>HTTP_USER_AGENT: </strong><pre>".print_r($_SERVER['HTTP_USER_AGENT'], true)."</pre></div>");
 			$log->appendLogWithTypes($item,	$formatType, $priorityType);
 			
 		}

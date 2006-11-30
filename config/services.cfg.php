@@ -11,7 +11,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: services.cfg.php,v 1.57 2006/07/18 15:01:37 sporktim Exp $
+ * @version $Id: services.cfg.php,v 1.58 2006/11/30 22:01:59 adamfranco Exp $
  */
 
 /* :: what services should we load? you can disable some to save on startup time :: */
@@ -106,13 +106,10 @@ if (!defined("LOAD_LOGGING")) 				define("LOAD_LOGGING", true);
  */
 if (!defined("LOAD_REPOSITORY")) 			define("LOAD_REPOSITORY", true);
 
-
 /**
  * functionality affected: Scheduling.
  */
 if (!defined("LOAD_SCHEDULING")) 			define("LOAD_SCHEDULING", true);
-
-
 
 /**
  * functionality affected: Course Management.
@@ -123,6 +120,12 @@ if (!defined("LOAD_COURSE_MANAGEMENT")) 			define("LOAD_COURSE_MANAGEMENT", true
  * functionality affected: Grading.
  */
 if (!defined("LOAD_GRADING")) 			define("LOAD_GRADING", true);
+
+/**
+ * functionality affected: Tagging.
+ */
+if (!defined("LOAD_TAGGING")) 			define("LOAD_TAGGING", true);
+
 
 
 /**
@@ -380,7 +383,6 @@ if (LOAD_REPOSITORY) {
 	Services::createServiceAlias("RepositoryManager", "Repository");
 }
 
-
 /**
  * load the SchedulingManager.
  */
@@ -389,7 +391,6 @@ if (LOAD_SCHEDULING) {
 	Services::registerService("SchedulingManager","HarmoniSchedulingManager");
 	Services::createServiceAlias("SchedulingManager", "Scheduling");
 }
-
 
 /**
  * load the CourseManagementManager.
@@ -406,6 +407,14 @@ if (LOAD_GRADING) {
 	Services::createServiceAlias("GradingManager", "Grading");
 }
 
+/**
+ * load the TaggingManager.
+ */
+if (LOAD_TAGGING) {
+	require_once(HARMONI."Tagging/TagManager.class.php");
+	Services::registerService("TagManager","TagManager");
+	Services::createServiceAlias("TagManager", "Tagging");
+}
 
 
 

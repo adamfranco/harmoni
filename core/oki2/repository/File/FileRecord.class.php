@@ -29,7 +29,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileRecord.class.php,v 1.22 2006/05/04 20:36:19 adamfranco Exp $ 
+ * @version $Id: FileRecord.class.php,v 1.23 2006/11/30 22:02:20 adamfranco Exp $ 
  */
 class FileRecord 
 	extends RecordInterface
@@ -195,6 +195,13 @@ class FileRecord
 		
 		$this->_parts[$partIdString]->updateValue($value);
 		
+		// Make sure that we don't trigger deleting of the whole record by deleting
+		// and recreating parts
+		if (isset($this->_toDelete) && in_array($partIdString, $this->_toDelete)) {
+			$key = array_search($partIdString, $this->_toDelete);
+			unset ($this->_toDelete[$key]);
+		}
+		
 		$this->_asset->updateModificationDate();
 		
 		return $this->_parts[$partIdString];
@@ -248,6 +255,7 @@ class FileRecord
 				$query->setTable("dr_file");
 				$query->setWhere("id = '".$this->_id->getIdString()."'");
 				$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
+				
 			} else if ($field != "FILE_SIZE") {
 				$this->_parts[$field]->updateValue("NULL");
 			}
@@ -355,6 +363,9 @@ class FileRecord
 	 * @since 10/25/04
 	 */
 	function _isLastPart ($idString) {		
+		if (!isset($this->_toDelete))
+			$this->_toDelete = array();
+		
 		$dbHandler =& Services::getService("DatabaseManager");
 	
 		// Check to see if the data is in the database
@@ -364,12 +375,12 @@ class FileRecord
 		$query->addTable("dr_thumbnail", LEFT_JOIN, "dr_file.id = dr_thumbnail.FK_file");
 		$query->addTable("dr_mime_type", LEFT_JOIN, "dr_file.FK_mime_type = file_mime_type.id", "file_mime_type");
 		$query->addTable("dr_mime_type", LEFT_JOIN, "dr_thumbnail.FK_mime_type = thumbnail_mime_type.id", "thumbnail_mime_type");
-		$query->addColumn("filename");
-		$query->addColumn("size");
-		$query->addColumn("file_mime_type.type", "file_type");
-		$query->addColumn("dr_file_data.data", "file_data");
-		$query->addColumn("thumbnail_mime_type.type", "thumbnail_type");
-		$query->addColumn("dr_thumbnail.data", "thumbnail_data");
+		$query->addColumn("filename", "FILE_NAME");
+		$query->addColumn("size", "FILE_SIZE");
+		$query->addColumn("file_mime_type.type", "MIME_TYPE");
+		$query->addColumn("dr_file_data.data", "FILE_DATA");
+		$query->addColumn("thumbnail_mime_type.type", "THUMBNAIL_MIME_TYPE");
+		$query->addColumn("dr_thumbnail.data", "THUMBNAIL_DATA");
 		$query->addWhere("dr_file.id = '".$this->_id->getIdString()."'");
 		$result =& $dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 		
@@ -378,14 +389,16 @@ class FileRecord
 			return TRUE;
 		}
 		
-		$fields = array('filename', 'size', 'file_type', 'file_data', 'thumbnail_type', 'thumbnail_data');
+		$fields = array('FILE_NAME', 'FILE_SIZE', 'MIME_TYPE', 'FILE_DATA', 'THUMBNAIL_MIME_TYPE', 'THUMBNAIL_DATA');
 		
 		$countValues = 0;
 		foreach ($fields as $field) {
-			if ($result->field($field))
+			if ($result->field($field) && !in_array($field, $this->_toDelete))
 				$countValues++;
 		}
 		$result->free();
+		
+		$this->_toDelete[] = $idString;
 		
 		if ($countValues <= 1)
 			return TRUE;

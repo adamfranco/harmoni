@@ -12,7 +12,7 @@ require_once HARMONI."dataManager/versionConstraints/VersionConstraint.interface
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateVersionConstraint.class.php,v 1.3 2005/01/19 21:09:59 adamfranco Exp $
+ * @version $Id: DateVersionConstraint.class.php,v 1.4 2006/11/30 22:02:17 adamfranco Exp $
  */
 class DateVersionConstraint extends VersionConstraint {
 	
@@ -47,7 +47,7 @@ class DateVersionConstraint extends VersionConstraint {
 	}
 	
 	function checkTags(&$record) {
-		$mgr =& Services::getService("TagManager");
+		$mgr =& Services::getService("RecordTagManager");
 		
 		$tags =& $mgr->fetchTagDescriptors($record->getID());
 		

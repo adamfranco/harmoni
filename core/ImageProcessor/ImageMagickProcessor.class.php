@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ImageMagickProcessor.class.php,v 1.8 2005/07/22 18:08:40 adamfranco Exp $
+ * @version $Id: ImageMagickProcessor.class.php,v 1.9 2006/11/30 22:02:03 adamfranco Exp $
  */
 
 class ImageMagickProcessor {
@@ -136,7 +136,7 @@ class ImageMagickProcessor {
 			"tif" => "tif",
 			"tim" => "jpg",
 			"ttf" => "png",
-			"txt" => "txt",
+// 			"txt" => "txt",
 			
 //			"uil" => "uil",
 			"uyvy" => "uyvy",
@@ -350,6 +350,14 @@ class ImageMagickProcessor {
 			// delete the temporary files;
 			unlink($sourcePath);
 			unlink($destPath);
+			
+			/*********************************************************
+			 * For some multi-page PDFs, small, ~1 pixel black images
+			 * are generated instead of the conversion failing.
+			 * Return null rather than this invalid image
+			 *********************************************************/
+			if (!$outData || (strtolower($inputExtension) == 'pdf' && strlen($outData) < 1024))
+				return null;
 			
 			return $outData;
 		}

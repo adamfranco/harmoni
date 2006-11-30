@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MonthNameDayYearStringParser.class.php,v 1.2 2006/06/26 12:55:08 adamfranco Exp $
+ * @version $Id: MonthNameDayYearStringParser.class.php,v 1.3 2006/11/30 22:02:04 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -29,7 +29,7 @@ require_once(dirname(__FILE__)."/StringParser.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MonthNameDayYearStringParser.class.php,v 1.2 2006/06/26 12:55:08 adamfranco Exp $
+ * @version $Id: MonthNameDayYearStringParser.class.php,v 1.3 2006/11/30 22:02:04 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -66,6 +66,8 @@ class MonthNameDayYearStringParser
 		|
 		(?:  3[01])
 	)
+	
+	(?: st|nd|rd|th)?	# apendum to date, i.e. 1st, 2nd, 10th
 	
 	[^0-9a-zA-Z]+		# delimiters
 	

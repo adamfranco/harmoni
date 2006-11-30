@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GETMethodRequestHandler.class.php,v 1.12 2006/01/30 19:07:01 adamfranco Exp $
+ * @version $Id: GETMethodRequestHandler.class.php,v 1.13 2006/11/30 22:02:13 adamfranco Exp $
  */ 
  
 require_once(HARMONI."architecture/request/RequestHandler.interface.php");
@@ -25,7 +25,7 @@ require_once(HARMONI."architecture/request/URLWriter.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GETMethodRequestHandler.class.php,v 1.12 2006/01/30 19:07:01 adamfranco Exp $
+ * @version $Id: GETMethodRequestHandler.class.php,v 1.13 2006/11/30 22:02:13 adamfranco Exp $
  */
 
 class GETMethodRequestHandler extends RequestHandler {
@@ -73,12 +73,12 @@ class GETMethodRequestHandler extends RequestHandler {
 	 */
 	function getRequestedModuleAction() {
 		if (isset($_REQUEST["module"]))
-			$mod = $_REQUEST["module"];
+			$mod = preg_replace('/[^a-zA-Z0-9_\-]/i', '', $_REQUEST["module"]);
 		else
 			$mod = NULL;
 		
 		if (isset($_REQUEST["action"]))
-			$act = $_REQUEST["action"];
+			$act = preg_replace('/[^a-zA-Z0-9_\-]/i', '', $_REQUEST["action"]);
 		else
 			$act = NULL;
 		
@@ -98,7 +98,7 @@ class GETMethodRequestHandler extends RequestHandler {
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GETMethodRequestHandler.class.php,v 1.12 2006/01/30 19:07:01 adamfranco Exp $
+ * @version $Id: GETMethodRequestHandler.class.php,v 1.13 2006/11/30 22:02:13 adamfranco Exp $
  */
 
 class GETMethodURLWriter 
@@ -134,7 +134,9 @@ class GETMethodURLWriter
 		
 		$url = MYURL;
 		$pairs = array();
-		if (defined("SID") && SID) $pairs[] = SID;
+		$harmoni =& Harmoni::instance();
+		if (!$harmoni->config->get("sessionUseOnlyCookies") && defined("SID") && SID) 
+			$pairs[] = strip_tags(SID);
 		$pairs[] = "module=".$this->_module;
 		$pairs[] = "action=".$this->_action;
 		foreach ($this->_vars as $key=>$val) {

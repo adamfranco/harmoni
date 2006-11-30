@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Month.class.php,v 1.2 2006/06/26 12:55:07 adamfranco Exp $
+ * @version $Id: Month.class.php,v 1.3 2006/11/30 22:02:03 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -34,7 +34,7 @@ require_once(dirname(__FILE__)."/Timespan.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Month.class.php,v 1.2 2006/06/26 12:55:07 adamfranco Exp $
+ * @version $Id: Month.class.php,v 1.3 2006/11/30 22:02:03 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -147,7 +147,8 @@ class Month
 	 * @static
 	 */
 	function &current ( $class = 'Month' ) {
-		return parent::current($class);
+		$obj =& parent::current($class);
+		return $obj;
 	}
 	
 	/**
@@ -163,7 +164,8 @@ class Month
 	 * @static
 	 */
 	function &epoch ( $class = 'Month' ) {
-		return parent::epoch($class);
+		$obj =& parent::epoch($class);
+		return $obj;
 	}
 	
 	/**
@@ -183,8 +185,11 @@ class Month
 	function &fromString ( $aString, $class = 'Month' ) {
 		$parser =& StringParser::getParserFor($aString);
 		
-		if (!$parser)
-			die("'".$aString."' is not in a valid format.");
+		if (!is_string($aString) || !preg_match('/[^\W]/', $aString) || !$parser) {
+ 			$null = null;
+ 			return $null;
+			// die("'".$aString."' is not in a valid format.");
+		}
 		
 		eval('$result =& '.$class.'::withMonthYear($parser->month(), 
 					$parser->year(), $class);');
@@ -205,7 +210,8 @@ class Month
 	 * @static
 	 */
 	function &starting ( &$aDateAndTime, $class = 'Month' ) {
-		return parent::starting($aDateAndTime, $class);
+		$obj =& parent::starting($aDateAndTime, $class);
+		return $obj;
 	}
 	
 	/**
@@ -224,7 +230,8 @@ class Month
 	function &startingEnding ( &$startDateAndTime, &$endDateAndTime, 
 		$class = 'Month' ) 
 	{
-		return parent::startingEnding ( $startDateAndTime, $endDateAndTime, $class);
+		$obj =& parent::startingEnding ( $startDateAndTime, $endDateAndTime, $class);
+		return $obj;
 	}
 	
 		

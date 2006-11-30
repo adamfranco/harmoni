@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Date.class.php,v 1.2 2006/06/26 12:55:07 adamfranco Exp $
+ * @version $Id: Date.class.php,v 1.3 2006/11/30 22:02:03 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -40,7 +40,7 @@ require_once(dirname(__FILE__)."/DateAndTime.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Date.class.php,v 1.2 2006/06/26 12:55:07 adamfranco Exp $
+ * @version $Id: Date.class.php,v 1.3 2006/11/30 22:02:03 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -79,7 +79,8 @@ class Date
 	 * @static
 	 */
 	function &current ( $class = 'Date' ) {
-		return parent::current($class);
+		$obj =& parent::current($class);
+		return $obj;
 	}
 	
 	/**
@@ -95,7 +96,8 @@ class Date
 	 * @static
 	 */
 	function &epoch ( $class = 'Date' ) {
-		return parent::epoch($class);
+		$obj =& parent::epoch($class);
+		return $obj;
 	}
 	
 	/**
@@ -122,8 +124,11 @@ class Date
 	function &fromString ( $aString, $class = 'Date' ) {
 		$parser =& StringParser::getParserFor($aString);
 		
-		if (!$parser)
-			die("'".$aString."' is not in a valid format.");
+		if (!is_string($aString) || !preg_match('/[^\W]/', $aString) || !$parser) {
+ 			$null = null;
+ 			return $null;
+			// die("'".$aString."' is not in a valid format.");
+		}
 		
 		eval('$result =& '.$class.'::withYearMonthDay($parser->year(),
 						$parser->month(), $parser->day(), $class);');
@@ -140,8 +145,10 @@ class Date
 	 * @static
 	 */
 	function &starting ( &$aDateAndTime, $class = 'Date' ) {
-		return parent::startingDuration($aDateAndTime->atMidnight(), 
+		$obj =& parent::startingDuration($aDateAndTime->atMidnight(), 
 			Duration::withDays(1), $class);
+
+		return $obj;
 	}
 	
 	/**
@@ -159,7 +166,8 @@ class Date
 	 * @static
 	 */
 	function &startingDuration ( &$aDateAndTime, &$aDuration, $class = 'Date' ) {
-		return parent::startingDuration ( $aDateAndTime, $aDuration, $class );
+		$obj =& parent::startingDuration ( $aDateAndTime, $aDuration, $class );
+		return $obj;
 	}
 	
 	/**
@@ -187,7 +195,8 @@ class Date
 	 */
 	function &tomorrow ( $class = 'Date' ) {
 		eval('$today =& '.$class.'::today($class);');
-		return $today->next();
+		$obj =& $today->next();
+		return $obj;
 	}
 	
 	/**
@@ -246,7 +255,8 @@ class Date
 	 */
 	function &yesterday ( $class = 'Date' ) {
 		eval('$today =& '.$class.'::today($class);');
-		return $today->previous();
+		$obj =& $today->previous();
+		return $obj;
 	}
 	
 /*********************************************************
@@ -369,7 +379,8 @@ class Date
  	function &addDays ( $anInteger ) {
  		$asDateAndTime =& $this->asDateAndTime();
  		$newDateAndTime =& $asDateAndTime->plus(Duration::withDays($anInteger));
- 		return $newDateAndTime->asDate();
+ 		$obj =& $newDateAndTime->asDate();
+ 		return $obj;
  	}
  	
  	/**
@@ -381,7 +392,8 @@ class Date
  	 * @since 5/23/05
  	 */
  	function &subtractDays ( $anInteger ) {
- 		return $this->addDays(0 - $anInteger);
+ 		$obj =& $this->addDays(0 - $anInteger);
+ 		return $obj;
  	}
  	
  	/**
@@ -396,7 +408,8 @@ class Date
  		$days = abs($this->dayOfWeek() - (Week::indexOfDay($dayNameString) % 7));
  		if ($days == 0)
  			$days = 7;
- 		return $this->subtractDays($days);
+ 		$obj =& $this->subtractDays($days);
+ 		return $obj;
  	}
  	
 /*********************************************************

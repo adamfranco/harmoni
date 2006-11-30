@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniEntryIterator.class.php,v 1.4 2006/03/09 19:47:31 adamfranco Exp $
+ * @version $Id: HarmoniEntryIterator.class.php,v 1.5 2006/11/30 22:02:19 adamfranco Exp $
  */
 
 require_once(OKI2."/osid/logging/EntryIterator.php");
@@ -28,7 +28,7 @@ require_once(dirname(__FILE__)."/HarmoniEntry.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniEntryIterator.class.php,v 1.4 2006/03/09 19:47:31 adamfranco Exp $
+ * @version $Id: HarmoniEntryIterator.class.php,v 1.5 2006/11/30 22:02:19 adamfranco Exp $
  */
 class HarmoniEntryIterator
 	extends EntryIterator
@@ -51,8 +51,9 @@ class HarmoniEntryIterator
 		$this->_dbIndex = $dbIndex;
 		$this->_current = 0;
 		$this->_currentRow = 0;
-		$this->_numPerLoad = 200;
+		$this->_numPerLoad = 50;
 		$this->_entries = array();
+		$this->_entryIds = array();
 		
 		$this->loadCount();
 	}
@@ -197,7 +198,10 @@ class HarmoniEntryIterator
 	 	// load the count
 		$dbc =& Services::getService("DatabaseManager");
 		
-		$query =& $this->getBaseQuery();
+		$query =& new SelectQuery;
+		$query->addTable("log_entry");
+		$query->addTable("log_type", INNER_JOIN, "log_entry.fk_format_type = format_type.id", "format_type");
+		$query->addTable("log_type", INNER_JOIN, "log_entry.fk_priority_type = priority_type.id", "priority_type");
 		$query->addColumn("id", "entry_id", "log_entry");
 		$query->setDistinct(true);
 		$this->addWhereClauses($query);
@@ -217,12 +221,36 @@ class HarmoniEntryIterator
 	 */
 	function loadNext () {
 		$dbc =& Services::getService("DatabaseManager");
-		
-		$query =& $this->getBaseQuery();
+
+		// get the list of the next set of Ids
+		$query =& new SelectQuery;
+		$query->addTable("log_entry");
+		$query->addTable("log_type", INNER_JOIN, "log_entry.fk_format_type = format_type.id", "format_type");
+		$query->addTable("log_type", INNER_JOIN, "log_entry.fk_priority_type = priority_type.id", "priority_type");
+		$query->addColumn("id", "entry_id", "log_entry");
+		$query->setDistinct(true);
+		$query->addOrderBy("timestamp", DESCENDING);
 		$this->addWhereClauses($query);
-		$this->addColumnsOrderAndLimits($query);
+		
+		$query->limitNumberOfRows($this->_numPerLoad);
+		if ($this->_currentRow)
+			$query->startFromRow($this->_currentRow + 1);
 		
 // 		debug::printQuery($query);
+		$results =& $dbc->query($query, $this->_dbIndex);
+		$nextIds = array();
+		while ($results->hasNext()) {
+			$row = $results->next();
+			$nextIds[] = "'".addslashes($row['entry_id'])."'";
+		}	
+		
+		// Load the rows for the next set of Ids		
+		$query =& $this->getBaseQuery();
+		$query->addWhere("log_entry.id IN (".implode(", ", $nextIds).")");
+		$this->addColumnsAndOrder($query);
+		
+// 		debug::printQuery($query);
+		
 		$results =& $dbc->query($query, $this->_dbIndex);
 		
 		$i = $this->_current;
@@ -314,7 +342,7 @@ class HarmoniEntryIterator
 	 * @access public
 	 * @since 3/9/06
 	 */
-	function addColumnsOrderAndLimits ( &$query ) {
+	function addColumnsAndOrder ( &$query ) {
 		$query->addOrderBy("timestamp", DESCENDING);
 		$query->addOrderBy("id", ASCENDING);
 		
@@ -325,10 +353,6 @@ class HarmoniEntryIterator
 		$query->addColumn("backtrace", "backtrace", "log_entry");
 		$query->addColumn("fk_agent", "agent_id", "log_agent");
 		$query->addColumn("fk_node", "node_id", "log_node");
-		
-		$query->limitNumberOfRows($this->_numPerLoad);
-		if ($this->_currentRow)
-			$query->startFromRow($this->_currentRow + 1);
 	}
 	
 	/**

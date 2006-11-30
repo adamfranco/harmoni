@@ -17,7 +17,7 @@ require_once(HARMONI."GUIManager/StyleProperties/BorderSP.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: YLayout.class.php,v 1.8 2006/02/02 19:52:03 adamfranco Exp $
+ * @version $Id: YLayout.class.php,v 1.9 2006/11/30 22:02:02 adamfranco Exp $
  */
 class YLayout extends LayoutInterface {
 
@@ -26,6 +26,38 @@ class YLayout extends LayoutInterface {
 	 * @access public
 	 **/
 	function YLayout() {
+		$this->_renderDirection ='Left-Right/Top-Bottom';
+	}
+	
+	/**
+	 * Set the direction of component rendering from the default of Left-Right/Top-Bottom.
+	 * Allowed values:
+	 *		Left-Right/Top-Bottom
+	 *		Top-Bottom/Left-Right
+	 * 		Right-Left/Top-Bottom
+	 *		Top-Bottom/Right-Left
+	 *		Left-Right/Bottom-Top
+	 *		Bottom-Top/Left-Right
+	 *		Right-Left/Bottom-Top
+	 *		Bottom-Top/Right-Left
+	 * 
+	 * @param string $direction
+	 * @return void
+	 * @access public
+	 * @since 8/18/06
+	 */
+	function setRenderDirection ($direction) {
+		ArgumentValidator::validate($direction, ChoiceValidatorRule::getRule(
+			'Left-Right/Top-Bottom',
+			'Top-Bottom/Left-Right',
+			'Right-Left/Top-Bottom',
+			'Top-Bottom/Right-Left',
+			'Left-Right/Bottom-Top',
+			'Bottom-Top/Left-Right',
+			'Right-Left/Bottom-Top',
+			'Bottom-Top/Right-Left'));
+		
+		$this->_renderDirection = $direction;			
 	}
 	
 
@@ -54,7 +86,12 @@ class YLayout extends LayoutInterface {
 		// Get the components
 		// render the component in separate table cell
 		$components =& $container->getComponents();
-		foreach (array_keys($components) as $key) {
+		if (ereg('Bottom-Top', $this->_renderDirection))
+			$keys = array_reverse(array_keys($components));
+		else
+			$keys = array_keys($components);
+		
+		foreach ($keys as $key) {
 			$component =& $components[$key];
 			
 			// width and height of the component

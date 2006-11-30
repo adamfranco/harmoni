@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Timespan.class.php,v 1.3 2006/06/26 12:55:07 adamfranco Exp $
+ * @version $Id: Timespan.class.php,v 1.4 2006/11/30 22:02:04 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -32,7 +32,7 @@ require_once(dirname(__FILE__)."/../Magnitudes/Magnitude.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Timespan.class.php,v 1.3 2006/06/26 12:55:07 adamfranco Exp $
+ * @version $Id: Timespan.class.php,v 1.4 2006/11/30 22:02:04 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -345,11 +345,13 @@ class Timespan
 		if (in_array('asdateandtime', $methods) 
 			| in_array('asDateAndTime', $methods)) 
 		{
-			return $this->start->minus($operand);
+			$obj =& $this->start->minus($operand);
+			return $obj;
 		} 
 		// If this conforms to the Duration protocal
 		else {
-			return $this->plus($operand->negated());
+			$obj =& $this->plus($operand->negated());
+			return $obj;
 		}
 	}
 
@@ -415,9 +417,11 @@ class Timespan
 		$aBeginning =& $start->min($aTimespan->start());
 		$anEnd =& $end->max($aTimespan->end());
 		
-		return Timespan::startingEnding(
+		$obj =& Timespan::startingEnding(
 				$aBeginning, 
 				$anEnd->plus(DateAndTime::clockPrecision()));
+		
+		return $obj;
 	}
 	
 /*********************************************************
@@ -534,7 +538,8 @@ class Timespan
  	function &end () {
  		$next =& $this->next();
  		$nextStart =& $next->start();
- 		return $nextStart->minus(DateAndTime::clockPrecision());
+ 		$obj =& $nextStart->minus(DateAndTime::clockPrecision());
+ 		return $obj;
  	}
  	
  	/**
@@ -768,7 +773,8 @@ class Timespan
 	 * @since 5/13/05
 	 */
 	function &asDate () {
-		return $this->start->asDate();
+		$obj =& $this->start->asDate();
+		return $obj;
 	}
 	
 	/**
@@ -801,7 +807,8 @@ class Timespan
 	 * @since 5/13/05
 	 */
 	function &asMonth () {
-		return $this->start->asMonth();
+		$obj =& $this->start->asMonth();
+		return $obj;
 	}
 	
 	/**
@@ -812,7 +819,8 @@ class Timespan
 	 * @since 5/13/05
 	 */
 	function &asTime () {
-		return $this->start->asTime();
+		$obj =& $this->start->asTime();
+		return $obj;
 	}
 	
 	/**
@@ -823,7 +831,8 @@ class Timespan
 	 * @since 5/13/05
 	 */
 	function &asTimeStamp () {
-		return $this->start->asTimeStamp();
+		$obj =& $this->start->asTimeStamp();
+		return $obj;
 	}
 	
 	/**
@@ -834,7 +843,8 @@ class Timespan
 	 * @since 5/13/05
 	 */
 	function &asWeek () {
-		return $this->start->asWeek();
+		$obj =& $this->start->asWeek();
+		return $obj;
 	}
 	
 	/**
@@ -845,7 +855,8 @@ class Timespan
 	 * @since 5/13/05
 	 */
 	function &asYear () {
-		return $this->start->asYear();
+		$obj =& $this->start->asYear();
+		return $obj;
 	}
 	
 	/**

@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DataManager.abstract.php,v 1.15 2005/07/18 14:45:25 gabeschine Exp $
+ * @version $Id: DataManager.abstract.php,v 1.16 2006/11/30 22:02:15 adamfranco Exp $
  */
  
 require_once(HARMONI."dataManager/schema/SchemaManager.class.php");
@@ -27,7 +27,7 @@ require_once(HARMONI."dataManager/versionConstraints/include.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DataManager.abstract.php,v 1.15 2005/07/18 14:45:25 gabeschine Exp $
+ * @version $Id: DataManager.abstract.php,v 1.16 2006/11/30 22:02:15 adamfranco Exp $
  *
  * @author Gabe Schine
  * @abstract
@@ -91,7 +91,7 @@ class DataManager {
 	
 	/**
 	 * Sets up the services required for the DataManager, including: DataSetTypeManager,
-	 * DataTypeManager, DataSetManager, DataSetTagManager
+	 * DataTypeManager, DataSetManager, RecordTagManager
 	 * @return void
 	 * @access public
 	 * @param int $dbID The DB index from the {@link DBHandler} that we should use to look for our data.
@@ -115,12 +115,12 @@ class DataManager {
 		$schemaManager =& new SchemaManager($preloadTypes);
 		$dataTypeManager =& new DataTypeManager();
 		$recordManager =& new RecordManager();
-		$tagManager =& new TagManager();
+		$tagManager =& new RecordTagManager();
 
 		Services::registerObjectAsService("SchemaManager",$schemaManager);
 		Services::registerObjectAsService("DataTypeManager",$dataTypeManager);
 		Services::registerObjectAsService("RecordManager",$recordManager);
-		Services::registerObjectAsService("TagManager",$tagManager);
+		Services::registerObjectAsService("RecordTagManager",$tagManager);
 		
 		if (!Services::serviceRunning("Id")) {
 			throwError(
@@ -144,7 +144,7 @@ class DataManager {
 			Services::serviceRunning("SchemaManager") && 
 			Services::serviceRunning("DataTypeManager") && 
 			Services::serviceRunning("RecordManager") && 
-			Services::serviceRunning("TagManager")
+			Services::serviceRunning("RecordTagManager")
 		);
 	}
 	

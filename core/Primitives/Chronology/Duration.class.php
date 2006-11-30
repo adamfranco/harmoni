@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Duration.class.php,v 1.3 2006/06/26 12:55:07 adamfranco Exp $
+ * @version $Id: Duration.class.php,v 1.4 2006/11/30 22:02:03 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -41,7 +41,7 @@ require_once(dirname(__FILE__)."/../Magnitudes/Magnitude.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Duration.class.php,v 1.3 2006/06/26 12:55:07 adamfranco Exp $
+ * @version $Id: Duration.class.php,v 1.4 2006/11/30 22:02:03 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -66,8 +66,11 @@ class Duration
  	function &fromString ( $aString ) {
  		$parser =& new ANSI58216StringParser ($aString);
  		
- 		if (!$parser)
-			die("'".$aString."' is not in a valid format.");
+		if (!is_string($aString) || !preg_match('/[^\W]/', $aString) || !$parser) {
+ 			$null = null;
+ 			return $null;
+			// die("'".$aString."' is not in a valid format.");
+		}
 		
 		$obj =& Duration::withDaysHoursMinutesSeconds(
 					$parser->day(), $parser->hour(), $parser->minute(), $parser->second());
@@ -150,7 +153,8 @@ class Duration
 	function &withMonth ( $anIntOrStrMonth ) {
 		$currentYear =& Year::current();
 		$month =& Month::withMonthYear($anIntOrStrMonth, $currentYear->startYear());
-		return $month->duration();
+		$obj =& $month->duration();
+		return $obj;
 	}
 	
 	/**
@@ -443,7 +447,8 @@ class Duration
 	 * @since 5/3/05
 	 */
 	function &minus ( &$aDuration ) {
-		return $this->plus($aDuration->negated());
+		$obj =& $this->plus($aDuration->negated());
+		return $obj;
 	}
 	
 	/**

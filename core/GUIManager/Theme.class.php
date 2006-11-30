@@ -24,7 +24,7 @@ require_once(HARMONI."GUIManager/StyleCollection.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Theme.class.php,v 1.25 2006/08/15 20:44:57 sporktim Exp $
+ * @version $Id: Theme.class.php,v 1.26 2006/11/30 22:02:01 adamfranco Exp $
  */
 class Theme extends ThemeInterface {
 
@@ -422,8 +422,8 @@ class Theme extends ThemeInterface {
 	function &getStylesForComponentType($type, $index = null) {
 		// ** parameter validation
 		$rule =& ChoiceValidatorRule::getRule(BLANK, HEADING, HEADER, FOOTER, BLOCK, MENU, 
-										 MENU_ITEM_LINK_UNSELECTED, MENU_ITEM_LINK_SELECTED, 
-										 MENU_ITEM_HEADING, OTHER);
+										SUB_MENU, MENU_ITEM_LINK_UNSELECTED,
+										MENU_ITEM_LINK_SELECTED, MENU_ITEM_HEADING, OTHER);
 		ArgumentValidator::validate($type, $rule, true);
 //		ArgumentValidator::validate($index, IntegerValidatorRule::getRule(), true);
 		// ** end of parameter validation
@@ -471,8 +471,8 @@ class Theme extends ThemeInterface {
 		$rule =& ExtendsValidatorRule::getRule("StyleCollectionInterface");
 		ArgumentValidator::validate($styleCollection, $rule, true);
 		$rule =& ChoiceValidatorRule::getRule(BLANK, HEADING, HEADER, FOOTER, BLOCK, MENU, 
-										 MENU_ITEM_LINK_UNSELECTED, MENU_ITEM_LINK_SELECTED, 
-										 MENU_ITEM_HEADING, OTHER);
+										SUB_MENU, MENU_ITEM_LINK_UNSELECTED,
+										MENU_ITEM_LINK_SELECTED, MENU_ITEM_HEADING, OTHER);
 		ArgumentValidator::validate($type, $rule, true);
 		ArgumentValidator::validate($index, IntegerValidatorRule::getRule(), true);
 		// ** end of parameter validation
@@ -510,8 +510,8 @@ class Theme extends ThemeInterface {
 		// ** parameter validation
 		ArgumentValidator::validate($html, StringValidatorRule::getRule(), true);
 		$rule =& ChoiceValidatorRule::getRule(BLANK, HEADING, HEADER, FOOTER, BLOCK, MENU, 
-										 MENU_ITEM_LINK_UNSELECTED, MENU_ITEM_LINK_SELECTED, 
-										 MENU_ITEM_HEADING, OTHER);
+										SUB_MENU, MENU_ITEM_LINK_UNSELECTED,
+										MENU_ITEM_LINK_SELECTED, MENU_ITEM_HEADING, OTHER);
 		ArgumentValidator::validate($type, $rule, true);
 		ArgumentValidator::validate($index, IntegerValidatorRule::getRule(), true);
 		// ** end of parameter validation
@@ -535,8 +535,8 @@ class Theme extends ThemeInterface {
 	function getPreHTMLForComponentType($type, $index) {
 		// ** parameter validation
 		$rule =& ChoiceValidatorRule::getRule(BLANK, HEADING, HEADER, FOOTER, BLOCK, MENU, 
-										 MENU_ITEM_LINK_UNSELECTED, MENU_ITEM_LINK_SELECTED, 
-										 MENU_ITEM_HEADING, OTHER);
+										SUB_MENU, MENU_ITEM_LINK_UNSELECTED,
+										MENU_ITEM_LINK_SELECTED, MENU_ITEM_HEADING, OTHER);
 		ArgumentValidator::validate($type, $rule, true);
 		ArgumentValidator::validate($index, IntegerValidatorRule::getRule(), true);
 		// ** end of parameter validation
@@ -581,8 +581,8 @@ class Theme extends ThemeInterface {
 		// ** parameter validation
 		ArgumentValidator::validate($html, StringValidatorRule::getRule(), true);
 		$rule =& ChoiceValidatorRule::getRule(BLANK, HEADING, HEADER, FOOTER, BLOCK, MENU, 
-										 MENU_ITEM_LINK_UNSELECTED, MENU_ITEM_LINK_SELECTED, 
-										 MENU_ITEM_HEADING, OTHER);
+										 SUB_MENU, MENU_ITEM_LINK_UNSELECTED,
+										MENU_ITEM_LINK_SELECTED, MENU_ITEM_HEADING, OTHER);
 		ArgumentValidator::validate($type, $rule, true);
 		ArgumentValidator::validate($index, IntegerValidatorRule::getRule(), true);
 		// ** end of parameter validation
@@ -606,8 +606,8 @@ class Theme extends ThemeInterface {
 	function getPostHTMLForComponentType($type, $index) {
 		// ** parameter validation
 		$rule =& ChoiceValidatorRule::getRule(BLANK, HEADING, HEADER, FOOTER, BLOCK, MENU, 
-										 MENU_ITEM_LINK_UNSELECTED, MENU_ITEM_LINK_SELECTED, 
-										 MENU_ITEM_HEADING, OTHER);
+										SUB_MENU, MENU_ITEM_LINK_UNSELECTED,
+										MENU_ITEM_LINK_SELECTED, MENU_ITEM_HEADING, OTHER);
 		ArgumentValidator::validate($type, $rule, true);
 		ArgumentValidator::validate($index, IntegerValidatorRule::getRule(), true);
 		// ** end of parameter validation

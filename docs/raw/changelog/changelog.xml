@@ -3,11 +3,151 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.130 2006/06/20 13:19:35 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.131 2006/11/30 22:02:21 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
+	<version number="0.7.10" date="2006-11-30">
+		<fix author='adam'>
+			AuthZ: getWhoCanDo() was only returning explicit AZs, in error.
+		</fix>
+		<fix author='adam'>
+			AuthZ: AuthZ cache was not properly checking newly requested agentIds
+			if they didn't correspond to the authenticated agents.
+		</fix>
+	</version>
+	<version number="0.7.9" date="2006-11-28">
+		<new author='adam'>
+			Database: Can now generate the appropriate query string for use in 
+			building complex subqueries.
+		</new>
+		<change author='adam'>
+			Actions: Removing need to pass the harmoni object from all actions.
+		</change>
+		<change author='adam'>
+			Chronology: Allowing colon date delimiters to support dates from EXIF.
+		</change>
+		<fix author='adam'>
+			Repository: Generating thumbnails now doesn't update the Asset 
+			modification date.
+		</fix>
+		<new author='adam'>
+			Tagging back-end added.
+		</new>
+	</version>
+	<version number="0.7.8" date="2006-10-25">
+		<new author='adam'>
+			GUI: New GUI component, SubMenu.
+		</new>
+		<fix author='adam'>
+			Errors: Now includes User-Agent, Referer, Request URI, GET, and POST
+			with the logged backtrace.
+		</fix>
+		<fix author='adam'>
+			Chronology: Fixed a number of PHP notices that were occuring in PHP 4.4.
+		</fix>
+		<fix author='adam'>
+			ActionHandler: Now strips any non-word characters from the action and
+			module strings to prevent dynamic including of files outside of the
+			modules directory.
+		</fix>
+	</version>
+	<version number="0.7.7" date="2006-08-28">
+		<fix author='adam'>
+			Chronology: Now parses dates of the form 'August 10th, 2006' and 
+			doesn't choke on the 'th'.
+		</fix>
+		<fix author='adam'>
+			UnitTests: Removed depricated pass-by-reference call.
+		</fix>
+		<fix author='adam'>
+			Chronology: Fixed error, ClockPrecision must be non-zero as otherwise 
+			dates span two days rather than a clock-tick less than 24 hours.
+		</fix>
+		<new author='adam'>
+			GUI: The table layout can now handle rendering direction of elements 
+			other than Left-Right/Top-Bottom.
+		</new>
+		<new author='adam'>
+			GUI: The XLayout and YLayout can now handle rendering direction of 
+			elements other than Left-Right and Top-Bottom.
+		</new>
+		<fix author='adam'>
+			ImageProcessor: Now if Image Magick barfs on some multi-page PDFs and 
+			generates a single black pixel as a thumbnail, it won't be saved and 
+			the nice default icon will be used instead.
+		</fix>
+	</version>
+	<version number="0.7.6" date="2006-08-15">
+		<fix author='adam'>
+			Repository: RepositoryManager now returns false instead of an error 
+			if the asset with the specified Id does not exist.
+		</fix>
+	</version>
+	<version number="0.7.5" date="2006-08-11">
+		<fix author='adam'>
+			Fixed incomplete method in RegexValidator rule.
+		</fix>
+		<fix author='adam'>
+			Now can force cookie usage to prevent accidental or intentional 
+			session hijacking by the passing of session ids in the url.
+		</fix>
+		<fix author='adam'>
+			Authentication/Authorization: Now can dirty the authentication cache 
+			to allow HTTP authentication (interrupting the execution cycle) to 
+			update the currently authenticated agent.
+		</fix>
+		<fix author='adam'>
+			Authentication: Now passes an auth type key to the token collectors
+			to allow them to differentiate between prompting again for an auth type
+			and just trying to get the tokens for another auth type.
+		</fix>
+		<change author='adam'>
+			Authentication: Now can pass custom relm and callback function to 
+			execute on cancel for the HTTP authentication.
+		</change>
+		<fix author="adam">
+			ErrorHandler: Removed debugging line.
+		</fix>
+	</version>
+	<version number="0.7.4" date="2006-08-04">
+		<fix author='adam'>
+			Chronology: fromString() methods now return null for invalid strings
+			rather than doing a die(). 
+		</fix>
+		<fix author='adam'>
+			Repository: Authoritative values are now only added if a valid
+			data object is passed.
+		</fix>
+	</version>
+	<version number="0.7.3" date="2006-08-02">
+		<fix author='adam'>
+			Chronology: Now does not die when fromString is called on an invalid date.
+			Returns false instead.
+		</fix>
+		<fix author='adam'>
+			Repository: Now enforces deleting of file/thumbnail data properly. 
+			Previously, file records were being orphened when assets were deleted.
+		</fix>
+		<fix author='adam'>
+			Authorization: Now calls addslashes() on agent and group ids to prevent
+			errors when those ids contain apostrophes.
+		</fix>
+		<fix author='adam'>
+			Logging: Improved performance of the LogEntryIterator to
+			make a more reponsive interface.
+		</fix>
+		<change author='adam'>
+			Logging: Errors now log the query string as well as the referer to
+			better trace errors.
+		</change>
+	</version>
+	<version number="0.7.2" date="2006-07-21">
+		<fix author='adam'>
+			ImageProcessor: Now doesn't try to convert text files as images.
+		</fix>
+	</version>
 	<version number="0.7.1" date="2006-06-20">
 		<fix author='adam'>
 			AuthZ: Quotes in Group Ids were breaking queries.

@@ -1,9 +1,9 @@
 <?
 
 /**
- * Stores the mapping between a Tag and the specific versions of values within a Record that were
+ * Stores the mapping between a RecordTag and the specific versions of values within a Record that were
  * created when the Record was tagged. A tag can be thought of like a CVS tag, where each file in CVS is like
- * a specific value in a record. Each value has its own number of versions, and a Tag can remember
+ * a specific value in a record. Each value has its own number of versions, and a RecordTag can remember
  * all the versions that were active at any given time.
  *
  * @package harmoni.datamanager
@@ -11,9 +11,9 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Tag.class.php,v 1.7 2005/07/18 14:45:19 gabeschine Exp $
+ * @version $Id: Tag.class.php,v 1.8 2006/11/30 22:02:16 adamfranco Exp $
  */
-class Tag {
+class RecordTag {
 	
 	var $_myID;
 	var $_recordID;
@@ -23,7 +23,7 @@ class Tag {
 	
 	var $_loaded;
 	
-	function Tag( $recordID, &$date, $id = null ) {		
+	function RecordTag( $recordID, &$date, $id = null ) {		
 		$this->_myID = $myID;
 		$this->_recordID = $recordID;
 		$this->_date =& $date;
@@ -44,7 +44,7 @@ class Tag {
 			$verID = $row["record_field_id"];
 			
 			if (isset($this->_mappings[$id][$index])) throwError ( new Error(
-				"While creating Tag mappings, we already have a mapping for $label -> $index. What's going on?","Tag",true));
+				"While creating RecordTag mappings, we already have a mapping for $label -> $index. What's going on?","RecordTag",true));
 			
 			$this->_mappings[$id][$index] = $verID;
 		}
@@ -83,7 +83,7 @@ class Tag {
 	}
 	
 	/**
-	 * Returns the ID of the {@link Record} for which this Tag was created.
+	 * Returns the ID of the {@link Record} for which this RecordTag was created.
 	 * @return int
 	 * @access public
 	 */
@@ -121,7 +121,7 @@ class Tag {
 		$dbHandler =& Services::getService("DatabaseManager");
 		$result =& $dbHandler->query($query, DATAMANAGER_DBID);
 		
-		if (!$result) throwError( new UnknownDBError("Tag"));
+		if (!$result) throwError( new UnknownDBError("RecordTag"));
 		
 		$tagRows = array();
 		

@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordSet.class.php,v 1.9 2005/07/18 14:45:19 gabeschine Exp $
+ * @version $Id: RecordSet.class.php,v 1.10 2006/11/30 22:02:16 adamfranco Exp $
  */
 class RecordSet {
 	
@@ -175,7 +175,7 @@ class RecordSet {
 	function &getMergedTagDates()
 	{
 		// first get all the tags for each of our Records, then ask them for their dates. avoid duplicates
-		$tagManager =& Services::getService("TagManager");
+		$tagManager =& Services::getService("RecordTagManager");
 		$dates = array();
 		$dateStrings = array();
 		foreach ($this->getRecordIDs() as $id) {
@@ -204,7 +204,7 @@ class RecordSet {
 		// this function goes through each Record, gets all the tags, and finds the one that has the closest tag
 		// date to $date, as long as the tag date is *before* $date.
 		// then, we activate that tag on the Record and commit it to the database
-		$tagManager =& Services::getService("TagManager");
+		$tagManager =& Services::getService("RecordTagManager");
 		
 		for ($i = 0; $i < count($this->_records); $i++) {
 			$id = $this->_records[$i]->getID();

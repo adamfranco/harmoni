@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQLDatabase.class.php,v 1.34 2006/06/01 14:41:07 adamfranco Exp $
+ * @version $Id: MySQLDatabase.class.php,v 1.35 2006/11/30 22:02:00 adamfranco Exp $
  */
  
 require_once(HARMONI."DBHandler/Database.interface.php");
@@ -31,7 +31,7 @@ require_once(HARMONI."DBHandler/MySQL/MySQL_SQLGenerator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQLDatabase.class.php,v 1.34 2006/06/01 14:41:07 adamfranco Exp $
+ * @version $Id: MySQLDatabase.class.php,v 1.35 2006/11/30 22:02:00 adamfranco Exp $
  */
  
 class MySQLDatabase extends DatabaseInterface {
@@ -308,8 +308,17 @@ class MySQLDatabase extends DatabaseInterface {
 		return $result;
 	}
 	
-
-
+	/**
+	 * Answer the string SQL for the query
+	 * 
+	 * @param object $query
+	 * @return string
+	 * @access public
+	 * @since 11/14/06
+	 */
+	function generateSQL ($query) {
+		return MySQL_SQLGenerator::generateSQLQuery($query);
+	}
 
 	/**
 	 * Executes an SQL query.

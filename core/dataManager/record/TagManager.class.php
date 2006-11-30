@@ -3,7 +3,7 @@
 require_once HARMONI."dataManager/record/Tag.class.php";
 
 /**
-* Handles the creation and retrieval of {@link Tag}s to/from the database. See {@link Tag} for a 
+* Handles the creation and retrieval of {@link RecordTag}s to/from the database. See {@link RecordTag} for a 
 * more detailed explanation of the role of tags.
  *
  * @package harmoni.datamanager
@@ -11,12 +11,12 @@ require_once HARMONI."dataManager/record/Tag.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TagManager.class.php,v 1.12 2005/07/18 14:45:20 gabeschine Exp $
+ * @version $Id: TagManager.class.php,v 1.13 2006/11/30 22:02:16 adamfranco Exp $
 */
-class TagManager {
+class RecordTagManager {
 	
 	/**
-	 * Takes a {@link Record} and an optional date and creates a {@link Tag} in the database based
+	 * Takes a {@link Record} and an optional date and creates a {@link RecordTag} in the database based
 	 * on the current active versions of values within the {@link Record}.
 	 * @param ref object $record The {@link Record} to be tagged.
 	 * @param optional object $date An optional {@link DateAndTime} object to attach to the tag instead of the current date/time.
@@ -69,7 +69,7 @@ class TagManager {
 		$result =& $dbHandler->query($query, DATAMANAGER_DBID);
 		$result2 =& $dbHandler->query($query2, DATAMANAGER_DBID);
 		
-		if (!$result || !$result2) throwError ( new UnknownDBError("TagManager"));
+		if (!$result || !$result2) throwError ( new UnknownDBError("RecordTagManager"));
 		
 		// we're done.
 		return $newID->getIdString();
@@ -120,7 +120,7 @@ class TagManager {
 	
 	/**
 	 * Removes specific tag from the database.
-	 * @param ref object $tag A {@link Tag} object.
+	 * @param ref object $tag A {@link RecordTag} object.
 	 * @return void
 	 */
 	function pruneTag(&$tag) {
@@ -146,7 +146,7 @@ class TagManager {
 	}
 	
 	/**
-	 * Checks to see if any of our Tags are empty, and if so, deletes them.
+	 * Checks to see if any of our RecordTags are empty, and if so, deletes them.
 	 * @param ref object $record The {@link Record} to check.
 	 * @return void
 	 */
@@ -179,7 +179,7 @@ class TagManager {
 	}
 	
 	/**
-	 * Returns an array of {@link Tag}s without having loaded all of the mapping data. Useful for
+	 * Returns an array of {@link RecordTag}s without having loaded all of the mapping data. Useful for
 	 * just checking what tags are available and what dates they were created on.
 	 * @param int $id The ID of the {@link Record} to look for.
 	 * @return ref array
@@ -198,14 +198,14 @@ class TagManager {
 		
 		$result =& $dbHandler->query($query,DATAMANAGER_DBID);
 		
-		if (!$result) throwError( new UnknownDBError("TagManager"));
+		if (!$result) throwError( new UnknownDBError("RecordTagManager"));
 		
 		$tags = array();
 		while ($result->hasMoreRows()) {
 			$a = $result->getCurrentRow();
 			$result->advanceRow();
 			
-			$newTag =& new Tag($id, 
+			$newTag =& new RecordTag($id, 
 					$dbHandler->fromDBDate($a["date"], DATAMANAGER_DBID), $a["id"]);
 			
 			$tags[$a["id"]] =& $newTag;
@@ -216,7 +216,7 @@ class TagManager {
 	}
 	
 	/**
-	 * Fetches all of the {@link Tag}s available for {@link Record} ID $id with all mapping data loaded.
+	 * Fetches all of the {@link RecordTag}s available for {@link Record} ID $id with all mapping data loaded.
 	 * @param int $id The {@link Record} ID.
 	 * @return ref array
 	 * @access public
@@ -242,7 +242,7 @@ class TagManager {
 		$dbHandler =& Services::getService("DatabaseManager");
 		$result =& $dbHandler->query($query, DATAMANAGER_DBID);
 		
-		if (!$result) throwError( new UnknownDBError("TagManager"));
+		if (!$result) throwError( new UnknownDBError("RecordTagManager"));
 		
 		$tagRows = array();
 		$dates = array();
@@ -264,7 +264,7 @@ class TagManager {
 		
 		$tags = array();
 		foreach (array_keys($tagRows) as $tagID) {
-			$newTag =& new Tag($id, $dates[$tagID], $tagID);
+			$newTag =& new RecordTag($id, $dates[$tagID], $tagID);
 			$newTag->populate($tagRows[$tagID]);
 			
 			$tags[$tagID] =& $newTag;
@@ -281,7 +281,7 @@ class TagManager {
 	 */
 	function deleteRecordTags($id) {
 		if (!$id) return;
-		// first get a list of Tag IDs for this dataset.
+		// first get a list of RecordTag IDs for this dataset.
 		$query =& new SelectQuery;
 		$query->addTable("dm_tag");
 		$query->addColumn("id");
