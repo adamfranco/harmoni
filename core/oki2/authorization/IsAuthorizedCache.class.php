@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: IsAuthorizedCache.class.php,v 1.3.2.2 2006/08/07 15:20:50 adamfranco Exp $
+ * @version $Id: IsAuthorizedCache.class.php,v 1.3.2.3 2006/11/30 15:33:17 adamfranco Exp $
  */ 
 
 /**
@@ -69,7 +69,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: IsAuthorizedCache.class.php,v 1.3.2.2 2006/08/07 15:20:50 adamfranco Exp $
+ * @version $Id: IsAuthorizedCache.class.php,v 1.3.2.3 2006/11/30 15:33:17 adamfranco Exp $
  */
 class IsAuthorizedCache {
 		
@@ -276,6 +276,9 @@ class IsAuthorizedCache {
 	 * @access public
 	 */
 	function isAuthorized (&$agentId, &$functionId, &$qualifierId ) {
+		if (!isset($_SESSION['__isAuthorizedCache'][$agentId->getIdString()]))
+			$_SESSION['__isAuthorizedCache'][$agentId->getIdString()] = array();
+			
 		// Cache Misses will be determined in the queing methods
 		$this->queueId($qualifierId);
 		$this->_loadQueue($agentId->getIdString());
