@@ -3,7 +3,17 @@
 	h1, h2 {color: #005;}
 	h1 {font-size: 18pt;}
 	li {padding-bottom: 3px;}
-	</style><div style="font-family: Verdana; font-size: 12px;"><h1>Harmoni ChangeLog</h1><h2>Version 0.7.9</h2><h3>2006-11-28</h3><ul>
+	</style><div style="font-family: Verdana; font-size: 12px;"><h1>Harmoni ChangeLog</h1><h2>Version 0.7.10</h2><h3>2006-11-30</h3><ul>
+		<li/> Bug Fix:
+	 
+			AuthZ: getWhoCanDo() was only returning explicit AZs, in error.
+		 (<i>Adam Franco</i>)
+		<li/> Bug Fix:
+	 
+			AuthZ: AuthZ cache was not properly checking newly requested agentIds
+			if they didn't correspond to the authenticated agents.
+		 (<i>Adam Franco</i>)
+	</ul><br/><h2>Version 0.7.9</h2><h3>2006-11-28</h3><ul>
 		<li/> New feature:  
 			Database: Can now generate the appropriate query string for use in 
 			building complex subqueries.

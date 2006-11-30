@@ -3,6 +3,13 @@
 Name: Harmoni ChangeLog
 
 
+v. 0.7.10 (2006-11-30)
+----------------------------------------------------
+		
+	* Bug Fix: AuthZ: getWhoCanDo() was only returning explicit AZs, in error. (Adam Franco)
+		
+	* Bug Fix: AuthZ: AuthZ cache was not properly checking newly requested agentIds if they didn't correspond to the authenticated agents. (Adam Franco)
+	
 v. 0.7.9 (2006-11-28)
 ----------------------------------------------------
 		
