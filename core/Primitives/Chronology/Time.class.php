@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Time.class.php,v 1.4 2006/11/30 22:02:04 adamfranco Exp $
+ * @version $Id: Time.class.php,v 1.5 2006/12/01 16:34:46 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -41,7 +41,7 @@ require_once(dirname(__FILE__)."/Year.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Time.class.php,v 1.4 2006/11/30 22:02:04 adamfranco Exp $
+ * @version $Id: Time.class.php,v 1.5 2006/12/01 16:34:46 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -301,6 +301,9 @@ class Time
 			$result = $this->hour() - 12;
 		else
 			$result = $this->hour();
+		
+		if (!$result)
+			$result = 12;
 		
 		$result .= ':';
 		$result .= str_pad(abs($this->minute()), 2, '0', STR_PAD_LEFT);
