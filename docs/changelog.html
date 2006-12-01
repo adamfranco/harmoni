@@ -3,7 +3,38 @@
 	h1, h2 {color: #005;}
 	h1 {font-size: 18pt;}
 	li {padding-bottom: 3px;}
-	</style><div style="font-family: Verdana; font-size: 12px;"><h1>Harmoni ChangeLog</h1><h2>Version 0.7.10</h2><h3>2006-11-30</h3><ul>
+	</style><div style="font-family: Verdana; font-size: 12px;"><h1>Harmoni ChangeLog</h1><h2>Version 0.8.0</h2><h3>2006-12-01</h3><ul>
+		<li/> Bug Fix:
+	 
+			Chronology: Now handles parsing and display of am/pm-formated times
+			between 12:00am and 1:00am properly.
+		 (<i>Adam Franco</i>)
+		<li/><span style="color: red">*** IMPORTANT ***</span> Change:  
+			Harmoni 0.8.0 is a merging of Harmoni 0.7.10 with work done on the
+			harmoni trunk by Tim and John over the summer. The additions on the
+			trunk include implementations of the CourseManagement and Scheduling
+			OSIDs as well as some GUI-theme-management work.
+		 (<i>Adam Franco</i>)
+		<li/> New feature:  
+			Implementation of the CourseManagement OSID.
+		 (<i>Tim Bahls</i>)
+		<li/> New feature:  
+			Implementation of the Scheduling OSID.
+		 (<i>Tim Bahls</i>)
+		<li/> New feature:  
+			Implementation of the Grading OSID.
+		 (<i>Tim Bahls</i>)
+		<li/> Change:  
+			Changes to GUI system to support theme management.
+		 (<i>Tim Bahls</i>)
+		<li/> Change:  
+			AuthN: Additions to the authentication methods to support class
+			searching.
+		 (<i>Tim Bahls</i>)
+		<li/> Change:  
+			ValidatorRules: Additions to support GUI theme managment needs.
+		 (<i>Tim Bahls</i>)
+	</ul><br/><h2>Version 0.7.10</h2><h3>2006-11-30</h3><ul>
 		<li/> Bug Fix:
 	 
 			AuthZ: getWhoCanDo() was only returning explicit AZs, in error.
