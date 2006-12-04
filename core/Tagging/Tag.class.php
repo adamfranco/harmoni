@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Tag.class.php,v 1.2 2006/11/30 22:02:11 adamfranco Exp $
+ * @version $Id: Tag.class.php,v 1.3 2006/12/04 19:39:42 adamfranco Exp $
  */ 
 
 require_once(dirname(__FILE__)."/TaggedItemIterator.class.php");
@@ -21,7 +21,7 @@ require_once(dirname(__FILE__)."/TaggedItemIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Tag.class.php,v 1.2 2006/11/30 22:02:11 adamfranco Exp $
+ * @version $Id: Tag.class.php,v 1.3 2006/12/04 19:39:42 adamfranco Exp $
  */
 class Tag {
 	
@@ -69,6 +69,10 @@ class Tag {
 		if ($this->isItemTagged($item))
 			return $item;
 		
+		// Make sure the tag has a non-zero length
+		if (!$this->getValue())
+			return $item;
+		
 		$query =& new InsertQuery;
 		$query->setTable('tag');
 		$query->setColumns(array('value', 'user_id', 'fk_item'));
@@ -95,6 +99,10 @@ class Tag {
 	function &tagItemForAgent ( &$item, $agentId ) {
 		// Make sure the item is not already tagged
 		if ($this->isItemTagged($item))
+			return $item;
+		
+		// Make sure the tag has a non-zero length
+		if (!$this->getValue())
 			return $item;
 		
 		$query =& new InsertQuery;
