@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TagManager.class.php,v 1.2 2006/11/30 22:02:11 adamfranco Exp $
+ * @version $Id: TagManager.class.php,v 1.3 2006/12/04 19:34:55 adamfranco Exp $
  */ 
 
 /**
@@ -36,7 +36,7 @@ require_once(dirname(__FILE__)."/StructuredMetaDataTagGenerator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TagManager.class.php,v 1.2 2006/11/30 22:02:11 adamfranco Exp $
+ * @version $Id: TagManager.class.php,v 1.3 2006/12/04 19:34:55 adamfranco Exp $
  */
 class TagManager
 	extends OsidManager	
@@ -397,6 +397,9 @@ class TagManager
 		} else {
 			throwError(new Error("Invalid parameter, $items, for \$items", "Tagging"));
 		}
+		
+		if (!count($itemDbIds))
+			return;
 		
 		$dbc =& Services::getService("DatabaseManager");
 		
