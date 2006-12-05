@@ -4,7 +4,7 @@
 -- @copyright Copyright &copy; 2005, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 --
--- @version $Id: MySQL_AuthZ.sql,v 1.6 2005/12/19 17:42:07 adamfranco Exp $
+-- @version $Id: MySQL_AuthZ.sql,v 1.7 2006/12/05 19:53:11 adamfranco Exp $
 -- */
 -- --------------------------------------------------------
 
@@ -14,7 +14,7 @@
 
 CREATE TABLE az_authorization (
   authorization_id varchar(75) NOT NULL default '0',
-  fk_agent varchar(75) NOT NULL default '0',
+  fk_agent varchar(150) NOT NULL default '0',
   fk_function varchar(75) NOT NULL default '0',
   fk_qualifier varchar(75) NOT NULL default '0',
   authorization_effective_date datetime default NULL,

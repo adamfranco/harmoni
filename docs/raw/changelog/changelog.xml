@@ -3,11 +3,24 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.133 2006/12/01 17:18:14 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.134 2006/12/05 19:53:14 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
+	<version number="0.8.1" date="The Future">
+		<fix author='adam'>
+			AuthZ: Increased the column length of the authorization agent Id
+			to prevent long LDAP DNs from being truncated.
+		</fix>
+		<fix author='adam'>
+			Tagging: Tags could be accidentally added with no value, no cannot.
+		</fix>
+		<fix author='adam'>
+			Tagging: Fixed error to allow Collections with no items to be deleted. 
+			Zero numbers of tagged items were causing an error.
+		</fix>
+	</version>
 	<version number="0.8.0" date="2006-12-01">
 		<fix author='adam'>
 			Chronology: Now handles parsing and display of am/pm-formated times
