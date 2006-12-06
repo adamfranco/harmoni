@@ -9,6 +9,8 @@ require_once(HARMONI."/oki2/repository/HarmoniRecordStructure.class.php");
 require_once(HARMONI."/oki2/repository/File/FileRecord.class.php");
 require_once(HARMONI."/oki2/repository/File/FileSystemFileRecord.class.php");
 require_once(HARMONI."/oki2/repository/File/FileRecordStructure.class.php");
+require_once(HARMONI."/oki2/repository/File/RemoteFileRecord.class.php");
+require_once(HARMONI."/oki2/repository/File/RemoteFileRecordStructure.class.php");
 
 require_once(HARMONI."/oki2/repository/HarmoniRecordStructureIterator.class.php");//where is this now?
 require_once(HARMONI."/oki2/shared/HarmoniTypeIterator.class.php");
@@ -46,7 +48,7 @@ require_once(dirname(__FILE__)."/SearchModules/AuthoritativeValuesSearch.class.p
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepository.class.php,v 1.55 2006/11/30 22:02:19 adamfranco Exp $ 
+ * @version $Id: HarmoniRepository.class.php,v 1.56 2006/12/06 20:44:57 adamfranco Exp $ 
  */
 
 class HarmoniRepository
@@ -88,6 +90,7 @@ class HarmoniRepository
 		
 		// Add the file RecordStructure to the DR
 		$this->_createdRecordStructures['FILE'] =& new HarmoniFileRecordStructure;
+		$this->_createdRecordStructures['REMOTE_FILE'] =& new RemoteFileRecordStructure;
 		
 		// Built-in Types
 		// Keys of the array are the RecordStructure Ids,
@@ -98,6 +101,8 @@ class HarmoniRepository
 			$this->_builtInTypes['FILE'] = 'FileSystemFileRecord';
 		else
 			$this->_builtInTypes['FILE'] = 'FileRecord';
+		
+		$this->_builtInTypes['REMOTE_FILE'] = 'RemoteFileRecord';
 		
 		// Store our configuration
 		$this->_configuration =& $configuration;

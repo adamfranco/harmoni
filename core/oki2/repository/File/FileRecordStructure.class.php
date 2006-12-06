@@ -28,7 +28,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartStructureIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileRecordStructure.class.php,v 1.11 2006/06/07 20:41:05 adamfranco Exp $ 
+ * @version $Id: FileRecordStructure.class.php,v 1.12 2006/12/06 20:44:59 adamfranco Exp $ 
  */
 class HarmoniFileRecordStructure 
 	extends RecordStructure
@@ -41,7 +41,8 @@ class HarmoniFileRecordStructure
 		
 		// create an array of created PartStructures so we can return references to
 		// them instead of always making new ones.
-		$this->_partStructures = array();
+		if (!is_array($this->_partStructures))
+			$this->_partStructures = array();
 		$this->_partStructures['FILE_DATA'] =& new FileDataPartStructure($this);
 		$this->_partStructures['FILE_NAME'] =& new FileNamePartStructure($this);
 		$this->_partStructures['MIME_TYPE'] =& new MimeTypePartStructure($this);

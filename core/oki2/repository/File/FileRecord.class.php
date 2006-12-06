@@ -29,7 +29,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileRecord.class.php,v 1.23 2006/11/30 22:02:20 adamfranco Exp $ 
+ * @version $Id: FileRecord.class.php,v 1.24 2006/12/06 20:44:59 adamfranco Exp $ 
  */
 class FileRecord 
 	extends RecordInterface
@@ -49,11 +49,7 @@ class FileRecord
 		
 		$idManager =& Services::getService("Id");	
 		$this->_parts = array();
-		$this->_parts['FILE_DATA'] =& new FileDataPart(
-									$recordStructure->getPartStructure($idManager->getId('FILE_DATA')),
-									$this->_id,
-									$this->_configuration,
-									$this->_asset);
+		$this->addFileDataPart($recordStructure);
 		$this->_parts['FILE_NAME'] =& new FileNamePart(
 									$recordStructure->getPartStructure($idManager->getId('FILE_NAME')),
 									$this->_id,
@@ -93,6 +89,23 @@ class FileRecord
 									$this->_asset);
 		
 		$this->_partsLoaded = false;
+	}
+	
+	/**
+	 * Add a fileDataPart
+	 * 
+	 * @param $recordStructure
+	 * @return void
+	 * @access public
+	 * @since 12/6/06
+	 */
+	function addFileDataPart (&$recordStructure) {
+		$idManager =& Services::getService("Id");	
+		$this->_parts['FILE_DATA'] =& new FileDataPart(
+									$recordStructure->getPartStructure($idManager->getId('FILE_DATA')),
+									$this->_id,
+									$this->_configuration,
+									$this->_asset);
 	}
 
 	/**
@@ -437,7 +450,8 @@ class FileRecord
     	$this->_loadParts();
     	
     	$partArray = array();
-    	$partArray[] =& $this->_parts[$partStructureId->getIdString()];
+    	if (isset($this->_parts[$partStructureId->getIdString()]))
+	    	$partArray[] =& $this->_parts[$partStructureId->getIdString()];
 		$partsIterator =& new HarmoniIterator($partArray);
 		return $partsIterator;
     }

@@ -1,66 +1,43 @@
-<?
+<?php
 /**
+ * @since 12/5/06
  * @package harmoni.osid_v2.repository
  * 
- * @copyright Copyright &copy;2005, Middlebury College
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DimensionsPart.class.php,v 1.10 2006/12/06 20:45:00 adamfranco Exp $
- */
- 
-require_once(dirname(__FILE__)."/../getid3.getimagesize.php");
+ * @version $Id: FileUrlPart.class.php,v 1.1 2006/12/06 20:45:00 adamfranco Exp $
+ */ 
 
 /**
- * The DimensionsPart attempts to extract height, width, and mime type info from
- * a file, in an array similar to that returned from GetImageSize() method. 
- * If the file is not an image and/or such information can not be determined, 
- * this part has a boolean value of false. 
- *
+ * A Part for storing the file's URL
+ * 
+ * @since 12/5/06
  * @package harmoni.osid_v2.repository
  * 
- * @copyright Copyright &copy;2005, Middlebury College
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DimensionsPart.class.php,v 1.10 2006/12/06 20:45:00 adamfranco Exp $
+ * @version $Id: FileUrlPart.class.php,v 1.1 2006/12/06 20:45:00 adamfranco Exp $
  */
-class DimensionsPart 
+class FileUrlPart
 	extends Part
 {
-
+		
 	var $_recordId;
 	var $_partStructure;
-	var $_dimensions;
+	var $_value;
 	
-	/**
-	 * Constructor
-	 * 
-	 * @param object PartStructure $partStructure
-	 * @param object Id $recordId
-	 * @param object Properties $configuration
-	 * @param object Record $record
-	 * @return object
-	 * @access public
-	 * @since 10/17/05
-	 */
-	function DimensionsPart( &$partStructure, &$recordId, &$configuration, &$record, &$asset ) {
+	function FileUrlPart( &$partStructure, &$recordId, &$configuration, &$asset ) {
 		$this->_recordId =& $recordId;
 		$this->_partStructure =& $partStructure;
 		$this->_configuration =& $configuration;
-		$this->_record =& $record;
 		$this->_asset =& $asset;
 		
-		$this->_table = "dr_file";
-		$this->_idColumn = "id";
-		$this->_widthColumn = 'width';
-		$this->_heightColumn = 'height';
-		$idManager =& Services::getService("Id");
-		$this->_dataPartStructId =& $idManager->getId("FILE_DATA");
-		$this->_mimeTypePartStructId =& $idManager->getId("MIME_TYPE");
-		
-		// Set our dimensions to NULL, so that we can know if it has not been checked
-		// for yet. If we search for info, but don't have any, or the dimensions is
-		// an empty string, it will have value FALSE instead of NULL
-		$this->_dimensions = NULL;
+		// Set our data to NULL, so that we can know if it has not been checked
+		// for yet. If we search for data, but don't have any, or the data is
+		// an empty string, it will have value "" instead of NULL
+		$this->_value = NULL;
 	}
 	
 	/**
@@ -84,11 +61,9 @@ class DimensionsPart
 	 */
 	function &getId() {
 		$idManager =& Services::getService("Id");
-		$partStructureId =& $this->_partStructure->getId();
-		return $idManager->getId($this->_recordId->getIdString()
-					."-".$partStructureId->getIdString());
+		return $idManager->getId($this->_recordId->getIdString()."-FILE_URL");
 	}
-
+	
 	/**
 	 * Create a Part.  Records are composed of Parts. Parts can also contain
 	 * other Parts.	 Each Record is associated with a specific RecordStructure
@@ -116,9 +91,9 @@ class DimensionsPart
 	 * 
 	 * @access public
 	 */
-	function &createPart(& $partStructuretId, & $value) {
+	function &createPart(& $partStructureId, & $value) {
 		throwError(
-			new Error(UNIMPLEMENTED, "HarmoniPart", true));
+			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
 	}
 
 	/**
@@ -171,7 +146,7 @@ class DimensionsPart
 		throwError(
 			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
 	}
-
+	
 	/**
 	 * Get the value for this Part.
 	 *	
@@ -192,58 +167,30 @@ class DimensionsPart
 	 * @access public
 	 */
 	function getValue() {
-		// If we don't have the dimensions, fetch the mime type and data and try to
-		// populate the dimensions if appropriate.
-		if ($this->_dimensions === NULL) {
+		// If we don't have the name, load it from the database.
+		if ($this->_value === NULL) {
 			$dbHandler =& Services::getService("DatabaseManager");
 			
+			// Get the data from the database,
 			$query =& new SelectQuery;
-			$query->addTable($this->_table);
-			$query->addColumn($this->_widthColumn);
-			$query->addColumn($this->_heightColumn);
-			$query->addColumn("(height IS NOT NULL AND width IS NOT NULL)",
-				"dimensions_exist");
-			$query->addWhere($this->_idColumn." = '".$this->_recordId->getIdString()."'");
+			$query->addTable("dr_file");
+			$query->addTable("dr_file_url", LEFT_JOIN, "dr_file.id = dr_file_url.FK_file");
+			$query->addColumn("url");
+			$query->addWhere("dr_file.id = '".$this->_recordId->getIdString()."'");
 			
-			$result =& $dbHandler->query($query, 
-				$this->_configuration->getProperty("database_index"));
+			$result =& $dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 			
-			if ($result->getNumberOfRows() == 0) {
-				$this->_dimensions = FALSE;
-			} else if ($result->field("dimensions_exist") == false) {
-				// Get the MIME type
-				$mimeTypeParts =& $this->_record->getPartsByPartStructure(
-					$this->_mimeTypePartStructId);
-				$mimeTypePart =& $mimeTypeParts->next();
-				$mimeType = $mimeTypePart->getValue();
-				
-				// Only try to get dimensions from image files
-				if (ereg("^image.*$", $mimeType)) {					
-					$dataParts =& $this->_record->getPartsByPartStructure(
-						$this->_dataPartStructId);
-					if ($dataParts->hasNext()) {
-						$dataPart =& $dataParts->next();
-						$this->_dimensions = 
-							GetDataImageSize($dataPart->getValue());
-						if (isset($this->_dimensions[2]))
-							unset($this->_dimensions[2]);
-						$this->updateValue($this->_dimensions);
-					} else {
-						$this->_dimensions = FALSE;
-					}
-				} else
-					$this->_dimensions = FALSE;
-			} else {
-				$this->_width = $result->field($this->_widthColumn);
-				$this->_height = $result->field($this->_heightColumn);
-				$this->_dimensions = array($this->_width, $this->_height);
-			}
+			// If no name was found, return an empty string.
+			if ($result->getNumberOfRows() == 0)
+				$this->_value = "";
+			else
+				$this->_value = $result->field("url");
 			$result->free();
 		}
 		
-		return $this->_dimensions;
+		return $this->_value;
 	}
-
+	
 	/**
 	 * Update the value for this Part.
 	 * 
@@ -266,45 +213,45 @@ class DimensionsPart
 	 * @access public
 	 */
 	function updateValue($value) {
-		if (is_array($value)) {
-			$this->_dimensions = $value;
-			
-			$dbHandler =& Services::getService("DatabaseManager");
-
-			$query =& new SelectQuery;
-			$query->addTable($this->_table);
-			$query->addColumn("COUNT(*)", "count");
-			$query->addWhere($this->_idColumn." = '".$this->_recordId->getIdString()."'");
-			
-			$result =& $dbHandler->query($query, 
-				$this->_configuration->getProperty("database_index"));
-			
-			if ($result->field("count") > 0) {
-				$query =& new UpdateQuery;
-				$query->setTable($this->_table);
-				$query->setColumns(array($this->_widthColumn, $this->_heightColumn));
-				$query->setValues(array("'".$this->_dimensions[0]."'",
-					"'".$this->_dimensions[1]."'"));
-				$query->addWhere($this->_idColumn." = '".$this->_recordId->getIdString()."'");
-			} else {
-				$query =& new InsertQuery;
-				$query->setTable($this->_table);
-				$query->setColumns(array($this->_idColumn, $this->_widthColumn, $this->_heightColumn));
-				$query->setValues(array("'".$this->_recordId->getIdString()."'",
-					"'".$this->_dimensions[0]."'",
-					"'".$this->_dimensions[1]."'"));
-			}
-			$result->free();
-			
-			$dbHandler->query($query, 
-				$this->_configuration->getProperty("database_index"));
-			
-			// This gets done during thumbnail generation, so don't change our
-			// asset's modification date.
-// 			$this->_asset->updateModificationDate();
+		ArgumentValidator::validate($value, StringValidatorRule::getRule());
+		
+		// Store the name in the object in case its asked for again.
+		$this->_value = $value;
+		
+	// then write it to the database.
+		$dbHandler =& Services::getService("DatabaseManager");
+	
+		// Check to see if the name is in the database
+		// Check to see if the data is in the database
+		$query =& new SelectQuery;
+		$query->addTable("dr_file_url");
+		$query->addColumn("COUNT(*) as count");
+		$query->addWhere("FK_file = '".$this->_recordId->getIdString()."'");
+		$result =& $dbHandler->query($query, $this->_configuration->getProperty("database_index"));
+		
+		// If it already exists, use an update query.
+		if ($result->field("count") > 0) {
+			$query =& new UpdateQuery;
+			$query->setTable("dr_file_url");
+			$query->setColumns(array("url"));
+			$query->setValues(array("'".addslashes($value)."'"));
+			$query->addWhere("FK_file = '".$this->_recordId->getIdString()."'");
 		}
+		// If it doesn't exist, use an insert query.
+		else {
+			$query =& new InsertQuery;
+			$query->setTable("dr_file_url");
+			$query->setColumns(array("FK_file","url"));
+			$query->setValues(array("'".$this->_recordId->getIdString()."'",
+									"'".addslashes($value)."'"));
+		}
+		$result->free();
+		// run the query
+		$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
+		
+		$this->_asset->updateModificationDate();
 	}
-
+	
 	/**
 	 * Get the PartStructure associated with this Part.
 	 *	
@@ -331,16 +278,14 @@ class DimensionsPart
 	/**
 	 * Allow the file record to update the fetch from its own queries
 	 * 
-	 * @param array $value
+	 * @param string $value
 	 * @return void
 	 * @access private
 	 * @since 11/17/05
 	 */
 	function _updateValue ( $value ) {
-		if ($value[0] && $value[1]) {
-			$this->_dimensions = $value;
-			$this->_width = $value[0];
-			$this->_height = $value[1];
-		}		
+		$this->_value = $value;
 	}
 }
+
+?>
