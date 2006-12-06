@@ -10,11 +10,23 @@ require_once(dirname(__FILE__)."/HarmoniIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MultiIteratorIterator.class.php,v 1.1 2006/05/12 15:34:03 adamfranco Exp $
+ * @version $Id: MultiIteratorIterator.class.php,v 1.2 2006/12/06 19:49:26 adamfranco Exp $
  */
 class MultiIteratorIterator
 	extends HarmoniIterator
-{	
+{
+	
+	/**
+	 * Constructor
+	 * 
+	 * @return object
+	 * @access public
+	 * @since 12/6/06
+	 */
+	function MultiIteratorIterator () {
+		$this->HarmoniIterator($null = null);
+	}
+	
 	/**
 	 * Add a new iterator to this iterator
 	 * 
