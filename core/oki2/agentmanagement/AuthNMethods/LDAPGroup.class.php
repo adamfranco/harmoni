@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPGroup.class.php,v 1.1 2006/02/28 18:59:59 adamfranco Exp $
+ * @version $Id: LDAPGroup.class.php,v 1.2 2006/12/07 17:25:52 adamfranco Exp $
  */ 
 
 require_once(OKI2."/osid/agent/Group.php");
@@ -21,7 +21,7 @@ require_once(dirname(__FILE__)."/LDAPAgentIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPGroup.class.php,v 1.1 2006/02/28 18:59:59 adamfranco Exp $
+ * @version $Id: LDAPGroup.class.php,v 1.2 2006/12/07 17:25:52 adamfranco Exp $
  */
 class LDAPGroup
 	extends Group
@@ -503,6 +503,32 @@ class LDAPGroup
 		$i = new HarmoniIterator($a);
 		return $i;
 	}	
+	
+	/**
+	 * Answer true if this Agent is an Agent, not a group
+	 *
+	 * WARNING: NOT IN OSID
+	 * 
+	 * @return boolean
+	 * @access public
+	 * @since 12/7/06
+	 */
+	function isAgent () {
+		return !$this->isGroup();
+	}
+	
+	/**
+	 * Answer true if this Agent is an Group
+	 *
+	 * WARNING: NOT IN OSID
+	 * 
+	 * @return boolean
+	 * @access public
+	 * @since 12/7/06
+	 */
+	function isGroup () {
+		return true;
+	}
 }
 
 ?>

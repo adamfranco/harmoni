@@ -22,7 +22,7 @@ require_once(dirname(__FILE__)."/GroupsOnlyFromTraversalIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniGroup.class.php,v 1.20 2005/11/09 21:02:26 adamfranco Exp $
+ * @version $Id: HarmoniGroup.class.php,v 1.21 2006/12/07 17:25:51 adamfranco Exp $
  */
 class HarmoniGroup
 	extends HarmoniAgent
@@ -270,6 +270,19 @@ class HarmoniGroup
 		}
 		
 		return FALSE;
+	}
+	
+	/**
+	 * Answer true if this Agent is an Group
+	 *
+	 * WARNING: NOT IN OSID
+	 * 
+	 * @return boolean
+	 * @access public
+	 * @since 12/7/06
+	 */
+	function isGroup () {
+		return true;
 	}
 }
 

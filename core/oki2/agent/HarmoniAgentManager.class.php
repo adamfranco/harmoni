@@ -50,7 +50,7 @@ require_once(HARMONI."oki2/agent/EveryoneGroup.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgentManager.class.php,v 1.41 2006/03/28 19:07:02 adamfranco Exp $
+ * @version $Id: HarmoniAgentManager.class.php,v 1.42 2006/12/07 17:25:51 adamfranco Exp $
  *
  * @author Adam Franco
  * @author Dobromir Radichkov
@@ -136,6 +136,7 @@ class HarmoniAgentManager
 			new AncestorGroupSearch ($hierarchy);
 		$this->_groupSearches["Agent & Group Search::edu.middlebury.harmoni::RootGroups"] =&
 			new RootGroupSearch ($hierarchy);
+		$this->_groupSearches["Agent & Group Search::edu.middlebury.harmoni::TokenSearch"] =& $this->_agentSearches["Agent & Group Search::edu.middlebury.harmoni::TokenSearch"];
 		
 		$this->_everyoneGroup =& new EveryoneGroup($hierarchy, $hierarchy->getNode($this->_everyoneId));
 	}

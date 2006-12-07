@@ -11,7 +11,7 @@ require_once(dirname(__FILE__)."/AgentSearch.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TokenSearch.class.php,v 1.3 2006/08/19 19:32:43 jwlee100 Exp $
+ * @version $Id: TokenSearch.class.php,v 1.4 2006/12/07 17:25:52 adamfranco Exp $
  */
 
 class TokenSearch
@@ -48,7 +48,8 @@ class TokenSearch
 				$token =& $tokensIterator->nextObject();
 				$agentId =& $authenticationManager->_getAgentIdForAuthNTokens($token
 				, $type);
-				$allAgents[] =& $agentManager->getAgent($agentId);
+				if ($agentManager->isAgent($agentId))
+					$allAgents[] =& $agentManager->getAgent($agentId);
 			}
 		}
 		
@@ -69,7 +70,35 @@ class TokenSearch
 	 * @since 11/10/04
 	 */
 	function &getGroupsBySearch ( & $searchCriteria) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
+		$allGroups = array();
+		
+		// See if the agent exists as known by harmoni
+		$authNMethodManager =& Services::getService("AuthNMethodManager");
+		$authenticationManager =& Services::getService("AuthenticationManager");
+		$agentManager =& Services::getService("AgentManager");
+		$idManager =& Services::getService("IdManager");
+		
+		$types =& $authNMethodManager->getAuthNTypes();
+		while ($types->hasNextType()) {
+			$type =& $types->nextType();
+			$authNMethod =& $authNMethodManager->getAuthNMethodForType($type);
+			if(!method_exists($authNMethod,"getGroupTokensBySearch")){
+			  continue;
+			}
+			$tokensIterator =& $authNMethod->getGroupTokensBySearch($searchCriteria);
+			
+		
+			
+			while ($tokensIterator->hasNextObject()) {
+				$token =& $tokensIterator->nextObject();
+				$allGroups[] =& $agentManager->getGroup(
+									$idManager->getId($token->getIdentifier()));
+			}
+		}		
+		
+		$obj =& new HarmoniIterator($allGroups);
+		
+		return $obj;
 	}	
 }
 

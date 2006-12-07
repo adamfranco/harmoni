@@ -3,12 +3,15 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.134 2006/12/05 19:53:14 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.135 2006/12/07 17:25:53 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
 	<version number="0.8.1" date="The Future">
+		<new author='adam'>
+			Repository: Added support for files stored at remote locations.
+		</new>
 		<fix author='adam'>
 			AuthZ: Increased the column length of the authorization agent Id
 			to prevent long LDAP DNs from being truncated.

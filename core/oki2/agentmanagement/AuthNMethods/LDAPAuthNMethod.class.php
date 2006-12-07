@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPAuthNMethod.class.php,v 1.15 2006/08/19 21:14:39 jwlee100 Exp $
+ * @version $Id: LDAPAuthNMethod.class.php,v 1.16 2006/12/07 17:25:52 adamfranco Exp $
  */ 
  
 require_once(dirname(__FILE__)."/AuthNMethod.abstract.php");
@@ -20,7 +20,7 @@ require_once(dirname(__FILE__)."/LDAPGroup.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPAuthNMethod.class.php,v 1.15 2006/08/19 21:14:39 jwlee100 Exp $
+ * @version $Id: LDAPAuthNMethod.class.php,v 1.16 2006/12/07 17:25:52 adamfranco Exp $
  */
 class LDAPAuthNMethod
 	extends AuthNMethod
@@ -122,10 +122,12 @@ class LDAPAuthNMethod
 		
 		if ($info) {
 			foreach ($propertiesFields as $propertyKey => $fieldName) {
-				if (count($info[$fieldName]) <= 1)
-					$properties->addProperty($propertyKey, $info[$fieldName][0]);
-				else
-					$properties->addProperty($propertyKey, $info[$fieldName]);
+				if (isset($info[$fieldName])) {
+					if (count($info[$fieldName]) <= 1)
+						$properties->addProperty($propertyKey, $info[$fieldName][0]);
+					else
+						$properties->addProperty($propertyKey, $info[$fieldName]);
+				}
 			}	
 		} else
 			return;
@@ -160,6 +162,48 @@ class LDAPAuthNMethod
 			$filter .= ")";
 			
 			$dns = $this->_connector->getUserDNsBySearch($filter);
+		} else 
+			$dns = array();
+
+		$tokens = array();
+		foreach ($dns as $dn) {
+			$tokens[] =& $this->createTokensForIdentifier($dn);
+		}
+		
+		$obj =& new HarmoniObjectIterator($tokens);
+		
+		return $obj;
+	}
+	
+	/**
+	 * Get an iterator of the AuthNTokens that match the search string passed.
+	 * The '*' wildcard character can be present in the string and will be
+	 * converted to the system wildcard for the AuthNMethod if wildcards are
+	 * supported or removed (and the exact string searched for) if they are not
+	 * supported.
+	 *
+	 * When multiple fields are searched on an OR search is performed, i.e.
+	 * '*ach*' would match username/fullname 'achapin'/'Chapin, Alex' as well as
+	 *  'zsmith'/'Smith, Zach'.
+	 * 
+	 * @param string $searchString
+	 * @return object ObjectIterator
+	 * @access public
+	 * @since 3/3/05
+	 */
+	function &getGroupTokensBySearch ( $searchString ) {
+		ArgumentValidator::validate ($searchString, StringValidatorRule::getRule());
+		$propertiesFields =& $this->_configuration->getProperty('properties_fields');
+				
+		if (is_array($propertiesFields) && count($propertiesFields)) {
+					
+			$filter = "(|";
+			foreach ($propertiesFields as $propertyKey => $fieldName) {
+				$filter .= " (".$fieldName."=".$searchString.")";
+			}
+			$filter .= ")";
+			
+			$dns = $this->_connector->getGroupDNsBySearch($filter);
 		} else 
 			$dns = array();
 
@@ -321,17 +365,20 @@ class LDAPAuthNMethod
 		$connector =& $this->_configuration->getProperty('connector');
 		$groupDN = $this->_configuration->getProperty("GroupBaseDN");
 		
+		// Parent Groups of Agents
 		$info = $this->_connector->getInfo($authNTokens->getUsername(), array('memberof'));
-		$dns = $info['memberof'];		
-		$groups = array();
-		foreach ($dns as $dn) {
-			if ($dn != $groupDN && !isset($groups[$dn]))
-				$groups[$dn] =& new LDAPGroup($dn, $this->getType(), 
-									$this->_configuration, 
-									$this);
+		if (isset($info['memberof'])) {
+			$dns = $info['memberof'];		
+			$groups = array();
+			foreach ($dns as $dn) {
+				if ($dn != $groupDN && !isset($groups[$dn]))
+					$groups[$dn] =& new LDAPGroup($dn, $this->getType(), 
+										$this->_configuration, 
+										$this);
+			}
 		}
 		
-		if ($includeSubgroups) {
+		if ($includeSubgroups && isset($dns)) {
 			foreach ($dns as $dn) {
 				if ($dn != $groupDN) {
 					$parentGroups =& $this->getGroupsContainingGroup($dn, true);

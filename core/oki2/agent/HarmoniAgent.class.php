@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgent.class.php,v 1.18 2006/06/26 12:55:12 adamfranco Exp $
+ * @version $Id: HarmoniAgent.class.php,v 1.19 2006/12/07 17:25:51 adamfranco Exp $
  */
 
 require_once(OKI2."/osid/agent/Agent.php");
@@ -25,7 +25,7 @@ require_once(HARMONI."/oki2/shared/HarmoniPropertiesIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgent.class.php,v 1.18 2006/06/26 12:55:12 adamfranco Exp $
+ * @version $Id: HarmoniAgent.class.php,v 1.19 2006/12/07 17:25:51 adamfranco Exp $
  */
 class HarmoniAgent 
 	extends Agent
@@ -241,7 +241,33 @@ class HarmoniAgent
 		$iterator =& new HarmoniIterator($array);
 		return $iterator;
 	
-	}	
+	}
+	
+	/**
+	 * Answer true if this Agent is an Agent, not a group
+	 *
+	 * WARNING: NOT IN OSID
+	 * 
+	 * @return boolean
+	 * @access public
+	 * @since 12/7/06
+	 */
+	function isAgent () {
+		return !$this->isGroup();
+	}
+	
+	/**
+	 * Answer true if this Agent is an Group
+	 *
+	 * WARNING: NOT IN OSID
+	 * 
+	 * @return boolean
+	 * @access public
+	 * @since 12/7/06
+	 */
+	function isGroup () {
+		return false;
+	}
 }
 
 ?>
