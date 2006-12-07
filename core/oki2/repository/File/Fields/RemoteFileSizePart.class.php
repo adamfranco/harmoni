@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RemoteFileSizePart.class.php,v 1.1 2006/12/06 20:45:00 adamfranco Exp $
+ * @version $Id: RemoteFileSizePart.class.php,v 1.2 2006/12/07 19:11:57 adamfranco Exp $
  */ 
 
 /**
@@ -18,7 +18,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RemoteFileSizePart.class.php,v 1.1 2006/12/06 20:45:00 adamfranco Exp $
+ * @version $Id: RemoteFileSizePart.class.php,v 1.2 2006/12/07 19:11:57 adamfranco Exp $
  */
 class RemoteFileSizePart
 	extends FileSizePart
@@ -48,8 +48,9 @@ class RemoteFileSizePart
 	function updateValue($value) {
 		ArgumentValidator::validate($value, StringValidatorRule::getRule());
 		
-		// Store the name in the object in case its asked for again.
-		$this->_size = $value;
+		// Store the size in the object in case its asked for again.
+		$size = ByteSize::fromString($value);
+		$this->_size = $size->value();
 		
 	// then write it to the database.
 		$dbHandler =& Services::getService("DatabaseManager");
