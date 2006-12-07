@@ -7,7 +7,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ByteSize.class.php,v 1.2 2005/10/11 18:34:28 adamfranco Exp $
+ * @version $Id: ByteSize.class.php,v 1.3 2006/12/07 19:10:24 adamfranco Exp $
  */ 
 
 require_once(dirname(__FILE__)."/Integer.class.php");
@@ -21,7 +21,7 @@ require_once(dirname(__FILE__)."/Integer.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ByteSize.class.php,v 1.2 2005/10/11 18:34:28 adamfranco Exp $
+ * @version $Id: ByteSize.class.php,v 1.3 2006/12/07 19:10:24 adamfranco Exp $
  */
 class ByteSize 
 	extends Integer
@@ -71,6 +71,8 @@ class ByteSize
 			$suffixes = array("B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB");
 			$bytes = $matches[1] * pow(2, 
 				(10 * array_search(strtoupper($matches[2]), $suffixes)));
+		} else if (preg_match("/^[0-9]+$/", $stringValue)) {
+			$bytes = intval($stringValue);
 		} else {
 			print "not found, going with 0";
 			$bytes = 0;
