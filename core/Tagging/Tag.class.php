@@ -6,10 +6,11 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Tag.class.php,v 1.3 2006/12/04 19:39:42 adamfranco Exp $
+ * @version $Id: Tag.class.php,v 1.4 2006/12/08 18:44:40 adamfranco Exp $
  */ 
 
 require_once(dirname(__FILE__)."/TaggedItemIterator.class.php");
+require_once(dirname(__FILE__)."/TagFilterIterator.class.php");
 // require_once(HARMONI."/DBHandler/GenericSQLQuery.class.php");
 
 /**
@@ -21,7 +22,7 @@ require_once(dirname(__FILE__)."/TaggedItemIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Tag.class.php,v 1.3 2006/12/04 19:39:42 adamfranco Exp $
+ * @version $Id: Tag.class.php,v 1.4 2006/12/08 18:44:40 adamfranco Exp $
  */
 class Tag {
 	
@@ -401,6 +402,25 @@ class Tag {
 	 */
 	function &getItemsForCurrentUserInSystem ( $system) {
 		$iterator =& $this->getItemsForAgentInSystem($this->getCurrentUserId(), $system);
+		return $iterator;
+	}
+	
+	/**
+	 * Answer the Tags related to this one. Relation is defined as being attached
+	 * to the same items as this tag.
+	 * 
+	 * @param string $sortBy Return tags in alphanumeric order or by frequency of usage.
+	 * @param integer $max The maximum number of tags to return. The least frequently used
+	 * 		tags will be dropped first. If $max is 0, all tags will be returned.
+	 * @return object TagIterator
+	 * @access public
+	 * @since 12/8/06
+	 */
+	function &getRelatedTags ( $sortBy = TAG_SORT_ALFA, $max = 0 ) {
+		$taggingManager =& Services::getService("Tagging");
+		$iterator =& new TagFilterIterator(
+			$taggingManager->getTagsForItems($this->getItems(), $sortBy, $max),
+			array($this->getValue()));
 		return $iterator;
 	}
 	
