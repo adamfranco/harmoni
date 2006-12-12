@@ -60,7 +60,7 @@ require_once(HARMONI.'oki2/shared/HarmoniIdIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthorizationManager.class.php,v 1.36 2006/11/30 22:02:18 adamfranco Exp $
+ * @version $Id: HarmoniAuthorizationManager.class.php,v 1.37 2006/12/12 17:18:16 adamfranco Exp $
  */
 class HarmoniAuthorizationManager 
 	extends AuthorizationManager 
@@ -1593,8 +1593,8 @@ class HarmoniAuthorizationManager
 		$authNTypes =& $authentication->getAuthenticationTypes();
 		$ids = array();
 		$isAuthenticated = FALSE;
-		while ($authNTypes->hasNextType()) {
-			$authNType =& $authNTypes->nextType();
+		while ($authNTypes->hasNext()) {
+			$authNType =& $authNTypes->next();
 			if ($authentication->isUserAuthenticated($authNType)) {
 				$ids[] =& $authentication->getUserId($authNType);
 				$isAuthenticated = TRUE;

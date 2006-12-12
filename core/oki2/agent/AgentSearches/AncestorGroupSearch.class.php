@@ -11,7 +11,7 @@ require_once(dirname(__FILE__)."/AgentSearch.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AncestorGroupSearch.class.php,v 1.15 2006/02/28 18:59:59 adamfranco Exp $
+ * @version $Id: AncestorGroupSearch.class.php,v 1.16 2006/12/12 17:18:15 adamfranco Exp $
  */
 
 class AncestorGroupSearch
@@ -165,8 +165,8 @@ class AncestorGroupSearch
 		// assume that the search criteria is a group and search our directories for it.
 		else {		
 			$types =& $authNMethodManager->getAuthNTypes();
-			while ($types->hasNextType()) {
-				$type =& $types->nextType();
+			while ($types->hasNext()) {
+				$type =& $types->next();
 				$authNMethod =& $authNMethodManager->getAuthNMethodForType($type);
 				
 				if ($authNMethod->supportsDirectory() 

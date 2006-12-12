@@ -386,8 +386,8 @@ extends GradeRecord
 		//try to get the creator of this ScheduleItem
 		$authN =& Services::getService("AuthN");
 		$authNTypesIterator =& $authN->getAuthenticationTypes();
-		if($authNTypesIterator->hasNextType()){
-			$authNType1 =& $authNTypesIterator->nextType();
+		if($authNTypesIterator->hasNext()){
+			$authNType1 =& $authNTypesIterator->next();
 			//hopefully the first one is the right one to choose.
 			$creatorId =& $authN->getUserId($authNType1);
 			$creatorIdString = $creatorId->getIdString();

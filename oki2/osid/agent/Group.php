@@ -299,8 +299,8 @@ class Group
     /**
      * Get all the property Types.  The returned iterator provides access to
      * the property Types from this implementation one at a time.  Iterators
-     * have a method hasNextType() which returns true if there is another
-     * property Type available and a method nextType() which returns the next
+     * have a method hasNext() which returns true if there is another
+     * property Type available and a method next() which returns the next
      * property Type. Group.
      *  
      * @return object TypeIterator

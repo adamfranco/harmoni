@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.136 2006/12/07 19:11:57 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.137 2006/12/12 17:18:18 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -20,12 +20,15 @@
 			to prevent long LDAP DNs from being truncated.
 		</fix>
 		<fix author='adam'>
-			Tagging: Tags could be accidentally added with no value, no cannot.
+			Tagging: Tags could be accidentally added with no value, now cannot.
 		</fix>
 		<fix author='adam'>
 			Tagging: Fixed error to allow Collections with no items to be deleted. 
 			Zero numbers of tagged items were causing an error.
 		</fix>
+		<new author='adam'>
+			Tagging: Now can fetch related tags.
+		</new>
 		<fix author='adam'>
 			Primitives: ByteSize::fromString() now supports integers.
 		</fix>

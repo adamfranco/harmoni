@@ -10,7 +10,7 @@
 * @copyright Copyright &copy; 2006, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: oki_simple_unit.php,v 1.4 2006/07/26 07:25:48 sporktim Exp $
+* @version $Id: oki_simple_unit.php,v 1.5 2006/12/12 17:18:18 adamfranco Exp $
 */
 
  if (!defined("SIMPLE_TEST")) {
@@ -217,8 +217,8 @@
 		function typeIteratorHas($iter, $type){
 				//this relies on usage of the HarmoniIterator
 				$iter->_i=-1;
-				while($iter->hasNextType()){
-					$item =& $iter->nextType();
+				while($iter->hasNext()){
+					$item =& $iter->next();
 					if($item->isEqual($type)){						
 						return true;
 					}

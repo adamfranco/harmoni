@@ -11,7 +11,7 @@ require_once(dirname(__FILE__)."/AgentSearch.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RootGroupSearch.class.php,v 1.1 2006/02/28 21:32:43 adamfranco Exp $
+ * @version $Id: RootGroupSearch.class.php,v 1.2 2006/12/12 17:18:15 adamfranco Exp $
  */
 
 class RootGroupSearch
@@ -112,8 +112,8 @@ class RootGroupSearch
 	// :: Add External Groups
 		$authNMethodManager =& Services::getService("AuthNMethodManager");
 		$types =& $authNMethodManager->getAuthNTypes();
-		while ($types->hasNextType()) {
-			$type =& $types->nextType();
+		while ($types->hasNext()) {
+			$type =& $types->next();
 			$authNMethod =& $authNMethodManager->getAuthNMethodForType($type);
 			
 			if ($authNMethod->supportsDirectory()) {

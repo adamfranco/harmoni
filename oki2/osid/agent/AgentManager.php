@@ -152,8 +152,8 @@ class AgentManager
     /**
      * Get all the agent Types.  The returned iterator provides access to the
      * agent Types from this implementation one at a time.  Iterators have a
-     * method hasNextType() which returns true if there is an agent Type
-     * available and a method nextType() which returns the next agent Type.
+     * method hasNext() which returns true if there is an agent Type
+     * available and a method next() which returns the next agent Type.
      *  
      * @return object TypeIterator
      * 
@@ -177,8 +177,8 @@ class AgentManager
     /**
      * Get all the property Types.  The returned iterator provides access to
      * the property Types from this implementation one at a time.  Iterators
-     * have a method hasNextType() which returns true if there is another
-     * property Type available and a method nextType() which returns the next
+     * have a method hasNext() which returns true if there is another
+     * property Type available and a method next() which returns the next
      * property Type.
      *  
      * @return object TypeIterator
@@ -313,8 +313,8 @@ class AgentManager
     /**
      * Get all the group Types.  The returned iterator provides access to the
      * group Types from this implementation one at a time.  Iterators have a
-     * method hasNextType() which returns true if there is a group Type
-     * available and a method nextType() which returns the next group Type.
+     * method hasNext() which returns true if there is a group Type
+     * available and a method next() which returns the next group Type.
      *  
      * @return object TypeIterator
      * 

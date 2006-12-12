@@ -37,7 +37,7 @@ require_once(OKI2."/osid/agent/AgentManager.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: JavaPOCAgentManager.class.php,v 1.5 2005/01/19 22:28:13 adamfranco Exp $
+ * @version $Id: JavaPOCAgentManager.class.php,v 1.6 2006/12/12 17:18:15 adamfranco Exp $
  * 
  */
 class JavaPOCAgentManager
@@ -181,8 +181,8 @@ class JavaPOCAgentManager
 	/**
 	 * Get all the agent Types.	 The returned iterator provides access to the
 	 * agent Types from this implementation one at a time.	Iterators have a
-	 * method hasNextType() which returns true if there is an agent Type
-	 * available and a method nextType() which returns the next agent Type.
+	 * method hasNext() which returns true if there is an agent Type
+	 * available and a method next() which returns the next agent Type.
 	 *	
 	 * @return object TypeIterator
 	 * 
@@ -210,8 +210,8 @@ class JavaPOCAgentManager
 	/**
 	 * Get all the property Types.	The returned iterator provides access to
 	 * the property Types from this implementation one at a time.  Iterators
-	 * have a method hasNextType() which returns true if there is another
-	 * property Type available and a method nextType() which returns the next
+	 * have a method hasNext() which returns true if there is another
+	 * property Type available and a method next() which returns the next
 	 * property Type.
 	 *	
 	 * @return object TypeIterator
@@ -365,8 +365,8 @@ class JavaPOCAgentManager
 	/**
 	 * Get all the group Types.	 The returned iterator provides access to the
 	 * group Types from this implementation one at a time.	Iterators have a
-	 * method hasNextType() which returns true if there is a group Type
-	 * available and a method nextType() which returns the next group Type.
+	 * method hasNext() which returns true if there is a group Type
+	 * available and a method next() which returns the next group Type.
 	 *	
 	 * @return object TypeIterator
 	 * 

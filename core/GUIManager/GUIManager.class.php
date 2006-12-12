@@ -21,7 +21,7 @@ require_once(HARMONI."GUIManager/Component.class.php");
 * @copyright Copyright &copy; 2005, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: GUIManager.class.php,v 1.27 2006/08/02 23:50:26 sporktim Exp $
+* @version $Id: GUIManager.class.php,v 1.28 2006/12/12 17:18:15 adamfranco Exp $
 */
 class GUIManager
 extends GUIManagerAbstract
@@ -622,8 +622,8 @@ extends GUIManagerAbstract
 		}
 		$authN =& Services::getService("AuthN");
 		$authNTypesIterator =& $authN->getAuthenticationTypes();
-		if($authNTypesIterator->hasNextType()){
-			$authNType1 =& $authNTypesIterator->nextType();
+		if($authNTypesIterator->hasNext()){
+			$authNType1 =& $authNTypesIterator->next();
 			//hopefully the first one is the right one to choose.
 			$creatorId =& $authN->getUserId($authNType1);
 			$creatorIdString = $creatorId->getIdString();

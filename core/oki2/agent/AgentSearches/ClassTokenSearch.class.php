@@ -11,7 +11,7 @@ require_once(dirname(__FILE__)."/AgentSearch.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ClassTokenSearch.class.php,v 1.1 2006/08/19 21:14:39 jwlee100 Exp $
+ * @version $Id: ClassTokenSearch.class.php,v 1.2 2006/12/12 17:18:15 adamfranco Exp $
  */
 
 class ClassTokenSearch
@@ -68,8 +68,8 @@ class ClassTokenSearch
 		$agentManager =& Services::getService("AgentManager");
 		
 		$types =& $authNMethodManager->getAuthNTypes();
-		while ($types->hasNextType()) {
-			$type =& $types->nextType();
+		while ($types->hasNext()) {
+			$type =& $types->next();
 			$authNMethod =& $authNMethodManager->getAuthNMethodForType($type);
 			if(!method_exists($authNMethod,"getClassTokensBySearch")){
 			  continue;

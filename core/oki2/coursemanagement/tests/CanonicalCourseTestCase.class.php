@@ -501,11 +501,11 @@
 			$courseType =& $itemToTest->getCourseType();
 			$correctType =& new Type("PropertiesType", $courseType->getAuthority(), "properties");  
 			$propertyType =& $itemToTest->getPropertyTypes();
-			$this->assertTrue($propertyType->hasNextType());
-			if($propertyType->hasNextType()){
-				$type1 =&  $propertyType->nextType();		
+			$this->assertTrue($propertyType->hasNext());
+			if($propertyType->hasNext()){
+				$type1 =&  $propertyType->next();		
 				$this->assertEqualTypes($type1, $correctType);
-				$this->assertFalse($propertyType->hasNextType());		
+				$this->assertFalse($propertyType->hasNext());		
 			}
 			$this->write(1,"Group B");
 			//multiple objects of type properties?  Propertiesies!

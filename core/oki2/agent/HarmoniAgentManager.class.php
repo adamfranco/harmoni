@@ -50,7 +50,7 @@ require_once(HARMONI."oki2/agent/EveryoneGroup.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgentManager.class.php,v 1.42 2006/12/07 17:25:51 adamfranco Exp $
+ * @version $Id: HarmoniAgentManager.class.php,v 1.43 2006/12/12 17:18:15 adamfranco Exp $
  *
  * @author Adam Franco
  * @author Dobromir Radichkov
@@ -451,8 +451,8 @@ class HarmoniAgentManager
 	/**
 	 * Get all the agent Types.	 The returned iterator provides access to the
 	 * agent Types from this implementation one at a time.	Iterators have a
-	 * method hasNextType() which returns true if there is an agent Type
-	 * available and a method nextType() which returns the next agent Type.
+	 * method hasNext() which returns true if there is an agent Type
+	 * available and a method next() which returns the next agent Type.
 	 *	
 	 * @return object TypeIterator
 	 * 
@@ -476,8 +476,8 @@ class HarmoniAgentManager
 	/**
 	 * Get all the property Types.	The returned iterator provides access to
 	 * the property Types from this implementation one at a time.  Iterators
-	 * have a method hasNextType() which returns true if there is another
-	 * property Type available and a method nextType() which returns the next
+	 * have a method hasNext() which returns true if there is another
+	 * property Type available and a method next() which returns the next
 	 * property Type.
 	 *	
 	 * @return object TypeIterator
@@ -537,8 +537,8 @@ class HarmoniAgentManager
 		// :: Add External Groups
 		$authNMethodManager =& Services::getService("AuthNMethodManager");		
 		$types =& $authNMethodManager->getAuthNTypes();
-		while ($types->hasNextType()) {
-			if ($groupType->isEqual($types->nextType()))
+		while ($types->hasNext()) {
+			if ($groupType->isEqual($types->next()))
 				throwError(new Error(AgentException::PERMISSION_DENIED(),"GroupManager",true));
 		}
 		
@@ -662,8 +662,8 @@ class HarmoniAgentManager
 				// Check external directories
 				$authNMethodManager =& Services::getService("AuthNMethodManager");		
 				$types =& $authNMethodManager->getAuthNTypes();
-				while ($types->hasNextType()) {
-					$type =& $types->nextType();
+				while ($types->hasNext()) {
+					$type =& $types->next();
 					$authNMethod =& $authNMethodManager->getAuthNMethodForType($type);
 					if ($authNMethod->supportsDirectory() && $authNMethod->isGroup($id)) {
 						$group =& $authNMethod->getGroup($id);
@@ -718,8 +718,8 @@ class HarmoniAgentManager
 		// :: Add External Groups
 		$authNMethodManager =& Services::getService("AuthNMethodManager");		
 		$types =& $authNMethodManager->getAuthNTypes();
-		while ($types->hasNextType()) {
-			$type =& $types->nextType();
+		while ($types->hasNext()) {
+			$type =& $types->next();
 			$authNMethod =& $authNMethodManager->getAuthNMethodForType($type);
 			if ($authNMethod->supportsDirectory()) {
 				$groupsIterator =& $authNMethod->getAllGroups();
@@ -810,8 +810,8 @@ class HarmoniAgentManager
 	/**
 	 * Get all the group Types.	 The returned iterator provides access to the
 	 * group Types from this implementation one at a time.	Iterators have a
-	 * method hasNextType() which returns true if there is a group Type
-	 * available and a method nextType() which returns the next group Type.
+	 * method hasNext() which returns true if there is a group Type
+	 * available and a method next() which returns the next group Type.
 	 *	
 	 * @return object TypeIterator
 	 * 
@@ -847,8 +847,8 @@ class HarmoniAgentManager
 		// Add external directory types
 		$authNMethodManager =& Services::getService("AuthNMethodManager");		
 		$authNTypes =& $authNMethodManager->getAuthNTypes();
-		while ($authNTypes->hasNextType()) {
-			$type =& $authNTypes->nextType();
+		while ($authNTypes->hasNext()) {
+			$type =& $authNTypes->next();
 			$authNMethod =& $authNMethodManager->getAuthNMethodForType($type);
 			if ($authNMethod->supportsDirectory())
 				$types[] =& $type;
@@ -1014,8 +1014,8 @@ class HarmoniAgentManager
 		// Check external directories
 		$authNMethodManager =& Services::getService("AuthNMethodManager");		
 		$types =& $authNMethodManager->getAuthNTypes();
-		while ($types->hasNextType()) {
-			$type =& $types->nextType();
+		while ($types->hasNext()) {
+			$type =& $types->next();
 			$authNMethod =& $authNMethodManager->getAuthNMethodForType($type);
 			if ($authNMethod->supportsDirectory() && $authNMethod->isGroup($id))
 				return true;
