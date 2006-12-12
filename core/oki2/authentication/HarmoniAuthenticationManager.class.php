@@ -64,7 +64,7 @@ require_once(dirname(__FILE__)."/FormActionNamePassTokenCollector.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthenticationManager.class.php,v 1.25 2006/12/12 17:16:26 adamfranco Exp $
+ * @version $Id: HarmoniAuthenticationManager.class.php,v 1.26 2006/12/12 18:00:47 adamfranco Exp $
  */
 class HarmoniAuthenticationManager 
 	extends AuthenticationManager
@@ -583,8 +583,20 @@ class HarmoniAuthenticationManager
 			while ($authNTypes->hasNext()) {
 				$authenticationType =& $authNTypes->next();
 				if (!$authenticationType->isEqual($this->_adminActAsType)) {
-					if ($this->_authenticateAdminActAsUserForType($authenticationType))
+				
+					// if we have successfully changed our user, log out all other
+					// Authentication Types so that we are left with just that user.
+					if ($this->_authenticateAdminActAsUserForType($authenticationType)) {
+						$authNTypes =& $this->getAuthenticationTypes();
+						while ($authNTypes->hasNext()) {
+							$authenticationType =& $authNTypes->next();
+							if (!$authenticationType->isEqual($this->_adminActAsType)) {
+								$this->destroyAuthenticationForType($authenticationType);
+							}
+						}
+						
 						break;
+					}
 				}
 			}
 		}
@@ -641,6 +653,7 @@ class HarmoniAuthenticationManager
 						.$authenticationType->getKeyword()
 						." <br/>&nbsp;&nbsp;&nbsp;&nbsp;".$authNTokens->getIdentifier());
 					$item->addAgentId($agentId);
+					$item->addUserIds();
 					
 					$log->appendLogWithTypes($item,	$formatType, $priorityType);
 				}

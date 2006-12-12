@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AgentNodeEntryItem.class.php,v 1.5 2006/11/30 22:02:19 adamfranco Exp $
+ * @version $Id: AgentNodeEntryItem.class.php,v 1.6 2006/12/12 18:00:48 adamfranco Exp $
  */ 
 
 require_once(HARMONI."errorHandler/SimpleHTMLErrorPrinter.class.php");
@@ -20,7 +20,7 @@ require_once(HARMONI."errorHandler/SimpleHTMLErrorPrinter.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AgentNodeEntryItem.class.php,v 1.5 2006/11/30 22:02:19 adamfranco Exp $
+ * @version $Id: AgentNodeEntryItem.class.php,v 1.6 2006/12/12 18:00:48 adamfranco Exp $
  */
 class AgentNodeEntryItem {
 		
@@ -143,6 +143,10 @@ class AgentNodeEntryItem {
 	 * @since 3/2/06
 	 */
 	function addAgentId ( &$agentId ) {
+		foreach ($this->_agentIds as $id) {
+			if ($id->isEqual($agentId))
+				return;
+		}
 		$this->_agentIds[] =& $agentId;
 	}
 	
@@ -158,6 +162,17 @@ class AgentNodeEntryItem {
 		$authNTypes =& $authN->getAuthenticationTypes();
 		while ($authNTypes->hasNext())
 			$this->addAgentId($authN->getUserId($authNTypes->next()));
+		
+		// Add the Admin Users if they are acting as another user
+		if (isset($_SESSION['__ADMIN_IDS_ACTING_AS_OTHER'])) {
+			foreach ($_SESSION['__ADMIN_IDS_ACTING_AS_OTHER'] as $adminId)
+				$this->addAgentId($adminId);
+			
+			$this->_description .= "<div>"
+				.implode(", ", $_SESSION['__ADMIN_NAMES_ACTING_AS_OTHER'])
+				." ".((count($_SESSION['__ADMIN_NAMES_ACTING_AS_OTHER']) > 1)?"are":"is")
+				." acting as the current user.</div>";
+		}
 	}
 	
 	/**

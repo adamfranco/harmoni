@@ -3,12 +3,18 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.137 2006/12/12 17:18:18 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.138 2006/12/12 18:00:49 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
 	<version number="0.8.1" date="The Future">
+		<new author='adam'>
+			AuthN: Added support for administrators to act as another user.
+		</new>
+		<fix author='adam'>
+			AuthN: Fixed LDAP dnExists() method to work.
+		</fix>
 		<new author='adam'>
 			AuthN: Added support for LDAP Group searching.
 		</new>
