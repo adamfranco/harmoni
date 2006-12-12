@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPConnector.class.php,v 1.11 2006/08/19 21:14:39 jwlee100 Exp $
+ * @version $Id: LDAPConnector.class.php,v 1.12 2006/12/12 17:15:42 adamfranco Exp $
  */ 
 
 /**
@@ -17,7 +17,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPConnector.class.php,v 1.11 2006/08/19 21:14:39 jwlee100 Exp $
+ * @version $Id: LDAPConnector.class.php,v 1.12 2006/12/12 17:15:42 adamfranco Exp $
  */
 class LDAPConnector {
 		
@@ -292,25 +292,24 @@ class LDAPConnector {
 	 * @access private
 	 * @return string|null The DN, or NULL if it can't be found. 
 	 **/
-	function dnExists( $dn, $baseDN ) {
+	function dnExists( $dn ) {
+		$valid = false;
+		
 		$this->_connect();
 		$this->_bindForSearch();
-		$sr = ldap_search($this->_conn,
-						$baseDN,
+		$sr = @ldap_read($this->_conn,
 						$dn,
-						array($uidField));
-		if (ldap_count_entries($this->_conn,$sr)) {
-			$row = ldap_first_entry($this->_conn, $sr);
-			$founddn = ldap_get_dn($this->_conn, $row);
+						'(objectclass=*)',
+						array('dn'));
+		if ($sr) {
+			if (ldap_count_entries($this->_conn,$sr))
+				$valid = TRUE;
+
 			ldap_free_result($sr);
-			$this->_disconnect();
-			if ($founddn)
-				return TRUE;
 		}
-		ldap_free_result($sr);
-		$this->_disconnect();
 		
-		return FALSE;
+		$this->_disconnect();
+		return $valid;
 	}
 	
 	/**
