@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!-- 
- @package harmoni.docs
+ @package concerto.docs
+ 
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog-simplehtml.xsl,v 1.3 2005/07/18 21:41:25 gabeschine Exp $
+ 
+ @version $Id: changelog-simplehtml.xsl,v 1.4 2006/12/13 21:07:28 adamfranco Exp $
  -->
+ 
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 <!--
@@ -13,25 +16,45 @@
 ///////////////////////////////////////////////////////////////////////
 -->
 <xsl:template match="changelog">
-	<style type="text/css">
-	h1, h2 {color: #005;}
-	h1 {font-size: 18pt;}
-	li {padding-bottom: 3px;}
-	</style>
-    <div style="font-family: Verdana; font-size: 12px;">
-        <h1><xsl:value-of select="@name" /></h1>
-        
-        
-        <xsl:for-each select="version">
-        <h2>Version <xsl:value-of select="@number" /></h2>
+
+<html>
+	<head>
+		<style type="text/css">
+			body {
+				font-family: Verdana; font-size: 12px;
+			}
+			
+			h1, h2 {
+				color: #005;
+			}
+			
+			h1 {
+				font-size: 18pt;
+			}
+			
+			li {
+				padding-bottom: 3px;
+			}
+		</style>
+		<title><xsl:value-of select="@name" /></title>
+
+	</head>
+	<body>
+		<h1><xsl:value-of select="@name" /></h1>
+	
+	
+<xsl:for-each select="version">
+		<h2>Version <xsl:value-of select="@number" /></h2>
 		<xsl:if test="@date!=''"><h3><xsl:value-of select="@date" /></h3></xsl:if>
 
-        <ul>
-        	<xsl:apply-templates />
-        </ul>
-        <br />
-        </xsl:for-each>
-    </div>
+		<ul>
+			<xsl:apply-templates />
+		</ul>
+		<br />
+</xsl:for-each>
+
+	</body>
+</html>
 </xsl:template>
 
 <!--
@@ -40,8 +63,7 @@
 ///////////////////////////////////////////////////////////////////////
 -->
 <xsl:template match="fix">
-	<li /> Bug Fix:
-	<xsl:call-template name="entry" />
+	<li> Bug Fix: <xsl:call-template name="entry" /></li>	
 </xsl:template>
 
 <!--
@@ -50,7 +72,7 @@
 ///////////////////////////////////////////////////////////////////////
 -->
 <xsl:template match="change">
-	<li /> Change: <xsl:call-template name="entry" />
+	<li> Change: <xsl:call-template name="entry" /></li>
 </xsl:template>
 
 <!--
@@ -59,7 +81,7 @@
 ///////////////////////////////////////////////////////////////////////
 -->
 <xsl:template match="new">
-	<li /> New feature: <xsl:call-template name="entry" />
+	<li> New feature: <xsl:call-template name="entry" /></li>
 </xsl:template>
 
 <!--
@@ -68,7 +90,7 @@
 ///////////////////////////////////////////////////////////////////////
 -->
 <xsl:template match="important">
-	<li /> <span style='color: red'>*** IMPORTANT ***</span> Change: <xsl:call-template name="entry" />
+	<li> <span style='color: red'>*** IMPORTANT ***</span> Change: <xsl:call-template name="entry" /></li>
 </xsl:template>
 
 <!--
@@ -81,10 +103,10 @@
 		<xsl:choose>
 			<xsl:when test="@reftype">
 				<xsl:variable name="reftype" select="@reftype" />
-				<xsl:variable name="refurl" select="//reftypes/reftype[@name = $reftype]" />
+				<xsl:variable name="trackerid" select="//reftypes/reftype[@name = $reftype]" />
         		<a>
         			<xsl:attribute name="href">
-        				<xsl:value-of select="$refurl" /><xsl:value-of select="@ref" />
+        				http://sourceforge.net/tracker/index.php?func=detail&amp;aid=<xsl:value-of select="@ref" />&amp;group_id=<xsl:value-of select="//groupid" />&amp;atid=<xsl:value-of select="$trackerid" />
         			</xsl:attribute>
         			#<xsl:value-of select="@ref" />
         		</a>
@@ -98,9 +120,9 @@
 	<xsl:if test="@author">
 		<xsl:variable name="short" select="@author"/>
 		<xsl:text> (</xsl:text>
-		<i>
+		<em>
 			<xsl:value-of select="//authors/name[@short=$short]" />
-		</i>
+		</em>
 		<xsl:text>)</xsl:text>
 	</xsl:if>
 </xsl:template>
