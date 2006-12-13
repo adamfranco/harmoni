@@ -3,6 +3,27 @@
 Name: Harmoni ChangeLog
 
 
+v. 0.9.0 (2006-12-13)
+----------------------------------------------------
+		
+	* New feature: AuthN: Added support for administrators to act as another user. (Adam Franco)
+		
+	* Bug Fix: AuthN: Fixed LDAP dnExists() method to work. (Adam Franco)
+		
+	* New feature: AuthN: Added support for LDAP Group searching. (Adam Franco)
+		
+	* New feature: Repository: Added support for files stored at remote locations. (Adam Franco)
+		
+	* Bug Fix: AuthZ: Increased the column length of the authorization agent Id to prevent long LDAP DNs from being truncated. (Adam Franco)
+		
+	* Bug Fix: Tagging: Tags could be accidentally added with no value, now cannot. (Adam Franco)
+		
+	* Bug Fix: Tagging: Fixed error to allow Collections with no items to be deleted. Zero numbers of tagged items were causing an error. (Adam Franco)
+		
+	* New feature: Tagging: Now can fetch related tags. (Adam Franco)
+		
+	* Bug Fix: Primitives: ByteSize::fromString() now supports integers. (Adam Franco)
+	
 v. 0.8.0 (2006-12-01)
 ----------------------------------------------------
 		
