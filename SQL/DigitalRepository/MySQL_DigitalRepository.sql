@@ -4,7 +4,7 @@
 -- @copyright Copyright &copy; 2005, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 --
--- @version $Id: MySQL_DigitalRepository.sql,v 1.17 2006/06/08 15:53:49 adamfranco Exp $
+-- @version $Id: MySQL_DigitalRepository.sql,v 1.18 2006/12/14 15:23:22 adamfranco Exp $
 -- */
 -- --------------------------------------------------------
 
@@ -159,3 +159,15 @@ CREATE TABLE dr_authoritative_values (
   `value` varchar(240) NOT NULL default '',
   KEY fk_partstructure (fk_partstructure,fk_repository)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table is used by the part structure to maintain authori';
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `dr_file_url`
+-- 
+
+CREATE TABLE dr_file_url (
+  FK_file varchar(75) NOT NULL default '',
+  url text NOT NULL,
+  PRIMARY KEY  (FK_file)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
