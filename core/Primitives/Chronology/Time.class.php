@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Time.class.php,v 1.5 2006/12/01 16:34:46 adamfranco Exp $
+ * @version $Id: Time.class.php,v 1.6 2007/01/08 21:02:55 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -41,7 +41,7 @@ require_once(dirname(__FILE__)."/Year.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Time.class.php,v 1.5 2006/12/01 16:34:46 adamfranco Exp $
+ * @version $Id: Time.class.php,v 1.6 2007/01/08 21:02:55 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -313,7 +313,7 @@ class Time
 			$result .= str_pad(abs($this->second()), 2, '0', STR_PAD_LEFT);
 		}
 		
-		if ($this->hour() > 12)
+		if ($this->hour() >= 12)
 			$result .= ' pm';
 		else
 			$result .= ' am';
