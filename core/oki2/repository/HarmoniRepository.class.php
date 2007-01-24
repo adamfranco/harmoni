@@ -48,7 +48,7 @@ require_once(dirname(__FILE__)."/SearchModules/AuthoritativeValuesSearch.class.p
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepository.class.php,v 1.56 2006/12/06 20:44:57 adamfranco Exp $ 
+ * @version $Id: HarmoniRepository.class.php,v 1.57 2007/01/24 18:38:24 adamfranco Exp $ 
  */
 
 class HarmoniRepository
@@ -940,6 +940,27 @@ class HarmoniRepository
 		
 		// Dish out the asset.
 		return $this->_createdAssets[$assetId->getIdString()];
+	}
+	
+	/**
+	 * Answer true if the asset exists
+	 *
+	 * WARNING: NOT IN OSID
+	 * 
+	 * @param object Id $assetId
+	 * @return boolean
+	 * @access public
+	 * @since 1/22/07
+	 */
+	function assetExists ( &$assetId ) {
+		if (isset($this->_createdAssets[$assetId->getIdString()]))
+			return true;
+		else {
+			if ($this->_hierarchy->nodeExists($assetId))
+				return true;
+			else
+				return false;
+		}
 	}
 
 	/**
