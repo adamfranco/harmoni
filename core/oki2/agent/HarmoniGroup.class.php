@@ -22,7 +22,7 @@ require_once(dirname(__FILE__)."/GroupsOnlyFromTraversalIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniGroup.class.php,v 1.21 2006/12/07 17:25:51 adamfranco Exp $
+ * @version $Id: HarmoniGroup.class.php,v 1.22 2007/01/30 20:44:47 adamfranco Exp $
  */
 class HarmoniGroup
 	extends HarmoniAgent
@@ -103,10 +103,10 @@ class HarmoniGroup
 		ArgumentValidator::validate($memberOrGroup, ExtendsValidatorRule::getRule("Agent"), true);
 		// ** end of parameter validation
 		
-		print "<div style='border: 1px dotted;, margin: 10px; padding: 10px; background-color: #faa;'>";
-		printpre("<strong>Adding agent, ".$memberOrGroup->getDisplayName().", to group, ".$this->getDisplayName().".</strong>");
+// 		print "<div style='border: 1px dotted;, margin: 10px; padding: 10px; background-color: #faa;'>";
+// 		printpre("<strong>Adding agent, ".$memberOrGroup->getDisplayName().", to group, ".$this->getDisplayName().".</strong>");
 		$memberOrGroup->_node->addParent($this->getId());
-		print "</div>";
+// 		print "</div>";
 	}
 	
 	/**
