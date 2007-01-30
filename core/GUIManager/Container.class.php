@@ -2,6 +2,7 @@
 
 require_once(HARMONI."GUIManager/Container.interface.php");
 require_once(HARMONI."GUIManager/Component.class.php");
+require_once(HARMONI."GUIManager/Components/Blank.class.php");
 require_once(HARMONI."GUIManager/StyleProperties/WidthSP.class.php");
 require_once(HARMONI."GUIManager/StyleProperties/HeightSP.class.php");
 
@@ -18,7 +19,7 @@ require_once(HARMONI."GUIManager/StyleProperties/HeightSP.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Container.class.php,v 1.14 2006/08/02 23:50:26 sporktim Exp $
+ * @version $Id: Container.class.php,v 1.15 2007/01/30 15:47:58 adamfranco Exp $
  */
 class Container extends Component /* implements ContainerInterface */ {
 
@@ -126,6 +127,82 @@ class Container extends Component /* implements ContainerInterface */ {
 		$this->_constraints[] =& $constraint;
 		
 		return $this->_components[] =& $component;
+	}
+	
+	/**
+	 * Add a placeholder and recieve back an id with which to reference it.
+	 * This method can be used in conjunction with insertAtPlaceholder()
+	 * to allow out-of-order addition of components.
+	 * 
+	 * @return integer
+	 * @access public
+	 * @since 1/24/07
+	 */
+	function addPlaceholder () {
+		$this->add(new Blank(1));
+		$placeholderId = count($this->_components);
+		
+		// Record the Id so that we can verify it when inserting later
+		if (!isset($this->_placeholders))
+			$this->_placeholders = array();
+		$this->_placeholders[] = $placeholderId;
+		
+		return $placeholderId;
+	}
+	
+	/**
+	 * Insert a component at the place of a predefined placeholder that had
+	 * been created with addPlaceholder().
+	 * 
+	 * @param integer $placeholderId
+	 * @param ref object component The component to add.
+	 * @param string width The available width for the added component. If null, will be ignored.
+	 * @param string height The available height for the added component. If null, will be ignored.
+	 * @param integer alignmentX The horizontal alignment for the added component. Allowed values are 
+	 * <code>LEFT</code>, <code>CENTER</code>, and <code>RIGHT</code>.
+	 * If null, will be ignored.
+	 * @param integer alignmentY The vertical alignment for the added component. Allowed values are 
+	 * <code>TOP</code>, <code>CENTER</code>, and <code>BOTTOM</code>.
+	 * If null, will be ignored.
+	 * @return ref object The component that was just inserted.
+	 * @access public
+	 * @since 1/24/07
+	 */
+	function insertAtPlaceholder ($placeholderId, &$component, $width = NULL, 
+		$height = NULL, $alignmentX = NULL, $alignmentY = NULL) 
+	{
+		// ** parameter validation
+		ArgumentValidator::validate($placeholderId, IntegerValidatorRule::getRule(), true);
+		ArgumentValidator::validate($component, ExtendsValidatorRule::getRule("ComponentInterface"), true);
+		ArgumentValidator::validate($width, OptionalRule::getRule(StringValidatorRule::getRule(), true));
+		ArgumentValidator::validate($height, OptionalRule::getRule(StringValidatorRule::getRule(), true));
+		ArgumentValidator::validate($alignmentX, OptionalRule::getRule(IntegerValidatorRule::getRule(), true));
+		ArgumentValidator::validate($alignmentY, OptionalRule::getRule(IntegerValidatorRule::getRule(), true));
+		// ** end of parameter validation
+		
+		if (!in_array($placeholderId, $this->_placeholders))
+			throwError(new Error("Unknown placeholder id, '".$placeholderId."'.", "GUIManager"));
+		
+		$constraint = array();
+		$constraint[0] = $width;
+		$constraint[1] = $height;
+		$constraint[2] = $alignmentX;
+		$constraint[3] = $alignmentY;
+		$this->_constraints[$placeholderId - 1] =& $constraint;
+		
+		// Add any pre and post html that was added to the placeholder
+		$null = null;
+		$component->setPreHTML(
+			$this->_components[$placeholderId - 1]->getPreHTML($null)
+			.$component->getPreHTML($null));
+		$component->setPostHTML(
+			$component->getPostHTML($null)
+			.$this->_components[$placeholderId - 1]->getPostHTML($null));
+		
+		// Replace the placeholder with the component
+		$this->_components[$placeholderId - 1] =& $component;
+		
+		return $this->_components[$placeholderId - 1];
 	}
 	
 	/**
