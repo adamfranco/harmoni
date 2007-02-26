@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ISO8601StringParser.class.php,v 1.4 2006/11/30 22:02:04 adamfranco Exp $
+ * @version $Id: ISO8601StringParser.class.php,v 1.5 2007/02/26 14:47:44 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -18,10 +18,7 @@ require_once(dirname(__FILE__)."/StringParser.class.php");
 /**
  * This StringParser can handle ISO 8601 dates. {@link http://www.cl.cam.ac.uk/~mgk25/iso-time.html}
  * Examples:
- * 		- 4/5/82
- * 		- 04/05/82
- *		- 04/05/1982
- *		- 4-5-82
+ * 		- 1982-04-05T15:25:21+5:00
  * 
  * @since 5/23/05
  * @package harmoni.primitives.chronology.string_parsers
@@ -29,7 +26,7 @@ require_once(dirname(__FILE__)."/StringParser.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ISO8601StringParser.class.php,v 1.4 2006/11/30 22:02:04 adamfranco Exp $
+ * @version $Id: ISO8601StringParser.class.php,v 1.5 2007/02/26 14:47:44 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
