@@ -60,7 +60,7 @@ require_once(HARMONI.'oki2/shared/HarmoniIdIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthorizationManager.class.php,v 1.37 2006/12/12 17:18:16 adamfranco Exp $
+ * @version $Id: HarmoniAuthorizationManager.class.php,v 1.38 2007/02/27 21:27:54 adamfranco Exp $
  */
 class HarmoniAuthorizationManager 
 	extends AuthorizationManager 
@@ -503,6 +503,86 @@ class HarmoniAuthorizationManager
 				
 		$isAuthorizedCache =& IsAuthorizedCache::instance();
 		return $isAuthorizedCache->isUserAuthorized($functionId, $qualifierId);
+	}
+	
+	/**
+	 * Given an agentId, functionId, and qualifierId returns true if the Agent
+	 * is authorized now to perform the Function with the Qualifier or one of
+	 * the decendents of the qualifier.
+	 *
+	 * This method is used in determining when to provide UI links deep into a
+	 * hierarchy, as well as in determining when to display UI components that 
+	 * only apply if an agent has a particular authorization on any element in
+	 * a subtree.
+	 *
+	 * WARNING: NOT IN OSID
+	 * 
+	 * @param object Id $agentId
+	 * @param object Id $functionId
+	 * @param object Id $qualifierId
+	 * @return boolean
+	 * @access public
+	 * @since 2/27/07
+	 */
+	function isAuthorizedBelow ( &$agentId, &$functionId, &$qualifierId ) {
+		$isAuthorizedCache =& IsAuthorizedCache::instance();
+		
+		// First check if the authorization exists for the qualifier. If so,
+		// it will by definition cascade to the descendents.
+		if ($isAuthorizedCache->isAuthorized($agentId, $functionId, $qualifierId)) {
+			return true;
+		} 
+		// Check to see if the authorization is set on any descendents
+		else {
+			$descendents =& $this->getQualifierDescendants($qualifierId);
+			while ($descendents->hasNext()) {
+				$descendent =& $descendents->next();
+				if ($this->isAuthorizedBelow($agentId, $functionId, $descendent->getId()))
+					return true;
+			}
+			
+			return false;
+		}
+	}
+	
+	/**
+	 * Given an agentId, functionId, and qualifierId returns true if the Agent
+	 * is authorized now to perform the Function with the Qualifier or one of
+	 * the decendents of the qualifier.
+	 *
+	 * This method is used in determining when to provide UI links deep into a
+	 * hierarchy, as well as in determining when to display UI components that 
+	 * only apply if an agent has a particular authorization on any element in
+	 * a subtree.
+	 *
+	 * WARNING: NOT IN OSID
+	 * 
+	 * @param object Id $agentId
+	 * @param object Id $functionId
+	 * @param object Id $qualifierId
+	 * @return boolean
+	 * @access public
+	 * @since 2/27/07
+	 */
+	function isUserAuthorizedBelow ( &$functionId, &$qualifierId ) {
+		$isAuthorizedCache =& IsAuthorizedCache::instance();
+		
+		// First check if the authorization exists for the qualifier. If so,
+		// it will by definition cascade to the descendents.
+		if ($isAuthorizedCache->isUserAuthorized($functionId, $qualifierId)) {
+			return true;
+		} 
+		// Check to see if the authorization is set on any descendents
+		else {
+			$descendents =& $this->getQualifierDescendants($qualifierId);
+			while ($descendents->hasNext()) {
+				$descendent =& $descendents->next();
+				if ($this->isUserAuthorizedBelow($functionId, $descendent->getId()))
+					return true;
+			}
+			
+			return false;
+		}
 	}
 	
 	/**
