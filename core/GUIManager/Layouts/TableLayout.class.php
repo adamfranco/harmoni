@@ -19,7 +19,7 @@ require_once(HARMONI."GUIManager/StyleProperties/BorderSP.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TableLayout.class.php,v 1.3 2006/11/30 22:02:02 adamfranco Exp $
+ * @version $Id: TableLayout.class.php,v 1.4 2007/02/28 21:34:41 adamfranco Exp $
  */
 class TableLayout 
 	extends LayoutInterface 
@@ -37,6 +37,8 @@ class TableLayout
 		$this->_numColumns = $numberOfColumns;
 		$this->_tdStyles = $tdStyles;
 		$this->_renderDirection ='Left-Right/Top-Bottom';
+		
+		$this->printEmptyCells = true;
 	}
 	
 	/**
@@ -119,10 +121,13 @@ class TableLayout
 			$key = $cellOrder[$i];
 			
 			// if there isn't a component for that index
+			// and there are more cells than will fit in one row
 			// render a blank table cell
 			if (!isset($components[$key])) {
-				echo $tabs."\t<td $tdStyles>\n";
-				echo $tabs."\t</td>\n";
+				if ($this->printEmptyCells || $numElements > $this->_numColumns) {
+					echo $tabs."\t<td $tdStyles>\n";
+					echo $tabs."\t</td>\n";
+				}
 			} 
 			
 			// otherwise render the component in a table cell
