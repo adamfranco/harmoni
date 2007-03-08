@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: InsertQuery.class.php,v 1.5 2005/04/07 16:33:23 adamfranco Exp $
+ * @version $Id: InsertQuery.class.php,v 1.6 2007/03/08 21:55:21 adamfranco Exp $
  */
 require_once(HARMONI."DBHandler/InsertQuery.interface.php");
 
@@ -22,7 +22,7 @@ require_once(HARMONI."DBHandler/InsertQuery.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: InsertQuery.class.php,v 1.5 2005/04/07 16:33:23 adamfranco Exp $ 
+ * @version $Id: InsertQuery.class.php,v 1.6 2007/03/08 21:55:21 adamfranco Exp $ 
  */
 
 class InsertQuery extends InsertQueryInterface {
@@ -101,6 +101,90 @@ class InsertQuery extends InsertQueryInterface {
 		// ** end of parameter validation
 
 		$this->_columns = $columns;
+	}
+	
+	/**
+	 * Create a new, empty row. This is used when adding values via the addValue() or
+	 * addRawValue() method rather than the setColumns.
+	 * 
+	 * @return void
+	 * @access public
+	 * @since 3/8/07
+	 */
+	function createRow () {
+		$this->_values[] = array();
+		$index = count($this->_values) - 1;
+		
+		// Ensure that rows of values at least have a null value for the column
+		for ($i = 0; $i < count($this->_columns); $i++) {
+			$this->_values[$index][] = 'NULL';
+		}
+	}
+	
+	/**
+	 * Add a new column and populate all rows of values with a null value. Return
+	 * the array index of the new column.
+	 * 
+	 * @param string $column
+	 * @return integer
+	 * @access public
+	 * @since 3/8/07
+	 */
+	function addColumn ( $column ) {
+		$this->_columns[] = $column;
+		$index = count($this->_columns) - 1;
+		
+		// Ensure that rows of values at least have a null value for the column
+		for ($i = 0; $i < count($this->_values); $i++) {
+			$this->_values[$i][] = 'NULL';
+		}
+		
+		return $index;
+	}
+	
+	/**
+	 * Add a column/value pair to the latest row, if a value for the column exists, 
+	 * it will be overwritten. The value will not have any new escaping or quotes 
+	 * added to it. All rows of values MUST have the same number and order of
+	 * columns.
+	 * 
+	 * @param string $column
+	 * @param string $value
+	 * @return void
+	 * @access public
+	 * @since 3/8/07
+	 */
+	function addRawValue ( $column, $value ) {
+		ArgumentValidator::validate($column, NonzeroLengthStringValidatorRule::getRule());
+		ArgumentValidator::validate($value, NonzeroLengthStringValidatorRule::getRule());
+		
+		// Make sure that we have a row
+		if (!count($this->_values))
+			$this->createRow();
+		
+		$key = array_search($column, $this->_columns);
+		
+		if ($key === FALSE || !is_int($key)) {
+			$key = $this->addColumn($column);
+		}
+		
+		$this->_values[count($this->_values) - 1][$key] = $value;
+	}
+	
+	/**
+	 * Add a value to the latest row, escaping it and surrounding it with quotes.
+	 * 
+	 * @param string $column
+	 * @param string $value
+	 * @return void
+	 * @access public
+	 * @since 3/8/07
+	 */
+	function addValue ( $column, $value ) {
+		ArgumentValidator::validate($column, NonzeroLengthStringValidatorRule::getRule());
+		ArgumentValidator::validate($value, StringValidatorRule::getRule());
+		
+		$this->addRawValue($column, "'".addslashes($value)."'");
 	}
 
 	/**

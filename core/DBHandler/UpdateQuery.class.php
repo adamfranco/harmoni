@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: UpdateQuery.class.php,v 1.6 2005/04/07 16:33:23 adamfranco Exp $
+ * @version $Id: UpdateQuery.class.php,v 1.7 2007/03/08 21:55:21 adamfranco Exp $
  */
  
 require_once(HARMONI."DBHandler/UpdateQuery.interface.php");
@@ -19,7 +19,7 @@ require_once(HARMONI."DBHandler/UpdateQuery.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: UpdateQuery.class.php,v 1.6 2005/04/07 16:33:23 adamfranco Exp $
+ * @version $Id: UpdateQuery.class.php,v 1.7 2007/03/08 21:55:21 adamfranco Exp $
  */
 
 class UpdateQuery extends UpdateQueryInterface {
@@ -106,6 +106,44 @@ class UpdateQuery extends UpdateQueryInterface {
 		$this->_values = $values;
 	}
 	
+	/**
+	 * Add a column/value pair, if a value for the column exists, it will be
+	 * overwritten. The value will not have any new escaping or quotes added to it.
+	 * 
+	 * @param string $column
+	 * @param string $value
+	 * @return void
+	 * @access public
+	 * @since 3/8/07
+	 */
+	function addRawValue ( $column, $value ) {
+		ArgumentValidator::validate($column, NonzeroLengthStringValidatorRule::getRule());
+		ArgumentValidator::validate($value, NonzeroLengthStringValidatorRule::getRule());
+		
+		$key = array_search($column, $this->_columns);
+		if ($key !== FALSE && is_int($key)) {
+			$this->_values[$key] = $value;
+		} else {
+			$this->_columns[] = $column;
+			$this->_values[] = $value;
+		}
+	}
+	
+	/**
+	 * Add a value, escaping it and surrounding it with quotes.
+	 * 
+	 * @param string $column
+	 * @param string $value
+	 * @return void
+	 * @access public
+	 * @since 3/8/07
+	 */
+	function addValue ( $column, $value ) {
+		ArgumentValidator::validate($column, NonzeroLengthStringValidatorRule::getRule());
+		ArgumentValidator::validate($value, StringValidatorRule::getRule());
+		
+		$this->addRawValue($column, "'".addslashes($value)."'");
+	}
 
 	/**
 	 * *Deprecated* Specifies the condition in the WHERE clause.
