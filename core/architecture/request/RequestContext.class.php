@@ -11,7 +11,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RequestContext.class.php,v 1.21 2006/06/16 13:43:57 adamfranco Exp $
+ * @version $Id: RequestContext.class.php,v 1.22 2007/03/08 16:20:43 adamfranco Exp $
  */
 
 define("REQUEST_HANDLER_CONTEXT_DELIMETER", "___");
@@ -438,10 +438,18 @@ END;
 	function getKeys() {
 		$pre = $this->_currentNamespace;
 		$array = array();
-		$keys = array_unique(array_merge(array_keys($this->_fileData), array_merge(array_keys($this->_requestData), array_keys($this->_contextData))));
-		foreach ($keys as $key) {
-			if (ereg("^$pre\\".REQUEST_HANDLER_CONTEXT_DELIMETER."(.+)", $key, $r)) {
-				$array[] = $r[1];
+		if ($pre) {
+			$keys = array_unique(array_merge(array_keys($this->_fileData), array_merge(array_keys($this->_requestData), array_keys($this->_contextData))));
+			foreach ($keys as $key) {
+				if (ereg("^$pre\\".REQUEST_HANDLER_CONTEXT_DELIMETER."(.+)", $key, $r)) {
+					$array[] = $r[1];
+				}
+			}
+		} else {
+			$skip = array('module', 'action');
+			foreach ($this->_requestData as $key => $val) {
+				if (!in_array($key, $skip))
+					$array[] = $key;
 			}
 		}
 		

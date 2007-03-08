@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GETMethodRequestHandler.class.php,v 1.13 2006/11/30 22:02:13 adamfranco Exp $
+ * @version $Id: GETMethodRequestHandler.class.php,v 1.14 2007/03/08 16:20:43 adamfranco Exp $
  */ 
  
 require_once(HARMONI."architecture/request/RequestHandler.interface.php");
@@ -25,7 +25,7 @@ require_once(HARMONI."architecture/request/URLWriter.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GETMethodRequestHandler.class.php,v 1.13 2006/11/30 22:02:13 adamfranco Exp $
+ * @version $Id: GETMethodRequestHandler.class.php,v 1.14 2007/03/08 16:20:43 adamfranco Exp $
  */
 
 class GETMethodRequestHandler extends RequestHandler {
@@ -39,7 +39,7 @@ class GETMethodRequestHandler extends RequestHandler {
 	 * @access public
 	 */
 	function getRequestVariables() {
-		return $_REQUEST;
+		return array_merge($_GET, $_POST);
 	}
 	
 	/**
@@ -98,7 +98,7 @@ class GETMethodRequestHandler extends RequestHandler {
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GETMethodRequestHandler.class.php,v 1.13 2006/11/30 22:02:13 adamfranco Exp $
+ * @version $Id: GETMethodRequestHandler.class.php,v 1.14 2007/03/08 16:20:43 adamfranco Exp $
  */
 
 class GETMethodURLWriter 
