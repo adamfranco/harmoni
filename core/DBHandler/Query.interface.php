@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Query.interface.php,v 1.6 2005/04/07 16:33:23 adamfranco Exp $
+ * @version $Id: Query.interface.php,v 1.7 2007/03/08 16:19:07 adamfranco Exp $
  */
  
 	/**
@@ -74,10 +74,12 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Query.interface.php,v 1.6 2005/04/07 16:33:23 adamfranco Exp $
+ * @version $Id: Query.interface.php,v 1.7 2007/03/08 16:19:07 adamfranco Exp $
  */
 
-class QueryInterface { 
+class QueryInterface 
+	extends SObject
+{ 
 
 	/**
 	 * Resets the query.
