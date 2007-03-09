@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: InsertQuery.class.php,v 1.6 2007/03/08 21:55:21 adamfranco Exp $
+ * @version $Id: InsertQuery.class.php,v 1.7 2007/03/09 19:06:06 adamfranco Exp $
  */
 require_once(HARMONI."DBHandler/InsertQuery.interface.php");
 
@@ -22,7 +22,7 @@ require_once(HARMONI."DBHandler/InsertQuery.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: InsertQuery.class.php,v 1.6 2007/03/08 21:55:21 adamfranco Exp $ 
+ * @version $Id: InsertQuery.class.php,v 1.7 2007/03/09 19:06:06 adamfranco Exp $ 
  */
 
 class InsertQuery extends InsertQueryInterface {
@@ -131,7 +131,7 @@ class InsertQuery extends InsertQueryInterface {
 	 * @since 3/8/07
 	 */
 	function addColumn ( $column ) {
-		$this->_columns[] = $column;
+		$this->_columns[] = $this->cleanColumn($column);
 		$index = count($this->_columns) - 1;
 		
 		// Ensure that rows of values at least have a null value for the column
