@@ -132,7 +132,7 @@ extends SchedulingManager
 
 
 	/**
-	*<b>Warning!</b> This method is designed to comply with V3 of the OSIDs, at least
+	* WARNING: NOT IN OSID -- This method is designed to comply with V3 of the OSIDs, at least
 	* How Tom suggested they were headed 
 	* <a href="http://okicommunity.mit.edu/forum/viewtopic.php?forum=1&showtopic=67&show=10&page=2">
 	* here </a>.  Leave out the agent parameter, and add a statusType instead.
@@ -754,10 +754,10 @@ extends SchedulingManager
 	}
 
 	/**
-	* Warning--not really in the OSIDs
-	*
 	* Get the Status Types for Agents' Commitment supported by the
 	* implementation.
+	*
+	* Warning: not in OSID
 	*
 	* @return object TypeIterator
 	*

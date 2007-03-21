@@ -50,7 +50,7 @@ require_once(HARMONI."oki2/agent/EveryoneGroup.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgentManager.class.php,v 1.43 2006/12/12 17:18:15 adamfranco Exp $
+ * @version $Id: HarmoniAgentManager.class.php,v 1.44 2007/03/21 15:51:56 adamfranco Exp $
  *
  * @author Adam Franco
  * @author Dobromir Radichkov
@@ -171,7 +171,7 @@ class HarmoniAgentManager
 
 
 	/***
-	 * WARNING! NOT IN THE OSID USE AT YOUR OWN RISK
+	 * WARNING: NOT IN OSID -- USE AT YOUR OWN RISK
 	 * Change the flavor between editable agent and non editable agent
 	 *
 	 * @return boolean
@@ -190,7 +190,7 @@ class HarmoniAgentManager
 	  }
 	  
 	  /***
-	   * WARNING! NOT IN THE OSID USE AT YOUR OWN RISK
+	   * WARNING: NOT IN OSID -- USE AT YOUR OWN RISK
 	   * Returns the agent flavor
 	   *
 	   * @return string
@@ -210,7 +210,7 @@ class HarmoniAgentManager
 	 * @param string $displayName
 	 * @param object Type $agentType
 	 * @param object Properties $properties
-	 * @param optional object Id $id WARNING: NOT IN OSID
+	 * @param optional object Id $id WARNING: NOT IN OSID -- USE AT YOUR OWN RISK
 	 *	
 	 * @return object Agent
 	 * 

@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: IsAuthorizedCache.class.php,v 1.4 2006/11/30 22:02:18 adamfranco Exp $
+ * @version $Id: IsAuthorizedCache.class.php,v 1.5 2007/03/21 15:51:57 adamfranco Exp $
  */ 
 
 /**
@@ -69,7 +69,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: IsAuthorizedCache.class.php,v 1.4 2006/11/30 22:02:18 adamfranco Exp $
+ * @version $Id: IsAuthorizedCache.class.php,v 1.5 2007/03/21 15:51:57 adamfranco Exp $
  */
 class IsAuthorizedCache {
 		
@@ -421,7 +421,6 @@ class IsAuthorizedCache {
 	
 	/**
 	 * Load all of the Authorizations for the user and cache them
-	 * WARNING: not in OSID
 	 * 
 	 * @return void
 	 * @access public

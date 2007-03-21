@@ -455,9 +455,10 @@ extends ScheduleItem
     } 
 
     /**
-      * <b>Warning!</b> Not yet in the OSID, but will likely be in v3.
-     *
+     * 
      * Remove a previously added Agent commitment for this ScheduleItem.
+     *
+     * WARNING: NOT IN OSID -- Will likely be added in v3
      * 
      * @param object Id $agentId
      * 

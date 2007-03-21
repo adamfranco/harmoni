@@ -21,7 +21,7 @@ require_once(OKI2."/osid/coursemanagement/EnrollmentRecord.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: EnrollmentRecord.class.php,v 1.9 2006/07/21 19:04:00 sporktim Exp $
+ * @version $Id: EnrollmentRecord.class.php,v 1.10 2007/03/21 15:51:57 adamfranco Exp $
  */
 class HarmoniEnrollmentRecord
 	extends EnrollmentRecord
@@ -85,7 +85,7 @@ class HarmoniEnrollmentRecord
 	 * Get the CourseSection that this EnrollmentRecord 
 	 * enrolls the student in.
 	 * 
-	 * Warning!  THis is not in the OSID!  Use at your own risk.	
+	 * WARNING: NOT IN OSID -- USE AT YOUR OWN RISK
 	 *
 	 * @return object CourseSection
 	 * 

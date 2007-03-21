@@ -6,7 +6,7 @@
 * @copyright Copyright &copy; 2006, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.48 2006/08/19 21:14:18 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.49 2007/03/21 15:51:57 adamfranco Exp $
 */
 
 require_once(OKI2."/osid/coursemanagement/CourseManagementManager.php");
@@ -100,7 +100,7 @@ require_once(HARMONI."oki2/coursemanagement/TermIterator.class.php");
 * @copyright Copyright &copy; 2005, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.48 2006/08/19 21:14:18 sporktim Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.49 2007/03/21 15:51:57 adamfranco Exp $
 */
 class HarmoniCourseManagementManager
 extends CourseManagementManager
@@ -695,12 +695,10 @@ extends CourseManagementManager
 	* Create a new Term with a specific type and Schedule.	 Schedules are
 	* defined in the scheduling OSID.
 	*
-	* Warning!  The third (optional) parameter is not included in the OSIDs.
-	* Use at your own risk.
 	*
 	* @param object Type $termType
 	* @param object ScheduleItem[] $schedule
-	* @param string $displayname The displayname.  This defaults to "" if not included.
+	* @param optional string $displayname The displayname.  WARNING: NOT IN OSID -- USE AT YOUR OWN RISK
 	*
 	* @return object Term
 	*

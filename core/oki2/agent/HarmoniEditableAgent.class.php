@@ -7,7 +7,7 @@ require_once("HarmoniAgent.class.php");
  * modifications.
  * 
  * <p>
- * WARNING! NOT IN THE OSID! Use at your own risk
+ * WARNING: NOT IN OSID! Use at your own risk
  * </p>
  *
  * @package harmoni.osid_v2.agent
@@ -15,7 +15,7 @@ require_once("HarmoniAgent.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniEditableAgent.class.php,v 1.3 2005/09/09 21:32:54 gabeschine Exp $
+ * @version $Id: HarmoniEditableAgent.class.php,v 1.4 2007/03/21 15:51:56 adamfranco Exp $
  */
 
 class HarmoniEditableAgent

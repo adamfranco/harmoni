@@ -102,7 +102,7 @@ extends AgentCommitment
      /**
      * Get the Schedule Item this AgentCommitment is associated with.
      *
-     * <b>Warning!</b> Will probably be added to the OSID, but may be
+     * Warning: NOT IN OSID -- Will probably be added to the OSID, but may be
      * a little iffy.
      *  
      * @return object ScheduleItem
