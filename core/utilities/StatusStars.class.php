@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StatusStars.class.php,v 1.2 2006/06/16 13:44:00 adamfranco Exp $
+ * @version $Id: StatusStars.class.php,v 1.3 2007/03/21 15:51:21 adamfranco Exp $
  */ 
 
 /**
@@ -24,7 +24,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StatusStars.class.php,v 1.2 2006/06/16 13:44:00 adamfranco Exp $
+ * @version $Id: StatusStars.class.php,v 1.3 2007/03/21 15:51:21 adamfranco Exp $
  */
 class StatusStars {
 		
@@ -101,9 +101,11 @@ class StatusStars {
 		$this->_jump_obs();
 		
 		if ($this->_label) {
-			print "<pre>".$this->_label."</pre>\n";
+			$this->startBlock();
+			print $this->_label;
+			$this->endBlock();
 		}
-		print "<pre>";
+		$this->startBlock();
 		print "0";
 		$this->_addSpaces();
 		print "25";
@@ -167,7 +169,7 @@ class StatusStars {
 			print "*";
 		flush();
 		if ($end)
-			print "</pre>";
+			$this->endBlock();
 		$this->_land_obs();
 	}
 	
@@ -198,6 +200,67 @@ class StatusStars {
 			unset($this->_ob_data[$level]);
 		}
 	}
+	
+	/**
+	 * Start a new line
+	 * 
+	 * @return void
+	 * @access public
+	 * @since 3/12/07
+	 */
+	function startBlock () {
+		print "\n<pre>";
+	}
+	
+	/**
+	 * Start a new line
+	 * 
+	 * @return void
+	 * @access public
+	 * @since 3/12/07
+	 */
+	function endBlock () {
+		print "</pre>";
+	}
+}
+
+/**
+ * A command-line-environment of status stars. This class will not output HTML.
+ * 
+ * @since 3/12/07
+ * @package harmoni.utilities
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: StatusStars.class.php,v 1.3 2007/03/21 15:51:21 adamfranco Exp $
+ */
+class CLIStatusStars
+	extends StatusStars
+{
+		
+	/**
+	 * Start a new line
+	 * 
+	 * @return void
+	 * @access public
+	 * @since 3/12/07
+	 */
+	function startBlock () {
+		print "\n";
+	}
+	
+	/**
+	 * Start a new line
+	 * 
+	 * @return void
+	 * @access public
+	 * @since 3/12/07
+	 */
+	function endBlock () {
+		
+	}
+	
 }
 
 ?>
