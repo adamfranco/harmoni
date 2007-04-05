@@ -3,12 +3,12 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.141 2007/03/21 15:51:22 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.142 2007/04/05 15:56:23 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
-	<version number="0.10.0" date="The future">
+	<version number="0.10.0" date="2007-04-05">
 		<new author='adam'>
 			GUI: Now 'placeholders' can be added to containers to provide support
 			for out-of-order addition of components.
