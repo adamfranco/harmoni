@@ -28,7 +28,7 @@ $__harmoni = null;
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Harmoni.class.php,v 1.49 2007/04/05 18:18:45 adamfranco Exp $
+ * @version $Id: Harmoni.class.php,v 1.50 2007/04/05 19:27:14 adamfranco Exp $
  **/
 class Harmoni {
 
@@ -124,13 +124,17 @@ class Harmoni {
 				&& $backtrace[1]['type'] == '::'
 			))
 		{
-			die("<dl><dt><strong>Invalid Harmoni instantiation at...</strong></dt>"
-			."<dd> File: ".$backtrace[0]['file']
-			."<br/> Line: ".$backtrace[0]['line']
-			."</dd>"
-			."<dt><strong>Access Harmoni with <em>Harmoni::instance()</em></strong></dt>"
-			."<dt><strong>Backtrace:</strong></dt>"
-			."<dd>".printDebugBacktrace(debug_backtrace(), true)."</dd></dl>");
+			die("\n<dl style='border: 1px solid #F00; padding: 10px;'>"
+			."\n\t<dt><strong>Invalid Harmoni instantiation at...</strong></dt>"
+			."\n\t<dd> File: ".$backtrace[0]['file']
+			."\n\t\t<br/> Line: ".$backtrace[0]['line']
+			."\n\t</dd>"
+			."\n\t<dt><strong>Access Harmoni with <em>Harmoni::instance()</em></strong></dt>"
+			."\n\t<dt><strong>Backtrace:</strong></dt>"
+			."\n\t<dd>".printDebugBacktrace(debug_backtrace(), true)."</dd>"
+			."\n\t<dt><strong>PHP Version:</strong></dt>"
+			."\n\t<dd>".phpversion()."</dd>"
+			."\n</dl>");
 		}
 		
 		
