@@ -6,6 +6,8 @@ Name: Harmoni ChangeLog
 v. 0.10.0 (2007-04-05)
 ----------------------------------------------------
 		
+	* Bug Fix: Architecture: Improved debug output on Harmoni instantiation errors. (Adam Franco)
+		
 	* New feature: GUI: Now 'placeholders' can be added to containers to provide support for out-of-order addition of components. (Adam Franco)
 		
 	* New feature: Utilities: StatusStars can now be used from a CLI environment. (Adam Franco)

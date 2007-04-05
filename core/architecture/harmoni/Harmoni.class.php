@@ -28,7 +28,7 @@ $__harmoni = null;
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Harmoni.class.php,v 1.48 2006/11/30 22:02:13 adamfranco Exp $
+ * @version $Id: Harmoni.class.php,v 1.49 2007/04/05 18:18:45 adamfranco Exp $
  **/
 class Harmoni {
 
@@ -118,16 +118,19 @@ class Harmoni {
 		// Verify that there is only one instance of Harmoni.
 		$backtrace = debug_backtrace();
 		if (false && $GLOBALS['__harmoni'] 
-			|| !(
-				$backtrace[1]['class'] == 'harmoni'
+			|| !isset($backtrace[1])
+			|| !($backtrace[1]['class'] == 'harmoni'
 				&& $backtrace[1]['function'] == 'instance'
 				&& $backtrace[1]['type'] == '::'
 			))
 		{
-			die("<br/><strong>Invalid Harmoni instantiation at...</strong>"
-			."<br/> File: ".$backtrace[0]['file']
+			die("<dl><dt><strong>Invalid Harmoni instantiation at...</strong></dt>"
+			."<dd> File: ".$backtrace[0]['file']
 			."<br/> Line: ".$backtrace[0]['line']
-			."<br/><strong>Access Harmoni with <em>Harmoni::instance()</em></strong>");
+			."</dd>"
+			."<dt><strong>Access Harmoni with <em>Harmoni::instance()</em></strong></dt>"
+			."<dt><strong>Backtrace:</strong></dt>"
+			."<dd>".printDebugBacktrace(debug_backtrace(), true)."</dd></dl>");
 		}
 		
 		
