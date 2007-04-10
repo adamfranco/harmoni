@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StructuredMetaDataTagGenerator.class.php,v 1.3 2007/04/10 15:45:23 adamfranco Exp $
+ * @version $Id: StructuredMetaDataTagGenerator.class.php,v 1.4 2007/04/10 18:00:29 adamfranco Exp $
  */ 
 
 /**
@@ -19,7 +19,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StructuredMetaDataTagGenerator.class.php,v 1.3 2007/04/10 15:45:23 adamfranco Exp $
+ * @version $Id: StructuredMetaDataTagGenerator.class.php,v 1.4 2007/04/10 18:00:29 adamfranco Exp $
  */
 class StructuredMetaDataTagGenerator {
 
@@ -56,13 +56,20 @@ class StructuredMetaDataTagGenerator {
 			|| !(
 				strtolower($backtrace[1]['class']) == 'structuredmetadatataggenerator'
 				&& $backtrace[1]['function'] == 'instance'
-				&& $backtrace[1]['type'] == '::'
+// 				&& $backtrace[1]['type'] == '::'	// PHP 5.2.1 seems to get this wrong
 			))
 		{
-			die("<br/><strong>Invalid StructuredMetaDataTagGenerator instantiation at...</strong>"
-			."<br/> File: ".$backtrace[0]['file']
-			."<br/> Line: ".$backtrace[0]['line']
-			."<br/><strong>Access StructuredMetaDataTagGenerator with <em>StructuredMetaDataTagGenerator::instance()</em></strong>");
+			die("\n<dl style='border: 1px solid #F00; padding: 10px;'>"
+			."\n\t<dt><strong>Invalid StructuredMetaDataTagGenerator instantiation at...</strong></dt>"
+			."\n\t<dd> File: ".$backtrace[0]['file']
+			."\n\t\t<br/> Line: ".$backtrace[0]['line']
+			."\n\t</dd>"
+			."\n\t<dt><strong>Access StructuredMetaDataTagGenerator with <em>StructuredMetaDataTagGenerator::instance()</em></strong></dt>"
+			."\n\t<dt><strong>Backtrace:</strong></dt>"
+			."\n\t<dd>".printDebugBacktrace(debug_backtrace(), true)."</dd>"
+			."\n\t<dt><strong>PHP Version:</strong></dt>"
+			."\n\t<dd>".phpversion()."</dd>"
+			."\n</dl>");
 		}
 		
 		$this->_cache = array();

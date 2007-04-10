@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: IsAuthorizedCache.class.php,v 1.6 2007/04/10 15:45:24 adamfranco Exp $
+ * @version $Id: IsAuthorizedCache.class.php,v 1.7 2007/04/10 18:00:41 adamfranco Exp $
  */ 
 
 /**
@@ -69,7 +69,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: IsAuthorizedCache.class.php,v 1.6 2007/04/10 15:45:24 adamfranco Exp $
+ * @version $Id: IsAuthorizedCache.class.php,v 1.7 2007/04/10 18:00:41 adamfranco Exp $
  */
 class IsAuthorizedCache {
 		
@@ -154,13 +154,20 @@ class IsAuthorizedCache {
 			|| !(
 				strtolower($backtrace[1]['class']) == 'isauthorizedcache'
 				&& $backtrace[1]['function'] == 'instance'
-				&& $backtrace[1]['type'] == '::'
+// 				&& $backtrace[1]['type'] == '::'	// PHP 5.2.1 seems to get this wrong
 			))
 		{
-			die("<br/><strong>Invalid IsAuthorizedCache instantiation at...</strong>"
-			."<br/> File: ".$backtrace[0]['file']
-			."<br/> Line: ".$backtrace[0]['line']
-			."<br/><strong>Access IsAuthorizedCache with <em>IsAuthorizedCache::instance()</em></strong>");
+			die("\n<dl style='border: 1px solid #F00; padding: 10px;'>"
+			."\n\t<dt><strong>Invalid IsAuthorizedCache instantiation at...</strong></dt>"
+			."\n\t<dd> File: ".$backtrace[0]['file']
+			."\n\t\t<br/> Line: ".$backtrace[0]['line']
+			."\n\t</dd>"
+			."\n\t<dt><strong>Access IsAuthorizedCache with <em>IsAuthorizedCache::instance()</em></strong></dt>"
+			."\n\t<dt><strong>Backtrace:</strong></dt>"
+			."\n\t<dd>".printDebugBacktrace(debug_backtrace(), true)."</dd>"
+			."\n\t<dt><strong>PHP Version:</strong></dt>"
+			."\n\t<dd>".phpversion()."</dd>"
+			."\n</dl>");
 		}
 		
 		// Initialize our paremeters

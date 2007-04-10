@@ -28,7 +28,7 @@ $__harmoni = null;
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Harmoni.class.php,v 1.51 2007/04/10 15:45:23 adamfranco Exp $
+ * @version $Id: Harmoni.class.php,v 1.52 2007/04/10 18:00:40 adamfranco Exp $
  **/
 class Harmoni {
 
@@ -121,7 +121,7 @@ class Harmoni {
 			|| !isset($backtrace[1])
 			|| !(strtolower($backtrace[1]['class']) == 'harmoni'
 				&& $backtrace[1]['function'] == 'instance'
-				&& $backtrace[1]['type'] == '::'
+// 				&& $backtrace[1]['type'] == '::'	// PHP 5.2.1 seems to get this wrong
 			))
 		{
 			die("\n<dl style='border: 1px solid #F00; padding: 10px;'>"

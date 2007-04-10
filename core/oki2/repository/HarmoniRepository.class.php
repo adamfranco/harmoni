@@ -48,7 +48,7 @@ require_once(dirname(__FILE__)."/SearchModules/AuthoritativeValuesSearch.class.p
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepository.class.php,v 1.57 2007/01/24 18:38:24 adamfranco Exp $ 
+ * @version $Id: HarmoniRepository.class.php,v 1.58 2007/04/10 18:00:45 adamfranco Exp $ 
  */
 
 class HarmoniRepository
@@ -97,7 +97,7 @@ class HarmoniRepository
 		// Vals of the array are the record class-names to instantiate.
 		$this->_builtInTypes = array();
 		
-		if ($configuration['use_filesystem_for_files'])
+		if ($configuration->getProperty('use_filesystem_for_files'))
 			$this->_builtInTypes['FILE'] = 'FileSystemFileRecord';
 		else
 			$this->_builtInTypes['FILE'] = 'FileRecord';
