@@ -48,7 +48,7 @@ require_once(dirname(__FILE__)."/SearchModules/AuthoritativeValuesSearch.class.p
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepository.class.php,v 1.58 2007/04/10 18:00:45 adamfranco Exp $ 
+ * @version $Id: HarmoniRepository.class.php,v 1.59 2007/04/10 18:34:04 adamfranco Exp $ 
  */
 
 class HarmoniRepository
