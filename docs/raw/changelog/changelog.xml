@@ -3,11 +3,16 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.143 2007/04/05 18:18:48 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.144 2007/04/10 19:25:05 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
+	<version number="0.10.1" date="2007-04-10">
+		<fix author='adam'>
+			Fixed a few bugs that prevented Harmoni from running in PHP 5.
+		</fix>
+	</version>
 	<version number="0.10.0" date="2007-04-05">
 		<fix author='adam'>
 			Architecture: Improved debug output on Harmoni instantiation errors.

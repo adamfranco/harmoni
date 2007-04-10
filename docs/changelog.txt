@@ -3,6 +3,11 @@
 Name: Harmoni ChangeLog
 
 
+v. 0.10.1 (2007-04-10)
+----------------------------------------------------
+		
+	* Bug Fix: Fixed a few bugs that prevented Harmoni from running in PHP 5. (Adam Franco)
+	
 v. 0.10.0 (2007-04-05)
 ----------------------------------------------------
 		
