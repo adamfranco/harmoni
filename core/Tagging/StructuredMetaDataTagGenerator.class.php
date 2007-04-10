@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StructuredMetaDataTagGenerator.class.php,v 1.2 2006/11/30 22:02:11 adamfranco Exp $
+ * @version $Id: StructuredMetaDataTagGenerator.class.php,v 1.3 2007/04/10 15:45:23 adamfranco Exp $
  */ 
 
 /**
@@ -19,7 +19,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StructuredMetaDataTagGenerator.class.php,v 1.2 2006/11/30 22:02:11 adamfranco Exp $
+ * @version $Id: StructuredMetaDataTagGenerator.class.php,v 1.3 2007/04/10 15:45:23 adamfranco Exp $
  */
 class StructuredMetaDataTagGenerator {
 
@@ -54,7 +54,7 @@ class StructuredMetaDataTagGenerator {
 		$backtrace = debug_backtrace();
 		if (false && $GLOBALS['__structuredMetaDataTagGenerator'] 
 			|| !(
-				$backtrace[1]['class'] == 'structuredmetadatataggenerator'
+				strtolower($backtrace[1]['class']) == 'structuredmetadatataggenerator'
 				&& $backtrace[1]['function'] == 'instance'
 				&& $backtrace[1]['type'] == '::'
 			))

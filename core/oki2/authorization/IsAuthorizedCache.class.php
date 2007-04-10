@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: IsAuthorizedCache.class.php,v 1.5 2007/03/21 15:51:57 adamfranco Exp $
+ * @version $Id: IsAuthorizedCache.class.php,v 1.6 2007/04/10 15:45:24 adamfranco Exp $
  */ 
 
 /**
@@ -69,7 +69,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: IsAuthorizedCache.class.php,v 1.5 2007/03/21 15:51:57 adamfranco Exp $
+ * @version $Id: IsAuthorizedCache.class.php,v 1.6 2007/04/10 15:45:24 adamfranco Exp $
  */
 class IsAuthorizedCache {
 		
@@ -152,7 +152,7 @@ class IsAuthorizedCache {
 		$backtrace = debug_backtrace();
 		if (false && $GLOBALS['__isAuthorizedCache'] 
 			|| !(
-				$backtrace[1]['class'] == 'isauthorizedcache'
+				strtolower($backtrace[1]['class']) == 'isauthorizedcache'
 				&& $backtrace[1]['function'] == 'instance'
 				&& $backtrace[1]['type'] == '::'
 			))

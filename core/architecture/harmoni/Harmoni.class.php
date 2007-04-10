@@ -28,7 +28,7 @@ $__harmoni = null;
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Harmoni.class.php,v 1.50 2007/04/05 19:27:14 adamfranco Exp $
+ * @version $Id: Harmoni.class.php,v 1.51 2007/04/10 15:45:23 adamfranco Exp $
  **/
 class Harmoni {
 
@@ -119,7 +119,7 @@ class Harmoni {
 		$backtrace = debug_backtrace();
 		if (false && $GLOBALS['__harmoni'] 
 			|| !isset($backtrace[1])
-			|| !($backtrace[1]['class'] == 'harmoni'
+			|| !(strtolower($backtrace[1]['class']) == 'harmoni'
 				&& $backtrace[1]['function'] == 'instance'
 				&& $backtrace[1]['type'] == '::'
 			))
