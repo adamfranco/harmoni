@@ -1,4 +1,4 @@
-<?
+<?php
 
 require_once (HARMONI."actionHandler/ActionSource.abstract.php");
 
@@ -12,7 +12,7 @@ require_once (HARMONI."actionHandler/ActionSource.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ClassesActionSource.class.php,v 1.9 2005/12/09 22:22:29 adamfranco Exp $
+ * @version $Id: ClassesActionSource.class.php,v 1.10 2007/04/12 15:37:23 adamfranco Exp $
  */
 class ClassesActionSource 
 	extends ActionSource

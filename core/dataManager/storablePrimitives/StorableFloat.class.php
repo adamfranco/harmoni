@@ -1,4 +1,4 @@
-<?
+<?php
 
 /**
  * This is the {@link StorablePrimitive} equivalent of {@link Float}.
@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableFloat.class.php,v 1.12 2006/04/28 17:36:18 adamfranco Exp $
+ * @version $Id: StorableFloat.class.php,v 1.13 2007/04/12 15:37:26 adamfranco Exp $
  */
 class StorableFloat 
 	extends Double 

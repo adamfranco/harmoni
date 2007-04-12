@@ -1,4 +1,4 @@
-<?
+<?php
 
 require_once(HARMONI."oki2/shared/HarmoniType.class.php");
 
@@ -11,7 +11,7 @@ require_once(HARMONI."oki2/shared/HarmoniType.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DefaultQualifierType.class.php,v 1.6 2005/08/01 20:04:20 adamfranco Exp $
+ * @version $Id: DefaultQualifierType.class.php,v 1.7 2007/04/12 15:37:27 adamfranco Exp $
  */
 class DefaultQualifierType 
 	extends HarmoniType 

@@ -1,4 +1,4 @@
-<?
+<?php
 
 require_once(OKI2."/osid/id/IdManager.php");
 
@@ -39,7 +39,7 @@ require_once(OKI2."/osid/id/IdManager.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: JavaPOCIdManager.class.php,v 1.5 2005/01/19 22:28:24 adamfranco Exp $
+ * @version $Id: JavaPOCIdManager.class.php,v 1.6 2007/04/12 15:37:31 adamfranco Exp $
  */
 
 class JavaPOCIdManager

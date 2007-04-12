@@ -1,4 +1,4 @@
-<?
+<?php
 
 require_once(dirname(__FILE__)."/Fields/FileSystemFileDataPart.class.php");
 require_once(dirname(__FILE__)."/Fields/FileNamePart.class.php");
@@ -25,7 +25,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileSystemFileRecord.class.php,v 1.6 2006/05/04 20:36:19 adamfranco Exp $ 
+ * @version $Id: FileSystemFileRecord.class.php,v 1.7 2007/04/12 15:37:32 adamfranco Exp $ 
  */
 class FileSystemFileRecord 
 	extends FileRecord

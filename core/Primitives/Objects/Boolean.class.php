@@ -1,4 +1,4 @@
-<?
+<?php
 
 require_once(dirname(__FILE__)."/../Objects/SObject.class.php");
 
@@ -11,7 +11,7 @@ require_once(dirname(__FILE__)."/../Objects/SObject.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Boolean.class.php,v 1.8 2006/06/26 12:55:12 adamfranco Exp $
+ * @version $Id: Boolean.class.php,v 1.9 2007/04/12 15:37:23 adamfranco Exp $
  */
 class Boolean 
 	extends SObject

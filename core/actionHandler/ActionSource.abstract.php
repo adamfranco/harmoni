@@ -1,4 +1,4 @@
-<?
+<?php
 
 /**
  * An abstract class for all ActionSource classes. ActionSource classes give the {@link ActionHandler} places to look for
@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ActionSource.abstract.php,v 1.3 2005/01/19 22:27:47 adamfranco Exp $
+ * @version $Id: ActionSource.abstract.php,v 1.4 2007/04/12 15:37:23 adamfranco Exp $
  *
  * @abstract
  */

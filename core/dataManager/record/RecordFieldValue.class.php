@@ -1,4 +1,4 @@
-<?
+<?php
 
 require_once(HARMONI."dataManager/record/RecordFieldData.class.php");
 
@@ -17,7 +17,7 @@ define("NEW_VERSION","new");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordFieldValue.class.php,v 1.20 2006/01/17 20:06:21 adamfranco Exp $
+ * @version $Id: RecordFieldValue.class.php,v 1.21 2007/04/12 15:37:25 adamfranco Exp $
  *
  * @author Gabe Schine
  */

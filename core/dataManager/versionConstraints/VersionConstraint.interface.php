@@ -1,4 +1,4 @@
-<?
+<?php
 
 /**
  * A VersionConstraint specifies, upon {@link FullDataSet::prune()}, what values to actually prune, and which to
@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: VersionConstraint.interface.php,v 1.4 2006/11/30 22:02:17 adamfranco Exp $
+ * @version $Id: VersionConstraint.interface.php,v 1.5 2007/04/12 15:37:26 adamfranco Exp $
  */
 class VersionConstraint {
 	

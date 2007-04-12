@@ -1,4 +1,4 @@
-<?
+<?php
 
 require_once HARMONI."dataManager/search/SearchCriteria.interface.php";
 
@@ -10,7 +10,7 @@ require_once HARMONI."dataManager/search/SearchCriteria.interface.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ActiveRecordsSearch.class.php,v 1.4 2005/07/18 14:45:24 gabeschine Exp $
+ * @version $Id: ActiveRecordsSearch.class.php,v 1.5 2007/04/12 15:37:25 adamfranco Exp $
  */
 class ActiveRecordsSearch extends SearchCriteria {
 	

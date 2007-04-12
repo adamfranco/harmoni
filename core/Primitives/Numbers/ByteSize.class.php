@@ -1,4 +1,4 @@
-<?
+<?php
 
 /**
  * @since 7/14/05
@@ -7,7 +7,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ByteSize.class.php,v 1.3 2006/12/07 19:10:24 adamfranco Exp $
+ * @version $Id: ByteSize.class.php,v 1.4 2007/04/12 15:37:22 adamfranco Exp $
  */ 
 
 require_once(dirname(__FILE__)."/Integer.class.php");
@@ -21,7 +21,7 @@ require_once(dirname(__FILE__)."/Integer.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ByteSize.class.php,v 1.3 2006/12/07 19:10:24 adamfranco Exp $
+ * @version $Id: ByteSize.class.php,v 1.4 2007/04/12 15:37:22 adamfranco Exp $
  */
 class ByteSize 
 	extends Integer

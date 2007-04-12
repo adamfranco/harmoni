@@ -1,4 +1,4 @@
-<?
+<?php
 
 /**
  * Each Asset has one of the AssetType supported by the Repository.	 There are
@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileNamePart.class.php,v 1.9 2006/05/04 20:36:19 adamfranco Exp $
+ * @version $Id: FileNamePart.class.php,v 1.10 2007/04/12 15:37:32 adamfranco Exp $
  */
 class FileNamePart extends Part
 //	extends java.io.Serializable

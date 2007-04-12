@@ -1,4 +1,4 @@
-<?
+<?php
 
 require_once(HARMONI."Primitives/Objects/SObject.class.php");
 
@@ -10,7 +10,7 @@ require_once(HARMONI."Primitives/Objects/SObject.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniIterator.class.php,v 1.9 2006/03/03 17:45:52 adamfranco Exp $
+ * @version $Id: HarmoniIterator.class.php,v 1.10 2007/04/12 15:37:33 adamfranco Exp $
  */
 class HarmoniIterator
 	extends SObject

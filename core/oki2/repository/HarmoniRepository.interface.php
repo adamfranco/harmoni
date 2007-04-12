@@ -1,11 +1,11 @@
-<?
+<?php
 /**
  * @package harmoni.osid_v2.repository
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniRepository.interface.php,v 1.7 2005/04/07 16:33:30 adamfranco Exp $
+ * @version $Id: HarmoniRepository.interface.php,v 1.8 2007/04/12 15:37:31 adamfranco Exp $
  */
  
 require_once(OKI2."osid/repository/Repository.php");
@@ -23,7 +23,7 @@ require_once(OKI2."osid/repository/RepositoryException.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniRepository.interface.php,v 1.7 2005/04/07 16:33:30 adamfranco Exp $
+ * @version $Id: HarmoniRepository.interface.php,v 1.8 2007/04/12 15:37:31 adamfranco Exp $
  */
 
 class HarmoniRepositoryInterface

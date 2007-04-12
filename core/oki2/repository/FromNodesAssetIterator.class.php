@@ -1,11 +1,11 @@
-<?
+<?php
 /**
  * @package harmoni.osid_v2.repository
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: FromNodesAssetIterator.class.php,v 1.1 2006/05/05 17:22:47 adamfranco Exp $
+ * @version $Id: FromNodesAssetIterator.class.php,v 1.2 2007/04/12 15:37:31 adamfranco Exp $
  */
 
 require_once(dirname(__FILE__)."/HarmoniAssetIterator.class.php");
@@ -24,7 +24,7 @@ require_once(dirname(__FILE__)."/HarmoniAssetIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FromNodesAssetIterator.class.php,v 1.1 2006/05/05 17:22:47 adamfranco Exp $ 
+ * @version $Id: FromNodesAssetIterator.class.php,v 1.2 2007/04/12 15:37:31 adamfranco Exp $ 
  */
 class FromNodesAssetIterator
 	extends HarmoniAssetIterator

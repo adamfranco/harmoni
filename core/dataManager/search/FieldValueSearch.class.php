@@ -1,4 +1,4 @@
-<?
+<?php
 
 require_once HARMONI."dataManager/search/SearchCriteria.interface.php";
 
@@ -10,7 +10,7 @@ require_once HARMONI."dataManager/search/SearchCriteria.interface.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: FieldValueSearch.class.php,v 1.11 2006/04/28 15:53:21 adamfranco Exp $
+ * @version $Id: FieldValueSearch.class.php,v 1.12 2007/04/12 15:37:25 adamfranco Exp $
  */
 class FieldValueSearch extends SearchCriteria {
 	

@@ -1,11 +1,11 @@
-<?
+<?php
 /**
  * @package harmoni.datamanager
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: registerPrimitives.inc.php,v 1.7 2006/06/12 15:00:11 adamfranco Exp $
+ * @version $Id: registerPrimitives.inc.php,v 1.8 2007/04/12 15:37:24 adamfranco Exp $
  */
  
 $this->addDataType("integer","Integer","StorableInteger", "asAnInteger");

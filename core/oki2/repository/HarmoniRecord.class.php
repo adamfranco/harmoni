@@ -1,4 +1,4 @@
-<?
+<?php
 
 require_once(OKI2."/osid/repository/Record.php");
 require_once(HARMONI."/oki2/repository/HarmoniPart.class.php");
@@ -24,7 +24,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRecord.class.php,v 1.22 2006/06/07 21:16:54 adamfranco Exp $ 
+ * @version $Id: HarmoniRecord.class.php,v 1.23 2007/04/12 15:37:31 adamfranco Exp $ 
  */
 
 class HarmoniRecord 

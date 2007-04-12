@@ -1,4 +1,4 @@
-<?
+<?php
 require(OKI2."osid/repository/Part.php");
 /**
  * Each Asset has one of the AssetType supported by the Repository.	 There are
@@ -19,7 +19,7 @@ require(OKI2."osid/repository/Part.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniPart.class.php,v 1.18 2006/05/04 20:36:18 adamfranco Exp $ 
+ * @version $Id: HarmoniPart.class.php,v 1.19 2007/04/12 15:37:31 adamfranco Exp $ 
  */
 class HarmoniPart 
 	extends Part

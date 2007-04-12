@@ -1,4 +1,4 @@
-<?
+<?php
 
 require_once(OKI2."/osid/shared/Id.php");
 
@@ -14,7 +14,7 @@ if (!isset($_SESSION['harmoniid'])) {
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniTestId.class.php,v 1.7 2005/04/12 19:43:20 adamfranco Exp $
+ * @version $Id: HarmoniTestId.class.php,v 1.8 2007/04/12 15:37:33 adamfranco Exp $
  */
 
 class HarmoniTestId

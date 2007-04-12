@@ -1,4 +1,4 @@
-<?
+<?php
 
 require_once(OKI2."/osid/hierarchy/TraversalInfo.php");
 
@@ -20,7 +20,7 @@ require_once(OKI2."/osid/hierarchy/TraversalInfo.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniTraversalInfo.class.php,v 1.7 2005/03/29 19:44:25 adamfranco Exp $
+ * @version $Id: HarmoniTraversalInfo.class.php,v 1.8 2007/04/12 15:37:31 adamfranco Exp $
  */
 
 class HarmoniTraversalInfo

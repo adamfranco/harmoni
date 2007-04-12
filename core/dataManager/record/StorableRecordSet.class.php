@@ -1,4 +1,4 @@
-<?
+<?php
 
 require_once(HARMONI."dataManager/record/RecordSet.class.php");
 
@@ -10,7 +10,7 @@ require_once(HARMONI."dataManager/record/RecordSet.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableRecordSet.class.php,v 1.10 2005/07/13 17:41:12 adamfranco Exp $
+ * @version $Id: StorableRecordSet.class.php,v 1.11 2007/04/12 15:37:25 adamfranco Exp $
  */
 class StorableRecordSet extends RecordSet {
 	

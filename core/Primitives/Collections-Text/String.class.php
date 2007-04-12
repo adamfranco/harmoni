@@ -1,4 +1,4 @@
-<?
+<?php
 
 require_once(dirname(__FILE__)."/../Objects/SObject.class.php");
 
@@ -11,7 +11,7 @@ require_once(dirname(__FILE__)."/../Objects/SObject.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: String.class.php,v 1.4 2006/06/26 12:55:10 adamfranco Exp $
+ * @version $Id: String.class.php,v 1.5 2007/04/12 15:37:22 adamfranco Exp $
  */
 class String 
 	extends SObject 

@@ -1,4 +1,4 @@
-<?
+<?php
 
 /**
  * @since 7/14/05
@@ -7,7 +7,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Float.class.php,v 1.4 2006/03/14 22:02:42 cws-midd Exp $
+ * @version $Id: Float.class.php,v 1.5 2007/04/12 15:37:22 adamfranco Exp $
  */ 
 
 require_once(dirname(__FILE__)."/Number.class.php");
@@ -20,7 +20,7 @@ require_once(dirname(__FILE__)."/Number.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Float.class.php,v 1.4 2006/03/14 22:02:42 cws-midd Exp $
+ * @version $Id: Float.class.php,v 1.5 2007/04/12 15:37:22 adamfranco Exp $
  */
 class Float 
 	extends Number

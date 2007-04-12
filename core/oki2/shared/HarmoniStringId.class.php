@@ -1,4 +1,4 @@
-<?
+<?php
 
 /**
  * An Id class that allows for the passing of an arbitrary string as an Id object.
@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniStringId.class.php,v 1.4 2005/03/29 19:44:29 adamfranco Exp $
+ * @version $Id: HarmoniStringId.class.php,v 1.5 2007/04/12 15:37:33 adamfranco Exp $
  */
 
 class HarmoniStringId

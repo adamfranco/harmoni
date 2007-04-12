@@ -1,4 +1,4 @@
-<?
+<?php
 
 /**
  * Each Asset has one of the AssetType supported by the Repository.	 There are
@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: ThumbnailMimeTypePartStructure.class.php,v 1.6 2006/06/08 15:53:51 adamfranco Exp $ 
+ * @version $Id: ThumbnailMimeTypePartStructure.class.php,v 1.7 2007/04/12 15:37:32 adamfranco Exp $ 
  */
 class ThumbnailMimeTypePartStructure extends PartStructure
 //	extends java.io.Serializable

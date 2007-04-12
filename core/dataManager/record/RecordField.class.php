@@ -1,4 +1,4 @@
-<?
+<?php
 
 require_once HARMONI."dataManager/record/RecordFieldValue.class.php";
 
@@ -11,7 +11,7 @@ require_once HARMONI."dataManager/record/RecordFieldValue.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordField.class.php,v 1.20 2006/06/16 14:34:20 adamfranco Exp $
+ * @version $Id: RecordField.class.php,v 1.21 2007/04/12 15:37:25 adamfranco Exp $
  **/
 class RecordField {
 	

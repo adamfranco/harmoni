@@ -1,4 +1,4 @@
-<?
+<?php
 
 require_once(OKI2."/osid/agent/AgentIterator.php");
 require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
@@ -22,7 +22,7 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgentIterator.class.php,v 1.6 2005/02/04 15:59:07 adamfranco Exp $
+ * @version $Id: HarmoniAgentIterator.class.php,v 1.7 2007/04/12 15:37:26 adamfranco Exp $
  */
 class HarmoniAgentIterator
 	extends HarmoniIterator

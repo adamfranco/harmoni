@@ -1,4 +1,4 @@
-<?
+<?php
 
 /**
  * Allows you count the number of DB queries from start() to end().
@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: QueryCounter.class.php,v 1.3 2005/04/04 18:24:12 adamfranco Exp $
+ * @version $Id: QueryCounter.class.php,v 1.4 2007/04/12 15:37:34 adamfranco Exp $
  */
 class QueryCounter {
 	var $_start;

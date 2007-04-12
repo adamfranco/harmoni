@@ -1,11 +1,11 @@
-<?
+<?php
 /**
  * @package harmoni.datamanager.search
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: include.php,v 1.3 2005/04/07 16:33:27 adamfranco Exp $
+ * @version $Id: include.php,v 1.4 2007/04/12 15:37:25 adamfranco Exp $
  */
 
 require_once HARMONI."dataManager/search/AndSearch.class.php";

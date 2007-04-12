@@ -1,4 +1,4 @@
-<?
+<?php
 
 /**
  * The RecordSet class holds a list of IDs and their Records in a specific record set.
@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordSet.class.php,v 1.10 2006/11/30 22:02:16 adamfranco Exp $
+ * @version $Id: RecordSet.class.php,v 1.11 2007/04/12 15:37:25 adamfranco Exp $
  */
 class RecordSet {
 	

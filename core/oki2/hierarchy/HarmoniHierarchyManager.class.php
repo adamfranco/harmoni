@@ -1,4 +1,4 @@
-<?
+<?php
 
 require_once(OKI2."/osid/hierarchy/HierarchyManager.php");
 require_once(OKI2."/osid/hierarchy/HierarchyException.php");
@@ -44,7 +44,7 @@ require_once(HARMONI.'/oki2/id/HarmoniIdManager.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniHierarchyManager.class.php,v 1.25 2006/03/07 15:33:45 adamfranco Exp $
+ * @version $Id: HarmoniHierarchyManager.class.php,v 1.26 2007/04/12 15:37:31 adamfranco Exp $
  */
 class HarmoniHierarchyManager 
 	extends HierarchyManager {

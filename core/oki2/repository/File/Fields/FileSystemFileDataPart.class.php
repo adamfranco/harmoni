@@ -1,4 +1,4 @@
-<?
+<?php
 
 /**
  * This Part stores the File data on the filesytem, in a file whose name is the id
@@ -17,7 +17,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileSystemFileDataPart.class.php,v 1.5 2006/05/04 20:36:19 adamfranco Exp $
+ * @version $Id: FileSystemFileDataPart.class.php,v 1.6 2007/04/12 15:37:32 adamfranco Exp $
  */
  
 class FileSystemFileDataPart 

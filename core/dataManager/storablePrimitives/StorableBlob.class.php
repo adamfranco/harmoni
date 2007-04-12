@@ -1,4 +1,4 @@
-<?
+<?php
 
 require_once(HARMONI."dataManager/storablePrimitives/StorableString.abstract.php");
 
@@ -10,7 +10,7 @@ require_once(HARMONI."dataManager/storablePrimitives/StorableString.abstract.php
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableBlob.class.php,v 1.8 2006/06/12 15:00:12 adamfranco Exp $
+ * @version $Id: StorableBlob.class.php,v 1.9 2007/04/12 15:37:26 adamfranco Exp $
  */
 class StorableBlob 
 	extends StorableStringAbstract 

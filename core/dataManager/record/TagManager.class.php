@@ -1,4 +1,4 @@
-<?
+<?php
 
 require_once HARMONI."dataManager/record/Tag.class.php";
 
@@ -11,7 +11,7 @@ require_once HARMONI."dataManager/record/Tag.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TagManager.class.php,v 1.13 2006/11/30 22:02:16 adamfranco Exp $
+ * @version $Id: TagManager.class.php,v 1.14 2007/04/12 15:37:25 adamfranco Exp $
 */
 class RecordTagManager {
 	

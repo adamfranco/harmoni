@@ -1,4 +1,4 @@
-<?
+<?php
 
 require_once(HARMONI."oki2/shared/HarmoniType.class.php");
 
@@ -10,7 +10,7 @@ require_once(HARMONI."oki2/shared/HarmoniType.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ConfigurationPropertiesType.class.php,v 1.2 2005/04/12 19:26:46 adamfranco Exp $
+ * @version $Id: ConfigurationPropertiesType.class.php,v 1.3 2007/04/12 15:37:33 adamfranco Exp $
  */
 class ConfigurationPropertiesType
 	 extends HarmoniType 

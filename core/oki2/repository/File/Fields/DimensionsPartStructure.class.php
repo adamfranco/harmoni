@@ -1,4 +1,4 @@
-<?
+<?php
 
 require_once(OKI2."/osid/repository/PartStructure.php");
 
@@ -21,7 +21,7 @@ require_once(OKI2."/osid/repository/PartStructure.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: DimensionsPartStructure.class.php,v 1.5 2006/06/08 15:53:51 adamfranco Exp $ 
+ * @version $Id: DimensionsPartStructure.class.php,v 1.6 2007/04/12 15:37:32 adamfranco Exp $ 
  */
 class DimensionsPartStructure 
 	extends PartStructure

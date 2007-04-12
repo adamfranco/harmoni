@@ -1,4 +1,4 @@
-<?
+<?php
 
 require_once(OKI2."/osid/hierarchy/TraversalInfoIterator.php");
 require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
@@ -23,7 +23,7 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniTraversalInfoIterator.class.php,v 1.6 2005/02/07 21:38:25 adamfranco Exp $
+ * @version $Id: HarmoniTraversalInfoIterator.class.php,v 1.7 2007/04/12 15:37:31 adamfranco Exp $
  */
 class HarmoniTraversalInfoIterator
 	extends HarmoniIterator

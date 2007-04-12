@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: testColors.php,v 1.3 2005/04/07 16:33:31 adamfranco Exp $
+ * @version $Id: testColors.php,v 1.4 2007/04/12 15:37:34 adamfranco Exp $
  */
 
 define("HARMONI","../../");
@@ -21,7 +21,7 @@ print $c->getHTMLcolor() . " " . $c1->getHTMLcolor() . " " . $c2->getHTMLcolor()
 <style type='text/css'>
 td {font-size: 10px; font-family: "Verdana";}
 </style>
-<?
+<?php
 print "lightening...<br />";
 print "<table width=100%><tr>";
 for ($i = 0; $i < 50; $i++) {

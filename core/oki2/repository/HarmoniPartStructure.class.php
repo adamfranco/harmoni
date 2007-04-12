@@ -1,4 +1,4 @@
-<?
+<?php
 
 require(OKI2."osid/repository/PartStructure.php");
 
@@ -21,7 +21,7 @@ require(OKI2."osid/repository/PartStructure.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniPartStructure.class.php,v 1.18 2006/11/30 22:02:19 adamfranco Exp $  
+ * @version $Id: HarmoniPartStructure.class.php,v 1.19 2007/04/12 15:37:31 adamfranco Exp $  
  */
 class HarmoniPartStructure extends PartStructure
 //	extends java.io.Serializable

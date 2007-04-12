@@ -1,4 +1,4 @@
-<?
+<?php
 
 /**
  * A simple Blob data type.
@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Blob.class.php,v 1.6 2006/06/26 12:55:10 adamfranco Exp $
+ * @version $Id: Blob.class.php,v 1.7 2007/04/12 15:37:22 adamfranco Exp $
  */
 class Blob 
 	extends String 

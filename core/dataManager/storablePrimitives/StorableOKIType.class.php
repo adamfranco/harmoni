@@ -1,4 +1,4 @@
-<?
+<?php
 
 /**
  * This is the {@link StorablePrimitive} equivalent of {@link OKIType}.
@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableOKIType.class.php,v 1.10 2006/06/12 15:00:12 adamfranco Exp $
+ * @version $Id: StorableOKIType.class.php,v 1.11 2007/04/12 15:37:26 adamfranco Exp $
  */
 class StorableOKIType 
 	extends Type 

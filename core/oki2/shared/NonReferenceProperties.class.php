@@ -1,4 +1,4 @@
-<?
+<?php
 
 require_once(HARMONI."oki2/shared/HarmoniProperties.class.php");
 require_once(HARMONI."oki2/shared/ConfigurationPropertiesType.class.php");
@@ -17,7 +17,7 @@ require_once(HARMONI."oki2/shared/ConfigurationPropertiesType.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: NonReferenceProperties.class.php,v 1.1 2005/03/31 22:02:55 adamfranco Exp $
+ * @version $Id: NonReferenceProperties.class.php,v 1.2 2007/04/12 15:37:33 adamfranco Exp $
  */
 class NonReferenceProperties
 	extends HarmoniProperties

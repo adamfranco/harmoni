@@ -1,4 +1,4 @@
-<?
+<?php
 
 require_once(OKI2."/osid/shared/Properties.php");
 require_once(HARMONI."oki2/shared/HarmoniObjectIterator.class.php");
@@ -19,7 +19,7 @@ require_once(HARMONI."oki2/shared/HarmoniObjectIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniProperties.class.php,v 1.15 2005/09/28 20:51:34 gabeschine Exp $
+ * @version $Id: HarmoniProperties.class.php,v 1.16 2007/04/12 15:37:33 adamfranco Exp $
  */
 class HarmoniProperties
 	extends Properties

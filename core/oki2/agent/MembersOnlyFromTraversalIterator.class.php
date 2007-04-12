@@ -1,4 +1,4 @@
-<?
+<?php
 
 require_once(HARMONI."oki2/agent/AgentFilteringFromTraversalIterator.class.php");
 
@@ -21,7 +21,7 @@ require_once(HARMONI."oki2/agent/AgentFilteringFromTraversalIterator.class.php")
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MembersOnlyFromTraversalIterator.class.php,v 1.1 2005/09/07 21:17:57 adamfranco Exp $
+ * @version $Id: MembersOnlyFromTraversalIterator.class.php,v 1.2 2007/04/12 15:37:26 adamfranco Exp $
  */
 class MembersOnlyFromTraversalIterator
 	extends AgentFilteringFromTraversalIterator

@@ -1,4 +1,4 @@
-<?
+<?php
 
 require_once(dirname(__FILE__)."/HarmoniIterator.class.php");
 
@@ -10,7 +10,7 @@ require_once(dirname(__FILE__)."/HarmoniIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MultiIteratorIterator.class.php,v 1.2 2006/12/06 19:49:26 adamfranco Exp $
+ * @version $Id: MultiIteratorIterator.class.php,v 1.3 2007/04/12 15:37:33 adamfranco Exp $
  */
 class MultiIteratorIterator
 	extends HarmoniIterator

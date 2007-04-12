@@ -1,11 +1,11 @@
-<?
+<?php
 /**
  * @package harmoni.utilities
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Cache.class.php,v 1.1 2005/06/09 20:37:29 gabeschine Exp $
+ * @version $Id: Cache.class.php,v 1.2 2007/04/12 15:37:34 adamfranco Exp $
  */
 
 define("CACHE_VARIABLE","__cache");
@@ -20,7 +20,7 @@ unset($_temp);
  * by "filing". 
  * @package harmoni.utilities
  * @copyright 2004
- * @version $Id: Cache.class.php,v 1.1 2005/06/09 20:37:29 gabeschine Exp $
+ * @version $Id: Cache.class.php,v 1.2 2007/04/12 15:37:34 adamfranco Exp $
  */
 class Cache {
 

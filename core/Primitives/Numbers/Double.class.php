@@ -1,4 +1,4 @@
-<?
+<?php
 
 /**
  * @since 7/14/05
@@ -7,7 +7,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Double.class.php,v 1.3 2006/03/14 22:02:42 cws-midd Exp $
+ * @version $Id: Double.class.php,v 1.4 2007/04/12 15:37:22 adamfranco Exp $
  */ 
 
 require_once(dirname(__FILE__)."/Float.class.php");
@@ -20,7 +20,7 @@ require_once(dirname(__FILE__)."/Float.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Double.class.php,v 1.3 2006/03/14 22:02:42 cws-midd Exp $
+ * @version $Id: Double.class.php,v 1.4 2007/04/12 15:37:22 adamfranco Exp $
  */
 class Double 
 	extends Float

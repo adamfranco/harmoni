@@ -1,4 +1,4 @@
-<?
+<?php
 
 /**
  * This interface allows for the storage into a database (or other medium) the data contained in a {@link Primitive} data type.
@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorablePrimitive.interface.php,v 1.5 2005/07/13 19:59:41 adamfranco Exp $
+ * @version $Id: StorablePrimitive.interface.php,v 1.6 2007/04/12 15:37:24 adamfranco Exp $
  */
 class StorablePrimitive {
 	

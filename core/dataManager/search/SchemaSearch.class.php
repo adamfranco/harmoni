@@ -1,4 +1,4 @@
-<?
+<?php
 
 require_once HARMONI."dataManager/search/SearchCriteria.interface.php";
 
@@ -10,7 +10,7 @@ require_once HARMONI."dataManager/search/SearchCriteria.interface.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SchemaSearch.class.php,v 1.6 2005/07/18 14:45:24 gabeschine Exp $
+ * @version $Id: SchemaSearch.class.php,v 1.7 2007/04/12 15:37:25 adamfranco Exp $
  */
 class SchemaSearch extends SearchCriteria {
 	

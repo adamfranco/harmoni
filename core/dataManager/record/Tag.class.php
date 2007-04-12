@@ -1,4 +1,4 @@
-<?
+<?php
 
 /**
  * Stores the mapping between a RecordTag and the specific versions of values within a Record that were
@@ -11,7 +11,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Tag.class.php,v 1.8 2006/11/30 22:02:16 adamfranco Exp $
+ * @version $Id: Tag.class.php,v 1.9 2007/04/12 15:37:25 adamfranco Exp $
  */
 class RecordTag {
 	

@@ -1,4 +1,4 @@
-<?
+<?php
 
 require_once(OKI2."/osid/shared/TypeIterator.php");
 require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
@@ -32,7 +32,7 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniTypeIterator.class.php,v 1.8 2005/02/07 21:38:27 adamfranco Exp $
+ * @version $Id: HarmoniTypeIterator.class.php,v 1.9 2007/04/12 15:37:33 adamfranco Exp $
  */
 class HarmoniTypeIterator
 	extends HarmoniIterator

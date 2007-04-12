@@ -1,4 +1,4 @@
-<?
+<?php
 
 require_once HARMONI."dataManager/versionConstraints/VersionConstraint.interface.php";
 
@@ -12,7 +12,7 @@ require_once HARMONI."dataManager/versionConstraints/VersionConstraint.interface
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateVersionConstraint.class.php,v 1.4 2006/11/30 22:02:17 adamfranco Exp $
+ * @version $Id: DateVersionConstraint.class.php,v 1.5 2007/04/12 15:37:26 adamfranco Exp $
  */
 class DateVersionConstraint extends VersionConstraint {
 	

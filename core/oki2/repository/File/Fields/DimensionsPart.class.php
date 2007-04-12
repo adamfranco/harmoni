@@ -1,11 +1,11 @@
-<?
+<?php
 /**
  * @package harmoni.osid_v2.repository
  * 
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: DimensionsPart.class.php,v 1.10 2006/12/06 20:45:00 adamfranco Exp $
+ * @version $Id: DimensionsPart.class.php,v 1.11 2007/04/12 15:37:32 adamfranco Exp $
  */
  
 require_once(dirname(__FILE__)."/../getid3.getimagesize.php");
@@ -21,7 +21,7 @@ require_once(dirname(__FILE__)."/../getid3.getimagesize.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: DimensionsPart.class.php,v 1.10 2006/12/06 20:45:00 adamfranco Exp $
+ * @version $Id: DimensionsPart.class.php,v 1.11 2007/04/12 15:37:32 adamfranco Exp $
  */
 class DimensionsPart 
 	extends Part

@@ -1,4 +1,4 @@
-<?
+<?php
 
 
 require_once HARMONI."actionHandler/ActionSource.abstract.php";
@@ -18,7 +18,7 @@ require_once HARMONI."actionHandler/ActionSource.abstract.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: FlatFileActionSource.class.php,v 1.5 2005/01/19 22:27:48 adamfranco Exp $
+ * @version $Id: FlatFileActionSource.class.php,v 1.6 2007/04/12 15:37:23 adamfranco Exp $
  */
 class FlatFileActionSource extends ActionSource{
 

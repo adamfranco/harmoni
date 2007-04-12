@@ -1,4 +1,4 @@
-<?
+<?php
 
 require_once(OKI2."/osid/hierarchy/Hierarchy.php");
 require_once(HARMONI.'/oki2/hierarchy/HarmoniNode.class.php');
@@ -24,7 +24,7 @@ require_once(HARMONI.'/oki2/hierarchy/DefaultNodeType.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniHierarchy.class.php,v 1.19 2006/02/28 18:59:59 adamfranco Exp $
+ * @version $Id: HarmoniHierarchy.class.php,v 1.20 2007/04/12 15:37:31 adamfranco Exp $
  */
 
 class HarmoniHierarchy 

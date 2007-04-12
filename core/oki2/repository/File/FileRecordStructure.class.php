@@ -1,4 +1,4 @@
-<?
+<?php
 
 require_once(dirname(__FILE__)."/Fields/FileDataPartStructure.class.php");
 require_once(dirname(__FILE__)."/Fields/FileNamePartStructure.class.php");
@@ -28,7 +28,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartStructureIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileRecordStructure.class.php,v 1.12 2006/12/06 20:44:59 adamfranco Exp $ 
+ * @version $Id: FileRecordStructure.class.php,v 1.13 2007/04/12 15:37:32 adamfranco Exp $ 
  */
 class HarmoniFileRecordStructure 
 	extends RecordStructure

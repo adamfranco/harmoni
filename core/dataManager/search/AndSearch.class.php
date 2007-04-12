@@ -1,4 +1,4 @@
-<?
+<?php
 
 require_once HARMONI."dataManager/search/MultipleCriteriaSearch.abstract.php";
 
@@ -10,7 +10,7 @@ require_once HARMONI."dataManager/search/MultipleCriteriaSearch.abstract.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AndSearch.class.php,v 1.4 2005/01/19 21:09:43 adamfranco Exp $
+ * @version $Id: AndSearch.class.php,v 1.5 2007/04/12 15:37:25 adamfranco Exp $
  */
 class AndSearch extends MultipleCriteriaSearch {
 	

@@ -1,4 +1,4 @@
-<?
+<?php
 require_once(OKI2."osid/repository/RecordStructure.php");
 require_once(HARMONI."/oki2/repository/HarmoniPartStructure.class.php");
 require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
@@ -23,7 +23,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRecordStructure.class.php,v 1.34 2006/06/16 14:34:20 adamfranco Exp $ 
+ * @version $Id: HarmoniRecordStructure.class.php,v 1.35 2007/04/12 15:37:31 adamfranco Exp $ 
  */
 
 class HarmoniRecordStructure 

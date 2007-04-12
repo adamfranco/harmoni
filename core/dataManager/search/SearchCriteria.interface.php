@@ -1,4 +1,4 @@
-<?
+<?php
 
 /**
  * @constant int SEARCH_TYPE_EQUALS Specifies a search of value1=value2.
@@ -52,7 +52,7 @@ define("SEARCH_TYPE_NOT_IN_LIST", 7);
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SearchCriteria.interface.php,v 1.4 2006/04/28 15:53:21 adamfranco Exp $
+ * @version $Id: SearchCriteria.interface.php,v 1.5 2007/04/12 15:37:25 adamfranco Exp $
  */
 class SearchCriteria {
 	

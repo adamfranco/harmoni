@@ -1,4 +1,4 @@
-<?
+<?php
 
 require_once(OKI2."/osid/agent/AgentManager.php");
 require_once(OKI2."/osid/agent/AgentException.php");
@@ -50,7 +50,7 @@ require_once(HARMONI."oki2/agent/EveryoneGroup.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgentManager.class.php,v 1.44 2007/03/21 15:51:56 adamfranco Exp $
+ * @version $Id: HarmoniAgentManager.class.php,v 1.45 2007/04/12 15:37:26 adamfranco Exp $
  *
  * @author Adam Franco
  * @author Dobromir Radichkov

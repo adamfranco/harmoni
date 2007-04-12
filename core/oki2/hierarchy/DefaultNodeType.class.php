@@ -1,4 +1,4 @@
-<?
+<?php
 
 require_once(HARMONI."oki2/shared/HarmoniType.class.php");
 
@@ -10,7 +10,7 @@ require_once(HARMONI."oki2/shared/HarmoniType.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DefaultNodeType.class.php,v 1.6 2005/04/13 21:58:05 adamfranco Exp $
+ * @version $Id: DefaultNodeType.class.php,v 1.7 2007/04/12 15:37:31 adamfranco Exp $
  **/
 
 class DefaultNodeType 

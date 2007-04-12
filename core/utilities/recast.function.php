@@ -1,4 +1,4 @@
-<?
+<?php
 
 /**
  * Re-casts a given object $old_object to a new class ($new_classname).
@@ -11,7 +11,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: recast.function.php,v 1.5 2006/01/17 21:19:10 adamfranco Exp $
+ * @version $Id: recast.function.php,v 1.6 2007/04/12 15:37:34 adamfranco Exp $
  */
 function &recast(&$old_object, $new_classname) {
 	if(class_exists($new_classname)) {
