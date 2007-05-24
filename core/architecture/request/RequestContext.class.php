@@ -11,7 +11,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RequestContext.class.php,v 1.22 2007/03/08 16:20:43 adamfranco Exp $
+ * @version $Id: RequestContext.class.php,v 1.23 2007/05/24 15:02:10 adamfranco Exp $
  */
 
 define("REQUEST_HANDLER_CONTEXT_DELIMETER", "___");
@@ -212,6 +212,30 @@ END;
 	function getRequestedModuleAction() {
 		$this->_checkForHandler();
 		return $this->_requestHandler->getRequestedModuleAction();
+	}
+	
+	/**
+	 * Answer the currently requested module
+	 * 
+	 * @return string
+	 * @access public
+	 * @since 5/23/07
+	 */
+	function getRequestedModule () {
+		$parts = explode(".", $this->getRequestedModuleAction());
+		return $parts[0];
+	}
+	
+	/**
+	 * Answer the currently requested action
+	 * 
+	 * @return string
+	 * @access public
+	 * @since 5/23/07
+	 */
+	function getRequestedAction () {
+		$parts = explode(".", $this->getRequestedModuleAction());
+		return $parts[1];
 	}
 	
 	/**

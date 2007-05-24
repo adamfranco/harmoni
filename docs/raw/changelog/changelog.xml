@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.145 2007/04/12 15:44:29 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.146 2007/05/24 15:02:11 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -12,6 +12,9 @@
 		<fix author='adam'>	
 			Converting all short tags (&lt;?) to the full tags (&lt;?php) for 
 			compatibility with more PHP configurations.
+		</fix>
+		<fix author='adam'>	
+			Request: Added methods to ease access to the current module and action.
 		</fix>
 	</version>
 	<version number="0.10.1" date="2007-04-10">
