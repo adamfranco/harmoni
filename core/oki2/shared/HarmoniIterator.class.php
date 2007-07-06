@@ -10,7 +10,7 @@ require_once(HARMONI."Primitives/Objects/SObject.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniIterator.class.php,v 1.10 2007/04/12 15:37:33 adamfranco Exp $
+ * @version $Id: HarmoniIterator.class.php,v 1.11 2007/07/06 17:53:39 adamfranco Exp $
  */
 class HarmoniIterator
 	extends SObject
@@ -39,6 +39,20 @@ class HarmoniIterator
 		foreach (array_keys($elementArray) as $i => $key) {
 			$this->_elements[] =& $elementArray[$key];
 		}
+	}
+	
+	/**
+	 * Add an item to the iterator.
+	 *
+	 * WARNING: NOT IN OSID
+	 * 
+	 * @param ref mixed $element
+	 * @return void
+	 * @access public
+	 * @since 7/3/07
+	 */
+	function add ( &$element ) {
+		$this->_elements[] =& $element;
 	}
 
 	// public boolean hasNext();
