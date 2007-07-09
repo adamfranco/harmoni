@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAsset.class.php,v 1.43 2007/04/12 15:37:31 adamfranco Exp $
+ * @version $Id: HarmoniAsset.class.php,v 1.44 2007/07/09 20:06:08 adamfranco Exp $
  */
 
 require_once(HARMONI."oki2/repository/HarmoniAsset.interface.php");
@@ -26,7 +26,7 @@ require_once(dirname(__FILE__)."/FromNodesAssetIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniAsset.class.php,v 1.43 2007/04/12 15:37:31 adamfranco Exp $ 
+ * @version $Id: HarmoniAsset.class.php,v 1.44 2007/07/09 20:06:08 adamfranco Exp $ 
  */
 
 class HarmoniAsset
@@ -1647,19 +1647,51 @@ class HarmoniAsset
 		else
 			$values[] = 'NULL';
 			
-		if (is_object($this->_createDate) && $this->_createDate->isNotEqualTo(DateAndTime::epoch()))
+		if (is_object($this->_createDate) && $this->_createDate->isNotEqualTo(DateAndTime::epoch())) {
 			$values[] = $dbHandler->toDBDate($this->_createDate, $this->_dbIndex);
-		else
+			$values[] = 'NOW()';
+		} 
+		// We are creating the asset.
+		else {
+			$values[] = 'NOW()';
 			$values[] = 'NOW()';
 			
-		$values[] = 'NOW()';
-			
-			
+			// Add the creator
+			$columns[] = "creator";
+			$agentId =& $this->_getCurrentAgent();
+			$values[] = $agentId->getIdString();
+		}
+		
 		$query->setColumns($columns);
 		$query->setValues($values);
 		$query->setTable("dr_asset_info");
 		
 		$result =& $dbHandler->query($query, $this->_dbIndex);
+	}
+	
+	/**
+	 * Answer the current agent id
+	 * 
+	 * @return object Id
+	 * @access private
+	 * @since 7/9/07
+	 */
+	function _getCurrentAgent () {
+		$authN =& Services::getService("AuthN");
+		$agentM =& Services::getService("Agent");
+		$idM =& Services::getService("Id");
+		$authTypes =& $authN->getAuthenticationTypes();
+		
+		while ($authTypes->hasNext()) {
+			$authType =& $authTypes->next();
+			$id =& $authN->getUserId($authType);
+			if (!$id->isEqual($idM->getId('edu.middlebury.agents.anonymous'))) {
+				return $id;
+			}
+		}
+		
+		// If we didn't find an agent, return the anonymous id.
+		return $idM->getId('edu.middlebury.agents.anonymous');
 	}
 	
 	/**
@@ -1679,6 +1711,7 @@ class HarmoniAsset
 		$query->addColumn("effective_date");
 		$query->addColumn("expiration_date");
 		$query->addColumn("create_timestamp");
+		$query->addColumn("creator");
 		$query->addColumn("modify_timestamp");
 		$query->addWhere("asset_id='".$id->getIdString()."'");
 		
@@ -1689,6 +1722,7 @@ class HarmoniAsset
 			$this->_effectiveDate =& $dbHandler->fromDBDate($result->field("effective_date"), $this->_dbIndex);
 			$this->_expirationDate =& $dbHandler->fromDBDate($result->field("expiration_date"), $this->_dbIndex);
 			$this->_createDate =& $dbHandler->fromDBDate($result->field("create_timestamp"), $this->_dbIndex);
+			$this->_creator = $result->field("creator");
 			$this->_modifyDate =& $dbHandler->fromDBDate($result->field("modify_timestamp"), $this->_dbIndex);
 			$this->_datesInDB = TRUE;
 			
@@ -1703,6 +1737,7 @@ class HarmoniAsset
 			$this->_expirationDate = NULL;
 			$this->_createDate =& DateAndTime::epoch();
 			$this->_modifyDate =& DateAndTime::epoch();
+			$this->_creator = NULL;
 			$this->_datesInDB = FALSE;
 		}
 		
@@ -1760,6 +1795,29 @@ class HarmoniAsset
 		}
 		
 		return $this->_createDate;
+	}
+	
+	/**
+	 * Answer the Id of the agent that created the asset
+	 * 
+	 * WARNING: NOT IN OSID
+	 * 
+	 * @return object Id
+	 * @access public
+	 * @since 7/9/07
+	 */
+	function &getCreator () {
+		if (!isset($this->_creator)) {
+			$this->_loadDates();
+		}
+		
+		if (is_null($this->_creator)) {
+			$null = null;
+			return $null;
+		} else {
+			$idManager =& Services::getService("Id");
+			return $idManager->getId($this->_creator);
+		}
 	}
 	
 	/**

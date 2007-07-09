@@ -3,12 +3,15 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.147 2007/07/06 17:53:40 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.148 2007/07/09 20:06:09 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
 	<version number="0.10.2" date="The Future">
+		<new author='adam'>
+			Repository: Assets can now store and retrieve the id of their creator.
+		</new>
 		<new author='adam'>
 			HarmoniIterator now supports the add($item) method to allow incremental
 			addition of items to the iterator.
