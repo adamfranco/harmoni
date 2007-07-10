@@ -48,7 +48,7 @@ require_once(dirname(__FILE__)."/SearchModules/AuthoritativeValuesSearch.class.p
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepository.class.php,v 1.60 2007/04/12 15:37:31 adamfranco Exp $ 
+ * @version $Id: HarmoniRepository.class.php,v 1.61 2007/07/10 20:58:25 adamfranco Exp $ 
  */
 
 class HarmoniRepository
@@ -336,6 +336,8 @@ class HarmoniRepository
 		
 		// Create the asset with its new ID and cache it.
 		$this->_createdAssets[$id->getIdString()] =& new HarmoniAsset($this->_hierarchy, $this, $id, $this->_configuration);
+		
+		$this->_createdAssets[$id->getIdString()]->updateModificationDate();
 		
 		return $this->_createdAssets[$id->getIdString()];
 	}

@@ -3,12 +3,16 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.148 2007/07/09 20:06:09 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.149 2007/07/10 20:59:23 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
 	<version number="0.10.2" date="The Future">
+		<fix author='adam'>	
+			Repository: Creation date is now added properly when Assets are created,
+			instead of on the first modification.
+		</fix>
 		<new author='adam'>
 			Repository: Assets can now store and retrieve the id of their creator.
 		</new>

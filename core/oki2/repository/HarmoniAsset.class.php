@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAsset.class.php,v 1.44 2007/07/09 20:06:08 adamfranco Exp $
+ * @version $Id: HarmoniAsset.class.php,v 1.45 2007/07/10 20:58:25 adamfranco Exp $
  */
 
 require_once(HARMONI."oki2/repository/HarmoniAsset.interface.php");
@@ -26,7 +26,7 @@ require_once(dirname(__FILE__)."/FromNodesAssetIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniAsset.class.php,v 1.44 2007/07/09 20:06:08 adamfranco Exp $ 
+ * @version $Id: HarmoniAsset.class.php,v 1.45 2007/07/10 20:58:25 adamfranco Exp $ 
  */
 
 class HarmoniAsset
@@ -46,6 +46,7 @@ class HarmoniAsset
 	
 	var $_effectiveDate;
 	var $_expirationDate;
+	var $_datesInDB = FALSE;
 	
 	/**
 	 * Constructor
@@ -1676,7 +1677,7 @@ class HarmoniAsset
 	 * @access private
 	 * @since 7/9/07
 	 */
-	function _getCurrentAgent () {
+	function &_getCurrentAgent () {
 		$authN =& Services::getService("AuthN");
 		$agentM =& Services::getService("Agent");
 		$idM =& Services::getService("Id");
@@ -1790,7 +1791,7 @@ class HarmoniAsset
      * @access public
      */
     function &getCreationDate () { 
-		if (!isset($this->_createDate)) {
+		if (!isset($this->_createDate) || $this->_createDate->isEqualTo(DateAndTime::epoch())) {
 			$this->_loadDates();
 		}
 		
@@ -1842,7 +1843,7 @@ class HarmoniAsset
      * @access public
      */
     function &getModificationDate () { 
-		if (!isset($this->_modifyDate)) {
+		if (!isset($this->_modifyDate) || $this->_modifyDate->isEqualTo(DateAndTime::epoch())) {
 			$this->_loadDates();
 		}
 		
