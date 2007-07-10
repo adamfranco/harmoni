@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Query.abstract.php,v 1.3 2007/03/09 19:06:07 adamfranco Exp $
+ * @version $Id: Query.abstract.php,v 1.4 2007/07/10 20:57:53 adamfranco Exp $
  */
 require_once(HARMONI."DBHandler/Query.interface.php");
 
@@ -18,7 +18,7 @@ require_once(HARMONI."DBHandler/Query.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Query.abstract.php,v 1.3 2007/03/09 19:06:07 adamfranco Exp $
+ * @version $Id: Query.abstract.php,v 1.4 2007/07/10 20:57:53 adamfranco Exp $
  */
 
 class Query extends QueryInterface { 
@@ -359,6 +359,19 @@ class Query extends QueryInterface {
 		$string .= implode(", ", $values);
 		$string .= ")";
 		$this->addWhere($string, $logicalOperation);
+	}
+	
+	/**
+	 * Answer a string representation of the query.
+	 * 
+	 * @param int $dbIndex
+	 * @return string
+	 * @access public
+	 * @since 7/10/07
+	 */
+	function asString ($dbIndex = 0) {
+		$dbc = Services::getService('DBHandler');
+		return $dbc->generateSQL($this, $dbIndex);
 	}
 }
 
