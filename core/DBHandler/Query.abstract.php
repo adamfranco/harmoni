@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Query.abstract.php,v 1.4 2007/07/10 20:57:53 adamfranco Exp $
+ * @version $Id: Query.abstract.php,v 1.5 2007/07/30 18:18:55 adamfranco Exp $
  */
 require_once(HARMONI."DBHandler/Query.interface.php");
 
@@ -18,7 +18,7 @@ require_once(HARMONI."DBHandler/Query.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Query.abstract.php,v 1.4 2007/07/10 20:57:53 adamfranco Exp $
+ * @version $Id: Query.abstract.php,v 1.5 2007/07/30 18:18:55 adamfranco Exp $
  */
 
 class Query extends QueryInterface { 
@@ -59,7 +59,7 @@ class Query extends QueryInterface {
 	 * @since 3/9/07
 	 */
 	function cleanColumn ( $column ) {
-		if (!preg_match('/^[a-z0-9_]+$/i', $column))
+		if (!preg_match('/^[a-z0-9_\.]+$/i', $column))
 			throwError(new Error("Invalid SQL column, '".$column."'"));
 		return $column;
 	}
