@@ -64,7 +64,7 @@ require_once(dirname(__FILE__)."/FormActionNamePassTokenCollector.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthenticationManager.class.php,v 1.26 2006/12/12 18:00:47 adamfranco Exp $
+ * @version $Id: HarmoniAuthenticationManager.class.php,v 1.27 2007/07/30 18:21:35 adamfranco Exp $
  */
 class HarmoniAuthenticationManager 
 	extends AuthenticationManager
@@ -360,6 +360,49 @@ class HarmoniAuthenticationManager
 		} else {
 			return $idManager->getId("edu.middlebury.agents.anonymous");
 		}
+	}
+	
+	/**
+	 * Answer true if the current user is authenticated with any authentication
+	 * type.
+	 *
+	 * WARNING: NOT IN OSID
+	 * 
+	 * @return boolean
+	 * @access public
+	 * @since 7/26/07
+	 */
+	function isUserAuthenticatedWithAnyType () {
+		$authTypes =& $this->getAuthenticationTypes();
+		while ($authTypes->hasNext()) {
+			if ($this->isAuthenticated($authTypes->next()))
+				return true;
+		}
+		
+		return false;
+	}
+	/**
+	 * Answer the first authenticated Id found for the current user or anonymous
+	 * if none is found. 
+	 *
+	 * WARNING: NOT IN OSID
+	 * 
+	 * @return object Id.
+	 * @access public
+	 * @since 7/26/07
+	 */
+	function &getFirstUserId () {
+		$authTypes =& $this->getAuthenticationTypes();
+		while ($authTypes->hasNext()) {
+			$authType =& $authTypes->next();
+			if ($this->isUserAuthenticated($authType)) {
+				$id =& $this->getUserId($authType);
+				return $id;
+			}
+		}
+		
+		$idManager =& Services::getService("Id");
+		return $idManager->getId("edu.middlebury.agents.anonymous");
 	}
 
 	/**
