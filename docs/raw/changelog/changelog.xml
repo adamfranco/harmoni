@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.152 2007/08/22 14:45:45 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.153 2007/08/22 20:13:53 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -12,6 +12,12 @@
 		<important author='adam'>
 			As of this version, Harmoni no longer supports PHP4. Please use PHP5 or later.
 		</important>
+		<change author='adam'>
+			GUI: Now can include an xmlns namespace in the &lt;html&gt; tag.
+		</change>
+		<change author='adam'>
+			Id: Id can now be transparently cast as a string.
+		</change>
 		<change author='adam'>
 			Updating the Agent Package to use PHP5 interfaces to allow for type-checking.
 		</change>
