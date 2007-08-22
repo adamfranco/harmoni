@@ -1,6 +1,7 @@
 <?php
 
 require_once(dirname(__FILE__)."/GroupsOnlyFromTraversalIterator.class.php");
+require_once(OKI2."/osid/agent/Group.php");
 
 /**
  * Group contains members that are either Agents or other Groups.  There are
@@ -22,12 +23,12 @@ require_once(dirname(__FILE__)."/GroupsOnlyFromTraversalIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniGroup.class.php,v 1.22 2007/01/30 20:44:47 adamfranco Exp $
+ * @version $Id: HarmoniGroup.class.php,v 1.23 2007/08/22 14:45:44 adamfranco Exp $
  */
 class HarmoniGroup
 	extends HarmoniAgent
+	implements Group
 {
-
 
 		
 	/**
@@ -98,10 +99,17 @@ class HarmoniGroup
 	 * 
 	 * @access public
 	 */
-	function add ( &$memberOrGroup ) { 
+	function add ( $memberOrGroup ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($memberOrGroup, ExtendsValidatorRule::getRule("Agent"), true);
 		// ** end of parameter validation
+		
+		// The way groups are currently implemented, it isn't possible to
+		// add an LdapGroup to a HarmoniGroup. That should be updated to
+		// make this work.
+		if (!isset($memberOrGroup->_node)) {
+			throw new Exception("The way groups are currently implemented, it isn't possible to add an LdapGroup to a HarmoniGroup. That should be updated to make this work.");
+		}
 		
 // 		print "<div style='border: 1px dotted;, margin: 10px; padding: 10px; background-color: #faa;'>";
 // 		printpre("<strong>Adding agent, ".$memberOrGroup->getDisplayName().", to group, ".$this->getDisplayName().".</strong>");
@@ -131,7 +139,7 @@ class HarmoniGroup
 	 * 
 	 * @access public
 	 */
-	function remove ( &$memberOrGroup ) {
+	function remove ( $memberOrGroup ) {
 		// ** parameter validation
 		ArgumentValidator::validate($memberOrGroup, ExtendsValidatorRule::getRule("Agent"), true);
 		// ** end of parameter validation
@@ -162,7 +170,7 @@ class HarmoniGroup
 	 * 
 	 * @access public
 	 */
-	function &getMembers ( $includeSubgroups ) { 
+	function getMembers ( $includeSubgroups ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($includeSubgroups, BooleanValidatorRule::getRule(), true);
 		// ** end of parameter validation
@@ -172,11 +180,11 @@ class HarmoniGroup
 		else
 			$levels = 1;
 			
-		$traversalIterator =& $this->_hierarchy->traverse($this->getId(),
+		$traversalIterator = $this->_hierarchy->traverse($this->getId(),
 			Hierarchy::TRAVERSE_MODE_DEPTH_FIRST(), Hierarchy::TRAVERSE_DIRECTION_DOWN(), 
 			$levels);
 			
-		$members =& new MembersOnlyFromTraversalIterator($traversalIterator);
+		$members = new MembersOnlyFromTraversalIterator($traversalIterator);
 		
 		return $members;
 	}
@@ -203,7 +211,7 @@ class HarmoniGroup
 	 * 
 	 * @access public
 	 */
-	function &getGroups ( $includeSubgroups ) { 
+	function getGroups ( $includeSubgroups ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($includeSubgroups, BooleanValidatorRule::getRule(), true);
 		// ** end of parameter validation
@@ -213,11 +221,11 @@ class HarmoniGroup
 		else
 			$levels = 1;
 			
-		$traversalIterator =& $this->_hierarchy->traverse($this->getId(),
+		$traversalIterator = $this->_hierarchy->traverse($this->getId(),
 			Hierarchy::TRAVERSE_MODE_DEPTH_FIRST(), Hierarchy::TRAVERSE_DIRECTION_DOWN(), 
 			$levels);
 		
-		$groups =& new GroupsOnlyFromTraversalIterator($traversalIterator, $this->getId());
+		$groups = new GroupsOnlyFromTraversalIterator($traversalIterator, $this->getId());
 		
 		return $groups;
 	}
@@ -246,25 +254,25 @@ class HarmoniGroup
 	 * 
 	 * @access public
 	 */
-	function contains ( &$memberOrGroup, $searchSubgroups ) { 
+	function contains ( $memberOrGroup, $searchSubgroups ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($memberOrGroup, ExtendsValidatorRule::getRule("Agent"), true);
 		ArgumentValidator::validate($searchSubgroups, BooleanValidatorRule::getRule(), true);
 		// ** end of parameter validation
 		
-		$id =& $memberOrGroup->getId();
+		$id = $memberOrGroup->getId();
 
 		if ($includeSubgroups)
 			$levels = Hierarchy::TRAVERSE_LEVELS_ALL();
 		else
 			$levels = 1;
 			
-		$traversalIterator =& $this->_hierarchy->traverse($this->getId(),
+		$traversalIterator = $this->_hierarchy->traverse($this->getId(),
 			Hierarchy::TRAVERSE_MODE_DEPTH_FIRST(), Hierarchy::TRAVERSE_DIRECTION_DOWN(), 
 			$levels);
 		
 		while ($traversalIterator->hasNext()) {
-			$info =& $traversalIterator->next();
+			$info = $traversalIterator->next();
 			if ($id->isEqual($info->getNodeId()))
 				return true;
 		}

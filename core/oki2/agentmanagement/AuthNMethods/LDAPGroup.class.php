@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPGroup.class.php,v 1.2 2006/12/07 17:25:52 adamfranco Exp $
+ * @version $Id: LDAPGroup.class.php,v 1.3 2007/08/22 14:45:45 adamfranco Exp $
  */ 
 
 require_once(OKI2."/osid/agent/Group.php");
@@ -21,10 +21,10 @@ require_once(dirname(__FILE__)."/LDAPAgentIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPGroup.class.php,v 1.2 2006/12/07 17:25:52 adamfranco Exp $
+ * @version $Id: LDAPGroup.class.php,v 1.3 2007/08/22 14:45:45 adamfranco Exp $
  */
 class LDAPGroup
-	extends Group
+	implements Group
 {
 	
 	/**
@@ -36,7 +36,7 @@ class LDAPGroup
 	 * @access public
 	 * @since 2/24/06
 	 */
-	function LDAPGroup ( $idString, &$type, &$configuration, &$authNMethod ) {
+	function LDAPGroup ( $idString, $type, $configuration, $authNMethod ) {
 		ArgumentValidator::validate($idString, StringValidatorRule::getRule(), true);
 		ArgumentValidator::validate($type, 
 			ExtendsValidatorRule::getRule("Type"), true);
@@ -115,10 +115,10 @@ class LDAPGroup
 	 * 
 	 * @access public
 	 */
-	function &getId () { 
+	function getId () { 
 		if (!isset($this->_id)) {
-			$idManager =& Services::getService("Id");
-			$this->_id =& $idManager->getId($this->_idString);
+			$idManager = Services::getService("Id");
+			$this->_id = $idManager->getId($this->_idString);
 		}
 		return $this->_id;
 	} 
@@ -142,7 +142,7 @@ class LDAPGroup
 	 * @access public
 	 */
 	function getDisplayName () { 
-		$connector =& $this->_configuration->getProperty('connector');
+		$connector = $this->_configuration->getProperty('connector');
 		$fields = array("name");
 		$results = $connector->getInfo($this->_idString, $fields);
 		return $results['name'][0];
@@ -166,7 +166,7 @@ class LDAPGroup
 	 * 
 	 * @access public
 	 */
-	function &getType () { 
+	function getType () { 
 		return $this->_type;
 	} 
 
@@ -192,7 +192,7 @@ class LDAPGroup
 	 * 
 	 * @access public
 	 */
-	function add ( &$memberOrGroup ) { 
+	function add ( $memberOrGroup ) { 
 		throwError(new Error(AgentException::UNIMPLEMENTED(), "LDAPGroup", true));
 	} 
 
@@ -218,7 +218,7 @@ class LDAPGroup
 	 * 
 	 * @access public
 	 */
-	function remove ( &$memberOrGroup ) { 
+	function remove ( $memberOrGroup ) { 
 		throwError(new Error(AgentException::UNIMPLEMENTED(), "LDAPGroup", true));
 	} 
 
@@ -243,7 +243,7 @@ class LDAPGroup
 	 * 
 	 * @access public
 	 */
-	function &getMembers ( $includeSubgroups ) {
+	function getMembers ( $includeSubgroups ) {
 		if ($includeSubgroups) {
 			return $this->_getSubgroupMembers();
 		} else {
@@ -258,10 +258,10 @@ class LDAPGroup
 	 * @access private
 	 * @since 2/27/06
 	 */
-	function &_getMyMembers () {		
+	function _getMyMembers () {		
 		if (!isset($this->_myMembers)) {
 				
-			$connector =& $this->_configuration->getProperty('connector');
+			$connector = $this->_configuration->getProperty('connector');
 			
 			$fields = array("member");
 			$results = $connector->getInfo($this->_idString, $fields);
@@ -275,10 +275,10 @@ class LDAPGroup
 		}
 		
 		if (count($this->_myMembers) || count($this->_myMembersDNs))
-			$iterator =& new LDAPAgentIterator($this->_authNMethod, $this->_myMembers,
+			$iterator = new LDAPAgentIterator($this->_authNMethod, $this->_myMembers,
 												$this->_myMembersDNs);
 		else
-			$iterator =& new HarmoniIterator($this->_myMembers);
+			$iterator = new HarmoniIterator($this->_myMembers);
 		return $iterator;
 	}
 	
@@ -289,12 +289,12 @@ class LDAPGroup
 	 * @access private
 	 * @since 2/27/06
 	 */
-	function &_getSubgroupMembers () {
+	function _getSubgroupMembers () {
 		throwError(new Error(AgentException::UNIMPLEMENTED(), "LDAPGroup", true));
 		
 		if (!isset($this->_subgroupMembers)) {
 				
-			$connector =& $this->_configuration->getProperty('connector');
+			$connector = $this->_configuration->getProperty('connector');
 			
 			$fields = array("member");
 			$results = $connector->getInfo($this->_idString, $fields);
@@ -302,16 +302,16 @@ class LDAPGroup
 			
 			$this->_subgroupMembers = array();
 			if (isset($results['member']) && is_array($results['member'])) {
-				$authenticationManager =& Services::getService("AuthN");
-				$agentManager =& Services::getService("AgentManager");
+				$authenticationManager = Services::getService("AuthN");
+				$agentManager = Services::getService("AgentManager");
 				foreach ($results['member'] as $dn) {
-					$tokens =& $this->_authNMethod->createTokensForIdentifier($dn);
-					$agentId =& $authenticationManager->_getAgentIdForAuthNTokens($tokens, $this->_type);
-					$this->_subgroupMembers[] =& $agentManager->getAgent($agentId);
+					$tokens = $this->_authNMethod->createTokensForIdentifier($dn);
+					$agentId = $authenticationManager->_getAgentIdForAuthNTokens($tokens, $this->_type);
+					$this->_subgroupMembers[] = $agentManager->getAgent($agentId);
 				}
 			}
 		}
-		$iterator =& new HarmoniIterator($this->_subgroupMembers);
+		$iterator = new HarmoniIterator($this->_subgroupMembers);
 		return $iterator;
 	}
 
@@ -337,7 +337,7 @@ class LDAPGroup
 	 * 
 	 * @access public
 	 */
-	function &getGroups ( $includeSubgroups ) {
+	function getGroups ( $includeSubgroups ) {
 		if ($includeSubgroups) {
 			return $this->_getSubgroupGroups();
 		} else {
@@ -352,9 +352,9 @@ class LDAPGroup
 	 * @access private
 	 * @since 2/27/06
 	 */
-	function &_getMyGroups () {
+	function _getMyGroups () {
 		if (!isset($this->_myGroups)) {
-			$connector =& $this->_configuration->getProperty('connector');
+			$connector = $this->_configuration->getProperty('connector');
 			
 			$filter = "(objectclass=*)";
 			$dns = $connector->getDNsByList($filter, $this->_idString);
@@ -362,12 +362,12 @@ class LDAPGroup
 			$this->_myGroups = array();
 			foreach ($dns as $dn) {
 				if ($dn != $this->_idString)
-					$this->_myGroups[] =& new LDAPGroup($dn, $this->_type, 
+					$this->_myGroups[] = new LDAPGroup($dn, $this->_type, 
 										$this->_configuration, 
 										$this->_authNMethod);
 			}
 		}
-        $iterator =& new HarmoniIterator($this->_myGroups);
+        $iterator = new HarmoniIterator($this->_myGroups);
         return $iterator;
 	}
 	
@@ -378,11 +378,11 @@ class LDAPGroup
 	 * @access private
 	 * @since 2/27/06
 	 */
-	function &_getSubgroupGroups () {
+	function _getSubgroupGroups () {
 		throwError(new Error(AgentException::UNIMPLEMENTED(), "LDAPGroup", true));
 									 
 		if (!isset($this->_subgroupGroups)) {
-			$connector =& $this->_configuration->getProperty('connector');
+			$connector = $this->_configuration->getProperty('connector');
 			
 			$filter = "(objectclass=*)";
 			$dns = $connector->getDNsBySearch($filter, $this->_idString);
@@ -390,12 +390,12 @@ class LDAPGroup
 			$this->_subgroupGroups = array();
 			foreach ($dns as $dn) {
 				if ($dn != $this->_idString)
-					$this->_subgroupGroups[] =& new LDAPGroup($dn, $this->_type, 
+					$this->_subgroupGroups[] = new LDAPGroup($dn, $this->_type, 
 										$this->_configuration, 
 										$this->_authNMethod);
 			}
 		}
-        $iterator =& new HarmoniIterator($this->_subgroupGroups);
+        $iterator = new HarmoniIterator($this->_subgroupGroups);
         return $iterator;
 	}	
 
@@ -423,8 +423,31 @@ class LDAPGroup
 	 * 
 	 * @access public
 	 */
-	function contains ( &$memberOrGroup, $searchSubgroups ) { 
-		throwError(new Error(AgentException::UNIMPLEMENTED(), "LDAPGroup", true));
+	function contains ( $memberOrGroup, $searchSubgroups ) {
+		$myMembers = $this->getMembers(false);
+		while ($myMembers->hasNext()) {
+			if ($memberOrGroup->isEqual($myMembers->next()->getId())) {
+				return true;
+			}
+		}
+		
+		$myGroups = $this->getGroups(false);
+		while ($myGroups->hasNext()) {
+			if ($memberOrGroup->isEqual($myGroups->next()->getId())) {
+				return true;
+			}
+		}
+		
+		if ($searchSubgroups) {
+			$myGroups = $this->getGroups();
+			while ($myGroups->hasNext()) {
+				if ($myGroups->next()->contains($memberOrGroup, true)) {
+					return true;
+				}
+			}
+		}
+		
+		return false;
 	} 
 
 	/**
@@ -450,7 +473,7 @@ class LDAPGroup
 	 * 
 	 * @access public
 	 */
-	function &getPropertiesByType ( &$propertiesType ) { 
+	function getPropertiesByType ( $propertiesType ) { 
 		throwError(new Error(AgentException::UNIMPLEMENTED(), "LDAPGroup", true));
 	} 
 
@@ -476,7 +499,7 @@ class LDAPGroup
 	 * 
 	 * @access public
 	 */
-	function &getPropertyTypes () { 
+	function getPropertyTypes () { 
 		throwError(new Error(AgentException::UNIMPLEMENTED(), "LDAPGroup", true));
 	} 
 
@@ -498,7 +521,7 @@ class LDAPGroup
 	 * 
 	 * @access public
 	 */
-	function &getProperties () {
+	function getProperties () {
 		$a = array();
 		$i = new HarmoniIterator($a);
 		return $i;

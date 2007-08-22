@@ -3,12 +3,18 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.151 2007/07/30 18:21:36 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.152 2007/08/22 14:45:45 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
-	<version number="0.10.2" date="The Future">
+	<version number="0.11.0" date="The Future">
+		<important author='adam'>
+			As of this version, Harmoni no longer supports PHP4. Please use PHP5 or later.
+		</important>
+		<change author='adam'>
+			Updating the Agent Package to use PHP5 interfaces to allow for type-checking.
+		</change>
 		<new author='adam'>
 			Authentication: Adding methods to access a single current Agent. 
 			OSID v3 will specify a single agent authenticated at each time, rather

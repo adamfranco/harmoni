@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgent.class.php,v 1.19 2006/12/07 17:25:51 adamfranco Exp $
+ * @version $Id: HarmoniAgent.class.php,v 1.20 2007/08/22 14:45:44 adamfranco Exp $
  */
 
 require_once(OKI2."/osid/agent/Agent.php");
@@ -25,10 +25,10 @@ require_once(HARMONI."/oki2/shared/HarmoniPropertiesIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgent.class.php,v 1.19 2006/12/07 17:25:51 adamfranco Exp $
+ * @version $Id: HarmoniAgent.class.php,v 1.20 2007/08/22 14:45:44 adamfranco Exp $
  */
 class HarmoniAgent 
-	extends Agent
+	implements Agent
 {
 
 	/**
@@ -63,11 +63,11 @@ class HarmoniAgent
 		ArgumentValidator::validate($node, ExtendsValidatorRule::getRule("Node"), true);
 		ArgumentValidator::validate($hierarchy, ExtendsValidatorRule::getRule("Hierarchy"), true);
 		
-		$this->_hierarchy =& $hierarchy;
-		$this->_node =& $node;
+		$this->_hierarchy = $hierarchy;
+		$this->_node = $node;
 		
 		// set the local _idString
-		$id =& $this->getId();
+		$id = $this->getId();
 		$this->_idString = $id->getIdString();
 	}
 	
@@ -112,7 +112,7 @@ class HarmoniAgent
 	 * 
 	 * @access public
 	 */
-	function &getId () { 
+	function getId () { 
 		return $this->_node->getId();
 	}
 
@@ -134,7 +134,7 @@ class HarmoniAgent
 	 * 
 	 * @access public
 	 */
-	function &getType () { 
+	function getType () { 
 		return $this->_node->getType();
 	}
 
@@ -156,9 +156,9 @@ class HarmoniAgent
 	 * 
 	 * @access public
 	 */
-	function &getProperties () { 
-		$propertyManager =& Services::getService("Property");
-		$iterator =& new HarmoniPropertiesIterator(
+	function getProperties () { 
+		$propertyManager = Services::getService("Property");
+		$iterator = new HarmoniPropertiesIterator(
 			$propertyManager->retrieveProperties($this->_idString));
 			
 		return $iterator;
@@ -188,9 +188,9 @@ class HarmoniAgent
 	 * 
 	 * @access public
 	 */
-	function &getPropertiesByType ( &$propertiesType ) { 
-		$propertyManager =& Services::getService("Property");
-		$propertiesArray =& $propertyManager->retrieveProperties($this->_idString);
+	function getPropertiesByType ( $propertiesType ) { 
+		$propertyManager = Services::getService("Property");
+		$propertiesArray = $propertyManager->retrieveProperties($this->_idString);
 		
 		//if we don't have an object of the type, we'll want to return Null so we know that
 		$propertiesOfType=null;
@@ -199,7 +199,7 @@ class HarmoniAgent
 			if ($propertiesType->isEqual(
 					$propertiesArray[$key]->getType()))
 			{
-				$propertiesOfType =& $propertiesArray[$key];
+				$propertiesOfType = $propertiesArray[$key];
 			}
 		}
 		
@@ -225,20 +225,20 @@ class HarmoniAgent
 	 * 
 	 * @access public
 	 */
-	function &getPropertyTypes () { 
+	function getPropertyTypes () { 
 		$array = array();
-		$propertyManager =& Services::getService("Property");
-		$propertiesArray =& $propertyManager->retrieveProperties($this->_idString);
+		$propertyManager = Services::getService("Property");
+		$propertiesArray = $propertyManager->retrieveProperties($this->_idString);
 		
 		foreach (array_keys($propertiesArray) as $key) {
-			$type =& $propertiesArray[$key]->getType();
+			$type = $propertiesArray[$key]->getType();
 			$typeString = $type->getDomain()
 							."::".$type->getAuthority()
 							."::".$type->getKeyword();
-			$array[$typeString] =& $type;
+			$array[$typeString] = $type;
 		}
 		
-		$iterator =& new HarmoniIterator($array);
+		$iterator = new HarmoniIterator($array);
 		return $iterator;
 	
 	}

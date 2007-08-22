@@ -50,7 +50,7 @@ require_once(HARMONI."oki2/agent/EveryoneGroup.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgentManager.class.php,v 1.45 2007/04/12 15:37:26 adamfranco Exp $
+ * @version $Id: HarmoniAgentManager.class.php,v 1.46 2007/08/22 14:45:44 adamfranco Exp $
  *
  * @author Adam Franco
  * @author Dobromir Radichkov
@@ -526,7 +526,7 @@ class HarmoniAgentManager
 	 * 
 	 * @access public
 	 */
-	function &createGroup ( $displayName, &$groupType, $description, &$properties ) { 
+	function &createGroup ( $displayName, &$groupType, $description, &$properties, $id = null ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($groupType,  ExtendsValidatorRule::getRule("Type"), true);
 		ArgumentValidator::validate($displayName, StringValidatorRule::getRule(), true);
@@ -545,8 +545,12 @@ class HarmoniAgentManager
 		// ** end of parameter validation
 		
 		// create a new unique id for the group
-		$idManager =& Services::getService("Id");
-		$groupId =& $idManager->createId();
+		if (is_object($id) && method_exists($id, 'getIdString')) {
+			$groupId = $id;
+		} else {
+			$idManager =& Services::getService("Id");
+			$groupId =& $idManager->createId();
+		}
 		
 		// 1. Create the node
 		$hierarchyManager =& Services::getService("Hierarchy");

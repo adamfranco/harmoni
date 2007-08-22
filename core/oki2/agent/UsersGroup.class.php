@@ -17,7 +17,7 @@ require_once(dirname(__FILE__)."/HarmoniAgentIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: UsersGroup.class.php,v 1.9 2006/02/10 20:49:28 adamfranco Exp $
+ * @version $Id: UsersGroup.class.php,v 1.10 2007/08/22 14:45:44 adamfranco Exp $
  */
 class UsersGroup
 	extends HarmoniGroup
@@ -31,10 +31,10 @@ class UsersGroup
 	 * @access public
 	 */
 	function UsersGroup() {
-		$idManager =& Services::getService("Id");
-		$this->_id =& $idManager->getId("edu.middlebury.agents.users");
+		$idManager = Services::getService("Id");
+		$this->_id = $idManager->getId("edu.middlebury.agents.users");
 		$this->_idString = $this->_id->getIdString();
-		$this->_type =& new Type("Agents", "edu.middlebury.harmoni", "Any/Anonymous", 
+		$this->_type = new Type("Agents", "edu.middlebury.harmoni", "Any/Anonymous", 
 			_("Special group for only users that can be authenticated."));
 		$this->_displayName = _("Users");
 		$this->_description = _("The Users group contains all Agents that can be authenticated.");
@@ -42,7 +42,7 @@ class UsersGroup
 // 		$this->_propertiesArray = array();
 // 		$propertiesType = new HarmoniType('Agents', 'Harmoni', 'Agent Properties',
 // 						'Properties known to the Harmoni Agents System.');
-// 		$propertiesArray[0] =& new HarmoniProperties($propertiesType);
+// 		$propertiesArray[0] = new HarmoniProperties($propertiesType);
 		
 	}
 	
@@ -108,7 +108,7 @@ class UsersGroup
 	 * 
 	 * @access public
 	 */
-	function &getId () { 
+	function getId () { 
 		return $this->_id;
 	}
 
@@ -130,7 +130,7 @@ class UsersGroup
 	 * 
 	 * @access public
 	 */
-	function &getType () { 
+	function getType () { 
 		return $this->_type;
 	}
 		
@@ -180,7 +180,7 @@ class UsersGroup
 	 * 
 	 * @access public
 	 */
-	function add ( &$memberOrGroup ) { 
+	function add ( $memberOrGroup ) { 
 		throwError(new Error(AgentException::PERMISSION_DENIED(),"UsersGroup",true));
 	}
 
@@ -204,7 +204,7 @@ class UsersGroup
 	 *		   org.osid.agent.AgentException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * 
 	 */
-	function attach(& $memberOrGroup) {
+	function attach( $memberOrGroup) {
 		throwError(new Error(AgentException::PERMISSION_DENIED(),"UsersGroup",true));
 	}
 	
@@ -230,7 +230,7 @@ class UsersGroup
 	 * 
 	 * @access public
 	 */
-	function remove ( &$memberOrGroup ) {
+	function remove ( $memberOrGroup ) {
 		throwError(new Error(AgentException::PERMISSION_DENIED(),"UsersGroup",true));
 	}
 
@@ -256,10 +256,10 @@ class UsersGroup
 	 * 
 	 * @access public
 	 */
-	function &getMembers ( $includeSubgroups ) { 
-		$agentManager =& Services::getService("Agent");
-		$ids =& Services::getService("Id");
-		$obj =& new UsersGroupIterator($agentManager->getAgents());
+	function getMembers ( $includeSubgroups ) { 
+		$agentManager = Services::getService("Agent");
+		$ids = Services::getService("Id");
+		$obj = new UsersGroupIterator($agentManager->getAgents());
 		
 		return $obj;
 	}
@@ -286,9 +286,9 @@ class UsersGroup
 	 * 
 	 * @access public
 	 */
-	function &getGroups ( $includeSubgroups ) { 
+	function getGroups ( $includeSubgroups ) { 
 		$groups = array();		
-		$obj =& new HarmoniAgentIterator($groups);
+		$obj = new HarmoniAgentIterator($groups);
 		
 		return $obj;
 	}
@@ -317,13 +317,13 @@ class UsersGroup
 	 * 
 	 * @access public
 	 */
-	function contains ( &$memberOrGroup, $searchSubgroups ) {
+	function contains ( $memberOrGroup, $searchSubgroups ) {
 		// we are going to ignore the Everyone group and the Anonymous agent
 		// otherwise they are in the group
-		$ids =& Services::getService("Id");
+		$ids = Services::getService("Id");
 		$ignore = array("edu.middlebury.agents.users","edu.middlebury.agents.everyone","edu.middlebury.agents.anonymous");
 		foreach ($igonre as $id) {
-			$rId =& $ids->getId($id);
+			$rId = $ids->getId($id);
 			if ($rId->isEqual($memberOrGroup->getId())) return false;
 		}
 		return true;
@@ -342,7 +342,7 @@ class UsersGroup
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: UsersGroup.class.php,v 1.9 2006/02/10 20:49:28 adamfranco Exp $
+ * @version $Id: UsersGroup.class.php,v 1.10 2007/08/22 14:45:44 adamfranco Exp $
  */
 
 class UsersGroupIterator extends HarmoniAgentIterator {
@@ -350,11 +350,11 @@ class UsersGroupIterator extends HarmoniAgentIterator {
 	var $_next;
 	var $_ignore;
 	
-	function UsersGroupIterator(&$agentIterator) {
-		$this->_iterator =& $agentIterator;
+	function UsersGroupIterator($agentIterator) {
+		$this->_iterator = $agentIterator;
 		$this->_next = null;
-		$ids =& Services::getService("Id");
-		$this->_ignore =& $ids->getId("edu.middlebury.agents.anonymous");
+		$ids = Services::getService("Id");
+		$this->_ignore = $ids->getId("edu.middlebury.agents.anonymous");
 		
 		$this->_getNext();
 	}
@@ -365,7 +365,7 @@ class UsersGroupIterator extends HarmoniAgentIterator {
 			return;
 		}
 		
-		$this->_next =& $this->_iterator->next();
+		$this->_next = $this->_iterator->next();
 		
 		if ($this->_ignore->isEqual($this->_next->getId()))
 			$this->_getNext();
@@ -375,9 +375,9 @@ class UsersGroupIterator extends HarmoniAgentIterator {
 		return $this->_next?true:false;
 	}
 	
-	function &next() {
+	function next() {
 		if ($this->_next) {
-			$next =& $this->_next;
+			$next = $this->_next;
 			$this->_getNext();
 			return $next;
 		}

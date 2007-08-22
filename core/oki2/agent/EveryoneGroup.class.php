@@ -16,7 +16,7 @@ require_once(dirname(__FILE__)."/HarmoniGroup.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: EveryoneGroup.class.php,v 1.6 2006/02/28 21:32:42 adamfranco Exp $
+ * @version $Id: EveryoneGroup.class.php,v 1.7 2007/08/22 14:45:44 adamfranco Exp $
  */
 class EveryoneGroup
 	extends HarmoniGroup
@@ -68,7 +68,7 @@ class EveryoneGroup
 	 * 
 	 * @access public
 	 */
-	function add ( &$memberOrGroup ) { 
+	function add ( $memberOrGroup ) { 
 		throwError(new Error(AgentException::PERMISSION_DENIED(),"EveryoneGroup",true));
 	}
 
@@ -92,7 +92,7 @@ class EveryoneGroup
 	 *		   org.osid.agent.AgentException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * 
 	 */
-	function attach(& $memberOrGroup) {
+	function attach( $memberOrGroup) {
 		throwError(new Error(AgentException::PERMISSION_DENIED(),"EveryoneGroup",true));
 	}
 	
@@ -118,7 +118,7 @@ class EveryoneGroup
 	 * 
 	 * @access public
 	 */
-	function remove ( &$memberOrGroup ) {
+	function remove ( $memberOrGroup ) {
 		throwError(new Error(AgentException::PERMISSION_DENIED(),"EveryoneGroup",true));
 	}
 
@@ -144,10 +144,10 @@ class EveryoneGroup
 	 * 
 	 * @access public
 	 */
-	function &getMembers ( $includeSubgroups ) { 
-		$agentManager =& Services::getService("Agent");
+	function getMembers ( $includeSubgroups ) { 
+		$agentManager = Services::getService("Agent");
 		
-		$agents=&$agentManager->getAgents();
+		$agents=$agentManager->getAgents();
 		
 		return $agents;
 	}
@@ -174,26 +174,26 @@ class EveryoneGroup
 	 * 
 	 * @access public
 	 */
-	function &getGroups ( $includeSubgroups ) { 
-		$agentManager =& Services::getService("Agent");
-		$myId =& $this->getId();
+	function getGroups ( $includeSubgroups ) { 
+		$agentManager = Services::getService("Agent");
+		$myId = $this->getId();
 		
 		//Filter out ourself
 		if ($includeSubgroups)
-			$groupIterator =& $agentManager->getGroups();
+			$groupIterator = $agentManager->getGroups();
 		else
-			$groupIterator =& $agentManager->getGroupsBySearch($null = null, 
+			$groupIterator = $agentManager->getGroupsBySearch($null = null, 
 												new Type("Agent & Group Search",
 												"edu.middlebury.harmoni", 
 												"RootGroups"));
 		$groups = array();
 		while ($groupIterator->hasNext()) {
-			$group =& $groupIterator->next();
+			$group = $groupIterator->next();
 			if (!$myId->isEqual($group->getId()))
-				$groups[] =& $group;
+				$groups[] = $group;
 		}
 		
-		$obj =& new HarmoniAgentIterator($groups);
+		$obj = new HarmoniAgentIterator($groups);
 		
 		return $obj;
 	}
@@ -222,7 +222,7 @@ class EveryoneGroup
 	 * 
 	 * @access public
 	 */
-	function contains ( &$memberOrGroup, $searchSubgroups ) { 
+	function contains ( $memberOrGroup, $searchSubgroups ) { 
 		return true;
 	}
 }

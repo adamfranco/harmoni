@@ -23,121 +23,9 @@ include_once(dirname(__FILE__)."/../agent/Agent.php");
  * 
  * @package org.osid.agent
  */
-class Group
+interface Group
     extends Agent
 {
-    /**
-     * Update the Description of this Group.
-     * 
-     * @param string $description
-     * 
-     * @throws object AgentException An exception with one of the
-     *         following messages defined in org.osid.agent.AgentException may
-     *         be thrown:  {@link
-     *         org.osid.agent.AgentException#OPERATION_FAILED
-     *         OPERATION_FAILED}, {@link
-     *         org.osid.agent.AgentException#PERMISSION_DENIED
-     *         PERMISSION_DENIED}, {@link
-     *         org.osid.agent.AgentException#CONFIGURATION_ERROR
-     *         CONFIGURATION_ERROR}, {@link
-     *         org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED},
-     *         {@link org.osid.agent.AgentException#NULL_ARGUMENT
-     *         NULL_ARGUMENT}
-     * 
-     * @access public
-     */
-    function updateDescription ( $description ) { 
-        die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
-    } 
-
-    /**
-     * Get the Description of this Group.
-     *  
-     * @return string
-     * 
-     * @throws object AgentException An exception with one of the
-     *         following messages defined in org.osid.agent.AgentException may
-     *         be thrown:  {@link
-     *         org.osid.agent.AgentException#OPERATION_FAILED
-     *         OPERATION_FAILED}, {@link
-     *         org.osid.agent.AgentException#PERMISSION_DENIED
-     *         PERMISSION_DENIED}, {@link
-     *         org.osid.agent.AgentException#CONFIGURATION_ERROR
-     *         CONFIGURATION_ERROR}, {@link
-     *         org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
-     * 
-     * @access public
-     */
-    function getDescription () { 
-        die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
-    } 
-
-    /**
-     * Get the unique Id of this Group.
-     *  
-     * @return object Id
-     * 
-     * @throws object AgentException An exception with one of the
-     *         following messages defined in org.osid.agent.AgentException may
-     *         be thrown:  {@link
-     *         org.osid.agent.AgentException#OPERATION_FAILED
-     *         OPERATION_FAILED}, {@link
-     *         org.osid.agent.AgentException#PERMISSION_DENIED
-     *         PERMISSION_DENIED}, {@link
-     *         org.osid.agent.AgentException#CONFIGURATION_ERROR
-     *         CONFIGURATION_ERROR}, {@link
-     *         org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
-     * 
-     * @access public
-     */
-    function &getId () { 
-        die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
-    } 
-
-    /**
-     * Get the DisplayName of this Group.
-     *  
-     * @return string
-     * 
-     * @throws object AgentException An exception with one of the
-     *         following messages defined in org.osid.agent.AgentException may
-     *         be thrown:  {@link
-     *         org.osid.agent.AgentException#OPERATION_FAILED
-     *         OPERATION_FAILED}, {@link
-     *         org.osid.agent.AgentException#PERMISSION_DENIED
-     *         PERMISSION_DENIED}, {@link
-     *         org.osid.agent.AgentException#CONFIGURATION_ERROR
-     *         CONFIGURATION_ERROR}, {@link
-     *         org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
-     * 
-     * @access public
-     */
-    function getDisplayName () { 
-        die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
-    } 
-
-    /**
-     * Get the Type of this Group.
-     *  
-     * @return object Type
-     * 
-     * @throws object AgentException An exception with one of the
-     *         following messages defined in org.osid.agent.AgentException may
-     *         be thrown:  {@link
-     *         org.osid.agent.AgentException#OPERATION_FAILED
-     *         OPERATION_FAILED}, {@link
-     *         org.osid.agent.AgentException#PERMISSION_DENIED
-     *         PERMISSION_DENIED}, {@link
-     *         org.osid.agent.AgentException#CONFIGURATION_ERROR
-     *         CONFIGURATION_ERROR}, {@link
-     *         org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
-     * 
-     * @access public
-     */
-    function &getType () { 
-        die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
-    } 
-
     /**
      * Add an Agent or a Group to this Group.  The Agent or Group will not be
      * added if it already exists in the group.
@@ -160,9 +48,7 @@ class Group
      * 
      * @access public
      */
-    function add ( &$memberOrGroup ) { 
-        die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
-    } 
+    function add ( $memberOrGroup ); 
 
     /**
      * Remove an Agent member or a Group from this Group. If the Agent or Group
@@ -186,9 +72,7 @@ class Group
      * 
      * @access public
      */
-    function remove ( &$memberOrGroup ) { 
-        die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
-    } 
+    function remove ( $memberOrGroup ); 
 
     /**
      * Get all the Members of this group and optionally all the Members from
@@ -211,9 +95,7 @@ class Group
      * 
      * @access public
      */
-    function &getMembers ( $includeSubgroups ) { 
-        die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
-    } 
+    function getMembers ( $includeSubgroups ); 
 
     /**
      * Get all the Groups in this group and optionally all the subgroups in
@@ -237,9 +119,7 @@ class Group
      * 
      * @access public
      */
-    function &getGroups ( $includeSubgroups ) { 
-        die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
-    } 
+    function getGroups ( $includeSubgroups ); 
 
     /**
      * Return <code>true</code> if the Member or Group is in the Group,
@@ -265,84 +145,8 @@ class Group
      * 
      * @access public
      */
-    function contains ( &$memberOrGroup, $searchSubgroups ) { 
-        die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
-    } 
+    function contains ( $memberOrGroup, $searchSubgroups ); 
 
-    /**
-     * Get the Properties of this Type associated with this Group.
-     * 
-     * @param object Type $propertiesType
-     *  
-     * @return object Properties
-     * 
-     * @throws object AgentException An exception with one of the
-     *         following messages defined in org.osid.agent.AgentException may
-     *         be thrown:  {@link
-     *         org.osid.agent.AgentException#OPERATION_FAILED
-     *         OPERATION_FAILED}, {@link
-     *         org.osid.agent.AgentException#PERMISSION_DENIED
-     *         PERMISSION_DENIED}, {@link
-     *         org.osid.agent.AgentException#CONFIGURATION_ERROR
-     *         CONFIGURATION_ERROR}, {@link
-     *         org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED},
-     *         {@link org.osid.agent.AgentException#NULL_ARGUMENT
-     *         NULL_ARGUMENT}, {@link
-     *         org.osid.agent.AgentException#UNKNOWN_TYPE UNKNOWN_TYPE}
-     * 
-     * @access public
-     */
-    function &getPropertiesByType ( &$propertiesType ) { 
-        die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
-    } 
-
-    /**
-     * Get all the property Types.  The returned iterator provides access to
-     * the property Types from this implementation one at a time.  Iterators
-     * have a method hasNext() which returns true if there is another
-     * property Type available and a method next() which returns the next
-     * property Type. Group.
-     *  
-     * @return object TypeIterator
-     * 
-     * @throws object AgentException An exception with one of the
-     *         following messages defined in org.osid.agent.AgentException may
-     *         be thrown:  {@link
-     *         org.osid.agent.AgentException#OPERATION_FAILED
-     *         OPERATION_FAILED}, {@link
-     *         org.osid.agent.AgentException#PERMISSION_DENIED
-     *         PERMISSION_DENIED}, {@link
-     *         org.osid.agent.AgentException#CONFIGURATION_ERROR
-     *         CONFIGURATION_ERROR}, {@link
-     *         org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
-     * 
-     * @access public
-     */
-    function &getPropertyTypes () { 
-        die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
-    } 
-
-    /**
-     * Get the Properties associated with this Group.
-     *  
-     * @return object PropertiesIterator
-     * 
-     * @throws object AgentException An exception with one of the
-     *         following messages defined in org.osid.agent.AgentException may
-     *         be thrown:  {@link
-     *         org.osid.agent.AgentException#OPERATION_FAILED
-     *         OPERATION_FAILED}, {@link
-     *         org.osid.agent.AgentException#PERMISSION_DENIED
-     *         PERMISSION_DENIED}, {@link
-     *         org.osid.agent.AgentException#CONFIGURATION_ERROR
-     *         CONFIGURATION_ERROR}, {@link
-     *         org.osid.agent.AgentException#UNIMPLEMENTED UNIMPLEMENTED}
-     * 
-     * @access public
-     */
-    function &getProperties () { 
-        die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
-    } 
 }
 
 ?>

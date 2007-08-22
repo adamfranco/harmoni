@@ -16,7 +16,7 @@
  * 
  * @package org.osid.agent
  */
-class Agent
+interface Agent
 {
     /**
      * Get the name of this Agent.
@@ -36,9 +36,7 @@ class Agent
      * 
      * @access public
      */
-    function getDisplayName () { 
-        die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
-    } 
+    function getDisplayName (); 
 
     /**
      * Get the id of this Agent.
@@ -58,9 +56,7 @@ class Agent
      * 
      * @access public
      */
-    function &getId () { 
-        die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
-    } 
+    function getId (); 
 
     /**
      * Get the type of this Agent.
@@ -80,9 +76,7 @@ class Agent
      * 
      * @access public
      */
-    function &getType () { 
-        die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
-    } 
+    function getType (); 
 
     /**
      * Get the Properties of this Type associated with this Agent.
@@ -107,9 +101,7 @@ class Agent
      * 
      * @access public
      */
-    function &getPropertiesByType ( &$propertiesType ) { 
-        die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
-    } 
+    function getPropertiesByType ( $propertiesType ); 
 
     /**
      * Get the Properties Types supported by this Agent.
@@ -129,9 +121,7 @@ class Agent
      * 
      * @access public
      */
-    function &getPropertyTypes () { 
-        die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
-    } 
+    function getPropertyTypes (); 
 
     /**
      * Get the Properties associated with this Agent.
@@ -151,9 +141,7 @@ class Agent
      * 
      * @access public
      */
-    function &getProperties () { 
-        die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
-    } 
+    function getProperties (); 
 }
 
 ?>
