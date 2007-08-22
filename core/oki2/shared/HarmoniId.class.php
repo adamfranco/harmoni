@@ -18,7 +18,7 @@ require_once(OKI2."/osid/shared/Id.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniId.class.php,v 1.11 2007/04/12 15:37:33 adamfranco Exp $
+ * @version $Id: HarmoniId.class.php,v 1.12 2007/08/22 20:13:36 adamfranco Exp $
  */
 class HarmoniId 
 	extends Id 
@@ -68,6 +68,18 @@ class HarmoniId
 	 */
 	function getIdString () { 
 		return $this->_id;
+	}
+	
+	/**
+	 * Answer the string version of this id. Enables transparent Id to string
+	 * translation.
+	 * 
+	 * @return string
+	 * @access public
+	 * @since 8/22/07
+	 */
+	public function __toString () {
+		return $this->getIdString();
 	}
 	
 	/**
