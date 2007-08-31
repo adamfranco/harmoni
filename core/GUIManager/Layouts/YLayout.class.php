@@ -17,7 +17,7 @@ require_once(HARMONI."GUIManager/StyleProperties/BorderSP.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: YLayout.class.php,v 1.9 2006/11/30 22:02:02 adamfranco Exp $
+ * @version $Id: YLayout.class.php,v 1.10 2007/08/31 18:11:28 achapin Exp $
  */
 class YLayout extends LayoutInterface {
 
@@ -93,6 +93,10 @@ class YLayout extends LayoutInterface {
 		
 		foreach ($keys as $key) {
 			$component =& $components[$key];
+			
+			if (!is_object($component)) {
+				throw new Exception("Invalid component");	
+			}
 			
 			// width and height of the component
 			$width = $height = "";
