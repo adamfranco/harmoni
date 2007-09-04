@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.154 2007/09/04 20:25:57 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.155 2007/09/04 21:38:17 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -37,6 +37,9 @@
 					- harmoni/core/oki2/hierarchy/tree/Tree.class.php - _traverse()
 							Kept the first parameter being passed by reference. Needed in this case.
 		</change>
+		<fix author='adam'>
+			Hierarchy: Now properly clones the query object in PHP5.
+		</fix>
 		<change author='adam'>
 			GUI: Now can include an xmlns namespace in the &lt;html&gt; tag.
 		</change>

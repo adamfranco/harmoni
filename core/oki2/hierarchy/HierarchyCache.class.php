@@ -33,7 +33,7 @@ require_once(HARMONI."oki2/hierarchy/HarmoniTraversalInfoIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HierarchyCache.class.php,v 1.36 2007/09/04 20:25:41 adamfranco Exp $
+ * @version $Id: HierarchyCache.class.php,v 1.37 2007/09/04 21:38:17 adamfranco Exp $
  **/
 
 class HierarchyCache {
@@ -548,7 +548,7 @@ class HierarchyCache {
 		$db = $this->_hyDB.".";
 
 		// copy _nodeQuery into a new object
-		$query = $this->_nodeQuery;
+		$query = clone $this->_nodeQuery;
 		$query->resetWhere();
 		$joinc = "{$db}node.node_id = {$db}j_node_node.fk_child";
 		$query->addTable("{$db}j_node_node", LEFT_JOIN, $joinc);
