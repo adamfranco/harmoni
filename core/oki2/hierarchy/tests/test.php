@@ -9,14 +9,14 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: test.php,v 1.7 2005/04/13 22:00:13 adamfranco Exp $
+ * @version $Id: test.php,v 1.8 2007/09/04 20:25:41 adamfranco Exp $
  */
  
 require_once dirname(__FILE__)."/../../../../core/utilities/Timer.class.php";
-$timer =& new Timer;
+$timer = new Timer;
 $timer->start();
 
-$harmonyLoadupTimer =& new Timer;
+$harmonyLoadupTimer = new Timer;
 $harmonyLoadupTimer->start();
 
 define("LOAD_HIERARCHY", false);
@@ -29,13 +29,13 @@ $harmonyLoadupTimer->end();
 	require_once(SIMPLE_TEST . 'simple_unit.php');
 	require_once(SIMPLE_TEST . 'dobo_simple_html_test.php');
 
-	$context =& new OsidContext;
-	$configuration =& new ConfigurationProperties;
+	$context = new OsidContext;
+	$configuration = new ConfigurationProperties;
 	Services::startManagerAsService("DatabaseManager");
 
 	require_once(HARMONI."errorHandler/ErrorHandler.class.php");
-	$errorHandler =& Services::getService("ErrorHandler",true);
-	$dbHandler =& Services::getService("DBHandler",true);
+	$errorHandler = Services::getService("ErrorHandler",true);
+	$dbHandler = Services::getService("DBHandler",true);
 	$dbIndex = $dbHandler->addDatabase( new MySQLDatabase("devo","doboHarmoniTest","test","test") );
 	$dbHandler->pConnect($dbIndex);
 	$configuration->addProperty('database_index', $dbIndex);
@@ -45,7 +45,7 @@ $harmonyLoadupTimer->end();
 	$errorHandler->setDebugMode(TRUE);
 	
 	
-	$test =& new GroupTest('Hierarchy Tests');
+	$test = new GroupTest('Hierarchy Tests');
 	$test->addTestFile(HARMONI.'/oki2/hierarchy/tests/NodeTestCase.class.php');
 	$test->addTestFile(HARMONI.'/oki2/hierarchy/tests/HierarchyTestCase.class.php');
 	$test->addTestFile(HARMONI.'/oki2/hierarchy/tests/HierarchyManagerTestCase.class.php');

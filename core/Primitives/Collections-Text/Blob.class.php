@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Blob.class.php,v 1.7 2007/04/12 15:37:22 adamfranco Exp $
+ * @version $Id: Blob.class.php,v 1.8 2007/09/04 20:25:26 adamfranco Exp $
  */
 class Blob 
 	extends String 
@@ -26,8 +26,8 @@ class Blob
 	 * @access public
 	 * @static
 	 */
-	function &withValue($value) {
-		$string =& new Blob($value);
+	function withValue($value) {
+		$string = new Blob($value);
 		return $string;
 	}
 
@@ -40,8 +40,8 @@ class Blob
 	 * @access public
 	 * @static
 	 */
-	function &fromString($aString) {
-		$string =& new Blob($aString);
+	function fromString($aString) {
+		$string = new Blob($aString);
 		return $string;
 	}
 

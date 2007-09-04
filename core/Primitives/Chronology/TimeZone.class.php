@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeZone.class.php,v 1.3 2006/06/26 12:55:07 adamfranco Exp $
+ * @version $Id: TimeZone.class.php,v 1.4 2007/09/04 20:25:25 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -38,7 +38,7 @@ require_once(dirname(__FILE__)."/../Objects/SObject.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeZone.class.php,v 1.3 2006/06/26 12:55:07 adamfranco Exp $
+ * @version $Id: TimeZone.class.php,v 1.4 2007/09/04 20:25:25 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -59,8 +59,8 @@ class TimeZone
 	 * @since 5/3/05
 	 * @static
 	 */
-	function &defaultTimeZone () {
-		$obj =& TimeZone::offsetNameAbbreviation(
+	function defaultTimeZone () {
+		$obj = TimeZone::offsetNameAbbreviation(
 					Duration::withHours(0),
 					'Greenwich Mean Time',
 					'GMT');
@@ -77,10 +77,10 @@ class TimeZone
 	 * @access public
 	 * @since 5/3/05
 	 */
-	function &offsetNameAbbreviation ( $aDuration, $aStringName = NULL, 
+	function offsetNameAbbreviation ( $aDuration, $aStringName = NULL, 
 		$aStringAbbreviation = NULL) 
 	{
-		$obj =& new TimeZone ($aDuration, $aStringName, $aStringAbbreviation );
+		$obj = new TimeZone ($aDuration, $aStringName, $aStringAbbreviation );
 		return $obj;
 	}
 	
@@ -97,7 +97,7 @@ class TimeZone
 	 * @since 5/3/05
 	 * @static
 	 */
-	function &timeZones () {
+	function timeZones () {
 		$array = array (
 			TimeZone::offsetNameAbbreviation(
 				Duration::withHours(0),
@@ -165,7 +165,7 @@ class TimeZone
 	 * @since 5/3/05
 	 */
 	function TimeZone ( $aDuration, $aStringName, $aStringAbbreviation ) {
-		$this->offset =& $aDuration;
+		$this->offset =$aDuration;
 		$this->name = $aStringName;
 		$this->abbreviation = $aStringAbbreviation;
 	}
@@ -181,7 +181,7 @@ class TimeZone
 	 * @access public
 	 * @since 5/3/05
 	 */
-	function &offset () {
+	function offset () {
 		return $this->offset;
 	}
 	

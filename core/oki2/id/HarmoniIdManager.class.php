@@ -42,7 +42,7 @@ require_once(HARMONI."oki2/shared/HarmoniId.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniIdManager.class.php,v 1.24 2007/04/12 15:37:31 adamfranco Exp $
+ * @version $Id: HarmoniIdManager.class.php,v 1.25 2007/09/04 20:25:42 adamfranco Exp $
  */
 
 class HarmoniIdManager
@@ -96,8 +96,8 @@ class HarmoniIdManager
 	 * 
 	 * @access public
 	 */
-	function assignConfiguration ( &$configuration ) { 
-		$this->_configuration =& $configuration;
+	function assignConfiguration ( $configuration ) { 
+		$this->_configuration =$configuration;
 		
 		$dbIndex = $configuration->getProperty('database_index');
 		$dbName = $configuration->getProperty('database_name');
@@ -125,7 +125,7 @@ class HarmoniIdManager
 	 * 
 	 * @access public
 	 */
-	function &getOsidContext () { 
+	function getOsidContext () { 
 		return $this->_osidContext;
 	} 
 
@@ -140,8 +140,8 @@ class HarmoniIdManager
 	 * 
 	 * @access public
 	 */
-	function assignOsidContext ( &$context ) { 
-		$this->_osidContext =& $context;
+	function assignOsidContext ( $context ) { 
+		$this->_osidContext =$context;
 	} 
 
 	/**
@@ -160,16 +160,16 @@ class HarmoniIdManager
 	 * 
 	 * @access public
 	 */
-	function &createId () { 
+	function createId () { 
 		debug::output("Attempting to generate new id.", 20, "IdManager");
-		$dbHandler =& Services::getService("DatabaseManager");
+		$dbHandler = Services::getService("DatabaseManager");
 		
-		$query =& new InsertQuery();
+		$query = new InsertQuery();
 		$query->setAutoIncrementColumn("id_value", "id_sequence");
 		$query->setTable($this->_sharedDB.".id");
 		$query->addRowOfValues(array());
 		
-		$result =& $dbHandler->query($query,$this->_dbIndex);
+		$result =$dbHandler->query($query,$this->_dbIndex);
 		if ($result->getNumberOfRows() != 1) {
 			throwError( new Error(IdException::CONFIGURATION_ERROR(), "IdManager", true));
 		}
@@ -178,17 +178,17 @@ class HarmoniIdManager
 		
 		// Clear out any values smaller than our last one to keep the table from 
 		// exploding size.
-		$query =& new DeleteQuery();
+		$query = new DeleteQuery();
 		$query->setTable($this->_sharedDB.".id");
 		$query->setWhere("id_value < '".$newID."'");
-		$result =& $dbHandler->query($query,$this->_dbIndex);
+		$result =$dbHandler->query($query,$this->_dbIndex);
 		
 		
 		$newID = $this->_prefix.strval($newID);
 		
 		debug::output("Successfully created new id '$newID'.",DEBUG_SYS5,"IdManager");
 		
-		$id =& new HarmoniId($newID);
+		$id = new HarmoniId($newID);
 		
 		// cache the id
 //		$this->_ids[$newID] = $id;
@@ -216,7 +216,7 @@ class HarmoniIdManager
 	 * 
 	 * @access public
 	 */
-	function &getId ( $idString ) { 
+	function getId ( $idString ) { 
 //		if (isset($this->_ids[$idString])) {
 //			print "id:". $idString." and ".$this->_ids[$idString]->getIdString()."<br/>";
 //			return $this->_ids[$idString];

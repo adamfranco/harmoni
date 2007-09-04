@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Context.class.php,v 1.4 2005/01/19 21:09:39 adamfranco Exp $
+ * @version $Id: Context.class.php,v 1.5 2007/09/04 20:25:30 adamfranco Exp $
  **/
 class Context {
 	/**
@@ -66,7 +66,7 @@ class Context {
 	 * @access public
 	 * @return void
 	 **/
-	function Context($module, $action, &$execPath) {
+	function Context($module, $action, $execPath) {
 		$this->sid = session_name() . "=" . session_id();
 		$this->hiddenFieldSID = "<input type='hidden' name='".session_name()."' value='".session_id()."' />";
 		$this->myURL = $_SERVER['PHP_SELF'];
@@ -75,10 +75,10 @@ class Context {
 		$this->requestModule = $module;
 		$this->requestModuleDotAction = "$module.$action";
 		
-		$this->actionPath =& $execPath;
+		$this->actionPath =$execPath;
 		
-//		if (!$contextData) $contextData =& new FieldSet();
-//		$this->_contextData =& $contextData;
+//		if (!$contextData) $contextData = new FieldSet();
+//		$this->_contextData =$contextData;
 	}
 }
 

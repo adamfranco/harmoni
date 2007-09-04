@@ -22,7 +22,7 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRecordStructureIterator.class.php,v 1.9 2007/04/12 15:37:31 adamfranco Exp $ 
+ * @version $Id: HarmoniRecordStructureIterator.class.php,v 1.10 2007/09/04 20:25:43 adamfranco Exp $ 
  */
 class HarmoniRecordStructureIterator
 	extends HarmoniIterator
@@ -75,7 +75,7 @@ class HarmoniRecordStructureIterator
 	 * @access public
 	 */
 	
-	function &nextRecordStructure () { 
+	function nextRecordStructure () { 
 		return $this->next();
 	}
 

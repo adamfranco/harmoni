@@ -14,7 +14,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ServicesTestCase.class.php,v 1.3 2005/04/07 16:33:30 adamfranco Exp $
+ * @version $Id: ServicesTestCase.class.php,v 1.4 2007/09/04 20:25:49 adamfranco Exp $
  */
 
     class ServicesTestCase extends UnitTestCase {
@@ -32,7 +32,7 @@
 		*/
 		function setUp() {
 			// The following will kill the running of other tests.
-//			$GLOBALS['__services__'] = & new Services;
+//			$GLOBALS['__services__'] =  new Services;
 //		   	Services::registerService("ErrorHandler","ErrorHandler");
 //			Services::startService("ErrorHandler");
 		}
@@ -89,14 +89,14 @@
 		}
 		
 		function test_class_methods_register() {
-			$services =& new Services;
+			$services = new Services;
 			$this->assertEqual(count($services->_registeredServices), 0);
 			$this->assertTrue($services->register("DBHandler","DBHandler",HARMONI."/DBHandler/classes/DBHandler.class.php"));
 			$this->assertEqual(count($services->_registeredServices), 1);
 		}
 
 		function test_class_methods_get() {
-			$services =& new Services;
+			$services = new Services;
 			$services->register("DBHandler","DBHandler");
 			//print_r($services->_registeredServices);
 			$this->assertTrue($services->start("DBHandler"));

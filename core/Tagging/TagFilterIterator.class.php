@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TagFilterIterator.class.php,v 1.1 2006/12/08 18:44:40 adamfranco Exp $
+ * @version $Id: TagFilterIterator.class.php,v 1.2 2007/09/04 20:25:29 adamfranco Exp $
  */ 
 
 /**
@@ -18,7 +18,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TagFilterIterator.class.php,v 1.1 2006/12/08 18:44:40 adamfranco Exp $
+ * @version $Id: TagFilterIterator.class.php,v 1.2 2007/09/04 20:25:29 adamfranco Exp $
  */
 class TagFilterIterator
 	extends HarmoniIterator
@@ -33,13 +33,13 @@ class TagFilterIterator
 	 * @access public
 	 * @since 12/8/06
 	 */
-	function TagFilterIterator ( &$sourceIterator, $filterValues = array() ) {
+	function TagFilterIterator ( $sourceIterator, $filterValues = array() ) {
 		$this->HarmoniIterator($null = null);
-		$this->_sourceIterator =& $sourceIterator;
+		$this->_sourceIterator =$sourceIterator;
 		$this->_toFilter = array();
 		
 		foreach ($filterValues as $string) {
-			$tag =& new Tag($string);
+			$tag = new Tag($string);
 			if ($tag->getValue())
 				$this->_toFilter[] = $tag->getValue();
 		}
@@ -69,8 +69,8 @@ class TagFilterIterator
 	 * @access public
 	 * @since 12/8/06
 	 */
-	function &next () {
-		$next =& $this->_nextElement;
+	function next () {
+		$next =$this->_nextElement;
 		
 		$this->advance();
 		$this->_numSoFar++;
@@ -88,14 +88,14 @@ class TagFilterIterator
 	 	if (!isset($this->_count)) {
 	 		$remainingElements = array();
 	 		while ($this->hasNext()) {
-	 			$remainingElements[] =& $this->_nextElement;
+	 			$remainingElements[] =$this->_nextElement;
 	 			$this->advance();
 	 		}
 	 		// Store the count
 	 		$this->_count = $this->_numSoFar + count($remainingElements);
 	 		
 	 		// Reload the remaining elements into a new source iterator.
-	 		$this->_sourceIterator =& new HarmoniIterator($remainingElements);
+	 		$this->_sourceIterator = new HarmoniIterator($remainingElements);
 	 		$this->advance();
 	 	}
 	 	return $this->_count;
@@ -124,9 +124,9 @@ class TagFilterIterator
 		$this->_nextElement = null;
 		
 		while (is_null($this->_nextElement) && $this->_sourceIterator->hasNext()) {
-			$nextTag =& $this->_sourceIterator->next();
+			$nextTag =$this->_sourceIterator->next();
 			if (!in_array($nextTag->getValue(), $this->_toFilter)) {
-				$this->_nextElement =& $nextTag;
+				$this->_nextElement =$nextTag;
 			}
 		}
 	}

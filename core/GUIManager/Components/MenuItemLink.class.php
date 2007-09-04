@@ -13,7 +13,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MenuItemLink.class.php,v 1.9 2006/01/20 20:52:40 adamfranco Exp $
+ * @version $Id: MenuItemLink.class.php,v 1.10 2007/09/04 20:25:22 adamfranco Exp $
  */
 class MenuItemLink extends Component /* implements MenuItemInterface */ {
 
@@ -86,8 +86,8 @@ class MenuItemLink extends Component /* implements MenuItemInterface */ {
 	 **/
 	function MenuItemLink($displayName, $url, $selected, $index, $target = null, $accessKey = null, $toolTip = null) {
 		// ** parameter validation
-		$rule =& StringValidatorRule::getRule();
-		$optionalRule =& OptionalRule::getRule($rule);
+		$rule = StringValidatorRule::getRule();
+		$optionalRule = OptionalRule::getRule($rule);
 		ArgumentValidator::validate($displayName, $rule, true);
 		ArgumentValidator::validate($url, $rule, true);
 		ArgumentValidator::validate($selected, BooleanValidatorRule::getRule(), true);
@@ -118,7 +118,7 @@ class MenuItemLink extends Component /* implements MenuItemInterface */ {
 	 * recommended in order to produce a nicely formatted HTML output.
 	 * @access public
 	 **/
-	function render(& $theme, $tabs = "") {
+	function render($theme, $tabs = "") {
 		// pre-html
 		echo $this->getPreHTML($theme, $tabs);
 		// the url
@@ -291,7 +291,7 @@ class MenuItemLink extends Component /* implements MenuItemInterface */ {
 	 **/
 	function addAttribute($attribute, $value) {
 		// ** parameter validation
-		$rule =& StringValidatorRule::getRule();
+		$rule = StringValidatorRule::getRule();
 		ArgumentValidator::validate($attribute, $rule, true);
 		ArgumentValidator::validate($value, $rule, true);
 		// ** end of parameter validation

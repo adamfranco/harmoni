@@ -22,7 +22,7 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgentIterator.class.php,v 1.7 2007/04/12 15:37:26 adamfranco Exp $
+ * @version $Id: HarmoniAgentIterator.class.php,v 1.8 2007/09/04 20:25:36 adamfranco Exp $
  */
 class HarmoniAgentIterator
 	extends HarmoniIterator
@@ -71,7 +71,7 @@ class HarmoniAgentIterator
 	 * 
 	 * @access public
 	 */
-	function &nextAgent () { 
+	function nextAgent () { 
 		return $this->next();
 	}
 

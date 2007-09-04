@@ -35,7 +35,7 @@ define("BOTH", 3);
  *
  * The SelectQueryResult interface provides the functionality common to a SELECT query result.
  * For example, you can fetch associative arrays, advance the current row position, etc.
- * @version $Id: SelectQueryResult.interface.php,v 1.6 2005/06/16 18:17:33 gabeschine Exp $
+ * @version $Id: SelectQueryResult.interface.php,v 1.7 2007/09/04 20:25:18 adamfranco Exp $
  * @package harmoni.dbc
  * @access public
  * @copyright 2003 
@@ -170,7 +170,7 @@ class SelectQueryResultInterface extends QueryResultInterface {
 	 * @param ref mixed var The variable to be bound to the value of the field in
 	 * the current row.
 	 **/
-	function bindField($field, & $var) {
+	function bindField($field, $var) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	

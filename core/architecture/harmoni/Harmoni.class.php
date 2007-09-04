@@ -28,7 +28,7 @@ $__harmoni = null;
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Harmoni.class.php,v 1.52 2007/04/10 18:00:40 adamfranco Exp $
+ * @version $Id: Harmoni.class.php,v 1.53 2007/09/04 20:25:30 adamfranco Exp $
  **/
 class Harmoni {
 
@@ -47,9 +47,9 @@ class Harmoni {
 	 * @since 5/26/05
 	 * @static
 	 */
-	function &instance () {
+	function instance () {
 		if (!defined("HARMONI_INSTANTIATED")) {
-			$GLOBALS['__harmoni'] =& new Harmoni();
+			$GLOBALS['__harmoni'] = new Harmoni();
 			define("HARMONI_INSTANTIATED", true);
 		}
 		
@@ -138,26 +138,26 @@ class Harmoni {
 		}
 		
 		
-		$this->ActionHandler =& new ActionHandler($this);
+		$this->ActionHandler = new ActionHandler($this);
 		
 		// set up config options
-		$this->config =& new HarmoniConfig();
+		$this->config = new HarmoniConfig();
 		
 		// set up request context / handler
-		$this->request =& new RequestContext();
+		$this->request = new RequestContext();
 		
 		// set up the history manager
-		$this->history =& new BrowseHistoryManager();
+		$this->history = new BrowseHistoryManager();
 		
-		$this->_attachedData =& new ReferencedFieldSet();
+		$this->_attachedData = new ReferencedFieldSet();
 		$this->_preExecActions = array();
 		$this->_postExecActions = array();
 		
 		// Set up a default OutputHandler
-		$osidContext =& new OsidContext;
+		$osidContext = new OsidContext;
 		$osidContext->assignContext('harmoni', $this);
-		$configuration =& new BasicOutputHandlerConfigProperties;
-		$outputHandler =& new BasicOutputHandler;
+		$configuration = new BasicOutputHandlerConfigProperties;
+		$outputHandler = new BasicOutputHandler;
 		$outputHandler->assignOsidContext($osidContext);
 		$outputHandler->assignConfiguration($configuration);
 		$this->attachOutputHandler($outputHandler);
@@ -172,7 +172,7 @@ class Harmoni {
 	function addPreExecActions($actions)
 	{
 		$args = func_get_args();
-		$rule =& DottedPairValidatorRule::getRule();
+		$rule = DottedPairValidatorRule::getRule();
 		foreach ($args as $arg) {
 			if ($rule->check($arg)) $this->_preExecActions[] = $arg;
 		}
@@ -187,7 +187,7 @@ class Harmoni {
 	function addPostExecActions($actions)
 	{
 		$args = func_get_args();
-		$rule =& DottedPairValidatorRule::getRule();
+		$rule = DottedPairValidatorRule::getRule();
 		foreach ($args as $arg) {
 			if ($rule->check($arg)) $this->_postExecActions[] = $arg;
 		}
@@ -202,8 +202,8 @@ class Harmoni {
 	 */
 	function setPostProcessAction($action, $ignore=null)
 	{
-		$rule1 =& DottedPairValidatorRule::getRule();
-		$rule2 =& ArrayValidatorRuleWithRule::getRule($rule1);
+		$rule1 = DottedPairValidatorRule::getRule();
+		$rule2 = ArrayValidatorRuleWithRule::getRule($rule1);
 		ArgumentValidator::validate($action, $rule1);
 		if ($ignore) ArgumentValidator::validate($ignore, $rule2);
 		
@@ -289,7 +289,7 @@ class Harmoni {
 	* Attaches some arbitrary data to the Harmoni object so that actions or later
 	* functions can make use of it.
 	*/
-	function &attachData($key, & $value) {
+	function attachData($key, $value) {
 		$this->_attachedData->set($key,$value);
 		return $value;
 	}
@@ -301,7 +301,7 @@ class Harmoni {
 	* Returns the data attached by {@link Harmoni::attachData} referenced by $key.
 	* @deprecated 12/27/03 See getAttachedData()
 	*/
-	function &getData($key) {
+	function getData($key) {
 		return $this->_attachedData->get($key);
 	}
 	
@@ -310,7 +310,7 @@ class Harmoni {
 	* @param string $key
 	* Returns the data attached by {@link Harmoni::attachData} referenced by $key.
 	*/
-	function &getAttachedData($key) {
+	function getAttachedData($key) {
 		return $this->_attachedData->get($key);
 	}	
 	
@@ -389,7 +389,7 @@ class Harmoni {
 		// That's it! program finished!
 
 		ob_start();
-		$this->result =& $this->ActionHandler->execute($module, $action);
+		$this->result =$this->ActionHandler->execute($module, $action);
 		$this->printedResult = ob_get_contents();
 		ob_end_clean();
 		
@@ -399,7 +399,7 @@ class Harmoni {
 		if (isset($this->_postProcessAction) && 
 			!$this->_isActionInArray($lastExecutedAction, $this->_postProcessIgnoreList)) 
 		{
-			$this->result =& $this->ActionHandler->executePair($this->_postProcessAction);
+			$this->result =$this->ActionHandler->executePair($this->_postProcessAction);
 		}
 		
 		// check if we have any post-exec actions. if so, execute them
@@ -420,8 +420,8 @@ class Harmoni {
 	 * @access public
 	 * @since 4/5/05
 	 */
-	function attachOutputHandler ( &$outputHandler ) {
-		$this->_outputHandler =& $outputHandler;
+	function attachOutputHandler ( $outputHandler ) {
+		$this->_outputHandler =$outputHandler;
 	}
 	
 	/**
@@ -431,7 +431,7 @@ class Harmoni {
 	 * @access public
 	 * @since 4/5/05
 	 */
-	function &getOutputHandler () {
+	function getOutputHandler () {
 		return $this->_outputHandler;
 	}
 	

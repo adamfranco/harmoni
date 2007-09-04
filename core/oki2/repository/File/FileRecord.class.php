@@ -29,7 +29,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileRecord.class.php,v 1.25 2007/04/12 15:37:32 adamfranco Exp $ 
+ * @version $Id: FileRecord.class.php,v 1.26 2007/09/04 20:25:44 adamfranco Exp $ 
  */
 class FileRecord 
 	extends RecordInterface
@@ -41,47 +41,47 @@ class FileRecord
 	var $_parts;
 	var $_partsLoaded;
 	
-	function FileRecord( &$recordStructure, & $id, &$configuration, &$asset ) {
-		$this->_id =& $id;
-		$this->_recordStructure =& $recordStructure;
-		$this->_configuration =& $configuration;
-		$this->_asset =& $asset;
+	function FileRecord( $recordStructure, $id, $configuration, $asset ) {
+		$this->_id =$id;
+		$this->_recordStructure =$recordStructure;
+		$this->_configuration =$configuration;
+		$this->_asset =$asset;
 		
-		$idManager =& Services::getService("Id");	
+		$idManager = Services::getService("Id");	
 		$this->_parts = array();
 		$this->addFileDataPart($recordStructure);
-		$this->_parts['FILE_NAME'] =& new FileNamePart(
+		$this->_parts['FILE_NAME'] = new FileNamePart(
 									$recordStructure->getPartStructure($idManager->getId('FILE_NAME')),
 									$this->_id,
 									$this->_configuration,
 									$this->_asset);
-		$this->_parts['FILE_SIZE'] =& new FileSizePart(
+		$this->_parts['FILE_SIZE'] = new FileSizePart(
 									$recordStructure->getPartStructure($idManager->getId('FILE_SIZE')),
 									$this->_id,
 									$this->_configuration,
 									$this->_asset);
-		$this->_parts['MIME_TYPE'] =& new MimeTypePart(
+		$this->_parts['MIME_TYPE'] = new MimeTypePart(
 									$recordStructure->getPartStructure($idManager->getId('MIME_TYPE')),
 									$this->_id,
 									$this->_configuration,
 									$this->_asset);
-		$this->_parts['DIMENSIONS'] =& new DimensionsPart(
+		$this->_parts['DIMENSIONS'] = new DimensionsPart(
 									$recordStructure->getPartStructure($idManager->getId('DIMENSIONS')),
 									$this->_id,
 									$this->_configuration,
 									$this,
 									$this->_asset);
-		$this->_parts['THUMBNAIL_DATA'] =& new ThumbnailDataPart(
+		$this->_parts['THUMBNAIL_DATA'] = new ThumbnailDataPart(
 									$recordStructure->getPartStructure($idManager->getId('THUMBNAIL_DATA')),
 									$this->_id,
 									$this->_configuration,
 									$this->_asset);
-		$this->_parts['THUMBNAIL_MIME_TYPE'] =& new ThumbnailMimeTypePart(
+		$this->_parts['THUMBNAIL_MIME_TYPE'] = new ThumbnailMimeTypePart(
 									$recordStructure->getPartStructure($idManager->getId('THUMBNAIL_MIME_TYPE')),
 									$this->_id,
 									$this->_configuration,
 									$this->_asset);
-		$this->_parts['THUMBNAIL_DIMENSIONS'] =& new ThumbnailDimensionsPart(
+		$this->_parts['THUMBNAIL_DIMENSIONS'] = new ThumbnailDimensionsPart(
 									$recordStructure->getPartStructure($idManager->getId('THUMBNAIL_DIMENSIONS')),
 									$this->_id,
 									$this->_configuration,
@@ -99,9 +99,9 @@ class FileRecord
 	 * @access public
 	 * @since 12/6/06
 	 */
-	function addFileDataPart (&$recordStructure) {
-		$idManager =& Services::getService("Id");	
-		$this->_parts['FILE_DATA'] =& new FileDataPart(
+	function addFileDataPart ($recordStructure) {
+		$idManager = Services::getService("Id");	
+		$this->_parts['FILE_DATA'] = new FileDataPart(
 									$recordStructure->getPartStructure($idManager->getId('FILE_DATA')),
 									$this->_id,
 									$this->_configuration,
@@ -127,7 +127,7 @@ class FileRecord
 	 * 
 	 * @access public
 	 */
-	function &getId() {
+	function getId() {
 		return $this->_id;
 	}
 
@@ -158,7 +158,7 @@ class FileRecord
 	 * 
 	 * @access public
 	 */
-	function &createPart(& $partStructureId, & $value) {
+	function createPart($partStructureId, $value) {
 		$found = FALSE;
 		foreach($this->_parts as $key => $val){
 			if($partStructureId->isEqual($val->getId()))
@@ -166,7 +166,7 @@ class FileRecord
 			$found=TRUE;
 /*
 		while ($parts->hasNext()) {
-			$part =& $parts->next();
+			$part =$parts->next();
 			if ($partStructureId->isEqual($part->getId())) {
 				break;
 				$found = TRUE;
@@ -200,7 +200,7 @@ class FileRecord
 //					throwError(new Error(OPERATION_FAILED, "FileRecord", true));
 //			}
 //			
-//			$this->_parts[$partIdString] =& new $className(
+//			$this->_parts[$partIdString] = new $className(
 //									$part,
 //									$this->_id,
 //									$this->configuration);
@@ -242,29 +242,29 @@ class FileRecord
 	 * 
 	 * @access public
 	 */
-	function deletePart(& $partId) {
+	function deletePart($partId) {
 		$string = $partId->getIdString();
 		if (ereg("(.*)-(".implode("|", array_keys($this->_parts)).")",$string,$r)) {
 			$recordId = $r[1];
 			$field = $r[2];
 			
 			if ($this->_isLastPart($field)) {
-				$dbHandler =& Services::getService("DatabaseManager");
+				$dbHandler = Services::getService("DatabaseManager");
 				
 				// Delete the data
-				$query =& new DeleteQuery();
+				$query = new DeleteQuery();
 				$query->setTable("dr_file_data");
 				$query->setWhere("FK_file = '".$this->_id->getIdString()."'");
 				$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 				
 				// Delete the thumbnail
-				$query =& new DeleteQuery();
+				$query = new DeleteQuery();
 				$query->setTable("dr_thumbnail");
 				$query->setWhere("FK_file = '".$this->_id->getIdString()."'");
 				$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 				
 				// delete the file row.
-				$query =& new DeleteQuery();
+				$query = new DeleteQuery();
 				$query->setTable("dr_file");
 				$query->setWhere("id = '".$this->_id->getIdString()."'");
 				$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
@@ -298,11 +298,11 @@ class FileRecord
 	 * 
 	 * @access public
 	 */
-	function &getParts() {
+	function getParts() {
 		$this->_loadParts();
 		
 		// Create an iterator and return it.
-		$partIterator =& new HarmoniPartIterator($this->_parts);
+		$partIterator = new HarmoniPartIterator($this->_parts);
 		
 		return $partIterator;
 	}
@@ -317,11 +317,11 @@ class FileRecord
 	 * @access public
 	 * @since 10/10/05
 	 */
-	function &getPart ($id) {
-		$parts =& $this->getParts();
+	function getPart ($id) {
+		$parts =$this->getParts();
 		
 		while ($parts->hasNext()) {
-			$part =& $parts->next();
+			$part =$parts->next();
 			if ($part->getId() == $id)
 				return $part;
 		}
@@ -361,7 +361,7 @@ class FileRecord
 	 * 
 	 * @access public
 	 */
-	function &getRecordStructure() {
+	function getRecordStructure() {
 		return $this->_recordStructure;
 	}
 	
@@ -379,10 +379,10 @@ class FileRecord
 		if (!isset($this->_toDelete))
 			$this->_toDelete = array();
 		
-		$dbHandler =& Services::getService("DatabaseManager");
+		$dbHandler = Services::getService("DatabaseManager");
 	
 		// Check to see if the data is in the database
-		$query =& new SelectQuery;
+		$query = new SelectQuery;
 		$query->addTable("dr_file");
 		$query->addTable("dr_file_data", LEFT_JOIN, "dr_file.id = dr_file_data.FK_file");
 		$query->addTable("dr_thumbnail", LEFT_JOIN, "dr_file.id = dr_thumbnail.FK_file");
@@ -395,7 +395,7 @@ class FileRecord
 		$query->addColumn("thumbnail_mime_type.type", "THUMBNAIL_MIME_TYPE");
 		$query->addColumn("dr_thumbnail.data", "THUMBNAIL_DATA");
 		$query->addWhere("dr_file.id = '".$this->_id->getIdString()."'");
-		$result =& $dbHandler->query($query, $this->_configuration->getProperty("database_index"));
+		$result =$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 		
 		if (!$result->getNumberOfRows()) {
 			$result->free();
@@ -446,13 +446,13 @@ class FileRecord
      * 
      * @access public
      */
-    function &getPartsByPartStructure ( &$partStructureId ) {
+    function getPartsByPartStructure ( $partStructureId ) {
     	$this->_loadParts();
     	
     	$partArray = array();
     	if (isset($this->_parts[$partStructureId->getIdString()]))
-	    	$partArray[] =& $this->_parts[$partStructureId->getIdString()];
-		$partsIterator =& new HarmoniIterator($partArray);
+	    	$partArray[] =$this->_parts[$partStructureId->getIdString()];
+		$partsIterator = new HarmoniIterator($partArray);
 		return $partsIterator;
     }
     
@@ -468,9 +468,9 @@ class FileRecord
 		if ($this->_partsLoaded)
 			return;
 		
-    	$dbHandler =& Services::getService("DBHandler");
+    	$dbHandler = Services::getService("DBHandler");
     	
-    	$query =& new SelectQuery;
+    	$query = new SelectQuery;
 		$query->addTable("dr_file");
 		$query->addTable("dr_thumbnail", LEFT_JOIN, "dr_file.id = dr_thumbnail.FK_file");
 		$query->addTable("dr_mime_type", LEFT_JOIN, "dr_file.FK_mime_type = file_mime_type.id", "file_mime_type");
@@ -485,7 +485,7 @@ class FileRecord
 		$query->addColumn("dr_thumbnail.height", "thumb_height");
 		$query->addWhere("dr_file.id = '".$this->_id->getIdString()."'");
 		
-		$result =& $dbHandler->query($query, $this->_configuration->getProperty("database_index"));
+		$result =$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 		
 		if ($result->getNumberOfRows()) {
 			$this->_parts['FILE_NAME']->_updateValue($result->field('filename'));

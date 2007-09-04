@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: BasicFormNamePassTokenCollector.class.php,v 1.3 2006/06/06 20:05:56 adamfranco Exp $
+ * @version $Id: BasicFormNamePassTokenCollector.class.php,v 1.4 2007/09/04 20:25:37 adamfranco Exp $
  */ 
 
 require_once(dirname(__FILE__)."/NamePassTokenCollector.abstract.php");
@@ -19,7 +19,7 @@ require_once(dirname(__FILE__)."/NamePassTokenCollector.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: BasicFormNamePassTokenCollector.class.php,v 1.3 2006/06/06 20:05:56 adamfranco Exp $
+ * @version $Id: BasicFormNamePassTokenCollector.class.php,v 1.4 2007/09/04 20:25:37 adamfranco Exp $
  */
 class BasicFormNamePassTokenCollector
 	extends NamePassTokenCollector
@@ -33,7 +33,7 @@ class BasicFormNamePassTokenCollector
 	 * @since 3/16/05
 	 */
 	function prompt () {
-		$harmoni =& Harmoni::instance();
+		$harmoni = Harmoni::instance();
 		$harmoni->request->startNamespace("harmoni-authentication");
 		
 		$action = $_SERVER['REQUEST_URI'];
@@ -64,7 +64,7 @@ END;
 	 * @since 3/16/05
 	 */
 	function collectName () {
-		$harmoni =& Harmoni::instance();
+		$harmoni = Harmoni::instance();
 		$harmoni->request->startNamespace("harmoni-authentication");
 		$username = $harmoni->request->get("username");
 		$harmoni->request->endNamespace();
@@ -80,7 +80,7 @@ END;
 	 * @since 3/16/05
 	 */
 	function collectPassword () {
-		$harmoni =& Harmoni::instance();
+		$harmoni = Harmoni::instance();
 		$harmoni->request->startNamespace("harmoni-authentication");
 		$password = $harmoni->request->get("password");
 		$harmoni->request->endNamespace();

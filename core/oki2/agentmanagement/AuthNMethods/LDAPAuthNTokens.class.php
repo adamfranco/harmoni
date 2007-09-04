@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPAuthNTokens.class.php,v 1.9 2006/08/19 21:14:39 jwlee100 Exp $
+ * @version $Id: LDAPAuthNTokens.class.php,v 1.10 2007/09/04 20:25:37 adamfranco Exp $
  */ 
 
 require_once(dirname(__FILE__)."/UsernamePasswordAuthNTokens.class.php");
@@ -19,7 +19,7 @@ require_once(dirname(__FILE__)."/UsernamePasswordAuthNTokens.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPAuthNTokens.class.php,v 1.9 2006/08/19 21:14:39 jwlee100 Exp $
+ * @version $Id: LDAPAuthNTokens.class.php,v 1.10 2007/09/04 20:25:37 adamfranco Exp $
  */
 class LDAPAuthNTokens
 	extends UsernamePasswordAuthNTokens
@@ -33,11 +33,11 @@ class LDAPAuthNTokens
 	 * @access public
 	 * @since 3/4/05
 	 */
-	function LDAPAuthNTokens (  &$configuration  ) {
+	function LDAPAuthNTokens (  $configuration  ) {
 		$par = get_parent_class($this);
 		parent::$par($configuration);
 		
-		$this->_connector =& $configuration->getProperty('connector');
+		$this->_connector =$configuration->getProperty('connector');
 		
 		// Validate the configuration options we use:
 		ArgumentValidator::validate (

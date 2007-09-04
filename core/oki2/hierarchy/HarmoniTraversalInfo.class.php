@@ -20,7 +20,7 @@ require_once(OKI2."/osid/hierarchy/TraversalInfo.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniTraversalInfo.class.php,v 1.8 2007/04/12 15:37:31 adamfranco Exp $
+ * @version $Id: HarmoniTraversalInfo.class.php,v 1.9 2007/09/04 20:25:41 adamfranco Exp $
  */
 
 class HarmoniTraversalInfo
@@ -49,14 +49,14 @@ class HarmoniTraversalInfo
 	 * @param integer $depth The depth of the Node.
 	 * @access public
 	 */
-	function HarmoniTraversalInfo(& $id, $displayName, $depth) {
+	function HarmoniTraversalInfo($id, $displayName, $depth) {
 		// Check the arguments
 		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"));
 		ArgumentValidator::validate($displayName, StringValidatorRule::getRule());
 		ArgumentValidator::validate($depth, IntegerValidatorRule::getRule());
 		
 		// set the private variables
-		$this->_id =& $id;
+		$this->_id =$id;
 		$this->_displayName = $displayName;
 		$this->_depth = $depth;
 	}
@@ -80,7 +80,7 @@ class HarmoniTraversalInfo
 	 * 
 	 * @access public
 	 */
-	function &getNodeId () { 
+	function getNodeId () { 
 		return $this->_id;
 	}
 

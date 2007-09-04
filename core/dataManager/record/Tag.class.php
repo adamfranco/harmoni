@@ -11,7 +11,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Tag.class.php,v 1.9 2007/04/12 15:37:25 adamfranco Exp $
+ * @version $Id: Tag.class.php,v 1.10 2007/09/04 20:25:32 adamfranco Exp $
  */
 class RecordTag {
 	
@@ -23,10 +23,10 @@ class RecordTag {
 	
 	var $_loaded;
 	
-	function RecordTag( $recordID, &$date, $id = null ) {		
+	function RecordTag( $recordID, $date, $id = null ) {		
 		$this->_myID = $myID;
 		$this->_recordID = $recordID;
-		$this->_date =& $date;
+		$this->_date =$date;
 		
 		$this->_loaded = false;
 	}
@@ -57,7 +57,7 @@ class RecordTag {
 	 * @return ref object
 	 * @access public
 	 */
-	function &getDate() {
+	function getDate() {
 		return $this->_date;
 	}
 	
@@ -105,7 +105,7 @@ class RecordTag {
 		
 		// load the data
 		
-		$query =& new SelectQuery;
+		$query = new SelectQuery;
 		
 		$query->addTable("dm_tag_map");
 		$query->addTable("dm_record_field",INNER_JOIN,"dm_tag_map.fk_record_field=dm_record_field.id");
@@ -118,8 +118,8 @@ class RecordTag {
 		
 		$query->setWhere("fk_tag='".addslashes($this->_myID)."'");
 		
-		$dbHandler =& Services::getService("DatabaseManager");
-		$result =& $dbHandler->query($query, DATAMANAGER_DBID);
+		$dbHandler = Services::getService("DatabaseManager");
+		$result =$dbHandler->query($query, DATAMANAGER_DBID);
 		
 		if (!$result) throwError( new UnknownDBError("RecordTag"));
 		

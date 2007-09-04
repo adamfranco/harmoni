@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OracleInsertQueryResultTestCase.class.php,v 1.5 2005/08/17 19:46:59 adamfranco Exp $
+ * @version $Id: OracleInsertQueryResultTestCase.class.php,v 1.6 2007/09/04 20:25:21 adamfranco Exp $
  */
  
     require_once(HARMONI.'DBHandler/Oracle/OracleDatabase.class.php');
@@ -20,7 +20,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OracleInsertQueryResultTestCase.class.php,v 1.5 2005/08/17 19:46:59 adamfranco Exp $
+ * @version $Id: OracleInsertQueryResultTestCase.class.php,v 1.6 2007/09/04 20:25:21 adamfranco Exp $
  */
 
     class OracleInsertQueryResultTestCase extends UnitTestCase {
@@ -41,7 +41,7 @@
 			// perhaps, initialize $obj here
 
 			// connect to some database and do a INSERT query
-			$this->db =& new OracleDatabase("localhost", "harmoniTest", "test", "test");
+			$this->db = new OracleDatabase("localhost", "harmoniTest", "test", "test");
 			$this->db->connect();
         }
 		
@@ -60,7 +60,7 @@
         function test_Constructor() {
 			// get the query result
 			$rid = $this->db->_query("INSERT INTO test1 (value) VALUES('depeche')");
-			$queryResult =& new OracleInsertQueryResult($rid);
+			$queryResult = new OracleInsertQueryResult($rid);
 			
 			$this->assertEqual($rid, $queryResult->_resourceId);
 		}
@@ -76,7 +76,7 @@
 			$arr = pg_fetch_row($lastIdResourceId, 0);
 			$lastId = intval($arr[0]);
 
-			$queryResult =& new OracleInsertQueryResult($rid, $lastId);
+			$queryResult = new OracleInsertQueryResult($rid, $lastId);
 
 			$this->assertNotNull($queryResult->getLastAutoIncrementValue());
 			$this->assertEqual($queryResult->getNumberOfRows(), 1);
@@ -98,7 +98,7 @@
 			$arr = pg_fetch_row($lastIdResourceId, 0);
 			$lastId = intval($arr[0]);
 
-			$queryResult =& new OracleInsertQueryResult($rid, $lastId);
+			$queryResult = new OracleInsertQueryResult($rid, $lastId);
 
 			$this->assertNotNull($queryResult->getLastAutoIncrementValue());
 			$this->assertEqual($queryResult->getNumberOfRows(), 1);

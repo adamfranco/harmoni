@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MonthNumberDayYearStringParserTestCase.class.php,v 1.2 2006/06/26 12:55:08 adamfranco Exp $
+ * @version $Id: MonthNumberDayYearStringParserTestCase.class.php,v 1.3 2007/09/04 20:25:26 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -26,7 +26,7 @@ require_once(dirname(__FILE__)."/../MonthNumberDayYearStringParser.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MonthNumberDayYearStringParserTestCase.class.php,v 1.2 2006/06/26 12:55:08 adamfranco Exp $
+ * @version $Id: MonthNumberDayYearStringParserTestCase.class.php,v 1.3 2007/09/04 20:25:26 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -55,7 +55,7 @@ class MonthNumberDayYearStringParserTestCase extends UnitTestCase {
 	 * Test the creation methods.
 	 */ 
 	function test_full_format() {
-		$parser =& new MonthNumberDayYearStringParser(
+		$parser = new MonthNumberDayYearStringParser(
 			'5 23 2005');
 		
 		$this->assertEqual($parser->year(), 2005);
@@ -68,7 +68,7 @@ class MonthNumberDayYearStringParserTestCase extends UnitTestCase {
 		$this->assertEqual($parser->offsetMinute(), NULL);
 		$this->assertEqual($parser->offsetSecond(), NULL);
 		
-		$parser =& new MonthNumberDayYearStringParser(
+		$parser = new MonthNumberDayYearStringParser(
 			"04 5 82");
 		
 		$this->assertEqual($parser->year(), 1982);
@@ -81,7 +81,7 @@ class MonthNumberDayYearStringParserTestCase extends UnitTestCase {
 		$this->assertEqual($parser->offsetMinute(), NULL);
 		$this->assertEqual($parser->offsetSecond(), NULL);
 		
-		$parser =& new MonthNumberDayYearStringParser(
+		$parser = new MonthNumberDayYearStringParser(
 			'04-05-82');
 		
 		$this->assertEqual($parser->year(), 1982);
@@ -94,7 +94,7 @@ class MonthNumberDayYearStringParserTestCase extends UnitTestCase {
 		$this->assertEqual($parser->offsetMinute(), NULL);
 		$this->assertEqual($parser->offsetSecond(), NULL);
 		
-		$parser =& new MonthNumberDayYearStringParser(
+		$parser = new MonthNumberDayYearStringParser(
 			'04/05/1982');
 		
 		$this->assertEqual($parser->year(), 1982);

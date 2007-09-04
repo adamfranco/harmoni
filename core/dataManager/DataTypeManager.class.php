@@ -15,7 +15,7 @@ require_once(HARMONI."dataManager/storablePrimitives/inc.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DataTypeManager.class.php,v 1.15 2006/06/12 15:00:11 adamfranco Exp $
+ * @version $Id: DataTypeManager.class.php,v 1.16 2007/09/04 20:25:31 adamfranco Exp $
  *
  * @author Gabe Schine
  */
@@ -76,7 +76,7 @@ class DataTypeManager {
 	 * @return ref object
 	 * @access public
 	 */
-	function &newPrimitive( $name ) {
+	function newPrimitive( $name ) {
 		if (!$this->typeRegistered($name)) {
 			throwError( new Error("Could not create new DataType object for '$name' because it doesn't seem to be registered.",
 			"DataTypeManager",true));
@@ -84,7 +84,7 @@ class DataTypeManager {
 		
 		$class = $this->_registeredTypes[$name]["primitive"];
 		
-		$object =& new $class;
+		$object = new $class;
 		return $object;
 	}
 	
@@ -132,7 +132,7 @@ class DataTypeManager {
 	 * @access public
 	 * @return ref object
 	 */
-	function &recastAsStorablePrimitive(&$primitive, $type)
+	function recastAsStorablePrimitive($primitive, $type)
 	{
 		$type = strtolower($type);
 		$class = strtolower(get_class($primitive));
@@ -143,7 +143,7 @@ class DataTypeManager {
 		}
 		
 		$newClass = $this->_registeredTypes[$type]["storable"];
-		$newObj =& recast($primitive, $newClass);
+		$newObj = recast($primitive, $newClass);
 		// now call the constructor in case any setup has to be done.
 		// ----> i (gabe) am not sure why this is here. it is intefering
 		// with re-casting and retaining values, so it cannot be used.
@@ -169,14 +169,14 @@ class DataTypeManager {
 	 * @return bool
 	 * @access public
 	 */
-	function isObjectOfDataType(&$object, $type) {
+	function isObjectOfDataType($object, $type) {
 		$type = strtolower($type);
 		if (!$this->typeRegistered($type)) {
 			throwError ( new Error("AAAH! Trying to check the data type of an object... but '$type' isn't defined!","DataTypeManager",true));
 			return false;
 		}
 		
-		$rule =& ExtendsValidatorRule::getRule($this->_registeredTypes[strtolower($type)]["primitive"]);
+		$rule = ExtendsValidatorRule::getRule($this->_registeredTypes[strtolower($type)]["primitive"]);
 		return $rule->check($object);
 	}
 	

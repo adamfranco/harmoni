@@ -20,7 +20,7 @@ require_once(HARMONI."GUIManager/StyleCollection.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Theme.interface.php,v 1.13 2006/04/26 14:21:29 cws-midd Exp $
+ * @version $Id: Theme.interface.php,v 1.14 2007/09/04 20:25:21 adamfranco Exp $
  **/
 class ThemeInterface {
 
@@ -67,7 +67,7 @@ class ThemeInterface {
 	 * @access public
 	 * @param ref object styleCollection The style collection to attach.
 	 **/
-	function addGlobalStyle(& $styleCollection) {
+	function addGlobalStyle($styleCollection) {
 	}
 
 	/**
@@ -76,7 +76,7 @@ class ThemeInterface {
 	 * @access public
 	 * @param ref object styleCollection The style collection to attach.
 	 **/
-	function &getGlobalStyle() {
+	function getGlobalStyle() {
 	}
 	
 	/**
@@ -109,7 +109,7 @@ class ThemeInterface {
 	 * for the given component type, then the highest index availible will be used.
 	 * @return ref array An array of Style Collections.
 	 **/
-	function &getStylesForComponentType($type, $index) {
+	function getStylesForComponentType($type, $index) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -123,7 +123,7 @@ class ThemeInterface {
 	 * For a description of the role of indices, see the documentation of
 	 * <code>getStylesForComponentType()</code>.
 	 **/
-	function addStyleForComponentType(& $styleCollection, $type, $index) {
+	function addStyleForComponentType($styleCollection, $type, $index) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -200,7 +200,7 @@ class ThemeInterface {
 	 * @access public
 	 * @return ref object The component of this <code>Theme</code>.
 	 **/
-	function &getComponent() {
+	function getComponent() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -209,7 +209,7 @@ class ThemeInterface {
 	 * @access public
 	 * @param ref object A component.
 	 **/
-	function setComponent(& $component) {
+	function setComponent($component) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -260,7 +260,7 @@ class ThemeInterface {
 	 * @return integer An integer id assigned to the given style property. The id 
 	 * only meaningful within the context of this Theme (i.e. this is not a system wide unique id).
 	 **/
-	function registerSP(& $sp, $postImportMethod) {
+	function registerSP($sp, $postImportMethod) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -305,7 +305,7 @@ class ThemeInterface {
 	 * <code>exportRegisteredSP()</code>.
 	 * @return ref object The updated <code>StyleProperty</code> object.
 	 **/
-	function &importRegisteredSP($id, $importData) {
+	function importRegisteredSP($id, $importData) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -317,7 +317,7 @@ class ThemeInterface {
 	 * by <code>registerSP()</code>.
 	 * @return ref object A <code>StylePorperty</code> object.
 	 **/
-	function &getRegisteredSP($id) {
+	function getRegisteredSP($id) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -328,7 +328,7 @@ class ThemeInterface {
 	 * @return ref array An array containing all registered mutable 
 	 * <code>StyleProperty</code> objects.
 	 **/
-	function &getAllRegisteredSPs() {
+	function getAllRegisteredSPs() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	

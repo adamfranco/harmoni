@@ -16,7 +16,7 @@ require_once(HARMONI.'services/Services.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DatabaseStorableTestCase.class.php,v 1.6 2005/04/07 16:33:30 adamfranco Exp $
+ * @version $Id: DatabaseStorableTestCase.class.php,v 1.7 2007/09/04 20:25:53 adamfranco Exp $
  */
 
     class DatabaseStorableTestCase extends UnitTestCase {
@@ -46,38 +46,38 @@ require_once(HARMONI.'services/Services.class.php');
 		 *    First test Description.
 		 */ 
 		function test_get_data() {
-			$dbHandler =& Services::getService("DatabaseManager");
+			$dbHandler = Services::getService("DatabaseManager");
 
 			$dbHandler->createDatabase(MYSQL,"devo.middlebury.edu", "test", "test", "test");
 			$databaseId = $dbHandler->createDatabase(MYSQL,"devo.middlebury.edu", "test", "test", "test");
 
-			$dataContainer =& new DatabaseStorableDataContainer();
+			$dataContainer = new DatabaseStorableDataContainer();
 			$dataContainer->set("dbIndex",1);
 			$dataContainer->set("dbTable","decisions");
 			$dataContainer->set("pathColumn","FK_teams");
 			$dataContainer->set("nameColumn","data_id");
 			$dataContainer->set("sizeColumn","");
 			$dataContainer->set("dataColumn","lenom");
-  			$storable =& new DatabaseStorable($dataContainer,1,1);
+  			$storable = new DatabaseStorable($dataContainer,1,1);
 
 			$this->assertEqual(get_class($dbHandler),"dbhandler");
 		    $this->assertEqual($storable->getData(),"lettonie");
 		}
 
 		function test_get_size() {
-			$dbHandler =& Services::getService("DatabaseManager");
+			$dbHandler = Services::getService("DatabaseManager");
 
 			$dbHandler->createDatabase(MYSQL,"devo.middlebury.edu", "test", "test", "test");
 			$databaseId = $dbHandler->createDatabase(MYSQL,"devo.middlebury.edu", "test", "test", "test");
 
-			$dataContainer =& new DatabaseStorableDataContainer();
+			$dataContainer = new DatabaseStorableDataContainer();
 			$dataContainer->set("dbIndex",1);
 			$dataContainer->set("dbTable","decisions");
 			$dataContainer->set("pathColumn","FK_teams");
 			$dataContainer->set("nameColumn","data_id");
 			$dataContainer->set("sizeColumn","lesize");
 			$dataContainer->set("dataColumn","lenom");
-  			$storable =& new DatabaseStorable($dataContainer,1,3);
+  			$storable = new DatabaseStorable($dataContainer,1,3);
 
 		    $this->assertEqual($storable->getSize(),3);
 

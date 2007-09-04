@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AgentNodeEntryItem.class.php,v 1.6 2006/12/12 18:00:48 adamfranco Exp $
+ * @version $Id: AgentNodeEntryItem.class.php,v 1.7 2007/09/04 20:25:43 adamfranco Exp $
  */ 
 
 require_once(HARMONI."errorHandler/SimpleHTMLErrorPrinter.class.php");
@@ -20,7 +20,7 @@ require_once(HARMONI."errorHandler/SimpleHTMLErrorPrinter.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AgentNodeEntryItem.class.php,v 1.6 2006/12/12 18:00:48 adamfranco Exp $
+ * @version $Id: AgentNodeEntryItem.class.php,v 1.7 2007/09/04 20:25:43 adamfranco Exp $
  */
 class AgentNodeEntryItem {
 		
@@ -118,8 +118,8 @@ class AgentNodeEntryItem {
 	 * @access public
 	 * @since 3/2/06
 	 */
-	function addNodeId ( &$nodeId ) {
-		$this->_nodeIds[] =& $nodeId;
+	function addNodeId ( $nodeId ) {
+		$this->_nodeIds[] =$nodeId;
 	}
 	
 	/**
@@ -129,8 +129,8 @@ class AgentNodeEntryItem {
 	 * @access public
 	 * @since 3/2/06
 	 */
-	function &getNodeIds () {
-		$iterator =& new HarmoniIterator($this->_nodeIds);
+	function getNodeIds () {
+		$iterator = new HarmoniIterator($this->_nodeIds);
 		return $iterator;
 	}
 	
@@ -142,12 +142,12 @@ class AgentNodeEntryItem {
 	 * @access public
 	 * @since 3/2/06
 	 */
-	function addAgentId ( &$agentId ) {
+	function addAgentId ( $agentId ) {
 		foreach ($this->_agentIds as $id) {
 			if ($id->isEqual($agentId))
 				return;
 		}
-		$this->_agentIds[] =& $agentId;
+		$this->_agentIds[] =$agentId;
 	}
 	
 	/**
@@ -158,8 +158,8 @@ class AgentNodeEntryItem {
 	 * @since 3/2/06
 	 */
 	function addUserIds () {
-		$authN =& Services::getService("AuthN");
-		$authNTypes =& $authN->getAuthenticationTypes();
+		$authN = Services::getService("AuthN");
+		$authNTypes =$authN->getAuthenticationTypes();
 		while ($authNTypes->hasNext())
 			$this->addAgentId($authN->getUserId($authNTypes->next()));
 		
@@ -183,19 +183,19 @@ class AgentNodeEntryItem {
 	 * @access public
 	 * @since 3/2/06
 	 */
-	function &getAgentIds ( $includeAnonymous = FALSE ) {
-		$idManager =& Services::getService("Id");
+	function getAgentIds ( $includeAnonymous = FALSE ) {
+		$idManager = Services::getService("Id");
 		$idsToReturn = array();
 		$anonymousId = $idManager->getId("edu.middlebury.agents.anonymous");
 		foreach (array_keys($this->_agentIds) as $key) {
 			if (!$anonymousId->isEqual($this->_agentIds[$key]))
-				$idsToReturn[] =& $this->_agentIds[$key];
+				$idsToReturn[] =$this->_agentIds[$key];
 		}
 		
 		if ($includeAnonymous && !count($idsToReturn))
-			$idsToReturn[] =& $anonymousId;
+			$idsToReturn[] =$anonymousId;
 		
-		$iterator =& new HarmoniIterator($idsToReturn);
+		$iterator = new HarmoniIterator($idsToReturn);
 		return $iterator;
 	}
 }

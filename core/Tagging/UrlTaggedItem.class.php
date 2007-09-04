@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: UrlTaggedItem.class.php,v 1.2 2006/11/30 22:02:12 adamfranco Exp $
+ * @version $Id: UrlTaggedItem.class.php,v 1.3 2007/09/04 20:25:29 adamfranco Exp $
  */ 
  
  
@@ -21,7 +21,7 @@ define('ARBITRARY_URL', 'ARBITRARY_URL');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: UrlTaggedItem.class.php,v 1.2 2006/11/30 22:02:12 adamfranco Exp $
+ * @version $Id: UrlTaggedItem.class.php,v 1.3 2007/09/04 20:25:29 adamfranco Exp $
  */
 class UrlTaggedItem 
 	extends TaggedItem
@@ -36,8 +36,8 @@ class UrlTaggedItem
 	 * @access public
 	 * @since 11/2/06
 	 */
-	function &forUrl ( $url, $displayName=null, $description=null, $class='UrlTaggedItem' ) {
-		eval('$item =& '.$class.'::forId($url, ARBITRARY_URL);');
+	function forUrl ( $url, $displayName=null, $description=null, $class='UrlTaggedItem' ) {
+		eval('$item = '.$class.'::forId($url, ARBITRARY_URL);');
 		if ($displayName)
 			$item->_displayName = $displayName;
 		if ($description)
@@ -54,8 +54,8 @@ class UrlTaggedItem
 	 * @access public
 	 * @since 11/2/06
 	 */
-	function &forId ( $id, $system, $class='UrlTaggedItem' ) {
-		$item =& TaggedItem::forId($id, $system, $class);
+	function forId ( $id, $system, $class='UrlTaggedItem' ) {
+		$item = TaggedItem::forId($id, $system, $class);
 		return $item;
 	}
 	
@@ -114,15 +114,15 @@ class UrlTaggedItem
 	 */
 	function _loadInfo () {
 		if (!isset($this->_displayName) || !isset($this->_description)) {
-			$query =& new SelectQuery;
+			$query = new SelectQuery;
 			$query->addColumn('db_id');
 			$query->addColumn('display_name');
 			$query->addColumn('description');
 			$query->addTable('tag_item');
 			$query->addWhere("id='".addslashes($this->getIdString())."'");
 			
-			$dbc =& Services::getService("DatabaseManager");
-			$result =& $dbc->query($query, $this->getDatabaseIndex());
+			$dbc = Services::getService("DatabaseManager");
+			$result =$dbc->query($query, $this->getDatabaseIndex());
 			$this->_dbId = intval($result->field('db_id'));
 			$this->_displayName = $result->field('display_name');
 			$this->_description = $result->field('description');

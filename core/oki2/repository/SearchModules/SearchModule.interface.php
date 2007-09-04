@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SearchModule.interface.php,v 1.5 2006/01/18 16:12:26 adamfranco Exp $
+ * @version $Id: SearchModule.interface.php,v 1.6 2007/09/04 20:25:47 adamfranco Exp $
  */
 
 /**
@@ -17,7 +17,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SearchModule.interface.php,v 1.5 2006/01/18 16:12:26 adamfranco Exp $
+ * @version $Id: SearchModule.interface.php,v 1.6 2007/09/04 20:25:47 adamfranco Exp $
  */
 
 class SearchModuleInterface {
@@ -30,7 +30,7 @@ class SearchModuleInterface {
 	 * @access public
 	 * @since 11/2/04
 	 */
-	function &searchAssets ( $searchCriteria ) {
+	function searchAssets ( $searchCriteria ) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	

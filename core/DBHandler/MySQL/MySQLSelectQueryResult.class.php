@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQLSelectQueryResult.class.php,v 1.10 2005/06/16 18:19:03 gabeschine Exp $
+ * @version $Id: MySQLSelectQueryResult.class.php,v 1.11 2007/09/04 20:25:19 adamfranco Exp $
  */
  
 require_once(HARMONI."DBHandler/SelectQueryResult.interface.php");
@@ -20,7 +20,7 @@ require_once(HARMONI."DBHandler/SelectQueryResult.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQLSelectQueryResult.class.php,v 1.10 2005/06/16 18:19:03 gabeschine Exp $
+ * @version $Id: MySQLSelectQueryResult.class.php,v 1.11 2007/09/04 20:25:19 adamfranco Exp $
  */
 class MySQLSelectQueryResult extends SelectQueryResultInterface {
 
@@ -76,7 +76,7 @@ class MySQLSelectQueryResult extends SelectQueryResultInterface {
 	 */
 	function MySQLSelectQueryResult($resourceId, $linkId) {
 		// ** parameter validation
-		$resourceRule =& ResourceValidatorRule::getRule();
+		$resourceRule = ResourceValidatorRule::getRule();
 		ArgumentValidator::validate($resourceId, $resourceRule, true);
 		ArgumentValidator::validate($linkId, $resourceRule, true);
 		// ** end of parameter validation
@@ -239,7 +239,7 @@ class MySQLSelectQueryResult extends SelectQueryResultInterface {
 	 **/
 	function getCurrentRow($arrayType = BOTH) {
 		// ** parameter validation
-		$integerRule =& IntegerValidatorRule::getRule();
+		$integerRule = IntegerValidatorRule::getRule();
 		ArgumentValidator::validate($arrayType, $integerRule, true);
 		// ** end of parameter validation
 		
@@ -273,7 +273,7 @@ class MySQLSelectQueryResult extends SelectQueryResultInterface {
 	 */
 	function moveToRow($rowNumber) {
 		// ** parameter validation
-		$integerRule =& IntegerValidatorRule::getRule();
+		$integerRule = IntegerValidatorRule::getRule();
 		ArgumentValidator::validate($rowNumber, $integerRule, true);
 		// ** end of parameter validation
 		
@@ -308,14 +308,14 @@ class MySQLSelectQueryResult extends SelectQueryResultInterface {
 	 * @param ref mixed var The variable to be bound to the value of the field in
 	 * the current row.
 	 **/
-	function bindField($field, & $var) {
+	function bindField($field, $var) {
 		// ** parameter validation
-		$orRule =& OrValidatorRule::getRule(IntegerValidatorRule::getRule(), StringValidatorRule::getRule());
+		$orRule = OrValidatorRule::getRule(IntegerValidatorRule::getRule(), StringValidatorRule::getRule());
 		ArgumentValidator::validate($field, $orRule, true);
 		// ** end of parameter validation
 		
 		// add $var to the array of bound variables and update its value
-		$this->_boundVars[$field] =& $var; 
+		$this->_boundVars[$field] =$var; 
 		if (is_int($field))
 	   		$var = $this->_currentRow[NUMERIC][$field];
 		else
@@ -332,7 +332,7 @@ class MySQLSelectQueryResult extends SelectQueryResultInterface {
 	 **/
 	function unbindField($field) {
 		// ** parameter validation
-		$orRule =& OrValidatorRule::getRule(IntegerValidatorRule::getRule(), StringValidatorRule::getRule());
+		$orRule = OrValidatorRule::getRule(IntegerValidatorRule::getRule(), StringValidatorRule::getRule());
 		ArgumentValidator::validate($field, $orRule, true);
 		// ** end of parameter validation
 		

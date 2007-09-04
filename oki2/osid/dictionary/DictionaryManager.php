@@ -64,7 +64,7 @@ class DictionaryManager
      * 
      * @access public
      */
-    function &createDictionary ( $displayName, $description, &$domain ) { 
+    function createDictionary ( $displayName, $description, $domain ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -90,7 +90,7 @@ class DictionaryManager
      * 
      * @access public
      */
-    function deleteDictionary ( &$dictionaryId ) { 
+    function deleteDictionary ( $dictionaryId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -117,7 +117,7 @@ class DictionaryManager
      * 
      * @access public
      */
-    function &getDictionary ( &$dictionaryId ) { 
+    function getDictionary ( $dictionaryId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -140,7 +140,7 @@ class DictionaryManager
      * 
      * @access public
      */
-    function &getDictionaries () { 
+    function getDictionaries () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 }

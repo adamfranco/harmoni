@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthNMethod.abstract.php,v 1.12 2006/02/28 18:59:59 adamfranco Exp $
+ * @version $Id: AuthNMethod.abstract.php,v 1.13 2007/09/04 20:25:37 adamfranco Exp $
  */ 
 
 /**
@@ -32,7 +32,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthNMethod.abstract.php,v 1.12 2006/02/28 18:59:59 adamfranco Exp $
+ * @version $Id: AuthNMethod.abstract.php,v 1.13 2007/09/04 20:25:37 adamfranco Exp $
  */
 class AuthNMethod {
 	
@@ -54,9 +54,9 @@ class AuthNMethod {
 	 * @access public
 	 * @since 3/24/05
 	 */
-	function assignConfiguration ( &$configuration ) {
+	function assignConfiguration ( $configuration ) {
 		ArgumentValidator::validate ($configuration, ExtendsValidatorRule::getRule("Properties"));
-		$this->_configuration =& $configuration;
+		$this->_configuration =$configuration;
 	}
 	
 	/**
@@ -68,9 +68,9 @@ class AuthNMethod {
 	 * @access protected
 	 * @since 3/2/05
 	 */
-	function setType ( &$type ) {
+	function setType ( $type ) {
 		ArgumentValidator::validate($type, ExtendsValidatorRule::getRule("Type"));
-		$this->_type =& $type;
+		$this->_type =$type;
 	}
 	
 	/**
@@ -92,9 +92,9 @@ class AuthNMethod {
 	 * @access public
 	 * @since 3/1/05
 	 */
-	function &createTokensObject () {
+	function createTokensObject () {
 		$tokensClass = $this->_configuration->getProperty('tokens_class');
-		$newTokens =& new $tokensClass($this->_configuration);
+		$newTokens = new $tokensClass($this->_configuration);
 		
 		$validatorRule = ExtendsValidatorRule::getRule('AuthNTokens');
 		if ($validatorRule->check($newTokens))
@@ -114,8 +114,8 @@ class AuthNMethod {
 	 * @access public
 	 * @since 3/1/05
 	 */
-	function &createTokens ($tokens) {
-		$tokensObject =& $this->createTokensObject();
+	function createTokens ($tokens) {
+		$tokensObject =$this->createTokensObject();
 		$tokensObject->initializeForTokens($tokens);
 		return $tokensObject;
 	}
@@ -130,8 +130,8 @@ class AuthNMethod {
 	 * @access public
 	 * @since 3/1/05
 	 */
-	function &createTokensForIdentifier ( $identifier ) {
-		$tokensObject =& $this->createTokensObject();
+	function createTokensForIdentifier ( $identifier ) {
+		$tokensObject =$this->createTokensObject();
 		$tokensObject->initializeForIdentifier($identifier);
 		return $tokensObject;
 	}
@@ -156,7 +156,7 @@ class AuthNMethod {
 	 * @access public
 	 * @since 3/1/05
 	 */
-	function authenticateTokens ( &$authNTokens ) {
+	function authenticateTokens ( $authNTokens ) {
 		throwError( new Error("AuthNMethod::authenticate() should have been overridden in a child class.",
 									 "AuthNMethod", true));
 	}
@@ -169,7 +169,7 @@ class AuthNMethod {
 	 * @access public
 	 * @since 3/1/05
 	 */
-	function exists ( &$tokens ) {
+	function exists ( $tokens ) {
 		return $this->tokensExist($this->createTokens($tokens));
 	}
 	
@@ -181,7 +181,7 @@ class AuthNMethod {
 	 * @access public
 	 * @since 3/1/05
 	 */
-	function tokensExist ( &$authNTokens ) {
+	function tokensExist ( $authNTokens ) {
 		throwError( new Error("AuthNMethod::authenticate() should have been overridden in a child class.",
 									 "AuthNMethod", true));
 	}
@@ -196,7 +196,7 @@ class AuthNMethod {
 	 * @access public
 	 * @since 3/1/05
 	 */
-	function &getProperties ( $tokens ) {
+	function getProperties ( $tokens ) {
 		return $this->getPropertiesForTokens($this->createTokens($tokens));
 	}
 	
@@ -210,9 +210,9 @@ class AuthNMethod {
 	 * @access public
 	 * @since 3/1/05
 	 */
-	function &getPropertiesForTokens ( &$authNTokens ) {
+	function getPropertiesForTokens ( $authNTokens ) {
 		ArgumentValidator::validate($authNTokens, ExtendsValidatorRule::getRule("AuthNTokens"));
-		$properties =& new HarmoniProperties($this->getType());
+		$properties = new HarmoniProperties($this->getType());
 
 		// Properties take values by reference, so we have to work around
 		// that by creating/unsetting variables.
@@ -234,7 +234,7 @@ class AuthNMethod {
 	 * @access private
 	 * @since 3/1/05
 	 */
-	function _populateProperties ( &$authNTokens, &$properties ) {
+	function _populateProperties ( $authNTokens, $properties ) {
 		throwError( new Error("AuthNMethod::_populateProperties() should have been overridden in a child class.",
 									 "AuthNMethod", true));
 	}
@@ -255,7 +255,7 @@ class AuthNMethod {
 	 * @access public
 	 * @since 3/3/05
 	 */
-	function &getTokensBySearch ( $searchString ) {
+	function getTokensBySearch ( $searchString ) {
 		throwError( new Error("AuthNMethod::getTokensBySearch() should have been overridden in a child class.",
 									 "AuthNMethod", true));
 	}
@@ -280,7 +280,7 @@ class AuthNMethod {
 	 * @access public
 	 * @since 3/1/05
 	 */
-	function addTokens ( &$authNTokens ) {
+	function addTokens ( $authNTokens ) {
 		throwError( new Error("AuthNMethod::addTokens() should have been overridden in a child class.",
 									 "AuthNMethod", true));
 	}
@@ -305,7 +305,7 @@ class AuthNMethod {
 	 * @access public
 	 * @since 3/1/05
 	 */
-	function deleteTokens ( &$authNTokens ) {
+	function deleteTokens ( $authNTokens ) {
 		throwError( new Error("AuthNMethod::deleteTokens() should have been overridden in a child class.",
 									 "AuthNMethod", true));
 	}
@@ -331,7 +331,7 @@ class AuthNMethod {
 	 * @access public
 	 * @since 3/1/05
 	 */
-	function updateTokens ( &$oldAuthNTokens, &$newAuthNTokens ) {
+	function updateTokens ( $oldAuthNTokens, $newAuthNTokens ) {
 		throwError( new Error("AuthNMethod::updateTokens() should have been overridden in a child class.",
 									 "AuthNMethod", true));
 	}
@@ -357,7 +357,7 @@ class AuthNMethod {
 	 * @access public
 	 * @since 3/1/05
 	 */
-	function updatePropertiesForTokens ( &$authNTokens, &$newProperties ) {
+	function updatePropertiesForTokens ( $authNTokens, $newProperties ) {
 		throwError( new Error("AuthNMethod::updateTokens() should have been overridden in a child class.",
 									 "AuthNMethod", true));
 	}
@@ -370,12 +370,12 @@ class AuthNMethod {
 	 * @access public
 	 * @since 10/25/05
 	 */
-	function getDisplayNameForTokens (&$authNTokens) {
+	function getDisplayNameForTokens ($authNTokens) {
 		if (!is_null(
 			$this->_configuration->getProperty("display_name_property"))) {
 			$property = 
 				$this->_configuration->getProperty("display_name_property");
-			$properties =& $this->getPropertiesForTokens($authNTokens);
+			$properties =$this->getPropertiesForTokens($authNTokens);
 
 			if ($properties->getProperty($property) != NULL)
 				return $properties->getProperty($property);
@@ -409,7 +409,7 @@ class AuthNMethod {
 	 * @access public
 	 * @since 2/23/06
 	 */
-	function &getAllGroups () {
+	function getAllGroups () {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
 	
@@ -422,7 +422,7 @@ class AuthNMethod {
 	 * @access public
 	 * @since 2/23/06
 	 */
-	function &getRootGroups () {
+	function getRootGroups () {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
 	
@@ -434,7 +434,7 @@ class AuthNMethod {
 	 * @access public
 	 * @since 2/23/06
 	 */
-	function &getGroup ( &$id ) {
+	function getGroup ( $id ) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
 	
@@ -446,7 +446,7 @@ class AuthNMethod {
 	 * @access public
 	 * @since 2/23/06
 	 */
-	function isGroup ( &$id ) {
+	function isGroup ( $id ) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
 	
@@ -460,7 +460,7 @@ class AuthNMethod {
 	 * @access public
 	 * @since 2/23/06
 	 */
-	function &getGroupsContainingTokens ( $authNTokens, $includeSubgroups ) {
+	function getGroupsContainingTokens ( $authNTokens, $includeSubgroups ) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
 	
@@ -474,7 +474,7 @@ class AuthNMethod {
 	 * @access public
 	 * @since 2/23/06
 	 */
-	function &getGroupsContainingGroup ( &$id, $includeSubgroups ) {
+	function getGroupsContainingGroup ( $id, $includeSubgroups ) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
 }

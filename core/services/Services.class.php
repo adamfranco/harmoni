@@ -5,14 +5,14 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/inc.php");
 
 /**
  * The Services class handles starting, stopping, registering, etc of any available services.
- * @version $Id: Services.class.php,v 1.22 2005/06/01 17:58:57 gabeschine Exp $
+ * @version $Id: Services.class.php,v 1.23 2007/09/04 20:25:49 adamfranco Exp $
  *
  * @package harmoni.services
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Services.class.php,v 1.22 2005/06/01 17:58:57 gabeschine Exp $
+ * @version $Id: Services.class.php,v 1.23 2007/09/04 20:25:49 adamfranco Exp $
  */
 class Services extends ServicesAbstract {
 	/**
@@ -97,11 +97,11 @@ class Services extends ServicesAbstract {
 	 * @access public
 	 * @return void
 	 **/
-	function registerObject($name ,&$object) {
+	function registerObject($name ,$object) {
 		$class = get_class($object);
 
 		$this->_registeredServices[$name] = $class;
-		$this->_services[$name] =& $object;
+		$this->_services[$name] =$object;
 		return true;
 	}
 	
@@ -158,7 +158,7 @@ class Services extends ServicesAbstract {
 	 * @access public
 	 * @return object Object|false The service object.
 	 **/
-	function &get( $name ) {
+	function get( $name ) {
 		$name = $this->_getServiceName($name);
 		if (!$this->running($name)) {
 			// if we have the error Handler, throw a pretty error with that,
@@ -202,7 +202,7 @@ class Services extends ServicesAbstract {
 			}
 		}
 		
-		$str = '$this->_services[$name] =& new '.$classname.'('.implode(', ', $argList).');';
+		$str = '$this->_services[$name] = new '.$classname.'('.implode(', ', $argList).');';
 //		print "<br />$str";
 
 		if (!$classname)
@@ -212,7 +212,7 @@ class Services extends ServicesAbstract {
 				
 		eval($str);
 		
-//		$this->_services[$name] =& new $classname;
+//		$this->_services[$name] = new $classname;
 		
 		// make sure the service was instantiated properly
 		if (!is_object($this->_services[$name]) 
@@ -246,7 +246,7 @@ class Services extends ServicesAbstract {
 	 * @access public
 	 * @since 3/24/05
 	 */
-	function startManager ( $name, &$context, &$configuration ) {
+	function startManager ( $name, $context, $configuration ) {
 		$name = $this->_getServiceName($name);
 		// make sure that the service is not currently running.
 		if ($this->running($name))
@@ -259,7 +259,7 @@ class Services extends ServicesAbstract {
 				start service - A classname was not registered for this service
 				correctly", "Services", 1));
 						
-		$this->_services[$name] =& new $classname;
+		$this->_services[$name] = new $classname;
 		$this->_services[$name]->assignOsidContext($context);
 		$this->_services[$name]->assignConfiguration($configuration);
 		

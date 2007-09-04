@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ActionSource.abstract.php,v 1.4 2007/04/12 15:37:23 adamfranco Exp $
+ * @version $Id: ActionSource.abstract.php,v 1.5 2007/09/04 20:25:29 adamfranco Exp $
  *
  * @abstract
  */
@@ -35,7 +35,7 @@ class ActionSource {
 	 * @access public
 	 * @return ref mixed A {@link Layout} or TRUE/FALSE
 	 */
-	function &executeAction($module, $action, &$harmoni)
+	function executeAction($module, $action, $harmoni)
 	{
 		
 	}

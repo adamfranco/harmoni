@@ -22,7 +22,7 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GroupsFromNodesIterator.class.php,v 1.2 2007/04/12 15:37:26 adamfranco Exp $
+ * @version $Id: GroupsFromNodesIterator.class.php,v 1.3 2007/09/04 20:25:36 adamfranco Exp $
  */
 class GroupsFromNodesIterator
 	extends HarmoniAgentIterator
@@ -43,8 +43,8 @@ class GroupsFromNodesIterator
 	 * @access public
 	 * @since 8/30/05
 	 */
-	function GroupsFromNodesIterator ( &$nodeIterator ) {
-		$this->_nodeIterator =& $nodeIterator;
+	function GroupsFromNodesIterator ( $nodeIterator ) {
+		$this->_nodeIterator =$nodeIterator;
 	}
 	
 	/**
@@ -89,10 +89,10 @@ class GroupsFromNodesIterator
 	 * 
 	 * @access public
 	 */
-	function &next () {
-		$node =& $this->_nodeIterator->next();
-		$agentManager =& Services::getService('Agent');
-		$group =& $agentManager->getGroup($node->getId());
+	function next () {
+		$node =$this->_nodeIterator->next();
+		$agentManager = Services::getService('Agent');
+		$group =$agentManager->getGroup($node->getId());
 		return $group;
 	}
 	

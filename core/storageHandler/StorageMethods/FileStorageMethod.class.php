@@ -12,7 +12,7 @@ require_once(HARMONI.'storageHandler/Storables/FileStorable.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: FileStorageMethod.class.php,v 1.5 2005/01/19 21:10:13 adamfranco Exp $
+ * @version $Id: FileStorageMethod.class.php,v 1.6 2007/09/04 20:25:52 adamfranco Exp $
  */
 class FileStorageMethod extends StorageMethodInterface {
 
@@ -44,7 +44,7 @@ class FileStorageMethod extends StorageMethodInterface {
      * @access public
      */
 
-    function store(&$storable,$path,$name) { 
+    function store($storable,$path,$name) { 
 		$path = $this->_convertPath($path);
 		$filename = $this->_basePath.$path.$name;
 		$handle = fopen($filename,'w');
@@ -61,9 +61,9 @@ class FileStorageMethod extends StorageMethodInterface {
 	 * @return object FileStorable A reference to the storable, which can be used to retrieve the data. False if no such storable exists.
      * @access public
      */
-    function &retrieve($path,$name) { 
+    function retrieve($path,$name) { 
 		if (file_exists($this->_basePath.$this->_convertPath($path).$name)){
-			$storable =& new FileStorable($this->_basePath,$path,$name);
+			$storable = new FileStorable($this->_basePath,$path,$name);
 			return $storable;
 		}
 		else return false;
@@ -197,7 +197,7 @@ class FileStorageMethod extends StorageMethodInterface {
 			while (false !== ($filename = readdir($dirstream))) {
 				if ($filename!="." && $filename!="..") {
 					if (is_file($this->_basePath.$this->_convertPath($path).$filename))
-						$storables[] =& $this->retrieve($path,$filename);
+						$storables[] =$this->retrieve($path,$filename);
 					
 					elseif (is_dir($this->_basePath.$this->_convertPath($path).$filename) && ($recursive))
 						$storables = array_merge($storables,$this->listInPath($path.$filename));

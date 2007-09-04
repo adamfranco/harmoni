@@ -28,7 +28,7 @@ require_once(HARMONI."GUIManager/StyleComponent.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HorizontalAlignmentPositionSC.class.php,v 1.3 2006/08/15 20:44:58 sporktim Exp $
+ * @version $Id: HorizontalAlignmentPositionSC.class.php,v 1.4 2007/09/04 20:25:22 adamfranco Exp $
  */
 class HorizontalAlignmentPositionSC extends StyleComponent {
 
@@ -45,7 +45,7 @@ class HorizontalAlignmentPositionSC extends StyleComponent {
 		
 		$errDescription .= " ".implode(", ", $options).".";
 		
-		$rule =& CSSLengthValidatorRuleWithOptions::getRule($options);
+		$rule = CSSLengthValidatorRuleWithOptions::getRule($options);
 		
 		$displayName = "HorizontalAlignmentPosition";
 		$description = "Specifies the length (width, size, etc) in percentages (%),

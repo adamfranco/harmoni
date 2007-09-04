@@ -11,7 +11,7 @@ require_once(dirname(__FILE__)."/AgentSearch.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TokenSearch.class.php,v 1.5 2006/12/12 17:18:15 adamfranco Exp $
+ * @version $Id: TokenSearch.class.php,v 1.6 2007/09/04 20:25:36 adamfranco Exp $
  */
 
 class TokenSearch
@@ -28,32 +28,32 @@ class TokenSearch
 	 * @access public
 	 * @since 11/10/04
 	 */
-	function &getAgentsBySearch ( & $searchCriteria) {
+	function getAgentsBySearch ( $searchCriteria) {
 		$allAgents = array();
 		
 		// See if the agent exists as known by harmoni
-		$authNMethodManager =& Services::getService("AuthNMethodManager");
-		$authenticationManager =& Services::getService("AuthenticationManager");
-		$agentManager =& Services::getService("AgentManager");
+		$authNMethodManager = Services::getService("AuthNMethodManager");
+		$authenticationManager = Services::getService("AuthenticationManager");
+		$agentManager = Services::getService("AgentManager");
 		
-		$types =& $authNMethodManager->getAuthNTypes();
+		$types =$authNMethodManager->getAuthNTypes();
 		while ($types->hasNext()) {
-			$type =& $types->next();
-			$authNMethod =& $authNMethodManager->getAuthNMethodForType($type);
-			$tokensIterator =& $authNMethod->getTokensBySearch($searchCriteria);
+			$type =$types->next();
+			$authNMethod =$authNMethodManager->getAuthNMethodForType($type);
+			$tokensIterator =$authNMethod->getTokensBySearch($searchCriteria);
 			
 		
 			
 			while ($tokensIterator->hasNextObject()) {
-				$token =& $tokensIterator->nextObject();
-				$agentId =& $authenticationManager->_getAgentIdForAuthNTokens($token
+				$token =$tokensIterator->nextObject();
+				$agentId =$authenticationManager->_getAgentIdForAuthNTokens($token
 				, $type);
 				if ($agentManager->isAgent($agentId))
-					$allAgents[] =& $agentManager->getAgent($agentId);
+					$allAgents[] =$agentManager->getAgent($agentId);
 			}
 		}
 		
-		$obj =& new HarmoniIterator($allAgents);
+		$obj = new HarmoniIterator($allAgents);
 		
 		return $obj;
 	}
@@ -69,34 +69,34 @@ class TokenSearch
 	 * @access public
 	 * @since 11/10/04
 	 */
-	function &getGroupsBySearch ( & $searchCriteria) {
+	function getGroupsBySearch ( $searchCriteria) {
 		$allGroups = array();
 		
 		// See if the agent exists as known by harmoni
-		$authNMethodManager =& Services::getService("AuthNMethodManager");
-		$authenticationManager =& Services::getService("AuthenticationManager");
-		$agentManager =& Services::getService("AgentManager");
-		$idManager =& Services::getService("IdManager");
+		$authNMethodManager = Services::getService("AuthNMethodManager");
+		$authenticationManager = Services::getService("AuthenticationManager");
+		$agentManager = Services::getService("AgentManager");
+		$idManager = Services::getService("IdManager");
 		
-		$types =& $authNMethodManager->getAuthNTypes();
+		$types =$authNMethodManager->getAuthNTypes();
 		while ($types->hasNext()) {
-			$type =& $types->next();
-			$authNMethod =& $authNMethodManager->getAuthNMethodForType($type);
+			$type =$types->next();
+			$authNMethod =$authNMethodManager->getAuthNMethodForType($type);
 			if(!method_exists($authNMethod,"getGroupTokensBySearch")){
 			  continue;
 			}
-			$tokensIterator =& $authNMethod->getGroupTokensBySearch($searchCriteria);
+			$tokensIterator =$authNMethod->getGroupTokensBySearch($searchCriteria);
 			
 		
 			
 			while ($tokensIterator->hasNextObject()) {
-				$token =& $tokensIterator->nextObject();
-				$allGroups[] =& $agentManager->getGroup(
+				$token =$tokensIterator->nextObject();
+				$allGroups[] =$agentManager->getGroup(
 									$idManager->getId($token->getIdentifier()));
 			}
 		}		
 		
-		$obj =& new HarmoniIterator($allGroups);
+		$obj = new HarmoniIterator($allGroups);
 		
 		return $obj;
 	}	

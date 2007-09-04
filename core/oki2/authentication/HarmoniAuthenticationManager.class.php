@@ -64,7 +64,7 @@ require_once(dirname(__FILE__)."/FormActionNamePassTokenCollector.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthenticationManager.class.php,v 1.27 2007/07/30 18:21:35 adamfranco Exp $
+ * @version $Id: HarmoniAuthenticationManager.class.php,v 1.28 2007/09/04 20:25:37 adamfranco Exp $
  */
 class HarmoniAuthenticationManager 
 	extends AuthenticationManager
@@ -80,7 +80,7 @@ class HarmoniAuthenticationManager
 		}
 		
 		$this->_tokenCollectors = array();
-		$this->_defaultTokenCollector =& new HTTPAuthNamePassTokenCollector;
+		$this->_defaultTokenCollector = new HTTPAuthNamePassTokenCollector;
 		$this->_adminActAsType = new Type("Authentication", "edu.middlebury", "Change User");
 	}
 	
@@ -93,7 +93,7 @@ class HarmoniAuthenticationManager
 	 * 
 	 * @access public
 	 */
-	function &getOsidContext () { 
+	function getOsidContext () { 
 		return $this->_osidContext;
 	} 
 
@@ -108,8 +108,8 @@ class HarmoniAuthenticationManager
 	 * 
 	 * @access public
 	 */
-	function assignOsidContext ( &$context ) { 
-		$this->_osidContext =& $context;
+	function assignOsidContext ( $context ) { 
+		$this->_osidContext =$context;
 	} 
 
 	/**
@@ -135,15 +135,15 @@ class HarmoniAuthenticationManager
 	 * 
 	 * @access public
 	 */
-	function assignConfiguration ( &$configuration ) { 
-		$this->_configuration =& $configuration;
+	function assignConfiguration ( $configuration ) { 
+		$this->_configuration =$configuration;
 		
-		$configKeys =& $this->_configuration->getKeys();
+		$configKeys =$this->_configuration->getKeys();
 		while ($configKeys->hasNextObject()) {
 			$key = $configKeys->nextObject();
 			if ($key == 'token_collectors') {
 		
-				$tokenCollectors =& $this->_configuration->getProperty('token_collectors');
+				$tokenCollectors =$this->_configuration->getProperty('token_collectors');
 				ArgumentValidator::validate($tokenCollectors,
 					ArrayValidatorRuleWithRule::getRule(
 						ExtendsValidatorRule::getRule("TokenCollector")));
@@ -151,7 +151,7 @@ class HarmoniAuthenticationManager
 				foreach (array_keys($tokenCollectors) as $key) {
 					$authType = unserialize($key);
 					$authTypeString = $this->_getTypeString($authType);
-					$this->_tokenCollectors[$authTypeString] =& $tokenCollectors[$key];
+					$this->_tokenCollectors[$authTypeString] =$tokenCollectors[$key];
 				}
 			}
 		}
@@ -177,11 +177,11 @@ class HarmoniAuthenticationManager
 	 * 
 	 * @access public
 	 */
-	function &getAuthenticationTypes () {
-		$authNMethodManager =& Services::getService("AuthNMethods");
-		$types =& new MultiIteratorIterator;
+	function getAuthenticationTypes () {
+		$authNMethodManager = Services::getService("AuthNMethods");
+		$types = new MultiIteratorIterator;
 		$adminTypes = array();
-		$adminTypes[] =& $this->_adminActAsType;
+		$adminTypes[] =$this->_adminActAsType;
 		$types->addIterator(new HarmoniIterator($adminTypes));
 		$types->addIterator($authNMethodManager->getAuthNTypes());
 		return $types;
@@ -220,47 +220,47 @@ class HarmoniAuthenticationManager
 	 * 
 	 * @access public
 	 */
-	function authenticateUser ( &$authenticationType ) {
+	function authenticateUser ( $authenticationType ) {
 		if ($authenticationType->isEqual($this->_adminActAsType)) {
 			$this->_authenticateAdminActAsUser();
 		} else {
 			$this->_checkType($authenticationType);
 			$this->destroyAuthenticationForType($authenticationType);
 			
-			$authNTokens =& $this->_getAuthNTokensFromUser($authenticationType);
+			$authNTokens =$this->_getAuthNTokensFromUser($authenticationType);
 			
 			if ($authNTokens) {
-				$authNMethodManager =& Services::getService("AuthNMethods");
-				$authNMethod =& $authNMethodManager->getAuthNMethodForType($authenticationType);
+				$authNMethodManager = Services::getService("AuthNMethods");
+				$authNMethod =$authNMethodManager->getAuthNMethodForType($authenticationType);
 				$isValid = $authNMethod->authenticateTokens($authNTokens);
 				
 				// If the authentication was successful, get the AgentId from the mapping
 				// system and record the result.
 				if ($isValid) {
-					$agentId =& $this->_getAgentIdForAuthNTokens($authNTokens, $authenticationType);
+					$agentId =$this->_getAgentIdForAuthNTokens($authNTokens, $authenticationType);
 					$authenticationTypeString = $this->_getTypeString($authenticationType);
 					$_SESSION['__AuthenticatedAgents'][$authenticationTypeString]
-						=& $agentId;
+						=$agentId;
 					
 					// Ensure that the Authorization Cache gets the new users
-					$isAuthorizedCache =& IsAuthorizedCache::instance();
+					$isAuthorizedCache = IsAuthorizedCache::instance();
 					$isAuthorizedCache->dirtyUser();
 				}
 				
 				// Log the success or failure
 				if (Services::serviceRunning("Logging")) {
-					$loggingManager =& Services::getService("Logging");
-					$log =& $loggingManager->getLogForWriting("Authentication");
-					$formatType =& new Type("logging", "edu.middlebury", "AgentsAndNodes",
+					$loggingManager = Services::getService("Logging");
+					$log =$loggingManager->getLogForWriting("Authentication");
+					$formatType = new Type("logging", "edu.middlebury", "AgentsAndNodes",
 									"A format in which the acting Agent[s] and the target nodes affected are specified.");
-					$priorityType =& new Type("logging", "edu.middlebury", "Event_Notice",
+					$priorityType = new Type("logging", "edu.middlebury", "Event_Notice",
 									"Normal events.");
 					
 					if ($isValid) {
-						$item =& new AgentNodeEntryItem("Authentication Sucess", "Authentication Success: <br/>&nbsp;&nbsp;&nbsp;&nbsp;".$authenticationType->getKeyword()." <br/>&nbsp;&nbsp;&nbsp;&nbsp;".$authNTokens->getIdentifier());
+						$item = new AgentNodeEntryItem("Authentication Sucess", "Authentication Success: <br/>&nbsp;&nbsp;&nbsp;&nbsp;".$authenticationType->getKeyword()." <br/>&nbsp;&nbsp;&nbsp;&nbsp;".$authNTokens->getIdentifier());
 						$item->addAgentId($agentId);
 					} else {
-						$item =& new AgentNodeEntryItem("Authentication Failure", "Authentication Failure: <br/>&nbsp;&nbsp;&nbsp;&nbsp;".$authenticationType->getKeyword()." <br/>&nbsp;&nbsp;&nbsp;&nbsp;".$authNTokens->getIdentifier());
+						$item = new AgentNodeEntryItem("Authentication Failure", "Authentication Failure: <br/>&nbsp;&nbsp;&nbsp;&nbsp;".$authenticationType->getKeyword()." <br/>&nbsp;&nbsp;&nbsp;&nbsp;".$authNTokens->getIdentifier());
 					}
 					
 					$log->appendLogWithTypes($item,	$formatType, $priorityType);
@@ -307,7 +307,7 @@ class HarmoniAuthenticationManager
 	 * 
 	 * @access public
 	 */
-	function isUserAuthenticated ( &$authenticationType ) { 
+	function isUserAuthenticated ( $authenticationType ) { 
 		$this->_checkType($authenticationType);
 		
 		if(isset($_SESSION['__AuthenticatedAgents']
@@ -346,10 +346,10 @@ class HarmoniAuthenticationManager
 	 * 
 	 * @access public
 	 */
-	function &getUserId ( &$authenticationType ) { 
+	function getUserId ( $authenticationType ) { 
 		$this->_checkType($authenticationType);
 		
-		$idManager =& Services::getService("Id");
+		$idManager = Services::getService("Id");
 		// If the user is authenticated, look up their Agent Id
 		if ($this->isUserAuthenticated($authenticationType)) {
 		
@@ -373,7 +373,7 @@ class HarmoniAuthenticationManager
 	 * @since 7/26/07
 	 */
 	function isUserAuthenticatedWithAnyType () {
-		$authTypes =& $this->getAuthenticationTypes();
+		$authTypes =$this->getAuthenticationTypes();
 		while ($authTypes->hasNext()) {
 			if ($this->isAuthenticated($authTypes->next()))
 				return true;
@@ -391,17 +391,17 @@ class HarmoniAuthenticationManager
 	 * @access public
 	 * @since 7/26/07
 	 */
-	function &getFirstUserId () {
-		$authTypes =& $this->getAuthenticationTypes();
+	function getFirstUserId () {
+		$authTypes =$this->getAuthenticationTypes();
 		while ($authTypes->hasNext()) {
-			$authType =& $authTypes->next();
+			$authType =$authTypes->next();
 			if ($this->isUserAuthenticated($authType)) {
-				$id =& $this->getUserId($authType);
+				$id =$this->getUserId($authType);
 				return $id;
 			}
 		}
 		
-		$idManager =& Services::getService("Id");
+		$idManager = Services::getService("Id");
 		return $idManager->getId("edu.middlebury.agents.anonymous");
 	}
 
@@ -453,7 +453,7 @@ class HarmoniAuthenticationManager
 	 * 
 	 * @access public
 	 */
-	function destroyAuthenticationForType ( &$authenticationType ) { 
+	function destroyAuthenticationForType ( $authenticationType ) { 
 		$this->_checkType($authenticationType);
 		
 		unset($_SESSION['__AuthenticatedAgents']
@@ -473,12 +473,12 @@ class HarmoniAuthenticationManager
 	 * @access private
 	 * @since 3/15/05
 	 */
-	function _checkType ( &$type ) {
+	function _checkType ( $type ) {
 		// Check that we have a valid AuthenticationType.
 		ArgumentValidator::validate($type, ExtendsValidatorRule::getRule("Type"));
 
 		$typeValid = FALSE;
-		$authNTypes =& $this->getAuthenticationTypes();
+		$authNTypes =$this->getAuthenticationTypes();
 		while ($authNTypes->hasNext()) {
 			if ($type->isEqual($authNTypes->next())) {
 				$typeValid = TRUE;
@@ -498,7 +498,7 @@ class HarmoniAuthenticationManager
 	 * @access private
 	 * @since 3/15/05
 	 */
-	function _getTypeString (&$type) {
+	function _getTypeString ($type) {
 		return $type->getDomain()
 			."::".$type->getAuthority()
 			."::".$type->getKeyword();
@@ -516,27 +516,27 @@ class HarmoniAuthenticationManager
 	 * @access protected
 	 * @since 3/15/05
 	 */
-	function &_getAgentIdForAuthNTokens ( &$authNTokens, &$authenticationType ) {
-		$mappingManager =& Services::getService("AgentTokenMapping");
-		$mapping =& $mappingManager->getMappingForTokens($authNTokens, $authenticationType);
+	function _getAgentIdForAuthNTokens ( $authNTokens, $authenticationType ) {
+		$mappingManager = Services::getService("AgentTokenMapping");
+		$mapping =$mappingManager->getMappingForTokens($authNTokens, $authenticationType);
 		
 		// Create a new agent if we don't have one mapped.
 		if (!$mapping) {
 		
 			// Get some properties to populate the Agent with:
-			$authNMethodManager =& Services::getService("AuthNMethods");
-			$authNMethod =& $authNMethodManager->getAuthNMethodForType($authenticationType);
-			$properties =& $authNMethod->getPropertiesForTokens($authNTokens);
+			$authNMethodManager = Services::getService("AuthNMethods");
+			$authNMethod =$authNMethodManager->getAuthNMethodForType($authenticationType);
+			$properties =$authNMethod->getPropertiesForTokens($authNTokens);
 			$dname = $authNMethod->getDisplayNameForTokens($authNTokens);
 			// Create the agent.
-			$agentManager =& Services::getService("Agent");
-			$agent =& $agentManager->createAgent(
+			$agentManager = Services::getService("Agent");
+			$agent =$agentManager->createAgent(
 				$dname,
 				new Type ("Authentication", "edu.middlebury.harmoni", "User"),
 				$properties);
 				
 			// Create the mapping
-			$mapping =& $mappingManager->createMapping(
+			$mapping =$mappingManager->createMapping(
 				$agent->getId(), $authNTokens, $authenticationType);
 		}
 		
@@ -553,14 +553,14 @@ class HarmoniAuthenticationManager
 	 * @access private
 	 * @since 3/15/05
 	 */
-	function &_getAuthNTokensFromUser( &$authenticationType ) {
+	function _getAuthNTokensFromUser( $authenticationType ) {
 		if (isset($this->_tokenCollectors[
 			$this->_getTypeString($authenticationType)]))
 		{
-			$tokenCollector =& $this->_tokenCollectors[
+			$tokenCollector =$this->_tokenCollectors[
 				$this->_getTypeString($authenticationType)];
 		} else {
-			$tokenCollector =& $this->_defaultTokenCollector;
+			$tokenCollector =$this->_defaultTokenCollector;
 		}
 		
 		$tokens = $tokenCollector->collectTokens(Type::typeToString($authenticationType));
@@ -568,9 +568,9 @@ class HarmoniAuthenticationManager
 		
 		// if we have tokens, create an AuthNTokens object for them.
 		if ($tokens) {
-			$authNMethodManager =& Services::getService("AuthNMethods");
-			$authNMethod =& $authNMethodManager->getAuthNMethodForType($authenticationType);
-			$authNTokens =& $authNMethod->createTokens($tokens);		
+			$authNMethodManager = Services::getService("AuthNMethods");
+			$authNMethod =$authNMethodManager->getAuthNMethodForType($authenticationType);
+			$authNTokens =$authNMethod->createTokens($tokens);		
 		}	
 		// Otherwise return FALSE. Maybe they will come in during the next
 		// execution cycle
@@ -594,9 +594,9 @@ class HarmoniAuthenticationManager
 	function _authenticateAdminActAsUser () {
 		// Check authorization. If the current user is not authorized to act as
 		// others, stop.
-		$authZ =& Services::getService("AuthZ");
-		$idManager =& Services::getService("Id");
-		$agentManager =& Services::getService("Agent");
+		$authZ = Services::getService("AuthZ");
+		$idManager = Services::getService("Id");
+		$agentManager = Services::getService("Agent");
 		
 		if (!$authZ->isUserAuthorized(
 			$idManager->getId('edu.middlebury.authorization.change_user'),
@@ -608,13 +608,13 @@ class HarmoniAuthenticationManager
 			$_SESSION['__ADMIN_IDS_ACTING_AS_OTHER'] = array();
 			$_SESSION['__ADMIN_NAMES_ACTING_AS_OTHER'] = array();
 			
-			$anonymousId =& $idManager->getId('edu.middlebury.agents.anonymous');
-			$authNTypes =& $this->getAuthenticationTypes();
+			$anonymousId =$idManager->getId('edu.middlebury.agents.anonymous');
+			$authNTypes =$this->getAuthenticationTypes();
 			while ($authNTypes->hasNext()) {
-				$authenticationType =& $authNTypes->next();
-				$id =& $this->getUserId($authenticationType);
+				$authenticationType =$authNTypes->next();
+				$id =$this->getUserId($authenticationType);
 				if (!$id->isEqual($anonymousId)) {
-					$agent =& $agentManager->getAgent($id);
+					$agent =$agentManager->getAgent($id);
 					$_SESSION['__ADMIN_IDS_ACTING_AS_OTHER'][] = $id;
 					$_SESSION['__ADMIN_NAMES_ACTING_AS_OTHER'][] = $agent->getDisplayName();
 				}
@@ -622,17 +622,17 @@ class HarmoniAuthenticationManager
 			
 			
 			// Run the authentication sequence on every other method
-			$authNTypes =& $this->getAuthenticationTypes();
+			$authNTypes =$this->getAuthenticationTypes();
 			while ($authNTypes->hasNext()) {
-				$authenticationType =& $authNTypes->next();
+				$authenticationType =$authNTypes->next();
 				if (!$authenticationType->isEqual($this->_adminActAsType)) {
 				
 					// if we have successfully changed our user, log out all other
 					// Authentication Types so that we are left with just that user.
 					if ($this->_authenticateAdminActAsUserForType($authenticationType)) {
-						$authNTypes =& $this->getAuthenticationTypes();
+						$authNTypes =$this->getAuthenticationTypes();
 						while ($authNTypes->hasNext()) {
-							$authenticationType =& $authNTypes->next();
+							$authenticationType =$authNTypes->next();
 							if (!$authenticationType->isEqual($this->_adminActAsType)) {
 								$this->destroyAuthenticationForType($authenticationType);
 							}
@@ -654,42 +654,42 @@ class HarmoniAuthenticationManager
 	 * @access public
 	 * @since 12/11/06
 	 */
-	function _authenticateAdminActAsUserForType ( &$authenticationType ) {
+	function _authenticateAdminActAsUserForType ( $authenticationType ) {
 		$this->_checkType($authenticationType);
 // 		$this->destroyAuthenticationForType($authenticationType);
 		
-		$authNTokens =& $this->_getAuthNTokensFromUser($authenticationType);
+		$authNTokens =$this->_getAuthNTokensFromUser($authenticationType);
 		
 		if ($authNTokens) {
-			$authNMethodManager =& Services::getService("AuthNMethods");
-			$authNMethod =& $authNMethodManager->getAuthNMethodForType($authenticationType);
+			$authNMethodManager = Services::getService("AuthNMethods");
+			$authNMethod =$authNMethodManager->getAuthNMethodForType($authenticationType);
 			// just check if the tokens exist, not if there is a correct password.
 			$isValid = $authNMethod->tokensExist($authNTokens);
 			
 			// If the authentication was successful, get the AgentId from the mapping
 			// system and record the result.
 			if ($isValid) {
-				$agentId =& $this->_getAgentIdForAuthNTokens($authNTokens, $authenticationType);
+				$agentId =$this->_getAgentIdForAuthNTokens($authNTokens, $authenticationType);
 				$authenticationTypeString = $this->_getTypeString($this->_adminActAsType);
 				$_SESSION['__AuthenticatedAgents'][$authenticationTypeString]
-					=& $agentId;
+					=$agentId;
 				
 				// Ensure that the Authorization Cache gets the new users
-				$isAuthorizedCache =& IsAuthorizedCache::instance();
+				$isAuthorizedCache = IsAuthorizedCache::instance();
 				$isAuthorizedCache->dirtyUser();
 			}
 			
 			// Log the success or failure
 			if (Services::serviceRunning("Logging")) {
-				$loggingManager =& Services::getService("Logging");
-				$log =& $loggingManager->getLogForWriting("Authentication");
-				$formatType =& new Type("logging", "edu.middlebury", "AgentsAndNodes",
+				$loggingManager = Services::getService("Logging");
+				$log =$loggingManager->getLogForWriting("Authentication");
+				$formatType = new Type("logging", "edu.middlebury", "AgentsAndNodes",
 								"A format in which the acting Agent[s] and the target nodes affected are specified.");
-				$priorityType =& new Type("logging", "edu.middlebury", "Event_Notice",
+				$priorityType = new Type("logging", "edu.middlebury", "Event_Notice",
 								"Normal events.");
 				
 				if ($isValid) {
-					$item =& new AgentNodeEntryItem("Admin Acting As", 
+					$item = new AgentNodeEntryItem("Admin Acting As", 
 						"Admin users: <br/>&nbsp;&nbsp;&nbsp;&nbsp;"
 						.implode(", ", $_SESSION['__ADMIN_NAMES_ACTING_AS_OTHER'])
 						."<br/>Successfully authenticated as: <br/>&nbsp;&nbsp;&nbsp;&nbsp;"

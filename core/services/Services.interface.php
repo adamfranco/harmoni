@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Services.interface.php,v 1.6 2005/01/19 21:10:13 adamfranco Exp $
+ * @version $Id: Services.interface.php,v 1.7 2007/09/04 20:25:49 adamfranco Exp $
  */
 class ServicesInterface {
 	/*     STATIC METHODS     */
@@ -33,7 +33,7 @@ class ServicesInterface {
 	 * @access public
 	 * @return void
 	 **/
-	function registerObjectAsService($name, &$object) {
+	function registerObjectAsService($name, $object) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
 	
@@ -44,7 +44,7 @@ class ServicesInterface {
 	 * @static
 	 * @return object Services The Services object.
 	 **/
-	function &getServices() {die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");}
+	function getServices() {die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");}
 	
 	/**
 	 * Returns the service object associated with reference name $name.
@@ -53,7 +53,7 @@ class ServicesInterface {
 	 * @static
 	 * @return object Object The service object.
 	 **/
-	function &getService( $name ) {die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");}
+	function getService( $name ) {die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");}
 	
 	/**
 	 * Attempts to start the service referenced by $name.
@@ -135,7 +135,7 @@ class ServicesInterface {
 	 * @return ref object The started service object.
 	 * @deprecated 2004/07/28 Use {@link startService()} and {@link getService()} instead.
 	 **/
-	function &requireService( $service, $start=true ) {
+	function requireService( $service, $start=true ) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -160,7 +160,7 @@ class ServicesInterface {
 	 * @access public
 	 * @return void
 	 **/
-	function registerObject($name ,&$object) {
+	function registerObject($name ,$object) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
 	
@@ -172,7 +172,7 @@ class ServicesInterface {
 	 * @access public
 	 * @return object Object The service object.
 	 **/
-	function &get( $name ) {die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");}
+	function get( $name ) {die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");}
 	
 	/**
 	 * Attempts to stop all running services.

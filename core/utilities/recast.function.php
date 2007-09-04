@@ -11,9 +11,9 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: recast.function.php,v 1.6 2007/04/12 15:37:34 adamfranco Exp $
+ * @version $Id: recast.function.php,v 1.7 2007/09/04 20:25:54 adamfranco Exp $
  */
-function &recast(&$old_object, $new_classname) {
+function recast($old_object, $new_classname) {
 	if(class_exists($new_classname)) {
 		$old_serialized_object = serialize($old_object);
 		$old_object_name_length = strlen(get_class($old_object));

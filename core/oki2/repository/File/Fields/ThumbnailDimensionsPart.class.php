@@ -5,7 +5,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: ThumbnailDimensionsPart.class.php,v 1.5 2007/04/12 15:37:32 adamfranco Exp $
+ * @version $Id: ThumbnailDimensionsPart.class.php,v 1.6 2007/09/04 20:25:47 adamfranco Exp $
  */
  
 require_once(dirname(__FILE__)."/../getid3.getimagesize.php");
@@ -21,7 +21,7 @@ require_once(dirname(__FILE__)."/../getid3.getimagesize.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: ThumbnailDimensionsPart.class.php,v 1.5 2007/04/12 15:37:32 adamfranco Exp $
+ * @version $Id: ThumbnailDimensionsPart.class.php,v 1.6 2007/09/04 20:25:47 adamfranco Exp $
  */
 class ThumbnailDimensionsPart 
 	extends DimensionsPart
@@ -38,8 +38,8 @@ class ThumbnailDimensionsPart
 	 * @access public
 	 * @since 10/17/05
 	 */
-	function ThumbnailDimensionsPart ( &$partStructure, &$recordId, 
-		&$configuration, &$record, &$asset ) 
+	function ThumbnailDimensionsPart ( $partStructure, $recordId, 
+		$configuration, $record, $asset ) 
 	{
 		$this->DimensionsPart($partStructure, $recordId, $configuration, $record, $asset);
 		
@@ -47,8 +47,8 @@ class ThumbnailDimensionsPart
 		$this->_idColumn = "FK_file";
 // 		$this->_widthColumn = 'thumb_width';
 // 		$this->_heightColumn = 'thumb_height';
-		$idManager =& Services::getService("Id");
-		$this->_dataPartStructId =& $idManager->getId("THUMBNAIL_DATA");
-		$this->_mimeTypePartStructId =& $idManager->getId("THUMBNAIL_MIME_TYPE");
+		$idManager = Services::getService("Id");
+		$this->_dataPartStructId =$idManager->getId("THUMBNAIL_DATA");
+		$this->_mimeTypePartStructId =$idManager->getId("THUMBNAIL_MIME_TYPE");
 	}
 }

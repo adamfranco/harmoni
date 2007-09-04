@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: test.php,v 1.4 2005/04/13 20:17:40 adamfranco Exp $
+ * @version $Id: test.php,v 1.5 2007/09/04 20:25:42 adamfranco Exp $
  */
 
 	define("LOAD_HIERARCHY", false);
@@ -25,7 +25,7 @@
 	require_once(SIMPLE_TEST . 'simple_unit.php');
 	require_once(SIMPLE_TEST . 'dobo_simple_html_test.php');
 	
-	$test =& new GroupTest('Tree tests');
+	$test = new GroupTest('Tree tests');
 	$test->addTestFile(dirname(__FILE__).'/TreeTestCase.class.php');
 	$test->addTestFile(dirname(__FILE__).'/TreeNodeTestCase.class.php');
 	$test->attachObserver(new DoboTestHtmlDisplay());

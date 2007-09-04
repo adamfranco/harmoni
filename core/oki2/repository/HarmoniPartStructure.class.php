@@ -21,7 +21,7 @@ require(OKI2."osid/repository/PartStructure.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniPartStructure.class.php,v 1.19 2007/04/12 15:37:31 adamfranco Exp $  
+ * @version $Id: HarmoniPartStructure.class.php,v 1.20 2007/09/04 20:25:43 adamfranco Exp $  
  */
 class HarmoniPartStructure extends PartStructure
 //	extends java.io.Serializable
@@ -30,11 +30,11 @@ class HarmoniPartStructure extends PartStructure
 	var $_schemaField;
 	var $_recordStructure;
 	
-	function HarmoniPartStructure(&$recordStructure, &$schemaField, &$repositoryId) {
+	function HarmoniPartStructure($recordStructure, $schemaField, $repositoryId) {
 		ArgumentValidator::validate($repositoryId, ExtendsValidatorRule::getRule("Id"));
-		$this->_schemaField =& $schemaField;
-		$this->_recordStructure =& $recordStructure;
-		$this->_repositoryId =& $repositoryId;
+		$this->_schemaField =$schemaField;
+		$this->_recordStructure =$recordStructure;
+		$this->_repositoryId =$repositoryId;
 	}
 	
 	/**
@@ -85,7 +85,7 @@ class HarmoniPartStructure extends PartStructure
 	function updateDisplayName ( $displayName ) { 
 		$this->_schemaField->updateDisplayName($displayName);
 		$this->_schemaField->update();
-		$id =& $this->getId();
+		$id =$this->getId();
 		$this->_schemaField->commit($id->getIdString());
 	} 
 	
@@ -139,7 +139,7 @@ class HarmoniPartStructure extends PartStructure
 	function updateDescription ( $description ) { 
 		$this->_schemaField->updateDescription($description);
 		$this->_schemaField->update();
-		$id =& $this->getId();
+		$id =$this->getId();
 		$this->_schemaField->commit($id->getIdString());
 	} 
 	
@@ -162,10 +162,10 @@ class HarmoniPartStructure extends PartStructure
 	 * 
 	 * @access public
 	 */
-	function &getType () { 
+	function getType () { 
 		if (!isset($this->_type)) {
 			$type = $this->_schemaField->getType();
-			$this->_type =& new HarmoniType("Repository", "edu.middlebury.harmoni", $type);
+			$this->_type = new HarmoniType("Repository", "edu.middlebury.harmoni", $type);
 		}
 		
 		return $this->_type;
@@ -190,8 +190,8 @@ class HarmoniPartStructure extends PartStructure
 	 * 
 	 * @access public
 	 */
-	function &getId () { 
-		$idManager =& Services::getService("Id");
+	function getId () { 
+		$idManager = Services::getService("Id");
 		return $idManager->getId(
 			$this->_schemaField->getID()
 		);
@@ -217,9 +217,9 @@ class HarmoniPartStructure extends PartStructure
 	 * 
 	 * @access public
 	 */
-	function &getPartStructures () { 
+	function getPartStructures () { 
 		$array = array();
-		$obj =& new HarmoniNodeIterator($array);
+		$obj = new HarmoniNodeIterator($array);
 		return $obj; // @todo replace with HarmoniPartStructureIterator
 	}
 
@@ -297,7 +297,7 @@ class HarmoniPartStructure extends PartStructure
 	function updateIsMandatory ( $isMandatory ) { 
 		$this->_schemaField->setRequired($isMandatory);
 		$this->_schemaField->update();
-		$id =& $this->getId();
+		$id =$this->getId();
 		$this->_schemaField->commit($id->getIdString());
 	} 
 
@@ -351,7 +351,7 @@ class HarmoniPartStructure extends PartStructure
 	function updateIsRepeatable ( $isRepeatable ) { 
 		$this->_schemaField->setMultFlag($isRepeatable);
 		$this->_schemaField->update();
-		$id =& $this->getId();
+		$id =$this->getId();
 		$this->_schemaField->commit($id->getIdString());
 	} 
 
@@ -376,7 +376,7 @@ class HarmoniPartStructure extends PartStructure
 	 * 
 	 * @access public
 	 */
-	function &getRecordStructure () { 
+	function getRecordStructure () { 
 		return $this->_recordStructure;
 	}
 
@@ -407,7 +407,7 @@ class HarmoniPartStructure extends PartStructure
 	 * 
 	 * @access public
 	 */
-	function validatePart ( &$part ) { 
+	function validatePart ( $part ) { 
 		// we can check if the part (ie, RecordFieldValue) has values of the right type.
 		// @todo
 		
@@ -433,22 +433,22 @@ class HarmoniPartStructure extends PartStructure
 	 * @access public
 	 * @since 4/25/06
 	 */
-	function &getAuthoritativeValues () {
+	function getAuthoritativeValues () {
 		if (!isset($this->_authoritativeValueObjects)) {
-			$dtm =& Services::getService("DataTypeManager");
-			$type =& $this->getType();
+			$dtm = Services::getService("DataTypeManager");
+			$type =$this->getType();
 			$class = $dtm->primitiveClassForType($type->getKeyword());
 			
 			$this->_loadAuthoritativeValueStrings();
 			$this->_authoritativeValueObjects = array();
 			
 			foreach ($this->_authoritativeValueStrings as $valueString) {
-				eval('$valueObject =& '.$class.'::fromString($valueString);');
+				eval('$valueObject = '.$class.'::fromString($valueString);');
 				if ($valueObject)
-					$this->_authoritativeValueObjects[$valueString] =& $valueObject;				
+					$this->_authoritativeValueObjects[$valueString] =$valueObject;				
 			}
 		}
-		$iterator =& new HarmoniIterator($this->_authoritativeValueObjects);
+		$iterator = new HarmoniIterator($this->_authoritativeValueObjects);
 		return $iterator;
 	}
 	
@@ -462,7 +462,7 @@ class HarmoniPartStructure extends PartStructure
 	 * @access public
 	 * @since 4/25/06
 	 */
-	function isAuthoritativeValue ( &$value ) {
+	function isAuthoritativeValue ( $value ) {
 		$this->_loadAuthoritativeValueStrings();		
 		return in_array($value->asString(), $this->_authoritativeValueStrings);		
 	}
@@ -477,7 +477,7 @@ class HarmoniPartStructure extends PartStructure
 	 * @access public
 	 * @since 4/25/06
 	 */
-	function removeAuthoritativeValue ( &$value ) {
+	function removeAuthoritativeValue ( $value ) {
 		if ($this->isAuthoritativeValue($value)) {
 			// remove the object from our objects array
 			if (isset($this->_authoritativeValueObjects[$value->asString()]))
@@ -487,16 +487,16 @@ class HarmoniPartStructure extends PartStructure
 			unset($this->_authoritativeValueStrings[array_search($value->asString(), $this->_authoritativeValueStrings)]);
 			
 			// Remove the value from our database
-			$query =& new DeleteQuery;
+			$query = new DeleteQuery;
 			$query->setTable('dr_authoritative_values');
-			$id =& $this->getId();
+			$id =$this->getId();
 			$query->addWhere("fk_partstructure = '".addslashes($id->getIdString())."'");
 			$query->addWhere("fk_repository = '".addslashes($this->_repositoryId->getIdString())."'");
 			$query->addWhere("value = '".addslashes($value->asString())."'");
 			
-			$dbc =& Services::getService("DBHandler");
-			$repositoryManager =& Services::getService("Repository");
-			$configuration =& $repositoryManager->_configuration;
+			$dbc = Services::getService("DBHandler");
+			$repositoryManager = Services::getService("Repository");
+			$configuration =$repositoryManager->_configuration;
 			$dbc->query($query, $configuration->getProperty('database_index'));
 		}
 	}
@@ -511,27 +511,27 @@ class HarmoniPartStructure extends PartStructure
 	 * @access public
 	 * @since 4/25/06
 	 */
-	function addAuthoritativeValue ( &$value ) {
+	function addAuthoritativeValue ( $value ) {
 		if (!$this->isAuthoritativeValue($value)) {
 			// add the object to our objects array
-			$this->_authoritativeValueObjects[$value->asString()] =& $value;
+			$this->_authoritativeValueObjects[$value->asString()] =$value;
 				
 			// add the string to our strings array
 			$this->_authoritativeValueStrings[] = $value->asString();
 			
 			// add the value to our database
-			$query =& new InsertQuery;
+			$query = new InsertQuery;
 			$query->setTable('dr_authoritative_values');
 			$query->setColumns(array('fk_partstructure', 'fk_repository', 'value'));
-			$id =& $this->getId();
+			$id =$this->getId();
 			$query->addRowOfValues(array(
 				"'".addslashes($id->getIdString())."'",
 				"'".addslashes($this->_repositoryId->getIdString())."'",
 				"'".addslashes($value->asString())."'"));
 			
-			$dbc =& Services::getService("DBHandler");
-			$repositoryManager =& Services::getService("Repository");
-			$configuration =& $repositoryManager->_configuration;
+			$dbc = Services::getService("DBHandler");
+			$repositoryManager = Services::getService("Repository");
+			$configuration =$repositoryManager->_configuration;
 			$dbc->query($query, $configuration->getProperty('database_index'));
 		}
 	}
@@ -560,12 +560,12 @@ class HarmoniPartStructure extends PartStructure
 	 * @access public
 	 * @since 4/27/06
 	 */
-	function &createValueObjectFromString ( $valueString ) {
-		$dtm =& Services::getService("DataTypeManager");
-		$type =& $this->getType();
+	function createValueObjectFromString ( $valueString ) {
+		$dtm = Services::getService("DataTypeManager");
+		$type =$this->getType();
 		$class = $dtm->primitiveClassForType($type->getKeyword());
 	
-		eval('$valueObject =& '.$class.'::fromString($valueString);');
+		eval('$valueObject = '.$class.'::fromString($valueString);');
 		return $valueObject;
 	}
 	
@@ -578,7 +578,7 @@ class HarmoniPartStructure extends PartStructure
 	 * @access public
 	 * @since 6/8/06
 	 */
-	function &getRepositoryId () {
+	function getRepositoryId () {
 		return $this->_repositoryId;
 	}
 	
@@ -595,18 +595,18 @@ class HarmoniPartStructure extends PartStructure
 		if (!isset($this->_authoritativeValueStrings)) {
 			$this->_authoritativeValueStrings = array();
 			
-			$query =& new SelectQuery;
+			$query = new SelectQuery;
 			$query->addTable('dr_authoritative_values');
 			$query->addColumn('value');
-			$id =& $this->getId();
+			$id =$this->getId();
 			$query->addWhere("fk_partstructure = '".addslashes($id->getIdString())."'");
 			$query->addWhere("fk_repository = '".addslashes($this->_repositoryId->getIdString())."'");
 			$query->addOrderBy("value", ASCENDING);
 			
-			$dbc =& Services::getService("DBHandler");
-			$repositoryManager =& Services::getService("Repository");
-			$configuration =& $repositoryManager->_configuration;
-			$result =& $dbc->query($query, $configuration->getProperty('database_index'));
+			$dbc = Services::getService("DBHandler");
+			$repositoryManager = Services::getService("Repository");
+			$configuration =$repositoryManager->_configuration;
+			$result =$dbc->query($query, $configuration->getProperty('database_index'));
 			
 			while ($result->hasMoreRows()) {
 				$this->_authoritativeValueStrings[] = $result->field('value');

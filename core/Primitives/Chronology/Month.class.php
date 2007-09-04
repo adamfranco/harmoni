@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Month.class.php,v 1.3 2006/11/30 22:02:03 adamfranco Exp $
+ * @version $Id: Month.class.php,v 1.4 2007/09/04 20:25:25 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -34,7 +34,7 @@ require_once(dirname(__FILE__)."/Timespan.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Month.class.php,v 1.3 2006/11/30 22:02:03 adamfranco Exp $
+ * @version $Id: Month.class.php,v 1.4 2007/09/04 20:25:25 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -146,8 +146,8 @@ class Month
 	 * @since 5/5/05
 	 * @static
 	 */
-	function &current ( $class = 'Month' ) {
-		$obj =& parent::current($class);
+	function current ( $class = 'Month' ) {
+		$obj = parent::current($class);
 		return $obj;
 	}
 	
@@ -163,8 +163,8 @@ class Month
 	 * @since 5/5/05
 	 * @static
 	 */
-	function &epoch ( $class = 'Month' ) {
-		$obj =& parent::epoch($class);
+	function epoch ( $class = 'Month' ) {
+		$obj = parent::epoch($class);
 		return $obj;
 	}
 	
@@ -182,8 +182,8 @@ class Month
 	 * @access public
 	 * @since 5/10/05
 	 */
-	function &fromString ( $aString, $class = 'Month' ) {
-		$parser =& StringParser::getParserFor($aString);
+	function fromString ( $aString, $class = 'Month' ) {
+		$parser = StringParser::getParserFor($aString);
 		
 		if (!is_string($aString) || !preg_match('/[^\W]/', $aString) || !$parser) {
  			$null = null;
@@ -191,7 +191,7 @@ class Month
 			// die("'".$aString."' is not in a valid format.");
 		}
 		
-		eval('$result =& '.$class.'::withMonthYear($parser->month(), 
+		eval('$result = '.$class.'::withMonthYear($parser->month(), 
 					$parser->year(), $class);');
 		return $result;
 	}
@@ -209,8 +209,8 @@ class Month
 	 * @since 5/5/05
 	 * @static
 	 */
-	function &starting ( &$aDateAndTime, $class = 'Month' ) {
-		$obj =& parent::starting($aDateAndTime, $class);
+	function starting ( $aDateAndTime, $class = 'Month' ) {
+		$obj = parent::starting($aDateAndTime, $class);
 		return $obj;
 	}
 	
@@ -227,10 +227,10 @@ class Month
 	 * @access public
 	 * @since 5/11/05
 	 */
-	function &startingEnding ( &$startDateAndTime, &$endDateAndTime, 
+	function startingEnding ( $startDateAndTime, $endDateAndTime, 
 		$class = 'Month' ) 
 	{
-		$obj =& parent::startingEnding ( $startDateAndTime, $endDateAndTime, $class);
+		$obj = parent::startingEnding ( $startDateAndTime, $endDateAndTime, $class);
 		return $obj;
 	}
 	
@@ -250,7 +250,7 @@ class Month
 	 * @since 5/5/05
 	 * @static
 	 */
-	function &startingDuration ( &$aDateAndTime, &$aDuration, $class = 'Month' ) {
+	function startingDuration ( $aDateAndTime, $aDuration, $class = 'Month' ) {
 		
 		// Validate our passed class name.
 		if (!(strtolower($class) == strtolower('Month')
@@ -259,11 +259,11 @@ class Month
 			die("Class, '$class', is not a subclass of 'Month'.");
 		}
 		
-		$start =& $aDateAndTime->asDateAndTime();
-		$adjusted =& DateAndTime::withYearMonthDay($start->year(), $start->month(), 1);
+		$start =$aDateAndTime->asDateAndTime();
+		$adjusted = DateAndTime::withYearMonthDay($start->year(), $start->month(), 1);
 		$days = Month::daysInMonthForYear($adjusted->month(), $adjusted->year());
 		
-		$month =& new $class;
+		$month = new $class;
 		$month->setStart($adjusted);
 		$month->setDuration(Duration::withDays($days));
 		
@@ -285,10 +285,10 @@ class Month
 	 * @access public
 	 * @since 5/11/05
 	 */
-	function &withMonthYear ( $anIntegerOrStringMonth, $anIntegerYear, 
+	function withMonthYear ( $anIntegerOrStringMonth, $anIntegerYear, 
 		$class = 'Month' ) 
 	{
-		eval('$result =& '.$class.'::starting(DateAndTime::withYearMonthDay(
+		eval('$result = '.$class.'::starting(DateAndTime::withYearMonthDay(
 			$anIntegerYear, $anIntegerOrStringMonth, 1), $class);');
 		return $result;
 	}
@@ -353,8 +353,8 @@ class Month
 	 * @access public
 	 * @since 5/10/05
 	 */
-	function &previous () {
-		eval('$result =& '.get_class($this).'::startingDuration(
+	function previous () {
+		eval('$result = '.get_class($this).'::startingDuration(
  			$this->start->minus(Duration::withDays(1)),
  			$this->duration,
  			"'.get_class($this).'");');
@@ -372,7 +372,7 @@ class Month
  	 * @access public
  	 * @since 5/23/05
  	 */
- 	function &asMonth () {
+ 	function asMonth () {
  		return $this;
  	}
 

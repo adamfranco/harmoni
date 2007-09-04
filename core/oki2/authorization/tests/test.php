@@ -8,15 +8,15 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: test.php,v 1.7 2005/08/22 15:11:56 adamfranco Exp $
+ * @version $Id: test.php,v 1.8 2007/09/04 20:25:39 adamfranco Exp $
  */
 
 
 require_once dirname(__FILE__)."/../../../../core/utilities/Timer.class.php";
-$timer =& new Timer;
+$timer = new Timer;
 $timer->start();
 
-$harmonyLoadupTimer =& new Timer;
+$harmonyLoadupTimer = new Timer;
 $harmonyLoadupTimer->start();
 
 require_once(dirname(__FILE__)."/../../../../harmoni.inc.php");
@@ -28,8 +28,8 @@ $harmonyLoadupTimer->end();
 	require_once(SIMPLE_TEST . 'dobo_simple_html_test.php');
 
 	require_once(HARMONI."errorHandler/ErrorHandler.class.php");
-	$errorHandler =& Services::getService("ErrorHandler");
-	$dbHandler =& Services::getService("DatabaseManager");
+	$errorHandler = Services::getService("ErrorHandler");
+	$dbHandler = Services::getService("DatabaseManager");
 	$dbIndex = $dbHandler->addDatabase( new MySQLDatabase("devo","doboHarmoniTest","test","test") );
 	$dbHandler->pConnect($dbIndex);
 	Services::startService("Shared", $dbIndex, "doboHarmoniTest");
@@ -38,7 +38,7 @@ $harmonyLoadupTimer->end();
 	$errorHandler->setDebugMode(TRUE);
 	
 	
-	$test =& new GroupTest('Authorization Tests');
+	$test = new GroupTest('Authorization Tests');
 	$test->addTestFile(HARMONI.'/oki/authorization/tests/FunctionTestCase.class.php');
 	$test->addTestFile(HARMONI.'/oki/authorization/tests/QualifierTestCase.class.php');
 	$test->addTestFile(HARMONI.'/oki/authorization/tests/AuthorizationTestCase.class.php');

@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Cache.class.php,v 1.2 2007/04/12 15:37:34 adamfranco Exp $
+ * @version $Id: Cache.class.php,v 1.3 2007/09/04 20:25:54 adamfranco Exp $
  */
 
 define("CACHE_VARIABLE","__cache");
@@ -20,7 +20,7 @@ unset($_temp);
  * by "filing". 
  * @package harmoni.utilities
  * @copyright 2004
- * @version $Id: Cache.class.php,v 1.2 2007/04/12 15:37:34 adamfranco Exp $
+ * @version $Id: Cache.class.php,v 1.3 2007/09/04 20:25:54 adamfranco Exp $
  */
 class Cache {
 
@@ -36,7 +36,7 @@ class Cache {
 	 * @return void
 	 * @access public
 	 */
-	function store(&$object, $ident1) {
+	function store($object, $ident1) {
 		$string = '';
 		$displayParts = array();
 		for ($i=1; $i<func_num_args(); $i++) {
@@ -45,7 +45,7 @@ class Cache {
 			$displayParts[] = $part;
 		}
 		
-		$cache =& $GLOBALS[CACHE_VARIABLE];
+		$cache =$GLOBALS[CACHE_VARIABLE];
 		
 		$eval = '$bool = isset($cache'.$string.');';
 		eval($eval);
@@ -54,7 +54,7 @@ class Cache {
 				"Cache - an item with identifyer <b>".implode(":",$displayParts)."</b> is already stored!","Cache",true));
 		}
 		
-		$eval = '$cache'.$string.' =& $object;';
+		$eval = '$cache'.$string.' =$object;';
 		eval($eval);
 	}
 
@@ -73,7 +73,7 @@ class Cache {
 			$displayParts[] = $part;
 		}
 		
-		$cache =& $GLOBALS[CACHE_VARIABLE];
+		$cache =$GLOBALS[CACHE_VARIABLE];
 		
 		$eval = '$bool = isset($cache'.$string.');';
 		eval($eval);
@@ -87,7 +87,7 @@ class Cache {
 	 * @return ref mixed
 	 * @access public
 	 */
-	function &get($ident1) {
+	function get($ident1) {
 		$string = '';
 		for ($i=0; $i<func_num_args(); $i++) {
 			$part = func_get_arg($i);
@@ -95,7 +95,7 @@ class Cache {
 			$displayParts[] = $part;
 		}
 		
-		$cache =& $GLOBALS[CACHE_VARIABLE];
+		$cache =$GLOBALS[CACHE_VARIABLE];
 		
 		$eval = '$bool = isset($cache'.$string.');';
 		eval($eval);
@@ -105,7 +105,7 @@ class Cache {
 				"Cache - no item with identifyer <b>".implode(":",$displayParts)."</b> is stored!","Cache",true));
 		}
 		
-		$eval = '$object =& $cache'.$string.';';
+		$eval = '$object =$cache'.$string.';';
 		eval($eval);
 		return $object;
 	}

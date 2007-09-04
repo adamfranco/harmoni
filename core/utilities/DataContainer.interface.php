@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DataContainer.interface.php,v 1.5 2005/02/07 21:38:28 adamfranco Exp $
+ * @version $Id: DataContainer.interface.php,v 1.6 2007/09/04 20:25:54 adamfranco Exp $
  */
 class DataContainerInterface {
 	
@@ -29,7 +29,7 @@ class DataContainerInterface {
 	 * @access protected
 	 * @return void 
 	 **/
-	function add( $field, & $rule, $error = null ) {
+	function add( $field, $rule, $error = null ) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -39,7 +39,7 @@ class DataContainerInterface {
 	 * @access public
 	 * @return mixed The value of $field. 
 	 **/
-	function &get( $field ) {
+	function get( $field ) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	

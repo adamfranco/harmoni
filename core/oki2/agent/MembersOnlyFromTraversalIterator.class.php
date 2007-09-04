@@ -21,7 +21,7 @@ require_once(HARMONI."oki2/agent/AgentFilteringFromTraversalIterator.class.php")
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MembersOnlyFromTraversalIterator.class.php,v 1.2 2007/04/12 15:37:26 adamfranco Exp $
+ * @version $Id: MembersOnlyFromTraversalIterator.class.php,v 1.3 2007/09/04 20:25:36 adamfranco Exp $
  */
 class MembersOnlyFromTraversalIterator
 	extends AgentFilteringFromTraversalIterator
@@ -37,8 +37,8 @@ class MembersOnlyFromTraversalIterator
 	 * @access private
 	 * @since 8/31/05
 	 */
-	function _shouldSelect ( &$id ) {
-		$agentManager =& Services::getService("Agent");
+	function _shouldSelect ( $id ) {
+		$agentManager = Services::getService("Agent");
 		if ($agentManager->isAgent($id))
 			return TRUE;
 		else
@@ -53,8 +53,8 @@ class MembersOnlyFromTraversalIterator
 	 * @access private
 	 * @since 8/31/05
 	 */
-	function &_getAgent ( &$id ) {
-		$agentManager =& Services::getService("Agent");
+	function _getAgent ( $id ) {
+		$agentManager = Services::getService("Agent");
 		
 		return $agentManager->getAgent($id);
 	}

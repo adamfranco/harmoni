@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TreeNode.interface.php,v 1.6 2005/02/07 21:38:26 adamfranco Exp $
+ * @version $Id: TreeNode.interface.php,v 1.7 2007/09/04 20:25:42 adamfranco Exp $
  * @since Created: 8/30/2003
  */
 class TreeNodeInterface {
@@ -21,7 +21,7 @@ class TreeNodeInterface {
 	 * @param ref object child The child node to add.
 	 * @return void
 	 */
-	function addChild(& $child) {
+	function addChild($child) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -32,7 +32,7 @@ class TreeNodeInterface {
 	 * @param ref object child The child node to detach.
 	 * @return void
 	 **/
-	function detachChild(& $child) {
+	function detachChild($child) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -42,7 +42,7 @@ class TreeNodeInterface {
 	 * @access public
 	 * @return ref array The parent nodes of this node.
 	 */
-	function &getParents() {
+	function getParents() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -73,7 +73,7 @@ class TreeNodeInterface {
 	 * @access public
 	 * @return ref array An array of the children nodes of this node.
 	 */
-	function &getChildren() {
+	function getChildren() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -105,7 +105,7 @@ class TreeNodeInterface {
 	 * @param ref object node The child node to check.
 	 * @return boolean <code>true</code> if <code>$node</code> is a child of this node.
 	 **/
-	function isChild(& $node) {
+	function isChild($node) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -115,7 +115,7 @@ class TreeNodeInterface {
 	 * @param ref object node The child node to check.
 	 * @return boolean <code>true</code> if <code>$node</code> is a parent of this node.
 	 **/
-	function isParent(& $node) {
+	function isParent($node) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	

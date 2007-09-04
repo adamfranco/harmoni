@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ThemesTestCase.class.php,v 1.11 2006/08/02 23:50:28 sporktim Exp $
+ * @version $Id: ThemesTestCase.class.php,v 1.12 2007/09/04 20:25:24 adamfranco Exp $
  */
  
 require_once(HARMONI."GUIManager/Theme.class.php");
@@ -28,7 +28,7 @@ require_once(HARMONI."GUIManager/StyleProperties/FontSP.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ThemesTestCase.class.php,v 1.11 2006/08/02 23:50:28 sporktim Exp $
+ * @version $Id: ThemesTestCase.class.php,v 1.12 2007/09/04 20:25:24 adamfranco Exp $
  */
 
     class ThemesTestCase extends UnitTestCase {
@@ -55,7 +55,7 @@ require_once(HARMONI."GUIManager/StyleProperties/FontSP.class.php");
 		}
 	
 		function test_generic_theme() {
-			$theme =& new Theme("Master", "And Servant");
+			$theme = new Theme("Master", "And Servant");
 			$this->assertIdentical($theme->getDisplayName(), "Master");
 			$this->assertIdentical($theme->getDescription(), "And Servant");
 			$theme->setDisplayName("Enjoy");
@@ -63,24 +63,24 @@ require_once(HARMONI."GUIManager/StyleProperties/FontSP.class.php");
 			$this->assertIdentical($theme->getDisplayName(), "Enjoy");
 			$this->assertIdentical($theme->getDescription(), "The Silence");
 			
-			$bodyStyle =& new StyleCollection("body", "hey", "Body Style", "Global style settings.");
+			$bodyStyle = new StyleCollection("body", "hey", "Body Style", "Global style settings.");
 			$bodyStyle->addSP(new BackgroundColorSP("#FFFCF0"));
 			$bodyStyle->addSP(new ColorSP("#2E2B33"));
 			$bodyStyle->addSP(new FontSP("Verdana", "10pt"));
 			
 			$theme->addStyleForComponentType($bodyStyle, MENU, 2);
 
-			$arr =& $theme->getStylesForComponentType(MENU, 2);
+			$arr =$theme->getStylesForComponentType(MENU, 2);
 			$this->assertReference($bodyStyle, $arr["body"]);
 			$this->assertReference($bodyStyle, $theme->_styles["body"]);
 
-			$arr =& $theme->getStylesForComponentType(MENU, 3);
+			$arr =$theme->getStylesForComponentType(MENU, 3);
 			$this->assertReference($bodyStyle, $arr["body"]);
 
-			$arr =& $theme->getStylesForComponentType(MENU, 1);
+			$arr =$theme->getStylesForComponentType(MENU, 1);
 			$this->assertIdentical(array(), $arr);
 
-			$arr =& $theme->getStylesForComponentType(BLANK, 1);
+			$arr =$theme->getStylesForComponentType(BLANK, 1);
 			$this->assertIdentical(array(), $arr);
 			
 			$theme->setPreHTMLForComponentType("blah1", BLOCK, 3);
@@ -103,13 +103,13 @@ require_once(HARMONI."GUIManager/StyleProperties/FontSP.class.php");
 		
 		// test registering and exporting sps
 		function test_register_sps() {
-			$theme =& new Theme("Master", "And Servant");
+			$theme = new Theme("Master", "And Servant");
 			
-			$sp1 =& new BackgroundColorSP("#FFFCF0");
+			$sp1 = new BackgroundColorSP("#FFFCF0");
 			$id1 = $theme->registerSP($sp1);
-			$sp2 =& new ColorSP("#2E2B33");
+			$sp2 = new ColorSP("#2E2B33");
 			$id2 = $theme->registerSP($sp2);
-			$sp3 =& new FontSP("Verdana", "10pt");
+			$sp3 = new FontSP("Verdana", "10pt");
 			$id3 = $theme->registerSP($sp3, "getAllRegisteredSPs");
 			
 			$this->assertReference($sp1, $theme->getRegisteredSP($id1));
@@ -135,26 +135,26 @@ require_once(HARMONI."GUIManager/StyleProperties/FontSP.class.php");
 			$this->assertIdentical($sp3, $sp3_copy);
 
 			// ***
-			$bodyStyle =& new StyleCollection("body", "hey", "Body Style", "Global style settings.");	
+			$bodyStyle = new StyleCollection("body", "hey", "Body Style", "Global style settings.");	
 			$bodyStyle->addSP($sp2);
 			$theme->addGlobalStyle($bodyStyle);
 			$theme->importRegisteredSP($id2, array("colorsc" =>"#AAA"));
-			$sp2a =& $bodyStyle->_SPs["color"];
+			$sp2a =$bodyStyle->_SPs["color"];
 			$this->assertIdentical($sp2a->_SCs["colorsc"]->getValue(), "#AAA");
 
 		}
 
 		// test MenuTheme	
 		function test_menu_theme() {
-			$menuStyle =& new StyleCollection("*.menu", "menu", "Menu Style", "Style for the menu.");
+			$menuStyle = new StyleCollection("*.menu", "menu", "Menu Style", "Style for the menu.");
 			$menuStyle->addSP(new BackgroundColorSP("#997755"));
 			$menuStyle->addSP(new BorderSP("1px", "solid", "#FFFFFF"));
 			
-			$menu =& new Menu(new XLayout(), 4, $menuStyle);			
+			$menu = new Menu(new XLayout(), 4, $menuStyle);			
 			
-			$theme =& new MenuThemeAbstract("Master", "And Servant");
+			$theme = new MenuThemeAbstract("Master", "And Servant");
 			$theme->addMenu($menu, 1);
-			$menu1 =& $theme->getMenu(1);
+			$menu1 =$theme->getMenu(1);
 			$this->assertReference($menu, $menu1);
 		}
 		

@@ -116,7 +116,7 @@ class HarmoniGradingManager
 	*
 	* @access public
 	*/
-	function assignConfiguration ( &$configuration ) {
+	function assignConfiguration ( $configuration ) {
 		
 		
 	}
@@ -130,7 +130,7 @@ class HarmoniGradingManager
 	*
 	* @access public
 	*/
-	function &getOsidContext () {
+	function getOsidContext () {
 		return $this->_osidContext;
 	}
 
@@ -145,9 +145,9 @@ class HarmoniGradingManager
 	*
 	* @access public
 	*/
-	function assignOsidContext ( &$context ) {
+	function assignOsidContext ( $context ) {
 		
-		$this->_osidContext =& $context;
+		$this->_osidContext =$context;
 	}
 	
 	
@@ -189,14 +189,14 @@ class HarmoniGradingManager
      * 
      * @access public
      */
-    function &createGradableObject ( $displayName, $description, &$courseSectionId, &$externalReferenceId, &$gradeType, &$scoringDefinition, &$gradeScale, $gradeWeight ) { 
+    function createGradableObject ( $displayName, $description, $courseSectionId, $externalReferenceId, $gradeType, $scoringDefinition, $gradeScale, $gradeWeight ) { 
         //make id
-		$idManager =& Services::getService("IdManager");
+		$idManager = Services::getService("IdManager");
 		$id=$idManager->createId();
 
 		//prepare insert query
-		$dbManager=& Services::getService("DatabaseManager");
-		$query=& new InsertQuery;
+		$dbManager= Services::getService("DatabaseManager");
+		$query= new InsertQuery;
 		$query->setTable('gr_gradable');
 
 		//ready values
@@ -217,7 +217,7 @@ class HarmoniGradingManager
 		$dbManager->query($query);
 
 		//make object and update
-		$ret =& new HarmoniGradableObject($id);
+		$ret = new HarmoniGradableObject($id);
 		$ret->_setModifiedDateAndAgent();
 		return $ret; 
     } 
@@ -243,20 +243,20 @@ class HarmoniGradingManager
      * 
      * @access public
      */
-    function deleteGradableObject ( &$gradableObjectId ) {
+    function deleteGradableObject ( $gradableObjectId ) {
 
     	    
-		$dbManager =& Services::getService("DatabaseManager");
+		$dbManager = Services::getService("DatabaseManager");
 		
 		//first delete the GradeRecords
-		$query=& new DeleteQuery;
+		$query= new DeleteQuery;
 		$query->setTable('gr_record');
 		$where = "fk_gr_gradable='".addslashes($gradableObjectId->getIdString())."'";
 		$query->addWhere($where);
 		$dbManager->query($query);
 		
 		//next delete the GradableObject
-		$query=& new DeleteQuery;
+		$query= new DeleteQuery;
 		$query->setTable('gr_gradable');
 		$query->addWhere("id=".addslashes($gradableObjectId->getIdString()));
 		$dbManager->query($query);
@@ -285,8 +285,8 @@ class HarmoniGradingManager
      * 
      * @access public
      */
-    function &getGradableObject ( &$gradableObjectId ) { 
-        $ret =& new HarmoniGradableObject($gradableObjectId);	 
+    function getGradableObject ( $gradableObjectId ) { 
+        $ret = new HarmoniGradableObject($gradableObjectId);	 
 		return $ret; 
     } 
 
@@ -317,10 +317,10 @@ class HarmoniGradingManager
      * 
      * @access public
      */
-    function &getGradableObjects ( &$courseSectionId, &$externalReferenceId ) { 
+    function getGradableObjects ( $courseSectionId, $externalReferenceId ) { 
         //set up query
-    	$dbManager =& Services::getService("DatabaseManager");
-		$query=& new SelectQuery;
+    	$dbManager = Services::getService("DatabaseManager");
+		$query= new SelectQuery;
 		$query->addTable('gr_gradable');
 	
 		$query->addColumn('id');
@@ -335,21 +335,21 @@ class HarmoniGradingManager
 		}
 	
 		
-		$res =& $dbManager->query($query);
+		$res =$dbManager->query($query);
 
 		//get results in array
 		$array = array();
-		$idManager= & Services::getService("IdManager");
+		$idManager=  Services::getService("IdManager");
 		while($res->hasMoreRows()){
 			$row = $res->getCurrentRow();
 			$res->advanceRow();
-			$id =& $idManager->getId($row['id']);
-			$array[] =& new HarmoniGradableObject($id);
+			$id =$idManager->getId($row['id']);
+			$array[] = new HarmoniGradableObject($id);
 
 		}
 		
 		//convert and return
-		$ret =& new  HarmoniGradableObjectIterator($array);
+		$ret = new  HarmoniGradableObjectIterator($array);
 		return $ret;
     } 
 
@@ -387,14 +387,14 @@ class HarmoniGradingManager
      * 
      * @access public
      */
-    function &createGradeRecord ( &$gradableObjectId, &$agentId, &$gradeValue, &$GradeRecordType ) { 
+    function createGradeRecord ( $gradableObjectId, $agentId, $gradeValue, $GradeRecordType ) { 
         //make id
-		$idManager =& Services::getService("IdManager");
+		$idManager = Services::getService("IdManager");
 		$id=$idManager->createId();
 
 		//prepare insert query
-		$dbManager=& Services::getService("DatabaseManager");
-		$query=& new InsertQuery;
+		$dbManager= Services::getService("DatabaseManager");
+		$query= new InsertQuery;
 		$query->setTable('gr_record');
 
 		//ready values
@@ -411,7 +411,7 @@ class HarmoniGradingManager
 		$dbManager->query($query);
 
 		//make object and update
-		$ret =& new HarmoniGradeRecord($id);
+		$ret = new HarmoniGradeRecord($id);
 		$ret->_setModifiedDateAndAgent();
 		return $ret;  
     } 
@@ -440,9 +440,9 @@ class HarmoniGradingManager
      * 
      * @access public
      */
-    function deleteGradeRecord ( &$gradableObjectId, &$agentId, $GradeRecordType = null) { 
-        $dbManager =& Services::getService("DatabaseManager");
-		$query=& new DeleteQuery;
+    function deleteGradeRecord ( $gradableObjectId, $agentId, $GradeRecordType = null) { 
+        $dbManager = Services::getService("DatabaseManager");
+		$query= new DeleteQuery;
 		$query->setTable('gr_record');
 		$query->addWhere("fk_gr_gradable='".addslashes($gradableObjectId->getIdString())."'");
 		$query->addWhere("fk_agent_id='".addslashes($agentId->getIdString())."'");
@@ -489,10 +489,10 @@ class HarmoniGradingManager
      * 
      * @access public
      */
-    function &getGradeRecords ( &$courseSectionId, &$externalReferenceId, &$gradableObjectId, &$agentId, &$GradeRecordType ) {         
+    function getGradeRecords ( $courseSectionId, $externalReferenceId, $gradableObjectId, $agentId, $GradeRecordType ) {         
     	//set up query
-    	$dbManager =& Services::getService("DatabaseManager");
-		$query=& new SelectQuery;
+    	$dbManager = Services::getService("DatabaseManager");
+		$query= new SelectQuery;
 		$query->addTable('gr_record');
 		
 		//inner join?
@@ -524,22 +524,22 @@ class HarmoniGradingManager
 			$query->addWhere("gr_record.fk_gr_record_type='".addslashes($this->_typeToIndex('record',$GradeRecordType))."'");
 		}
 		
-		$res =& $dbManager->query($query);
+		$res =$dbManager->query($query);
 
 		//get results in array
 		$array = array();
-		$idManager= & Services::getService("IdManager");
+		$idManager=  Services::getService("IdManager");
 		while($res->hasMoreRows()){
 
 			$row = $res->getCurrentRow();
 			$res->advanceRow();
-			$id =& $idManager->getId($row['id']);
-			$array[] =& new HarmoniGradeRecord($id);
+			$id =$idManager->getId($row['id']);
+			$array[] = new HarmoniGradeRecord($id);
 
 		}
 		
 		//convert and return
-		$ret =& new  HarmoniGradeRecordIterator($array);
+		$ret = new  HarmoniGradeRecordIterator($array);
 		return $ret;
     } 
 
@@ -561,7 +561,7 @@ class HarmoniGradingManager
      * 
      * @access public
      */
-    function &getGradeRecordTypes () { 
+    function getGradeRecordTypes () { 
         return $this->_getTypes("record"); 
     } 
 
@@ -583,7 +583,7 @@ class HarmoniGradingManager
      * 
      * @access public
      */
-    function &getGradeTypes () { 
+    function getGradeTypes () { 
        return $this->_getTypes("grade");
     } 
 
@@ -605,7 +605,7 @@ class HarmoniGradingManager
      * 
      * @access public
      */
-    function &getScoringDefinitions () { 
+    function getScoringDefinitions () { 
         return $this->_getTypes("scoring"); 
     } 
 
@@ -627,7 +627,7 @@ class HarmoniGradingManager
      * 
      * @access public
      */
-    function &getGradeScales () { 
+    function getGradeScales () { 
         return $this->_getTypes("gradescale");
     } 
     
@@ -642,17 +642,17 @@ class HarmoniGradingManager
      * 
      * @access private
      */
-	function &_getTypes($typename){
+	function _getTypes($typename){
 		
 		//query 
-		$dbHandler =& Services::getService("DBHandler");
-		$query=& new SelectQuery;
+		$dbHandler = Services::getService("DBHandler");
+		$query= new SelectQuery;
 		$query->addTable('gr_'.$typename."_type");
 		$query->addColumn('domain');
 		$query->addColumn('authority');
 		$query->addColumn('keyword');
 		$query->addColumn('description');
-		$res=& $dbHandler->query($query);
+		$res=$dbHandler->query($query);
 		
 		//iterate through results and add to an array
 		$array=array();		
@@ -660,15 +660,15 @@ class HarmoniGradingManager
 			$row = $res->getCurrentRow();
 			$res->advanceRow();
 			if(is_null($row['description'])){
-				$the_type =& new Type($row['domain'],$row['authority'],$row['keyword']);
+				$the_type = new Type($row['domain'],$row['authority'],$row['keyword']);
 			}else{
-				$the_type =& new Type($row['domain'],$row['authority'],$row['keyword'],$row['description']);
+				$the_type = new Type($row['domain'],$row['authority'],$row['keyword'],$row['description']);
 			}
 			$array[] = $the_type;
 		}
 		
 		//convert to an iterator
-		$ret =& new HarmoniTypeIterator($array);
+		$ret = new HarmoniTypeIterator($array);
 		return $ret;
 	}
 
@@ -683,7 +683,7 @@ class HarmoniGradingManager
 	*
 	* @access private
 	*/
-	function &_getType(&$id, $table, $typename){
+	function _getType($id, $table, $typename){
 		//the appropriate table names and fields must be given names according to the pattern indicated below
 
 		//get the index for the type
@@ -705,19 +705,19 @@ class HarmoniGradingManager
 	*
 	* @access private
 	*/
-	function &_indexToType($index, $typename){
+	function _indexToType($index, $typename){
 		//the appropriate table names and fields must be given names according to the pattern indicated below
 
 		//query
-		$dbHandler =& Services::getService("DBHandler");
-		$query=& new SelectQuery;
+		$dbHandler = Services::getService("DBHandler");
+		$query= new SelectQuery;
 		$query->addTable('gr_'.$typename."_type");
 		$query->addWhere("id=".$index);
 		$query->addColumn('domain');
 		$query->addColumn('authority');
 		$query->addColumn('keyword');
 		$query->addColumn('description');
-		$res=& $dbHandler->query($query);
+		$res=$dbHandler->query($query);
 
 
 		if(!$res->hasMoreRows()){
@@ -728,9 +728,9 @@ class HarmoniGradingManager
 		//remember that the description is optional
 		$row = $res->getCurrentRow();
 		if(is_null($row['description'])){
-			$the_type =& new Type($row['domain'],$row['authority'],$row['keyword']);
+			$the_type = new Type($row['domain'],$row['authority'],$row['keyword']);
 		}else{
-			$the_type =& new Type($row['domain'],$row['authority'],$row['keyword'],$row['description']);
+			$the_type = new Type($row['domain'],$row['authority'],$row['keyword'],$row['description']);
 		}
 		return $the_type;
 
@@ -747,27 +747,27 @@ class HarmoniGradingManager
      * 
      * @access private
      */
-	function _typeToIndex($typename, &$type){
+	function _typeToIndex($typename, $type){
 		//the appropriate table names and fields must be given names according to the pattern indicated below
 
 		//validate the Type
 		ArgumentValidator::validate($type, ExtendsValidatorRule::getRule("Type"), true);
 		
 		//query to see if it exists
-		$dbHandler =& Services::getService("DBHandler");
-		$query=& new SelectQuery;
+		$dbHandler = Services::getService("DBHandler");
+		$query= new SelectQuery;
 		$query->addTable('gr_'.$typename."_type");
 		$query->addWhere("domain='".$type->getDomain()."'");
 		$query->addWhere("authority='".$type->getAuthority()."'");
 		$query->addWhere("keyword='".$type->getKeyword()."'");
 		$query->addColumn('id');
-		$res=& $dbHandler->query($query);
+		$res=$dbHandler->query($query);
 
 
 		
 		if($res->getNumberOfRows()==0){
 			//if not query to create it
-			$query=& new InsertQuery;
+			$query= new InsertQuery;
 			$query->setTable('gr_'.$typename.'_type');
 			$values[]="'".addslashes($type->getDomain())."'";
 			$values[]="'".addslashes($type->getAuthority())."'";
@@ -783,7 +783,7 @@ class HarmoniGradingManager
 			$query->setAutoIncrementColumn('id','id_sequence');
 
 
-			$result =& $dbHandler->query($query);
+			$result =$dbHandler->query($query);
 
 			return $result->getLastAutoIncrementValue();
 		}elseif($res->getNumberOfRows()==1){
@@ -817,11 +817,11 @@ class HarmoniGradingManager
      * 
      * @access private
      */
-	function _setField(&$id, $table, $key, $value)
+	function _setField($id, $table, $key, $value)
 	{
 		//just an update query
-		$dbHandler =& Services::getService("DBHandler");
-		$query=& new UpdateQuery;
+		$dbHandler = Services::getService("DBHandler");
+		$query= new UpdateQuery;
 		$query->setTable($table);
 		$query->addWhere("id='".addslashes($id->getIdString())."'");
 		$query->setColumns(array(addslashes($key)));
@@ -842,16 +842,16 @@ class HarmoniGradingManager
      * 
      * @access private
      */
-	function _getField(&$id, $table, $key)
+	function _getField($id, $table, $key)
 	{
 		
 		//just a select query
-		$dbHandler =& Services::getService("DBHandler");
-		$query=& new SelectQuery;
+		$dbHandler = Services::getService("DBHandler");
+		$query= new SelectQuery;
 		$query->addTable($table);
 		$query->addWhere("id='".addslashes($id->getIdString())."'");
 		$query->addColumn(addslashes($key));
-		$res=& $dbHandler->query($query);
+		$res=$dbHandler->query($query);
 		$row = $res->getCurrentRow();
 		$ret=$row[$key];
 		return $ret;

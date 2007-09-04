@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TaggedItem.class.php,v 1.2 2006/11/30 22:02:12 adamfranco Exp $
+ * @version $Id: TaggedItem.class.php,v 1.3 2007/09/04 20:25:29 adamfranco Exp $
  */ 
 
 /**
@@ -18,7 +18,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TaggedItem.class.php,v 1.2 2006/11/30 22:02:12 adamfranco Exp $
+ * @version $Id: TaggedItem.class.php,v 1.3 2007/09/04 20:25:29 adamfranco Exp $
  */
 class TaggedItem {
 		
@@ -31,8 +31,8 @@ class TaggedItem {
 	 * @access public
 	 * @since 11/2/06
 	 */
-	function &forId ( $id, $system, $class='TaggedItem' ) {
-		$item =& new $class;
+	function forId ( $id, $system, $class='TaggedItem' ) {
+		$item = new $class;
 		$item->_id = $id;
 		if (method_exists($id, 'getIdString'))
 			$item->_idString = $id->getIdString();
@@ -50,10 +50,10 @@ class TaggedItem {
 	 * @access public
 	 * @since 11/6/06
 	 */
-	function &forDatabaseRow ($row) {
-		$taggingManager =& Services::getService("Tagging");
+	function forDatabaseRow ($row) {
+		$taggingManager = Services::getService("Tagging");
 		$class = $taggingManager->getItemClassForSystem($row['system']);
-		eval('$item =& '.$class.'::forId($row["id"], $row["system"]);');
+		eval('$item = '.$class.'::forId($row["id"], $row["system"]);');
 		$item->_dbid = $row['db_id'];
 		return $item;
 	}
@@ -101,9 +101,9 @@ class TaggedItem {
 	 * @access public
 	 * @since 11/1/06
 	 */
-	function &getTags ( $sortBy = TAG_SORT_ALFA, $max = 0 ) {
-		$taggingManager =& Services::getService("Tagging");
-		$tags =& $taggingManager->getTagsForItems($this, $sortBy, $max);
+	function getTags ( $sortBy = TAG_SORT_ALFA, $max = 0 ) {
+		$taggingManager = Services::getService("Tagging");
+		$tags =$taggingManager->getTagsForItems($this, $sortBy, $max);
 		return $tags;
 	}
 	
@@ -118,9 +118,9 @@ class TaggedItem {
 	 * @access public
 	 * @since 11/1/06
 	 */
-	function &getTagsByAgent ( &$agentId, $sortBy = TAG_SORT_ALFA, $max = 0 ) {
-		$taggingManager =& Services::getService("Tagging");
-		$tags =& $taggingManager->getTagsForItemsByAgent($this, $agentId, $sortBy, $max);
+	function getTagsByAgent ( $agentId, $sortBy = TAG_SORT_ALFA, $max = 0 ) {
+		$taggingManager = Services::getService("Tagging");
+		$tags =$taggingManager->getTagsForItemsByAgent($this, $agentId, $sortBy, $max);
 		return $tags;
 	}
 	
@@ -132,11 +132,11 @@ class TaggedItem {
 	 * @access public
 	 * @since 11/27/06
 	 */
-	function deleteTagsByAgent ( &$agentId ) {
-		$taggingManager =& Services::getService("Tagging");
-		$tags =& $taggingManager->getTagsForItemsByAgent($this, $agentId);
+	function deleteTagsByAgent ( $agentId ) {
+		$taggingManager = Services::getService("Tagging");
+		$tags =$taggingManager->getTagsForItemsByAgent($this, $agentId);
 		while ($tags->hasNext()) {
-			$tag =& $tags->next();
+			$tag =$tags->next();
 			$tag->removeFromItemsForAgent($this, $agentId);
 		}
 	}
@@ -151,9 +151,9 @@ class TaggedItem {
 	 * @access public
 	 * @since 11/1/06
 	 */
-	function &getUserTags ( $sortBy = TAG_SORT_ALFA, $max = 0 ) {
-		$taggingManager =& Services::getService("Tagging");
-		$tags =& $this->getTagsByAgent($taggingManager->getCurrentUserId(), $sortBy, $max);
+	function getUserTags ( $sortBy = TAG_SORT_ALFA, $max = 0 ) {
+		$taggingManager = Services::getService("Tagging");
+		$tags =$this->getTagsByAgent($taggingManager->getCurrentUserId(), $sortBy, $max);
 		return $tags;
 	}
 	
@@ -168,9 +168,9 @@ class TaggedItem {
 	 * @access public
 	 * @since 11/1/06
 	 */
-	function &getTagsNotByAgent ( &$agentId, $sortBy = TAG_SORT_ALFA, $max = 0 ) {
-		$taggingManager =& Services::getService("Tagging");
-		$tags =& $taggingManager->getTagsForItemsNotByAgent($this, $agentId, $sortBy, $max);
+	function getTagsNotByAgent ( $agentId, $sortBy = TAG_SORT_ALFA, $max = 0 ) {
+		$taggingManager = Services::getService("Tagging");
+		$tags =$taggingManager->getTagsForItemsNotByAgent($this, $agentId, $sortBy, $max);
 		return $tags;
 	}
 	
@@ -184,9 +184,9 @@ class TaggedItem {
 	 * @access public
 	 * @since 11/1/06
 	 */
-	function &getNonUserTags ( $sortBy = TAG_SORT_ALFA, $max = 0 ) {
-		$taggingManager =& Services::getService("Tagging");
-		$tags =& $this->getTagsNotByAgent($taggingManager->getCurrentUserId(), $sortBy, $max);
+	function getNonUserTags ( $sortBy = TAG_SORT_ALFA, $max = 0 ) {
+		$taggingManager = Services::getService("Tagging");
+		$tags =$this->getTagsNotByAgent($taggingManager->getCurrentUserId(), $sortBy, $max);
 		return $tags;
 	}
 	
@@ -200,28 +200,28 @@ class TaggedItem {
 	 */
 	function getDatabaseId () {
 		if (!isset($this->_dbId)) {
-			$dbc =& Services::getService("DatabaseManager");
+			$dbc = Services::getService("DatabaseManager");
 			
-			$query =& new SelectQuery;
+			$query = new SelectQuery;
 			$query->addColumn('db_id');
 			$query->addTable('tag_item');
 			$query->addWhere("id='".addslashes($this->getIdString())."'");
 			$query->addWhere("system='".addslashes($this->getSystem())."'");
 			
-			$result =& $dbc->query($query, $this->getDatabaseIndex());
+			$result =$dbc->query($query, $this->getDatabaseIndex());
 			if ($result->getNumberOfRows() && $result->field('db_id')) {
 				$this->_dbId = intval($result->field('db_id'));
 			} 
 			// Insert a new Row
 			else {
-				$query =& new InsertQuery;
+				$query = new InsertQuery;
 				$query->setTable('tag_item');
 				$query->setColumns(array('id', 'system'));
 				$query->setValues(array(
 					"'".addslashes($this->getIdString())."'",
 					"'".addslashes($this->getSystem())."'"));
 				
-				$result =& $dbc->query($query, $this->getDatabaseIndex());
+				$result =$dbc->query($query, $this->getDatabaseIndex());
 				$this->_dbId = intval($result->getLastAutoIncrementValue());
 			}
 		}
@@ -281,7 +281,7 @@ class TaggedItem {
      */
     function getDatabaseIndex () {
     	if (!isset($this->_databaseIndex)) {
-    		$taggingManager =& Services::getService("Tagging");
+    		$taggingManager = Services::getService("Tagging");
     		$this->_databaseIndex = $taggingManager->getDatabaseIndex();
 		}
 		return $this->_databaseIndex;

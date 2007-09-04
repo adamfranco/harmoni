@@ -35,7 +35,7 @@ class GradeRecord
      * 
      * @access public
      */
-    function updateGradeValue ( &$gradeValue ) { 
+    function updateGradeValue ( $gradeValue ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -57,7 +57,7 @@ class GradeRecord
      * 
      * @access public
      */
-    function &getGradableObject () { 
+    function getGradableObject () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -82,7 +82,7 @@ class GradeRecord
      * 
      * @access public
      */
-    function &getAgentId () { 
+    function getAgentId () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -104,7 +104,7 @@ class GradeRecord
      * 
      * @access public
      */
-    function &getGradeValue () { 
+    function getGradeValue () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -126,7 +126,7 @@ class GradeRecord
      * 
      * @access public
      */
-    function &getModifiedBy () { 
+    function getModifiedBy () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -173,7 +173,7 @@ class GradeRecord
      * 
      * @access public
      */
-    function &getGradeRecordType () { 
+    function getGradeRecordType () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -195,7 +195,7 @@ class GradeRecord
      * 
      * @access public
      */
-    function &getGradeType () { 
+    function getGradeType () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -217,7 +217,7 @@ class GradeRecord
      * 
      * @access public
      */
-    function &getPropertyTypes () { 
+    function getPropertyTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -244,7 +244,7 @@ class GradeRecord
      * 
      * @access public
      */
-    function &getPropertiesByType ( &$propertiesType ) { 
+    function getPropertiesByType ( $propertiesType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -266,7 +266,7 @@ class GradeRecord
      * 
      * @access public
      */
-    function &getProperties () { 
+    function getProperties () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 }

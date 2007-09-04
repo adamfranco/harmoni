@@ -12,7 +12,7 @@ require_once(HARMONI."utilities/FieldSetValidator/RuleSet.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: FieldSetValidator.class.php,v 1.4 2005/01/19 21:10:15 adamfranco Exp $
+ * @version $Id: FieldSetValidator.class.php,v 1.5 2007/09/04 20:25:55 adamfranco Exp $
  */
 class FieldSetValidator {
 	/**
@@ -39,9 +39,9 @@ class FieldSetValidator {
 	 * @access public
 	 * @return void 
 	 **/
-	function FieldSetValidator( & $fieldset, & $ruleset ) {
-		$this->_fieldset = & $fieldset;
-		$this->_ruleset = & $ruleset;
+	function FieldSetValidator( $fieldset, $ruleset ) {
+		$this->_fieldset =  $fieldset;
+		$this->_ruleset =  $ruleset;
 	}
 	
 	/**
@@ -51,8 +51,8 @@ class FieldSetValidator {
 	 * @access public
 	 * @return void 
 	 **/
-	function setFieldSet( & $fieldset ) {
-		$this->_fieldset = & $fieldset;
+	function setFieldSet( $fieldset ) {
+		$this->_fieldset =  $fieldset;
 	}
 	
 	/**
@@ -62,8 +62,8 @@ class FieldSetValidator {
 	 * @access public
 	 * @return void 
 	 **/
-	function setRuleSet( & $ruleset ) {
-		$this->_ruleset = & $ruleset;
+	function setRuleSet( $ruleset ) {
+		$this->_ruleset =  $ruleset;
 	}
 	
 	/**
@@ -77,7 +77,7 @@ class FieldSetValidator {
 	 **/
 	function validate( $key, $throwErrors=true ) {
 		// get the value from the FieldSet
-		$val = & $this->_fieldset->get($key);
+		$val =  $this->_fieldset->get($key);
 		
 		// run the rules and return
 		return $this->_ruleset->validate( $key, $val, $throwErrors );

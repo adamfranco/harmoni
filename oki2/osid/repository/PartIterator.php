@@ -67,7 +67,7 @@ class PartIterator
      * 
      * @access public
      */
-    function &nextPart () { 
+    function nextPart () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 }

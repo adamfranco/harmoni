@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RemoteFileRecord.class.php,v 1.1 2006/12/06 20:44:59 adamfranco Exp $
+ * @version $Id: RemoteFileRecord.class.php,v 1.2 2007/09/04 20:25:44 adamfranco Exp $
  */ 
 
 require_once(dirname(__FILE__)."/Fields/FileUrlPart.class.php");
@@ -35,7 +35,7 @@ require_once(dirname(__FILE__)."/Fields/RemoteFileSizePart.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RemoteFileRecord.class.php,v 1.1 2006/12/06 20:44:59 adamfranco Exp $
+ * @version $Id: RemoteFileRecord.class.php,v 1.2 2007/09/04 20:25:44 adamfranco Exp $
  */
 class RemoteFileRecord
 	extends FileRecord
@@ -49,19 +49,19 @@ class RemoteFileRecord
 	 * @access public
 	 * @since 12/5/06
 	 */
-	function RemoteFileRecord ( &$recordStructure, & $id, &$configuration, &$asset ) {
+	function RemoteFileRecord ( $recordStructure, $id, $configuration, $asset ) {
 		$this->FileRecord($recordStructure, $id, $configuration, $asset);
 		
 		unset($this->_parts['FILE_DATA'], $this->_parts['FILE_SIZE']);
 		
-		$idManager =& Services::getService("Id");
+		$idManager = Services::getService("Id");
 		
-		$this->_parts['FILE_URL'] =& new FileUrlPart(
+		$this->_parts['FILE_URL'] = new FileUrlPart(
 									$recordStructure->getPartStructure($idManager->getId('FILE_URL')),
 									$this->_id,
 									$this->_configuration,
 									$this->_asset);
-		$this->_parts['FILE_SIZE'] =& new RemoteFileSizePart(
+		$this->_parts['FILE_SIZE'] = new RemoteFileSizePart(
 									$recordStructure->getPartStructure($idManager->getId('FILE_SIZE')),
 									$this->_id,
 									$this->_configuration,
@@ -76,7 +76,7 @@ class RemoteFileRecord
 	 * @access public
 	 * @since 12/6/06
 	 */
-	function addFileDataPart (&$recordStructure) {
+	function addFileDataPart ($recordStructure) {
 		
 	}
 	
@@ -102,29 +102,29 @@ class RemoteFileRecord
 	 * 
 	 * @access public
 	 */
-	function deletePart(& $partId) {
+	function deletePart($partId) {
 		$string = $partId->getIdString();
 		if (ereg("(.*)-(".implode("|", array_keys($this->_parts)).")",$string,$r)) {
 			$recordId = $r[1];
 			$field = $r[2];
 			
 			if ($this->_isLastPart($field)) {
-				$dbHandler =& Services::getService("DatabaseManager");
+				$dbHandler = Services::getService("DatabaseManager");
 				
 				// Delete the data
-				$query =& new DeleteQuery();
+				$query = new DeleteQuery();
 				$query->setTable("dr_file_url");
 				$query->setWhere("FK_file = '".$this->_id->getIdString()."'");
 				$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 				
 				// Delete the thumbnail
-				$query =& new DeleteQuery();
+				$query = new DeleteQuery();
 				$query->setTable("dr_thumbnail");
 				$query->setWhere("FK_file = '".$this->_id->getIdString()."'");
 				$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 				
 				// delete the file row.
-				$query =& new DeleteQuery();
+				$query = new DeleteQuery();
 				$query->setTable("dr_file");
 				$query->setWhere("id = '".$this->_id->getIdString()."'");
 				$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
@@ -153,10 +153,10 @@ class RemoteFileRecord
 		if (!isset($this->_toDelete))
 			$this->_toDelete = array();
 		
-		$dbHandler =& Services::getService("DatabaseManager");
+		$dbHandler = Services::getService("DatabaseManager");
 	
 		// Check to see if the data is in the database
-		$query =& new SelectQuery;
+		$query = new SelectQuery;
 		$query->addTable("dr_file");
 		$query->addTable("dr_file_url", LEFT_JOIN, "dr_file.id = dr_file_url.FK_file");
 		$query->addTable("dr_thumbnail", LEFT_JOIN, "dr_file.id = dr_thumbnail.FK_file");
@@ -169,7 +169,7 @@ class RemoteFileRecord
 		$query->addColumn("thumbnail_mime_type.type", "THUMBNAIL_MIME_TYPE");
 		$query->addColumn("dr_thumbnail.data", "THUMBNAIL_DATA");
 		$query->addWhere("dr_file.id = '".$this->_id->getIdString()."'");
-		$result =& $dbHandler->query($query, $this->_configuration->getProperty("database_index"));
+		$result =$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 		
 		if (!$result->getNumberOfRows()) {
 			$result->free();
@@ -205,9 +205,9 @@ class RemoteFileRecord
 		if ($this->_partsLoaded)
 			return;
 		
-    	$dbHandler =& Services::getService("DBHandler");
+    	$dbHandler = Services::getService("DBHandler");
     	
-    	$query =& new SelectQuery;
+    	$query = new SelectQuery;
 		$query->addTable("dr_file");
 		$query->addTable("dr_file_url", LEFT_JOIN, "dr_file.id = dr_file_url.FK_file");
 		$query->addTable("dr_thumbnail", LEFT_JOIN, "dr_file.id = dr_thumbnail.FK_file");
@@ -224,7 +224,7 @@ class RemoteFileRecord
 		$query->addColumn("dr_thumbnail.height", "thumb_height");
 		$query->addWhere("dr_file.id = '".$this->_id->getIdString()."'");
 		
-		$result =& $dbHandler->query($query, $this->_configuration->getProperty("database_index"));
+		$result =$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 		
 		if ($result->getNumberOfRows()) {
 			$this->_parts['FILE_NAME']->_updateValue($result->field('filename'));

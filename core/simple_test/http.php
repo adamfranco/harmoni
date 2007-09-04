@@ -1,5 +1,5 @@
 <?php
-    // $Id: http.php,v 1.3 2006/01/17 20:06:22 adamfranco Exp $
+    // $Id: http.php,v 1.4 2007/09/04 20:25:50 adamfranco Exp $
 
     if (!defined("SIMPLE_TEST")) {
         define("SIMPLE_TEST", "./");
@@ -329,7 +329,7 @@
          *    @return               Either false or a HttpResponse.
          *    @access public
          */
-        function &fetch($socket = false) {
+        function fetch($socket = false) {
             if (!is_object($socket)) {
                 $socket = new SimpleSocket($this->_url->getHost());
             }
@@ -388,8 +388,8 @@
          *    @return               Parsed response object.
          *    @access protected
          */
-        function &_createResponse(&$socket) {
-            $obj =& new SimpleHttpResponse($socket);
+        function _createResponse($socket) {
+            $obj = new SimpleHttpResponse($socket);
             return $obj;
         }
     }
@@ -411,7 +411,7 @@
          *                          response text from.
          *    @access public
          */
-        function SimpleHttpResponse(&$socket) {
+        function SimpleHttpResponse($socket) {
             $this->StickyError();
             $this->_content = false;
             $this->_response_code = 0;
@@ -529,7 +529,7 @@
          *                          false.
          *    @access private
          */
-        function _readAll(&$socket) {
+        function _readAll($socket) {
             $all = "";
             while ($next = $socket->read()) {
                 $all .= $next;

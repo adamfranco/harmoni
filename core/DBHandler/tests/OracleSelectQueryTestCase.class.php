@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OracleSelectQueryTestCase.class.php,v 1.4 2005/04/07 16:33:25 adamfranco Exp $
+ * @version $Id: OracleSelectQueryTestCase.class.php,v 1.5 2007/09/04 20:25:21 adamfranco Exp $
  */
     require_once(HARMONI.'DBHandler/SelectQuery.class.php');
 	require_once(HARMONI.'DBHandler/Oracle/Oracle_SQLGenerator.class.php');
@@ -20,7 +20,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OracleSelectQueryTestCase.class.php,v 1.4 2005/04/07 16:33:25 adamfranco Exp $
+ * @version $Id: OracleSelectQueryTestCase.class.php,v 1.5 2007/09/04 20:25:21 adamfranco Exp $
  */
 
     class OracleSelectQueryTestCase extends UnitTestCase {
@@ -38,7 +38,7 @@
          */
         function setUp() {
 			// perhaps, initialize $obj here
-			$this->query =& new SelectQuery();
+			$this->query = new SelectQuery();
         }
 		
         /**

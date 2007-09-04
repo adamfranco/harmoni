@@ -33,7 +33,7 @@ define("RECORD_FULL",4);
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Record.class.php,v 1.38 2006/11/30 22:02:16 adamfranco Exp $
+ * @version $Id: Record.class.php,v 1.39 2007/09/04 20:25:31 adamfranco Exp $
 */
 class Record {
 	
@@ -65,18 +65,18 @@ class Record {
 			$schemaID = $schema->getID();
 		} else $schemaID = $schema; // it's a string (we hope)
 		
-		$schemaManager =& Services::getService("SchemaManager");
+		$schemaManager = Services::getService("SchemaManager");
 		
-		$schema =& $schemaManager->getSchemaByID($schemaID);
+		$schema =$schemaManager->getSchemaByID($schemaID);
 		$schema->load();
 		
-		$this->_schema =& $schema;
+		$this->_schema =$schema;
 		$this->_fields = array();
 		$this->_versionControlled = $verControl;
 		$this->_fetchMode = $fetchMode;
 		$this->_fetchedValueIDs = array();
 		
-		$this->_creationDate =& DateAndTime::now();
+		$this->_creationDate = DateAndTime::now();
 		
 		$this->_myID = null;
 		
@@ -84,19 +84,19 @@ class Record {
 		
 		// set up the individual fields
 		foreach ($schema->getAllIDs(true) as $label) {
-			$def =& $schema->getField($label);
-			$this->_fields[$label] =& new RecordField($def, $this);
+			$def =$schema->getField($label);
+			$this->_fields[$label] = new RecordField($def, $this);
 			unset($def);
 		}
 		
-		$this->_idManager =& Services::getService("Id");
+		$this->_idManager = Services::getService("Id");
 	}
 	
 	/**
 	 * Returns this Record's {@link Schema}
 	 * @return ref object
 	 */
-	function &getSchema() {
+	function getSchema() {
 		return $this->_schema;
 	}
 	
@@ -162,8 +162,8 @@ class Record {
 		// have a valid field object
 		$id = $this->_getFieldID($label);
 		if (!isset($this->_fields[$id])) {
-			$def =& $this->_schema->getField($this->_schema->getFieldIDFromLabel($label));
-			$this->_fields[$id] =& new RecordField($def, $this);
+			$def =$this->_schema->getField($this->_schema->getFieldIDFromLabel($label));
+			$this->_fields[$id] = new RecordField($def, $this);
 		}
 		
 		return true;
@@ -208,17 +208,17 @@ class Record {
 	* @param string $label
 	* @param optional int $index default=0.
 	*/
-	function &getValue($label, $index=0) {
+	function getValue($label, $index=0) {
 		$this->_checkLabel($label);
 		
 		$id = $this->_getFieldID($label);
 		
-		$versions =& $this->_fields[$id]->getRecordFieldValue($index);
+		$versions =$this->_fields[$id]->getRecordFieldValue($index);
 		
 		if ($versions->hasActiveValue())
-			$ver =& $versions->getActiveVersion();
+			$ver =$versions->getActiveVersion();
 		else
-			$ver =& $versions->getNewestVersion();
+			$ver =$versions->getNewestVersion();
 			
 		return $ver->getPrimitive();
 	}
@@ -231,9 +231,9 @@ class Record {
 	 * @access public
 	 * @return ref mixed
 	 */
-	function &getValueByFunction($function, $label, $index=0)
+	function getValueByFunction($function, $label, $index=0)
 	{
-		$prim =& $this->getCurrentValue($label, $index);
+		$prim =$this->getCurrentValue($label, $index);
 		return $prim->$function();
 	}
 	
@@ -244,7 +244,7 @@ class Record {
 	 */
 	function getStringValue($label, $index=0) {
 		
-		$actVer =& $this->getCurrentValue($label, $index);
+		$actVer =$this->getCurrentValue($label, $index);
 		if (!$actVer) return null;
 		
 		return $actVer->asString();
@@ -272,7 +272,7 @@ class Record {
 	 * @param optional integer $index
 	 * @return ref array An array keyed by version ID.
 	 */
-	function &getVersions($label, $index=0) {
+	function getVersions($label, $index=0) {
 		$this->_checkLabel($label);
 		$id = $this->_getFieldID($label);
 		
@@ -280,7 +280,7 @@ class Record {
 		
 		$array = array();
 		foreach ($ids as $verID) {
-			$array[$verID] =& $this->_fields[$id]->getVersion($verID);
+			$array[$verID] =$this->_fields[$id]->getVersion($verID);
 		}
 		
 		return $array;
@@ -292,11 +292,11 @@ class Record {
 	 * @return ref array 
 	 * @access public
 	 */
-	function &getRecordFieldValues($id) {
+	function getRecordFieldValues($id) {
 		$this->_checkLabel($this->_getFieldLabel($id));
 		$array = array();
 		foreach ($this->getIndices($this->_getFieldLabel($id)) as $index) {
-			$array[] =& $this->_fields[$id]->getRecordFieldValue($index);
+			$array[] =$this->_fields[$id]->getRecordFieldValue($index);
 		}
 		return $array;
 	}
@@ -308,7 +308,7 @@ class Record {
 	 * @return ref object
 	 * @access public
 	 */
-	function &getRecordFieldValue($id, $index=0) {
+	function getRecordFieldValue($id, $index=0) {
 		$this->_checkLabel($this->_getFieldLabel($id));
 		return $this->_fields[$id]->getRecordFieldValue($index);
 	}
@@ -318,7 +318,7 @@ class Record {
 	* @return bool
 	* @param ref array $arrayOfRows
 	*/
-	function populate( &$arrayOfRows ) {
+	function populate( $arrayOfRows ) {
 		
 		// ok, we're going to be passed an array of rows that corresonds to
 		// our label[index] = valueVersion[n] setup.
@@ -335,7 +335,7 @@ class Record {
 	 * @param ref array $row
 	 * @return void
 	 */
-	function takeRow( &$row ) {
+	function takeRow( $row ) {
 		
 		// see if we can't get our ID from the row
 		if (!$this->_myID && $row['record_id']) 
@@ -347,8 +347,8 @@ class Record {
 		
 		// let's check if we have our creation date set yet.
 		if (!$this->_dateFromDB) {
-			$dbHandler=& Services::getService("DatabaseManager");
-			$this->_creationDate =& $dbHandler->fromDBDate($row["record_created"], DATAMANAGER_DBID);
+			$dbHandler= Services::getService("DatabaseManager");
+			$this->_creationDate =$dbHandler->fromDBDate($row["record_created"], DATAMANAGER_DBID);
 			$this->_dateFromDB = true;
 		}
 		
@@ -377,7 +377,7 @@ class Record {
 	 * @access public
 	 * @return ref object
 	 */
-	function &getCreationDate()
+	function getCreationDate()
 	{
 		return $this->_creationDate;
 	}
@@ -463,7 +463,7 @@ class Record {
 	* @param ref object $obj
 	* @param optional int $index default=0
 	*/
-	function setValue($label, &$obj, $index=0) {
+	function setValue($label, $obj, $index=0) {
 		$this->_checkLabel($label);
 		$id = $this->_getFieldID($label);
 		
@@ -489,13 +489,13 @@ class Record {
 			$this->_checkLabel($label);
 		
 		// Get the DBHandler
-		$dbHandler =& Services::getService("DatabaseManager");
+		$dbHandler = Services::getService("DatabaseManager");
 			
 		// the first thing we're gonna do is check to make sure that all our required fields
 		// have at least one value.
 		if (!$this->_delete) {
 			foreach ($this->_schema->getAllIDs() as $id) {
-				$fieldDef =& $this->_schema->getField($id);
+				$fieldDef =$this->_schema->getField($id);
 				if ($fieldDef->isRequired() && ($this->_fields[$id]->numValues(true) == 0 ||
 						$this->_fields[$id]->numValues() == 0) && !$ignoreMandatory) {
 					throwError(new Error("Could not commit Record to database because the required field '$id' does
@@ -507,7 +507,7 @@ class Record {
 			
 			if ($this->_myID) {
 				// we're already in the database
-				$query =& new UpdateQuery();
+				$query = new UpdateQuery();
 				
 				$query->setTable("dm_record");
 				$query->setColumns(array("ver_control"));
@@ -518,12 +518,12 @@ class Record {
 				
 			} else {
 				// we'll have to make a new entry
-				$schemaManager =& Services::getService("SchemaManager");
+				$schemaManager = Services::getService("SchemaManager");
 				
-				$newID =& $this->_idManager->createId();
+				$newID =$this->_idManager->createId();
 				$this->_myID = $newID->getIdString();
 				
-				$query =& new InsertQuery();
+				$query = new InsertQuery();
 				$query->setTable("dm_record");
 				$query->setColumns(array("id","fk_schema","created","ver_control"));
 				$query->addRowOfValues(array(
@@ -535,7 +535,7 @@ class Record {
 			}
 			
 			// execute the query;		
-			$result =& $dbHandler->query($query,DATAMANAGER_DBID);
+			$result =$dbHandler->query($query,DATAMANAGER_DBID);
 			
 			if (!$result) {
 				throwError( new UnknownDBError("Record") );
@@ -549,12 +549,12 @@ class Record {
 		}
 		
 		if ($this->_prune) {
-			$constraint =& $this->_pruneConstraint;
+			$constraint =$this->_pruneConstraint;
 			
 			// check if we have to delete any dataset tags based on our constraints
 			$constraint->checkTags($this);
 			
-			$tagMgr =& Services::getService("RecordTagManager");
+			$tagMgr = Services::getService("RecordTagManager");
 			
 			// if we are no good any more, delete ourselves completely
 			if ($this->_delete) {
@@ -562,13 +562,13 @@ class Record {
 				// be valid.
 				$tagMgr->pruneTags($this);
 				
-				$query =& new DeleteQuery();
+				$query = new DeleteQuery();
 				$query->setTable("dm_record");
 				$query->setWhere("id='".addslashes($this->getID())."'");
 				
 				$dbHandler->query($query, DATAMANAGER_DBID);
 
-				$query =& new DeleteQuery();
+				$query = new DeleteQuery();
 				$query->setTable("dm_record_set");
 				$query->setWhere("fk_record='".addslashes($this->getID())."'");
 
@@ -602,7 +602,7 @@ class Record {
 	*/
 	function tag($date=null) {
 		$this->makeCurrent();
-		$tagMgr =& Services::getService("RecordTagManager");
+		$tagMgr = Services::getService("RecordTagManager");
 		$tagMgr->tagRecord($this, $date);
 	}
 	
@@ -631,16 +631,16 @@ class Record {
 	* the DB as a new set with the same data.
 	* @return ref object A new {@link Record} object.
 	*/
-	function &replicate() {
+	function replicate() {
 		
 		$this->makeFull();
 		
-		$newSet =& new Record($this->_schema, $this->_versionControlled);
+		$newSet = new Record($this->_schema, $this->_versionControlled);
 		// @todo
 		foreach ($this->_schema->getAllIDs() as $id) {
 			$label = $this->_getFieldLabel($id);
 			foreach($this->getIndices($label, true) as $i) {
-				$newSet->_fields[$id]->_values[$i] =& $this->_fields[$id]->_values[$i]->replicate($newSet->_fields[$id]);
+				$newSet->_fields[$id]->_values[$i] =$this->_fields[$id]->_values[$i]->replicate($newSet->_fields[$id]);
 				$newSet->_fields[$id]->_numValues++;
 			}
 		}
@@ -653,11 +653,11 @@ class Record {
 	* @param ref object $versionConstraint A {@link VersionConstraint) on which to base our pruning.
 	* @return void
 	*/
-	function prune(&$versionConstraint) {
+	function prune($versionConstraint) {
 		
 		$this->makeFull();
 				
-		$this->_pruneConstraint =& $versionConstraint;
+		$this->_pruneConstraint =$versionConstraint;
 		$this->_prune=true;
 		
 		// just step through each FieldValues object and call prune()
@@ -681,7 +681,7 @@ class Record {
 	* @return bool
 	* @param ref object $tag A {@link RecordTag} object.
 	*/
-	function activateTag(&$tag) {
+	function activateTag($tag) {
 		// check to make sure the tag is affiliated with us
 		if ($this->getID() != $tag->getRecordID()) {
 			throwError (new Error("Can not activate tag because it is not affiliated with this Record.","Record",true));
@@ -701,9 +701,9 @@ class Record {
 				$newVerID = $tag->getMapping($id, $i);
 				
 				// go through each version and deactivate all versions unless they are active and $verID
-				$vers =& $this->getVersions($label, $i);
+				$vers =$this->getVersions($label, $i);
 				foreach (array_keys($vers) as $verID) {
-					$verObj =& $vers[$verID];
+					$verObj =$vers[$verID];
 					
 					// if it's our active vers in the RecordTag, activate it
 					if ($verID == $newVerID) {
@@ -744,12 +744,12 @@ class Record {
 			if ($field->getMultFlag()) {
 				$array[$label] = array();
 				foreach ($this->getIndices($label) as $i) {
-					$value =& $this->getValue($label,$i);
+					$value =$this->getValue($label,$i);
 					$array[$label][] = $value->asString();
 				}
 			} else {
 				if ($this->numValues($label)) {
-					$value =& $this->getValue($label);
+					$value =$this->getValue($label);
 					$array[$label] = $value->asString();
 				}
 			}
@@ -774,7 +774,7 @@ class Record {
 		
 		if (!$this->getID()) return;
 		
-		$recordManager =& Services::getService("RecordManager");
+		$recordManager = Services::getService("RecordManager");
 		$recordManager->fetchRecord($this->getID(), RECORD_FULL);
 	}
 	
@@ -793,7 +793,7 @@ class Record {
 		
 		if (!$this->getID()) return;
 		
-		$recordManager =& Services::getService("RecordManager");
+		$recordManager = Services::getService("RecordManager");
 		$recordManager->fetchRecord($this->getID(), RECORD_CURRENT);
 	}
 	

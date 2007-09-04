@@ -13,7 +13,7 @@ require_once(HARMONI.'oki/authorization/DefaultQualifierType.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: QualifierTestCase.class.php,v 1.6 2005/04/07 16:33:28 adamfranco Exp $
+ * @version $Id: QualifierTestCase.class.php,v 1.7 2007/09/04 20:25:39 adamfranco Exp $
  */
 class HarmoniQualifierTestCase extends UnitTestCase {
 
@@ -34,9 +34,9 @@ class HarmoniQualifierTestCase extends UnitTestCase {
 		$dbHandler->pConnect($dbIndex);
 		unset($dbHandler); // done with that for now
 		
-		$this->cache =& new HierarchyCache("6794", true, $dbIndex, "doboHarmoniTest");
-		$this->node =& $this->cache->getNode("6800");
-		$this->qualifier =& new HarmoniQualifier($this->node, new AuthorizationCache($dbIndex, "doboHarmoniTest"));
+		$this->cache = new HierarchyCache("6794", true, $dbIndex, "doboHarmoniTest");
+		$this->node =$this->cache->getNode("6800");
+		$this->qualifier = new HarmoniQualifier($this->node, new AuthorizationCache($dbIndex, "doboHarmoniTest"));
 	}
 
 	function test_constructor() {
@@ -45,26 +45,26 @@ class HarmoniQualifierTestCase extends UnitTestCase {
 	
 	function test_various_get_functions() {
 		// getId()
-		$id =& $this->qualifier->getId();
+		$id =$this->qualifier->getId();
 		$this->assertReference($id, $this->node->getId());
 		$this->assertIdentical($id, new HarmoniId("6800"));
 		
 		// getQualifierType()
-		$type =& $this->qualifier->getQualifierType();
+		$type =$this->qualifier->getQualifierType();
 		$this->assertReference($type, $this->node->getType());
-		$deftype =& new DefaultQualifierType();
+		$deftype = new DefaultQualifierType();
 		$this->assertIdentical($type->getAuthority(), $deftype->getAuthority());
 		$this->assertIdentical($type->getDomain(), $deftype->getDomain());
 		$this->assertIdentical($type->getKeyword(), $deftype->getKeyword());
 		$this->assertIdentical($type->getDescription(), $deftype->getDescription());
 		
 		// getDisplayName()
-		$displayName =& $this->qualifier->getDisplayName();
+		$displayName =$this->qualifier->getDisplayName();
 		$this->assertIdentical($displayName, $this->node->getDisplayName());
 		$this->assertIdentical($displayName, "pageC");
 		
 		// getDescription()
-		$description =& $this->qualifier->getDescription();
+		$description =$this->qualifier->getDescription();
 		$this->assertIdentical($description, $this->node->getDescription());
 		$this->assertIdentical($description, "");
 	}
@@ -99,12 +99,12 @@ class HarmoniQualifierTestCase extends UnitTestCase {
 	
 	
 	function test_get_parents_and_children() {
-		$parents =& $this->qualifier->getParents();
+		$parents =$this->qualifier->getParents();
 		$this->assertIdentical(count($parents->_qualifiers), 2);
 		while ($parents->hasNext())
 			$this->assertIsA($parents->next(), "Qualifier");
 
-		$children =& $this->qualifier->getChildren();
+		$children =$this->qualifier->getChildren();
 		$this->assertIdentical(count($children->_qualifiers), 2);
 		while ($children->hasNext())
 			$this->assertIsA($children->next(), "Qualifier");
@@ -115,8 +115,8 @@ class HarmoniQualifierTestCase extends UnitTestCase {
 		$this->assertTrue($this->qualifier->isParent());
 		
 		// go one level down
-		$children =& $this->qualifier->getChildren();
-		$qualifier =& $children->next();
+		$children =$this->qualifier->getChildren();
+		$qualifier =$children->next();
 
 		$this->assertFalse($qualifier->isParent());
 	}

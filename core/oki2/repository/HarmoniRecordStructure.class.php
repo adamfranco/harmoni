@@ -23,7 +23,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRecordStructure.class.php,v 1.35 2007/04/12 15:37:31 adamfranco Exp $ 
+ * @version $Id: HarmoniRecordStructure.class.php,v 1.36 2007/09/04 20:25:43 adamfranco Exp $ 
  */
 
 class HarmoniRecordStructure 
@@ -33,11 +33,11 @@ class HarmoniRecordStructure
 	var $_schema;
 	var $_createdParts;
 	
-	function HarmoniRecordStructure( &$schema, &$repositoryId ) {
+	function HarmoniRecordStructure( $schema, $repositoryId ) {
 		ArgumentValidator::validate($repositoryId, ExtendsValidatorRule::getRule("Id"));
 		
-		$this->_schema =& $schema;
-		$this->_repositoryId =& $repositoryId;
+		$this->_schema =$schema;
+		$this->_repositoryId =$repositoryId;
 		
 		// create an array of created PartStructures so we can return references to
 		// them instead of always making new ones.
@@ -88,7 +88,7 @@ class HarmoniRecordStructure
 	 */
 	function updateDisplayName ( $displayName ) { 
 		$this->_schema->updateDisplayName($displayName);
-		$schemaManager =& Services::getService("SchemaManager");
+		$schemaManager = Services::getService("SchemaManager");
 		$schemaManager->synchronize($this->_schema);
 	} 
 
@@ -136,7 +136,7 @@ class HarmoniRecordStructure
 	 */
 	function updateDescription ( $description ) { 
 		$this->_schema->updateDescription($description);
-		$schemaManager =& Services::getService("SchemaManager");
+		$schemaManager = Services::getService("SchemaManager");
 		$schemaManager->synchronize($this->_schema);
 	} 
 
@@ -159,8 +159,8 @@ class HarmoniRecordStructure
 	 * 
 	 * @access public
 	 */
-	function &getId () { 
-		$idManager =& Services::getService("Id");
+	function getId () { 
+		$idManager = Services::getService("Id");
 		return $idManager->getId($this->_schema->getID());
 	}
 
@@ -170,7 +170,7 @@ class HarmoniRecordStructure
 	 * @return object PartStructure
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 */
-	function &getPartStructure(& $partId) {
+	function getPartStructure($partId) {
 		ArgumentValidator::validate($partId, ExtendsValidatorRule::getRule("Id"));
 		if (!isset($this->_createdParts[$partId->getIdString()])) {
 			$this->_schema->load();
@@ -181,7 +181,7 @@ class HarmoniRecordStructure
 					"Unknown PartStructure ID: ".$partId->getIdString(), 
 					"Repository", true));
 				
-			$schemaField =& $this->_schema->getField($partId->getIdString());
+			$schemaField =$this->_schema->getField($partId->getIdString());
 			
 			// Check that the schema field is active
 			if (!$schemaField->isActive())
@@ -189,7 +189,7 @@ class HarmoniRecordStructure
 					"Unknown [Inactive] PartStructure ID: ".$partId->getIdString(), 
 					"Repository", true));
 			
-			$this->_createdParts[$partId->getIdString()] =& new HarmoniPartStructure(
+			$this->_createdParts[$partId->getIdString()] = new HarmoniPartStructure(
 				$this, $schemaField, $this->_repositoryId);
 		}
 		
@@ -216,16 +216,16 @@ class HarmoniRecordStructure
 	 * 
 	 * @access public
 	 */
-	function &getPartStructures () { 
+	function getPartStructures () { 
 		$this->_schema->load();
 		$array = array();
 		foreach ($this->_schema->getAllIDs() as $id) {
-			$fieldDef =& $this->_schema->getField($id);
+			$fieldDef =$this->_schema->getField($id);
 			if (!isset($this->_createdParts[$id]))
-				 $this->_createdParts[$id] =& new HarmoniPartStructure($this, $fieldDef, $this->_repositoryId);
+				 $this->_createdParts[$id] = new HarmoniPartStructure($this, $fieldDef, $this->_repositoryId);
 		}
 		
-		$obj =& new HarmoniRecordStructureIterator($this->_createdParts);
+		$obj = new HarmoniRecordStructureIterator($this->_createdParts);
 		
 		return $obj;
 	}
@@ -329,7 +329,7 @@ class HarmoniRecordStructure
 		$other = $this->_schema->getOtherParameters();
 		$other['format'] = $format;
 		$this->_schema->updateOtherParameters($other);
-		$schemaManager =& Services::getService("SchemaManager");
+		$schemaManager = Services::getService("SchemaManager");
 		$schemaManager->synchronize($this->_schema);
 	} 
 	
@@ -352,8 +352,8 @@ class HarmoniRecordStructure
 	 * 
 	 * @access public
 	 */
-	function &getType () { 
-		$type =& new Type("RecordStructures", "edu.middlebury.harmoni", "DataManagerPrimatives", "RecordStructures stored in the Harmoni DataManager.");
+	function getType () { 
+		$type = new Type("RecordStructures", "edu.middlebury.harmoni", "DataManagerPrimatives", "RecordStructures stored in the Harmoni DataManager.");
 		return $type;
 	} 
 
@@ -385,7 +385,7 @@ class HarmoniRecordStructure
 	 * 
 	 * @access public
 	 */
-	function validateRecord ( &$record ) { 
+	function validateRecord ( $record ) { 
 		// all we can really do is make sure the DataSet behind the Record is of the correct
 		// type to match this RecordStructure (DataSetTypeDefinition).
 		
@@ -409,7 +409,7 @@ class HarmoniRecordStructure
 	 *
 	 * @return object PartStructure The newly created PartStructure.
 	 */
-	function &createPartStructure($displayName, $description, &$partType, $isMandatory, $isRepeatable, $isPopulatedByRepository, $theid=null) {
+	function createPartStructure($displayName, $description, $partType, $isMandatory, $isRepeatable, $isPopulatedByRepository, $theid=null) {
 		ArgumentValidator::validate($displayName, StringValidatorRule::getRule());
 		ArgumentValidator::validate($description, StringValidatorRule::getRule());
 		ArgumentValidator::validate($partType, ExtendsValidatorRule::getRule("Type"));
@@ -418,28 +418,28 @@ class HarmoniRecordStructure
 		ArgumentValidator::validate($isPopulatedByRepository, BooleanValidatorRule::getRule());
 		
 		if ($theid == null) {
-			$idManager =& Services::getService("Id");
-			$id =& $idManager->createId();
+			$idManager = Services::getService("Id");
+			$id =$idManager->createId();
 			$label = $id->getIdString();
 		} else {
 			// check if this ID follows our Schema's ID
-			$id =& $theid;
+			$id =$theid;
 			if (strpos($id->getIdString(), $this->_schema->getID()) != 0) {
 				throwError(new Error("Could not create PartStructure -- the passed ID does not conform to the Schema's internal ID: ".$this->_schema->getID(), "Repository", true));
 			}
 			
 			$label = str_replace($this->_schema->getID() . ".", "", $id->getIdString());
 		}
-		$fieldDef =& new SchemaField($label, $displayName, $partType->getKeyword(), $description, $isRepeatable, $isMandatory);
-		$schema =& $this->_schema->deepCopy();
+		$fieldDef = new SchemaField($label, $displayName, $partType->getKeyword(), $description, $isRepeatable, $isMandatory);
+		$schema =$this->_schema->deepCopy();
 		$schema->addField($fieldDef);
-		$sm =& Services::getService("SchemaManager");
+		$sm = Services::getService("SchemaManager");
 		$sm->synchronize($schema);
-		$this->_schema =& $sm->getSchemaByID($this->_schema->getID());
+		$this->_schema =$sm->getSchemaByID($this->_schema->getID());
 
 		$idString = $this->_schema->getFieldIDFromLabel($label);
 		
-		$this->_createdParts[$idString] =& new HarmoniPartStructure($this,
+		$this->_createdParts[$idString] = new HarmoniPartStructure($this,
 																$fieldDef, $this->_repositoryId);
 		return $this->_createdParts[$idString];
 	}
@@ -451,15 +451,15 @@ class HarmoniRecordStructure
 	 *
 	 * @return object TypeIterator The Types supported in this implementation.
 	 */
-	function &getPartStructureTypes() {
+	function getPartStructureTypes() {
 		$types = array();
 		
-		$typeMgr =& Services::getService("DataTypeManager");
+		$typeMgr = Services::getService("DataTypeManager");
 		foreach ($typeMgr->getRegisteredTypes() as $dataType) {
-			$types[] =& new HarmoniType ("Repository","edu.middlebury.harmoni",$dataType);
+			$types[] = new HarmoniType ("Repository","edu.middlebury.harmoni",$dataType);
 		}
 		
-		$typeIterator =& new HarmoniTypeIterator($types);
+		$typeIterator = new HarmoniTypeIterator($types);
 		return $typeIterator;
 	}
 	
@@ -475,9 +475,9 @@ class HarmoniRecordStructure
 	 * @access public
 	 * @since 6/8/06
 	 */
-	function &convertPartStructureToType ( &$partStructureId, &$type, $statusStars = null ) {
-		$oldPartStructure =& $this->getPartStructure($partStructureId);
-		$newPartStructure =& $this->createPartStructure(
+	function convertPartStructureToType ( $partStructureId, $type, $statusStars = null ) {
+		$oldPartStructure =$this->getPartStructure($partStructureId);
+		$newPartStructure =$this->createPartStructure(
 								$oldPartStructure->getDisplayName(),
 								$oldPartStructure->getDescription(),
 								$type,
@@ -486,42 +486,42 @@ class HarmoniRecordStructure
 								$oldPartStructure->isPopulatedByRepository());
 		
 		// Convert the Data
-		$repositoryManager =& Services::getService("Repository");
-		$myRecordStructureId =& $this->getId();
-		$repositories =& $repositoryManager->getRepositories();
+		$repositoryManager = Services::getService("Repository");
+		$myRecordStructureId =$this->getId();
+		$repositories =$repositoryManager->getRepositories();
 		while($repositories->hasNext()) {
-			$repository =& $repositories->next();
-			$recordStructures =& $repository->getRecordStructures();
+			$repository =$repositories->next();
+			$recordStructures =$repository->getRecordStructures();
 			while($recordStructures->hasNext()) {
-				$recordStructure =& $recordStructures->next();
+				$recordStructure =$recordStructures->next();
 				
 				// If the current Repository has this record structure, convert
 				// the records for it in its assets.
 				if ($myRecordStructureId->isEqual($recordStructure->getId())) {
-					$assets =& $repository->getAssets();
+					$assets =$repository->getAssets();
 					
 					if (!is_null($statusStars))
 						$statusStars->initializeStatistics($assets->count());
 										
 					while ($assets->hasNext()) {
-						$asset =& $assets->next();
-						$records =& $asset->getRecordsByRecordStructure(
+						$asset =$assets->next();
+						$records =$asset->getRecordsByRecordStructure(
 							$myRecordStructureId);
 						while ($records->hasNext()) {
-							$record =& $records->next();
-							$parts =& $record->getPartsByPartStructure($partStructureId);
+							$record =$records->next();
+							$parts =$record->getPartsByPartStructure($partStructureId);
 							while ($parts->hasNext()) {
-								$oldPart =& $parts->next();
+								$oldPart =$parts->next();
 								
-								$oldValue =& $oldPart->getValue();
+								$oldValue =$oldPart->getValue();
 								$oldValueString = $oldValue->asString();
 								
-								$newPart =& $record->createPart(
+								$newPart =$record->createPart(
 												$newPartStructure->getId(),
 												$oldPart->getValue());
 								$record->deletePart($oldPart->getId());
 								
-								$newValue =& $newPart->getValue();
+								$newValue =$newPart->getValue();
 								
 								
 								$newValueString = $newValue->asString();
@@ -552,12 +552,12 @@ class HarmoniRecordStructure
 	 * @access public
 	 * @since 6/8/06
 	 */
-	function deletePartStructure ( &$partStructureId ) {
+	function deletePartStructure ( $partStructureId ) {
 		// Delete the Structure
-		$schemaMgr =& Services::getService("SchemaManager");
-		$recordMgr =& Services::getService("RecordManager");
+		$schemaMgr = Services::getService("SchemaManager");
+		$recordMgr = Services::getService("RecordManager");
 		
-		$partStructure =& $this->getPartStructure($partStructureId);
+		$partStructure =$this->getPartStructure($partStructureId);
 		$dummyValues = array(String::withValue('4000-02-05'));
 		$recordIdsWithValues = $recordMgr->getRecordSetIDsBySearch(
 				new FieldValueSearch(
@@ -575,7 +575,7 @@ class HarmoniRecordStructure
 				"Repository", 1));
 		}
 		
-		$sm =& Services::getService("SchemaManager");
+		$sm = Services::getService("SchemaManager");
 		$this->_schema->deleteField($partStructureId->getIdString());
 		$sm->synchronize($this->_schema);
 		

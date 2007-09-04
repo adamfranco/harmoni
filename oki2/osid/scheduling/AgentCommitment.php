@@ -36,7 +36,7 @@ class AgentCommitment
      * 
      * @access public
      */
-    function &getAgentId () { 
+    function getAgentId () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -61,7 +61,7 @@ class AgentCommitment
      * 
      * @access public
      */
-    function &getStatus () { 
+    function getStatus () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 }

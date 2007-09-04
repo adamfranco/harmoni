@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Layout.interface.php,v 1.4 2005/02/07 21:38:13 adamfranco Exp $
+ * @version $Id: Layout.interface.php,v 1.5 2007/09/04 20:25:21 adamfranco Exp $
  */
 class LayoutInterface {
 
@@ -25,7 +25,7 @@ class LayoutInterface {
 	 * prepended to each text line. This argument is optional but its usage is highly 
 	 * recommended in order to produce a nicely formatted HTML output.
 	 **/
-	function render(& $container, & $theme, $tabs = "") {
+	function render($container, $theme, $tabs = "") {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	

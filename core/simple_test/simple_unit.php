@@ -1,5 +1,5 @@
 <?php
-    // $Id: simple_unit.php,v 1.4 2005/07/12 19:45:01 adamfranco Exp $
+    // $Id: simple_unit.php,v 1.5 2007/09/04 20:25:50 adamfranco Exp $
     
     if (!defined("SIMPLE_TEST")) {
         define("SIMPLE_TEST", "./");
@@ -162,7 +162,7 @@
          *    @param $message        Message to display.
          *    @access public
          */
-        function assertReference(&$first, &$second, $message = "") {
+        function assertReference($first, $second, $message = "") {
             if ($message == "") {
                 $message =
                         "[" . $this->_renderVariable($first) .
@@ -184,7 +184,7 @@
          *    @param $message        Message to display.
          *    @access public
          */
-        function assertNotReference(&$first, &$second, $message = "") {
+        function assertNotReference($first, $second, $message = "") {
             if ($message == "") {
                 $message =
                         "[" . $this->_renderVariable($first) .
@@ -206,7 +206,7 @@
          *    @param $message        Message to display.
          *    @access public
          */
-        function assertCopy(&$first, &$second, $message = "") {
+        function assertCopy($first, $second, $message = "") {
             if ($message == "") {
                 $message =
                         "[" . $this->_renderVariable($first) .

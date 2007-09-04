@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SearchEntryIterator.class.php,v 1.3 2006/03/09 21:20:18 adamfranco Exp $
+ * @version $Id: SearchEntryIterator.class.php,v 1.4 2007/09/04 20:25:43 adamfranco Exp $
  */
 
 require_once(dirname(__FILE__)."/HarmoniEntryIterator.class.php");
@@ -28,7 +28,7 @@ require_once(dirname(__FILE__)."/HarmoniEntry.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SearchEntryIterator.class.php,v 1.3 2006/03/09 21:20:18 adamfranco Exp $
+ * @version $Id: SearchEntryIterator.class.php,v 1.4 2007/09/04 20:25:43 adamfranco Exp $
  */
 class SearchEntryIterator
 	extends HarmoniEntryIterator
@@ -45,9 +45,9 @@ class SearchEntryIterator
 	 * @access public
 	 * @since 3/1/06
 	 */
-	function SearchEntryIterator ( $logName, &$searchCriteria, &$formatType, &$priorityType, $dbIndex ) {
-		$this->_startDate =& $searchCriteria['start'];
-		$this->_endDate =& $searchCriteria['end'];
+	function SearchEntryIterator ( $logName, $searchCriteria, $formatType, $priorityType, $dbIndex ) {
+		$this->_startDate =$searchCriteria['start'];
+		$this->_endDate =$searchCriteria['end'];
 		
 		if (isset($searchCriteria['agent_id']))
 			$this->_agentId = $searchCriteria['agent_id'];
@@ -75,8 +75,8 @@ class SearchEntryIterator
 	 * @access public
 	 * @since 3/9/06
 	 */
-	function addWhereClauses ( &$query ) {
-		$dbc =& Services::getService("DatabaseManager");
+	function addWhereClauses ( $query ) {
+		$dbc = Services::getService("DatabaseManager");
 		if ($this->_agentId) {
 			$query->addTable("log_agent", INNER_JOIN, "log_entry.id = search_agent.fk_entry", "search_agent");
 			$query->addWhere("search_agent.fk_agent = '".addslashes($this->_agentId->getIdString())."'");

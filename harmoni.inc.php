@@ -10,7 +10,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: harmoni.inc.php,v 1.44 2006/01/09 20:25:33 adamfranco Exp $
+ * @version $Id: harmoni.inc.php,v 1.45 2007/09/04 20:25:17 adamfranco Exp $
  */
 
  /* :: start the output buffer, if it's not already :: */
@@ -85,7 +85,7 @@ if (get_magic_quotes_gpc()) {
 	</HTML>';
 	exit(1);
 	
-	function array_walk_stripslashes(&$val, $key) {
+	function array_walk_stripslashes($val, $key) {
 		if (is_array($val)) array_walk($val, 'array_walk_stripslashes');
 		else $val = stripslashes($val);
 	}
@@ -101,7 +101,7 @@ if (get_magic_quotes_gpc()) {
  *********************************************************/
 /* :: load the Framework config file :: */
 require_once(HARMONIBASE."config/framework.cfg.php");
-$harmoni =& Harmoni::instance();
+$harmoni = Harmoni::instance();
 
 /*********************************************************
  * Services
@@ -119,8 +119,8 @@ require_once(HARMONI."services/Services.class.php");
  * The global Services object.
  * @var object Services $__services__ The global Services object.
  **/
-$__services__ =& new Services();
-$GLOBALS[SERVICES_OBJECT] =& $__services__;
+$__services__ = new Services();
+$GLOBALS[SERVICES_OBJECT] =$__services__;
 
 /* :: load the Services registration config file :: */
 require_once(HARMONIBASE."config/services.cfg.php");

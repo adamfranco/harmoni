@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreInsertQueryResult.class.php,v 1.5 2005/04/07 16:33:25 adamfranco Exp $
+ * @version $Id: PostGreInsertQueryResult.class.php,v 1.6 2007/09/04 20:25:20 adamfranco Exp $
  */
  
 require_once(HARMONI."DBHandler/InsertQueryResult.interface.php");
@@ -19,7 +19,7 @@ require_once(HARMONI."DBHandler/InsertQueryResult.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreInsertQueryResult.class.php,v 1.5 2005/04/07 16:33:25 adamfranco Exp $
+ * @version $Id: PostGreInsertQueryResult.class.php,v 1.6 2007/09/04 20:25:20 adamfranco Exp $
  */
 class PostGreInsertQueryResult 
 	extends InsertQueryResultInterface  
@@ -59,8 +59,8 @@ class PostGreInsertQueryResult
 	 */
 	function PostGreInsertQueryResult($resourceId, $lastId) {
 		// ** parameter validation
-		$resourceRule =& ResourceValidatorRule::getRule();
-		$integerRule =& OptionalRule::getRule(IntegerValidatorRule::getRule());
+		$resourceRule = ResourceValidatorRule::getRule();
+		$integerRule = OptionalRule::getRule(IntegerValidatorRule::getRule());
 		ArgumentValidator::validate($resourceId, $resourceRule, true);
 		ArgumentValidator::validate($lastId, $integerRule, true);
 		// ** end of parameter validation

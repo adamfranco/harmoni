@@ -55,46 +55,46 @@
         function TestOfCourseOffering() {
         	
         	
-        	$cm =& Services::getService("CourseManagement");
-        	$sm =& Services::getService("Scheduling");
+        	$cm = Services::getService("CourseManagement");
+        	$sm = Services::getService("Scheduling");
         	
         	$this->write(7, "Test Course Offering");
 
         	
-        	$canType =& new Type("CanonicalCourseType", "edu.middlebury", "DED", "Deductive Reasoning");
-          	$canStatType =& new Type("CanonicalCourseStatusType", "edu.middlebury", "Still offered", "Offerd sometimes");
+        	$canType = new Type("CanonicalCourseType", "edu.middlebury", "DED", "Deductive Reasoning");
+          	$canStatType = new Type("CanonicalCourseStatusType", "edu.middlebury", "Still offered", "Offerd sometimes");
           	
-          	$offerType1 =& new Type("CourseOfferingType", "edu.middlebury", "default", "");
-          	$offerType2 =& new Type("CourseOfferingType", "edu.middlebury", "undefault", "MYSTERIOUS!");
-          	$offerStatType1 =& new Type("CourseOfferingStatusType", "edu.middlebury", "Full", "You can't still register.");
-          	$offerStatType2 =& new Type("CourseOfferingStatusType", "edu.middlebury", "Available", "You can still register.");
-          	$gradeType =& new Type("GradeType", "edu.middlebury", "AutoFail", "Sucks to be you");
-          	$gradeType2 =& new Type("GradeType", "edu.middlebury", "EasyA", "AM LIT!");
-          	$termType =& new Type("TermType", "edu.middlebury", "Fall");
-          	$scheduleItemType =& new Type("ScheduleItemStatusType", "edu.middlebury", "default");
+          	$offerType1 = new Type("CourseOfferingType", "edu.middlebury", "default", "");
+          	$offerType2 = new Type("CourseOfferingType", "edu.middlebury", "undefault", "MYSTERIOUS!");
+          	$offerStatType1 = new Type("CourseOfferingStatusType", "edu.middlebury", "Full", "You can't still register.");
+          	$offerStatType2 = new Type("CourseOfferingStatusType", "edu.middlebury", "Available", "You can still register.");
+          	$gradeType = new Type("GradeType", "edu.middlebury", "AutoFail", "Sucks to be you");
+          	$gradeType2 = new Type("GradeType", "edu.middlebury", "EasyA", "AM LIT!");
+          	$termType = new Type("TermType", "edu.middlebury", "Fall");
+          	$scheduleItemType = new Type("ScheduleItemStatusType", "edu.middlebury", "default");
           	
           	
-          	$cs1 =& $cm->createCanonicalCourse("Intro to CSCI", "CSCI101", "",$canType, $canStatType,1);
-          	$cs2 =& $cm->createCanonicalCourse("Computer Graphics", "CSCI367", "",$canType, $canStatType,1);
+          	$cs1 =$cm->createCanonicalCourse("Intro to CSCI", "CSCI101", "",$canType, $canStatType,1);
+          	$cs2 =$cm->createCanonicalCourse("Computer Graphics", "CSCI367", "",$canType, $canStatType,1);
           	
           	       
           	$agents = array();
           	 	
-			$scheduleItemA =& $sm->createScheduleItem("Fall 2006 range", "", $scheduleItemType, 300, 600, null);
-			$scheduleItemB =& $sm->createScheduleItem("Fall 2006 range", "", $scheduleItemType, 1300, 1600, null);				
+			$scheduleItemA =$sm->createScheduleItem("Fall 2006 range", "", $scheduleItemType, 300, 600, null);
+			$scheduleItemB =$sm->createScheduleItem("Fall 2006 range", "", $scheduleItemType, 1300, 1600, null);				
 			$scheduleA = array($scheduleItemA);
 			$scheduleB = array($scheduleItemA);
 						
-			$term1 =& $cm->createTerm($termType, $scheduleA);
+			$term1 =$cm->createTerm($termType, $scheduleA);
 			$term1->updateDisplayName("Fall 2005");
-			$term2 =& $cm->createTerm($termType, $scheduleB);
+			$term2 =$cm->createTerm($termType, $scheduleB);
 			$term2->updateDisplayName("Fall 2006");
 			
 			
-          	$cs1A =& $cs1->createCourseOffering(null,null,"DescribeIT!", $term1->getId(),$offerType1,$offerStatType1,$gradeType);
-          	$cs1B =& $cs1->createCourseOffering(null,null,null, $term2->getId(),$offerType2,$offerStatType2,$gradeType);
-          	$cs2A =& $cs2->createCourseOffering(null,"CSCI367",null, $term1->getId(),$offerType2,$offerStatType1,$gradeType);
-          	$cs2B =& $cs2->createCourseOffering("Computer Graphics",null,null, $term2->getId(),$offerType1,$offerStatType1,$gradeType);
+          	$cs1A =$cs1->createCourseOffering(null,null,"DescribeIT!", $term1->getId(),$offerType1,$offerStatType1,$gradeType);
+          	$cs1B =$cs1->createCourseOffering(null,null,null, $term2->getId(),$offerType2,$offerStatType2,$gradeType);
+          	$cs2A =$cs2->createCourseOffering(null,"CSCI367",null, $term1->getId(),$offerType2,$offerStatType1,$gradeType);
+          	$cs2B =$cs2->createCourseOffering("Computer Graphics",null,null, $term2->getId(),$offerType1,$offerStatType1,$gradeType);
           	
           	
         	
@@ -131,7 +131,7 @@
           	    
           	$this->write(3,"Test of getCourseOffering()");
           	
-          	$cs2Aa =& $cm->getCourseOffering($cs2A->getID());
+          	$cs2Aa =$cm->getCourseOffering($cs2A->getID());
           	
           	
           	$this->assertHaveEqualIds($cs2Aa,$cs2A);
@@ -149,7 +149,7 @@
           	$this->write(4,"Test of basic update methods");
           	
           	
-          	$courseStatusType2 =& new Type("CourseManagement", "edu.middlebury", "No longer offered", "You're out of luck");
+          	$courseStatusType2 = new Type("CourseManagement", "edu.middlebury", "No longer offered", "You're out of luck");
          	
           	$cs2B->updateDisplayName("Economic Statistics");          	
 			$cs2B->updateTitle("Snore");					
@@ -168,17 +168,17 @@
         	
         	$this->write(4,"Test of assets");
         	
-        	$idManager =& Services::getService("Id");
+        	$idManager = Services::getService("Id");
         	
        		//rather than create actual assets, Ids, will work fine.
        		
-       		$assetA =& $idManager->createId();
-        	$assetB =& $idManager->createId();
-        	$assetC =& $idManager->createId();
+       		$assetA =$idManager->createId();
+        	$assetB =$idManager->createId();
+        	$assetC =$idManager->createId();
         	
         	
         	$this->write(1,"Group A");
-        	$iter =& $cs1A->getAssets();
+        	$iter =$cs1A->getAssets();
         	$this->assertTrue(!$this->idIteratorHas($iter,$assetA));
         	$this->assertTrue(!$this->idIteratorHas($iter,$assetB));
         	$this->assertTrue(!$this->idIteratorHas($iter,$assetC));
@@ -188,7 +188,7 @@
         	$cs1A->addAsset($assetA);
         	
         	$this->write(1,"Group B");
-        	$iter =& $cs1A->getAssets();
+        	$iter =$cs1A->getAssets();
         	$this->assertTrue($this->idIteratorHas($iter,$assetA));
         	$this->assertTrue(!$this->idIteratorHas($iter,$assetB));
         	$this->assertTrue(!$this->idIteratorHas($iter,$assetC));
@@ -197,7 +197,7 @@
         	$cs1A->addAsset($assetB);
         	
         	$this->write(1,"Group C");
-        	$iter =& $cs1A->getAssets();
+        	$iter =$cs1A->getAssets();
         	$this->assertTrue($this->idIteratorHas($iter,$assetA));
         	$this->assertTrue($this->idIteratorHas($iter,$assetB));
         	$this->assertTrue(!$this->idIteratorHas($iter,$assetC));
@@ -207,7 +207,7 @@
         	$cs1A->addAsset($assetC);
         	
         	$this->write(1,"Group D");
-        	$iter =& $cs1A->getAssets();
+        	$iter =$cs1A->getAssets();
         	$this->assertTrue($this->idIteratorHas($iter,$assetA));
         	$this->assertTrue($this->idIteratorHas($iter,$assetB));
         	$this->assertTrue($this->idIteratorHas($iter,$assetC));
@@ -218,11 +218,11 @@
         	$cs1B->addAsset($assetC);
         	
         	$this->write(1,"Group E");
-        	$iter =& $cs1A->getAssets();
+        	$iter =$cs1A->getAssets();
         	$this->assertTrue(!$this->idIteratorHas($iter,$assetA));
         	$this->assertTrue($this->idIteratorHas($iter,$assetB));
         	$this->assertTrue($this->idIteratorHas($iter,$assetC));
-        	$iter =& $cs1B->getAssets();
+        	$iter =$cs1B->getAssets();
         	$this->assertTrue(!$this->idIteratorHas($iter,$assetA));
         	$this->assertTrue(!$this->idIteratorHas($iter,$assetB));
         	$this->assertTrue($this->idIteratorHas($iter,$assetC));
@@ -231,7 +231,7 @@
         	$cs1A->removeAsset($assetC);
         	
         	$this->write(1,"Group F");
-        	$iter =& $cs1A->getAssets();
+        	$iter =$cs1A->getAssets();
         	$this->assertTrue(!$this->idIteratorHas($iter,$assetA));
         	$this->assertTrue($this->idIteratorHas($iter,$assetB));
         	$this->assertTrue(!$this->idIteratorHas($iter,$assetC));
@@ -240,7 +240,7 @@
         	
         	
         	$this->write(1,"Group G");
-        	$iter =& $cs1A->getAssets();
+        	$iter =$cs1A->getAssets();
         	$this->assertTrue(!$this->idIteratorHas($iter,$assetA));
         	$this->assertTrue(!$this->idIteratorHas($iter,$assetB));
         	$this->assertTrue(!$this->idIteratorHas($iter,$assetC));
@@ -249,42 +249,42 @@
         	$this->write(4,"Test of getting CourseOfferings");
         	
         	$this->write(1,"Group A");
-        	$iter =& $cs1->getCourseOfferings();
+        	$iter =$cs1->getCourseOfferings();
         	$this->assertIteratorHasItemWithId($iter, $cs1A);
         	$this->assertIteratorHasItemWithId($iter, $cs1B);
         	$this->assertIteratorLacksItemWithId($iter, $cs2A);
         	$this->assertIteratorLacksItemWithId($iter, $cs2B);
 
         	$this->write(1,"Group B");
-        	$iter =& $cs2->getCourseOfferings();
+        	$iter =$cs2->getCourseOfferings();
         	$this->assertIteratorLacksItemWithId($iter, $cs1A);
         	$this->assertIteratorLacksItemWithId($iter, $cs1B);
         	$this->assertIteratorHasItemWithId($iter, $cs2A);
         	$this->assertIteratorHasItemWithId($iter, $cs2B);
         	
         	$this->write(1,"Group C");
-        	$iter =& $cs1->getCourseOfferingsByType($offerType1);
+        	$iter =$cs1->getCourseOfferingsByType($offerType1);
         	$this->assertIteratorHasItemWithId($iter, $cs1A);
         	$this->assertIteratorLacksItemWithId($iter, $cs1B);
         	$this->assertIteratorLacksItemWithId($iter, $cs2A);
         	$this->assertIteratorLacksItemWithId($iter, $cs2B);
         	
         	$this->write(1,"Group D");
-        	$iter =& $cs1->getCourseOfferingsByType($offerType2);
+        	$iter =$cs1->getCourseOfferingsByType($offerType2);
         	$this->assertIteratorLacksItemWithId($iter, $cs1A);
         	$this->assertIteratorHasItemWithId($iter, $cs1B);
         	$this->assertIteratorLacksItemWithId($iter, $cs2A);
         	$this->assertIteratorLacksItemWithId($iter, $cs2B);
         	
         	$this->write(1,"Group E");
-        	$iter =& $cs2->getCourseOfferingsByType($offerType1);
+        	$iter =$cs2->getCourseOfferingsByType($offerType1);
         	$this->assertIteratorLacksItemWithId($iter, $cs1A);
         	$this->assertIteratorLacksItemWithId($iter, $cs1B);
         	$this->assertIteratorLacksItemWithId($iter, $cs2A);
         	$this->assertIteratorHasItemWithId($iter, $cs2B);
         	
         	$this->write(1,"Group F");
-        	$iter =& $cs2->getCourseOfferingsByType($offerType2);
+        	$iter =$cs2->getCourseOfferingsByType($offerType2);
         	$this->assertIteratorLacksItemWithId($iter, $cs1A);
         	$this->assertIteratorLacksItemWithId($iter, $cs1B);
         	$this->assertIteratorHasItemWithId($iter, $cs2A);
@@ -294,17 +294,17 @@
         	
         	$this->write(4,"Test of getting Types");
 			$this->write(1,"Group A");
-			$iter1 =& $cm->getOfferingTypes();
+			$iter1 =$cm->getOfferingTypes();
 			$this->assertTrue($this->typeIteratorHas($iter1, $offerType1));
 			$this->assertTrue($this->typeIteratorHas($iter1, $offerType2));
 			$this->assertTrue(!$this->typeIteratorHas($iter1,new Type("sadfsz234dfwerwer","sadfszd23fwerwer","asdfwer123")));
 			$this->write(1,"Group B");
-			$iter1 =& $cm->getOfferingStatusTypes();
+			$iter1 =$cm->getOfferingStatusTypes();
 			$this->assertTrue($this->typeIteratorHas($iter1, $offerStatType1));
 			$this->assertTrue($this->typeIteratorHas($iter1, $offerStatType2));
 			$this->assertTrue(!$this->typeIteratorHas($iter1,new Type("sadfsz234dfwerwer","sadfszd23fwerwer","asdfwer123")));
 			$this->write(1,"Group C");
-			$iter1 =& $cm->getCourseGradeTypes();
+			$iter1 =$cm->getCourseGradeTypes();
 			$this->assertTrue($this->typeIteratorHas($iter1, $gradeType));
 			$this->assertTrue($this->typeIteratorHas($iter1, $gradeType2));
 			$this->assertTrue(!$this->typeIteratorHas($iter1,new Type("sadfsz234dfwerwer","sadfszd23fwerwer","asdfwer123")));
@@ -345,31 +345,31 @@
 		//This function's name can't start with test or it is called without parameters
 		function goTestPropertiesFunctions($itemToTest){
 			$this->write(1,"Group A");
-			$courseType =& $itemToTest->getOfferingType();
-			$correctType =& new Type("PropertiesType", $courseType->getAuthority(), "properties");  
-			$propertyType =& $itemToTest->getPropertyTypes();
+			$courseType =$itemToTest->getOfferingType();
+			$correctType = new Type("PropertiesType", $courseType->getAuthority(), "properties");  
+			$propertyType =$itemToTest->getPropertyTypes();
 			$this->assertTrue($propertyType->hasNext());
 			if($propertyType->hasNext()){
-				$type1 =&  $propertyType->next();		
+				$type1 =  $propertyType->next();		
 				$this->assertEqualTypes($type1, $correctType);
 				$this->assertFalse($propertyType->hasNext());		
 			}
 			$this->write(1,"Group B");
 			//multiple objects of type properties?  Propertiesies!
-			$propertiesies =& $itemToTest->getProperties();
+			$propertiesies =$itemToTest->getProperties();
 			$this->assertTrue($propertiesies->hasNextProperties());
 			if($propertiesies->hasNextProperties()){
-				$properties =&  $propertiesies->nextProperties();
-				$type1 =&  $properties->getType();		
+				$properties =  $propertiesies->nextProperties();
+				$type1 =  $properties->getType();		
 				$this->assertEqualTypes($type1, $correctType);
 				$this->goTestProperties($properties,$itemToTest);
 				$this->assertFalse($propertiesies->hasNextProperties());		
 			}
 			$this->write(1,"Group C");
-			$properties =& $itemToTest->getPropertiesByType($correctType);
+			$properties =$itemToTest->getPropertiesByType($correctType);
 			$this->assertNotEqual($properties,null);
 			if(!is_null($properties)){
-				$type1 =&  $properties->getType();		
+				$type1 =  $properties->getType();		
 				$this->assertEqualTypes($type1, $correctType);
 				$this->goTestProperties($properties,$itemToTest);
 			}	
@@ -384,10 +384,10 @@
 			
 			
 			
-			$idManager =& Services::getService("Id");
+			$idManager = Services::getService("Id");
 			
 			
-			$keys =& $prop->getKeys();
+			$keys =$prop->getKeys();
 			
 			$key = "display_name";			
 			$this->assertTrue($this->primitiveIteratorHas($keys,$key));

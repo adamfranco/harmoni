@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreUpdateQueryResult.class.php,v 1.5 2005/04/07 16:33:25 adamfranco Exp $
+ * @version $Id: PostGreUpdateQueryResult.class.php,v 1.6 2007/09/04 20:25:20 adamfranco Exp $
  */
  
 require_once(HARMONI."DBHandler/UpdateQueryResult.interface.php");
@@ -19,7 +19,7 @@ require_once(HARMONI."DBHandler/UpdateQueryResult.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreUpdateQueryResult.class.php,v 1.5 2005/04/07 16:33:25 adamfranco Exp $
+ * @version $Id: PostGreUpdateQueryResult.class.php,v 1.6 2007/09/04 20:25:20 adamfranco Exp $
  */
 class PostGreUpdateQueryResult 
 	extends UpdateQueryResultInterface 
@@ -52,7 +52,7 @@ class PostGreUpdateQueryResult
 	 */
 	function PostGreUpdateQueryResult($resourceId) {
 		// ** parameter validation
-		$resourceRule =& ResourceValidatorRule::getRule();
+		$resourceRule = ResourceValidatorRule::getRule();
 		ArgumentValidator::validate($resourceId, $resourceRule, true);
 		// ** end of parameter validation
 

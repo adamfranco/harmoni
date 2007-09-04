@@ -19,7 +19,7 @@ require(OKI2."osid/repository/Part.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniPart.class.php,v 1.19 2007/04/12 15:37:31 adamfranco Exp $ 
+ * @version $Id: HarmoniPart.class.php,v 1.20 2007/09/04 20:25:43 adamfranco Exp $ 
  */
 class HarmoniPart 
 	extends Part
@@ -29,10 +29,10 @@ class HarmoniPart
 	var $_recordFieldValue;
 	var $_partStructure;
 	
-	function HarmoniPart( &$partStructure, &$recordFieldValue, &$asset ) {
-		$this->_recordFieldValue =& $recordFieldValue;
-		$this->_partStructure =& $partStructure;
-		$this->_asset =& $asset;
+	function HarmoniPart( $partStructure, $recordFieldValue, $asset ) {
+		$this->_recordFieldValue =$recordFieldValue;
+		$this->_partStructure =$partStructure;
+		$this->_asset =$asset;
 	}
 	
 	/**
@@ -105,7 +105,7 @@ class HarmoniPart
 	 * @access public
 	 */
 	
-	function &getPartStructure () { 
+	function getPartStructure () { 
 		return $this->_partStructure;
 	} 
 	
@@ -128,7 +128,7 @@ class HarmoniPart
 	 * 
 	 * @access public
 	 */
-	function &getId () { 
+	function getId () { 
 		// The unique ID for the part should be the 
 		// RecordID::RecordFieldLabel::RecordFieldIndex
 		return $this->_recordFieldValue->getId();
@@ -161,7 +161,7 @@ class HarmoniPart
 	 * 
 	 * @access public
 	 */
-	function &createPart ( &$partStructureId, &$value ) { 
+	function createPart ( $partStructureId, $value ) { 
 		throwError(
 			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
 		
@@ -192,7 +192,7 @@ class HarmoniPart
 	 * 
 	 * @access public
 	 */
-	function deletePart ( &$partId ) { 
+	function deletePart ( $partId ) { 
 		throwError(
 			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
 		
@@ -218,7 +218,7 @@ class HarmoniPart
 	 * 
 	 * @access public
 	 */
-	function &getParts () { 
+	function getParts () { 
 		throwError(
 			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
 	}
@@ -242,9 +242,9 @@ class HarmoniPart
 	 * 
 	 * @access public
 	 */
-	function &getValue () { 
+	function getValue () { 
 		// NOTE: if no active versions exist, false will be returned here.
-		$actValue =& $this->_recordFieldValue->getActiveVersion();
+		$actValue =$this->_recordFieldValue->getActiveVersion();
 		if ($actValue) return $actValue->getPrimitive();
 		
 		return ($null=null);
@@ -262,12 +262,12 @@ class HarmoniPart
 	 * @since 7/21/05
 	 */
 	function updateValueFromString ( $value ) {
-		$partStructure =& $this->getPartStructure();
-		$dtm =& Services::getService("DataTypeManager");
+		$partStructure =$this->getPartStructure();
+		$dtm = Services::getService("DataTypeManager");
 
 		$type = $partStructure->getType();
 		$class = $dtm->primitiveClassForType($type->getKeyword());
-		eval('$object =& '.$class.'::fromString($value);');
+		eval('$object = '.$class.'::fromString($value);');
 		
 		if (!is_object($object))
 			return false;
@@ -296,7 +296,7 @@ class HarmoniPart
 	 * 
 	 * @access public
 	 */
-	function updateValue ( &$value ) { 
+	function updateValue ( $value ) { 
 	
 		ArgumentValidator::validate($value,
 			ExtendsValidatorRule::getRule("SObject"));

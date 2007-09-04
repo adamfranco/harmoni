@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableInteger.class.php,v 1.13 2007/04/12 15:37:26 adamfranco Exp $
+ * @version $Id: StorableInteger.class.php,v 1.14 2007/09/04 20:25:33 adamfranco Exp $
  */
 class StorableInteger 
 	extends Integer 
@@ -27,8 +27,8 @@ class StorableInteger
 	 * @return object StorableInteger
 	 * @static
 	 */
-	function &createAndPopulate( $dbRow ) {
-		$integer =& new StorableInteger;
+	function createAndPopulate( $dbRow ) {
+		$integer = new StorableInteger;
 		$integer->_setValue($dbRow["integer_data"]);
 		return $integer;
 	}
@@ -43,7 +43,7 @@ class StorableInteger
 	 * @return string or NULL if no searching is allowed.
 	 * @static
 	 */
-	function makeSearchString(&$value, $searchType = SEARCH_TYPE_EQUALS) {
+	function makeSearchString($value, $searchType = SEARCH_TYPE_EQUALS) {
 		switch ($searchType) {
 			case SEARCH_TYPE_EQUALS:
 				return "dm_integer.data = ".$value->asString();
@@ -58,7 +58,7 @@ class StorableInteger
 			case SEARCH_TYPE_IN_LIST:
 				$string = "dm_integer.data IN (";
 				while ($value->hasNext()) {
-					$valueObj =& $value->next();
+					$valueObj =$value->next();
 					$string .= $valueObj->asString();
 					if ($value->hasNext())
 						$string .= ", ";
@@ -68,7 +68,7 @@ class StorableInteger
 			case SEARCH_TYPE_NOT_IN_LIST:
 				$string = "dm_integer.data NOT IN (";
 				while ($value->hasNext()) {
-					$valueObj =& $value->next();
+					$valueObj =$value->next();
 					$string .= $valueObj->asString();
 					if ($value->hasNext())
 						$string .= ", ";
@@ -102,17 +102,17 @@ class StorableInteger
 	 * @return integer Returns the new ID of the data stored.
 	 */
 	function insert($dbID) {
-		$idManager =& Services::getService("Id");
-		$newID =& $idManager->createId();
+		$idManager = Services::getService("Id");
+		$newID =$idManager->createId();
 		
-		$query =& new InsertQuery();
+		$query = new InsertQuery();
 		$query->setTable("dm_integer");
 		$query->setColumns(array("id","data"));
 		
 		$query->addRowOfValues(array("'".addslashes($newID->getIdString())."'", $this->value()));
 		
-		$dbHandler =& Services::getService("DatabaseManager");
-		$result =& $dbHandler->query($query, $dbID);
+		$dbHandler = Services::getService("DatabaseManager");
+		$result =$dbHandler->query($query, $dbID);
 		if (!$result || $result->getNumberOfRows() != 1) {
 			throwError( new UnknownDBError("Storable") );
 			return false;
@@ -132,15 +132,15 @@ class StorableInteger
 	function update($dbID, $dataID) {
 		if (!$dataID) return false;
 		
-		$query =& new UpdateQuery();
+		$query = new UpdateQuery();
 		$query->setTable("dm_integer");
 		$query->setColumns(array("data"));
 		$query->setWhere("id='".addslashes($dataID)."'");
 		
 		$query->setValues(array($this->value()));
 		
-		$dbHandler =& Services::getService("DatabaseManager");
-		$result =& $dbHandler->query($query, $dbID);
+		$dbHandler = Services::getService("DatabaseManager");
+		$result =$dbHandler->query($query, $dbID);
 		
 		if (!$result) {
 			throwError( new UnknownDBError("Storable") );
@@ -157,7 +157,7 @@ class StorableInteger
 	 * @access public
 	 * @return void
 	 */
-	function alterQuery( &$query ) {
+	function alterQuery( $query ) {
 		$query->addTable("dm_integer",LEFT_JOIN,"dm_integer.id = fk_data");
 		$query->addColumn("data","integer_data","dm_integer");
 	}
@@ -174,12 +174,12 @@ class StorableInteger
 		// delete ourselves from our data table
 		$table = "dm_integer";
 		
-		$query =& new DeleteQuery;
+		$query = new DeleteQuery;
 		$query->setTable($table);
 		$query->setWhere("id='".addslashes($dataID)."'");
 		
-		$dbHandler =& Services::getService("DatabaseManager");
-		$res =& $dbHandler->query($query, $dbID);
+		$dbHandler = Services::getService("DatabaseManager");
+		$res =$dbHandler->query($query, $dbID);
 		
 		if (!$res) throwError( new UnknownDBError("StorablePrimitive"));
 	}

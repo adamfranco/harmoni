@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPConnector.class.php,v 1.12 2006/12/12 17:15:42 adamfranco Exp $
+ * @version $Id: LDAPConnector.class.php,v 1.13 2007/09/04 20:25:37 adamfranco Exp $
  */ 
 
 /**
@@ -17,7 +17,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPConnector.class.php,v 1.12 2006/12/12 17:15:42 adamfranco Exp $
+ * @version $Id: LDAPConnector.class.php,v 1.13 2007/09/04 20:25:37 adamfranco Exp $
  */
 class LDAPConnector {
 		
@@ -48,8 +48,8 @@ class LDAPConnector {
 	 * @access public
 	 * @return void 
 	 **/
-	function LDAPConnector( &$configuration ) {
-		$this->_configuration =& $configuration;
+	function LDAPConnector( $configuration ) {
+		$this->_configuration =$configuration;
 		
 		// Validate the configuration options we use:
 		ArgumentValidator::validate (

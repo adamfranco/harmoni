@@ -11,7 +11,7 @@ require_once(HARMONI."utilities/HTMLcolor.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: NewWindowDebugHandlerPrinter.class.php,v 1.8 2006/01/09 20:26:52 adamfranco Exp $
+ * @version $Id: NewWindowDebugHandlerPrinter.class.php,v 1.9 2007/09/04 20:25:33 adamfranco Exp $
  **/
 
 class NewWindowDebugHandlerPrinter extends DebugHandlerPrinterInterface {
@@ -27,7 +27,7 @@ class NewWindowDebugHandlerPrinter extends DebugHandlerPrinterInterface {
 	function printDebugHandler( $debugHandler, $level = null, $category = "" ) {
 		if ($level == null) $level = $debugHandler->getOutputLevel();
 		
-		$items = & $debugHandler->getDebugItems($category);
+		$items =  $debugHandler->getDebugItems($category);
 		
 		if ($level == 0) return true;
 		if (!count($items)) return true;
@@ -38,7 +38,7 @@ class NewWindowDebugHandlerPrinter extends DebugHandlerPrinterInterface {
 		print "debugWindow.document.write('<body style=\"color: #fff; background-color:#222\"><div style=\"padding-left:25px; padding-top: 10px; border-bottom: solid 1px gray\">Starting debug output :: ".date("H").":".date("i").".".date("s")."</div>');\n";
 
 		// some colors
-		$base =& new HTMLcolor("#833");
+		$base = new HTMLcolor("#833");
 
 		foreach (array_keys($items) as $key) {
 			if (($l = $items[$key]->getLevel()) <= $level) {

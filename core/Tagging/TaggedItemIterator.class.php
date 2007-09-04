@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TaggedItemIterator.class.php,v 1.2 2006/11/30 22:02:12 adamfranco Exp $
+ * @version $Id: TaggedItemIterator.class.php,v 1.3 2007/09/04 20:25:29 adamfranco Exp $
  */ 
 
 /**
@@ -18,7 +18,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TaggedItemIterator.class.php,v 1.2 2006/11/30 22:02:12 adamfranco Exp $
+ * @version $Id: TaggedItemIterator.class.php,v 1.3 2007/09/04 20:25:29 adamfranco Exp $
  */
 class TaggedItemIterator 
 	extends HarmoniIterator
@@ -32,8 +32,8 @@ class TaggedItemIterator
 	 * @access public
 	 * @since 11/8/06
 	 */
-	function TaggedItemIterator ( &$result ) {
-		$this->_result =& $result;
+	function TaggedItemIterator ( $result ) {
+		$this->_result =$result;
 	}
 	
 	/**
@@ -54,12 +54,12 @@ class TaggedItemIterator
 	 * @access public
 	 * @since 11/8/06
 	 */
-	function &next () {
+	function next () {
 		if (!$this->hasNext()) {
 			$false = false;
 			return $false;
 		} else {
-			$item =& TaggedItem::forDatabaseRow($this->_result->next());
+			$item = TaggedItem::forDatabaseRow($this->_result->next());
 			return $item;
 		}
 	}

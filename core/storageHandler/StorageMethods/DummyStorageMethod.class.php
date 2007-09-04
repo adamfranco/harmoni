@@ -12,7 +12,7 @@ require_once(HARMONI."storageHandler/Storables/DummyStorable.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DummyStorageMethod.class.php,v 1.4 2005/01/19 21:10:13 adamfranco Exp $
+ * @version $Id: DummyStorageMethod.class.php,v 1.5 2007/09/04 20:25:52 adamfranco Exp $
 */
 
 class DummyStorageMethod extends StorageMethodInterface {
@@ -43,7 +43,7 @@ class DummyStorageMethod extends StorageMethodInterface {
 	* @access public 
 	*/
 
-	function store(&$storable, $path, $name)
+	function store($storable, $path, $name)
 	{
 		$filename = $path . $name;
 		$file = array('data'=>$storable->getData(),
@@ -60,11 +60,11 @@ class DummyStorageMethod extends StorageMethodInterface {
 	* @return object Storable The storable, which can be used to retreive the data. False if no such storable exists.
 	* @access public 
 	*/
-	function &retrieve($path, $name)
+	function retrieve($path, $name)
 	{
 		if (is_array($this->_files[$path.$name])) {
 			$file = $this->_files[$path.$name];
-			$storable = & new DummyStorable($path,$name,$file['data'],$file['size']);
+			$storable =  new DummyStorable($path,$name,$file['data'],$file['size']);
 			return $storable;
 		}
 		return false;
@@ -194,7 +194,7 @@ class DummyStorageMethod extends StorageMethodInterface {
 		else $regex = "^$path"."([^/]+)$";
 		$storables = array();
 		foreach ($this->_files as $filename=>$file) {
-			if (ereg($regex,$filename)) $storables[] =& $this->_mkStorable($filename);
+			if (ereg($regex,$filename)) $storables[] =$this->_mkStorable($filename);
 		}
 		return $storables;
 	}
@@ -219,11 +219,11 @@ class DummyStorageMethod extends StorageMethodInterface {
 	 * @access private
 	 * @return object Storable
 	 **/
-	function &_mkStorable($filename) {
+	function _mkStorable($filename) {
 		$name = basename($filename);
 		$path = dirname($filename) . '/';
 		$file = $this->_files[$filename];
-		$storable = & new DummyStorable($path,$name,$file['data'],$file['size']);
+		$storable =  new DummyStorable($path,$name,$file['data'],$file['size']);
 		return $storable;
 	}
 	

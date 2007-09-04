@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreSelectQueryResultTestCase.class.php,v 1.6 2005/08/17 19:46:59 adamfranco Exp $
+ * @version $Id: PostGreSelectQueryResultTestCase.class.php,v 1.7 2007/09/04 20:25:21 adamfranco Exp $
  */
  
 require_once(HARMONI . 'DBHandler/PostGre/PostGreDatabase.class.php');
@@ -20,7 +20,7 @@ require_once(HARMONI . 'DBHandler/PostGre/PostGreDatabase.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreSelectQueryResultTestCase.class.php,v 1.6 2005/08/17 19:46:59 adamfranco Exp $
+ * @version $Id: PostGreSelectQueryResultTestCase.class.php,v 1.7 2007/09/04 20:25:21 adamfranco Exp $
  */
 
 class PostGreSelectQueryResultTestCase extends UnitTestCase {
@@ -46,11 +46,11 @@ class PostGreSelectQueryResultTestCase extends UnitTestCase {
 	{ 
 		// perhaps, initialize $obj here
 		// connect to some database and do a select query
-		$this->db =& new PostGreDatabase("localhost", "harmoniTest", "test", "test");
+		$this->db = new PostGreDatabase("localhost", "harmoniTest", "test", "test");
 		$this->db->connect();
 		$this->rid = $this->db->_query("SELECT * FROM test ORDER BY id LIMIT 4 OFFSET 100"); 
 		// create the query result
-		$this->queryResult =& new PostGreSelectQueryResult($this->rid, $this->db->_linkId);
+		$this->queryResult = new PostGreSelectQueryResult($this->rid, $this->db->_linkId);
 	} 
 	
 	/**

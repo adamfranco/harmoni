@@ -20,7 +20,7 @@ require_once(HARMONI.'oki2/authorization/HarmoniQualifierIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniQualifier.class.php,v 1.11 2006/05/25 14:45:43 adamfranco Exp $
+ * @version $Id: HarmoniQualifier.class.php,v 1.12 2007/09/04 20:25:38 adamfranco Exp $
  */
 class HarmoniQualifier 
 	extends Qualifier 
@@ -48,14 +48,14 @@ class HarmoniQualifier
 	 * @param ref object cache The AuthorizationCache object.
 	 * @access public
 	 */
-	function HarmoniQualifier(& $node, & $cache) {
+	function HarmoniQualifier($node, $cache) {
 		// ** parameter validation
 		ArgumentValidator::validate($node, ExtendsValidatorRule::getRule("Node"), true);
 		ArgumentValidator::validate($cache, ExtendsValidatorRule::getRule("AuthorizationCache"), true);
 		// ** end of parameter validation
 		
-		$this->_node =& $node;
-		$this->_cache =& $cache;
+		$this->_node =$node;
+		$this->_cache =$cache;
 	}
 	
 	
@@ -79,8 +79,8 @@ class HarmoniQualifier
 	 * 
 	 * @access public
 	 */
-	function &getId () { 
-		$id =& $this->_node->getId();
+	function getId () { 
+		$id =$this->_node->getId();
 		return $id;
 	}
 
@@ -176,7 +176,7 @@ class HarmoniQualifier
 	 * 
 	 * @access public
 	 */
-	function &getQualifierType () { 
+	function getQualifierType () { 
 		return $this->_node->getType();
 	}
 
@@ -259,7 +259,7 @@ class HarmoniQualifier
 	 * 
 	 * @access public
 	 */
-	function addParent ( &$parentQualifierId ) { 
+	function addParent ( $parentQualifierId ) { 
 		$this->_node->addParent($parentQualifierId);
 	}
 
@@ -289,7 +289,7 @@ class HarmoniQualifier
 	 * 
 	 * @access public
 	 */
-	function removeParent ( &$parentQualifierId ) { 
+	function removeParent ( $parentQualifierId ) { 
 		$this->_node->removeParent($parentQualifierId);
 	}
 
@@ -319,7 +319,7 @@ class HarmoniQualifier
 	 * 
 	 * @access public
 	 */
-	function changeParent ( &$oldParentId, &$newParentId ) { 
+	function changeParent ( $oldParentId, $newParentId ) { 
 		$this->_node->changeParent($oldParentId, $newParentId);
 	}
 
@@ -349,18 +349,18 @@ class HarmoniQualifier
 	 * 
 	 * @access public
 	 */
-	function isChildOf ( &$parentId ) { 
+	function isChildOf ( $parentId ) { 
 		// ** parameter validation
-		$extendsRule =& ExtendsValidatorRule::getRule("Id");
+		$extendsRule = ExtendsValidatorRule::getRule("Id");
 		ArgumentValidator::validate($parentId, $extendsRule, true);
 		// ** end of parameter validation
 
 		// get the parents of this node
-		$parents =& $this->getParents();
+		$parents =$this->getParents();
 		// search for the given parent
 		while ($parents->hasNext()) {
-			$parent =& $parents->next();
-			$parentId1 =& $parent->getId();
+			$parent =$parents->next();
+			$parentId1 =$parent->getId();
 			
 			if ($parentId->isEqual($parentId1)) 
 				return true;
@@ -395,7 +395,7 @@ class HarmoniQualifier
 	 * 
 	 * @access public
 	 */
-	function isDescendantOf ( &$ancestorId ) { 
+	function isDescendantOf ( $ancestorId ) { 
 		// Alright, I realize this could be written much more efficiently (for
 		// example by using Hierarchy->traverse()) but it is too much pain to do so.
 		// The code below uses the methods in this class and is clearer, albeit slower.
@@ -406,9 +406,9 @@ class HarmoniQualifier
 			return true;
 		
 		// recurse up
-		$parents =& $this->getParents();
+		$parents =$this->getParents();
 		while ($parents->hasNext()) {
-			$parent =& $parents->next();
+			$parent =$parents->next();
 			if ($parent->isDescendantOf($ancestorId))
 				return true;
 		}
@@ -436,27 +436,27 @@ class HarmoniQualifier
 	 * 
 	 * @access public
 	 */
-	function &getChildren () { 
+	function getChildren () { 
 		// obtain the parent nodes
-		$children =& $this->_node->getChildren();
+		$children =$this->_node->getChildren();
 		
 		$result = array();
 		// for each node, cache if not cached, create a new Qualifier, 
 		// and add to result array
 		while ($children->hasNext()) {
-			$child =& $children->next();
-			$childId =& $child->getId();
+			$child =$children->next();
+			$childId =$child->getId();
 			$idValue = $childId->getIdString();
 			
 			if (!isset($this->_cache->_qualifiers[$idValue])) {
-				$qualifier =& new HarmoniQualifier($child, $this->_cache);
-				$this->_cache->_qualifiers[$idValue] =& $qualifier;
+				$qualifier = new HarmoniQualifier($child, $this->_cache);
+				$this->_cache->_qualifiers[$idValue] =$qualifier;
 			}
 			
-			$result[] =& $this->_cache->_qualifiers[$idValue];
+			$result[] =$this->_cache->_qualifiers[$idValue];
 		}
 		
-		$obj =& new HarmoniQualifierIterator($result);
+		$obj = new HarmoniQualifierIterator($result);
 		
 		return $obj;
 	}
@@ -481,27 +481,27 @@ class HarmoniQualifier
 	 * 
 	 * @access public
 	 */
-	function &getParents () { 
+	function getParents () { 
 		// obtain the parent nodes
-		$parents =& $this->_node->getParents();
+		$parents =$this->_node->getParents();
 		
 		$result = array();
 		// for each node, cache if not cached, create a new Qualifier, 
 		// and add to result array
 		while ($parents->hasNext()) {
-			$parent =& $parents->next();
-			$parentId =& $parent->getId();
+			$parent =$parents->next();
+			$parentId =$parent->getId();
 			$idValue = $parentId->getIdString();
 			
 			if (!isset($this->_cache->_qualifiers[$idValue])) {
-				$qualifier =& new HarmoniQualifier($parent, $this->_cache);
-				$this->_cache->_qualifiers[$idValue] =& $qualifier;
+				$qualifier = new HarmoniQualifier($parent, $this->_cache);
+				$this->_cache->_qualifiers[$idValue] =$qualifier;
 			}
 			
-			$result[] =& $this->_cache->_qualifiers[$idValue];
+			$result[] =$this->_cache->_qualifiers[$idValue];
 		}
 		
-		$obj =& new HarmoniQualifierIterator($result);
+		$obj = new HarmoniQualifierIterator($result);
 		
 		return $obj;
 	}

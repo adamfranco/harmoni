@@ -55,7 +55,7 @@ class Cabinet
      * 
      * @access public
      */
-    function &createByteStore ( $displayName ) { 
+    function createByteStore ( $displayName ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -80,7 +80,7 @@ class Cabinet
      * 
      * @access public
      */
-    function &createCabinet ( $displayName ) { 
+    function createCabinet ( $displayName ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -105,7 +105,7 @@ class Cabinet
      * 
      * @access public
      */
-    function &copyByteStore ( $displayName, &$oldByteStore ) { 
+    function copyByteStore ( $displayName, $oldByteStore ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -129,7 +129,7 @@ class Cabinet
      * 
      * @access public
      */
-    function add ( &$entry, $displayName ) { 
+    function add ( $entry, $displayName ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -148,7 +148,7 @@ class Cabinet
      * 
      * @access public
      */
-    function remove ( &$entry ) { 
+    function remove ( $entry ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -170,7 +170,7 @@ class Cabinet
      * 
      * @access public
      */
-    function &getCabinetEntryById ( &$id ) { 
+    function getCabinetEntryById ( $id ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -195,7 +195,7 @@ class Cabinet
      * 
      * @access public
      */
-    function &getCabinetEntryByName ( $displayName ) { 
+    function getCabinetEntryByName ( $displayName ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -208,7 +208,7 @@ class Cabinet
      * 
      * @access public
      */
-    function &entries () { 
+    function entries () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -227,7 +227,7 @@ class Cabinet
      * 
      * @access public
      */
-    function &getRootCabinet () { 
+    function getRootCabinet () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 

@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HierarchyManagerTestCase.class.php,v 1.10 2005/04/13 21:59:57 adamfranco Exp $
+ * @version $Id: HierarchyManagerTestCase.class.php,v 1.11 2007/09/04 20:25:41 adamfranco Exp $
  */
  
 require_once(dirname(__FILE__).'/../HarmoniHierarchyManager.class.php');
@@ -20,7 +20,7 @@ require_once(dirname(__FILE__).'/../HarmoniHierarchyManager.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HierarchyManagerTestCase.class.php,v 1.10 2005/04/13 21:59:57 adamfranco Exp $
+ * @version $Id: HierarchyManagerTestCase.class.php,v 1.11 2007/09/04 20:25:41 adamfranco Exp $
  */
 
 	class HierarchyManagerTestCase extends UnitTestCase {
@@ -39,12 +39,12 @@ require_once(dirname(__FILE__).'/../HarmoniHierarchyManager.class.php');
 			$dbHandler->pConnect($dbIndex);
 			unset($dbHandler); // done with that for now
 
-			$context =& new OsidContext;
-			$configuration =& new ConfigurationProperties;
+			$context = new OsidContext;
+			$configuration = new ConfigurationProperties;
 			$configuration->addProperty('database_index', $dbIndex);
 			$configuration->addProperty('database_name', $arg0 = "doboHarmoniTest");
 			unset($arg0);
-			$this->manager =& new HarmoniHierarchyManager;
+			$this->manager = new HarmoniHierarchyManager;
 			$this->manager->assignConfiguration($configuration);
 		}
 		
@@ -59,7 +59,7 @@ require_once(dirname(__FILE__).'/../HarmoniHierarchyManager.class.php');
 		//--------------the tests ----------------------
 
 		function test_get_hierarchy() {
-			$hierarchy =& $this->manager->getHierarchy(new HarmoniId("8"));
+			$hierarchy =$this->manager->getHierarchy(new HarmoniId("8"));
 			$this->assertIsA($hierarchy, "HarmoniHierarchy");
 			$this->assertIdentical($hierarchy->getId(), new HarmoniId("8"));
 			$this->assertTrue(is_string($hierarchy->getDisplayName()));
@@ -68,7 +68,7 @@ require_once(dirname(__FILE__).'/../HarmoniHierarchyManager.class.php');
 			$this->assertIdentical($hierarchy->allowsRecursion(), false);
 			
 			// second time should be from cache
-			$hierarchy =& $this->manager->getHierarchy(new HarmoniId("8"));
+			$hierarchy =$this->manager->getHierarchy(new HarmoniId("8"));
 			$this->assertIsA($hierarchy, "HarmoniHierarchy");
 			$this->assertIdentical($hierarchy->getId(), new HarmoniId("8"));
 			$this->assertTrue(is_string($hierarchy->getDisplayName()));
@@ -78,15 +78,15 @@ require_once(dirname(__FILE__).'/../HarmoniHierarchyManager.class.php');
 		}
 
 		function test_get_hierarchies() {
-			$hierarchies =& $this->manager->getHierarchies();
+			$hierarchies =$this->manager->getHierarchies();
 			while ($hierarchies->hasNext()) {
-				$hierarchy =& $hierarchies->next();
+				$hierarchy =$hierarchies->next();
 				$this->assertIsA($hierarchy, "HarmoniHierarchy");
 			}
 		}
 		
 		function test_create_and_delete_hierarchy() {
-			$hierarchy =& $this->manager->createHierarchy("H5", $arg0 = null, "Hierarchy Five", true, false);
+			$hierarchy =$this->manager->createHierarchy("H5", $arg0 = null, "Hierarchy Five", true, false);
 			unset($arg0);
 			$this->assertIsA($hierarchy, "HarmoniHierarchy");
 			$this->assertIdentical($hierarchy->getDisplayName(), "H5");
@@ -98,12 +98,12 @@ require_once(dirname(__FILE__).'/../HarmoniHierarchyManager.class.php');
 		}
 		
 		function test_node() {
-			$node =& $this->manager->getNode(new HarmoniId("3"));
+			$node =$this->manager->getNode(new HarmoniId("3"));
 			$this->assertIsA($node, "Node");
 			$this->assertIdentical($node->getDisplayName(), "C");
 			$this->assertIdentical($node->getDescription(), "");
-			$deftype =& new DefaultNodeType();
-			$type =& $node->getType();
+			$deftype = new DefaultNodeType();
+			$type =$node->getType();
 			$this->assertIdentical($type->getAuthority(), $deftype->getAuthority());
 			$this->assertIdentical($type->getDomain(), $deftype->getDomain());
 			$this->assertIdentical($type->getKeyword(), $deftype->getKeyword());
@@ -111,7 +111,7 @@ require_once(dirname(__FILE__).'/../HarmoniHierarchyManager.class.php');
 			
 			$this->assertIdentical($node->_cache->_allowsMultipleParents, true);
 			
-			$hierarchy =& $this->manager->getHierarchy(new HarmoniId("8"));
+			$hierarchy =$this->manager->getHierarchy(new HarmoniId("8"));
 			$this->assertReference($hierarchy->_cache, $node->_cache);		
 		}
 

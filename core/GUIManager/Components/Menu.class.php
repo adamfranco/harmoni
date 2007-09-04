@@ -13,7 +13,7 @@ require_once(HARMONI."GUIManager/Components/Menu.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Menu.class.php,v 1.13 2006/11/30 22:02:01 adamfranco Exp $
+ * @version $Id: Menu.class.php,v 1.14 2007/09/04 20:25:22 adamfranco Exp $
  */
 class Menu extends Container /* implements MenuInterface */ {
 
@@ -39,7 +39,7 @@ class Menu extends Container /* implements MenuInterface */ {
 	 * result in copying the objects instead of referencing them as using
 	 * <code>addStyle()</code> would do.
 	 **/
-	function Menu(& $layout, $index) {
+	function Menu($layout, $index) {
 		$this->Container($layout, MENU, $index);
 		
 		$this->_selectedId = null;
@@ -72,14 +72,14 @@ class Menu extends Container /* implements MenuInterface */ {
 	 * If null, will be ignored.
 	 * @return ref object The menuItem that was just added.
 	 **/
-	function &add(& $menuItem, $width = null, $height = null, $alignmentX = null, $alignmentY = null) {
+	function add($menuItem, $width = null, $height = null, $alignmentX = null, $alignmentY = null) {
 		// ** parameter validation
 		// some weird class checking here - would have been much simpler if PHP
 		// supported multiple inheritance
-		$rule1 =& ExtendsValidatorRule::getRule("MenuItemLink");
-		$rule2 =& ExtendsValidatorRule::getRule("MenuItemHeading");
-		$rule3 =& ExtendsValidatorRule::getRule("MenuItem");
-		$rule4 =& ExtendsValidatorRule::getRule("SubMenu");
+		$rule1 = ExtendsValidatorRule::getRule("MenuItemLink");
+		$rule2 = ExtendsValidatorRule::getRule("MenuItemHeading");
+		$rule3 = ExtendsValidatorRule::getRule("MenuItem");
+		$rule4 = ExtendsValidatorRule::getRule("SubMenu");
 		ArgumentValidator::validate($menuItem, 
 			OrValidatorRule::getRule(
 				OrValidatorRule::getRule(
@@ -104,7 +104,7 @@ class Menu extends Container /* implements MenuInterface */ {
 	 * @access public
 	 * @return ref object The menu item that is currently selected.
 	 **/
-	function &getSelected() {
+	function getSelected() {
 		if ($this->_selectedId)
 			return $this->getComponent($this->_selectedId);
 		else {
@@ -143,12 +143,12 @@ class Menu extends Container /* implements MenuInterface */ {
 		// ** end of parameter validation
 
 		// make sure the id is valid
-		$newSelected =& $this->getComponent($id);
+		$newSelected =$this->getComponent($id);
 		if (!isset($newSelected))
 			return;
 
 		// deselect the old one
-		$oldSelected =& $this->getSelected();
+		$oldSelected =$this->getSelected();
 		if (isset($oldSelected))
 			$oldSelected->setSelected(false);
 

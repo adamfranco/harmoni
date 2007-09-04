@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SelectQuery.class.php,v 1.8 2005/04/07 16:33:23 adamfranco Exp $
+ * @version $Id: SelectQuery.class.php,v 1.9 2007/09/04 20:25:18 adamfranco Exp $
  */
  
 require_once(HARMONI."DBHandler/SelectQuery.interface.php");
@@ -19,7 +19,7 @@ require_once(HARMONI."DBHandler/SelectQuery.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SelectQuery.class.php,v 1.8 2005/04/07 16:33:23 adamfranco Exp $
+ * @version $Id: SelectQuery.class.php,v 1.9 2007/09/04 20:25:18 adamfranco Exp $
  */
 
 class SelectQuery extends SelectQueryInterface {
@@ -149,8 +149,8 @@ class SelectQuery extends SelectQueryInterface {
 	 */
 	function addTable($table, $joinType = NO_JOIN, $joinCondition = "", $alias = "") {
 		// ** parameter validation
-		$stringRule =& StringValidatorRule::getRule();
-		$integerRule =& IntegerValidatorRule::getRule();
+		$stringRule = StringValidatorRule::getRule();
+		$integerRule = IntegerValidatorRule::getRule();
 		ArgumentValidator::validate($table, $stringRule, true);
 		ArgumentValidator::validate($joinType, $integerRule, true);
 		ArgumentValidator::validate($joinCondition, $stringRule, true);
@@ -177,7 +177,7 @@ class SelectQuery extends SelectQueryInterface {
 	 */
 	function setColumns($columns) {
 		// ** parameter validation
-		$arrayRule =& ArrayValidatorRule::getRule();
+		$arrayRule = ArrayValidatorRule::getRule();
 		ArgumentValidator::validate($columns, $arrayRule, true);
 		// ** end of parameter validation
 		
@@ -212,8 +212,8 @@ class SelectQuery extends SelectQueryInterface {
 	 */ 
 	function addColumn($column, $alias = "", $table = "") {
 		// ** parameter validation
-		$stringRule =& StringValidatorRule::getRule();
-		$optionalRule =& OptionalRule::getRule($stringRule);
+		$stringRule = StringValidatorRule::getRule();
+		$optionalRule = OptionalRule::getRule($stringRule);
 		ArgumentValidator::validate($column, $stringRule, true);
 		ArgumentValidator::validate($alias, $optionalRule, true);
 		ArgumentValidator::validate($table, $optionalRule, true);
@@ -240,7 +240,7 @@ class SelectQuery extends SelectQueryInterface {
 	 */
 	function setWhere($condition) {
 		// ** parameter validation
-		$stringRule =& StringValidatorRule::getRule();
+		$stringRule = StringValidatorRule::getRule();
 		ArgumentValidator::validate($condition, $stringRule, true);
 		// ** end of parameter validation
 
@@ -268,9 +268,9 @@ class SelectQuery extends SelectQueryInterface {
 	 */
 	function addWhere($condition, $logicalOperation = _AND) {
 		// ** parameter validation
-		$stringRule =& StringValidatorRule::getRule();
-		$integerRule =& IntegerValidatorRule::getRule();
-		$optionalRule =& OptionalRule::getRule($integerRule);
+		$stringRule = StringValidatorRule::getRule();
+		$integerRule = IntegerValidatorRule::getRule();
+		$optionalRule = OptionalRule::getRule($integerRule);
 		ArgumentValidator::validate($condition, $stringRule, true);
 		ArgumentValidator::validate($logicalOperation, $optionalRule, true);
 		// ** end of parameter validation
@@ -309,8 +309,8 @@ class SelectQuery extends SelectQueryInterface {
 	 */
 	function setGroupBy($columns, $condition = "") {
 		// ** parameter validation
-		$arrayRule =& ArrayValidatorRule::getRule();
-		$stringRule =& StringValidatorRule::getRule();
+		$arrayRule = ArrayValidatorRule::getRule();
+		$stringRule = StringValidatorRule::getRule();
 		ArgumentValidator::validate($columns, $arrayRule, true);
 		ArgumentValidator::validate($condition, $stringRule, true);
 		// ** end of parameter validation
@@ -336,8 +336,8 @@ class SelectQuery extends SelectQueryInterface {
 	 */
 	function addOrderBy($column, $direction = ASCENDING) {
 		// ** parameter validation
-		$stringRule =& StringValidatorRule::getRule();
-		$integerRule =& IntegerValidatorRule::getRule();
+		$stringRule = StringValidatorRule::getRule();
+		$integerRule = IntegerValidatorRule::getRule();
 		ArgumentValidator::validate($column, $stringRule, true);
 		ArgumentValidator::validate($direction, $integerRule, true);
 		// ** end of parameter validation
@@ -357,7 +357,7 @@ class SelectQuery extends SelectQueryInterface {
 	 */
 	function setDistinct($distinct) {
 		// ** parameter validation
-		$booleanRule =& BooleanValidatorRule::getRule();
+		$booleanRule = BooleanValidatorRule::getRule();
 		ArgumentValidator::validate($distinct, $booleanRule, true);
 		// ** end of parameter validation
 
@@ -377,7 +377,7 @@ class SelectQuery extends SelectQueryInterface {
 	 */
 	function limitNumberOfRows($numberOfRows) {
 		// ** parameter validation
-		$integerRule =& IntegerValidatorRule::getRule();
+		$integerRule = IntegerValidatorRule::getRule();
 		ArgumentValidator::validate($numberOfRows, $integerRule, true);
 		// ** end of parameter validation
 
@@ -396,7 +396,7 @@ class SelectQuery extends SelectQueryInterface {
 	 */
 	function startFromRow($startFromRow) {
 		// ** parameter validation
-		$integerRule =& IntegerValidatorRule::getRule();
+		$integerRule = IntegerValidatorRule::getRule();
 		ArgumentValidator::validate($startFromRow, $integerRule, true);
 		// ** end of parameter validation
 

@@ -101,7 +101,7 @@ define("DEBUG_SYS5",15);
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DebugHandler.class.php,v 1.9 2005/08/10 21:10:24 adamfranco Exp $
+ * @version $Id: DebugHandler.class.php,v 1.10 2007/09/04 20:25:33 adamfranco Exp $
  **/
 
 class DebugHandler {
@@ -147,8 +147,8 @@ class DebugHandler {
 	 * 
 	 * @access public
 	 */
-	function assignConfiguration ( &$configuration ) { 
-		$this->_configuration =& $configuration;
+	function assignConfiguration ( $configuration ) { 
+		$this->_configuration =$configuration;
 	}
 
 	/**
@@ -160,7 +160,7 @@ class DebugHandler {
 	 * 
 	 * @access public
 	 */
-	function &getOsidContext () { 
+	function getOsidContext () { 
 		return $this->_osidContext;
 	} 
 
@@ -175,8 +175,8 @@ class DebugHandler {
 	 * 
 	 * @access public
 	 */
-	function assignOsidContext ( &$context ) { 
-		$this->_osidContext =& $context;
+	function assignOsidContext ( $context ) { 
+		$this->_osidContext =$context;
 	} 
 	
 	/**
@@ -206,10 +206,10 @@ class DebugHandler {
 	 * @access private
 	 * @return void
 	 **/
-	function _add( & $debugItem, $debugBacktrace ) {
+	function _add( $debugItem, $debugBacktrace ) {
 		$debugItem->setBacktrace($debugBacktrace);
 
-		$this->_queue[] = & $debugItem;
+		$this->_queue[] =  $debugItem;
 	}
 	
 	/**
@@ -229,11 +229,11 @@ class DebugHandler {
 	 * @access public
 	 * @return array The array of DebugItems.
 	 **/
-	function &getDebugItems( $category="" ) {
+	function getDebugItems( $category="" ) {
 		$array = array();
 		for ($i = 0; $i < $this->getDebugItemCount(); $i++) {
 			if ($category == "" || $this->_queue[$i]->getCategory() == $category)
-				$array[] = &$this->_queue[$i];
+				$array[] = $this->_queue[$i];
 		}
 		return $array;
 	}

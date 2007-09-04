@@ -74,7 +74,7 @@ class TypeIterator
      * 
      * @access public
      */
-    function &nextType () { 
+    function nextType () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 }

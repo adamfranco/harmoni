@@ -47,7 +47,7 @@ define("CENTER", 9);
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Container.interface.php,v 1.6 2005/02/07 21:38:13 adamfranco Exp $
+ * @version $Id: Container.interface.php,v 1.7 2007/09/04 20:25:21 adamfranco Exp $
  */
 class ContainerInterface extends ComponentInterface {
 
@@ -65,7 +65,7 @@ class ContainerInterface extends ComponentInterface {
 	 * If null, will be ignored.
 	 * @return ref object The component that was just added.
 	 **/
-	function &add(& $component, $width, $height, $alignmentX, $alignmentY) {
+	function add($component, $width, $height, $alignmentX, $alignmentY) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -77,7 +77,7 @@ class ContainerInterface extends ComponentInterface {
 	 * @param integer id The id of the component which should be returned.
 	 * @return ref object The component.
 	 **/
-	function &getComponent($id) {
+	function getComponent($id) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -95,7 +95,7 @@ class ContainerInterface extends ComponentInterface {
 	 * @access public
 	 * @return ref array An array of the components in this <code>Container</code>.
 	 **/
-	function &getComponents() {
+	function getComponents() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -156,7 +156,7 @@ class ContainerInterface extends ComponentInterface {
 	 * this container..
 	 * @return ref object The component that was just removed.
 	 **/
-	function &remove($id) {
+	function remove($id) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -173,7 +173,7 @@ class ContainerInterface extends ComponentInterface {
 	 * @access public
 	 * @return ref object The <code>Layout</code> of this container.
 	 **/
-	function &getLayout() {
+	function getLayout() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -182,7 +182,7 @@ class ContainerInterface extends ComponentInterface {
 	 * @access public
 	 * @param ref object layout The Layout to assign to this container.
 	 **/
-	function setLayout(& $layout) {
+	function setLayout($layout) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	

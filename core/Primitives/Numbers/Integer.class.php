@@ -7,7 +7,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Integer.class.php,v 1.5 2007/04/12 15:37:22 adamfranco Exp $
+ * @version $Id: Integer.class.php,v 1.6 2007/09/04 20:25:28 adamfranco Exp $
  */ 
 
 require_once(dirname(__FILE__)."/Number.class.php");
@@ -20,7 +20,7 @@ require_once(dirname(__FILE__)."/Number.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Integer.class.php,v 1.5 2007/04/12 15:37:22 adamfranco Exp $
+ * @version $Id: Integer.class.php,v 1.6 2007/09/04 20:25:28 adamfranco Exp $
  */
 class Integer 
 	extends Number
@@ -40,7 +40,7 @@ class Integer
 	 * @access public
 	 * @since 7/14/05
 	 */
-	function &withValue ( $value, $class = 'Integer') {
+	function withValue ( $value, $class = 'Integer') {
 		return parent::withValue($value, $class);
 	}
 
@@ -52,7 +52,7 @@ class Integer
 	 * @access public
 	 * @since 3/14/06
 	 */
-	function &fromString ($string, $class = 'Integer') {
+	function fromString ($string, $class = 'Integer') {
 		return parent::fromString($string, $class);
 	}
 
@@ -66,7 +66,7 @@ class Integer
 	 * @access public
 	 * @since 7/14/05
 	 */
-	function &zero ( $class = 'Integer') {
+	function zero ( $class = 'Integer') {
 		return parent::zero($class);
 	}
 		
@@ -82,14 +82,14 @@ class Integer
 	 * @access public
 	 * @since 7/14/05
 	 */
-	function &plus ( &$aNumber ) {
+	function plus ( $aNumber ) {
 		if (!(strtolower($class) == strtolower('Integer')
 			|| is_subclass_of(new $class, 'Integer')))
 		{
-			$obj =& Integer::withValue($this->value() + $aNumber->value());
+			$obj = Integer::withValue($this->value() + $aNumber->value());
 			return $obj;
 		} else {
-			$obj =& Float::withValue($this->value() + $aNumber->value());
+			$obj = Float::withValue($this->value() + $aNumber->value());
 			return $obj;
 		}
 	}
@@ -102,14 +102,14 @@ class Integer
 	 * @access public
 	 * @since 7/14/05
 	 */
-	function &multipliedBy ( &$aNumber ) {
+	function multipliedBy ( $aNumber ) {
 		if (!(strtolower($class) == strtolower('Integer')
 			|| is_subclass_of(new $class, 'Integer')))
 		{
-			$obj =& Integer::withValue($this->value() * $aNumber->value());
+			$obj = Integer::withValue($this->value() * $aNumber->value());
 			return $obj;
 		} else {
-			$obj =& Float::withValue($this->value() * $aNumber->value());
+			$obj = Float::withValue($this->value() * $aNumber->value());
 			return $obj;
 		}
 	}
@@ -122,8 +122,8 @@ class Integer
 	 * @access public
 	 * @since 7/14/05
 	 */
-	function &dividedBy ( &$aNumber ) {
-		$obj =& Float::withValue($this->value() / $aNumber->value());
+	function dividedBy ( $aNumber ) {
+		$obj = Float::withValue($this->value() / $aNumber->value());
 		return $obj;
 	}
 	

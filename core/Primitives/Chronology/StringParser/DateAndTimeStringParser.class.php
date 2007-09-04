@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTimeStringParser.class.php,v 1.2 2006/06/26 12:55:08 adamfranco Exp $
+ * @version $Id: DateAndTimeStringParser.class.php,v 1.3 2007/09/04 20:25:25 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -26,7 +26,7 @@ require_once(dirname(__FILE__)."/StringParser.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTimeStringParser.class.php,v 1.2 2006/06/26 12:55:08 adamfranco Exp $
+ * @version $Id: DateAndTimeStringParser.class.php,v 1.3 2007/09/04 20:25:25 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -69,8 +69,8 @@ class DateAndTimeStringParser
 		// The date is anything before the time
 		$dateComponent = trim(str_replace($timeComponent, '', $this->input));
 		
-		$timeParser =& new TimeStringParser($timeComponent);
-		$dateParser =& StringParser::getParserFor($dateComponent);
+		$timeParser = new TimeStringParser($timeComponent);
+		$dateParser = StringParser::getParserFor($dateComponent);
 		
 		// Merge the two results into our fields
 		if ($dateParser) {

@@ -54,7 +54,7 @@ class ResultTable
      * 
      * @access public
      */
-    function &getResultMetaData () { 
+    function getResultMetaData () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -75,7 +75,7 @@ class ResultTable
      * 
      * @access public
      */
-    function &getRows () { 
+    function getRows () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 }

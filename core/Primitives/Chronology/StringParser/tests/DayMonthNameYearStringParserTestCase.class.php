@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DayMonthNameYearStringParserTestCase.class.php,v 1.2 2006/06/26 12:55:08 adamfranco Exp $
+ * @version $Id: DayMonthNameYearStringParserTestCase.class.php,v 1.3 2007/09/04 20:25:25 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -26,7 +26,7 @@ require_once(dirname(__FILE__)."/../DayMonthNameYearStringParser.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DayMonthNameYearStringParserTestCase.class.php,v 1.2 2006/06/26 12:55:08 adamfranco Exp $
+ * @version $Id: DayMonthNameYearStringParserTestCase.class.php,v 1.3 2007/09/04 20:25:25 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -55,7 +55,7 @@ class DayMonthNameYearStringParserTestCase extends UnitTestCase {
 	 * Test the creation methods.
 	 */ 
 	function test_full_format() {
-		$parser =& new DayMonthNameYearStringParser(
+		$parser = new DayMonthNameYearStringParser(
 			'23 May 2005');
 		
 		$this->assertTrue($parser->canHandle());
@@ -69,7 +69,7 @@ class DayMonthNameYearStringParserTestCase extends UnitTestCase {
 		$this->assertEqual($parser->offsetMinute(), NULL);
 		$this->assertEqual($parser->offsetSecond(), NULL);
 		
-		$parser =& new DayMonthNameYearStringParser(
+		$parser = new DayMonthNameYearStringParser(
 			"5 April '82");
 		
 		$this->assertTrue($parser->canHandle());
@@ -83,7 +83,7 @@ class DayMonthNameYearStringParserTestCase extends UnitTestCase {
 		$this->assertEqual($parser->offsetMinute(), NULL);
 		$this->assertEqual($parser->offsetSecond(), NULL);
 		
-		$parser =& new DayMonthNameYearStringParser(
+		$parser = new DayMonthNameYearStringParser(
 			'5APR82');
 		
 		$this->assertTrue($parser->canHandle());
@@ -97,7 +97,7 @@ class DayMonthNameYearStringParserTestCase extends UnitTestCase {
 		$this->assertEqual($parser->offsetMinute(), NULL);
 		$this->assertEqual($parser->offsetSecond(), NULL);
 		
-		$parser =& new DayMonthNameYearStringParser(
+		$parser = new DayMonthNameYearStringParser(
 			'5-APR-82');
 		
 		$this->assertTrue($parser->canHandle());
@@ -111,7 +111,7 @@ class DayMonthNameYearStringParserTestCase extends UnitTestCase {
 		$this->assertEqual($parser->offsetMinute(), NULL);
 		$this->assertEqual($parser->offsetSecond(), NULL);
 		
-		$parser =& new DayMonthNameYearStringParser(
+		$parser = new DayMonthNameYearStringParser(
 			'5APRIL1982');
 		
 		$this->assertTrue($parser->canHandle());
@@ -125,7 +125,7 @@ class DayMonthNameYearStringParserTestCase extends UnitTestCase {
 		$this->assertEqual($parser->offsetMinute(), NULL);
 		$this->assertEqual($parser->offsetSecond(), NULL);
 		
-		$parser =& new DayMonthNameYearStringParser(
+		$parser = new DayMonthNameYearStringParser(
 			'April 1982');
 			
 		$this->assertTrue($parser->canHandle());
@@ -141,11 +141,11 @@ class DayMonthNameYearStringParserTestCase extends UnitTestCase {
 	}
 	
 	function test_bad_forms() {
-		$parser =& new DayMonthNameYearStringParser(
+		$parser = new DayMonthNameYearStringParser(
 			'April');
 		$this->assertFalse($parser->canHandle());
 		
-		$parser =& new DayMonthNameYearStringParser(
+		$parser = new DayMonthNameYearStringParser(
 			'5-4-2000');
 		$this->assertFalse($parser->canHandle());
 	

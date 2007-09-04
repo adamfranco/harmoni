@@ -10,7 +10,7 @@ require_once HARMONI."dataManager/search/MultipleCriteriaSearch.abstract.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AndSearch.class.php,v 1.5 2007/04/12 15:37:25 adamfranco Exp $
+ * @version $Id: AndSearch.class.php,v 1.6 2007/09/04 20:25:32 adamfranco Exp $
  */
 class AndSearch extends MultipleCriteriaSearch {
 	
@@ -32,7 +32,7 @@ class AndSearch extends MultipleCriteriaSearch {
 	
 	function postProcess($ids) {
 		// let's go through index 1-n of the criteria and keep narrowing down our lsit of ids.
-		$rm =& Services::getService("RecordManager");
+		$rm = Services::getService("RecordManager");
 
 		$keys = array_keys($this->_criteria);
 		for($i=1; $i < count($keys); $i++) {

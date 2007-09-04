@@ -37,7 +37,7 @@ require_once(OKI2."/osid/agent/AgentManager.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: JavaPOCAgentManager.class.php,v 1.6 2006/12/12 17:18:15 adamfranco Exp $
+ * @version $Id: JavaPOCAgentManager.class.php,v 1.7 2007/09/04 20:25:36 adamfranco Exp $
  * 
  */
 class JavaPOCAgentManager
@@ -52,7 +52,7 @@ class JavaPOCAgentManager
 		if ($ex) die("Could not instantiate '$className' (Java): ".$ex->toString);
 		java_last_exception_clear();
 		
-		$this->_javaClass =& $testClass;
+		$this->_javaClass =$testClass;
 	}
 	
 	/**
@@ -81,7 +81,7 @@ class JavaPOCAgentManager
 	 * 
 	 * @access public
 	 */
-	function &createAgent ( $displayName, &$agentType, &$properties ) { 
+	function createAgent ( $displayName, $agentType, $properties ) { 
 		$result = $this->_javaClass->createAgent($displayName, $agentType, $properties);
 		$ex = java_last_exception_get();
 		if ($ex) { java_last_exception_clear(); return $ex->toString(); }
@@ -110,7 +110,7 @@ class JavaPOCAgentManager
 	 * 
 	 * @access public
 	 */
-	function deleteAgent ( &$id ) { 
+	function deleteAgent ( $id ) { 
 		$this->_javaClass->deleteAgent($id);
 		$ex = java_last_exception_get();
 		if ($ex) { java_last_exception_clear(); return $ex->toString(); }
@@ -141,7 +141,7 @@ class JavaPOCAgentManager
 	 * 
 	 * @access public
 	 */
-	function &getAgent ( &$id ) { 
+	function getAgent ( $id ) { 
 		$result = $this->_javaClass->getAgent($id);
 		$ex = java_last_exception_get();
 		if ($ex) { java_last_exception_clear(); return $ex->toString(); }
@@ -170,7 +170,7 @@ class JavaPOCAgentManager
 	 * 
 	 * @access public
 	 */
-	function &getAgents () { 
+	function getAgents () { 
 		$result = $this->_javaClass->getAgents();
 		$ex = java_last_exception_get();
 		if ($ex) { java_last_exception_clear(); return $ex->toString(); }
@@ -199,7 +199,7 @@ class JavaPOCAgentManager
 	 * 
 	 * @access public
 	 */
-	function &getAgentTypes () { 
+	function getAgentTypes () { 
 		$result = $this->_javaClass->getAgentTypes();
 		$ex = java_last_exception_get();
 		if ($ex) { java_last_exception_clear(); return $ex->toString(); }
@@ -229,7 +229,7 @@ class JavaPOCAgentManager
 	 * 
 	 * @access public
 	 */
-	function &getPropertyTypes () { 
+	function getPropertyTypes () { 
 	   $result = $this->_javaClass->getPropertyTypes();
 		$ex = java_last_exception_get();
 		if ($ex) { java_last_exception_clear(); return $ex->toString(); }
@@ -264,7 +264,7 @@ class JavaPOCAgentManager
 	 * 
 	 * @access public
 	 */
-	function &createGroup ( $displayName, &$groupType, $description, &$properties ) { 
+	function createGroup ( $displayName, $groupType, $description, $properties ) { 
 		$result = $this->_javaClass->createGroup( $displayName, $groupType, $description, $properties );
 		$ex = java_last_exception_get();
 		if ($ex) { java_last_exception_clear(); return $ex->toString(); }
@@ -293,7 +293,7 @@ class JavaPOCAgentManager
 	 * 
 	 * @access public
 	 */
-	function deleteGroup ( &$id ) { 
+	function deleteGroup ( $id ) { 
 		$this->_javaClass->deleteGroup($id);
 		$ex = java_last_exception_get();
 		if ($ex) { java_last_exception_clear(); return $ex->toString(); }
@@ -324,7 +324,7 @@ class JavaPOCAgentManager
 	 * 
 	 * @access public
 	 */
-	function &getGroup ( &$id ) { 
+	function getGroup ( $id ) { 
 		$result = $this->_javaClass->getGroup($id);
 		$ex = java_last_exception_get();
 		if ($ex) { java_last_exception_clear(); return $ex->toString(); }
@@ -354,7 +354,7 @@ class JavaPOCAgentManager
 	 * 
 	 * @access public
 	 */
-	function &getGroups () { 
+	function getGroups () { 
 		$result = $this->_javaClass->getGroups();
 		$ex = java_last_exception_get();
 		if ($ex) { java_last_exception_clear(); return $ex->toString(); }
@@ -383,7 +383,7 @@ class JavaPOCAgentManager
 	 * 
 	 * @access public
 	 */
-	function &getGroupTypes () { 
+	function getGroupTypes () { 
 		$result = $this->_javaClass->getGroupTypes();
 		$ex = java_last_exception_get();
 		if ($ex) { java_last_exception_clear(); return $ex->toString(); }
@@ -414,7 +414,7 @@ class JavaPOCAgentManager
 	 * 
 	 * @access public
 	 */
-	function &getAgentsByType ( &$agentType ) { 
+	function getAgentsByType ( $agentType ) { 
 		$result = $this->_javaClass->getAgentsByType($agentType);
 		$ex = java_last_exception_get();
 		if ($ex) { java_last_exception_clear(); return $ex->toString(); }
@@ -445,7 +445,7 @@ class JavaPOCAgentManager
 	 * 
 	 * @access public
 	 */
-	function &getGroupsByType ( &$groupType ) { 
+	function getGroupsByType ( $groupType ) { 
 		$result = $this->_javaClass->getGroupsByType($groupType);
 		$ex = java_last_exception_get();
 		if ($ex) { java_last_exception_clear(); return $ex->toString(); }
@@ -474,7 +474,7 @@ class JavaPOCAgentManager
 	 * 
 	 * @access public
 	 */
-	function &getAgentSearchTypes () { 
+	function getAgentSearchTypes () { 
 		$result = $this->_javaClass->getAgentSearchTypes();
 		$ex = java_last_exception_get();
 		if ($ex) { java_last_exception_clear(); return $ex->toString(); }
@@ -506,7 +506,7 @@ class JavaPOCAgentManager
 	 * 
 	 * @access public
 	 */
-	function &getAgentsBySearch ( &$searchCriteria, &$agentSearchType ) { 
+	function getAgentsBySearch ( $searchCriteria, $agentSearchType ) { 
 		$result = $this->_javaClass->getAgentsBySearch($searchCriteria, $agentSearchType);
 		$ex = java_last_exception_get();
 		if ($ex) { java_last_exception_clear(); return $ex->toString(); }
@@ -535,7 +535,7 @@ class JavaPOCAgentManager
 	 * 
 	 * @access public
 	 */
-	function &getGroupSearchTypes () { 
+	function getGroupSearchTypes () { 
 		$result = $this->_javaClass->getGroupSearchTypes();
 		$ex = java_last_exception_get();
 		if ($ex) { java_last_exception_clear(); return $ex->toString(); }
@@ -567,7 +567,7 @@ class JavaPOCAgentManager
 	 * 
 	 * @access public
 	 */
-	function &getGroupsBySearch ( &$searchCriteria, &$groupSearchType ) { 
+	function getGroupsBySearch ( $searchCriteria, $groupSearchType ) { 
 		$result = $this->_javaClass->getGroupsBySearch($searchCriteria, $groupSearchType);
 		$ex = java_last_exception_get();
 		if ($ex) { java_last_exception_clear(); return $ex->toString(); }

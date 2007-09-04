@@ -38,7 +38,7 @@ class FunctionInterface
      * 
      * @access public
      */
-    function &getId () { 
+    function getId () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -110,7 +110,7 @@ class FunctionInterface
      * 
      * @access public
      */
-    function &getFunctionType () { 
+    function getFunctionType () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -134,7 +134,7 @@ class FunctionInterface
      * 
      * @access public
      */
-    function &getQualifierHierarchyId () { 
+    function getQualifierHierarchyId () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 

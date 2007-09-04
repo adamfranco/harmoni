@@ -10,7 +10,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/ValidatorRule.interface.
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RegexValidatorRule.class.php,v 1.5 2006/08/15 20:45:00 sporktim Exp $
+ * @version $Id: RegexValidatorRule.class.php,v 1.6 2007/09/04 20:25:55 adamfranco Exp $
  */
 class RegexValidatorRule
 	extends ValidatorRuleInterface
@@ -40,7 +40,7 @@ class RegexValidatorRule
 	 * @access public
 	 * @return boolean true if the check succeeds, false if it (guess...) fails.
 	 **/
-	function check( & $val ) {
+	function check( $val ) {
 		return (ereg($this->_regex, $val)) ? true : false;
 	}
 	
@@ -68,7 +68,7 @@ class RegexValidatorRule
 	 * @static
 	 * @since 3/28/05
 	 */
-	function &getRule ($regex) {
+	function getRule ($regex) {
 		if (!isset($GLOBALS['validator_rules']) || !is_array($GLOBALS['validator_rules']))
 			$GLOBALS['validator_rules'] = array();
 		
@@ -77,8 +77,8 @@ class RegexValidatorRule
 		$ruleKey = $class."(".strtolower($regex).")";
 		
 		if (!isset($GLOBALS['validator_rules'][$ruleKey])){
-			eval('$newRule =& new '.$class.'($regex);');
-			$GLOBALS['validator_rules'][$ruleKey] =& $newRule;
+			eval('$newRule = new '.$class.'($regex);');
+			$GLOBALS['validator_rules'][$ruleKey] =$newRule;
 		}
 		return 	$GLOBALS['validator_rules'][$ruleKey];
 	}
@@ -116,7 +116,7 @@ class RegexValidatorRule
 	 * @static
 	 * @since 3/28/05
 	 */
-	function &getRuleByArray ($options) {
+	function getRuleByArray ($options) {
 		
 		if(!is_array($options) || count($options)==0){
 			throwError(new Error("RegexValidatorRule::getRuleByArray() requires an array with at least one value","RegexValidatorRule",true));		
@@ -136,8 +136,8 @@ class RegexValidatorRule
 		$ruleKey = $class."(".strtolower($regex).")";
 		
 		if (!isset($GLOBALS['validator_rules'][$ruleKey])){
-			eval('$newRule =& new '.$class.'($regex);');
-			$GLOBALS['validator_rules'][$ruleKey] =& $newRule;
+			eval('$newRule = new '.$class.'($regex);');
+			$GLOBALS['validator_rules'][$ruleKey] =$newRule;
 		}
 		return 	$GLOBALS['validator_rules'][$ruleKey];
 	}

@@ -15,7 +15,7 @@ require_once("HarmoniAgent.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniEditableAgent.class.php,v 1.4 2007/03/21 15:51:56 adamfranco Exp $
+ * @version $Id: HarmoniEditableAgent.class.php,v 1.5 2007/09/04 20:25:36 adamfranco Exp $
  */
 
 class HarmoniEditableAgent
@@ -52,19 +52,19 @@ class HarmoniEditableAgent
 	 * @return boolean
 	 */
 	
-	function addProperty(& $type, $key, & $value){
+	function addProperty($type, $key, $value){
 		//properties manager is used to store properties
-		$propertiesManager =& Services::getService("Property");
+		$propertiesManager = Services::getService("Property");
 		
 		//get the database id of the type				
 		$typeIdString = $propertiesManager->getTypeId($type);
 		
 		//an agent has one properties object for each Type, this gets the one for the type we're adding.
-		$property =& $this->getPropertiesByType($type);		
+		$property =$this->getPropertiesByType($type);		
 		
 		//if there aren't any properties of Type yet, create a new object		
 		if($property===null){//if agent has no properties of type
-			$property =& new HarmoniProperties($type);//create a new property of type $type
+			$property = new HarmoniProperties($type);//create a new property of type $type
 		}
 		
 		//add the property
@@ -87,9 +87,9 @@ class HarmoniEditableAgent
 	 * @return boolean
 	 */
 	
-	function updateProperty( &$type, $key, &$value ){
+	function updateProperty( $type, $key, $value ){
 		//get the properties object for Type		
-		$property =& $this->getPropertiesByType($type);
+		$property =$this->getPropertiesByType($type);
 		
 		//if it doesn't exist, the property doesn't exit, quit
 		if($property===null){
@@ -110,7 +110,7 @@ class HarmoniEditableAgent
 		$property->addProperty($key, $value);
 		
 		//the property manager is for setting properties in the DB
-		$propertyManager =& Services::getService("Property");
+		$propertyManager = Services::getService("Property");
 		
 		//store the new values and return true or false				
 		return $propertyManager->storeProperties($this->_idString, $property);		
@@ -126,9 +126,9 @@ class HarmoniEditableAgent
 	 * @access public
 	 */
 	 
-	function deleteProperty( &$type, $key ) {
+	function deleteProperty( $type, $key ) {
 		//the properties object hold properties of this type
-		$property =& $this->getPropertiesByType($type);
+		$property =$this->getPropertiesByType($type);
 		
 		//our default assumption is that the key sent was bad
 		$keyExists = false;
@@ -139,7 +139,7 @@ class HarmoniEditableAgent
 		}
 		
 		//get all the keys for the object and compare them to the target if any one matches, it will be set to true
-		$keys =& $property->getKeys();
+		$keys =$property->getKeys();
 		while($keys->hasNextObject()){
 			$tempKey = $keys->nextObject();
 			if($tempKey==$key){
@@ -147,7 +147,7 @@ class HarmoniEditableAgent
 				$property->deleteProperty($key);
 
 				//property manager is for storing properties info in the DB
-				$propertyManager =& Services::getService("Property");
+				$propertyManager = Services::getService("Property");
 
 				//store property				
 				return $propertyManager->storeProperties($this->_idString, $property);
@@ -168,10 +168,10 @@ class HarmoniEditableAgent
 	  
 	function clearAllProperties() {
 		$value = false;//indicating set but empty.  NULL would confuse things if the property key didn't exist (which would be a true null)
-		$properties =& $this->getProperties();
+		$properties =$this->getProperties();
 		//cycle through the properties
 		while($properties->hasNext()){
-		$property =& $properties->next();
+		$property =$properties->next();
 			//keys for properties of this type
 			$keys = $property->getKeys();
 			//cycle through each key value pair
@@ -193,10 +193,10 @@ class HarmoniEditableAgent
 	 */
 	  
 	function deleteAllProperties() {
-		$properties =& $this->getProperties();
+		$properties =$this->getProperties();
 		//cycle through the properties
 		while($properties->hasNext()){
-		$property =& $properties->next();
+		$property =$properties->next();
 			//keys for properties of this type
 			$keys = $property->getKeys();
 			//cycle through each key value pair

@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StructuredMetaDataTagGenerator.class.php,v 1.4 2007/04/10 18:00:29 adamfranco Exp $
+ * @version $Id: StructuredMetaDataTagGenerator.class.php,v 1.5 2007/09/04 20:25:29 adamfranco Exp $
  */ 
 
 /**
@@ -19,7 +19,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StructuredMetaDataTagGenerator.class.php,v 1.4 2007/04/10 18:00:29 adamfranco Exp $
+ * @version $Id: StructuredMetaDataTagGenerator.class.php,v 1.5 2007/09/04 20:25:29 adamfranco Exp $
  */
 class StructuredMetaDataTagGenerator {
 
@@ -35,9 +35,9 @@ class StructuredMetaDataTagGenerator {
 	 * @since 5/26/05
 	 * @static
 	 */
-	function &instance () {
+	function instance () {
 		if (!defined("StructuredMetaDataTagGenerator_INSTANTIATED")) {
-			$GLOBALS['__structuredMetaDataTagGenerator'] =& new StructuredMetaDataTagGenerator();
+			$GLOBALS['__structuredMetaDataTagGenerator'] = new StructuredMetaDataTagGenerator();
 			define("StructuredMetaDataTagGenerator_INSTANTIATED", true);
 		}
 		
@@ -84,26 +84,26 @@ class StructuredMetaDataTagGenerator {
 	 * @access public
 	 * @since 11/21/06
 	 */
-	function &getPartStructureIdsForTagGeneration ( $repositoryId ) {	
+	function getPartStructureIdsForTagGeneration ( $repositoryId ) {	
 		if(!isset($this->_cache[$repositoryId->getIdString()])) {
 			$this->_cache[$repositoryId->getIdString()] = array();
-			$query =& new SelectQuery;
+			$query = new SelectQuery;
 			$query->addColumn('fk_partstruct');
 			$query->addTable('tag_part_map');
 			$query->addWhere("fk_repository ='".addslashes($repositoryId->getIdString())."'");
 			
-			$dbc =& Services::getService("DatabaseManager");
-			$result =& $dbc->query($query, $this->getDatabaseIndex());
+			$dbc = Services::getService("DatabaseManager");
+			$result =$dbc->query($query, $this->getDatabaseIndex());
 			
 			// Add tag objects to an array, still sorted by frequency of usage
-			$idManager =& Services::getService('Id');
+			$idManager = Services::getService('Id');
 			while ($result->hasNext()) {
 				$row = $result->next();
-				$this->_cache[$repositoryId->getIdString()][] =& $idManager->getId($row['fk_partstruct']);
+				$this->_cache[$repositoryId->getIdString()][] =$idManager->getId($row['fk_partstruct']);
 			}
 		}
 		
-		$iterator =& new HarmoniIterator($this->_cache[$repositoryId->getIdString()]);
+		$iterator = new HarmoniIterator($this->_cache[$repositoryId->getIdString()]);
 		return $iterator;
 	}
 	
@@ -117,9 +117,9 @@ class StructuredMetaDataTagGenerator {
 	 * @access public
 	 * @since 11/21/06
 	 */
-	function shouldGenerateTagsForPartStructure ( &$repositoryId, &$partStructureId ) {
+	function shouldGenerateTagsForPartStructure ( $repositoryId, $partStructureId ) {
 		// Check to see if this PartStructure is already added.
-		$existing =& $this->getPartStructureIdsForTagGeneration($repositoryId);
+		$existing =$this->getPartStructureIdsForTagGeneration($repositoryId);
 		while ($existing->hasNext()) {
 			if ($partStructureId->isEqual($existing->next()))
 				return true;
@@ -138,22 +138,22 @@ class StructuredMetaDataTagGenerator {
 	 * @access public
 	 * @since 11/21/06
 	 */
-	function addPartStructureIdForTagGeneration ( &$repositoryId, &$partStructureId ) {
+	function addPartStructureIdForTagGeneration ( $repositoryId, $partStructureId ) {
 		if ($this->shouldGenerateTagsForPartStructure($repositoryId, $partStructureId))
 			return;
 		
 		// Insert it into the database
-		$query =& new InsertQuery;
+		$query = new InsertQuery;
 		$query->setColumns(array('fk_repository', 'fk_partstruct'));
 		$query->addRowOfValues(array(
 			"'".addslashes($repositoryId->getIdString())."'",
 			"'".addslashes($partStructureId->getIdString())."'"));
 		$query->setTable('tag_part_map');
-		$dbc =& Services::getService("DatabaseManager");
-		$result =& $dbc->query($query, $this->getDatabaseIndex());
+		$dbc = Services::getService("DatabaseManager");
+		$result =$dbc->query($query, $this->getDatabaseIndex());
 			
 		// Add it to the cache
-		$this->_cache[$repositoryId->getIdString()][] =& $partStructureId;
+		$this->_cache[$repositoryId->getIdString()][] =$partStructureId;
 	}
 	
 	/**
@@ -165,14 +165,14 @@ class StructuredMetaDataTagGenerator {
 	 * @access public
 	 * @since 11/21/06
 	 */
-	function removePartStructureIdForTagGeneration ( &$repositoryId, &$partStructureId ) {
+	function removePartStructureIdForTagGeneration ( $repositoryId, $partStructureId ) {
 		// Delete it into the database
-		$query =& new DeleteQuery;
+		$query = new DeleteQuery;
 		$query->setTable('tag_part_map');
 		$query->addWhere("fk_repository='".addslashes($repositoryId->getIdString())."'");
 		$query->addWhere("fk_partstruct='".addslashes($partStructureId->getIdString())."'");
-		$dbc =& Services::getService("DatabaseManager");
-		$result =& $dbc->query($query, $this->getDatabaseIndex());
+		$dbc = Services::getService("DatabaseManager");
+		$result =$dbc->query($query, $this->getDatabaseIndex());
 			
 		// Remove it from the cache
 		if(isset($this->_cache)
@@ -195,9 +195,9 @@ class StructuredMetaDataTagGenerator {
 	 * @access public
 	 * @since 11/27/06
 	 */
-	function regenerateTagsForRepository ( &$repositoryId, &$agentId, $system ) {
-		$repositoryManager =& Services::getService("Repository");
-		$repository =& $repositoryManager->getRepository($repositoryId);
+	function regenerateTagsForRepository ( $repositoryId, $agentId, $system ) {
+		$repositoryManager = Services::getService("Repository");
+		$repository =$repositoryManager->getRepository($repositoryId);
 		$this->regenerateTagsForAssets($repository->getAssets(), $agentId, $system, $repositoryId);
 		
 	}
@@ -214,8 +214,8 @@ class StructuredMetaDataTagGenerator {
 	 * @access public
 	 * @since 11/27/06
 	 */
-	function regenerateTagsForAssets ( &$assets, &$agentId, $system, $repositoryId = null ) {
-		$status =& new StatusStars(dgettext("polyphony", "Regenerating Tags for Assets"));
+	function regenerateTagsForAssets ( $assets, $agentId, $system, $repositoryId = null ) {
+		$status = new StatusStars(dgettext("polyphony", "Regenerating Tags for Assets"));
 	 	
 		// array
 		if (is_array($assets)) {
@@ -257,26 +257,26 @@ class StructuredMetaDataTagGenerator {
 	 * @access public
 	 * @since 11/27/06
 	 */
-	function regenerateTagsForAsset ( &$asset, &$agentId, $system, $repositoryId = null ) {
+	function regenerateTagsForAsset ( $asset, $agentId, $system, $repositoryId = null ) {
 		if (!is_object($repositoryId)) {
-			$repository =& $asset->getRepository();
-			$repositoryId =& $repository->getId();
+			$repository =$asset->getRepository();
+			$repositoryId =$repository->getId();
 		}
 		
-		$assetId =& $asset->getId();
+		$assetId =$asset->getId();
 		printpre("<hr/>Asset: ".$assetId->getIdString()." ".$asset->getDisplayName());
 		
-		$item =& TaggedItem::forId($asset->getId(), $system);
+		$item = TaggedItem::forId($asset->getId(), $system);
 		$item->deleteTagsByAgent($agentId);
 		
 		// Loop through the records and generate tags from the values
-		$partStructIds =& $this->getPartStructureIdsForTagGeneration(
+		$partStructIds =$this->getPartStructureIdsForTagGeneration(
 															$repositoryId);
 		while ($partStructIds->hasNext()) {
-			$values =& $asset->getPartValuesByPartStructure($partStructIds->next());
+			$values =$asset->getPartValuesByPartStructure($partStructIds->next());
 			while ($values->hasNext()) {
-				$value =& $values->next();
-				$tag =& new Tag($value->asString());
+				$value =$values->next();
+				$tag = new Tag($value->asString());
 				$tag->tagItemForAgent($item, $agentId);
 				printpre("Adding Tag: ".$tag->getValue());
 			}
@@ -292,7 +292,7 @@ class StructuredMetaDataTagGenerator {
      */
     function getDatabaseIndex () {
     	if (!isset($this->_databaseIndex)) {
-    		$taggingManager =& Services::getService("Tagging");
+    		$taggingManager = Services::getService("Tagging");
     		$this->_databaseIndex = $taggingManager->getDatabaseIndex();
 		}
 		return $this->_databaseIndex;

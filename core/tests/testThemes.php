@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: testThemes.php,v 1.6 2005/07/18 21:15:49 adamfranco Exp $
+ * @version $Id: testThemes.php,v 1.7 2007/09/04 20:25:53 adamfranco Exp $
  */
 
 // include all required files.
@@ -20,16 +20,16 @@ require_once(HARMONI."layoutHandler/components/LinkMenuItem.class.php");
 require_once(HARMONI."layoutHandler/components/HeaderMenuItem.class.php");
 
 // create new TestTheme object
-$theme =& new TestTheme;
+$theme = new TestTheme;
 $theme->addHeadContent("<style type=text/css>body {font-size:18px}</style>");
 
 // create the two layouts for navigation
-$topMenuLayout =& new TopMenuLayout;
-$leftMenuLayout =& new LeftMenuLayout;
+$topMenuLayout = new TopMenuLayout;
+$leftMenuLayout = new LeftMenuLayout;
 
 // create two menus
-$topMenu =& new Menu;
-$leftMenu =& new Menu;
+$topMenu = new Menu;
+$leftMenu = new Menu;
 
 // add links to the top menu
 $topMenu->addItem(new HeaderMenuItem("Top Menu:"));
@@ -48,7 +48,7 @@ $topMenuLayout->setComponent(0,$topMenu);
 $leftMenuLayout->setComponent(0,$leftMenu);
 
 // create a new SingleContentLayout to fill the space in the LefMenuLayout
-$contentLayout =& new SingleContentLayout;
+$contentLayout = new SingleContentLayout;
 //$contentLayout->setComponent(0,new Content("This theme is called: ".$theme->getName().", description: ".$theme->getDescription()));
 $content = "<b>The contents of this file:</b><br/>";
 $content .= highlight_string(implode("",file(__FILE__)),true);

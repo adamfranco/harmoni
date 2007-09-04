@@ -134,7 +134,7 @@ define("ALERT_BLOCK", 4);
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Component.interface.php,v 1.13 2006/11/30 22:02:01 adamfranco Exp $
+ * @version $Id: Component.interface.php,v 1.14 2007/09/04 20:25:21 adamfranco Exp $
  */
 class ComponentInterface {
 
@@ -150,7 +150,7 @@ class ComponentInterface {
 	 * to this component. 
 	 * @return ref object The style collection that was just added.
 	 **/
-	function &addStyle($styleCollection) {
+	function addStyle($styleCollection) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -160,7 +160,7 @@ class ComponentInterface {
 	 * @param string selector The selector.
 	 * @return ref object The style collection.
 	 **/
-	function &getStyle($selector) {
+	function getStyle($selector) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -171,7 +171,7 @@ class ComponentInterface {
 	 * @return ref object The style collection that was removed. <code>NULL</code>
 	 * if it could not be found.
 	 **/
-	function &removeStyle($selector) {
+	function removeStyle($selector) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -181,7 +181,7 @@ class ComponentInterface {
 	 * @return array An array of style collections; the key corresponds to the
 	 * selector of each collection.
 	 **/
-	function &getStyles() {
+	function getStyles() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -210,7 +210,7 @@ class ComponentInterface {
 	 * recommended in order to produce a nicely formatted HTML output.
 	 * @return string The HTML string.
 	 **/
-	function getPreHTML(& $theme, $tabs = "") {
+	function getPreHTML($theme, $tabs = "") {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -238,7 +238,7 @@ class ComponentInterface {
 	 * recommended in order to produce a nicely formatted HTML output.
 	 * @return string The HTML string.
 	 **/
-	function getPostHTML(& $theme, $tabs = "") {
+	function getPostHTML($theme, $tabs = "") {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -264,7 +264,7 @@ class ComponentInterface {
 	 * recommended in order to produce a nicely formatted HTML output.
 	 * @access public
 	 **/
-	function render(& $theme, $tabs = "") {
+	function render($theme, $tabs = "") {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	

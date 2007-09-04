@@ -65,7 +65,7 @@ class Evaluation
      * 
      * @access public
      */
-    function updateData ( &$data ) { 
+    function updateData ( $data ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -111,7 +111,7 @@ class Evaluation
      * 
      * @access public
      */
-    function &getId () { 
+    function getId () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -135,7 +135,7 @@ class Evaluation
      * 
      * @access public
      */
-    function &getType () { 
+    function getType () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -158,7 +158,7 @@ class Evaluation
      * 
      * @access public
      */
-    function &getObjectTaken () { 
+    function getObjectTaken () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -182,7 +182,7 @@ class Evaluation
      * 
      * @access public
      */
-    function &getData () { 
+    function getData () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -205,7 +205,7 @@ class Evaluation
      * 
      * @access public
      */
-    function &getModifiedBy () { 
+    function getModifiedBy () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 

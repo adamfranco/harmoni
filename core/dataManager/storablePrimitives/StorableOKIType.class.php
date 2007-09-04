@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableOKIType.class.php,v 1.11 2007/04/12 15:37:26 adamfranco Exp $
+ * @version $Id: StorableOKIType.class.php,v 1.12 2007/09/04 20:25:33 adamfranco Exp $
  */
 class StorableOKIType 
 	extends Type 
@@ -26,7 +26,7 @@ class StorableOKIType
 	 * @access public
 	 * @return object StorableOKIType
 	 */
-	function &populate( $dbRow ) {
+	function populate( $dbRow ) {
 		return new StorableOKIType(	$dbRow["okitype_domain"], 
 									$dbRow["okitype_authority"],
 									$dbRow["okitype_keyword"]);
@@ -42,7 +42,7 @@ class StorableOKIType
 	 * @return string or NULL if no searching is allowed.
 	 * @static
 	 */
-	function makeSearchString(&$type, $searchType = SEARCH_TYPE_EQUALS) {
+	function makeSearchString($type, $searchType = SEARCH_TYPE_EQUALS) {
 		if ($searchType == SEARCH_TYPE_EQUALS) return "(dm_okitype.domain='".addslashes($type->getDomain())."' AND ".
 		 "dm_okitype.authority='".addslashes($type->getAuthority())."' AND ".
 		 "dm_okitype.keyword='".addslashes($type->getKeyword())."')";
@@ -56,7 +56,7 @@ class StorableOKIType
 			case SEARCH_TYPE_IN_LIST:
 				$string = "(";
 				while ($value->hasNext()) {
-					$valueObj =& $value->next();
+					$valueObj =$value->next();
 					$string .= "(dm_okitype.domain='".addslashes($type->getDomain())."' AND ".
 		 "dm_okitype.authority='".addslashes($type->getAuthority())."' AND ".
 		 "dm_okitype.keyword='".addslashes($type->getKeyword())."')";
@@ -68,7 +68,7 @@ class StorableOKIType
 			case SEARCH_TYPE_NOT_IN_LIST:
 				$string = "NOT (";
 				while ($value->hasNext()) {
-					$valueObj =& $value->next();
+					$valueObj =$value->next();
 					$string .= "(dm_okitype.domain='".addslashes($type->getDomain())."' AND ".
 		 "dm_okitype.authority='".addslashes($type->getAuthority())."' AND ".
 		 "dm_okitype.keyword='".addslashes($type->getKeyword())."')";
@@ -92,10 +92,10 @@ class StorableOKIType
 	 * @return integer Returns the new ID of the data stored.
 	 */
 	function insert($dbID) {
-		$idManager =& Services::getService("Id");
-		$newID =& $idManager->createId();
+		$idManager = Services::getService("Id");
+		$newID =$idManager->createId();
 		
-		$query =& new InsertQuery();
+		$query = new InsertQuery();
 		$query->setTable("dm_okitype");
 		$query->setColumns(array("id","domain","authority","keyword"));
 		
@@ -103,8 +103,8 @@ class StorableOKIType
 															"'".addslashes($this->getAuthority())."'",
 															"'".addslashes($this->getKeyword())."'"));
 		
-		$dbHandler =& Services::getService("DatabaseManager");
-		$result =& $dbHandler->query($query, $dbID);
+		$dbHandler = Services::getService("DatabaseManager");
+		$result =$dbHandler->query($query, $dbID);
 		if (!$result || $result->getNumberOfRows() != 1) {
 			throwError( new UnknownDBError("StorableOKIType") );
 			return false;
@@ -124,7 +124,7 @@ class StorableOKIType
 	function update($dbID, $dataID) {
 		if (!$dataID) return false;
 		
-		$query =& new UpdateQuery();
+		$query = new UpdateQuery();
 		$query->setTable("dm_okitype");
 		$query->setColumns(array("domain","authority","keyword"));
 		$query->setWhere("id='".addslashes($dataID)."'");
@@ -133,8 +133,8 @@ class StorableOKIType
 								"'".addslashes($this->getAuthority())."'",
 								"'".addslashes($this->getKeyword())."'"));
 		
-		$dbHandler =& Services::getService("DatabaseManager");
-		$result =& $dbHandler->query($query, $dbID);
+		$dbHandler = Services::getService("DatabaseManager");
+		$result =$dbHandler->query($query, $dbID);
 		
 		if (!$result) {
 			throwError( new UnknownDBError("StorableOKIType") );
@@ -151,7 +151,7 @@ class StorableOKIType
 	 * @access public
 	 * @return void
 	 */
-	function alterQuery( &$query ) {
+	function alterQuery( $query ) {
 		$query->addTable("dm_okitype",LEFT_JOIN,"dm_okitype.id = fk_data");
 		$query->addColumn("domain","okitype_domain","dm_okitype");
 		$query->addColumn("authority","okitype_authority","dm_okitype");
@@ -170,12 +170,12 @@ class StorableOKIType
 		// delete ourselves from our data table
 		$table = "dm_okitype";
 		
-		$query =& new DeleteQuery;
+		$query = new DeleteQuery;
 		$query->setTable($table);
 		$query->setWhere("id='".addslashes($dataID)."'");
 		
-		$dbHandler =& Services::getService("DatabaseManager");
-		$res =& $dbHandler->query($query, $dbID);
+		$dbHandler = Services::getService("DatabaseManager");
+		$res =$dbHandler->query($query, $dbID);
 		
 		if (!$res) throwError( new UnknownDBError("StorablePrimitive"));
 	}
@@ -191,7 +191,7 @@ class StorableOKIType
 	 * @access public
 	 * @since 6/9/06
 	 */
-	function &asABlob () {
+	function asABlob () {
 		return Blob::fromString($this->asString());
 	}
 	
@@ -202,7 +202,7 @@ class StorableOKIType
 	 * @access public
 	 * @since 6/9/06
 	 */
-	function &asAString () {
+	function asAString () {
 		return String::fromString($this->asString());
 	}
 	
@@ -213,7 +213,7 @@ class StorableOKIType
 	 * @access public
 	 * @since 6/9/06
 	 */
-	function &asAShortString () {
+	function asAShortString () {
 		return String::fromString($this->asString());
 	}
 	
@@ -224,7 +224,7 @@ class StorableOKIType
 	 * @access public
 	 * @since 6/9/06
 	 */
-	function &asAnOKIType () {
+	function asAnOKIType () {
 		return $this;
 	}	
 }

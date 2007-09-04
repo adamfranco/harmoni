@@ -46,7 +46,7 @@ define("STORAGE_PRIMARY", 3);
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorageHandler.class.php,v 1.9 2007/09/04 18:32:53 adamfranco Exp $
+ * @version $Id: StorageHandler.class.php,v 1.10 2007/09/04 20:25:51 adamfranco Exp $
 */
 class StorageHandler {
 	/**
@@ -119,8 +119,8 @@ class StorageHandler {
 	 * 
 	 * @access public
 	 */
-	function assignConfiguration ( &$configuration ) { 
-		$this->_configuration =& $configuration;
+	function assignConfiguration ( $configuration ) { 
+		$this->_configuration =$configuration;
 	}
 
 	/**
@@ -132,7 +132,7 @@ class StorageHandler {
 	 * 
 	 * @access public
 	 */
-	function &getOsidContext () { 
+	function getOsidContext () { 
 		return $this->_osidContext;
 	} 
 
@@ -147,8 +147,8 @@ class StorageHandler {
 	 * 
 	 * @access public
 	 */
-	function assignOsidContext ( &$context ) { 
-		$this->_osidContext =& $context;
+	function assignOsidContext ( $context ) { 
+		$this->_osidContext =$context;
 	} 
 
 	/**
@@ -163,7 +163,7 @@ class StorageHandler {
 	* @access public 
 	* @return void 
 	*/
-	function addMethod(& $method, $path = "/")
+	function addMethod($method, $path = "/")
 	{
 		$this->_checkPath($path); 
 		// check if we have a "/" path defined.
@@ -196,7 +196,7 @@ class StorageHandler {
 	* @access public 
 	* @return void 
 	*/
-	function addBackupMethod(& $method, $path = '/', $backupType = MIRROR_SHALLOW)
+	function addBackupMethod($method, $path = '/', $backupType = MIRROR_SHALLOW)
 	{
 		$this->_checkPath($path); 
 		// check to make sure we have a primary method defined for this path
@@ -215,7 +215,7 @@ class StorageHandler {
 	* @access private 
 	* @return string The new pathname.
 	*/
-	function _checkPath(& $path)
+	function _checkPath($path)
 	{
 		if ($path[strlen($path) - 1] != '/') $path .= '/';
 		if ($path[0] != '/') $path = '/' . $path;
@@ -228,7 +228,7 @@ class StorageHandler {
 	* @access private 
 	* @return string The new path.
 	*/
-	function _chopPath (& $path)
+	function _chopPath ($path)
 	{
 		if (ereg(".+/$", $path))
 			$path = substr($path, 0, strlen($path)-1);
@@ -243,7 +243,7 @@ class StorageHandler {
 	* @access private 
 	* @return void 
 	*/
-	function _addMethod(& $method, $path, $type)
+	function _addMethod($method, $path, $type)
 	{
 		ArgumentValidator::validate($method, ExtendsValidatorRule::getRule("StorageMethodInterface"), true);
 		ArgumentValidator::validate($path, StringValidatorRule::getRule(), true); 
@@ -253,7 +253,7 @@ class StorageHandler {
 		ArgumentValidator::validate($type, ChoiceValidatorRule::getRule(STORAGE_PRIMARY, MIRROR_SHALLOW, MIRROR_DEEP)); 
 		// ok, we should be good
 		$id = $this->_num;
-		$this->_methods[$id] = & $method;
+		$this->_methods[$id] =  $method;
 		$this->_paths[$id] = $path;
 		$this->_types[$id] = $type;
 		if (!$this->_pathDefined($path)) $this->_pathsRegistered[] = $path; 
@@ -483,12 +483,12 @@ class StorageHandler {
 	* @access public 
 	* @return boolean TRUE on success, FALSE otherwise.
 	*/
-	function store(& $storable, $path, $name)
+	function store($storable, $path, $name)
 	{
 		$this->_checkMethods();
 		$this->_checkPath($path); 
 		// validate all the parameters
-		$s = & StringValidatorRule::getRule();
+		$s =  StringValidatorRule::getRule();
 		ArgumentValidator::validate($storable, ExtendsValidatorRule::getRule("AbstractStorable"));
 		ArgumentValidator::validate($path, $s);
 		ArgumentValidator::validate($name, $s); 
@@ -520,24 +520,24 @@ class StorageHandler {
 	* @return object The Storable object associated with $path/$name. False if
 	* it could not be found.
 	*/
-	function &retrieve($path, $name)
+	function retrieve($path, $name)
 	{
 		$this->_checkMethods();
 		$this->_checkPath($path); 
 		// validate all arguments
-		$s = & StringValidatorRule::getRule();
+		$s =  StringValidatorRule::getRule();
 		ArgumentValidator::validate($path, $s);
 		ArgumentValidator::validate($name, $s); 
 		// first, let's try and get $name from the primary method
 		$id = $this->_getPrimaryForPath($path);
-		$storable = & $this->_methods[$id]->retrieve($this->_translatePathForMethod($id, $path), $name);
+		$storable =  $this->_methods[$id]->retrieve($this->_translatePathForMethod($id, $path), $name);
 		if ($storable)
 			return $this->_createVirtual($storable, $id);
 		unset($storable); 
 		// hmm, that didn't work... let's try a backup server, or two, or more
 		$ids = $this->_getBackupsForPath($path);
 		foreach ($ids as $id) {
-			$storable = & $this->_methods[$id]->retrieve($this->_translatePathForMethod($id, $path), $name);
+			$storable =  $this->_methods[$id]->retrieve($this->_translatePathForMethod($id, $path), $name);
 			if ($storable) // yay!
 				return $this->_createVirtual($storable, $id); 
 			// ugh...
@@ -554,9 +554,9 @@ class StorageHandler {
 	* @access public 
 	* @return object VirtualStorable
 	*/
-	function &_createVirtual(& $storable, $id)
+	function _createVirtual($storable, $id)
 	{
-		$virtual = & new VirtualStorable($this->_paths[$id], $storable);
+		$virtual =  new VirtualStorable($this->_paths[$id], $storable);
 		return $virtual;
 	}
 
@@ -568,11 +568,11 @@ class StorageHandler {
 	* @access public 
 	* @return array 
 	*/
-	function &_createVirtualsArray(& $array, $id)
+	function _createVirtualsArray($array, $id)
 	{
 		$newArray = array();
 		for ($i = 0; $i < count($array); $i++) {
-			$newArray[] = & $this->_createVirtual($array[$i], $id);
+			$newArray[] =  $this->_createVirtual($array[$i], $id);
 		}
 		return $newArray;
 	}
@@ -590,7 +590,7 @@ class StorageHandler {
 		$this->_checkMethods();
 		$this->_checkPath($path); 
 		// validate all arguments
-		$s = & StringValidatorRule::getRule();
+		$s =  StringValidatorRule::getRule();
 		ArgumentValidator::validate($path, $s);
 		ArgumentValidator::validate($name, $s); 
 		// let's delete it from the primary first.
@@ -618,7 +618,7 @@ class StorageHandler {
 		// since moving files accross methods could be very tedious and annoying
 		// we're going to define a move as a retrieve, a store, and a delete
 		// let's first validate our arguments though
-		$s = & FieldRequiredValidatorRule::getRule();
+		$s =  FieldRequiredValidatorRule::getRule();
 		ArgumentValidator::validate($sourcePath, $s);
 		ArgumentValidator::validate($sourceName, $s);
 		ArgumentValidator::validate($destinationPath, $s);
@@ -629,7 +629,7 @@ class StorageHandler {
 				($sourceName == $destinationName)) // retards
 			return false; 
 		// now let's actually do the dirty
-		$storable = & $this->retrieve($sourcePath, $sourceName);
+		$storable =  $this->retrieve($sourcePath, $sourceName);
 		if ($storable) { // we found it, good
 			if ($this->store($storable, $destinationPath, $destinationName)) {
 				// only if we successfully stored the new one do we delete
@@ -654,7 +654,7 @@ class StorageHandler {
 		// since copying files accross methods could be very tedious and annoying
 		// we're going to define a move as a retrieve and a store
 		// let's first validate our arguments though
-		$s = & FieldRequiredValidatorRule::getRule();
+		$s =  FieldRequiredValidatorRule::getRule();
 		ArgumentValidator::validate($sourcePath, $s);
 		ArgumentValidator::validate($sourceName, $s);
 		ArgumentValidator::validate($destinationPath, $s);
@@ -665,7 +665,7 @@ class StorageHandler {
 				($sourceName == $destinationName)) // retards
 			return false; 
 		// now let's actually do the dirty
-		$storable = & $this->retrieve($sourcePath, $sourceName);
+		$storable =  $this->retrieve($sourcePath, $sourceName);
 		if ($storable) { // we found it, good
 			$this->store($storable, $destinationPath, $destinationName);
 		}
@@ -712,7 +712,7 @@ class StorageHandler {
 		$this->_checkMethods();
 		$this->_checkPath($path); 
 		// validate all arguments
-		$s = & StringValidatorRule::getRule();
+		$s =  StringValidatorRule::getRule();
 		ArgumentValidator::validate($path, $s); 
 		// we have two options... either we are looking for the size of a file,
 		// or the recursive size of a path.
@@ -748,14 +748,14 @@ class StorageHandler {
 	{ 
 		// first, let's try and get the size of $path/[$name] from the primary method
 		$id = $this->_getPrimaryForPath($path);
-		$size = & $this->_methods[$id]->getSizeOf($this->_translatePathForMethod($id, $path), $name); 
+		$size =  $this->_methods[$id]->getSizeOf($this->_translatePathForMethod($id, $path), $name); 
 		// if we're just getting the size of one file, and the primary succeeded in finding
 		// it, return that value.
 		if ($size) return $size; 
 		// hmm, that didn't work... let's try a backup server, or two, or more
 		$ids = $this->_getBackupsForPath($path);
 		foreach ($ids as $id) {
-			$size = & $this->_methods[$id]->getSizeOf($this->_translatePathForMethod($id, $path), $name);
+			$size =  $this->_methods[$id]->getSizeOf($this->_translatePathForMethod($id, $path), $name);
 			if ($size) // yay!
 				return $size;
 		}
@@ -783,7 +783,7 @@ class StorageHandler {
 
 		$storables = array();
 		foreach ($ids as $id) {
-			$tempArray =& $this->_methods[$id]->listInPath($this->_translatePathForMethod($id, $path), $recursive);
+			$tempArray =$this->_methods[$id]->listInPath($this->_translatePathForMethod($id, $path), $recursive);
 			$storables = array_merge($storables, $this->_createVirtualsArray($tempArray, $id));
 		}
 		return $this->_removeDuplicateStorables($storables);
@@ -796,7 +796,7 @@ class StorageHandler {
 	* @access public 
 	* @return void 
 	*/
-	function &_removeDuplicateStorables(& $array)
+	function _removeDuplicateStorables($array)
 	{
 		$files = array();
 		$newArray = array();
@@ -804,7 +804,7 @@ class StorageHandler {
 			$file = $array[$i]->getPath() . '/' . $array[$i]->getName();
 			if (!in_array($file, $files)) {
 				$files[] = $file;
-				$newArray[] = & $array[$i];
+				$newArray[] =  $array[$i];
 			}
 		} // for
 		return $newArray;
@@ -824,7 +824,7 @@ class StorageHandler {
 		$this->_checkMethods();
 		$this->_checkPath($path); 
 		// validate all arguments
-		$s = & StringValidatorRule::getRule();
+		$s =  StringValidatorRule::getRule();
 		ArgumentValidator::validate($path, $s); 
 		// first check the primary, then the backups
 		$id = $this->_getPrimaryForPath($path);
@@ -852,7 +852,7 @@ class StorageHandler {
 		$this->_checkMethods();
 		$this->_checkPath($path); 
 		// validate all arguments
-		$s = & StringValidatorRule::getRule();
+		$s =  StringValidatorRule::getRule();
 		ArgumentValidator::validate($path, $s); 
 		// we can only use primaries for this
 		// an alternative is to do a listInPath with recursive = true and then count the array

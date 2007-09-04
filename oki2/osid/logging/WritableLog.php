@@ -81,7 +81,7 @@ class WritableLog
      * 
      * @access public
      */
-    function appendLog ( &$entryItem ) { 
+    function appendLog ( $entryItem ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -108,7 +108,7 @@ class WritableLog
      * 
      * @access public
      */
-    function appendLogWithTypes ( &$entryItem, &$formatType, &$priorityType ) { 
+    function appendLogWithTypes ( $entryItem, $formatType, $priorityType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -134,7 +134,7 @@ class WritableLog
      * 
      * @access public
      */
-    function assignPriorityType ( &$priorityType ) { 
+    function assignPriorityType ( $priorityType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -160,7 +160,7 @@ class WritableLog
      * 
      * @access public
      */
-    function assignFormatType ( &$formatType ) { 
+    function assignFormatType ( $formatType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 }

@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MIMETypes.class.php,v 1.10 2005/10/13 13:57:16 adamfranco Exp $
+ * @version $Id: MIMETypes.class.php,v 1.11 2007/09/04 20:25:54 adamfranco Exp $
  */
 class MIMETypes {
 
@@ -224,8 +224,8 @@ class MIMETypes {
 	 * 
 	 * @access public
 	 */
-	function assignConfiguration ( &$configuration ) { 
-		$this->_configuration =& $configuration;
+	function assignConfiguration ( $configuration ) { 
+		$this->_configuration =$configuration;
 	}
 
 	/**
@@ -237,7 +237,7 @@ class MIMETypes {
 	 * 
 	 * @access public
 	 */
-	function &getOsidContext () { 
+	function getOsidContext () { 
 		return $this->_osidContext;
 	} 
 
@@ -252,8 +252,8 @@ class MIMETypes {
 	 * 
 	 * @access public
 	 */
-	function assignOsidContext ( &$context ) { 
-		$this->_osidContext =& $context;
+	function assignOsidContext ( $context ) { 
+		$this->_osidContext =$context;
 	} 
 		
 	/**

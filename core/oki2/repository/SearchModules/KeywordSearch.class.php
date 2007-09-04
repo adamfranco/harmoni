@@ -10,7 +10,7 @@ require_once(dirname(__FILE__)."/SearchModule.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: KeywordSearch.class.php,v 1.5 2006/02/15 21:11:52 adamfranco Exp $
+ * @version $Id: KeywordSearch.class.php,v 1.6 2007/09/04 20:25:47 adamfranco Exp $
  */
 
 class KeywordSearch
@@ -25,7 +25,7 @@ class KeywordSearch
 	 * @since 11/2/04
 	 */
 	function KeywordSearch ( $dr ) {
-		$this->_dr =& $dr;
+		$this->_dr =$dr;
 	}
 	
 	
@@ -38,12 +38,12 @@ class KeywordSearch
 	 * @access public
 	 * @since 11/2/04
 	 */
-	function &searchAssets ( $searchCriteria ) {
+	function searchAssets ( $searchCriteria ) {
 		$matchingIds = array();
 		
-		$recordMgr =& Services::getService("RecordManager");
-		$schemaMgr =& Services::getService("SchemaManager");
-		$drMgr =& Services::getService("Repository");
+		$recordMgr = Services::getService("RecordManager");
+		$schemaMgr = Services::getService("SchemaManager");
+		$drMgr = Services::getService("Repository");
 		
 		$schemaIDs = $schemaMgr->getAllSchemaIDs();
 		
@@ -52,15 +52,15 @@ class KeywordSearch
 		$assetContentID = "edu.middlebury.harmoni.repository.asset_content";
 		
 		// Create the search criteria object
-		$criteria =& new OrSearch();
+		$criteria = new OrSearch();
 		
 		// create one string value
-		$stringValue =& String::withValue($searchCriteria);
+		$stringValue = String::withValue($searchCriteria);
 		
 		foreach ($schemaIDs as $schemaID) {
 			if ($schemaID != $assetContentID) {
 				
-				$schema =& $schemaMgr->getSchemaByID($schemaID);
+				$schema =$schemaMgr->getSchemaByID($schemaID);
 				$schema->load();
 				$ids = $schema->getAllFieldIDs();
 				
@@ -76,27 +76,27 @@ class KeywordSearch
 		}
 		
 		// Get the asset Ids to limit to.
-		$allAssets =& $this->_dr->getAssets();
+		$allAssets =$this->_dr->getAssets();
 		$idStrings = array();
 		while ($allAssets->hasNext()) {
-			$asset =& $allAssets->next();
-			$id =& $asset->getId();
+			$asset =$allAssets->next();
+			$id =$asset->getId();
 			$idStrings[] = $id->getIdString();
 		}
 		
 		// Run the search		
 		$matchingIds = array_unique($recordMgr->getRecordSetIDsBySearch($criteria, $idStrings));		
 				
-		$idManager =& Services::getService("Id");
+		$idManager = Services::getService("Id");
 		
 		// Include Searches of displayname and description
-		$displayNameSearch =& new DisplayNameSearch($this->_dr);
+		$displayNameSearch = new DisplayNameSearch($this->_dr);
 		$displayNameResults = $displayNameSearch->searchAssets($searchCriteria);
 		for ($i = 0; $i < count($displayNameResults); $i++) {
 			$matchingIds[] = $displayNameResults[$i]->getIdString();
 		}
 		
-		$descriptionSearch =& new DescriptionSearch($this->_dr);
+		$descriptionSearch = new DescriptionSearch($this->_dr);
 		$descriptionResults = $descriptionSearch->searchAssets($searchCriteria);
 		for ($i=0; $i<count($descriptionResults); $i++) {
 			$matchingIds[] = $descriptionResults[$i]->getIdString();
@@ -105,9 +105,9 @@ class KeywordSearch
 		// Ensure uniqueness and convert the ids to id objects.
 		$matchingIds = array_unique($matchingIds);
 		sort($matchingIds);
-		$idManager =& Services::getService("Id");
+		$idManager = Services::getService("Id");
 		for ($i=0; $i<count($matchingIds); $i++) {
-			$matchingIds[$i] =& $idManager->getId($matchingIds[$i]);
+			$matchingIds[$i] =$idManager->getId($matchingIds[$i]);
 		}
 		
 		// Return the array

@@ -13,7 +13,7 @@ require_once(HARMONI."errorHandler/SimpleHTMLErrorPrinter.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ErrorHandler.class.php,v 1.17 2006/11/30 22:02:17 adamfranco Exp $
+ * @version $Id: ErrorHandler.class.php,v 1.18 2007/09/04 20:25:34 adamfranco Exp $
  */
 
 class ErrorHandler extends ErrorHandlerInterface{
@@ -72,8 +72,8 @@ class ErrorHandler extends ErrorHandlerInterface{
 	 * 
 	 * @access public
 	 */
-	function assignConfiguration ( &$configuration ) { 
-		$this->_configuration =& $configuration;
+	function assignConfiguration ( $configuration ) { 
+		$this->_configuration =$configuration;
 	}
 
 	/**
@@ -85,7 +85,7 @@ class ErrorHandler extends ErrorHandlerInterface{
 	 * 
 	 * @access public
 	 */
-	function &getOsidContext () { 
+	function getOsidContext () { 
 		return $this->_osidContext;
 	} 
 
@@ -100,8 +100,8 @@ class ErrorHandler extends ErrorHandlerInterface{
 	 * 
 	 * @access public
 	 */
-	function assignOsidContext ( &$context ) { 
-		$this->_osidContext =& $context;
+	function assignOsidContext ( $context ) { 
+		$this->_osidContext =$context;
 	} 
 	
 	/**
@@ -124,7 +124,7 @@ class ErrorHandler extends ErrorHandlerInterface{
      * @param object Error An error object to be added to the queue.
      * @access public
      */
-	function addError(& $error){
+	function addError($error){
 		$this->_errorQueue->add($error);
 		
 		
@@ -141,15 +141,15 @@ class ErrorHandler extends ErrorHandlerInterface{
 			}
 		}
 		if (Services::serviceRunning("Logging") && !$errorLoggingRecursion) {
-			$loggingManager =& Services::getService("Logging");
-			$log =& $loggingManager->getLogForWriting("Harmoni");
-			$formatType =& new Type("logging", "edu.middlebury", "AgentsAndNodes",
+			$loggingManager = Services::getService("Logging");
+			$log =$loggingManager->getLogForWriting("Harmoni");
+			$formatType = new Type("logging", "edu.middlebury", "AgentsAndNodes",
 							"A format in which the acting Agent[s] and the target nodes affected are specified.");
-			$priorityType =& new Type("logging", "edu.middlebury",
+			$priorityType = new Type("logging", "edu.middlebury",
 								(($error->isFatal())?"Fatal_Error":"Error"),
 								"Events involving critical system errors.");
 			
-			$item =& new AgentNodeEntryItem($error->getType(), $error->getDescription());
+			$item = new AgentNodeEntryItem($error->getType(), $error->getDescription());
 			$item->setBacktrace($error->getDebugBacktrace());
 			$item->addTextToBactrace("\n<div><strong>REQUEST_URI: </strong>".$_SERVER['REQUEST_URI']."</div>");
 			if (isset($_SERVER['HTTP_REFERER']))
@@ -180,8 +180,8 @@ class ErrorHandler extends ErrorHandlerInterface{
 	 * @return object Error Reference to the error object that was created.
 	 * @access public
 	 */
-	function &addNewError($description,$type,$isFatal = false){
-		$newError =& new Error($description,$type,$isFatal);
+	function addNewError($description,$type,$isFatal = false){
+		$newError = new Error($description,$type,$isFatal);
 		$this->addError($newError);
 
 		return $newError;
@@ -196,7 +196,7 @@ class ErrorHandler extends ErrorHandlerInterface{
 		$errorArray = array();
 
 		while($this->_errorQueue->hasNext()){
-			$error =& $this->_errorQueue->next();
+			$error =$this->_errorQueue->next();
 			
 			$str = "";
 			if ($error->getType())
@@ -214,7 +214,7 @@ class ErrorHandler extends ErrorHandlerInterface{
 	 * @return object
 	 * @access public
 	 */
-	function &getErrorQueue() {
+	function getErrorQueue() {
 		return $this->_errorQueue;
 	}
 
@@ -241,7 +241,7 @@ class ErrorHandler extends ErrorHandlerInterface{
      * @param object ErrorPrinter The Error printer to be added to the queue.
 	 * @access public
 	 */
-	function addErrorPrinter(& $printer){
+	function addErrorPrinter($printer){
 		$this->_printerQueue->add($printer);
 	}
 
@@ -256,7 +256,7 @@ class ErrorHandler extends ErrorHandlerInterface{
 	 */
 	function printErrors($detailLevel = NORMAL_DETAIL) {
 		while($this->_printerQueue->hasNext()){
-			$printer =& $this->_printerQueue->next();
+			$printer =$this->_printerQueue->next();
 			$printer->printErrors($this->_errorQueue, $detailLevel);
 		}
 		$this->_printerQueue->rewind();

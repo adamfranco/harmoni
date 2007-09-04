@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StatisticsHandler.class.php,v 1.3 2005/01/19 21:10:15 adamfranco Exp $
+ * @version $Id: StatisticsHandler.class.php,v 1.4 2007/09/04 20:25:54 adamfranco Exp $
  */
 class StatisticsHandler {
 
@@ -25,7 +25,7 @@ class StatisticsHandler {
     * @access public
     */	
 
-	function StatisticsHandler(& $data) { 
+	function StatisticsHandler($data) { 
 		if(is_array($data)){
 			$this->_data = $data;
 		}
@@ -206,7 +206,7 @@ class StatisticsHandler {
     * @return float The discrimination of the second set in accordance with the first.
     * @access public
     */
-	function getSecondaryDiscrimination(& $secondData) { 
+	function getSecondaryDiscrimination($secondData) { 
 		if (is_array($secondData))
 			$second = $secondData;
 		else {

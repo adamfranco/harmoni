@@ -11,7 +11,7 @@ require_once(HARMONI . "utilities/DataContainer.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DatabaseStorableDataContainer.class.php,v 1.6 2005/03/29 19:44:30 adamfranco Exp $
+ * @version $Id: DatabaseStorableDataContainer.class.php,v 1.7 2007/09/04 20:25:51 adamfranco Exp $
  */
 
 class DatabaseStorableDataContainer extends DataContainer {
@@ -33,8 +33,8 @@ class DatabaseStorableDataContainer extends DataContainer {
 		$this -> init(); 
 
 		// add the fields we want to allow
-		$stringValidatorRule =& StringValidatorRule::getRule();
-		$integerValidatorRule =& IntegerValidatorRule::getRule();
+		$stringValidatorRule = StringValidatorRule::getRule();
+		$integerValidatorRule = IntegerValidatorRule::getRule();
 		$this -> add("dbIndex",  $integerValidatorRule);
 		$this -> add("dbTable", $stringValidatorRule);
 		$this -> add("pathColumn", $stringValidatorRule);

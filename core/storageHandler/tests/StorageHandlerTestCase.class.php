@@ -13,7 +13,7 @@ require_once(HARMONI . "storageHandler/StorageMethods/DummyStorageMethod.class.p
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorageHandlerTestCase.class.php,v 1.5 2005/04/07 16:33:30 adamfranco Exp $
+ * @version $Id: StorageHandlerTestCase.class.php,v 1.6 2007/09/04 20:25:53 adamfranco Exp $
 */
 
 class StorageHandlerTestCase extends UnitTestCase {
@@ -31,10 +31,10 @@ class StorageHandlerTestCase extends UnitTestCase {
 	var $m,$er;
 	function setUp()
 	{
-		$this->m = & new StorageHandler;
-		$er = & Services::getService("ErrorHandler");
+		$this->m =  new StorageHandler;
+		$er =  Services::getService("ErrorHandler");
 		$er->setDebugMode(true);
-		$this->er =& $er;
+		$this->er =$er;
 	}
 
 	/**
@@ -123,19 +123,19 @@ class StorageHandlerTestCase extends UnitTestCase {
 		
 		$this->assertFalse($this->m->exists('/'));
 		$this->assertFalse($this->m->exists("/","test1.txt"));
-		$file =& new DummyStorable("/","test1.txt","This is test1!");
+		$file = new DummyStorable("/","test1.txt","This is test1!");
 		$this->m->store($file,"/","test1.txt");
 		$this->assertTrue($this->m->exists("/","test1.txt"));
 		$this->assertTrue($this->m->exists("/"));
 		
-		$storable=& $this->m->retrieve("/","test1.txt");
+		$storable=$this->m->retrieve("/","test1.txt");
 		$this->assertFalse($this->m->retrieve("/","nofile.txt"));
 		$this->assertEqual($storable->getSize(),14);
 		$this->assertEqual($storable->getName(),"test1.txt");
 		$this->assertEqual($storable->getPath(),"/");
 		$this->assertEqual($storable->getData(),"This is test1!");
 		
-		$file2 =& new DummyStorable("/test/","test2.txt","This is test2!");
+		$file2 = new DummyStorable("/test/","test2.txt","This is test2!");
 		$this->assertFalse($this->m->exists('/test'));
 		$this->assertFalse($this->m->exists("/test/","test2.txt"));
 		$this->m->store($file2,"/test","test2.txt");
@@ -171,7 +171,7 @@ class StorageHandlerTestCase extends UnitTestCase {
 		// we now have primaries for /, /test/ and /test/crap/stuff/
 		// and backups for / (which is deep), and a shallow one for /test/crap/stuff/
 		
-		$file =& new DummyStorable("/a/folder","test1.txt","Backed-up content!");
+		$file = new DummyStorable("/a/folder","test1.txt","Backed-up content!");
 		// when we store the above file, it should appear on id 0 and 3.
 		$this->m->store($file,"/a/folder","test1.txt");
 		$this->assertEqual($this->m->_methods[0]->getCount("/",true),1);
@@ -180,7 +180,7 @@ class StorageHandlerTestCase extends UnitTestCase {
 		$this->assertEqual($this->m->_methods[3]->getCount("/",true),1);
 		$this->assertEqual($this->m->_methods[4]->getCount("/",true),0);
 		
-		$storable =& $this->m->retrieve("/a/folder","test1.txt");
+		$storable =$this->m->retrieve("/a/folder","test1.txt");
 		$this->assertEqual($storable->getData(),"Backed-up content!");
 		
 		// now let's delete the file on the primary.
@@ -190,7 +190,7 @@ class StorageHandlerTestCase extends UnitTestCase {
 		$this->assertEqual($this->m->getCount("/",true),0);
 		
 		// but we should still be able to recieve it
-		$backedup =& $this->m->retrieve("/a/folder","test1.txt");
+		$backedup =$this->m->retrieve("/a/folder","test1.txt");
 		$this->assertTrue(is_object($backedup));
 		$this->assertEqual($backedup->getData(),"Backed-up content!");
 		$this->assertTrue($this->m->exists("/a/folder","test1.txt"));
@@ -214,7 +214,7 @@ class StorageHandlerTestCase extends UnitTestCase {
 		// it's on backups 3 (deep) and 4 (shallow)
 		$this->m->_methods[2]->delete("/more/","test2.txt");
 		$this->assertEqual($this->m->getCount("/test/",true),0);
-		$backup =& $this->m->retrieve("/test/crap/stuff/more","test2.txt");
+		$backup =$this->m->retrieve("/test/crap/stuff/more","test2.txt");
 		$this->assertTrue(is_object($backup));
 		$this->assertEqual($backup->getPath(),"/test/crap/stuff/more/");
 		$this->assertEqual($backup->getName(),"test2.txt");
@@ -223,7 +223,7 @@ class StorageHandlerTestCase extends UnitTestCase {
 		
 		// now remove it from one of the backups.. the shallow one
 		$this->m->_methods[4]->delete("/more/","test2.txt");
-		$backup =& $this->m->retrieve("/test/crap/stuff/more","test2.txt");
+		$backup =$this->m->retrieve("/test/crap/stuff/more","test2.txt");
 		$this->assertTrue(is_object($backup));
 		$this->assertEqual($backup->getPath(),"/test/crap/stuff/more/");
 		$this->assertEqual($backup->getName(),"test2.txt");
@@ -268,7 +268,7 @@ class StorageHandlerTestCase extends UnitTestCase {
 		$this->m->addBackupMethod(new DummyStorageMethod, "/", MIRROR_DEEP); // id=3
 		$this->m->addBackupMethod(new DummyStorageMethod,"/test/crap/stuff",MIRROR_SHALLOW); // id=4
 		
-		$backup =& new DummyStorable("/a/folder","test1.txt","Some stupid content!");
+		$backup = new DummyStorable("/a/folder","test1.txt","Some stupid content!");
 		
 		$this->m->store($backup, "/dir1/","file1.txt");
 		$this->m->store($backup, "/dir1/dir12","file1.txt");

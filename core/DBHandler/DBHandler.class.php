@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DBHandler.class.php,v 1.21 2006/11/30 22:01:59 adamfranco Exp $
+ * @version $Id: DBHandler.class.php,v 1.22 2007/09/04 20:25:18 adamfranco Exp $
  */
  
 /**
@@ -68,7 +68,7 @@ require_once(HARMONI."Primitives/Chronology/include.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DBHandler.class.php,v 1.21 2006/11/30 22:01:59 adamfranco Exp $
+ * @version $Id: DBHandler.class.php,v 1.22 2007/09/04 20:25:18 adamfranco Exp $
  */
 
 class DBHandler { 
@@ -111,8 +111,8 @@ class DBHandler {
 	 * 
 	 * @access public
 	 */
-	function assignConfiguration ( &$configuration ) { 
-		$this->_configuration =& $configuration;
+	function assignConfiguration ( $configuration ) { 
+		$this->_configuration =$configuration;
 	}
 
 	/**
@@ -124,7 +124,7 @@ class DBHandler {
 	 * 
 	 * @access public
 	 */
-	function &getOsidContext () { 
+	function getOsidContext () { 
 		return $this->_osidContext;
 	} 
 
@@ -139,8 +139,8 @@ class DBHandler {
 	 * 
 	 * @access public
 	 */
-	function assignOsidContext ( &$context ) { 
-		$this->_osidContext =& $context;
+	function assignOsidContext ( $context ) { 
+		$this->_osidContext =$context;
 	} 
 	
 	/**
@@ -149,13 +149,13 @@ class DBHandler {
 	 * @param ref object database
 	 * @return mixed $dbIndex The index of the new database, if it was created successfully; False, otherwise.
 	 */
-	function addDatabase(& $database) {
+	function addDatabase($database) {
 		// ** parameter validation
-		$extendsRule =& ExtendsValidatorRule::getRule("DatabaseInterface");
+		$extendsRule = ExtendsValidatorRule::getRule("DatabaseInterface");
 		ArgumentValidator::validate($database, $extendsRule, true);
 		// ** end of parameter validation
 
-		$this->_databases[] =& $database;
+		$this->_databases[] =$database;
 		
 		// return the index of the database we just created
 		return (count($this->_databases) - 1);
@@ -176,8 +176,8 @@ class DBHandler {
 	 */
 	function createDatabase($dbType, $dbHost, $dbName, $dbUser, $dbPass) {
 		// ** parameter validation
-		$stringRule =& StringValidatorRule::getRule();
-		$integerRule =& IntegerValidatorRule::getRule();
+		$stringRule = StringValidatorRule::getRule();
+		$integerRule = IntegerValidatorRule::getRule();
 		ArgumentValidator::validate($dbType, $integerRule, true);
 		ArgumentValidator::validate($dbHost, $stringRule, true);
 		ArgumentValidator::validate($dbName, $stringRule, true);
@@ -189,13 +189,13 @@ class DBHandler {
 		// depending on $dbType, instantiate the corresponding Database object.
 		switch ($dbType) {
 			case MYSQL : 
-				$this->_databases[] =& new MySQLDatabase($dbHost, $dbName, $dbUser, $dbPass);
+				$this->_databases[] = new MySQLDatabase($dbHost, $dbName, $dbUser, $dbPass);
 				break;
 			case ORACLE :
 				;
 				break;
 			case POSTGRESQL :
-				$this->_databases[] =& new PostGreDatabase($dbHost, $dbName, $dbUser, $dbPass);
+				$this->_databases[] = new PostGreDatabase($dbHost, $dbName, $dbUser, $dbPass);
 				break;
 			case SQLSERVER :
 				;
@@ -234,15 +234,15 @@ class DBHandler {
 	 * @return object QueryResultInterface Returns a QueryResult object that impliments QueryResultInterface and corresponds to the DB configuration.
 	 * @access public
 	 */
-	function &query(& $query, $dbIndex=0) {
+	function query($query, $dbIndex=0) {
 		// ** parameter validation
-		$queryRule =& ExtendsValidatorRule::getRule("QueryInterface");
+		$queryRule = ExtendsValidatorRule::getRule("QueryInterface");
 		ArgumentValidator::validate($query, $queryRule, true);
 		$this->_validateDBIndex($dbIndex);
 		// ** end of parameter validation
 		
 		// run the query on the appropriate database.
-		$result =& $this->_databases[$dbIndex]->query($query);
+		$result =$this->_databases[$dbIndex]->query($query);
 		
 		return $result;
 	}
@@ -255,16 +255,16 @@ class DBHandler {
 	 * @return object QueInterface Returns a Queue of QueryResults.
 	 * @access public
 	 */
-	function &queryQueue(& $queue, $dbIndex=0) {
+	function queryQueue($queue, $dbIndex=0) {
 		// ** parameter validation
-		$queueRule =& ExtendsValidatorRule::getRule("Queue");
+		$queueRule = ExtendsValidatorRule::getRule("Queue");
 		ArgumentValidator::validate($queue, $queueRule, true);
 		$this->_validateDBIndex($dbIndex);
 		// ** end of parameter validation
 
-		$resultQueue =& new Queue();
+		$resultQueue = new Queue();
 		while ($queue->hasNext()) {
-			$result =& $this->_databases[$dbIndex]->query($queue->next());
+			$result =$this->_databases[$dbIndex]->query($queue->next());
 			$resultQueue->add($result);
 		}
 		return $resultQueue;
@@ -414,7 +414,7 @@ class DBHandler {
 	 * @param integer dbIndex The index of the database to use (0 by default).
 	 * @return mixed A proper datetime/timestamp/time representation for this Database.
 	 */
-	function toDBDate(& $dateAndTime, $dbIndex = 0) {
+	function toDBDate($dateAndTime, $dbIndex = 0) {
 		// ** parameter validation
 		ArgumentValidator::validate($dateAndTime, 
 			HasMethodsValidatorRule::getRule("asDateAndTime"), true);
@@ -435,7 +435,7 @@ class DBHandler {
 	 * @param integer dbIndex The index of the database to use (0 by default).
 	 * @return ref object The DateAndTime object.
 	 */
-	function &fromDBDate($value, $dbIndex = 0) {
+	function fromDBDate($value, $dbIndex = 0) {
 		// ** parameter validation
 		$this->_validateDBIndex($dbIndex);
 		// ** end of parameter validation

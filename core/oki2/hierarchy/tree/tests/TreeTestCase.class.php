@@ -12,7 +12,7 @@ require_once(dirname(__FILE__)."/../Tree.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TreeTestCase.class.php,v 1.6 2005/04/13 20:17:40 adamfranco Exp $
+ * @version $Id: TreeTestCase.class.php,v 1.7 2007/09/04 20:25:42 adamfranco Exp $
  */
 
 	class TreeTestCase extends UnitTestCase {
@@ -43,15 +43,15 @@ require_once(dirname(__FILE__)."/../Tree.class.php");
 		 */ 
 		function test_everything() {
 			// initialize
-			$tree =& new Tree();
+			$tree = new Tree();
 			
 			$this->assertNotNull($tree);
 			
 			$this->assertIdentical($tree->getSize(), 0);
 			
 			// create two root nodes
-			$node1 =& new TreeNode('1');
-			$node2 =& new TreeNode('2');
+			$node1 = new TreeNode('1');
+			$node2 = new TreeNode('2');
 			$tree->addNode($node1);
 			$tree->addNode($node2);
 			
@@ -62,15 +62,15 @@ require_once(dirname(__FILE__)."/../Tree.class.php");
 			$this->assertReference($tree->getNode('2'), $node2);
 			
 			// insert some children
-			$node3 =& new TreeNode('3');
-			$node4 =& new TreeNode('4');
-			$node5 =& new TreeNode('5');
+			$node3 = new TreeNode('3');
+			$node4 = new TreeNode('4');
+			$node5 = new TreeNode('5');
 			$tree->addNode($node3, $node2);
 			$tree->addNode($node4, $node2);
 			$tree->addNode($node5, $node3);
 			$this->assertIdentical($tree->getSize(), 5);
 
-			$nodes =& $tree->getNodes();
+			$nodes =$tree->getNodes();
 
 			$this->assertReference($nodes['1'], $node1);
 			$this->assertReference($nodes['2'], $node2);
@@ -78,11 +78,11 @@ require_once(dirname(__FILE__)."/../Tree.class.php");
 			$this->assertReference($nodes['4'], $node4);
 			$this->assertReference($nodes['5'], $node5);
 			
-			$node =& $tree->getNode('5');
-			$parents =& $node->getParents();
-			$node =& $parents['3'];
-			$parents =& $node->getParents();
-			$node =& $parents['2'];
+			$node =$tree->getNode('5');
+			$parents =$node->getParents();
+			$node =$parents['3'];
+			$parents =$node->getParents();
+			$node =$parents['2'];
 			$this->assertReference($node, $node2);
 		}
 		
@@ -92,23 +92,23 @@ require_once(dirname(__FILE__)."/../Tree.class.php");
 		 */ 
 		function test_traversal1() {
 			// initialize
-			$tree =& new Tree();
+			$tree = new Tree();
 		
 			// create a tree
-			$node1 =& new TreeNode('1');
-			$node1_1 =& new TreeNode('1_1');
-			$node1_2 =& new TreeNode('1_2');
-			$node1_2_1 =& new TreeNode('1_2_1');
-			$node1_2_2 =& new TreeNode('1_2_2');
-			$node1_2_2_1 =& new TreeNode('1_2_2_1');
-			$node1_2_2_2 =& new TreeNode('1_2_2_2');
-			$node2 =& new TreeNode('2');
-			$node2_3 =& new TreeNode('2_3');
-			$node2_3_3 =& new TreeNode('2_3_3');
-			$node2_3_4 =& new TreeNode('2_3_4');
-			$node3 =& new TreeNode('3');
-			$node3_1 =& new TreeNode('3_1');
-			$node3_1_1 =& new TreeNode('3_1_1');
+			$node1 = new TreeNode('1');
+			$node1_1 = new TreeNode('1_1');
+			$node1_2 = new TreeNode('1_2');
+			$node1_2_1 = new TreeNode('1_2_1');
+			$node1_2_2 = new TreeNode('1_2_2');
+			$node1_2_2_1 = new TreeNode('1_2_2_1');
+			$node1_2_2_2 = new TreeNode('1_2_2_2');
+			$node2 = new TreeNode('2');
+			$node2_3 = new TreeNode('2_3');
+			$node2_3_3 = new TreeNode('2_3_3');
+			$node2_3_4 = new TreeNode('2_3_4');
+			$node3 = new TreeNode('3');
+			$node3_1 = new TreeNode('3_1');
+			$node3_1_1 = new TreeNode('3_1_1');
 			
 			$tree->addNode($node1);
 			$tree->addNode($node1_1, $node1);
@@ -127,7 +127,7 @@ require_once(dirname(__FILE__)."/../Tree.class.php");
 			
 			$this->assertIdentical($tree->getSize(), 14);
 
-			$resultFromObject =& $tree->traverse($node1, true, -1);
+			$resultFromObject =$tree->traverse($node1, true, -1);
 			
 			$this->assertIdentical(count($resultFromObject), 7);
 			$this->assertReference($resultFromObject['1'][0], $node1);
@@ -138,14 +138,14 @@ require_once(dirname(__FILE__)."/../Tree.class.php");
 			$this->assertReference($resultFromObject['1_2_2_1'][0], $node1_2_2_1);
 			$this->assertReference($resultFromObject['1_2_2_2'][0], $node1_2_2_2);
 
-			$resultFromObject =& $tree->traverse($node2_3, true, -1);
+			$resultFromObject =$tree->traverse($node2_3, true, -1);
 			
 			$this->assertIdentical(count($resultFromObject), 3);
 			$this->assertReference($resultFromObject['2_3'][0], $node2_3);
 			$this->assertReference($resultFromObject['2_3_3'][0], $node2_3_3);
 			$this->assertReference($resultFromObject['2_3_4'][0], $node2_3_4);
 
-			$resultFromObject =& $tree->traverse($node1, true, -1);
+			$resultFromObject =$tree->traverse($node1, true, -1);
 }
 
 
@@ -154,7 +154,7 @@ require_once(dirname(__FILE__)."/../Tree.class.php");
 		 */ 
 		function test_traversal2() {
 			// initialize
-			$tree =& new Tree();
+			$tree = new Tree();
 
 			// here is a sketch of the tree being tested
 			//			 A B C
@@ -165,15 +165,15 @@ require_once(dirname(__FILE__)."/../Tree.class.php");
 			//			 /\ /
 			//			H  I
 				
-			$nodeA =& new TreeNode('A');
-			$nodeB =& new TreeNode('B');
-			$nodeC =& new TreeNode('C');
-			$nodeD =& new TreeNode('D');
-			$nodeE =& new TreeNode('E');
-			$nodeF =& new TreeNode('F');
-			$nodeG =& new TreeNode('G');
-			$nodeH =& new TreeNode('H');
-			$nodeI =& new TreeNode('I');
+			$nodeA = new TreeNode('A');
+			$nodeB = new TreeNode('B');
+			$nodeC = new TreeNode('C');
+			$nodeD = new TreeNode('D');
+			$nodeE = new TreeNode('E');
+			$nodeF = new TreeNode('F');
+			$nodeG = new TreeNode('G');
+			$nodeH = new TreeNode('H');
+			$nodeI = new TreeNode('I');
 			
 			$tree->addNode($nodeA);
 			$tree->addNode($nodeB);
@@ -191,7 +191,7 @@ require_once(dirname(__FILE__)."/../Tree.class.php");
 			
 			$this->assertIdentical($tree->getSize(), 9);
 
-			$resultFromObject =& $tree->traverse($nodeA, true, -1);
+			$resultFromObject =$tree->traverse($nodeA, true, -1);
 			
 			$this->assertIdentical(count($resultFromObject), 6);
 			$this->assertReference($resultFromObject['A'][0], $nodeA);
@@ -207,7 +207,7 @@ require_once(dirname(__FILE__)."/../Tree.class.php");
 			$this->assertIdentical($resultFromObject['H'][1], 3);
 			$this->assertIdentical($resultFromObject['I'][1], 3);
 
-			$resultFromObject =& $tree->traverse($nodeA, true, 10);
+			$resultFromObject =$tree->traverse($nodeA, true, 10);
 			
 			$this->assertIdentical(count($resultFromObject), 6);
 			$this->assertReference($resultFromObject['A'][0], $nodeA);
@@ -217,7 +217,7 @@ require_once(dirname(__FILE__)."/../Tree.class.php");
 			$this->assertReference($resultFromObject['H'][0], $nodeH);
 			$this->assertReference($resultFromObject['I'][0], $nodeI);
 
-			$resultFromObject =& $tree->traverse($nodeF, false, -1);
+			$resultFromObject =$tree->traverse($nodeF, false, -1);
 			
 			$this->assertIdentical(count($resultFromObject), 6);
 			$this->assertReference($resultFromObject['A'][0], $nodeA);
@@ -233,19 +233,19 @@ require_once(dirname(__FILE__)."/../Tree.class.php");
 			$this->assertIdentical($resultFromObject['E'][1], -1);
 			$this->assertIdentical($resultFromObject['F'][1], 0);
 			
-			$resultFromObject =& $tree->traverse($nodeG, true, 0);
+			$resultFromObject =$tree->traverse($nodeG, true, 0);
 			$this->assertIdentical(count($resultFromObject), 1);
 			$this->assertReference($resultFromObject['G'][0], $nodeG);
 			$this->assertIdentical($resultFromObject['G'][1], 0);
 
-			$resultFromObject =& $tree->traverse($nodeB, true, 1);
+			$resultFromObject =$tree->traverse($nodeB, true, 1);
 			$this->assertIdentical(count($resultFromObject), 2);
 			$this->assertReference($resultFromObject['B'][0], $nodeB);
 			$this->assertReference($resultFromObject['E'][0], $nodeE);
 			$this->assertIdentical($resultFromObject['B'][1], 0);
 			$this->assertIdentical($resultFromObject['E'][1], 1);
 
-			$resultFromObject =& $tree->traverse($nodeI, false, 2);
+			$resultFromObject =$tree->traverse($nodeI, false, 2);
 			
 			$this->assertIdentical(count($resultFromObject), 5);
 			$this->assertReference($resultFromObject['I'][0], $nodeI);
@@ -272,7 +272,7 @@ require_once(dirname(__FILE__)."/../Tree.class.php");
 			//			 /\ /
 			//			H  I
 			
-			$nodeJ =& new TreeNode('J');
+			$nodeJ = new TreeNode('J');
 			$tree->addNode($nodeD, $nodeA);
 			$tree->addNode($nodeJ);
 			$tree->addNode($nodeC, $nodeJ);
@@ -285,12 +285,12 @@ require_once(dirname(__FILE__)."/../Tree.class.php");
 		 */ 
 		function test_addNode() {
 			// initialize
-			$tree =& new Tree();
+			$tree = new Tree();
 		
 			// create a tree
-			$node1 =& new TreeNode('1');
-			$node2 =& new TreeNode('2');
-			$node3 =& new TreeNode('3');
+			$node1 = new TreeNode('1');
+			$node2 = new TreeNode('2');
+			$node3 = new TreeNode('3');
 			
 			$tree->addNode($node1);
 			$tree->addNode($node2, $node1);

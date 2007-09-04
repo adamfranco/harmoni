@@ -10,7 +10,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: URLWriter.abstract.php,v 1.6 2006/01/13 22:32:12 adamfranco Exp $
+ * @version $Id: URLWriter.abstract.php,v 1.7 2007/09/04 20:25:31 adamfranco Exp $
  */
 
 class URLWriter 
@@ -86,7 +86,7 @@ class URLWriter
 	 **/
 	function redirectBrowser()
 	{
-		$harmoni =& Harmoni::instance();
+		$harmoni = Harmoni::instance();
 		$harmoni->request->locationHeader($this->write());
 	}
 	

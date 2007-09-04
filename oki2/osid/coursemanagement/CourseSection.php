@@ -154,7 +154,7 @@ class CourseSection
      * 
      * @access public
      */
-    function updateLocation ( &$location ) { 
+    function updateLocation ( $location ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -274,7 +274,7 @@ class CourseSection
      * 
      * @access public
      */
-    function &getId () { 
+    function getId () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -299,7 +299,7 @@ class CourseSection
      * 
      * @access public
      */
-    function &getSectionType () { 
+    function getSectionType () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -325,7 +325,7 @@ class CourseSection
      * 
      * @access public
      */
-    function &getSchedule () { 
+    function getSchedule () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -349,7 +349,7 @@ class CourseSection
      * 
      * @access public
      */
-    function &getLocation () { 
+    function getLocation () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -373,7 +373,7 @@ class CourseSection
      * 
      * @access public
      */
-    function &getStatus () { 
+    function getStatus () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -397,7 +397,7 @@ class CourseSection
      * 
      * @access public
      */
-    function &getPropertyTypes () { 
+    function getPropertyTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -421,7 +421,7 @@ class CourseSection
      * 
      * @access public
      */
-    function &getProperties () { 
+    function getProperties () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -445,7 +445,7 @@ class CourseSection
      * 
      * @access public
      */
-    function &getCourseOffering () { 
+    function getCourseOffering () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -471,7 +471,7 @@ class CourseSection
      * 
      * @access public
      */
-    function addAsset ( &$assetId ) { 
+    function addAsset ( $assetId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -499,7 +499,7 @@ class CourseSection
      * 
      * @access public
      */
-    function removeAsset ( &$assetId ) { 
+    function removeAsset ( $assetId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -523,7 +523,7 @@ class CourseSection
      * 
      * @access public
      */
-    function &getAssets () { 
+    function getAssets () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -550,7 +550,7 @@ class CourseSection
      * 
      * @access public
      */
-    function updateSchedule ( &$scheduleItems ) { 
+    function updateSchedule ( $scheduleItems ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -582,7 +582,7 @@ class CourseSection
      * 
      * @access public
      */
-    function addStudent ( &$agentId, &$enrollmentStatusType ) { 
+    function addStudent ( $agentId, $enrollmentStatusType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -611,7 +611,7 @@ class CourseSection
      * 
      * @access public
      */
-    function changeStudent ( &$agentId, &$enrollmentStatusType ) { 
+    function changeStudent ( $agentId, $enrollmentStatusType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -639,7 +639,7 @@ class CourseSection
      * 
      * @access public
      */
-    function removeStudent ( &$agentId ) { 
+    function removeStudent ( $agentId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -663,7 +663,7 @@ class CourseSection
      * 
      * @access public
      */
-    function &getRoster () { 
+    function getRoster () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -694,7 +694,7 @@ class CourseSection
      * 
      * @access public
      */
-    function &getRosterByType ( &$enrollmentStatusType ) { 
+    function getRosterByType ( $enrollmentStatusType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -722,7 +722,7 @@ class CourseSection
      * 
      * @access public
      */
-    function updateStatus ( &$statusType ) { 
+    function updateStatus ( $statusType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -752,7 +752,7 @@ class CourseSection
      * 
      * @access public
      */
-    function &getPropertiesByType ( &$propertiesType ) { 
+    function getPropertiesByType ( $propertiesType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 }

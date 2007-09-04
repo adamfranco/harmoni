@@ -23,7 +23,7 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CanonicalCourseIterator.class.php,v 1.4 2005/01/19 22:28:21 adamfranco Exp $
+ * @version $Id: CanonicalCourseIterator.class.php,v 1.5 2007/09/04 20:25:39 adamfranco Exp $
  */
 class HarmoniCanonicalCourseIterator
 	extends HarmoniIterator
@@ -76,7 +76,7 @@ class HarmoniCanonicalCourseIterator
 	 * 
 	 * @access public
 	 */
-	function &nextCanonicalCourse () { 
+	function nextCanonicalCourse () { 
 		return $this->next();
 	} 
 }

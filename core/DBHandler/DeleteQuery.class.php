@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DeleteQuery.class.php,v 1.6 2005/04/07 16:33:23 adamfranco Exp $
+ * @version $Id: DeleteQuery.class.php,v 1.7 2007/09/04 20:25:18 adamfranco Exp $
  */
  
 require_once(HARMONI."DBHandler/DeleteQuery.interface.php");
@@ -19,7 +19,7 @@ require_once(HARMONI."DBHandler/DeleteQuery.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DeleteQuery.class.php,v 1.6 2005/04/07 16:33:23 adamfranco Exp $
+ * @version $Id: DeleteQuery.class.php,v 1.7 2007/09/04 20:25:18 adamfranco Exp $
  */
 
 class DeleteQuery extends DeleteQueryInterface {
@@ -59,7 +59,7 @@ class DeleteQuery extends DeleteQueryInterface {
 	 */
 	function setTable($table) {
 		// ** parameter validation
-		$stringRule =& StringValidatorRule::getRule();
+		$stringRule = StringValidatorRule::getRule();
 		ArgumentValidator::validate($table, $stringRule, true);
 		// ** end of parameter validation
 
@@ -78,7 +78,7 @@ class DeleteQuery extends DeleteQueryInterface {
 	 */
 	function setWhere($condition) {
 		// ** parameter validation
-		$stringRule =& StringValidatorRule::getRule();
+		$stringRule = StringValidatorRule::getRule();
 		ArgumentValidator::validate($condition, $stringRule, true);
 		// ** end of parameter validation
 
@@ -104,9 +104,9 @@ class DeleteQuery extends DeleteQueryInterface {
 	 */
 	function addWhere($condition, $logicalOperation = _AND) {
 		// ** parameter validation
-		$stringRule =& StringValidatorRule::getRule();
-		$integerRule =& IntegerValidatorRule::getRule();
-		$optionalRule =& OptionalRule::getRule($integerRule);
+		$stringRule = StringValidatorRule::getRule();
+		$integerRule = IntegerValidatorRule::getRule();
+		$optionalRule = OptionalRule::getRule($integerRule);
 		ArgumentValidator::validate($condition, $stringRule, true);
 		ArgumentValidator::validate($logicalOperation, $optionalRule, true);
 		// ** end of parameter validation

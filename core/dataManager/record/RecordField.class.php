@@ -11,7 +11,7 @@ require_once HARMONI."dataManager/record/RecordFieldValue.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordField.class.php,v 1.21 2007/04/12 15:37:25 adamfranco Exp $
+ * @version $Id: RecordField.class.php,v 1.22 2007/09/04 20:25:31 adamfranco Exp $
  **/
 class RecordField {
 	
@@ -23,11 +23,11 @@ class RecordField {
 	
 	var $_id;
 	
-	function RecordField( &$schemaField, &$parent ) {
+	function RecordField( $schemaField, $parent ) {
 		$this->_myLabel = $schemaField->getLabel();
 		
-		$this->_parent =& $parent;
-		$this->_schemaField =& $schemaField;
+		$this->_parent =$parent;
+		$this->_schemaField =$schemaField;
 		
 		$this->_values = array();
 	}
@@ -37,7 +37,7 @@ class RecordField {
 	* @return bool
 	* @param ref array $arrayOfRows
 	*/
-	function populate( &$arrayOfRows ) {
+	function populate( $arrayOfRows ) {
 		foreach (array_keys($arrayOfRows) as $key) {
 			$this->takeRow($arrayOfRows[$key]);
 		}
@@ -48,13 +48,13 @@ class RecordField {
 	 * @param ref array $row
 	 * @return void
 	 */
-	function takeRow( &$row ) {
+	function takeRow( $row ) {
 		// If we don't just have null values...
 		if ($row['record_field_index'] != NULL) {
 			$i = $row['record_field_index'];
 			if (!isset($this->_values[$i])) {
 //				print "importing index $i : " . print_r($row, 1) . "<br>";
-				$this->_values[$i] =& new RecordFieldValue($this,$i);
+				$this->_values[$i] = new RecordFieldValue($this,$i);
 			}
 			$this->_values[$i]->takeRow($row);
 		}
@@ -95,13 +95,13 @@ class RecordField {
 		$newValues = array();
 		
 		foreach($indices as $index) {
-			$value =& $this->getRecordFieldValue($index);
+			$value =$this->getRecordFieldValue($index);
 			$value->setIndex($i);
-			$newValues[$i] =& $value;
+			$newValues[$i] =$value;
 			$i++;
 		}
 		
-		$this->_values =& $newValues;
+		$this->_values =$newValues;
 	}
 	
 	/**
@@ -149,7 +149,7 @@ class RecordField {
 	* @return ref object
 	* @param int $index
 	*/
-	function &getRecordFieldValue($index) {
+	function getRecordFieldValue($index) {
 		$this->_parent->makeCurrent();
 		if (!isset($this->_values[$index])) {
 			throwError( new ValueIndexNotFoundError($this->_myLabel, $this->_parent->getID(), $index));
@@ -162,8 +162,8 @@ class RecordField {
 	* @return bool
 	* @param ref object $object The {@link Primitive} object.
 	*/
-	function _checkObjectType(&$object) {
-		$dataTypeManager =& Services::getService("DataTypeManager");
+	function _checkObjectType($object) {
+		$dataTypeManager = Services::getService("DataTypeManager");
 		$type = $this->_schemaField->getType();
 		
 		if ($dataTypeManager->isObjectOfDataType($object,$type)) return true;
@@ -180,7 +180,7 @@ class RecordField {
 	* @return bool
 	* @param ref object $value A {@link SObject} object.
 	*/
-	function addValueFromPrimitive(&$value) {
+	function addValueFromPrimitive($value) {
 		// make sure that we have all our values & indices represented before trying to add a new one
 		// or we might "overwrite" an existing one that's been deactivated.
 		$this->_parent->makeFull();
@@ -199,12 +199,12 @@ class RecordField {
 		// Call the appropriate conversion method in case we were passed a 
 		// value of the wrong type, but that can be properly converted, say
 		// we are given a date, but want to save it as a string.
-		$dataTypeManager =& Services::getService("DataTypeManager");
+		$dataTypeManager = Services::getService("DataTypeManager");
 		$type = $this->_schemaField->getType();
 		
 		// Ensure that the value can be converted
 		if (method_exists($value, $dataTypeManager->getConversionMethod($type))) {
-			eval('$value =& $value->'.$dataTypeManager->getConversionMethod($type).'();');
+			eval('$value =$value->'.$dataTypeManager->getConversionMethod($type).'();');
 		}
 		
 		$this->_checkObjectType($value);
@@ -212,7 +212,7 @@ class RecordField {
 		
 		$newIndex = $this->_getNextAvailableIndex();
 		
-		$this->_values[$newIndex] =& new RecordFieldValue($this, $newIndex);
+		$this->_values[$newIndex] = new RecordFieldValue($this, $newIndex);
 		$this->_values[$newIndex]->setValueFromPrimitive($value);
 		return true;
 	}
@@ -232,16 +232,16 @@ class RecordField {
 	* @param int $index
 	* @param ref object $value A {@link SObject} object.
 	*/
-	function setValueFromPrimitive($index, &$value) {
+	function setValueFromPrimitive($index, $value) {
 		// Call the appropriate conversion method in case we were passed a 
 		// value of the wrong type, but that can be properly converted, say
 		// we are given a date, but want to save it as a string.
-		$dataTypeManager =& Services::getService("DataTypeManager");
+		$dataTypeManager = Services::getService("DataTypeManager");
 		$type = $this->_schemaField->getType();
 		
 		// Ensure that the value can be converted
 		if (method_exists($value, $dataTypeManager->getConversionMethod($type))) {
-			eval('$value =& $value->'.$dataTypeManager->getConversionMethod($type).'();');
+			eval('$value =$value->'.$dataTypeManager->getConversionMethod($type).'();');
 		}
 		
 		$this->_checkObjectType($value);
@@ -256,7 +256,7 @@ class RecordField {
 		if (!isset($this->_values[$index])) {
 			// if we allow multiple values, just create a new value at $index
 			if ($this->_schemaField->getMultFlag()) {
-				$this->_values[$index] =& new RecordFieldValue($this, $index);
+				$this->_values[$index] = new RecordFieldValue($this, $index);
 			} else
 				throwError( new ValueIndexNotFoundError($this->_myLabel, $this->_parent->getID(), $index));
 		}
@@ -366,7 +366,7 @@ class RecordField {
 	* @param int $verID
 	* @param optional int $index Defaults to 0.
 	*/
-	function &getVersion( $verID, $index=0 ) {
+	function getVersion( $verID, $index=0 ) {
 		$this->_parent->makeFull();
 		if (!isset($this->_values[$index])) {
 			throwError( new ValueIndexNotFoundError($this->_myLabel, $this->_parent->getID(), $index));
@@ -379,7 +379,7 @@ class RecordField {
 	 * Returns the Record object that the current object is a part of.
 	 * @return ref object Record The parent Record object
 	 */
-	function &getRecord() {
+	function getRecord() {
 		return $this->_parent;
 	}
 	
@@ -387,7 +387,7 @@ class RecordField {
 	 * Returns the {@link SchemaField} object for the this RecordField object.
 	 * @return ref objectThe {@link SchemaField} object.
 	 */
-	function &getSchemaField() {
+	function getSchemaField() {
 		return $this->_schemaField;
 	}
 
@@ -395,12 +395,12 @@ class RecordField {
 	 * Returns the id of this RecordField object.
 	 * @return ref object Id The id of this RecordField object.
 	 */
-	function &getId() {
+	function getId() {
 		if (!isset($this->_id)) {
-			$idManager =& Services::getService("Id");
+			$idManager = Services::getService("Id");
 			
 			$idString = $this->_parent->getID()."::".$this->_myLabel;
-			$this->_id =& $idManager->getId($idString);
+			$this->_id =$idManager->getId($idString);
 		}
 		return $this->_id;
 	}

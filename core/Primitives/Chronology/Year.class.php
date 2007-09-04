@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Year.class.php,v 1.3 2006/11/30 22:02:04 adamfranco Exp $
+ * @version $Id: Year.class.php,v 1.4 2007/09/04 20:25:25 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -33,7 +33,7 @@ require_once(dirname(__FILE__)."/Timespan.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Year.class.php,v 1.3 2006/11/30 22:02:04 adamfranco Exp $
+ * @version $Id: Year.class.php,v 1.4 2007/09/04 20:25:25 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -71,8 +71,8 @@ class Year
 	 * @since 5/5/05
 	 * @static
 	 */
-	function &current ( $class = 'Year' ) {
-		$obj =& parent::current($class);
+	function current ( $class = 'Year' ) {
+		$obj = parent::current($class);
 		return $obj;
 	}
 	
@@ -88,8 +88,8 @@ class Year
 	 * @since 5/5/05
 	 * @static
 	 */
-	function &epoch ( $class = 'Year' ) {
-		$obj =& parent::epoch($class);
+	function epoch ( $class = 'Year' ) {
+		$obj = parent::epoch($class);
 		return $obj;
 	}
 	
@@ -106,8 +106,8 @@ class Year
 	 * @since 5/5/05
 	 * @static
 	 */
-	function &starting ( &$aDateAndTime, $class = 'Year' ) {
-		$obj =& parent::starting($aDateAndTime, $class);
+	function starting ( $aDateAndTime, $class = 'Year' ) {
+		$obj = parent::starting($aDateAndTime, $class);
 		return $obj;
 	}
 	
@@ -124,10 +124,10 @@ class Year
 	 * @access public
 	 * @since 5/11/05
 	 */
-	function &startingEnding ( &$startDateAndTime, &$endDateAndTime, 
+	function startingEnding ( $startDateAndTime, $endDateAndTime, 
 		$class = 'Year' ) 
 	{
-		$obj =& parent::startingEnding ( $startDateAndTime, $endDateAndTime, $class);
+		$obj = parent::startingEnding ( $startDateAndTime, $endDateAndTime, $class);
 		return $obj;
 	}
 	
@@ -145,7 +145,7 @@ class Year
 	 * @since 5/5/05
 	 * @static
 	 */
-	function &startingDuration ( &$aDateAndTime, &$aDuration, $class = 'Year' ) {
+	function startingDuration ( $aDateAndTime, $aDuration, $class = 'Year' ) {
 		
 		// Validate our passed class name.
 		if (!(strtolower($class) == strtolower('Year')
@@ -154,9 +154,9 @@ class Year
 			die("Class, '$class', is not a subclass of 'Year'.");
 		}
 		
-		$asDateAndTime =& $aDateAndTime->asDateAndTime();
-		$midnight =& $asDateAndTime->atMidnight();
-		$year =& new $class;
+		$asDateAndTime =$aDateAndTime->asDateAndTime();
+		$midnight =$asDateAndTime->atMidnight();
+		$year = new $class;
 		$year->setStart($midnight); 
 		$year->setDuration(Duration::withDays(Year::daysInYear($midnight->year())));
 		
@@ -176,9 +176,9 @@ class Year
 	 * @since 5/4/05
 	 * @static
 	 */
-	function &withYear ( $anInteger, $class = 'Year' ) {
-		$start =& DateAndTime::withYearMonthDay($anInteger, 1, 1);
-		eval('$result =& '.$class.'::startingDuration(
+	function withYear ( $anInteger, $class = 'Year' ) {
+		$start = DateAndTime::withYearMonthDay($anInteger, 1, 1);
+		eval('$result = '.$class.'::startingDuration(
 				$start, 
 				$null = NULL,
 				$class
@@ -277,7 +277,7 @@ class Year
  	 * @access public
  	 * @since 5/23/05
  	 */
- 	function &asYear () {
+ 	function asYear () {
  		return $this;
  	}
 }

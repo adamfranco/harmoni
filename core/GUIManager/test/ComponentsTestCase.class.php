@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ComponentsTestCase.class.php,v 1.9 2006/08/02 23:50:28 sporktim Exp $
+ * @version $Id: ComponentsTestCase.class.php,v 1.10 2007/09/04 20:25:24 adamfranco Exp $
  */
 require_once(HARMONI."GUIManager/Component.class.php");
 require_once(HARMONI."GUIManager/Container.class.php");
@@ -32,7 +32,7 @@ require_once(HARMONI."GUIManager/Components/Menu.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ComponentsTestCase.class.php,v 1.9 2006/08/02 23:50:28 sporktim Exp $
+ * @version $Id: ComponentsTestCase.class.php,v 1.10 2007/09/04 20:25:24 adamfranco Exp $
  */
 
     class ComponentsTestCase extends UnitTestCase {
@@ -59,20 +59,20 @@ require_once(HARMONI."GUIManager/Components/Menu.class.php");
 		}
 	
 		function test_generic_component() {
-			$bodyStyle =& new StyleCollection("body", "hey", "Body Style", "Global style settings.");
+			$bodyStyle = new StyleCollection("body", "hey", "Body Style", "Global style settings.");
 			$bodyStyle->addSP(new BackgroundColorSP("#FFFCF0"));
 			$bodyStyle->addSP(new ColorSP("#2E2B33"));
 			$bodyStyle->addSP(new FontSP("Verdana", "10pt"));
 			
-			$mainBoxStyle =& new StyleCollection("*.mainBoxStyle", "mainBoxStyle", "Main Box Style", "Style for the main box.");
+			$mainBoxStyle = new StyleCollection("*.mainBoxStyle", "mainBoxStyle", "Main Box Style", "Style for the main box.");
 			$mainBoxStyle->addSP(new BackgroundColorSP("#FFF3C2"));
 			$mainBoxStyle->addSP(new BorderSP("1px", "solid", "#2E2B33"));
 			$mainBoxStyle->addSP(new WidthSP("750px"));
 			$mainBoxStyle->addSP(new MarginSP("5px"));
 			$mainBoxStyle->addSP(new PaddingSP("5px"));
 		
-			$comp1 =& new Component(null, BLANK, 3);
-			$style =& $comp1->addStyle($bodyStyle);
+			$comp1 = new Component(null, BLANK, 3);
+			$style =$comp1->addStyle($bodyStyle);
 			$this->assertReference($style, $bodyStyle);
 			$comp1->addStyle($mainBoxStyle);
 			$this->assertReference($comp1->_styleCollections["body"], $bodyStyle);
@@ -80,7 +80,7 @@ require_once(HARMONI."GUIManager/Components/Menu.class.php");
 			$this->assertIdentical($comp1->getType(), BLANK);
 			$this->assertReference($comp1->getStyle("body"), $bodyStyle);
 			
-			$comp2 =& new Component(null, BLANK, 3, $bodyStyle, $mainBoxStyle);
+			$comp2 = new Component(null, BLANK, 3, $bodyStyle, $mainBoxStyle);
 			$this->assertIdentical($comp2->_styleCollections["body"], $bodyStyle);
 			$this->assertIdentical($comp2->_styleCollections["*.mainBoxStyle"], $mainBoxStyle);
 			$this->assertIdentical($comp1->getType(), BLANK);
@@ -88,16 +88,16 @@ require_once(HARMONI."GUIManager/Components/Menu.class.php");
 
 			$this->assertIdentical($comp1, $comp2);
 
-			$style =& $comp1->removeStyle("body");
+			$style =$comp1->removeStyle("body");
 			$this->assertReference($style, $bodyStyle);
 			$this->assertTrue(!isset($comp1->_styleCollections["body"]));
 		}
 	
 		function test_generic_container() {
-			$comp =& new Container(new FlowLayout(), MENU, 5);
+			$comp = new Container(new FlowLayout(), MENU, 5);
 			
-			$c =& new Component("Hello!", FOOTER, 4);
-			$c1 =& $comp->add($c, "12px", "2em", LEFT, BOTTOM);
+			$c = new Component("Hello!", FOOTER, 4);
+			$c1 =$comp->add($c, "12px", "2em", LEFT, BOTTOM);
 			$this->assertReference($c1, $c);
 			$this->assertReference($comp->getComponent(1), $c);
 			$this->assertIdentical($comp->getComponentWidth(1), "12px");
@@ -106,19 +106,19 @@ require_once(HARMONI."GUIManager/Components/Menu.class.php");
 			$this->assertIdentical($comp->getComponentAlignmentY(1), BOTTOM);
 			$this->assertIdentical($comp->getComponentsCount(), 1);
 
-			$c =& new Component("Hello!", MENU_ITEM_LINK_SELECTED, 2);
-			$c2 =& $comp->add($c, "16px", "6em", RIGHT, CENTER);
+			$c = new Component("Hello!", MENU_ITEM_LINK_SELECTED, 2);
+			$c2 =$comp->add($c, "16px", "6em", RIGHT, CENTER);
 			$this->assertReference($c2, $c);
 			$this->assertReference($comp->getComponent(2), $c);
 			$this->assertIdentical($comp->getComponentsCount(), 2);
 
-			$c =& new Component("Hello!", MENU_ITEM_LINK_UNSELECTED, 5);
-			$c3 =& $comp->add($c, "6px", "2em", CENTER, TOP);
+			$c = new Component("Hello!", MENU_ITEM_LINK_UNSELECTED, 5);
+			$c3 =$comp->add($c, "6px", "2em", CENTER, TOP);
 			$this->assertReference($c3, $c);
 			$this->assertReference($comp->getComponent(3), $c);
 			$this->assertIdentical($comp->getComponentsCount(), 3);
 			
-			$c =& $comp->remove(2);
+			$c =$comp->remove(2);
 			$this->assertReference($c, $c2);
 			$this->assertNull($comp->getComponent(2));
 			$this->assertIdentical($comp->getComponentsCount(), 2);
@@ -129,29 +129,29 @@ require_once(HARMONI."GUIManager/Components/Menu.class.php");
 		}
 		
 		function test_simple_components() {
-			$comp =& new Blank(3);
+			$comp = new Blank(3);
 			$this->assertIdentical($comp->getType(), BLANK);
 		
-			$comp =& new Block("hoho", 3);
+			$comp = new Block("hoho", 3);
 			$this->assertIdentical($comp->getType(), BLOCK);
 		
-			$comp =& new Heading("hoho", 3);
+			$comp = new Heading("hoho", 3);
 			$this->assertIdentical($comp->getType(), HEADING);
 		
-			$comp =& new Footer("hoho", 3);
+			$comp = new Footer("hoho", 3);
 			$this->assertIdentical($comp->getType(), FOOTER);
 			
 		}
 		
 		function test_menu_components() {
-			$theme =& new Theme("","");
+			$theme = new Theme("","");
 
-			$heading =& new MenuItemHeading("hoho", 3);
+			$heading = new MenuItemHeading("hoho", 3);
 			$this->assertIdentical($heading->getType(), MENU_ITEM_HEADING);
 			$this->assertIdentical($heading->getDisplayName(), "hoho");
 //			$comp->render($theme);
 		
-			$comp =& new MenuItemLink("Google", "http://www.google.com", true, 1,
+			$comp = new MenuItemLink("Google", "http://www.google.com", true, 1,
 								  "_BLANK", "g", "Go to the Google search page");
 			$this->assertIdentical($comp->getDisplayName(), "Google");
 			$this->assertIdentical($comp->getURL(), "http://www.google.com");
@@ -175,18 +175,18 @@ require_once(HARMONI."GUIManager/Components/Menu.class.php");
 			$this->assertIdentical($comp->getToolTip(), "6");
 			$this->assertIdentical($comp->getType(), MENU_ITEM_LINK_UNSELECTED);
 			
-			$comp =& new MenuItemLink("Google", "http://www.google.com", true, 1,
+			$comp = new MenuItemLink("Google", "http://www.google.com", true, 1,
 								  "_BLANK", "g", "Go to the Google search page");
 								  
 			$comp->addAttribute("name", "haha");
 								  
 //			$comp->render($theme);
 
-			$menuStyle =& new StyleCollection("*.menu", "menu", "Menu Style", "Style for the menu.");
+			$menuStyle = new StyleCollection("*.menu", "menu", "Menu Style", "Style for the menu.");
 			$menuStyle->addSP(new BackgroundColorSP("#997755"));
 			$menuStyle->addSP(new BorderSP("1px", "solid", "#FFFFFF"));
 			
-			$menu =& new Menu(new XLayout(), 4, $menuStyle);
+			$menu = new Menu(new XLayout(), 4, $menuStyle);
 			$this->assertTrue(!isset($comp->_selectedId));
 			$menu->add($comp, "100px", null, CENTER);
 			$this->assertIdentical($menu->_selectedId, 1);

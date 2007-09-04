@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SObjectTestCase.class.php,v 1.3 2006/06/26 12:55:09 adamfranco Exp $
+ * @version $Id: SObjectTestCase.class.php,v 1.4 2007/09/04 20:25:26 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -26,7 +26,7 @@ require_once(HARMONI."/Primitives/Objects/SObject.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SObjectTestCase.class.php,v 1.3 2006/06/26 12:55:09 adamfranco Exp $
+ * @version $Id: SObjectTestCase.class.php,v 1.4 2007/09/04 20:25:26 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -41,44 +41,44 @@ class SObjectTestCase extends UnitTestCase {
 	*/
 	function setUp() {
 		// TestPeople
-		$this->personA =& new TestPerson;
+		$this->personA = new TestPerson;
 		$this->personA->name = 'Albert';
 		
-		$this->personB =& new TestPerson;
+		$this->personB = new TestPerson;
 		$this->personB->name = 'Bob';
 		
-		$this->personC =& new TestPerson;
+		$this->personC = new TestPerson;
 		$this->personC->name = 'Charlie';
 		
-		$this->personD =& new TestPerson;
+		$this->personD = new TestPerson;
 		$this->personD->name = 'Danny';
 		
-		$this->personA->child =& $this->personB;
-		$this->personB->child =& $this->personC;
-		$this->personC->child =& $this->personD;
+		$this->personA->child =$this->personB;
+		$this->personB->child =$this->personC;
+		$this->personC->child =$this->personD;
 		
 		
 		// TestPeople Arrays
-		$this->personM =& new TestPerson;
+		$this->personM = new TestPerson;
 		$this->personM->name = 'Monty';
 		$this->personM->child = array();
 		
-		$this->personN =& new TestPerson;
+		$this->personN = new TestPerson;
 		$this->personN->name = 'Nick';
 		$this->personN->child = array();
 		
-		$this->personO =& new TestPerson;
+		$this->personO = new TestPerson;
 		$this->personO->name = 'Olivia';
 		$this->personO->child = array();
 		
-		$this->personP =& new TestPerson;
+		$this->personP = new TestPerson;
 		$this->personP->name = 'Patsy';
 		$this->personP->child = array();
 		
-		$this->personM->child[0] =& $this->personN;
+		$this->personM->child[0] =$this->personN;
 		$this->personM->child[1] = 'Linda';
-		$this->personN->child[0] =& $this->personO;
-		$this->personO->child[0] =& $this->personP;
+		$this->personN->child[0] =$this->personO;
+		$this->personO->child[0] =$this->personP;
 	}
 	
 	/**
@@ -94,7 +94,7 @@ class SObjectTestCase extends UnitTestCase {
  * Test shallow and deep copying
  *********************************************************/
 	function test_shallow_copy() {
-		$personE =& $this->personA->shallowCopy();
+		$personE =$this->personA->shallowCopy();
 		$personE->name = 'Edward';
 		$personE->child->name = 'Frank';
 		$personE->child->child->name = 'Gertrude';
@@ -107,7 +107,7 @@ class SObjectTestCase extends UnitTestCase {
 	}
 	
 	function test_deep_copy() {
-		$personE =& $this->personA->deepCopy();
+		$personE =$this->personA->deepCopy();
 		$personE->name = 'Edward';
 		$personE->child->name = 'Frank';
 		$personE->child->child->name = 'Gertrude';
@@ -125,7 +125,7 @@ class SObjectTestCase extends UnitTestCase {
 	}
 	
 	function test_copy_two_level() {
-		$personE =& $this->personA->copyTwoLevel();
+		$personE =$this->personA->copyTwoLevel();
 		$personE->name = 'Edward';
 		$personE->child->name = 'Frank';
 		$personE->child->child->name = 'Gertrude';
@@ -147,7 +147,7 @@ class SObjectTestCase extends UnitTestCase {
  * Test with arrays
  *********************************************************/
 	function test_array_shallow_copy() {
-		$personQ =& $this->personM->shallowCopy();
+		$personQ =$this->personM->shallowCopy();
 		$personQ->name = 'Quincy';
 		$personQ->child[0]->name = 'Roberto';
 		$personQ->child[1] = 'Kelly';
@@ -162,7 +162,7 @@ class SObjectTestCase extends UnitTestCase {
 	}
 	
 	function test_array_deep_copy() {
-		$personQ =& $this->personM->deepCopy();
+		$personQ =$this->personM->deepCopy();
 		$personQ->name = 'Quincy';
 		$personQ->child[1] = 'Kelly';
 		$personQ->child[0]->name = 'Roberto';
@@ -177,7 +177,7 @@ class SObjectTestCase extends UnitTestCase {
 	}
 	
 	function test_array_copy_two_level() {
-		$personQ =& $this->personM->copyTwoLevel();
+		$personQ =$this->personM->copyTwoLevel();
 		$personQ->name = 'Quincy';
 		$personQ->child[1] = 'Kelly';
 		$personQ->child[0]->name = 'Roberto';
@@ -195,7 +195,7 @@ class SObjectTestCase extends UnitTestCase {
  * Test the copy() method, should be the same as shallowCopy
  *********************************************************/
  	function test_copy() {
-		$personE =& $this->personA->copy();
+		$personE =$this->personA->copy();
 		$personE->name = 'Edward';
 		$personE->child->name = 'Frank';
 		$personE->child->child->name = 'Gertrude';
@@ -213,7 +213,7 @@ class SObjectTestCase extends UnitTestCase {
 	}
 	
 	function test_array_copy() {
-		$personQ =& $this->personM->copy();
+		$personQ =$this->personM->copy();
 		$personQ->name = 'Quincy';
 		$personQ->child[0]->name = 'Roberto';
 		$personQ->child[1] = 'Kelly';
@@ -240,17 +240,17 @@ class SObjectTestCase extends UnitTestCase {
 
 	function test_printable_string() {
 		$this->assertEqual($this->personM->printableString(), 'a Testperson');
-		$octopus =& new OctopusObject;
+		$octopus = new OctopusObject;
 		$this->assertEqual($octopus->printableString(), 'an Octopusobject(8 legs)');
 		
 		$this->assertEqual($this->personM->asString(), 'a Testperson');
-		$octopus =& new OctopusObject;
+		$octopus = new OctopusObject;
 		$this->assertEqual($octopus->asString(), 'an Octopusobject(8 legs)');
 	}
 	
 	function test_as_a() {
-		$octopus =& new OctopusObject;
-		$dog =& $octopus->asA('DogObject');
+		$octopus = new OctopusObject;
+		$dog =$octopus->asA('DogObject');
 		
 		$this->assertEqual($dog->numberOfLegs, 8);
 		$this->assertEqual($dog->numberOfTails, 1);
@@ -262,7 +262,7 @@ class SObjectTestCase extends UnitTestCase {
 		$octopus->numberOfLegs = 20;
 		$octopus->numberOfSuckers = 100;
 		
-		$octopus2 =& $octopus->asA('OctopusObject');
+		$octopus2 =$octopus->asA('OctopusObject');
 		
 		$this->assertNotReference($octopus, $octopus2);
 		$this->assertEqual($octopus2->numberOfLegs, 20);
@@ -274,8 +274,8 @@ class SObjectTestCase extends UnitTestCase {
 	}
 	
 	function test_new_from() {
-		$octopus =& new OctopusObject;
-		$dog =& SObject::newFrom('DogObject', $octopus);
+		$octopus = new OctopusObject;
+		$dog = SObject::newFrom('DogObject', $octopus);
 		
 		$this->assertEqual($dog->numberOfLegs, 8);
 		$this->assertEqual($dog->numberOfTails, 1);
@@ -288,7 +288,7 @@ class SObjectTestCase extends UnitTestCase {
 		$octopus->numberOfLegs = 20;
 		$octopus->numberOfSuckers = 100;
 		
-		$octopus2 =& SObject::newFrom('OctopusObject', $octopus);
+		$octopus2 = SObject::newFrom('OctopusObject', $octopus);
 		
 		$this->assertEqual($octopus2->numberOfLegs, 20);
 		$this->assertEqual($octopus2->numberOfSuckers, 100);
@@ -301,9 +301,9 @@ class SObjectTestCase extends UnitTestCase {
  * Comparing Methods
  *********************************************************/
  	function test_isequalto() {
- 		$octopus =& new OctopusObject;
- 		$octopus2 =& $octopus;
- 		$dog =& new DogObject;
+ 		$octopus = new OctopusObject;
+ 		$octopus2 =$octopus;
+ 		$dog = new DogObject;
  		
  		$this->assertTrue($octopus->isEqualTo($octopus2));
  		$this->assertFalse($octopus->isEqualTo($dog));
@@ -311,7 +311,7 @@ class SObjectTestCase extends UnitTestCase {
  		$this->assertFalse($octopus->isNotEqualTo($octopus2));
  		$this->assertTrue($octopus->isNotEqualTo($dog));
  		
- 		$octopus3 =& $octopus->deepCopy();
+ 		$octopus3 =$octopus->deepCopy();
  		$this->assertTrue($octopus->isEqualTo($octopus3));
  		$this->assertFalse($octopus->isNotEqualTo($octopus3));
  		
@@ -321,9 +321,9 @@ class SObjectTestCase extends UnitTestCase {
  	}
  	
  	function test_isreferenceto() {
- 		$octopus =& new OctopusObject;
- 		$octopus2 =& $octopus;
- 		$dog =& new DogObject;
+ 		$octopus = new OctopusObject;
+ 		$octopus2 =$octopus;
+ 		$dog = new DogObject;
  		
  		$this->assertTrue($octopus->isReferenceTo($octopus2));
  		$this->assertFalse($octopus->isReferenceTo($dog));
@@ -331,7 +331,7 @@ class SObjectTestCase extends UnitTestCase {
  		$this->assertFalse($octopus->isNotReferenceTo($octopus2));
  		$this->assertTrue($octopus->isNotReferenceTo($dog));
  		
- 		$octopus3 =& $octopus->deepCopy();
+ 		$octopus3 =$octopus->deepCopy();
  		$this->assertEqual($octopus->numberOfLegs, 8);
  		$this->assertEqual($octopus3->numberOfLegs, 8);
  		$this->assertNotReference($octopus, $octopus3);
@@ -356,7 +356,7 @@ class SObjectTestCase extends UnitTestCase {
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SObjectTestCase.class.php,v 1.3 2006/06/26 12:55:09 adamfranco Exp $
+ * @version $Id: SObjectTestCase.class.php,v 1.4 2007/09/04 20:25:26 adamfranco Exp $
  */
 class TestPerson 
 	extends SObject 
@@ -387,7 +387,7 @@ class TestPerson
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SObjectTestCase.class.php,v 1.3 2006/06/26 12:55:09 adamfranco Exp $
+ * @version $Id: SObjectTestCase.class.php,v 1.4 2007/09/04 20:25:26 adamfranco Exp $
  */
 class OctopusObject 
 	extends SObject 
@@ -441,7 +441,7 @@ class OctopusObject
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SObjectTestCase.class.php,v 1.3 2006/06/26 12:55:09 adamfranco Exp $
+ * @version $Id: SObjectTestCase.class.php,v 1.4 2007/09/04 20:25:26 adamfranco Exp $
  */
 class DogObject 
 	extends SObject 

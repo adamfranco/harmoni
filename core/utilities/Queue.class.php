@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Queue.class.php,v 1.4 2005/01/19 21:10:15 adamfranco Exp $
+ * @version $Id: Queue.class.php,v 1.5 2007/09/04 20:25:54 adamfranco Exp $
  */
 class Queue {
 
@@ -76,8 +76,8 @@ class Queue {
 	 * @param object $object The object to add to the queue.
 	 * @access public
 	 */
-	function add(& $object) {
-		$this->_queue[] =& $object;
+	function add($object) {
+		$this->_queue[] =$object;
 
 		// if we just inserted the first element in the queue, then reset the position indices
 		if ($this->getSize() == 1) {
@@ -99,9 +99,9 @@ class Queue {
 	 * @return object Object at the current position in the queue and increase the position by one.
 	 * @access public
 	 */
-	function &next() {
+	function next() {
 		// get next element
-		$object =& $this->_queue[$this->_nextPosition];
+		$object =$this->_queue[$this->_nextPosition];
 
 		// adjust _nextPosition depending on the queue type
 		if($this->_reversed)

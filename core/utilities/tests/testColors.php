@@ -5,16 +5,16 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: testColors.php,v 1.4 2007/04/12 15:37:34 adamfranco Exp $
+ * @version $Id: testColors.php,v 1.5 2007/09/04 20:25:56 adamfranco Exp $
  */
 
 define("HARMONI","../../");
 require_once(HARMONI."utilities/HTMLcolor.class.php");
 
 print "Creating new HTML color:<br />";
-$c =& new HTMLcolor("#abc");
-$c1 =& new HTMLcolor("69b");
-$c2 =& new HTMLcolor("#036");
+$c = new HTMLcolor("#abc");
+$c1 = new HTMLcolor("69b");
+$c2 = new HTMLcolor("#036");
 
 print $c->getHTMLcolor() . " " . $c1->getHTMLcolor() . " " . $c2->getHTMLcolor() . "<br />";
 ?>

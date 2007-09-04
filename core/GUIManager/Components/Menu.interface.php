@@ -12,7 +12,7 @@ require_once(HARMONI."GUIManager/Component.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Menu.interface.php,v 1.4 2005/02/07 21:38:14 adamfranco Exp $
+ * @version $Id: Menu.interface.php,v 1.5 2007/09/04 20:25:22 adamfranco Exp $
  */
 class MenuInterface extends ContainerInterface {
 
@@ -21,7 +21,7 @@ class MenuInterface extends ContainerInterface {
 	 * @access public
 	 * @return ref object The menu item that is currently selected.
 	 **/
-	function &getSelected() {
+	function getSelected() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	

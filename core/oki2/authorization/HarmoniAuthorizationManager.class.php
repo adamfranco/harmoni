@@ -60,7 +60,7 @@ require_once(HARMONI.'oki2/shared/HarmoniIdIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthorizationManager.class.php,v 1.38 2007/02/27 21:27:54 adamfranco Exp $
+ * @version $Id: HarmoniAuthorizationManager.class.php,v 1.39 2007/09/04 20:25:38 adamfranco Exp $
  */
 class HarmoniAuthorizationManager 
 	extends AuthorizationManager 
@@ -104,18 +104,18 @@ class HarmoniAuthorizationManager
 	 * 
 	 * @access public
 	 */
-	function assignConfiguration ( &$configuration ) { 
-		$this->_configuration =& $configuration;
+	function assignConfiguration ( $configuration ) { 
+		$this->_configuration =$configuration;
 		
-		$dbIndex =& $configuration->getProperty('database_index');
-		$authzDB =& $configuration->getProperty('database_name');
+		$dbIndex =$configuration->getProperty('database_index');
+		$authzDB =$configuration->getProperty('database_name');
 		
 		// ** parameter validation
 		ArgumentValidator::validate($dbIndex, IntegerValidatorRule::getRule(), true);
 		ArgumentValidator::validate($authzDB, StringValidatorRule::getRule(), true);
 		// ** end of parameter validation
 		
-		$this->_cache =& new AuthorizationCache($dbIndex, $authzDB);
+		$this->_cache = new AuthorizationCache($dbIndex, $authzDB);
 	}
 
 	/**
@@ -127,7 +127,7 @@ class HarmoniAuthorizationManager
 	 * 
 	 * @access public
 	 */
-	function &getOsidContext () { 
+	function getOsidContext () { 
 		return $this->_osidContext;
 	} 
 
@@ -142,8 +142,8 @@ class HarmoniAuthorizationManager
 	 * 
 	 * @access public
 	 */
-	function assignOsidContext ( &$context ) { 
-		$this->_osidContext =& $context;
+	function assignOsidContext ( $context ) { 
+		$this->_osidContext =$context;
 	} 
 
 	/**
@@ -178,8 +178,8 @@ class HarmoniAuthorizationManager
 	 * 
 	 * @access public
 	 */
-	function &createDatedAuthorization ( &$agentId, &$functionId, &$qualifierId, $effectiveDate, $expirationDate ) { 
-		$authorization =& $this->_cache->createAuthorization($agentId, $functionId, $qualifierId, $effectiveDate, $expirationDate);
+	function createDatedAuthorization ( $agentId, $functionId, $qualifierId, $effectiveDate, $expirationDate ) { 
+		$authorization =$this->_cache->createAuthorization($agentId, $functionId, $qualifierId, $effectiveDate, $expirationDate);
 		
 		IsAuthorizedCache::dirtyNode($qualifierId);
 		
@@ -216,8 +216,8 @@ class HarmoniAuthorizationManager
 	 * 
 	 * @access public
 	 */
-	function &createAuthorization ( &$agentId, &$functionId, &$qualifierId ) { 
-		$authorization =& $this->_cache->createAuthorization($agentId, $functionId, $qualifierId);
+	function createAuthorization ( $agentId, $functionId, $qualifierId ) { 
+		$authorization =$this->_cache->createAuthorization($agentId, $functionId, $qualifierId);
 		
 		IsAuthorizedCache::dirtyNode($qualifierId);
 		
@@ -255,8 +255,8 @@ class HarmoniAuthorizationManager
 	 * 
 	 * @access public
 	 */
-	function &createFunction ( &$functionId, $displayName, $description, &$functionType, &$qualifierHierarchyId ) { 
-		$function =& $this->_cache->createFunction($functionId, $displayName, $description, $functionType, $qualifierHierarchyId);
+	function createFunction ( $functionId, $displayName, $description, $functionType, $qualifierHierarchyId ) { 
+		$function =$this->_cache->createFunction($functionId, $displayName, $description, $functionType, $qualifierHierarchyId);
 		return $function;
 	}
 
@@ -295,8 +295,8 @@ class HarmoniAuthorizationManager
 	 * 
 	 * @access public
 	 */
-	function &createRootQualifier ( &$qualifierId, $displayName, $description, &$qualifierType, &$qualifierHierarchyId ) { 
-		$qualifier =& $this->_cache->createRootQualifier($qualifierId, $displayName, $description, $qualifierType, $qualifierHierarchyId);
+	function createRootQualifier ( $qualifierId, $displayName, $description, $qualifierType, $qualifierHierarchyId ) { 
+		$qualifier =$this->_cache->createRootQualifier($qualifierId, $displayName, $description, $qualifierType, $qualifierHierarchyId);
 		return $qualifier;
 	}
 
@@ -336,8 +336,8 @@ class HarmoniAuthorizationManager
 	 * 
 	 * @access public
 	 */
-	function &createQualifier ( &$qualifierId, $displayName, $description, &$qualifierType, &$parentId ) { 
-		$qualifier =& $this->_cache->createQualifier($qualifierId, $displayName, $description, $qualifierType, $parentId);
+	function createQualifier ( $qualifierId, $displayName, $description, $qualifierType, $parentId ) { 
+		$qualifier =$this->_cache->createQualifier($qualifierId, $displayName, $description, $qualifierType, $parentId);
 		return $qualifier;
 	}
 
@@ -365,10 +365,10 @@ class HarmoniAuthorizationManager
 	 * 
 	 * @access public
 	 */
-	function deleteAuthorization ( &$authorization ) {
+	function deleteAuthorization ( $authorization ) {
 		ArgumentValidator::validate($authorization, ExtendsValidatorRule::getRule("Authorization"), true);
-		$qualifier =& $authorization->getQualifier();
-		$qualifierId =& $qualifier->getId();
+		$qualifier =$authorization->getQualifier();
+		$qualifierId =$qualifier->getId();
 		$this->_cache->deleteAuthorization($authorization);
 		
 		IsAuthorizedCache::dirtyNode($qualifierId);
@@ -398,7 +398,7 @@ class HarmoniAuthorizationManager
 	 * 
 	 * @access public
 	 */
-	function deleteFunction ( &$functionId ) { 
+	function deleteFunction ( $functionId ) { 
 		$this->_cache->deleteFunction($functionId);
 	}
 
@@ -428,7 +428,7 @@ class HarmoniAuthorizationManager
 	 * 
 	 * @access public
 	 */
-	function deleteQualifier ( &$qualifierId ) { 
+	function deleteQualifier ( $qualifierId ) { 
 		$this->_cache->deleteQualifier($qualifierId);
 	}
 
@@ -461,11 +461,11 @@ class HarmoniAuthorizationManager
 	 * 
 	 * @access public
 	 */
-	function isAuthorized ( &$agentId, &$functionId, &$qualifierId ) { 
-// 		$authorizations =& $this->getAllAZs($agentId, $functionId, $qualifierId, true);
+	function isAuthorized ( $agentId, $functionId, $qualifierId ) { 
+// 		$authorizations =$this->getAllAZs($agentId, $functionId, $qualifierId, true);
 // 		return ($authorizations->hasNext());
 		
-		$isAuthorizedCache =& IsAuthorizedCache::instance();
+		$isAuthorizedCache = IsAuthorizedCache::instance();
 		return $isAuthorizedCache->isAuthorized($agentId, $functionId, $qualifierId);
 	}
 
@@ -497,11 +497,11 @@ class HarmoniAuthorizationManager
 	 * 
 	 * @access public
 	 */
-	function isUserAuthorized ( &$functionId, &$qualifierId ) {
-// 		$authorizations =& $this->getAllUserAZs($functionId, $qualifierId, true);
+	function isUserAuthorized ( $functionId, $qualifierId ) {
+// 		$authorizations =$this->getAllUserAZs($functionId, $qualifierId, true);
 // 		return ($authorizations->hasNext());
 				
-		$isAuthorizedCache =& IsAuthorizedCache::instance();
+		$isAuthorizedCache = IsAuthorizedCache::instance();
 		return $isAuthorizedCache->isUserAuthorized($functionId, $qualifierId);
 	}
 	
@@ -524,8 +524,8 @@ class HarmoniAuthorizationManager
 	 * @access public
 	 * @since 2/27/07
 	 */
-	function isAuthorizedBelow ( &$agentId, &$functionId, &$qualifierId ) {
-		$isAuthorizedCache =& IsAuthorizedCache::instance();
+	function isAuthorizedBelow ( $agentId, $functionId, $qualifierId ) {
+		$isAuthorizedCache = IsAuthorizedCache::instance();
 		
 		// First check if the authorization exists for the qualifier. If so,
 		// it will by definition cascade to the descendents.
@@ -534,9 +534,9 @@ class HarmoniAuthorizationManager
 		} 
 		// Check to see if the authorization is set on any descendents
 		else {
-			$descendents =& $this->getQualifierDescendants($qualifierId);
+			$descendents =$this->getQualifierDescendants($qualifierId);
 			while ($descendents->hasNext()) {
-				$descendent =& $descendents->next();
+				$descendent =$descendents->next();
 				if ($this->isAuthorizedBelow($agentId, $functionId, $descendent->getId()))
 					return true;
 			}
@@ -564,8 +564,8 @@ class HarmoniAuthorizationManager
 	 * @access public
 	 * @since 2/27/07
 	 */
-	function isUserAuthorizedBelow ( &$functionId, &$qualifierId ) {
-		$isAuthorizedCache =& IsAuthorizedCache::instance();
+	function isUserAuthorizedBelow ( $functionId, $qualifierId ) {
+		$isAuthorizedCache = IsAuthorizedCache::instance();
 		
 		// First check if the authorization exists for the qualifier. If so,
 		// it will by definition cascade to the descendents.
@@ -574,9 +574,9 @@ class HarmoniAuthorizationManager
 		} 
 		// Check to see if the authorization is set on any descendents
 		else {
-			$descendents =& $this->getQualifierDescendants($qualifierId);
+			$descendents =$this->getQualifierDescendants($qualifierId);
 			while ($descendents->hasNext()) {
-				$descendent =& $descendents->next();
+				$descendent =$descendents->next();
 				if ($this->isUserAuthorizedBelow($functionId, $descendent->getId()))
 					return true;
 			}
@@ -605,7 +605,7 @@ class HarmoniAuthorizationManager
 	 * 
 	 * @access public
 	 */
-	function &getFunctionTypes () { 
+	function getFunctionTypes () { 
 		return $this->_cache->getFunctionTypes();
 	}
 
@@ -635,7 +635,7 @@ class HarmoniAuthorizationManager
 	 * 
 	 * @access public
 	 */
-	function &getFunctions ( &$functionType ) { 
+	function getFunctions ( $functionType ) { 
 		return $this->_cache->getFunctions($functionType);
 	}
 
@@ -665,13 +665,13 @@ class HarmoniAuthorizationManager
 	 * 
 	 * @access public
 	 */
-	function &getFunction ( &$functionId ) { 
+	function getFunction ( $functionId ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($functionId, ExtendsValidatorRule::getRule("Id"), true);
 		// ** end of parameter validation
 	
 		$idValue = $functionId->getIdString();
-		$result =& $this->_cache->getFunction($idValue);
+		$result =$this->_cache->getFunction($idValue);
 		
 		return $result;
 	}
@@ -705,7 +705,7 @@ class HarmoniAuthorizationManager
 	 * 
 	 * @access public
 	 */
-	function agentExists ( &$agentId ) { 
+	function agentExists ( $agentId ) { 
 		die(UNIMPLEMENTED);
 	}
 
@@ -730,25 +730,25 @@ class HarmoniAuthorizationManager
 	 * 
 	 * @access public
 	 */
-	function &getQualifierTypes () { 
-		$hierarchyManager =& Services::getService("Hierarchy");
-		$hierarchies =& $hierarchyManager->getHierarchies();
+	function getQualifierTypes () { 
+		$hierarchyManager = Services::getService("Hierarchy");
+		$hierarchies =$hierarchyManager->getHierarchies();
 		
 		$types = array();
 		while ($hierarchies->hasNext()) {
-			$hierarchy =& $hierarchies->next();
-			$nodeTypes =& $hierarchy->getNodeTypes();
+			$hierarchy =$hierarchies->next();
+			$nodeTypes =$hierarchy->getNodeTypes();
 			while ($nodeTypes->hasNext()) {
-				$type =& $nodeTypes->next();
+				$type =$nodeTypes->next();
 				$typeString = $type->getDomain()
 							."::".$type->getAuthority()
 							."::".$type->getKeyword();
 				if (!$types[$typeString])
-					$types[$typeString] =& $type;
+					$types[$typeString] =$type;
 			}
 		}
 		
-		$i =& new HarmoniIterator($types);
+		$i = new HarmoniIterator($types);
 		return $i;
 	}
 
@@ -779,7 +779,7 @@ class HarmoniAuthorizationManager
 	 * 
 	 * @access public
 	 */
-	function &getRootQualifiers ( &$qualifierHierarchyId ) { 
+	function getRootQualifiers ( $qualifierHierarchyId ) { 
 		return $this->_cache->getRootQualifiers($qualifierHierarchyId);
 	}
 
@@ -809,9 +809,9 @@ class HarmoniAuthorizationManager
 	 * 
 	 * @access public
 	 */
-	function &getQualifierChildren ( &$qualifierId ) { 
+	function getQualifierChildren ( $qualifierId ) { 
 		// get the qualifier
-		$qualifier =& $this->getQualifier($qualifierId);
+		$qualifier =$this->getQualifier($qualifierId);
 		return $qualifier->getChildren();
 	}
 
@@ -842,12 +842,12 @@ class HarmoniAuthorizationManager
 	 * 
 	 * @access public
 	 */
-	function &getQualifierDescendants ( &$qualifierId ) { 
+	function getQualifierDescendants ( $qualifierId ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($qualifierId, ExtendsValidatorRule::getRule("Id"), true);
 		// ** end of parameter validation
 	
-		$result =& $this->_cache->getQualifierDescendants($qualifierId);
+		$result =$this->_cache->getQualifierDescendants($qualifierId);
 		
 		return $result;
 	}
@@ -878,12 +878,12 @@ class HarmoniAuthorizationManager
 	 * 
 	 * @access public
 	 */
-	function &getQualifier ( &$qualifierId ) { 
+	function getQualifier ( $qualifierId ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($qualifierId, ExtendsValidatorRule::getRule("Id"), true);
 		// ** end of parameter validation
 	
-		$result =& $this->_cache->getQualifier($qualifierId);
+		$result =$this->_cache->getQualifier($qualifierId);
 		
 		return $result;
 	}
@@ -917,7 +917,7 @@ class HarmoniAuthorizationManager
 	 * 
 	 * @access public
 	 */
-	function &getWhoCanDo ( &$functionId, &$qualifierId ) { 
+	function getWhoCanDo ( $functionId, $qualifierId ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($functionId, ExtendsValidatorRule::getRule("Id"), true);
 		ArgumentValidator::validate($qualifierId, OptionalRule::getRule(ExtendsValidatorRule::getRule("Id")), true);
@@ -925,17 +925,17 @@ class HarmoniAuthorizationManager
 		// ArgumentValidator::validate($isActiveNow, BooleanValidatorRule::getRule(), true);
 		// ** end of parameter validation
 		
-		$authorizations =& $this->getAllAZs($null = null, $functionId, $qualifierId, true);
+		$authorizations =$this->getAllAZs($null = null, $functionId, $qualifierId, true);
 											
 		$agentIds = array();
 		while ($authorizations->hasNext()) {
-			$authorization =& $authorizations->next();
-			$agentId =& $authorization->getAgentId();
+			$authorization =$authorizations->next();
+			$agentId =$authorization->getAgentId();
 			if (!isset($agentIds[$agentId->getIdString()]))
-				$agentIds[$agentId->getIdString()] =& $agentId;
+				$agentIds[$agentId->getIdString()] =$agentId;
 		}
 		
-		$i =& new HarmoniIdIterator($agentIds);
+		$i = new HarmoniIdIterator($agentIds);
 		return $i;
 	}
 
@@ -969,18 +969,18 @@ class HarmoniAuthorizationManager
 	 * 
 	 * @access public
 	 */
-	function &getExplicitUserAZs ( &$functionId, &$qualifierId, $isActiveNowOnly ) { 
+	function getExplicitUserAZs ( $functionId, $qualifierId, $isActiveNowOnly ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($functionId, ExtendsValidatorRule::getRule("Id"), true);
 		ArgumentValidator::validate($qualifierId, ExtendsValidatorRule::getRule("Id"), true);
 		ArgumentValidator::validate($isActiveNowOnly, BooleanValidatorRule::getRule(), true);
 		// ** end of parameter validation
 		
-		$userIds =& $this->_getUserIds();
+		$userIds =$this->_getUserIds();
 		$authorizations = array();
 		foreach (array_keys($userIds) as $key) {
-			$userId =& $userIds[$key];
-			$userAZs =& $this->_cache->getAZs(
+			$userId =$userIds[$key];
+			$userAZs =$this->_cache->getAZs(
 					$userId->getIdString(),				// aid
 					 $functionId->getIdString(),		// fid
 					 $qualifierId->getIdString(),		// qid
@@ -988,10 +988,10 @@ class HarmoniAuthorizationManager
 					 true, 								// returnExplicitOnly
 					 false,								// searchUp
 					 $isActiveNowOnly);
-			$authorizations =& array_merge($authorizations, $userAZs);
+			$authorizations = array_merge($authorizations, $userAZs);
 		}
 		
-		$i =& new HarmoniAuthorizationIterator($authorizations);
+		$i = new HarmoniAuthorizationIterator($authorizations);
 		return $i;
 	}
 
@@ -1028,18 +1028,18 @@ class HarmoniAuthorizationManager
 	 * 
 	 * @access public
 	 */
-	function &getExplicitUserAZsByFuncType ( &$functionType, &$qualifierId, $isActiveNowOnly ) { 
+	function getExplicitUserAZsByFuncType ( $functionType, $qualifierId, $isActiveNowOnly ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($functionType, ExtendsValidatorRule::getRule("Type"), true);
 		ArgumentValidator::validate($qualifierId, ExtendsValidatorRule::getRule("Id"), true);
 		ArgumentValidator::validate($isActiveNowOnly, BooleanValidatorRule::getRule(), true);
 		// ** end of parameter validation
 		
-		$userIds =& $this->_getUserIds();
+		$userIds =$this->_getUserIds();
 		$authorizations = array();
 		foreach (array_keys($userIds) as $key) {
-			$userId =& $userIds[$key];
-			$userAZs =& $this->_cache->getAZs(
+			$userId =$userIds[$key];
+			$userAZs =$this->_cache->getAZs(
 					$userId->getIdString(),			// aid
 					 null,							// fid
 					 $qualifierId->getIdString(),	// qid
@@ -1047,10 +1047,10 @@ class HarmoniAuthorizationManager
 					 true, 							// returnExplicitOnly
 					 false,							// searchUp
 					 $isActiveNowOnly);				// isActiveNowOnly
-			$authorizations =& array_merge($authorizations, $userAZs);
+			$authorizations = array_merge($authorizations, $userAZs);
 		}
 		
-		$i =& new HarmoniAuthorizationIterator($authorizations);
+		$i = new HarmoniAuthorizationIterator($authorizations);
 		return $i;
 	}
 
@@ -1087,18 +1087,18 @@ class HarmoniAuthorizationManager
 	 * 
 	 * @access public
 	 */
-	function &getAllUserAZs ( &$functionId, &$qualifierId, $isActiveNowOnly ) { 
+	function getAllUserAZs ( $functionId, $qualifierId, $isActiveNowOnly ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($functionId, ExtendsValidatorRule::getRule("Id"), true);
 		ArgumentValidator::validate($qualifierId, ExtendsValidatorRule::getRule("Id"), true);
 		ArgumentValidator::validate($isActiveNowOnly, BooleanValidatorRule::getRule(), true);
 		// ** end of parameter validation
 		
-		$userIds =& $this->_getUserIds();
+		$userIds =$this->_getUserIds();
 		$authorizations = array();
 		foreach (array_keys($userIds) as $key) {
-			$userId =& $userIds[$key];
-			$userAZs =& $this->_cache->getAZs(
+			$userId =$userIds[$key];
+			$userAZs =$this->_cache->getAZs(
 					$userId->getIdString(),			// aid
 					$functionId->getIdString(),		// fid
 					$qualifierId->getIdString(),	// qid
@@ -1107,10 +1107,10 @@ class HarmoniAuthorizationManager
 					true,							// searchUp
 					$isActiveNowOnly,				// isActiveOnly
 					$this->_getContainingGroupIdStrings($userId));
-			$authorizations =& array_merge($authorizations, $userAZs);
+			$authorizations = array_merge($authorizations, $userAZs);
 		}
 		
-		$i =& new HarmoniAuthorizationIterator($authorizations);
+		$i = new HarmoniAuthorizationIterator($authorizations);
 		return $i;
 	}
 	
@@ -1149,18 +1149,18 @@ class HarmoniAuthorizationManager
 	 * 
 	 * @access public
 	 */
-	function &getAllUserAZsByFuncType ( &$functionType, &$qualifierId, $isActiveNowOnly ) { 
+	function getAllUserAZsByFuncType ( $functionType, $qualifierId, $isActiveNowOnly ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($functionType, ExtendsValidatorRule::getRule("Type"), true);
 		ArgumentValidator::validate($qualifierId, ExtendsValidatorRule::getRule("Id"), true);
 		ArgumentValidator::validate($isActiveNowOnly, BooleanValidatorRule::getRule(), true);
 		// ** end of parameter validation
 		
-		$userIds =& $this->_getUserIds();
+		$userIds =$this->_getUserIds();
 		$authorizations = array();
 		foreach (array_keys($userIds) as $key) {
-			$userId =& $userIds[$key];
-			$userAZs =& $this->_cache->getAZs(
+			$userId =$userIds[$key];
+			$userAZs =$this->_cache->getAZs(
 							$userId->getIdString(),			// aid
 							null,							// fid
 							$qualifierId->getIdString(),	// qid
@@ -1169,10 +1169,10 @@ class HarmoniAuthorizationManager
 							true,							// searchUp
 							$isActiveNowOnly,				// isActiveNowOnly
 							$this->_getContainingGroupIdStrings($userId));
-			$authorizations =& array_merge($authorizations, $userAZs);
+			$authorizations = array_merge($authorizations, $userAZs);
 		}
 		
-		$i =& new HarmoniAuthorizationIterator($authorizations);
+		$i = new HarmoniAuthorizationIterator($authorizations);
 		return $i;
 	}
 
@@ -1208,7 +1208,7 @@ class HarmoniAuthorizationManager
 	 * 
 	 * @access public
 	 */
-	function &getExplicitAZs ( &$agentId, &$functionId, &$qualifierId, $isActiveNowOnly ) { 
+	function getExplicitAZs ( $agentId, $functionId, $qualifierId, $isActiveNowOnly ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($agentId, ExtendsValidatorRule::getRule("Id"), true);
 		ArgumentValidator::validate($functionId, ExtendsValidatorRule::getRule("Id"), true);
@@ -1216,7 +1216,7 @@ class HarmoniAuthorizationManager
 		ArgumentValidator::validate($isActiveNowOnly, BooleanValidatorRule::getRule(), true);
 		// ** end of parameter validation
 		
-		$authorizations =& $this->_cache->getAZs(
+		$authorizations =$this->_cache->getAZs(
 							$agentId->getIdString(),		// aid
 							$functionId->getIdString(),		// fid
 							$qualifierId->getIdString(),	// qid
@@ -1225,7 +1225,7 @@ class HarmoniAuthorizationManager
 							false,							// searchUp
 							$isActiveNowOnly);				// isActiveNowOnly
 								
-		$i =& new HarmoniAuthorizationIterator($authorizations);	
+		$i = new HarmoniAuthorizationIterator($authorizations);	
 		return $i;
 	}
 
@@ -1264,7 +1264,7 @@ class HarmoniAuthorizationManager
 	 * 
 	 * @access public
 	 */
-	function &getExplicitAZsByFuncType ( &$agentId, &$functionType, &$qualifierId, $isActiveNowOnly ) { 
+	function getExplicitAZsByFuncType ( $agentId, $functionType, $qualifierId, $isActiveNowOnly ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($agentId, ExtendsValidatorRule::getRule("Id"), true);
 		ArgumentValidator::validate($functionType, ExtendsValidatorRule::getRule("Type"), true);
@@ -1272,7 +1272,7 @@ class HarmoniAuthorizationManager
 		ArgumentValidator::validate($isActiveNowOnly, BooleanValidatorRule::getRule(), true);
 		// ** end of parameter validation
 		
-		$authorizations =& $this->_cache->getAZs(
+		$authorizations =$this->_cache->getAZs(
 								$agentId->getIdString(),		// aid
 								null,							// fid
 								$qualifierId->getIdString(),	// qid
@@ -1281,7 +1281,7 @@ class HarmoniAuthorizationManager
 								false,							// searchUp
 								$isActiveNowOnly);				// isActiveNowOnly
 		
-		$iter =& new HarmoniAuthorizationIterator($authorizations);
+		$iter = new HarmoniAuthorizationIterator($authorizations);
 		return $iter;
 	}
 	
@@ -1294,14 +1294,14 @@ class HarmoniAuthorizationManager
 	 *
 	 * @return ref object Iterator
 	 **/
-	function &getAllExplicitAZsForAgent(&$agentId, $isActiveNowOnly)
+	function getAllExplicitAZsForAgent($agentId, $isActiveNowOnly)
 	{
 		// ** parameter validation
 		ArgumentValidator::validate($agentId, ExtendsValidatorRule::getRule("Id"), true);
 		ArgumentValidator::validate($isActiveNowOnly, BooleanValidatorRule::getRule(), true);
 		// ** end
 		
-		$authorizations =& $this->_cache->getAZs(
+		$authorizations =$this->_cache->getAZs(
 							$agentId->getIdString(),	// aid
 							null,						// fid
 							null,						// qid
@@ -1309,7 +1309,7 @@ class HarmoniAuthorizationManager
 							true,						// returnExplicitOnly
 							false,						// searchUp
 							$isActiveNowOnly);			// isActiveNowOnly
-		$iter =& new HarmoniAuthorizationIterator($authorizations);
+		$iter = new HarmoniAuthorizationIterator($authorizations);
 		return $iter;
 	}
 
@@ -1347,7 +1347,7 @@ class HarmoniAuthorizationManager
 	 * 
 	 * @access public
 	 */
-	function &getAllAZs ( &$agentId, &$functionId, &$qualifierId, $isActiveNowOnly ) { 
+	function getAllAZs ( $agentId, $functionId, $qualifierId, $isActiveNowOnly ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($agentId, OptionalRule::getRule(ExtendsValidatorRule::getRule("Id")), true);
 		ArgumentValidator::validate($functionId, OptionalRule::getRule(ExtendsValidatorRule::getRule("Id")), true);
@@ -1380,7 +1380,7 @@ class HarmoniAuthorizationManager
 		
 		// We need to check all of the groups that may contain $aId as well as
 		// aId itsself.
-		$authorizations =& $this->_cache->getAZs(
+		$authorizations =$this->_cache->getAZs(
 							$agentIdString,		// aid
 							$functionIdString,		// fid
 							$qualifierIdString,	// qid
@@ -1390,7 +1390,7 @@ class HarmoniAuthorizationManager
 							$isActiveNowOnly,				// isActiveNowOnly
 							$containingGroups);
 		
-		$i =& new HarmoniAuthorizationIterator($authorizations);
+		$i = new HarmoniAuthorizationIterator($authorizations);
 		return $i;
 	}
 
@@ -1430,7 +1430,7 @@ class HarmoniAuthorizationManager
 	 * 
 	 * @access public
 	 */
-	function &getAllAZsByFuncType ( &$agentId, &$functionType, &$qualifierId, $isActiveNowOnly ) { 
+	function getAllAZsByFuncType ( $agentId, $functionType, $qualifierId, $isActiveNowOnly ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($agentId, ExtendsValidatorRule::getRule("Id"), true);
 		ArgumentValidator::validate($functionType, ExtendsValidatorRule::getRule("Type"), true);
@@ -1438,7 +1438,7 @@ class HarmoniAuthorizationManager
 		ArgumentValidator::validate($isActiveNowOnly, BooleanValidatorRule::getRule(), true);
 		// ** end of parameter validation
 		
-		$authorizations =& $this->_cache->getAZs(
+		$authorizations =$this->_cache->getAZs(
 							$agentId->getIdString(),		// aid
 							null,							// fid
 							$qualifierId->getIdString(),	// qid
@@ -1448,7 +1448,7 @@ class HarmoniAuthorizationManager
 							$isActiveNowOnly,				// isActiveNowOnly
 							$this->_getContainingGroupIdStrings($agentId));
 		
-		$i =& new HarmoniAuthorizationIterator($authorizations);
+		$i = new HarmoniAuthorizationIterator($authorizations);
 		return $i;
 	}
 	
@@ -1482,7 +1482,7 @@ class HarmoniAuthorizationManager
 	 * 
 	 * @access public
 	 */
-	function &getExplicitUserAZsForImplicitAZ (& $implicitAuthorization ) { 
+	function getExplicitUserAZsForImplicitAZ ($implicitAuthorization ) { 
 		
 		// ** parameter validation
 		ArgumentValidator::validate($implicitAuthorization, ExtendsValidatorRule::getRule("Authorization"), true);
@@ -1493,13 +1493,13 @@ class HarmoniAuthorizationManager
 			throwError(new Error(AuthorizationExeption::OPERATION_FAILED(), "AuthorizationManager", true));
 		}
 		
-		$agentId =& $implicitAuthorization->getAgentId();
-		$function =& $implicitAuthorization->getFunction();
-		$functionId =& $function->getId();
-		$qualifier =& $implicitAuthorization->getQualifier();
-		$qualifierId =& $qualifier->getId();
+		$agentId =$implicitAuthorization->getAgentId();
+		$function =$implicitAuthorization->getFunction();
+		$functionId =$function->getId();
+		$qualifier =$implicitAuthorization->getQualifier();
+		$qualifierId =$qualifier->getId();
 				
-		$authorizations =& $this->_cache->getAZs(
+		$authorizations =$this->_cache->getAZs(
 					$agentId->getIdString(),				// aid
 					$functionId->getIdString(),				// fid
 					$qualifierId->getIdString(),			// qid
@@ -1515,19 +1515,19 @@ class HarmoniAuthorizationManager
 		// of the implicit AZ
 		$explicitForImplicit = array();
 		foreach(array_keys($authorizations) as $key) {
-			$az =& $authorizations[$key];
-			$aId =& $az->getAgentId();
+			$az =$authorizations[$key];
+			$aId =$az->getAgentId();
 			
-			$q =& $az->getQualifier();
-			$qId =& $q->getId();
+			$q =$az->getQualifier();
+			$qId =$q->getId();
 			
 			if ($agentId->isEqual($aId) && $qualifierId->isEqual($qId))
 				continue;
 			else
-				$explicitForImplicit[] =& $az;
+				$explicitForImplicit[] =$az;
 		}
 		
-		$i =& new HarmoniAuthorizationIterator($explicitForImplicit);
+		$i = new HarmoniAuthorizationIterator($explicitForImplicit);
 		return $i;
 	}
 	
@@ -1553,15 +1553,15 @@ class HarmoniAuthorizationManager
 	 * 
 	 * @access public
 	 */
-	function &getQualifierHierarchies () { 
-		$hierarchyManager =& Services::getService("Hierarchy");
-		$hierarchies =& $hierarchyManager->getHierarchies();
+	function getQualifierHierarchies () { 
+		$hierarchyManager = Services::getService("Hierarchy");
+		$hierarchies =$hierarchyManager->getHierarchies();
 		$array = array();
 		while ($hierarchies->hasNext()) {
-			$hierarchy =& $hierarchies->next();
-			$array[] =& $hierarchy->getId();
+			$hierarchy =$hierarchies->next();
+			$array[] =$hierarchy->getId();
 		}
-		$i =& new HarmoniIterator($array);
+		$i = new HarmoniIterator($array);
 		return $i;
 	}
 	
@@ -1634,7 +1634,7 @@ class HarmoniAuthorizationManager
 	 * @access private
 	 * @since 11/29/04
 	 */
-	function _getContainingGroupIdStrings ( & $agentOrGroupId ) {
+	function _getContainingGroupIdStrings ( $agentOrGroupId ) {
 		$agentOrGroupIdString = $agentOrGroupId->getIdString();
 		
 		// Check our cache first and only do the search if we don't have
@@ -1644,14 +1644,14 @@ class HarmoniAuthorizationManager
 		{
 			$groupIds = array();
 			
-			$agentManager =& Services::getService("Agent");
-			$ancestorSearchType =& new HarmoniType("Agent & Group Search",
+			$agentManager = Services::getService("Agent");
+			$ancestorSearchType = new HarmoniType("Agent & Group Search",
 													"edu.middlebury.harmoni","AncestorGroups");
-			$containingGroups =& $agentManager->getGroupsBySearch(
+			$containingGroups =$agentManager->getGroupsBySearch(
 										$agentOrGroupId, $ancestorSearchType);
 			while ($containingGroups->hasNext()) {
-				$group =& $containingGroups->next();
-				$groupId =& $group->getId();
+				$group =$containingGroups->next();
+				$groupId =$group->getId();
 				$groupIds[] = $groupId->getIdString();
 			}
 			
@@ -1668,23 +1668,23 @@ class HarmoniAuthorizationManager
 	 * @access private
 	 * @since 3/16/05
 	 */
-	function &_getUserIds () {
-		$authentication =& Services::getService("AuthN");
-		$authNTypes =& $authentication->getAuthenticationTypes();
+	function _getUserIds () {
+		$authentication = Services::getService("AuthN");
+		$authNTypes =$authentication->getAuthenticationTypes();
 		$ids = array();
 		$isAuthenticated = FALSE;
 		while ($authNTypes->hasNext()) {
-			$authNType =& $authNTypes->next();
+			$authNType =$authNTypes->next();
 			if ($authentication->isUserAuthenticated($authNType)) {
-				$ids[] =& $authentication->getUserId($authNType);
+				$ids[] =$authentication->getUserId($authNType);
 				$isAuthenticated = TRUE;
 			}
 		}
 		
 		// Otherwise return the "anonymous user"
 		if (!$isAuthenticated) {
-			$idManager =& Services::getService("Id");
-			$ids[] =& $idManager->getId("edu.middlebury.agents.anonymous");
+			$idManager = Services::getService("Id");
+			$ids[] =$idManager->getId("edu.middlebury.agents.anonymous");
 		}
 		
 		return $ids;

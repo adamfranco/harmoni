@@ -36,7 +36,7 @@ class Properties
      * 
      * @access public
      */
-    function &getType () { 
+    function getType () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -60,7 +60,7 @@ class Properties
      * 
      * @access public
      */
-    function &getProperty ( &$key ) { 
+    function getProperty ( $key ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -81,7 +81,7 @@ class Properties
      * 
      * @access public
      */
-    function &getKeys () { 
+    function getKeys () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 }

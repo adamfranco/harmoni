@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OrderedList.class.php,v 1.3 2005/01/19 21:10:15 adamfranco Exp $
+ * @version $Id: OrderedList.class.php,v 1.4 2007/09/04 20:25:54 adamfranco Exp $
  */
 class OrderedList {
 
@@ -30,11 +30,11 @@ class OrderedList {
 	 * @param string $key the key by which the object is referenced in the list. By default the key will be the integer position in the list.
 	 * @access public
 	 */
-	function add(&$object,$key="") {
+	function add($object,$key="") {
 		if($key=="")
 			$key = count($this->_array);
 
-		$this->_list[$key] =& $object;
+		$this->_list[$key] =$object;
 		
 		reset($this->_list);
 	}
@@ -45,7 +45,7 @@ class OrderedList {
 	 * @return object The reference to the object with a given key. False if no object with such key exists.
 	 * @access public
 	 */
-	function &retrieve($key) { 
+	function retrieve($key) { 
 		if(!isset($this->_list[$key]))
 			return false;
 
@@ -110,11 +110,11 @@ class OrderedList {
 		   
 		foreach ($this->_list as $key=>$value) {
 			if (($key!=$key1) && ($key!=$key2))
-				$tempArray[$key] =& $this->_list[$key];
+				$tempArray[$key] =$this->_list[$key];
 			elseif ($key==$key1)
-				$tempArray[$key2] =& $this->_list[$key2];
+				$tempArray[$key2] =$this->_list[$key2];
 			else
-				$tempArray[$key1] =& $this->_list[$key1];
+				$tempArray[$key1] =$this->_list[$key1];
 		}
 		   
 		$this->_list = $tempArray;
@@ -183,13 +183,13 @@ class OrderedList {
 		$tempArray = array();
 		foreach ($this->_list as $key=>$value) {
 			if ($key==$destination)
-				$tempArray[$source] =& $this->_list[$source];
+				$tempArray[$source] =$this->_list[$source];
 			if ($key!=$source)
-				$tempArray[$key] =& $this->_list[$key];
+				$tempArray[$key] =$this->_list[$key];
 		}
 		
 		if ($destination==="list_end")
-			$tempArray[$source] =& $this->_list[$source];
+			$tempArray[$source] =$this->_list[$source];
 
 		$this->_list = $tempArray;
 		reset($this->_list);
@@ -201,7 +201,7 @@ class OrderedList {
 	 * @return object The reference to the object at the current position in the queue.
 	 * @access public
 	 */
-	function &next() { 
+	function next() { 
 		$key = key($this->_list);
 		next($this->_list);
 		return $this->_list[$key];

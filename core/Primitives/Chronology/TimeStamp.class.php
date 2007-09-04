@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeStamp.class.php,v 1.4 2006/11/30 22:02:04 adamfranco Exp $
+ * @version $Id: TimeStamp.class.php,v 1.5 2007/09/04 20:25:25 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -51,7 +51,7 @@ require_once(dirname(__FILE__)."/DateAndTime.class.php");
  *		- {@link withYearMonthDayHourMinuteSecondOffset 
  *						TimeStamp::withYearMonthDayHourMinuteSecondOffset($anIntYear, 
  *						$anIntOrStringMonth, $anIntDay, $anIntHour, $anIntMinute, 
- *						$anIntSecond, &$aDurationOffset)}
+ *						$anIntSecond, $aDurationOffset)}
  *		- {@link yesterday TimeStamp::yesterday()}
  * 
  * @since 5/11/05
@@ -60,7 +60,7 @@ require_once(dirname(__FILE__)."/DateAndTime.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeStamp.class.php,v 1.4 2006/11/30 22:02:04 adamfranco Exp $
+ * @version $Id: TimeStamp.class.php,v 1.5 2007/09/04 20:25:25 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -91,8 +91,8 @@ class TimeStamp
  	 * @access public
  	 * @since 5/13/05
  	 */
- 	function &current ( $class = 'TimeStamp' ) {
- 		eval('$result =& '.$class.'::now();');
+ 	function current ( $class = 'TimeStamp' ) {
+ 		eval('$result = '.$class.'::now();');
  		return $result;
  	}
 	
@@ -108,8 +108,8 @@ class TimeStamp
 	 * @since 5/2/05
 	 * @static
 	 */
-	function &epoch ( $class = 'TimeStamp' ) {
-		$obj =& parent::epoch($class);
+	function epoch ( $class = 'TimeStamp' ) {
+		$obj = parent::epoch($class);
 		return $obj;
 	}
 	
@@ -136,8 +136,8 @@ class TimeStamp
 	 * @since 5/12/05
 	 * @static
 	 */
-	function &fromString ( $aString, $class = 'TimeStamp' ) {
-		$obj =& parent::fromString( $aString, $class);
+	function fromString ( $aString, $class = 'TimeStamp' ) {
+		$obj = parent::fromString( $aString, $class);
 		return $obj;
 	}
 	
@@ -154,12 +154,12 @@ class TimeStamp
 	 * @access public
 	 * @since 5/27/05
 	 */
-	function &fromUnixTimeStamp ( $aUnixTimeStamp, $class = 'TimeStamp' ) {
-		$sinceUnixEpoch =& Duration::withSeconds($aUnixTimeStamp);
+	function fromUnixTimeStamp ( $aUnixTimeStamp, $class = 'TimeStamp' ) {
+		$sinceUnixEpoch = Duration::withSeconds($aUnixTimeStamp);
 		
-		eval('$unixEpoch =& '.$class.'::withYearMonthDayHourMinuteSecondOffset(
+		eval('$unixEpoch = '.$class.'::withYearMonthDayHourMinuteSecondOffset(
 						1970, 1, 1, 0, 0, 0, Duration::zero());');
-		$obj =& $unixEpoch->plus($sinceUnixEpoch);
+		$obj =$unixEpoch->plus($sinceUnixEpoch);
 		return $obj;
 	}
 	
@@ -175,8 +175,8 @@ class TimeStamp
 	 * @since 5/3/05
 	 * @static
 	 */
-	function &midnight ( $class = 'TimeStamp' ) {
-		$obj =& parent::midnight( $class );
+	function midnight ( $class = 'TimeStamp' ) {
+		$obj = parent::midnight( $class );
 		return $obj;
 	}
 	
@@ -192,8 +192,8 @@ class TimeStamp
 	 * @since 5/12/05
 	 * @static
 	 */
-	function &now ( $class = 'TimeStamp' ) {
-		$obj =& parent::now( $class );
+	function now ( $class = 'TimeStamp' ) {
+		$obj = parent::now( $class );
 		return $obj;
 	}
 	
@@ -209,8 +209,8 @@ class TimeStamp
 	 * @since 5/3/05
 	 * @static
 	 */
-	function &noon ( $class = 'TimeStamp' ) {
-		$obj =& parent::noon( $class );
+	function noon ( $class = 'TimeStamp' ) {
+		$obj = parent::noon( $class );
 		return $obj;
 	}
 	
@@ -226,8 +226,8 @@ class TimeStamp
 	 * @since 5/12/05
 	 * @static
 	 */
-	function &today ( $class = 'TimeStamp' ) {
-		$obj =& parent::today( $class );
+	function today ( $class = 'TimeStamp' ) {
+		$obj = parent::today( $class );
 		return $obj;
 	}
 	
@@ -243,8 +243,8 @@ class TimeStamp
 	 * @since 5/12/05
 	 * @static
 	 */
-	function &tomorrow ( $class = 'TimeStamp' ) {
-		$obj =& parent::tomorrow( $class );
+	function tomorrow ( $class = 'TimeStamp' ) {
+		$obj = parent::tomorrow( $class );
 		return $obj;
 	}
 	
@@ -260,8 +260,8 @@ class TimeStamp
 	 * @since 5/12/05
 	 * @static
 	 */
-	function &withDateAndTime ( &$aDate, &$aTime, $class = 'TimeStamp' ) {
-		$obj =& parent::withDateAndTime( $aDate, $aTime, $class );
+	function withDateAndTime ( $aDate, $aTime, $class = 'TimeStamp' ) {
+		$obj = parent::withDateAndTime( $aDate, $aTime, $class );
 		return $obj;
 	}
 	
@@ -278,8 +278,8 @@ class TimeStamp
 	 * @since 5/2/05
 	 * @static
 	 */
-	function &withJulianDayNumber ( $aJulianDayNumber, $class = 'TimeStamp' ) {
-		$obj =& parent::withJulianDayNumber($aJulianDayNumber, $class);
+	function withJulianDayNumber ( $aJulianDayNumber, $class = 'TimeStamp' ) {
+		$obj = parent::withJulianDayNumber($aJulianDayNumber, $class);
 		return $obj;
 	}
 	
@@ -296,8 +296,8 @@ class TimeStamp
  	 * @static
 	 * @since 5/4/05
 	 */
-	function &withYearDay ( $anIntYear, $anIntDayOfYear, $class = 'TimeStamp') {
-		$obj =& parent::withYearDay ( $anIntYear, $anIntDayOfYear, $class );
+	function withYearDay ( $anIntYear, $anIntDayOfYear, $class = 'TimeStamp') {
+		$obj = parent::withYearDay ( $anIntYear, $anIntDayOfYear, $class );
 		return $obj;
 	}
 	
@@ -318,10 +318,10 @@ class TimeStamp
  	 * @static
 	 * @since 5/4/05
 	 */
-	function &withYearDayHourMinuteSecond ( $anIntYear, $anIntDayOfYear, 
+	function withYearDayHourMinuteSecond ( $anIntYear, $anIntDayOfYear, 
 		$anIntHour, $anIntMinute, $anIntSecond, $class = 'TimeStamp' ) 
 	{
-		$obj =& parent::withYearDayHourMinuteSecond ( $anIntYear, $anIntDayOfYear, 
+		$obj = parent::withYearDayHourMinuteSecond ( $anIntYear, $anIntDayOfYear, 
 			$anIntHour, $anIntMinute, $anIntSecond, $class);
 		return $obj;
 	}
@@ -344,10 +344,10 @@ class TimeStamp
  	 * @static
 	 * @since 5/4/05
 	 */
-	function &withYearDayHourMinuteSecondOffset ( $anIntYear, $anIntDayOfYear, 
-		$anIntHour, $anIntMinute, $anIntSecond, &$aDurationOffset, $class = 'TimeStamp' ) 
+	function withYearDayHourMinuteSecondOffset ( $anIntYear, $anIntDayOfYear, 
+		$anIntHour, $anIntMinute, $anIntSecond, $aDurationOffset, $class = 'TimeStamp' ) 
 	{
-		$obj =& parent::withYearDayHourMinuteSecondOffset ( $anIntYear, $anIntDayOfYear, 
+		$obj = parent::withYearDayHourMinuteSecondOffset ( $anIntYear, $anIntDayOfYear, 
 			$anIntHour, $anIntMinute, $anIntSecond, $aDurationOffset, $class);
 		return $obj;
 	}
@@ -367,10 +367,10 @@ class TimeStamp
  	 * @static
 	 * @since 5/4/05
 	 */
-	function &withYearMonthDay ( $anIntYear, $anIntOrStringMonth, $anIntDay, 
+	function withYearMonthDay ( $anIntYear, $anIntOrStringMonth, $anIntDay, 
 		$class = 'Timestamp' ) 
 	{
-		$obj =& parent::withYearMonthDay ( $anIntYear, $anIntOrStringMonth, $anIntDay, 
+		$obj = parent::withYearMonthDay ( $anIntYear, $anIntOrStringMonth, $anIntDay, 
 			$class);
 		return $obj;
 	}
@@ -392,10 +392,10 @@ class TimeStamp
  	 * @static
 	 * @since 5/4/05
 	 */
-	function &withYearMonthDayHourMinute ( $anIntYear, $anIntOrStringMonth, 
+	function withYearMonthDayHourMinute ( $anIntYear, $anIntOrStringMonth, 
 		$anIntDay, $anIntHour, $anIntMinute, $class = 'TimeStamp' ) 
 	{
-		$obj =& parent::withYearMonthDayHourMinute ( $anIntYear, $anIntOrStringMonth, 
+		$obj = parent::withYearMonthDayHourMinute ( $anIntYear, $anIntOrStringMonth, 
 			$anIntDay, $anIntHour, $anIntMinute, $class);
 
 		return $obj;
@@ -419,10 +419,10 @@ class TimeStamp
  	 * @static
 	 * @since 5/4/05
 	 */
-	function &withYearMonthDayHourMinuteSecond ( $anIntYear, $anIntOrStringMonth, 
+	function withYearMonthDayHourMinuteSecond ( $anIntYear, $anIntOrStringMonth, 
 		$anIntDay, $anIntHour, $anIntMinute, $anIntSecond, $class = 'TimeStamp' ) 
 	{
-		$obj =& parent::withYearMonthDayHourMinuteSecond ( $anIntYear, $anIntOrStringMonth, 
+		$obj = parent::withYearMonthDayHourMinuteSecond ( $anIntYear, $anIntOrStringMonth, 
 			$anIntDay, $anIntHour, $anIntMinute, $anIntSecond, $class);
 		return $obj;
 	}
@@ -446,11 +446,11 @@ class TimeStamp
  	 * @static
 	 * @since 5/4/05
 	 */
-	function &withYearMonthDayHourMinuteSecondOffset ( $anIntYear, 
+	function withYearMonthDayHourMinuteSecondOffset ( $anIntYear, 
 		$anIntOrStringMonth, $anIntDay, $anIntHour, $anIntMinute, 
-		$anIntSecond, &$aDurationOffset, $class = 'TimeStamp'  ) 
+		$anIntSecond, $aDurationOffset, $class = 'TimeStamp'  ) 
 	{
-		$obj =& parent::withYearMonthDayHourMinuteSecondOffset ( $anIntYear, 
+		$obj = parent::withYearMonthDayHourMinuteSecondOffset ( $anIntYear, 
 			$anIntOrStringMonth, $anIntDay, $anIntHour, $anIntMinute, 
 			$anIntSecond, $aDurationOffset, $class);
 
@@ -469,8 +469,8 @@ class TimeStamp
 	 * @since 5/12/05
 	 * @static
 	 */
-	function &yesterday ( $class = 'TimeStamp' ) {
-		$obj =& parent::yesterday($class);
+	function yesterday ( $class = 'TimeStamp' ) {
+		$obj = parent::yesterday($class);
 		return $obj;
 	}
 
@@ -486,8 +486,8 @@ class TimeStamp
  	 * @since 5/13/05
  	 */
  	function printableString () {
- 		$date =& $this->date();
- 		$time =& $this->time();
+ 		$date =$this->date();
+ 		$time =$this->time();
  		return $date->printableString().' '.$time->printableString();
  	}
 
@@ -502,7 +502,7 @@ class TimeStamp
 	 * @access public
 	 * @since 5/5/05
 	 */
-	function &asTimeStamp () {
+	function asTimeStamp () {
 		return $this;
 	}
 	
@@ -515,7 +515,7 @@ class TimeStamp
 	 * @since 5/27/05
 	 */
 	function asUnixTimeStamp () {
-		$sinceUnixEpoch =& $this->minus(TimeStamp::withYearMonthDayHourMinuteSecondOffset(
+		$sinceUnixEpoch =$this->minus(TimeStamp::withYearMonthDayHourMinuteSecondOffset(
 						1970, 1, 1, 0, 0, 0, Duration::zero()));
 				
 		return $sinceUnixEpoch->asSeconds();
@@ -528,8 +528,8 @@ class TimeStamp
 	 * @access public
 	 * @since 5/13/05
 	 */
-	function &date () {
-		$obj =& $this->asDate();
+	function date () {
+		$obj =$this->asDate();
 		return $obj;
 	}
 	
@@ -555,8 +555,8 @@ class TimeStamp
 	 * @access public
 	 * @since 5/13/05
 	 */
-	function &minusDays ( $anInteger ) {
-		$obj =& $this->minus(Duration::withDays($anInteger));
+	function minusDays ( $anInteger ) {
+		$obj =$this->minus(Duration::withDays($anInteger));
 		return $obj;
 	}
 	
@@ -568,8 +568,8 @@ class TimeStamp
 	 * @access public
 	 * @since 5/13/05
 	 */
-	function &minusSeconds ( $anInteger ) {
-		$obj =& $this->minus(Duration::withSeconds($anInteger));
+	function minusSeconds ( $anInteger ) {
+		$obj =$this->minus(Duration::withSeconds($anInteger));
 		return $obj;
 	}
 	
@@ -581,8 +581,8 @@ class TimeStamp
 	 * @access public
 	 * @since 5/13/05
 	 */
-	function &plusDays ( $anInteger ) {
-		$obj =& $this->plus(Duration::withDays($anInteger));
+	function plusDays ( $anInteger ) {
+		$obj =$this->plus(Duration::withDays($anInteger));
 		return $obj;
 	}
 	
@@ -594,8 +594,8 @@ class TimeStamp
 	 * @access public
 	 * @since 5/13/05
 	 */
-	function &plusSeconds ( $anInteger ) {
-		$obj =& $this->plus(Duration::withSeconds($anInteger));
+	function plusSeconds ( $anInteger ) {
+		$obj =$this->plus(Duration::withSeconds($anInteger));
 		return $obj;
 	}
 	
@@ -606,8 +606,8 @@ class TimeStamp
 	 * @access public
 	 * @since 5/13/05
 	 */
-	function &time () {
-		$obj =& $this->asTime();
+	function time () {
+		$obj =$this->asTime();
 		return $obj;
 	}
 }

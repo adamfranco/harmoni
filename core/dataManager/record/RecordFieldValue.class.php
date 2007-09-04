@@ -17,7 +17,7 @@ define("NEW_VERSION","new");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordFieldValue.class.php,v 1.21 2007/04/12 15:37:25 adamfranco Exp $
+ * @version $Id: RecordFieldValue.class.php,v 1.22 2007/09/04 20:25:32 adamfranco Exp $
  *
  * @author Gabe Schine
  */
@@ -33,8 +33,8 @@ class RecordFieldValue {
 	
 	var $_id;
 	
-	function RecordFieldValue (&$parent, $myIndex) {
-		$this->_parent =& $parent;
+	function RecordFieldValue ($parent, $myIndex) {
+		$this->_parent =$parent;
 		$this->_numVersions = 0;
 		$this->_myIndex = $myIndex;
 		
@@ -47,7 +47,7 @@ class RecordFieldValue {
 	* @return void
 	* @param ref array $arrayOfRows
 	*/
-	function populate( &$arrayOfRows ) {
+	function populate( $arrayOfRows ) {
 		// we are responsible for keeping track of multiple RecordFieldData objects,
 		// each corresponding to a specific version of a value of a field.
 		
@@ -61,12 +61,12 @@ class RecordFieldValue {
 	 * @param ref array $row
 	 * @return void
 	 */
-	function takeRow( &$row ) {
+	function takeRow( $row ) {
 		// If we don't just have null values...
 		if ($row['record_field_id']) {
 			$verID = $row['record_field_id'];
 			$active = $row['record_field_active']?true:false;
-			$this->_versions[$verID] =& new RecordFieldData($this,$active);
+			$this->_versions[$verID] = new RecordFieldData($this,$active);
 			$this->_versions[$verID]->populate($row);
 			$this->_numVersions++;
 		}
@@ -82,8 +82,8 @@ class RecordFieldValue {
 		// let's check to see if their values are equal. if they are, 
 		// we can scrap the new version to save on DB space.
 		if (isset($this->_versions[NEW_VERSION]) && isset($this->_oldVersion)) {
-			$oldVal =& $this->_oldVersion->getPrimitive();
-			$newVal =& $this->_versions[NEW_VERSION]->getPrimitive();
+			$oldVal =$this->_oldVersion->getPrimitive();
+			$newVal =$this->_versions[NEW_VERSION]->getPrimitive();
 			if ($oldVal->isEqual($newVal)) {
 				// let's kill the new version
 				unset($this->_versions[NEW_VERSION]);
@@ -96,18 +96,18 @@ class RecordFieldValue {
 		$pruned = array();
 		
 		foreach ($this->getVersionIDs() as $ver) {
-			$verPrim =& $this->_versions[$ver]->getPrimitive();
+			$verPrim =$this->_versions[$ver]->getPrimitive();
 			if ($this->_versions[$ver]->willPrune()) $pruned[] = $ver;
 			$this->_versions[$ver]->commit();
 		}
 		
 		// now if we just committed a NEW_VERSION, let's move it to its proper place in the array
 		if (isset($this->_versions[NEW_VERSION])) {
-			$ref =& $this->_versions[NEW_VERSION];
+			$ref =$this->_versions[NEW_VERSION];
 			$id = $ref->getID();
 			if (!$id) return;
 			
-			$this->_versions[$id] =& $this->_versions[NEW_VERSION];
+			$this->_versions[$id] =$this->_versions[NEW_VERSION];
 			// now unset the old
 			unset ($this->_versions[NEW_VERSION], $ref);
 			// done.
@@ -126,7 +126,7 @@ class RecordFieldValue {
 	function willPruneAll()
 	{
 		foreach ($this->getVersionIDs() as $id) {
-			$ver =& $this->getVersion($id);
+			$ver =$this->getVersion($id);
 			if (!$ver->willPrune()) return false;
 		}
 		
@@ -161,7 +161,7 @@ class RecordFieldValue {
 		
 		// now go through and tell all our values to update.
 		foreach ($this->getVersionIDs() as $id) {
-			$ver =& $this->getVersion($id);
+			$ver =$this->getVersion($id);
 			$ver->update();
 		}
 		
@@ -183,7 +183,7 @@ class RecordFieldValue {
 	* @return bool
 	* @param ref object $value A {@link SObject} object.
 	*/
-	function setValueFromPrimitive(&$value) {
+	function setValueFromPrimitive($value) {
 
 		// if we're version controlled, we're adding a new version
 		// otherwise, we're just setting the existing (or only active) one.
@@ -191,8 +191,8 @@ class RecordFieldValue {
 			// we're going to add a new version
 			// which means, we add a new RecordFieldValue with a *replicate*
 			// of the primitive, so that it gets added to the DB.
-			$newVer =& $this->newRecordFieldData();
-			$clone =& $value->copy();
+			$newVer =$this->newRecordFieldData();
+			$clone =$value->copy();
 			$newVer->setValueFromPrimitive($clone);
 			// all done (we hope)
 			return true;
@@ -204,8 +204,8 @@ class RecordFieldValue {
 			$this->undelete();
 		}
 		
-		$actVer =& $this->getActiveVersion();
-		$actVal =& $actVer->getPrimitive();
+		$actVer =$this->getActiveVersion();
+		$actVal =$actVer->getPrimitive();
 		
 		if ($actVal && $actVal->isEqual($value)) 
 			return true;
@@ -223,19 +223,19 @@ class RecordFieldValue {
 	* @access protected
 	* @return ref object
 	*/
-	function &newRecordFieldData() {
+	function newRecordFieldData() {
 		if (!isset($this->_versions[NEW_VERSION])) {
 			// first deactivate the old one
 			if ($this->_numVersions) {
-				$old =& $this->getActiveVersion();
+				$old =$this->getActiveVersion();
 				if ($old) {
 					$old->setActiveFlag(false);
 					$old->update();
-					$this->_oldVersion =& $old;
+					$this->_oldVersion =$old;
 				}
 			}
 			
-			$this->_versions[NEW_VERSION] =& new RecordFieldData($this,true);
+			$this->_versions[NEW_VERSION] = new RecordFieldData($this,true);
 			$this->_versions[NEW_VERSION]->update();
 			$this->_numVersions++;
 		}
@@ -247,7 +247,7 @@ class RecordFieldValue {
 	* set, a new {@link RecordFieldData} object is created.
 	* @return ref object or false
 	*/
-	function &getActiveVersion() {
+	function getActiveVersion() {
 		if ($this->_numVersions == 0) {
 			return $this->newRecordFieldData();
 		}
@@ -274,7 +274,7 @@ class RecordFieldValue {
 	* @return ref object
 	* @param int $verID
 	*/
-	function &getVersion( $verID ) {
+	function getVersion( $verID ) {
 		if (!isset($this->_versions[$verID])) {
 			throwError( new Error("Could not find version ID $verID.","Record",true));
 		}
@@ -312,7 +312,7 @@ class RecordFieldValue {
 		// if we're not active, go through and find the newest ver, then activate it.
 		if ($this->isActive()) return true;
 		
-		$ver =& $this->getNewestVersion();
+		$ver =$this->getNewestVersion();
 		$ver->setActiveFlag(true);
 		$ver->update(); // update to DB on commit()
 	}
@@ -333,15 +333,15 @@ class RecordFieldValue {
 	* Returns the most recently created version for this value.
 	* @return ref object The newest {@link RecordFieldData} object.
 	*/
-	function &getNewestVersion() {
+	function getNewestVersion() {
 		$newest = null;
 		if ($this->numVersions()) {
 			foreach ($this->getVersionIDs() as $ver) {
-				$version =& $this->getVersion($ver);
+				$version =$this->getVersion($ver);
 				
-				$versionDate =& $version->getDate();
+				$versionDate =$version->getDate();
 				if ($newest == null || $versionDate->isGreaterThan($newest->getDate())) {
-					$newest =& $version;
+					$newest =$version;
 				}
 			}
 		}
@@ -374,14 +374,14 @@ class RecordFieldValue {
 	* @param ref object A reference to a {@link RecordField} object that will act as the parent.
 	* @return ref object
 	*/
-	function &replicate(&$parent) {
-		$newObj =& new RecordFieldValue($parent, $this->_myIndex);
+	function replicate($parent) {
+		$newObj = new RecordFieldValue($parent, $this->_myIndex);
 		$this->_parent->_parent->makeFull();
 		
 		foreach ($this->getVersionIDs() as $verID) {
-			$ver =& $this->getVersion($verID);
+			$ver =$this->getVersion($verID);
 			
-			$newObj->_versions[++$newObj->_numVersions] =& $ver->replicate($newObj);
+			$newObj->_versions[++$newObj->_numVersions] =$ver->replicate($newObj);
 		}
 		
 		return $newObj;
@@ -391,7 +391,7 @@ class RecordFieldValue {
 	 * Returns the {@link RecordField} object that the current object is a part of.
 	 * @return ref object FieldValues The parent {@link RecordField} object
 	 */
-	function &getRecordField() {
+	function getRecordField() {
 		return $this->_parent;
 	}
 	
@@ -401,13 +401,13 @@ class RecordFieldValue {
 	 * 		RecordID::SchemaFieldLabel::RecordFieldValueIndex
 	 * @return ref object Id The id of this object.
 	 */
-	function &getId() {
+	function getId() {
 		if (!isset($this->_id)) {
-			$idManager =& Services::getService("Id");
+			$idManager = Services::getService("Id");
 			
-			$FieldValuesId =& $this->_parent->getId();
+			$FieldValuesId =$this->_parent->getId();
 			$idString = $FieldValuesId->getIdString()."::".$this->_myIndex;
-			$this->_id =& $idManager->getId($idString);
+			$this->_id =$idManager->getId($idString);
 		}
 		return $this->_id;
 	}

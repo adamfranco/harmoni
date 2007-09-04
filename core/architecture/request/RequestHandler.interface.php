@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RequestHandler.interface.php,v 1.2 2005/07/18 15:39:56 gabeschine Exp $
+ * @version $Id: RequestHandler.interface.php,v 1.3 2007/09/04 20:25:31 adamfranco Exp $
  */ 
 
 /**
@@ -22,7 +22,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RequestHandler.interface.php,v 1.2 2005/07/18 15:39:56 gabeschine Exp $
+ * @version $Id: RequestHandler.interface.php,v 1.3 2007/09/04 20:25:31 adamfranco Exp $
  */
 
 class RequestHandler {
@@ -56,7 +56,7 @@ class RequestHandler {
 	 * @return ref object URLWriter
 	 * @access public
 	 */
-	function &createURLWriter() {
+	function createURLWriter() {
 		throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in abstract class <b> ".__CLASS__."</b> has not been overloaded in a child class.","OutputHandler",true));
 	}
 	

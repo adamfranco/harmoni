@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: QueueTestCase.class.php,v 1.4 2005/04/07 16:33:31 adamfranco Exp $
+ * @version $Id: QueueTestCase.class.php,v 1.5 2007/09/04 20:25:56 adamfranco Exp $
  */
 
     require_once(HARMONI.'utilities/Queue.class.php');
@@ -20,7 +20,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: QueueTestCase.class.php,v 1.4 2005/04/07 16:33:31 adamfranco Exp $
+ * @version $Id: QueueTestCase.class.php,v 1.5 2007/09/04 20:25:56 adamfranco Exp $
  **/
 
     class QueueTestCase extends UnitTestCase {
@@ -38,9 +38,9 @@
 		*    @access public
 		*/
 		function setUp() {
-			$this->testQueue =& new Queue();
+			$this->testQueue = new Queue();
 			
-			$this->testObject =& new Queue();
+			$this->testObject = new Queue();
 
 			$this->testQueue->add($this->testObject);
 			$this->testQueue->add(new Queue());
@@ -79,7 +79,7 @@
 		function testNext(){
 			$this->assertEqual($this->testQueue->_nextPosition,0);
 		
-			$object =& $this->testQueue->next();
+			$object =$this->testQueue->next();
 
 			$this->assertEqual($this->testQueue->_nextPosition,1);
 
@@ -88,7 +88,7 @@
 			
 			$this->assertTrue($this->testQueue->hasNext());
 			
-			$object =& $this->testQueue->next();
+			$object =$this->testQueue->next();
 			
 			$this->assertEqual($this->testQueue->_nextPosition,2);
 
@@ -97,24 +97,24 @@
 		}
 		
 		function testReverse(){
-			$testReversedQueue =& new Queue(true);
-			$test1 = & new Queue();
-			$test2 = & new Queue();
-			$test3 = & new Queue();
-			$test4 = & new Queue();
-			$test5 = & new Queue();
+			$testReversedQueue = new Queue(true);
+			$test1 =  new Queue();
+			$test2 =  new Queue();
+			$test3 =  new Queue();
+			$test4 =  new Queue();
+			$test5 =  new Queue();
 			
-			$testReversedQueue->add(& $test1);
-			$testReversedQueue->add(& $test2);
-			$testReversedQueue->add(& $test3);
+			$testReversedQueue->add($test1);
+			$testReversedQueue->add($test2);
+			$testReversedQueue->add($test3);
 			
 			$this->assertReference($test3,$testReversedQueue->next());			
 
-			$testReversedQueue->add(& $test4);
+			$testReversedQueue->add($test4);
 			
 			$this->assertReference($test4,$testReversedQueue->next());			
 
-			$testReversedQueue->add(& $test5);
+			$testReversedQueue->add($test5);
 
 			$this->assertReference($test5,$testReversedQueue->next());			
 
@@ -130,16 +130,16 @@
 
 		function testRewind(){
 
-			$testReversedQueue =& new Queue();
-			$test1 = & new Queue();
-			$test2 = & new Queue();
-			$test3 = & new Queue();
-			$test4 = & new Queue();
-			$test5 = & new Queue();
+			$testReversedQueue = new Queue();
+			$test1 =  new Queue();
+			$test2 =  new Queue();
+			$test3 =  new Queue();
+			$test4 =  new Queue();
+			$test5 =  new Queue();
 			
-			$testReversedQueue->add(& $test1);
-			$testReversedQueue->add(& $test2);
-			$testReversedQueue->add(& $test3);
+			$testReversedQueue->add($test1);
+			$testReversedQueue->add($test2);
+			$testReversedQueue->add($test3);
 
 			$this->assertReference($test1,$testReversedQueue->next());
 			$this->assertReference($test2,$testReversedQueue->next());

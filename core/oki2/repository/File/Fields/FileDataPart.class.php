@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileDataPart.class.php,v 1.11 2007/04/12 15:37:32 adamfranco Exp $
+ * @version $Id: FileDataPart.class.php,v 1.12 2007/09/04 20:25:44 adamfranco Exp $
  */
  
 class FileDataPart 
@@ -30,11 +30,11 @@ class FileDataPart
 	var $_partStructure;
 	var $_data;
 	
-	function FileDataPart( &$partStructure, &$recordId, &$configuration, &$asset ) {
-		$this->_recordId =& $recordId;
-		$this->_partStructure =& $partStructure;
-		$this->_configuration =& $configuration;
-		$this->_asset =& $asset;
+	function FileDataPart( $partStructure, $recordId, $configuration, $asset ) {
+		$this->_recordId =$recordId;
+		$this->_partStructure =$partStructure;
+		$this->_configuration =$configuration;
+		$this->_asset =$asset;
 		
 		// Set our data to NULL, so that we can know if it has not been checked
 		// for yet. If we search for data, but don't have any, or the data is
@@ -61,8 +61,8 @@ class FileDataPart
 	 * 
 	 * @access public
 	 */
-	function &getId() {
-		$idManager =& Services::getService("Id");
+	function getId() {
+		$idManager = Services::getService("Id");
 		return $idManager->getId($this->_recordId->getIdString()."-FILE_DATA");
 	}
 
@@ -93,7 +93,7 @@ class FileDataPart
 	 * 
 	 * @access public
 	 */
-	function &createPart(& $partStructureId, & $value) {
+	function createPart($partStructureId, $value) {
 		throwError(
 			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
 	}
@@ -120,7 +120,7 @@ class FileDataPart
 	 * 
 	 * @access public
 	 */
-	function deletePart(& $partId) {
+	function deletePart($partId) {
 		throwError(
 			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
 	}
@@ -144,7 +144,7 @@ class FileDataPart
 	 * 
 	 * @access public
 	 */
-	function &getParts() {
+	function getParts() {
 		throwError(
 			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
 	}
@@ -171,16 +171,16 @@ class FileDataPart
 	function getValue() {
 		// If we don't have the data, load it from the database.
 //		if ($this->_data === NULL) {
-			$dbHandler =& Services::getService("DatabaseManager");
+			$dbHandler = Services::getService("DatabaseManager");
 			
 			// Get the data from the database,
-			$query =& new SelectQuery;
+			$query = new SelectQuery;
 			$query->addTable("dr_file");
 			$query->addTable("dr_file_data", LEFT_JOIN, "dr_file.id = dr_file_data.FK_file");
 			$query->addColumn("data");
 			$query->addWhere("dr_file.id = '".$this->_recordId->getIdString()."'");
 			
-			$result =& $dbHandler->query($query, $this->_configuration->getProperty("database_index"));
+			$result =$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 			
 			// If no data was found, return an empty string.
 			if ($result->getNumberOfRows() == 0)
@@ -223,18 +223,18 @@ class FileDataPart
 		
 	// Base64 encode the data to preserve it,
 	// then write it to the database.
-		$dbHandler =& Services::getService("DatabaseManager");
+		$dbHandler = Services::getService("DatabaseManager");
 	
 		// Check to see if the data is in the database
-		$query =& new SelectQuery;
+		$query = new SelectQuery;
 		$query->addTable("dr_file_data");
 		$query->addColumn("COUNT(*) as count");
 		$query->addWhere("FK_file = '".$this->_recordId->getIdString()."'");
-		$result =& $dbHandler->query($query, $this->_configuration->getProperty("database_index"));
+		$result =$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 		
 		// If it already exists, use an update query.
 		if ($result->field("count") > 0) {
-			$query =& new UpdateQuery;
+			$query = new UpdateQuery;
 			$query->setTable("dr_file_data");
 			$query->setColumns(array("data"));
 			$query->setValues(array("'".base64_encode($value)."'"));
@@ -242,7 +242,7 @@ class FileDataPart
 		}
 		// If it doesn't exist, use an insert query.
 		else {
-			$query =& new InsertQuery;
+			$query = new InsertQuery;
 			$query->setTable("dr_file_data");
 			$query->setColumns(array("FK_file","data"));
 			$query->setValues(array("'".$this->_recordId->getIdString()."'",
@@ -256,15 +256,15 @@ class FileDataPart
 		$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 		
 		// Check to see if the size is in the database
-		$query =& new SelectQuery;
+		$query = new SelectQuery;
 		$query->addTable("dr_file");
 		$query->addColumn("COUNT(*) as count");
 		$query->addWhere("id = '".$this->_recordId->getIdString()."'");
-		$result =& $dbHandler->query($query, $this->_configuration->getProperty("database_index"));
+		$result =$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 		
 		// If it already exists, use an update query.
 		if ($result->field("count") > 0) {
-			$query =& new UpdateQuery;
+			$query = new UpdateQuery;
 			$query->setTable("dr_file");
 			$query->setColumns(array("size"));
 			$query->setValues(array("'".strlen($value)."'"));
@@ -272,7 +272,7 @@ class FileDataPart
 		}
 		// If it doesn't exist, use an insert query.
 		else {
-			$query =& new InsertQuery;
+			$query = new InsertQuery;
 			$query->setTable("dr_file");
 			$query->setColumns(array("id","size"));
 			$query->setValues(array("'".$this->_recordId->getIdString()."'",
@@ -304,7 +304,7 @@ class FileDataPart
 	 * 
 	 * @access public
 	 */
-	function &getPartStructure() {
+	function getPartStructure() {
 		return $this->_partStructure;
 	}
 }

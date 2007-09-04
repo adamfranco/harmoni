@@ -112,7 +112,7 @@ class Process
      * 
      * @access public
      */
-    function &getId () { 
+    function getId () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -158,7 +158,7 @@ class Process
      * 
      * @access public
      */
-    function &getType () { 
+    function getType () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -237,7 +237,7 @@ class Process
      * 
      * @access public
      */
-    function &createInitialStep ( $displayName, $description, &$roleId ) { 
+    function createInitialStep ( $displayName, $description, $roleId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -272,7 +272,7 @@ class Process
      * 
      * @access public
      */
-    function &createStep ( &$predecessorStepId, $displayName, $description, &$roleId ) { 
+    function createStep ( $predecessorStepId, $displayName, $description, $roleId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -300,7 +300,7 @@ class Process
      * 
      * @access public
      */
-    function &getStep ( &$stepId ) { 
+    function getStep ( $stepId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -323,7 +323,7 @@ class Process
      * 
      * @access public
      */
-    function &getSteps () { 
+    function getSteps () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -349,7 +349,7 @@ class Process
      * 
      * @access public
      */
-    function deleteStep ( &$stepId ) { 
+    function deleteStep ( $stepId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -380,7 +380,7 @@ class Process
      * 
      * @access public
      */
-    function &createWork ( $displayName, $description, &$qualifierId ) { 
+    function createWork ( $displayName, $description, $qualifierId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -407,7 +407,7 @@ class Process
      * 
      * @access public
      */
-    function deleteWork ( &$workId ) { 
+    function deleteWork ( $workId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -432,7 +432,7 @@ class Process
      * 
      * @access public
      */
-    function &getWork ( &$workId ) { 
+    function getWork ( $workId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -455,7 +455,7 @@ class Process
      * 
      * @access public
      */
-    function &getAllWork () { 
+    function getAllWork () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -478,7 +478,7 @@ class Process
      * 
      * @access public
      */
-    function &getAvailableWork () { 
+    function getAvailableWork () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -507,7 +507,7 @@ class Process
      * 
      * @access public
      */
-    function &getAvailableWorkForRole ( &$roleId ) { 
+    function getAvailableWorkForRole ( $roleId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -535,7 +535,7 @@ class Process
      * 
      * @access public
      */
-    function &getAvailableWorkForStep ( &$stepId ) { 
+    function getAvailableWorkForStep ( $stepId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -558,7 +558,7 @@ class Process
      * 
      * @access public
      */
-    function &getUnfinishedWork () { 
+    function getUnfinishedWork () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -587,7 +587,7 @@ class Process
      * 
      * @access public
      */
-    function &getUnfinishedWorkForRole ( &$roleId ) { 
+    function getUnfinishedWorkForRole ( $roleId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -615,7 +615,7 @@ class Process
      * 
      * @access public
      */
-    function &getUnfinishedWorkForStep ( &$stepId ) { 
+    function getUnfinishedWorkForStep ( $stepId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -641,7 +641,7 @@ class Process
      * 
      * @access public
      */
-    function haltWork ( &$workId ) { 
+    function haltWork ( $workId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -669,7 +669,7 @@ class Process
      * 
      * @access public
      */
-    function resumeWork ( &$workId ) { 
+    function resumeWork ( $workId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 }

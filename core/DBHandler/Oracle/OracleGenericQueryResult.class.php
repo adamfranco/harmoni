@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OracleGenericQueryResult.class.php,v 1.8 2006/01/17 20:06:20 adamfranco Exp $
+ * @version $Id: OracleGenericQueryResult.class.php,v 1.9 2007/09/04 20:25:19 adamfranco Exp $
  */
  
 require_once(HARMONI."DBHandler/GenericQueryResult.interface.php");
@@ -21,7 +21,7 @@ require_once(HARMONI."DBHandler/GenericQueryResult.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OracleGenericQueryResult.class.php,v 1.8 2006/01/17 20:06:20 adamfranco Exp $
+ * @version $Id: OracleGenericQueryResult.class.php,v 1.9 2007/09/04 20:25:19 adamfranco Exp $
  */
 class OracleGenericQueryResult 
 	extends GenericQueryResultInterface 
@@ -54,7 +54,7 @@ class OracleGenericQueryResult
 	 */
 	function OracleGenericQueryResult ($resourceId, $linkId) {
 		// ** parameter validation
-		$resourceRule =& ResourceValidatorRule::getRule();
+		$resourceRule = ResourceValidatorRule::getRule();
 		if (!is_bool($resourceId)) {
 			ArgumentValidator::validate($resourceId, $resourceRule, true);
 		}
@@ -85,8 +85,8 @@ class OracleGenericQueryResult
 	 * @access public
 	 * @since 7/1/04
 	 */
-	function &returnAsSelectQueryResult () {
-		$obj =& new OracleSelectQueryResult($this->_resourceId, $this->_linkId);
+	function returnAsSelectQueryResult () {
+		$obj = new OracleSelectQueryResult($this->_resourceId, $this->_linkId);
 		return $obj;
 	}
 	
@@ -97,8 +97,8 @@ class OracleGenericQueryResult
 	 * @access public
 	 * @since 7/1/04
 	 */
-	function &returnAsInsertQueryResult () {
-		$obj =& new OracleInsertQueryResult($this->_linkId);
+	function returnAsInsertQueryResult () {
+		$obj = new OracleInsertQueryResult($this->_linkId);
 		return $obj;
 	}
 	
@@ -109,8 +109,8 @@ class OracleGenericQueryResult
 	 * @access public
 	 * @since 7/1/04
 	 */
-	function &returnAsUpdateQueryResult () {
-		$obj =& new OracleUpdateQueryResult($this->_linkId);
+	function returnAsUpdateQueryResult () {
+		$obj = new OracleUpdateQueryResult($this->_linkId);
 		return $obj;
 	}
 	
@@ -121,8 +121,8 @@ class OracleGenericQueryResult
 	 * @access public
 	 * @since 7/1/04
 	 */
-	function &returnAsDeleteQueryResult () {
-		$obj =& new OracleDeleteQueryResult($this->_linkId);
+	function returnAsDeleteQueryResult () {
+		$obj = new OracleDeleteQueryResult($this->_linkId);
 		return $obj;
 	}
 }

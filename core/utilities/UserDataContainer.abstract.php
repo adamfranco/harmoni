@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: UserDataContainer.abstract.php,v 1.4 2005/04/04 17:40:02 adamfranco Exp $
+ * @version $Id: UserDataContainer.abstract.php,v 1.5 2007/09/04 20:25:54 adamfranco Exp $
  */
 class UserDataContainer extends DataContainer {
 	/**
@@ -25,7 +25,7 @@ class UserDataContainer extends DataContainer {
 	 **/
 	function init() {
 		parent::init();
-		$handler =& Services::getService("UserError");
+		$handler = Services::getService("UserError");
 		$this->_ruleSet->setErrorHandler($handler);
 	}
 	

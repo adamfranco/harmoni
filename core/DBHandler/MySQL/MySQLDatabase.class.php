@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQLDatabase.class.php,v 1.35 2006/11/30 22:02:00 adamfranco Exp $
+ * @version $Id: MySQLDatabase.class.php,v 1.36 2007/09/04 20:25:19 adamfranco Exp $
  */
  
 require_once(HARMONI."DBHandler/Database.interface.php");
@@ -31,7 +31,7 @@ require_once(HARMONI."DBHandler/MySQL/MySQL_SQLGenerator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQLDatabase.class.php,v 1.35 2006/11/30 22:02:00 adamfranco Exp $
+ * @version $Id: MySQLDatabase.class.php,v 1.36 2007/09/04 20:25:19 adamfranco Exp $
  */
  
 class MySQLDatabase extends DatabaseInterface {
@@ -125,7 +125,7 @@ class MySQLDatabase extends DatabaseInterface {
 	 */
 	function MySQLDatabase($dbHost, $dbName, $dbUser, $dbPass) {
 		// ** parameter validation
-		$stringRule =& StringValidatorRule::getRule();
+		$stringRule = StringValidatorRule::getRule();
 		ArgumentValidator::validate($dbHost, $stringRule, true);
 		ArgumentValidator::validate($dbName, $stringRule, true);
 		ArgumentValidator::validate($dbUser, $stringRule, true);
@@ -158,10 +158,10 @@ class MySQLDatabase extends DatabaseInterface {
 	 * @access public
 	 */
 	function getTableList() {
-		$query =& new GenericSQLQuery();
+		$query = new GenericSQLQuery();
 		$query->addSQLQuery("SHOW TABLES");
-		$r =& $this->query($query);
-		$res =& $r->returnAsSelectQueryResult();
+		$r =$this->query($query);
+		$res =$r->returnAsSelectQueryResult();
 		
 		$list = array();
 		while($res->hasMoreRows()) {
@@ -259,7 +259,7 @@ class MySQLDatabase extends DatabaseInterface {
 	 * @return mixed The appropriate QueryResult object. If the query failed, it would
 	 * return NULL.
 	 */
-	function &query(& $query) {
+	function query($query) {
 //		static $time = 0;
 	
 		// do not attempt, to query, if not connected
@@ -269,7 +269,7 @@ class MySQLDatabase extends DatabaseInterface {
 		}
 			
 		// generate the SQL query string
-//		$t =& new Timer();
+//		$t = new Timer();
 //		$t->start();
 		$queryString = MySQL_SQLGenerator::generateSQLQuery($query);
 //		$t->end();
@@ -287,19 +287,19 @@ class MySQLDatabase extends DatabaseInterface {
 		// create the appropriate QueryResult object
 		switch($query->getType()) {
 			case INSERT : 
-				$result =& new MySQLInsertQueryResult($this->_linkId);
+				$result = new MySQLInsertQueryResult($this->_linkId);
 				break;
 			case UPDATE : 
-				$result =& new MySQLUpdateQueryResult($this->_linkId);
+				$result = new MySQLUpdateQueryResult($this->_linkId);
 				break;
 			case DELETE : 
-				$result =& new MySQLDeleteQueryResult($this->_linkId);
+				$result = new MySQLDeleteQueryResult($this->_linkId);
 				break;
 			case SELECT : 
-				$result =& new MySQLSelectQueryResult($resourceId, $this->_linkId);
+				$result = new MySQLSelectQueryResult($resourceId, $this->_linkId);
 				break;
 			case GENERIC : 
-				$result =& new MySQLGenericQueryResult($resourceId, $this->_linkId);
+				$result = new MySQLGenericQueryResult($resourceId, $this->_linkId);
 				break;
 			default:
 				throwError(new Error("Unsupported query type.", "DBHandler", true));
@@ -359,7 +359,7 @@ class MySQLDatabase extends DatabaseInterface {
 				$error = mysql_error($this->_linkId);
 				// Add a helpful message if we run into max_allowed_packet errors.
 				if (ereg('max_allowed_packet', $error)) {
-					$size =& ByteSize::withValue(strlen($query));
+					$size = ByteSize::withValue(strlen($query));
 					$error .= ' (Query Size: '.$size->asString().")";
 				}
 				
@@ -444,7 +444,7 @@ class MySQLDatabase extends DatabaseInterface {
 	 */
 	function selectDatabase($database) {
 		// ** parameter validation
-		$stringRule =& StringValidatorRule::getRule();
+		$stringRule = StringValidatorRule::getRule();
 		ArgumentValidator::validate($database, $stringRule, true);
 		// ** end of parameter validation
 	
@@ -469,8 +469,8 @@ class MySQLDatabase extends DatabaseInterface {
 	 * @param ref object DateAndTime The DateAndTime object to convert.
 	 * @return mixed A proper datetime/timestamp/time representation for this Database.
 	 */
-	function toDBDate(& $dateAndTime) {
-		$dt =& $dateAndTime->asDateAndTime();
+	function toDBDate($dateAndTime) {
+		$dt =$dateAndTime->asDateAndTime();
 		$string = sprintf("%s%02d%02d%02d%02d%02d", $dt->year(),
 							$dt->month(), $dt->dayOfMonth(),
 							$dt->hour24(), $dt->minute(),
@@ -509,11 +509,11 @@ class MySQLDatabase extends DatabaseInterface {
 	 * from the db).
 	 * @return ref object The DateAndTime object.
 	 */
-	function &fromDBDate($value) {
+	function fromDBDate($value) {
 		if (in_array($value, array(NULL, '', '0000-00-00 00:00:00')))
 			$obj = null;
 		else
-			$obj =& DateAndTime::fromString($value);
+			$obj = DateAndTime::fromString($value);
 		
 		return $obj;
 	}

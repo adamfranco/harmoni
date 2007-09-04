@@ -78,7 +78,7 @@ class AuthenticationManager
      * 
      * @access public
      */
-    function &getAuthenticationTypes () { 
+    function getAuthenticationTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -115,7 +115,7 @@ class AuthenticationManager
      * 
      * @access public
      */
-    function authenticateUser ( &$authenticationType ) { 
+    function authenticateUser ( $authenticationType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -157,7 +157,7 @@ class AuthenticationManager
      * 
      * @access public
      */
-    function isUserAuthenticated ( &$authenticationType ) { 
+    function isUserAuthenticated ( $authenticationType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -188,7 +188,7 @@ class AuthenticationManager
      * 
      * @access public
      */
-    function &getUserId ( &$authenticationType ) { 
+    function getUserId ( $authenticationType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -238,7 +238,7 @@ class AuthenticationManager
      * 
      * @access public
      */
-    function destroyAuthenticationForType ( &$authenticationType ) { 
+    function destroyAuthenticationForType ( $authenticationType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 }

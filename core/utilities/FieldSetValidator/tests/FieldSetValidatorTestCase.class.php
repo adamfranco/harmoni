@@ -13,7 +13,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: FieldSetValidatorTestCase.class.php,v 1.5 2005/04/07 16:33:31 adamfranco Exp $
+ * @version $Id: FieldSetValidatorTestCase.class.php,v 1.6 2007/09/04 20:25:56 adamfranco Exp $
  **/
 
     class FieldSetValidatorTestCase extends UnitTestCase {
@@ -32,11 +32,11 @@
 		*    @access public
 		*/
 		function setUp() {
-			$this->testFieldSet =& new FieldSet();
+			$this->testFieldSet = new FieldSet();
 			
-			$this->testRuleSet =& new RuleSet();
+			$this->testRuleSet = new RuleSet();
 
-			$this->testValidator = & new FieldSetValidator(& $this->testFieldSet, & $this->testRuleSet );
+			$this->testValidator =  new FieldSetValidator($this->testFieldSet, $this->testRuleSet );
 			
 			// perhaps, initialize $obj here
 		}
@@ -117,9 +117,9 @@
 			$error = new Error("UnitTest", "UnitTest", false);
 			
 			
-			$rq = & FieldRequiredValidatorRule::getRule();
-			$email = & EmailValidatorRule::getRule();
-			$number = & NumericValidatorRule::getRule();
+			$rq =  FieldRequiredValidatorRule::getRule();
+			$email =  EmailValidatorRule::getRule();
+			$number =  NumericValidatorRule::getRule();
 			$this->testRuleSet->addRule("mystring", $rq,$error);
 			$this->testRuleSet->addRule("mystring",$email,$error);
 			$this->testRuleSet->addRule("boolean",BooleanValidatorRule::getRule(),$error);

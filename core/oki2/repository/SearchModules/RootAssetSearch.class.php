@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RootAssetSearch.class.php,v 1.5 2006/01/18 16:12:26 adamfranco Exp $
+ * @version $Id: RootAssetSearch.class.php,v 1.6 2007/09/04 20:25:47 adamfranco Exp $
  */
 
 require_once(dirname(__FILE__)."/SearchModule.interface.php");
@@ -19,7 +19,7 @@ require_once(dirname(__FILE__)."/SearchModule.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RootAssetSearch.class.php,v 1.5 2006/01/18 16:12:26 adamfranco Exp $
+ * @version $Id: RootAssetSearch.class.php,v 1.6 2007/09/04 20:25:47 adamfranco Exp $
  */
 
 class RootAssetSearch
@@ -34,7 +34,7 @@ class RootAssetSearch
 	 * @since 11/2/04
 	 */
 	function RootAssetSearch ( $dr ) {
-		$this->_dr =& $dr;
+		$this->_dr =$dr;
 	}
 	
 	
@@ -47,15 +47,15 @@ class RootAssetSearch
 	 * @access public
 	 * @since 11/2/04
 	 */
-	function &searchAssets ( $searchCriteria ) {
+	function searchAssets ( $searchCriteria ) {
 		// get the root Nodes
-		$rootNodes =& $this->_dr->_node->getChildren();
+		$rootNodes =$this->_dr->_node->getChildren();
 		
 		// Add the ids of the root nodes to an array
 		$rootIds = array();
 		while ($rootNodes->hasNext()) {
-			$rootNode =& $rootNodes->next();
-			$rootIds[] =& $rootNode->getId();
+			$rootNode =$rootNodes->next();
+			$rootIds[] =$rootNode->getId();
 		}
 		
 		// Return the array

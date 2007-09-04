@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreDatabase.class.php,v 1.14 2006/11/30 22:02:00 adamfranco Exp $
+ * @version $Id: PostGreDatabase.class.php,v 1.15 2007/09/04 20:25:20 adamfranco Exp $
  */
 require_once(HARMONI."DBHandler/Database.interface.php");
 require_once(HARMONI."DBHandler/PostGre/PostGreSelectQueryResult.class.php");
@@ -23,7 +23,7 @@ require_once(HARMONI."DBHandler/PostGre/PostGre_SQLGenerator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreDatabase.class.php,v 1.14 2006/11/30 22:02:00 adamfranco Exp $
+ * @version $Id: PostGreDatabase.class.php,v 1.15 2007/09/04 20:25:20 adamfranco Exp $
  **/
  
 class PostGreDatabase extends DatabaseInterface {
@@ -100,7 +100,7 @@ class PostGreDatabase extends DatabaseInterface {
 	 */
 	function PostGreDatabase($dbHost, $dbName, $dbUser, $dbPass) {
 		// ** parameter validation
-		$stringRule =& StringValidatorRule::getRule();
+		$stringRule = StringValidatorRule::getRule();
 		ArgumentValidator::validate($dbHost, $stringRule, true);
 		ArgumentValidator::validate($dbName, $stringRule, true);
 		ArgumentValidator::validate($dbUser, $stringRule, true);
@@ -131,11 +131,11 @@ class PostGreDatabase extends DatabaseInterface {
 	 * @access public
 	 */
 	function getTableList() {
-		$query =& new SelectQuery();
+		$query = new SelectQuery();
 		$query->addTable("pg_class");
 		$query->addColumn("relname");
 		$query->setWhere("relname NOT LIKE 'pg_%' AND relkind = 'r'");
-		$res =& $this->query($query);
+		$res =$this->query($query);
 		
 		$list = array();
 		while($res->hasMoreRows()) {
@@ -233,7 +233,7 @@ class PostGreDatabase extends DatabaseInterface {
 	 * @return mixed The appropriate QueryResult object. If the query failed, it would
 	 * return NULL.
 	 */
-	function &query(& $query) {
+	function query($query) {
 		// do not attempt, to query, if not connected
 		if (!$this->isConnected()) {
 			throwError(new Error("Attempted to query but there was no database connection.", "DBHandler", true));
@@ -271,20 +271,20 @@ class PostGreDatabase extends DatabaseInterface {
 					$lastId = intval($arr[0]);
 				}
 				
-				$result =& new PostGreInsertQueryResult($resourceId, $lastId);
+				$result = new PostGreInsertQueryResult($resourceId, $lastId);
 				break;
 			}
 			case UPDATE : 
-				$result =& new PostGreUpdateQueryResult($resourceId);
+				$result = new PostGreUpdateQueryResult($resourceId);
 				break;
 			case DELETE : 
-				$result =& new PostGreDeleteQueryResult($resourceId);
+				$result = new PostGreDeleteQueryResult($resourceId);
 				break;
 			case SELECT : 
-				$result =& new PostGreSelectQueryResult($resourceId, $this->_linkId);
+				$result = new PostGreSelectQueryResult($resourceId, $this->_linkId);
 				break;
 			case GENERIC : 
-				$result =& new PostGreGenericQueryResult($resourceId, $this->_linkId);
+				$result = new PostGreGenericQueryResult($resourceId, $this->_linkId);
 				break;
 			default:
 				throwError(new Error("Unsupported query type.", "DBHandler", true));
@@ -422,7 +422,7 @@ class PostGreDatabase extends DatabaseInterface {
 	 */
 	function selectDatabase($database) {
 		// ** parameter validation
-		$stringRule =& StringValidatorRule::getRule();
+		$stringRule = StringValidatorRule::getRule();
 		ArgumentValidator::validate($database, $stringRule, true);
 		// ** end of parameter validation
 		
@@ -464,8 +464,8 @@ class PostGreDatabase extends DatabaseInterface {
 	 * @param ref object DateAndTime The DateAndTime object to convert.
 	 * @return mixed A proper datetime/timestamp/time representation for this Database.
 	 */
-	function toDBDate(& $dateAndTime) {
-		$dateAndTime =& $dateAndTime->asDateAndTime();
+	function toDBDate($dateAndTime) {
+		$dateAndTime =$dateAndTime->asDateAndTime();
 		$string = sprintf("%s-%02d-%02d %02d:%02d:%02d", $dateAndTime->year(),
 							$dateAndTime->month(), $dateAndTime->dayOfMonth(),
 							$dateAndTime->hour24(), $dateAndTime->minute(),
@@ -494,7 +494,7 @@ class PostGreDatabase extends DatabaseInterface {
 	 * from the db).
 	 * @return ref object The DateAndTime object.
 	 */
-	function &fromDBDate($value) {
+	function fromDBDate($value) {
 		if (in_array($value, array(NULL, '', '0000-00-00 00:00:00')))
 			return NULL;
 	
@@ -512,7 +512,7 @@ class PostGreDatabase extends DatabaseInterface {
 				$r[3], $r[2], $r[1], $r[4], $r[5], $r[6]);
 		
 		// ISO/SQL
-		$obj =& DateAndTime::fromString($value);
+		$obj = DateAndTime::fromString($value);
 		return $obj;
 	}
 	

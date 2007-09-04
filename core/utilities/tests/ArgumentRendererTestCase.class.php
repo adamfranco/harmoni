@@ -12,7 +12,7 @@ require_once(HARMONI."utilities/ArgumentRenderer.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ArgumentRendererTestCase.class.php,v 1.3 2005/04/07 16:33:31 adamfranco Exp $
+ * @version $Id: ArgumentRendererTestCase.class.php,v 1.4 2007/09/04 20:25:56 adamfranco Exp $
  **/
 
     class ArgumentRendererTestCase extends UnitTestCase {
@@ -71,7 +71,7 @@ require_once(HARMONI."utilities/ArgumentRenderer.class.php");
 			$this->assertEqual($resultFromRenderer, $resultAssumed);
 			
 			// test an object
-			$arg =& new ArgumentRenderer();
+			$arg = new ArgumentRenderer();
 			$resultFromRenderer = ArgumentRenderer::renderOneArgument($arg, false, true);
 			$resultAssumed = "Object: argumentrenderer";
 			$this->assertEqual($resultFromRenderer, $resultAssumed);
@@ -126,7 +126,7 @@ require_once(HARMONI."utilities/ArgumentRenderer.class.php");
 			$this->assertTrue($resultFromRenderer);
 			
 			// test an object
-			$arg =& new ArgumentRenderer();
+			$arg = new ArgumentRenderer();
 			$arg->temp = 1;
 			$resultFromRenderer = ArgumentRenderer::renderOneArgument($arg, true, true);
 			$this->assertTrue($resultFromRenderer);
@@ -155,7 +155,7 @@ require_once(HARMONI."utilities/ArgumentRenderer.class.php");
 			$arguments[] = 15.25;
 			$arguments[] = "Muhaha";
 			$arguments[] = array("one", "two");
-			$arguments[] =& new ArgumentRenderer();
+			$arguments[] = new ArgumentRenderer();
 			$arguments[] = mysql_connect("devo.middlebury.edu","test" ,"test");
 
 			// detailed mode

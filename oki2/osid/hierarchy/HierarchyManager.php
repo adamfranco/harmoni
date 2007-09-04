@@ -68,7 +68,7 @@ class HierarchyManager
      * 
      * @access public
      */
-    function &createHierarchy ( $displayName, &$nodeTypes, $description, $allowsMultipleParents, $allowsRecursion ) { 
+    function createHierarchy ( $displayName, $nodeTypes, $description, $allowsMultipleParents, $allowsRecursion ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -97,7 +97,7 @@ class HierarchyManager
      * 
      * @access public
      */
-    function &getHierarchy ( &$hierarchyId ) { 
+    function getHierarchy ( $hierarchyId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -120,7 +120,7 @@ class HierarchyManager
      * 
      * @access public
      */
-    function &getHierarchies () { 
+    function getHierarchies () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -150,7 +150,7 @@ class HierarchyManager
      * 
      * @access public
      */
-    function deleteHierarchy ( &$hierarchyId ) { 
+    function deleteHierarchy ( $hierarchyId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 

@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: InsertQuery.class.php,v 1.7 2007/03/09 19:06:06 adamfranco Exp $
+ * @version $Id: InsertQuery.class.php,v 1.8 2007/09/04 20:25:18 adamfranco Exp $
  */
 require_once(HARMONI."DBHandler/InsertQuery.interface.php");
 
@@ -22,7 +22,7 @@ require_once(HARMONI."DBHandler/InsertQuery.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: InsertQuery.class.php,v 1.7 2007/03/09 19:06:06 adamfranco Exp $ 
+ * @version $Id: InsertQuery.class.php,v 1.8 2007/09/04 20:25:18 adamfranco Exp $ 
  */
 
 class InsertQuery extends InsertQueryInterface {
@@ -82,7 +82,7 @@ class InsertQuery extends InsertQueryInterface {
 	 */
 	function setTable($table) {
 		// ** parameter validation
-		$stringRule =& StringValidatorRule::getRule();
+		$stringRule = StringValidatorRule::getRule();
 		ArgumentValidator::validate($table, $stringRule, true);
 		// ** end of parameter validation
 
@@ -96,7 +96,7 @@ class InsertQuery extends InsertQueryInterface {
 	 */
 	function setColumns($columns) {
 		// ** parameter validation
-		$arrayRule =& ArrayValidatorRule::getRule();
+		$arrayRule = ArrayValidatorRule::getRule();
 		ArgumentValidator::validate($columns, $arrayRule, true);
 		// ** end of parameter validation
 
@@ -198,7 +198,7 @@ class InsertQuery extends InsertQueryInterface {
 	 */
 	function addRowOfValues($values) {
 		// ** parameter validation
-		$arrayRule =& ArrayValidatorRule::getRule();
+		$arrayRule = ArrayValidatorRule::getRule();
 		ArgumentValidator::validate($values, $arrayRule, true);
 		// ** end of parameter validation
 
@@ -231,7 +231,7 @@ class InsertQuery extends InsertQueryInterface {
 		// be defined as such in the table definition.
 		
 		// ** parameter validation
-		$stringRule =& StringValidatorRule::getRule();
+		$stringRule = StringValidatorRule::getRule();
 		ArgumentValidator::validate($column, $stringRule, true);
 		ArgumentValidator::validate($sequence, $stringRule, true);
 		// ** end of parameter validation

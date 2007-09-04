@@ -11,7 +11,7 @@ require_once HARMONI."dataManager/schema/Schema.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SchemaManager.class.php,v 1.31 2006/06/07 17:22:34 adamfranco Exp $
+ * @version $Id: SchemaManager.class.php,v 1.32 2007/09/04 20:25:32 adamfranco Exp $
  * @author Gabe Schine
  */
 class SchemaManager {
@@ -29,7 +29,7 @@ class SchemaManager {
 		// talk to the DB
 		$this->loadTypes($preloadTypes);
 		
-		$this->_idService =& Services::getService("Id");
+		$this->_idService = Services::getService("Id");
 		
 		debug::output("Initialized new SchemaManager with ".$this->numberOfTypes()." types.",DEBUG_SYS4,"DataManager");
 	}
@@ -44,7 +44,7 @@ class SchemaManager {
 		debug::output("Fetching all our known Schemas from the database.",DEBUG_SYS1, "DataManager");
 		
 		// let's get all our known types
-		$query =& new SelectQuery;
+		$query = new SelectQuery;
 		
 		$query->addTable("dm_schema");
 		$query->addColumn("id","","dm_schema");
@@ -54,8 +54,8 @@ class SchemaManager {
 		$query->addColumn("other_params","","dm_schema");
 		$query->addWhere("dm_schema.active = 1");
 		
-		$dbHandler =& Services::getService("DatabaseManager");
-		$result =& $dbHandler->query($query,DATAMANAGER_DBID);
+		$dbHandler = Services::getService("DatabaseManager");
+		$result =$dbHandler->query($query,DATAMANAGER_DBID);
 		if (!$result) throwError(new UnknownDBError("DataManager"));
 		
 		while ($result->hasMoreRows()) {
@@ -63,7 +63,7 @@ class SchemaManager {
 			$result->advanceRow();
 			
 			$otherParams = $a['other_params']?unserialize($a['other_params']):null;
-			$this->_schemas[$a['id']] =& new Schema( $a['id'], $a['displayname'], $a['revision'], $a['description'], $otherParams);
+			$this->_schemas[$a['id']] = new Schema( $a['id'], $a['displayname'], $a['revision'], $a['description'], $otherParams);
 			$this->_schemas[$a['id']]->setManagerFlag();
 			
 			debug::output("Found type ID ".$a['id'].", revision ".$a['revision'],DEBUG_SYS2,"DataManager");
@@ -88,7 +88,7 @@ class SchemaManager {
 		
 		if (count($ids)) {
 			// let's do it
-			$query =& new SelectQuery;
+			$query = new SelectQuery;
 			$query->addTable("dm_schema_field");
 			$query->addColumn("id", "id", "dm_schema_field");
 			$query->addColumn("name", "label", "dm_schema_field");
@@ -106,7 +106,7 @@ class SchemaManager {
 			
 //			print "<PRE>".MySQL_SQLGenerator::generateSQLQuery($query)."</PRE>";
 			
-			$dbHandler =& Services::getService("DatabaseManager");
+			$dbHandler = Services::getService("DatabaseManager");
 			$res = $dbHandler->query($query, DATAMANAGER_DBID);
 			
 			$rows = array();
@@ -124,7 +124,7 @@ class SchemaManager {
 			
 			// now distribute the rows among their respective objects
 			foreach (array_keys($rows) as $id) {
-				$obj =& $this->getSchema($id);
+				$obj =$this->getSchema($id);
 				if (!$obj->loaded()) $obj->populate($rows[$id]);
 			}
 		}
@@ -147,8 +147,8 @@ class SchemaManager {
 	 * @return ref object The new Schema object.
 	 * @access public
 	 */
-	function &createSchema($type, $displayName, $revision=1, $description='') {
-		$newDef =& new Schema( $type, $displayName, $revision, $description );
+	function createSchema($type, $displayName, $revision=1, $description='') {
+		$newDef = new Schema( $type, $displayName, $revision, $description );
 		return $newDef;
 	}
 	
@@ -162,7 +162,7 @@ class SchemaManager {
 	 * @return ref object The new Schema object.
 	 * @access private
 	 */
-	function &_addSchema($type, $displayName, $revision, $description) {
+	function _addSchema($type, $displayName, $revision, $description) {
 		debug::output("Adding Schema type '".$type."' to database.",DEBUG_SYS1,"DataManager");
 		if ($this->schemaExists($type)) {
 			throwError( new Error(
@@ -172,7 +172,7 @@ class SchemaManager {
 			return $this->_schemas[$id];
 		}
 		
-		$query =& new InsertQuery;
+		$query = new InsertQuery;
 		$query->setTable("dm_schema");
 		$query->setColumns(array("id","displayname","description", "revision"));
 		$query->addRowOfValues( array(
@@ -182,17 +182,17 @@ class SchemaManager {
 			$revision
 		));
 		
-		$dbHandler =& Services::getService("DatabaseManager");
-		$result =& $dbHandler->query($query,DATAMANAGER_DBID);
+		$dbHandler = Services::getService("DatabaseManager");
+		$result =$dbHandler->query($query,DATAMANAGER_DBID);
 		if (!$result || $result->getNumberOfRows() != 1) {
 			throwError( new UnknownDBError("DataManager") );
 		}
 		
-		$newSchema =& new Schema( $type, $displayName, $revision, $description);
+		$newSchema = new Schema( $type, $displayName, $revision, $description);
 		$newSchema->setManagerFlag();
 
 		// add it to our local arrays
-		$this->_schemas[$type] =& $newSchema;
+		$this->_schemas[$type] =$newSchema;
 		debug::output("Created new Schema object for '".$type."', revision $revision.",DEBUG_SYS5,"DataManager");
 		return $newSchema;
 	}
@@ -213,7 +213,7 @@ class SchemaManager {
 	 * @return ref object The schema.
 	 * @access public
 	 */
-	function &getSchemaByID($id) {
+	function getSchemaByID($id) {
 		if (!isset($this->_schemas[$id])) {
 			$list = array();
 			foreach ($this->_schemas as $key => $val)
@@ -244,13 +244,13 @@ class SchemaManager {
 	 */
 	function deleteSchema ($id) {
 		// update the row in the table for this schema
-		$query =& new UpdateQuery();
+		$query = new UpdateQuery();
 		$query->setTable("dm_schema");
 		$query->setWhere("id='".addslashes($id)."'");
 		$query->setColumns(array("active"));
 		$query->setValues(array("0"));
 		
-		$dbHandler=& Services::getService("DatabaseManager");
+		$dbHandler= Services::getService("DatabaseManager");
 		$dbHandler->query($query,DATAMANAGER_DBID);
 		
 		// Trash the schema object
@@ -267,7 +267,7 @@ class SchemaManager {
 	 * @return boolean Success/failure.
 	 * @access public
 	 */
-	function synchronize(&$new) {
+	function synchronize($new) {
 		ArgumentValidator::validate($new, ExtendsValidatorRule::getRule("Schema"));
 		
 		$id = $new->getID();
@@ -277,10 +277,10 @@ class SchemaManager {
 		
 		// check if we already have a definition for this type. if we don't, add a new one.
 		if (!$this->schemaExists($id)) {
-			$old =& $this->_addSchema($id, $new->getDisplayName(), $new->getRevision(), $new->getDescription());
+			$old =$this->_addSchema($id, $new->getDisplayName(), $new->getRevision(), $new->getDescription());
 			debug::output("Creating new Schema in the database.",DEBUG_SYS3,"DataManager");
 		} else {
-			$old =& $this->getSchemaByID($id);
+			$old =$this->getSchemaByID($id);
 			// make sure $oldDef has all its data loaded
 			$old->load();
 			debug::output("Using database version for synchronization.",DEBUG_SYS3,"DataManger");
@@ -329,8 +329,8 @@ class SchemaManager {
 			debug::output("Checking id '$label' ...", DEBUG_SYS5, "DataManager");
 			// if the field exists in new and not in old, add it to old, and flag it to add to DB
 			if (!$old->fieldExists($label) && $new->fieldExists($label)) {
-				$field =& $new->getField($label);
-				$newField =& $field->replicate();
+				$field =$new->getField($label);
+				$newField =$field->replicate();
 				$newField->addToDB();
 				$old->addField($newField);
 				
@@ -341,7 +341,7 @@ class SchemaManager {
 			
 			// if the field exists in the old but not in the new, flag it for deletion.
 			if ($old->fieldExists($label) && !$new->fieldExists($label)) {
-				$field =& $old->getField($label);
+				$field =$old->getField($label);
 				$field->delete();
 				
 				debug::output("Label '$label' flagged for deletion from database.",DEBUG_SYS5,"DataManager");
@@ -350,8 +350,8 @@ class SchemaManager {
 			}
 			
 			// ok, if we're at this point it means the label is defined in both definitions.
-			$oldField =& $old->getField($label);
-			$newField =& $new->getField($label);
+			$oldField =$old->getField($label);
+			$newField =$new->getField($label);
 			
 			// first let's check if the types match. if they don't, we're going to go psycho
 			$oldType = $oldField->getType();
@@ -440,7 +440,7 @@ class SchemaManager {
 				
 		// lastly, update the row in the table for this schema
 		// change the database.
-		$query =& new UpdateQuery();
+		$query = new UpdateQuery();
 		$query->setTable("dm_schema");
 		$query->setWhere("id='".addslashes($old->getID())."'");
 		$query->setColumns(array("revision", "displayname", "description", "other_params"));
@@ -449,7 +449,7 @@ class SchemaManager {
 						"'".addslashes($old->getDescription())."'",
 						"'".addslashes(serialize($old->getOtherParameters()))."'"));
 		
-		$dbHandler=& Services::getService("DatabaseManager");
+		$dbHandler= Services::getService("DatabaseManager");
 		$dbHandler->query($query,DATAMANAGER_DBID);
 		
 		$old->loaded(true);
@@ -465,11 +465,11 @@ class SchemaManager {
 	 * @access public 
 	 * @static
 	 */
-	function generatePHPCode(&$schema, $varName) {
+	function generatePHPCode($schema, $varName) {
 		$v = $varName;
 		$t = $schema->getID();
 		$c = '';
-		$c .= "\$$v =& new Schema(";
+		$c .= "\$$v = new Schema(";
 		$c .= "\n\t\"".addslashes($t)."\",";
 		$c .= "\n\t\"".addslashes($schema->getDisplayName())."\",";
 		$c .= "\n\t".$schema->getRevision().",";
@@ -481,7 +481,7 @@ class SchemaManager {
 		// now add the fields
 		$labels = $schema->getAllIDs(true);
 		foreach ($labels as $label) {
-			$f =& $schema->getField($label);
+			$f =$schema->getField($label);
 			$c .= "\$".$v."->addField(\n";
 			$c .= "\tnew SchemaField(\n";
 			$c .= "\t\t\"$label\",\n";

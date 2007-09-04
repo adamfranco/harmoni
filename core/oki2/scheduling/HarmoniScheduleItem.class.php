@@ -45,12 +45,12 @@ extends ScheduleItem
 	 * @access public
 	 * @return void
 	 */
-	function HarmoniScheduleItem(&$id)
+	function HarmoniScheduleItem($id)
 	{
 		
 		
 		
-		$this->_id =& $id;
+		$this->_id =$id;
 		$this->_table = 'sc_item';
 		
 	}
@@ -180,7 +180,7 @@ extends ScheduleItem
      * 
      * @access public
      */
-    function updateStatus ( &$status ) {
+    function updateStatus ( $status ) {
     	$index = $this->_typeToIndex('item_stat',$status);
        $this->_setField('fk_sc_item_stat_type', $index);
     } 
@@ -205,7 +205,7 @@ extends ScheduleItem
      * 
      * @access public
      */
-    function &getId () { 
+    function getId () { 
         return $this->_id;
     } 
 
@@ -275,10 +275,10 @@ extends ScheduleItem
      * 
      * @access public
      */
-    function &getCreator () { 
-    	$idManager =& Services::getServices("Id");
+    function getCreator () { 
+    	$idManager = Services::getServices("Id");
     	
-    	$creatorIdString =& $this->_getField('fk_creator_id');
+    	$creatorIdString =$this->_getField('fk_creator_id');
     	//not created by anyone in particular
     	if($creatorIdString ===""){
     		return null;	
@@ -353,7 +353,7 @@ extends ScheduleItem
      * 
      * @access public
      */
-    function &getStatus () {
+    function getStatus () {
 		return $this->_getType('item_stat');
     } 
 
@@ -402,11 +402,11 @@ extends ScheduleItem
      * 
      * @access public
      */
-    function &getPropertyTypes () { 
-        $type =& $this->getStatus();
-		$propertiesType =& new Type("PropertiesType", $type->getAuthority(), "properties");
+    function getPropertyTypes () { 
+        $type =$this->getStatus();
+		$propertiesType = new Type("PropertiesType", $type->getAuthority(), "properties");
 		$array = array($propertiesType);
-		$typeIterator =& new HarmoniTypeIterator($array);
+		$typeIterator = new HarmoniTypeIterator($array);
 		return $typeIterator;
     } 
 
@@ -429,28 +429,28 @@ extends ScheduleItem
      * 
      * @access public
      */
-    function &getAgentCommitments () { 
-        $dbHandler =& Services::getService("DBHandler");
+    function getAgentCommitments () { 
+        $dbHandler = Services::getService("DBHandler");
 
 		$array=array();
 
 	
 
-			$query=& new SelectQuery;
+			$query= new SelectQuery;
 			$query->addTable('sc_commit');
 			$query->addColumn('id');
 			$query->addWhere("fk_sc_item='".addslashes($this->_id->getIdString())."'");
 
 
-			$res=& $dbHandler->query($query);
-			$idManager =& Services::getService("Id");
+			$res=$dbHandler->query($query);
+			$idManager = Services::getService("Id");
 			while($res->hasMoreRows()){
 				$row = $res->getCurrentRow();
 				$res->advanceRow();
 				
-				$array[] =& new HarmoniAgentCommitment($idManager->getId($row['id']));
+				$array[] = new HarmoniAgentCommitment($idManager->getId($row['id']));
 			}
-		$ret =& new HarmoniAgentCommitmentIterator($array);
+		$ret = new HarmoniAgentCommitmentIterator($array);
 		return $ret;
     } 
 
@@ -479,10 +479,10 @@ extends ScheduleItem
      * 
      * @access public
      */
-    function removeAgentCommitment ( &$agentId) { 
+    function removeAgentCommitment ( $agentId) { 
         
-		$dbHandler =& Services::getService("DBHandler");
-		$query=& new DeleteQuery;
+		$dbHandler = Services::getService("DBHandler");
+		$query= new DeleteQuery;
 		$query->setTable('sc_commit');
 
 		
@@ -490,7 +490,7 @@ extends ScheduleItem
 		$query->addWhere("fk_sc_item='".addslashes($this->_id->getIdString())."'");
 		$query->addWhere("fk_agent_id='".addslashes($agentId->getIdString())."'");
 
-		$res =& $dbHandler->query($query);
+		$res =$dbHandler->query($query);
 		
 		if($res->getNumberOfRows() == 0){
 			print "<b>Warning!</b> Agent with Id [".$agentId->getIdString()."] is not added to ScheduleItem ".$this->getdisplayName()." [".$this->_id->getIdString()."] yet.  Do not delete agents that are not added.";
@@ -520,11 +520,11 @@ extends ScheduleItem
      * 
      * @access public
      */
-    function changeAgentCommitment ( &$agentId, &$agentStatus ) { 
+    function changeAgentCommitment ( $agentId, $agentStatus ) { 
         $typeIndex = $this->_typeToIndex('commit_stat',$agentStatus);
 		
-		$dbHandler =& Services::getService("DBHandler");
-		$query=& new UpdateQuery;
+		$dbHandler = Services::getService("DBHandler");
+		$query= new UpdateQuery;
 		$query->setTable('sc_commit');
 
 		
@@ -535,7 +535,7 @@ extends ScheduleItem
 		$query->setColumns(array('fk_sc_commit_stat_type'));
 		$query->setValues(array("'".addslashes($typeIndex)."'"));
 
-		$res =& $dbHandler->query($query);
+		$res =$dbHandler->query($query);
 		
 		if($res->getNumberOfRows()==0){
 			print "<b>Warning!</b> Agent with Id [".$agentId->getIdString()."] is not added to ScheduleItem ".$this->getdisplayName()." [".$this->_id->getIdString()."] yet.  Use addAgentCommitment() to add the Agent before changing it.";
@@ -568,20 +568,20 @@ extends ScheduleItem
      * 
      * @access public
      */
-    function addAgentCommitment ( &$agentId, &$agentStatus ) { 
+    function addAgentCommitment ( $agentId, $agentStatus ) { 
         
     	
-		$dbHandler =& Services::getService("DBHandler");
-		$query=& new SelectQuery;
+		$dbHandler = Services::getService("DBHandler");
+		$query= new SelectQuery;
 		$query->addTable('sc_commit');
 		$query->addWhere("fk_sc_item='".addslashes($this->_id->getIdString())."'");
 		$query->addWhere("fk_agent_id='".addslashes($agentId->getIdString())."'");
 		$query->addColumn('id');//@TODO id is not really needed here--a count should probably be returned.
-		$res=& $dbHandler->query($query);
+		$res=$dbHandler->query($query);
 		if($res->getNumberOfRows()==0){
 			$typeIndex = $this->_typeToIndex('commit_stat',$agentStatus);
 			
-			$query=& new InsertQuery;
+			$query= new InsertQuery;
 			$query->setTable('sc_commit');
 			$values[]="'".addslashes($agentId->getIdString())."'";
 			$values[]="'".addslashes($typeIndex)."'";
@@ -625,9 +625,9 @@ extends ScheduleItem
      * 
      * @access public
      */
-    function &getPropertiesByType ( &$propertiesType ) { 
-    	$type =& $this->getStatus();
-		$propertiesType =& new Type("PropertiesType", $type->getAuthority(), "properties");
+    function getPropertiesByType ( $propertiesType ) { 
+    	$type =$this->getStatus();
+		$propertiesType = new Type("PropertiesType", $type->getAuthority(), "properties");
 		if($propertiesType->isEqualTo($propertiesType)){
 			return $this->_getProperties();
 		}
@@ -654,23 +654,23 @@ extends ScheduleItem
      * 
      * @access public
      */
-    function &getProperties () { 
+    function getProperties () { 
     	$array = array($this->_getProperties());
          $ret = new HarmoniPropertiesIterator($array);		
 		return $ret;//return the iterator
     } 
     
     
-    function &_getProperties(){
+    function _getProperties(){
 		
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler = Services::getService("DBHandler");
 		
 		//get the record
-		$query =& new SelectQuery();
+		$query = new SelectQuery();
 		$query->addTable('sc_item');
 		$query->addColumn("*");
 		$query->addWhere("id='".addslashes($this->_id->getIdString())."'");				
-		$res=& $dbHandler->query($query);
+		$res=$dbHandler->query($query);
 		
 		
 		
@@ -682,13 +682,13 @@ extends ScheduleItem
 		$row = $res->getCurrentRow();//grab (hopefully) the only row	
 		
 		//make a type
-		        $type =& $this->getStatus();
-		$propertiesType =& new Type("PropertiesType", $type->getAuthority(), "properties");	
+		        $type =$this->getStatus();
+		$propertiesType = new Type("PropertiesType", $type->getAuthority(), "properties");	
 		
 				
 		//create a custom Properties object
-		$idManager =& Services::getService("Id");
-		$property =& new HarmoniProperties($propertiesType);
+		$idManager = Services::getService("Id");
+		$property = new HarmoniProperties($propertiesType);
 		$property->addProperty('display_name', $row['name']);
 		$property->addProperty('description', $row['description']);	
 		$property->addProperty('id', $idManager->getId( $row['id']));		
@@ -707,17 +707,17 @@ extends ScheduleItem
     
     
     
-    // function &getStatus () { 
+    // function getStatus () { 
     //    return $this->_getType('commit_stat');
     //} 
     
-    function _typeToIndex($typename, &$type)
+    function _typeToIndex($typename, $type)
 	{	
 		$sc=Services::getService("Scheduling");
 		return $sc->_typeToIndex($typename, $type);
 	}
 	
-	function &_getTypes($typename)
+	function _getTypes($typename)
 	{	
 		$sc=Services::getService("Scheduling");
 		return $sc->_getTypes($typename);
@@ -730,7 +730,7 @@ extends ScheduleItem
 	}
 	
 	
-	function &_getType($typename){
+	function _getType($typename){
 		$sc=Services::getService("Scheduling");
 		return $sc->_getType($this->_id,$this->_table,$typename);
 	}

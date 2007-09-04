@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Schedule.class.php,v 1.3 2006/11/30 22:02:04 adamfranco Exp $
+ * @version $Id: Schedule.class.php,v 1.4 2007/09/04 20:25:25 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -32,7 +32,7 @@ require_once(dirname(__FILE__)."/Timespan.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Schedule.class.php,v 1.3 2006/11/30 22:02:04 adamfranco Exp $
+ * @version $Id: Schedule.class.php,v 1.4 2007/09/04 20:25:25 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -64,8 +64,8 @@ class Schedule
 	 * @since 5/5/05
 	 * @static
 	 */
-	function &current ( $class = 'Schedule' ) {
-		$obj =& parent::current($class);
+	function current ( $class = 'Schedule' ) {
+		$obj = parent::current($class);
 		return $obj;
 	}
 	
@@ -81,8 +81,8 @@ class Schedule
 	 * @since 5/5/05
 	 * @static
 	 */
-	function &epoch ( $class = 'Schedule' ) {
-		$obj =& parent::epoch($class);
+	function epoch ( $class = 'Schedule' ) {
+		$obj = parent::epoch($class);
 		return $obj;
 	}
 	
@@ -99,8 +99,8 @@ class Schedule
 	 * @since 5/5/05
 	 * @static
 	 */
-	function &starting ( &$aDateAndTime, $class = 'Schedule' ) {
-		$obj =& parent::starting($aDateAndTime, $class);
+	function starting ( $aDateAndTime, $class = 'Schedule' ) {
+		$obj = parent::starting($aDateAndTime, $class);
 		return $obj;
 	}
 	
@@ -117,10 +117,10 @@ class Schedule
 	 * @access public
 	 * @since 5/11/05
 	 */
-	function &startingEnding ( &$startDateAndTime, &$endDateAndTime, 
+	function startingEnding ( $startDateAndTime, $endDateAndTime, 
 		$class = 'Schedule' ) 
 	{
-		$obj =& parent::startingEnding ( $startDateAndTime, $endDateAndTime, $class);
+		$obj = parent::startingEnding ( $startDateAndTime, $endDateAndTime, $class);
 		return $obj;
 	}
 	
@@ -139,8 +139,8 @@ class Schedule
 	 * @since 5/5/05
 	 * @static
 	 */
-	function &startingDuration ( &$aDateAndTime, &$aDuration, $class = 'Schedule' ) {
-		$obj =& parent::startingDuration ( $aDateAndTime, $aDuration, $class);
+	function startingDuration ( $aDateAndTime, $aDuration, $class = 'Schedule' ) {
+		$obj = parent::startingDuration ( $aDateAndTime, $aDuration, $class);
 		return $obj;
 	}
 
@@ -157,15 +157,15 @@ class Schedule
  	 * @access public
  	 * @since 5/25/05
  	 */
- 	function &between ( &$aStart, &$anEnd ) {
+ 	function between ( $aStart, $anEnd ) {
  		$results = array();
- 		$end =& $anEnd->min($this->end());
+ 		$end =$anEnd->min($this->end());
  		
  		// iterate to the first element in the range
- 		$element =& $this->start();
+ 		$element =$this->start();
  		$i = 0;
  		while ($element->isLessThan($aStart)) {
- 			$element =& $element->plus($this->schedule[$i]);
+ 			$element =$element->plus($this->schedule[$i]);
  			$i++;
  			if ($i >= count($this->schedule))
  				$i = 0;
@@ -177,9 +177,9 @@ class Schedule
  		
  		// Collect the results
  		while ($element->isLessThanOrEqualTo($anEnd)) {
- 			$results[] =& $element;
+ 			$results[] =$element;
  			
- 			$element =& $element->plus($this->schedule[$i]);
+ 			$element =$element->plus($this->schedule[$i]);
  			$i++;
  			if ($i >= count($this->schedule))
  				$i = 0;
@@ -195,8 +195,8 @@ class Schedule
  	 * @access public
  	 * @since 5/25/05
  	 */
- 	function &dateAndTimes () {
- 		$obj =& $this->between($this->start, $this->end());
+ 	function dateAndTimes () {
+ 		$obj =$this->between($this->start, $this->end());
  		return $obj;
  	}
 	
@@ -208,8 +208,8 @@ class Schedule
 	 * @access public
 	 * @since 5/25/05
 	 */
-	function setSchedule ( &$anArrayOfDurations ) {
-		$this->schedule =& $anArrayOfDurations;
+	function setSchedule ( $anArrayOfDurations ) {
+		$this->schedule =$anArrayOfDurations;
 	}
 	
 	/**
@@ -219,7 +219,7 @@ class Schedule
 	 * @access public
 	 * @since 5/25/05
 	 */
-	function &getSchedule () {
+	function getSchedule () {
 		return $this->schedule;
 	}
 }

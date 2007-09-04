@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: BasicOutputHandlerConfigProperties.class.php,v 1.4 2007/04/12 15:37:24 adamfranco Exp $
+ * @version $Id: BasicOutputHandlerConfigProperties.class.php,v 1.5 2007/09/04 20:25:30 adamfranco Exp $
  */
 
 require_once(OKI2."/osid/shared/Properties.php");
@@ -28,7 +28,7 @@ require_once(HARMONI."oki2/shared/ConfigurationPropertiesType.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: BasicOutputHandlerConfigProperties.class.php,v 1.4 2007/04/12 15:37:24 adamfranco Exp $
+ * @version $Id: BasicOutputHandlerConfigProperties.class.php,v 1.5 2007/09/04 20:25:30 adamfranco Exp $
  */
 class BasicOutputHandlerConfigProperties
 	extends Properties
@@ -68,7 +68,7 @@ class BasicOutputHandlerConfigProperties
 	 * 
 	 * @access public
 	 */
-	function &getType () { 
+	function getType () { 
 		return $this->_type;
 	}
 
@@ -92,7 +92,7 @@ class BasicOutputHandlerConfigProperties
 	 * 
 	 * @access public
 	 */
-	function &getProperty ( $key ) { 
+	function getProperty ( $key ) { 
 		return $this->_properties[serialize($key)];
 	}
 
@@ -113,13 +113,13 @@ class BasicOutputHandlerConfigProperties
 	 * 
 	 * @access public
 	 */
-	function &getKeys () { 
+	function getKeys () { 
 		$keys = array();
 		foreach (array_keys($this->_properties) as $key) {
 			$keys[] = unserialize($key);
 		}
 		
-		$obj =& new HarmoniObjectIterator($keys);
+		$obj = new HarmoniObjectIterator($keys);
 		
 		return $obj;
 	}

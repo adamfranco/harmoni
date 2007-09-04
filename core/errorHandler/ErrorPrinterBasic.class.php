@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ErrorPrinterBasic.class.php,v 1.11 2006/06/01 14:17:02 adamfranco Exp $
+ * @version $Id: ErrorPrinterBasic.class.php,v 1.12 2007/09/04 20:25:34 adamfranco Exp $
  */
  
 require_once(HARMONI."errorHandler/ErrorPrinter.interface.php");
@@ -19,7 +19,7 @@ require_once(HARMONI."errorHandler/ErrorPrinter.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ErrorPrinterBasic.class.php,v 1.11 2006/06/01 14:17:02 adamfranco Exp $
+ * @version $Id: ErrorPrinterBasic.class.php,v 1.12 2007/09/04 20:25:34 adamfranco Exp $
  */
 
 class ErrorPrinterBasic extends ErrorPrinterInterface {
@@ -43,7 +43,7 @@ class ErrorPrinterBasic extends ErrorPrinterInterface {
 		
 		/* We are assuming that only the last Error (first in the reversed queue) can be Fatal.*/
 		while($errors->hasNext()) {
-			$error =& $errors->next();
+			$error =$errors->next();
 			
 			$printWithDetails = false;
 			
@@ -102,7 +102,7 @@ class ErrorPrinterBasic extends ErrorPrinterInterface {
 	* @param boolean $isDetailed If TRUE, will print the error with details.
 	* @access private
 	*/
-	function _printError(& $error, $isDetailed = false) {
+	function _printError($error, $isDetailed = false) {
 		$result = "";
 		
 		$type = $error->getType();

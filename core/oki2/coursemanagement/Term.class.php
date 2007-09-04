@@ -15,7 +15,7 @@ require_once(OKI2."/osid/coursemanagement/Term.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Term.class.php,v 1.16 2006/07/15 01:07:15 sporktim Exp $
+ * @version $Id: Term.class.php,v 1.17 2007/09/04 20:25:39 adamfranco Exp $
  */
 class HarmoniTerm
 	extends Term
@@ -38,9 +38,9 @@ class HarmoniTerm
 	 * @access public
 	 * @return void
 	 */
-	function HarmoniTerm(&$id)
+	function HarmoniTerm($id)
 	{
-		$this->_id =& $id;
+		$this->_id =$id;
 		$this->_table = 'cm_term';
 		
 	}
@@ -119,7 +119,7 @@ class HarmoniTerm
 	 * 
 	 * @access public
 	 */
-	function &getId () { 
+	function getId () { 
 		
 		return $this->_id;
 	} 
@@ -145,7 +145,7 @@ class HarmoniTerm
 	 * 
 	 * @access public
 	 */
-	function &getType () { 
+	function getType () { 
 		
 		return $this->_getType('term');
 	} 
@@ -172,35 +172,35 @@ class HarmoniTerm
 	 * 
 	 * @access public
 	 */
-	function &getSchedule () { 
+	function getSchedule () { 
 		
 
 		
-		$dbManager =& Services::getService("DatabaseManager");
-		$query=& new SelectQuery;
+		$dbManager = Services::getService("DatabaseManager");
+		$query= new SelectQuery;
 		$query->addTable('cm_schedule');
 		$query->addColumn('fk_sc_item');
 		$query->addWhere("fk_id='".addslashes($this->_id->getIdString())."'");
 		//$query->addOrderBy
 		
 		
-		$res=& $dbManager->query($query);
+		$res=$dbManager->query($query);
 		$array=array();
-		$sm =& Services::getService("SchedulingManager");
+		$sm = Services::getService("SchedulingManager");
 		
 		
-		$idManager =& Services::getService("IdManager");
+		$idManager = Services::getService("IdManager");
 		while($res->hasMoreRows()){
 			$row = $res->getCurrentRow();
 		
 			$res->advanceRow();
-			$id =& $idManager->getId($row['fk_sc_item']);		
-			$si =&  $sm->getScheduleItem($id);	
+			$id =$idManager->getId($row['fk_sc_item']);		
+			$si =  $sm->getScheduleItem($id);	
 			$start = $si->getStart();		
-			$array[$start] =& $si;
+			$array[$start] =$si;
 		}
 		ksort($array);
-		$ret =& new HarmoniScheduleItemIterator($array);
+		$ret = new HarmoniScheduleItemIterator($array);
 
 		return $ret;
 	} 
@@ -208,13 +208,13 @@ class HarmoniTerm
 	
 	
 	
-	function _typeToIndex($typename, &$type)
+	function _typeToIndex($typename, $type)
 	{	
 		$cm=Services::getService("CourseManagement");
 		return $cm->_typeToIndex($typename, $type);
 	}
 	
-	function &_getTypes($typename)
+	function _getTypes($typename)
 	{	
 		$cm=Services::getService("CourseManagement");
 		return $cm->_getTypes($typename);
@@ -227,7 +227,7 @@ class HarmoniTerm
 	}
 	
 	
-	function &_getType($typename){
+	function _getType($typename){
 		$cm=Services::getService("CourseManagement");
 		return $cm->_getType($this->_id,$this->_table,$typename);
 	}

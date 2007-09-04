@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OutputHandler.abstract.php,v 1.5 2005/07/07 18:31:38 adamfranco Exp $
+ * @version $Id: OutputHandler.abstract.php,v 1.6 2007/09/04 20:25:30 adamfranco Exp $
  */ 
  
  require_once(OKI2."/osid/OsidManager.php");
@@ -20,7 +20,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OutputHandler.abstract.php,v 1.5 2005/07/07 18:31:38 adamfranco Exp $
+ * @version $Id: OutputHandler.abstract.php,v 1.6 2007/09/04 20:25:30 adamfranco Exp $
  */
 class OutputHandler 
 	extends OsidManager
@@ -61,8 +61,8 @@ class OutputHandler
 	 * 
 	 * @access public
 	 */
-	function assignConfiguration ( &$configuration ) { 
-		$this->_configuration =& $configuration;
+	function assignConfiguration ( $configuration ) { 
+		$this->_configuration =$configuration;
 	}
 
 	/**
@@ -74,7 +74,7 @@ class OutputHandler
 	 * 
 	 * @access public
 	 */
-	function &getOsidContext () { 
+	function getOsidContext () { 
 		return $this->_osidContext;
 	} 
 
@@ -89,8 +89,8 @@ class OutputHandler
 	 * 
 	 * @access public
 	 */
-	function assignOsidContext ( &$context ) { 
-		$this->_osidContext =& $context;
+	function assignOsidContext ( $context ) { 
+		$this->_osidContext =$context;
 	} 
 		
 	/**
@@ -103,8 +103,8 @@ class OutputHandler
 	 * @since 4/4/05
 	 */
 	function attachToHarmoni () {
-		$osidContext =& $this->getOsidContext();
-		$harmoni =& $osidContext->getContext('harmoni');
+		$osidContext =$this->getOsidContext();
+		$harmoni =$osidContext->getContext('harmoni');
 		
 		$harmoni->attachOutputHandler($this);
 	}
@@ -120,7 +120,7 @@ class OutputHandler
 	 * @access public
 	 * @since 4/4/05
 	 */
-	function output ( &$returnedContent, $printedContent ) {		
+	function output ( $returnedContent, $printedContent ) {		
 		throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in abstract class <b> ".__CLASS__."</b> has not been overloaded in a child class.","OutputHandler",true));
 	}
 	

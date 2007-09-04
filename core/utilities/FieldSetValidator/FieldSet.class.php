@@ -10,7 +10,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: FieldSet.class.php,v 1.6 2005/01/19 21:10:15 adamfranco Exp $
+ * @version $Id: FieldSet.class.php,v 1.7 2007/09/04 20:25:55 adamfranco Exp $
  */
 class FieldSet {
 	/**
@@ -29,7 +29,7 @@ class FieldSet {
 	 * @return void 
 	 **/
 	function FieldSet( $fields = null ) {
-		if ($fields && is_array($fields)) $this->_fields = & $fields;
+		if ($fields && is_array($fields)) $this->_fields =  $fields;
 		else $this->clear();
 	}
 	
@@ -40,7 +40,7 @@ class FieldSet {
 	 * @access public
 	 * @return mixed the value associated with $key
 	 **/
-	function &get( $key ) {
+	function get( $key ) {
 		return $this->_fields[$key];
 	}
 	
@@ -74,7 +74,7 @@ class FieldSet {
 	 * @return void 
 	 **/
 	function set( $key, $val ) {
-		$this->_fields[$key] = & $val;
+		$this->_fields[$key] =  $val;
 	}
 	
 	/**

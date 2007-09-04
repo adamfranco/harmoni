@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Tree.interface.php,v 1.6 2005/02/07 21:38:26 adamfranco Exp $
+ * @version $Id: Tree.interface.php,v 1.7 2007/09/04 20:25:42 adamfranco Exp $
  */
 class TreeInterface {
 
@@ -22,7 +22,7 @@ class TreeInterface {
 	 * @param optional ref object parent The node that will become the parent of the added node.
 	 * @return boolean <code>true</code> on success; <code>false</code>, otherwise.
 	 */
-	function &addNode(& $node, & $parent) {
+	function addNode($node, $parent) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -47,7 +47,7 @@ class TreeInterface {
 	 * key corresponds to the hierarchy level of the ancestor. Each element stores
 	 * the system id of the ancestor.
 	 */
-	function getAncestors(& $node) {
+	function getAncestors($node) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -64,7 +64,7 @@ class TreeInterface {
 	 * grandchildren and so forth. The array does not consist of the actual node objects; 
 	 * instead, it only stores their system ids.
 	 */
-	function getSubtree(& $node) {
+	function getSubtree($node) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -76,7 +76,7 @@ class TreeInterface {
 	 * @param object node The node to delete.
 	 * @return void
 	 **/
-	function deleteNode(& $node) {
+	function deleteNode($node) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 
@@ -88,7 +88,7 @@ class TreeInterface {
 	 * @return ref object The requested node. <code>Null</code>, if the node
 	 * is not in the tree.
 	 */
-	function &getNode($id) {
+	function getNode($id) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -110,7 +110,7 @@ class TreeInterface {
 	 * @access public
 	 * @return ref array An array of all nodes.
 	 */
-	function &getAllNodes() {
+	function getAllNodes() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -124,7 +124,7 @@ class TreeInterface {
 	 * @return ref array An array of all nodes in the hierarchy visited in a pre-order
 	 * manner.
 	 */
-	function &traverse(& $node) {
+	function traverse($node) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	

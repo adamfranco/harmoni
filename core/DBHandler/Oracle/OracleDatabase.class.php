@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OracleDatabase.class.php,v 1.13 2006/11/30 22:02:00 adamfranco Exp $
+ * @version $Id: OracleDatabase.class.php,v 1.14 2007/09/04 20:25:19 adamfranco Exp $
  */
  
 require_once(HARMONI."DBHandler/Database.interface.php");
@@ -23,7 +23,7 @@ require_once(HARMONI."DBHandler/Oracle/Oracle_SQLGenerator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OracleDatabase.class.php,v 1.13 2006/11/30 22:02:00 adamfranco Exp $
+ * @version $Id: OracleDatabase.class.php,v 1.14 2007/09/04 20:25:19 adamfranco Exp $
  */
 class OracleDatabase 
 	extends DatabaseInterface 
@@ -100,7 +100,7 @@ class OracleDatabase
 	 */
 	function OracleDatabase($dbName, $dbUser, $dbPass) {
 		// ** parameter validation
-		$stringRule =& StringValidatorRule::getRule();
+		$stringRule = StringValidatorRule::getRule();
 		//ArgumentValidator::validate($dbHost, $stringRule, true);
 		ArgumentValidator::validate($dbName, $stringRule, true);
 		ArgumentValidator::validate($dbUser, $stringRule, true);
@@ -131,10 +131,10 @@ class OracleDatabase
 	 * @access public
 	 */
 	function getTableList() {
-		$query =& new SelectQuery();
+		$query = new SelectQuery();
 		$query->addTable("all_tables");
 		$query->addColumn("table_name");
-		$res =& $this->query($query);
+		$res =$this->query($query);
 		
 		$list = array();
 		while($res->hasMoreRows()) {
@@ -219,7 +219,7 @@ class OracleDatabase
 	 * @return mixed The appropriate QueryResult object. If the query failed, it would
 	 * return NULL.
 	 */
-	function &query(& $query) {
+	function query($query) {
 		// do not attempt, to query, if not connected
 		if (!$this->isConnected()) {
 			throwError(new Error("Attempted to query but there was no database connection.", "DBHandler", true));
@@ -257,20 +257,20 @@ class OracleDatabase
 					$lastId = intval($arr[0]);
 				}
 				
-				$result =& new OracleInsertQueryResult($resourceId, $lastId);
+				$result = new OracleInsertQueryResult($resourceId, $lastId);
 				break;
 			}
 			case UPDATE : 
-				$result =& new OracleUpdateQueryResult($resourceId);
+				$result = new OracleUpdateQueryResult($resourceId);
 				break;
 			case DELETE : 
-				$result =& new OracleDeleteQueryResult($resourceId);
+				$result = new OracleDeleteQueryResult($resourceId);
 				break;
 			case SELECT : 
-				$result =& new OracleSelectQueryResult($resourceId, $this->_linkId);
+				$result = new OracleSelectQueryResult($resourceId, $this->_linkId);
 				break;
 			case GENERIC : 
-				$result =& new OracleGenericQueryResult($resourceId, $this->_linkId);
+				$result = new OracleGenericQueryResult($resourceId, $this->_linkId);
 				break;
 			default:
 				throwError(new Error("Unsupported query type.", "DBHandler", true));
@@ -425,8 +425,8 @@ class OracleDatabase
 	 * @param ref object dateAndTime The DateAndTime object to convert.
 	 * @return mixed A proper datetime/timestamp/time representation for this Database.
 	 */
-	function toDBDate(& $dateAndTime) {
-		$dt =& $dateAndTime->asDateAndTime();
+	function toDBDate($dateAndTime) {
+		$dt =$dateAndTime->asDateAndTime();
 		$string = sprintf("%s/%02d/%02d %02d:%02d:%02d", $dt->year(),
 							$dt->month(), $dt->dayOfMonth(),
 							$dt->hour24(), $dt->minute(),
@@ -444,11 +444,11 @@ class OracleDatabase
 	 * from the db).
 	 * @return ref object The DateAndTime object.
 	 */
-	function &fromDBDate($value) {
+	function fromDBDate($value) {
 		/*
 		 * NOT SURE HOW TO DO THIS FOR ORACLE
 		 */
-		$obj =& DateAndTime::fromString($value);
+		$obj = DateAndTime::fromString($value);
 		return $obj;
 	}
 	

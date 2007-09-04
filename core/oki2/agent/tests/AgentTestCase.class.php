@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AgentTestCase.class.php,v 1.7 2005/04/07 16:33:28 adamfranco Exp $
+ * @version $Id: AgentTestCase.class.php,v 1.8 2007/09/04 20:25:36 adamfranco Exp $
  */
  
 require_once(HARMONI.'/oki2/agent/HarmoniAgent.class.php');
@@ -20,7 +20,7 @@ require_once(HARMONI.'/oki2/agent/HarmoniAgent.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AgentTestCase.class.php,v 1.7 2005/04/07 16:33:28 adamfranco Exp $
+ * @version $Id: AgentTestCase.class.php,v 1.8 2007/09/04 20:25:36 adamfranco Exp $
  */
 
 	class AgentTestCase extends UnitTestCase {
@@ -48,10 +48,10 @@ require_once(HARMONI.'/oki2/agent/HarmoniAgent.class.php');
 		//--------------the tests ----------------------
 
 		function test_everything() {
-			$id =& new HarmoniId("8");
-			$type =& new HarmoniType("Look at me!", "I rock...", "I rule!", "And rise!");
+			$id = new HarmoniId("8");
+			$type = new HarmoniType("Look at me!", "I rock...", "I rule!", "And rise!");
 
-			$this->agent =& new HarmoniAgent("dobomode", $id, $type, 1, "blah");
+			$this->agent = new HarmoniAgent("dobomode", $id, $type, 1, "blah");
 			
 			$this->assertIsA($this->agent, "HarmoniAgent");
 			$this->assertIdentical($this->agent->getDisplayName(), "dobomode");

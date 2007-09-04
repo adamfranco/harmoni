@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: EventListener.interface.php,v 1.1 2005/07/18 21:41:08 gabeschine Exp $
+ * @version $Id: EventListener.interface.php,v 1.2 2007/09/04 20:25:30 adamfranco Exp $
  */ 
 
 /**
@@ -18,7 +18,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: EventListener.interface.php,v 1.1 2005/07/18 21:41:08 gabeschine Exp $
+ * @version $Id: EventListener.interface.php,v 1.2 2007/09/04 20:25:30 adamfranco Exp $
  */
 class EventListener {
 	/**
@@ -30,7 +30,7 @@ class EventListener {
 	 * @access public
 	 * @return void
 	 */
-	function handleEvent ($eventType, &$source, $context) {
+	function handleEvent ($eventType, $source, $context) {
 		
 	}
 }

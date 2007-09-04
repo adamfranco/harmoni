@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthorizationTestCase.class.php,v 1.7 2005/07/13 17:41:13 adamfranco Exp $
+ * @version $Id: AuthorizationTestCase.class.php,v 1.8 2007/09/04 20:25:39 adamfranco Exp $
  */
  
 require_once(HARMONI.'oki/authorization/HarmoniAuthorization.class.php');
@@ -23,7 +23,7 @@ require_once(HARMONI.'oki/authorization/DefaultFunctionType.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthorizationTestCase.class.php,v 1.7 2005/07/13 17:41:13 adamfranco Exp $
+ * @version $Id: AuthorizationTestCase.class.php,v 1.8 2007/09/04 20:25:39 adamfranco Exp $
  */
 class HarmoniAuthorizationTestCase extends UnitTestCase {
 
@@ -44,14 +44,14 @@ class HarmoniAuthorizationTestCase extends UnitTestCase {
 		$dbHandler->pConnect($dbIndex);
 		unset($dbHandler); // done with that for now
 		
-		$this->manager =& new HarmoniAuthorizationManager($dbIndex, "doboHarmoniTest");
-		$this->agentId =& new HarmoniId("3826");
-		$this->functionId =& new HarmoniId("501");
-		$this->qualifierId =& new HarmoniId("6796");
-		$this->date1 =& DateAndTime::withYearMonthDay(1981, 10, 24);
-		$this->date2 =& DateAndTime::withYearMonthDay(2015, 6, 25);
+		$this->manager = new HarmoniAuthorizationManager($dbIndex, "doboHarmoniTest");
+		$this->agentId = new HarmoniId("3826");
+		$this->functionId = new HarmoniId("501");
+		$this->qualifierId = new HarmoniId("6796");
+		$this->date1 = DateAndTime::withYearMonthDay(1981, 10, 24);
+		$this->date2 = DateAndTime::withYearMonthDay(2015, 6, 25);
 		
-		$this->authorization =& $this->manager->createDatedAuthorization($this->agentId, 
+		$this->authorization =$this->manager->createDatedAuthorization($this->agentId, 
 													$this->functionId, $this->qualifierId,
 													$this->date1, $this->date2);
 	}
@@ -68,10 +68,10 @@ class HarmoniAuthorizationTestCase extends UnitTestCase {
 	function test_is_active() {
 		$this->assertTrue($this->authorization->isActiveNow());
 
-		$this->authorization->_effectiveDate =& DateAndTime::withYearMonthDay(2014, 6, 12);
+		$this->authorization->_effectiveDate = DateAndTime::withYearMonthDay(2014, 6, 12);
 		$this->assertFalse($this->authorization->isActiveNow());
 
-		$this->authorization->_expirationDate =& DateAndTime::withYearMonthDay(2004, 6, 1);
+		$this->authorization->_expirationDate = DateAndTime::withYearMonthDay(2004, 6, 1);
 		$this->assertFalse($this->authorization->isActiveNow());
 
 	}
@@ -84,13 +84,13 @@ class HarmoniAuthorizationTestCase extends UnitTestCase {
 
 
 	function test_updates() {
-		$dateTime =& DateAndTime::now();
+		$dateTime = DateAndTime::now();
 
 		$this->authorization->updateExpirationDate($dateTime);
 		$this->assertReference($dateTime, $this->authorization->getExpirationDate());
 		$this->assertFalse($this->authorization->isActiveNow());
 
-		$dateTime =& DateAndTime::now();
+		$dateTime = DateAndTime::now();
 
 		$this->authorization->updateEffectiveDate($dateTime);
 		$this->authorization->updateExpirationDate(DateAndTime::withYearMonthDay(2030, 10, 10));
@@ -100,13 +100,13 @@ class HarmoniAuthorizationTestCase extends UnitTestCase {
 
 
 	function test_get_function() {
-		$function =& $this->authorization->getFunction();
+		$function =$this->authorization->getFunction();
 		$this->assertIsA($function, "FunctionInterface");
 		$this->assertIdentical($function->getReferenceName(), "Edit");
 		$this->assertIdentical($function->getDescription(), "Permission to edit qualifiers.");
 		$this->assertIdentical($function->getQualifierHierarchyId(), new HarmoniId("6794"));
-		$deftype =& new DefaultFunctionType();
-		$type =& $function->getFunctionType();
+		$deftype = new DefaultFunctionType();
+		$type =$function->getFunctionType();
 		$this->assertIdentical($type->getAuthority(), $deftype->getAuthority());
 		$this->assertIdentical($type->getDomain(), $deftype->getDomain());
 		$this->assertIdentical($type->getKeyword(), $deftype->getKeyword());
@@ -117,12 +117,12 @@ class HarmoniAuthorizationTestCase extends UnitTestCase {
 
 
 	function test_get_qualifier() {
-		$qualifier =& $this->authorization->getQualifier();
+		$qualifier =$this->authorization->getQualifier();
 		$this->assertIsA($qualifier, "Qualifier");
 		$this->assertIdentical($qualifier->getDisplayName(), "sectionA");
 		$this->assertIdentical($qualifier->getDescription(), "");
-		$deftype =& new DefaultQualifierType();
-		$type =& $qualifier->getQualifierType();
+		$deftype = new DefaultQualifierType();
+		$type =$qualifier->getQualifierType();
 		$this->assertIdentical($type->getAuthority(), $deftype->getAuthority());
 		$this->assertIdentical($type->getDomain(), $deftype->getDomain());
 		$this->assertIdentical($type->getKeyword(), $deftype->getKeyword());

@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreSelectQueryResult.class.php,v 1.8 2005/06/16 18:19:04 gabeschine Exp $
+ * @version $Id: PostGreSelectQueryResult.class.php,v 1.9 2007/09/04 20:25:20 adamfranco Exp $
  */
  
 require_once(HARMONI."DBHandler/SelectQueryResult.interface.php");
@@ -19,7 +19,7 @@ require_once(HARMONI."DBHandler/SelectQueryResult.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreSelectQueryResult.class.php,v 1.8 2005/06/16 18:19:04 gabeschine Exp $
+ * @version $Id: PostGreSelectQueryResult.class.php,v 1.9 2007/09/04 20:25:20 adamfranco Exp $
  */
 class PostGreSelectQueryResult 
 	extends SelectQueryResultInterface 
@@ -69,7 +69,7 @@ class PostGreSelectQueryResult
 	 */
 	function PostGreSelectQueryResult($resourceId, $linkId) {
 		// ** parameter validation
-		$resourceRule =& ResourceValidatorRule::getRule();
+		$resourceRule = ResourceValidatorRule::getRule();
 		ArgumentValidator::validate($resourceId, $resourceRule, true);
 		ArgumentValidator::validate($linkId, $resourceRule, true);
 		// ** end of parameter validation
@@ -127,7 +127,7 @@ class PostGreSelectQueryResult
 	 * @return array An associative array of the current row.
 	 **/
 	function next() {
-		$row =& $this->getCurrentRow();
+		$row =$this->getCurrentRow();
 		$this->advanceRow();
 		return $row;
 	}
@@ -223,7 +223,7 @@ class PostGreSelectQueryResult
 	 **/
 	function getCurrentRow($arrayType = BOTH) {
 		// ** parameter validation
-		$integerRule =& IntegerValidatorRule::getRule();
+		$integerRule = IntegerValidatorRule::getRule();
 		ArgumentValidator::validate($arrayType, $integerRule, true);
 		// ** end of parameter validation
 		
@@ -257,7 +257,7 @@ class PostGreSelectQueryResult
 	 */
 	function moveToRow($rowNumber) {
 		// ** parameter validation
-		$integerRule =& IntegerValidatorRule::getRule();
+		$integerRule = IntegerValidatorRule::getRule();
 		ArgumentValidator::validate($rowNumber, $integerRule, true);
 		// ** end of parameter validation
 		

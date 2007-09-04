@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorablePrimitive.interface.php,v 1.6 2007/04/12 15:37:24 adamfranco Exp $
+ * @version $Id: StorablePrimitive.interface.php,v 1.7 2007/09/04 20:25:31 adamfranco Exp $
  */
 class StorablePrimitive {
 	
@@ -24,7 +24,7 @@ class StorablePrimitive {
 	 * @return object StorablePrimitive
 	 * @static
 	 */
-	function &createAndPopulate( $dbRow ) { }
+	function createAndPopulate( $dbRow ) { }
 	
 	/**
 	 * Returns a string that could be inserted into an SQL query's WHERE clause, based on the
@@ -36,7 +36,7 @@ class StorablePrimitive {
 	 * @return string or NULL if no searching is allowed.
 	 * @static
 	 */
-	function makeSearchString(&$value, $searchType = SEARCH_TYPE_EQUALS) { }
+	function makeSearchString($value, $searchType = SEARCH_TYPE_EQUALS) { }
 	
 /*********************************************************
  * Instance Methods
@@ -68,7 +68,7 @@ class StorablePrimitive {
 	 * @access public
 	 * @return void
 	 */
-	function alterQuery( &$query ) { }
+	function alterQuery( $query ) { }
 	
 	/**
 	 * Deletes the data row from the appropriate table.

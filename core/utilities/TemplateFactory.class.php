@@ -9,7 +9,7 @@ require_once(HARMONI."utilities/Template.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TemplateFactory.class.php,v 1.6 2006/01/17 20:06:22 adamfranco Exp $
+ * @version $Id: TemplateFactory.class.php,v 1.7 2007/09/04 20:25:54 adamfranco Exp $
  */
 class TemplateFactory {
 	var $_paths;
@@ -27,13 +27,13 @@ class TemplateFactory {
 		$this->_ext = "." . ereg_replace("^\.","",$ext);
 	}
 	
-	function &newTemplate($name) {
-		$obj =& new Template($name.$this->_ext, $this->_paths);
+	function newTemplate($name) {
+		$obj = new Template($name.$this->_ext, $this->_paths);
 		return $obj;
 	}
 	
 	function catchTemplateOutput($name, $vars=array()) {
-		$template =& $this->newTemplate($name);
+		$template =$this->newTemplate($name);
 		
 		return $template->catchOutput($vars);
 	}

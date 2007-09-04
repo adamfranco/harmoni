@@ -50,7 +50,7 @@ require_once(HARMONI."oki2/agent/EveryoneGroup.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgentManager.class.php,v 1.46 2007/08/22 14:45:44 adamfranco Exp $
+ * @version $Id: HarmoniAgentManager.class.php,v 1.47 2007/09/04 20:25:36 adamfranco Exp $
  *
  * @author Adam Franco
  * @author Dobromir Radichkov
@@ -75,7 +75,7 @@ class HarmoniAgentManager
 	 * @param string sharedDB The name of the shared database.
 	 */
 	function HarmoniAgentManager() {
-		$idManager =& Services::getService("Id");
+		$idManager = Services::getService("Id");
 		
 		$this->_everyoneId = $idManager->getId("edu.middlebury.agents.everyone");
 		$this->_allGroupsId = $idManager->getId("edu.middlebury.agents.all_groups");
@@ -83,7 +83,7 @@ class HarmoniAgentManager
 		$this->_usersId = $idManager->getId("edu.middlebury.agents.users");
 		$this->_anonymousId = $idManager->getId("edu.middlebury.agents.anonymous");
 		
-		$this->_usersGroup =& new UsersGroup();
+		$this->_usersGroup = new UsersGroup();
 	}
 	
 	/**
@@ -106,39 +106,39 @@ class HarmoniAgentManager
 	 * 
 	 * @access public
 	 */
-	function assignConfiguration ( &$configuration ) { 
-		$this->_configuration =& $configuration;
+	function assignConfiguration ( $configuration ) { 
+		$this->_configuration =$configuration;
 		
-		$hierarchyId =& $configuration->getProperty('hierarchy_id');
-		$agentFlavor =& $configuration->getProperty('defaultAgentFlavor');
+		$hierarchyId =$configuration->getProperty('hierarchy_id');
+		$agentFlavor =$configuration->getProperty('defaultAgentFlavor');
 		
 		// ** parameter validation
 		ArgumentValidator::validate($hierarchyId, StringValidatorRule::getRule(), true);
 		ArgumentValidator::validate($agentFlavor, StringValidatorRule::getRule(), true);
 		// ** end of parameter validation
 		
-		$idManager =& Services::getService("Id");
+		$idManager = Services::getService("Id");
 		$this->_hierarchyId = $idManager->getId($hierarchyId);
 		$this->_agentFlavor = $agentFlavor;
 		
-		$hierarchyManager =& Services::getService("Hierarchy");
-		$hierarchy =& $hierarchyManager->getHierarchy($this->_hierarchyId);
+		$hierarchyManager = Services::getService("Hierarchy");
+		$hierarchy =$hierarchyManager->getHierarchy($this->_hierarchyId);
 		
 		
 		// initialize our Agent Search Types
 		$this->_agentSearches = array ();
-		$this->_agentSearches["Agent & Group Search::edu.middlebury.harmoni::TokenSearch"] =&
+		$this->_agentSearches["Agent & Group Search::edu.middlebury.harmoni::TokenSearch"] =
 			new TokenSearch;
 		
 		// initialize our Group Search Types
 		$this->_groupSearches = array ();
-		$this->_groupSearches["Agent & Group Search::edu.middlebury.harmoni::AncestorGroups"] =&
+		$this->_groupSearches["Agent & Group Search::edu.middlebury.harmoni::AncestorGroups"] =
 			new AncestorGroupSearch ($hierarchy);
-		$this->_groupSearches["Agent & Group Search::edu.middlebury.harmoni::RootGroups"] =&
+		$this->_groupSearches["Agent & Group Search::edu.middlebury.harmoni::RootGroups"] =
 			new RootGroupSearch ($hierarchy);
-		$this->_groupSearches["Agent & Group Search::edu.middlebury.harmoni::TokenSearch"] =& $this->_agentSearches["Agent & Group Search::edu.middlebury.harmoni::TokenSearch"];
+		$this->_groupSearches["Agent & Group Search::edu.middlebury.harmoni::TokenSearch"] =$this->_agentSearches["Agent & Group Search::edu.middlebury.harmoni::TokenSearch"];
 		
-		$this->_everyoneGroup =& new EveryoneGroup($hierarchy, $hierarchy->getNode($this->_everyoneId));
+		$this->_everyoneGroup = new EveryoneGroup($hierarchy, $hierarchy->getNode($this->_everyoneId));
 	}
 
 	/**
@@ -150,7 +150,7 @@ class HarmoniAgentManager
 	 * 
 	 * @access public
 	 */
-	function &getOsidContext () { 
+	function getOsidContext () { 
 		return $this->_osidContext;
 	} 
 
@@ -165,8 +165,8 @@ class HarmoniAgentManager
 	 * 
 	 * @access public
 	 */
-	function assignOsidContext ( &$context ) { 
-		$this->_osidContext =& $context;
+	function assignOsidContext ( $context ) { 
+		$this->_osidContext =$context;
 	} 
 
 
@@ -230,7 +230,7 @@ class HarmoniAgentManager
 	 * 
 	 * @access public
 	 */
-	function &createAgent ( $displayName, &$agentType, &$properties, $agentId = null ) { 
+	function createAgent ( $displayName, $agentType, $properties, $agentId = null ) { 
 		
 		// ** parameter validation
 		ArgumentValidator::validate($agentType, ExtendsValidatorRule::getRule("Type"), true);
@@ -239,31 +239,31 @@ class HarmoniAgentManager
 		ArgumentValidator::validate($agentId, OptionalRule::getRule(
 			ExtendsValidatorRule::getRule("Id")), true);
 	
-		$propertiesArray[] =& $properties;
+		$propertiesArray[] =$properties;
 		// ** end of parameter validation
 		
 		// create a new unique id for the agent
 		if ($agentId == null) {
-			$idManager =& Services::getService("Id");
-			$agentId =& $idManager->createId();
+			$idManager = Services::getService("Id");
+			$agentId =$idManager->createId();
 		}
 		
 		// Create a node for the agent
-		$hierarchyManager =& Services::getService("Hierarchy");
-		$hierarchy =& $hierarchyManager->getHierarchy($this->_hierarchyId);
-		$agentNode =& $hierarchy->createNode($agentId, $this->_allAgentsId, $agentType, 
+		$hierarchyManager = Services::getService("Hierarchy");
+		$hierarchy =$hierarchyManager->getHierarchy($this->_hierarchyId);
+		$agentNode =$hierarchy->createNode($agentId, $this->_allAgentsId, $agentType, 
 			$displayName, "");
 
 
 		// 3. Store the properties of the agent.
-		$propertyManager =& Services::getService("Property");
+		$propertyManager = Services::getService("Property");
 		//properties are grouped by type into typed properties objects which contain all key/value pairs of that type.  That's why there's an array of properties objects
 		foreach($propertiesArray as $property){
 			$propertyManager->storeProperties($agentId->getIdString(), $property);
 		}
 				
 		// create the agent object to return
-		$agent =& new $this->_agentFlavor($hierarchy, $agentNode);
+		$agent = new $this->_agentFlavor($hierarchy, $agentNode);
 		
 		return $agent;
 	}
@@ -289,18 +289,18 @@ class HarmoniAgentManager
 	 * 
 	 * @access public
 	 */
-	function deleteAgent ( &$id ) {
+	function deleteAgent ( $id ) {
 		// ** parameter validation
 		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"), true);
 		// ** end of parameter validation
 		
 		//remove the properties of the agent from the database
-		$propertyManager =& Services::getService("Property");
+		$propertyManager = Services::getService("Property");
 		$propertyManager->deleteAllProperties($id->getIdString());
 		
 		// Get the node for the agent
-		$hierarchyManager =& Services::getService("Hierarchy");
-		$hierarchy =& $hierarchyManager->getHierarchy($this->_hierarchyId);
+		$hierarchyManager = Services::getService("Hierarchy");
+		$hierarchy =$hierarchyManager->getHierarchy($this->_hierarchyId);
 		$hierarchy->deleteNode($id);
 	}
 
@@ -328,18 +328,18 @@ class HarmoniAgentManager
 	 * 
 	 * @access public
 	 */
-	function &getAgent ( &$id ) { 
+	function getAgent ( $id ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"), true);
 		// ** end of parameter validation
 
 		// Get the node for the agent
-		$hierarchyManager =& Services::getService("Hierarchy");
-		$hierarchy =& $hierarchyManager->getHierarchy($this->_hierarchyId);
+		$hierarchyManager = Services::getService("Hierarchy");
+		$hierarchy =$hierarchyManager->getHierarchy($this->_hierarchyId);
 		if (!$hierarchy->nodeExists($id)) {
 			throwError(new Error(AgentException::UNKNOWN_ID().", '".$id->getIdString()."'", "AgentManager"));
 		}
-		$agentNode =& new $this->_agentFlavor($hierarchy, $hierarchy->getNode($id));
+		$agentNode = new $this->_agentFlavor($hierarchy, $hierarchy->getNode($id));
 		
 		return $agentNode;
 	}
@@ -365,14 +365,14 @@ class HarmoniAgentManager
 	 * 
 	 * @access public
 	 */
-	function &getAgents () {
-		$hierarchyManager =& Services::getService("Hierarchy");
-		$hierarchy =& $hierarchyManager->getHierarchy($this->_hierarchyId);
-		$traversalIterator =& $hierarchy->traverse($this->_allAgentsId,
+	function getAgents () {
+		$hierarchyManager = Services::getService("Hierarchy");
+		$hierarchy =$hierarchyManager->getHierarchy($this->_hierarchyId);
+		$traversalIterator =$hierarchy->traverse($this->_allAgentsId,
 			Hierarchy::TRAVERSE_MODE_DEPTH_FIRST(), Hierarchy::TRAVERSE_DIRECTION_DOWN(), 
 			Hierarchy::TRAVERSE_LEVELS_ALL());
 			
-		$agentIterator =& new MembersOnlyFromTraversalIterator($traversalIterator);
+		$agentIterator = new MembersOnlyFromTraversalIterator($traversalIterator);
 		return $agentIterator;
 	}
 	
@@ -400,13 +400,13 @@ class HarmoniAgentManager
 	 * 
 	 * @access public
 	 */
-	function &getAgentsBySearch ( &$searchCriteria, &$agentSearchType ) { 
+	function getAgentsBySearch ( $searchCriteria, $agentSearchType ) { 
 		$typeString = $agentSearchType->getDomain()
 						."::".$agentSearchType->getAuthority()
 						."::".$agentSearchType->getKeyword();
 		
 		// get the Agent Search object
-		$agentSearch =& $this->_agentSearches[$typeString];
+		$agentSearch =$this->_agentSearches[$typeString];
 		if (!is_object($agentSearch))
 			throwError(new Error(AgentException::UNKNOWN_TYPE(),"AgentManager",true));
 		
@@ -434,16 +434,16 @@ class HarmoniAgentManager
 	 * 
 	 * @access public
 	 */
-	function &getAgentSearchTypes () { 
+	function getAgentSearchTypes () { 
 		$types = array();
 		// Break our search type keys on "::" and create type objects
 		// to return.
 		foreach (array_keys($this->_agentSearches) as $typeString) {
 			$parts = explode("::", $typeString);
-			$types[] =& new HarmoniType($parts[0], $parts[1], $parts[2]);
+			$types[] = new HarmoniType($parts[0], $parts[1], $parts[2]);
 		}
 		
-		$obj =& new HarmoniIterator($types);
+		$obj = new HarmoniIterator($types);
 		
 		return $obj;
 	}
@@ -469,8 +469,8 @@ class HarmoniAgentManager
 	 * 
 	 * @access public
 	 */
-	function &getAgentTypes () { 		
-		$agents =& $this->getAgents();
+	function getAgentTypes () { 		
+		$agents =$this->getAgents();
 	}
 	
 	/**
@@ -495,7 +495,7 @@ class HarmoniAgentManager
 	 * 
 	 * @access public
 	 */
-	function &getPropertyTypes () { 
+	function getPropertyTypes () { 
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	} 
 
@@ -526,7 +526,7 @@ class HarmoniAgentManager
 	 * 
 	 * @access public
 	 */
-	function &createGroup ( $displayName, &$groupType, $description, &$properties, $id = null ) { 
+	function createGroup ( $displayName, $groupType, $description, $properties, $id = null ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($groupType,  ExtendsValidatorRule::getRule("Type"), true);
 		ArgumentValidator::validate($displayName, StringValidatorRule::getRule(), true);
@@ -535,8 +535,8 @@ class HarmoniAgentManager
 		// ensure that we aren't using the type of one of the AuthNTypes
 		// which would confict with external directories.
 		// :: Add External Groups
-		$authNMethodManager =& Services::getService("AuthNMethodManager");		
-		$types =& $authNMethodManager->getAuthNTypes();
+		$authNMethodManager = Services::getService("AuthNMethodManager");		
+		$types =$authNMethodManager->getAuthNTypes();
 		while ($types->hasNext()) {
 			if ($groupType->isEqual($types->next()))
 				throwError(new Error(AgentException::PERMISSION_DENIED(),"GroupManager",true));
@@ -548,27 +548,27 @@ class HarmoniAgentManager
 		if (is_object($id) && method_exists($id, 'getIdString')) {
 			$groupId = $id;
 		} else {
-			$idManager =& Services::getService("Id");
-			$groupId =& $idManager->createId();
+			$idManager = Services::getService("Id");
+			$groupId =$idManager->createId();
 		}
 		
 		// 1. Create the node
-		$hierarchyManager =& Services::getService("Hierarchy");
-		$hierarchy =& $hierarchyManager->getHierarchy($this->_hierarchyId);
-		$groupNode =& $hierarchy->createNode($groupId, $this->_allGroupsId, $groupType, 
+		$hierarchyManager = Services::getService("Hierarchy");
+		$hierarchy =$hierarchyManager->getHierarchy($this->_hierarchyId);
+		$groupNode =$hierarchy->createNode($groupId, $this->_allGroupsId, $groupType, 
 			$displayName, $description);
 		
 				
 		// 2. Store the properties of the group.
-		$propertyManager =& Services::getService("Property");
+		$propertyManager = Services::getService("Property");
 		$propertiesId = $propertyManager->storeProperties($groupId->getIdString(), $properties);
 						
 		// create the group object to return
-		$group =& new HarmoniGroup($hierarchy, $groupNode);
+		$group = new HarmoniGroup($hierarchy, $groupNode);
 		
 		// update our cache for isGroup
 		if (isset($this->_groupTreeIds) && is_array($this->_groupTreeIds)) {
-			$this->_groupTreeIds[$groupId->getIdString()] =& $groupId;
+			$this->_groupTreeIds[$groupId->getIdString()] =$groupId;
 		}
 		
 		return $group;
@@ -596,18 +596,18 @@ class HarmoniAgentManager
 	 * @access public
 	 */
 	 
-	function deleteGroup ( &$id ) { 
+	function deleteGroup ( $id ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"), true);
 		// ** end of parameter validation
 		
 		//remove the properties of the agent from the database
-		$propertyManager =& Services::getService("Property");
+		$propertyManager = Services::getService("Property");
 		$propertyManager->deleteAllProperties($id->getIdString());
 		
 		// Get the node for the agent
-		$hierarchyManager =& Services::getService("Hierarchy");
-		$hierarchy =& $hierarchyManager->getHierarchy($this->_hierarchyId);
+		$hierarchyManager = Services::getService("Hierarchy");
+		$hierarchy =$hierarchyManager->getHierarchy($this->_hierarchyId);
 		if (!$hierarchy->nodeExists($id)) {
 			throwError(new Error(AgentException::PERMISSION_DENIED(),"GroupManager",true));
 		}
@@ -645,7 +645,7 @@ class HarmoniAgentManager
 	 * 
 	 * @access public
 	 */
-	function &getGroup ( &$id ) { 
+	function getGroup ( $id ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"), true);
 		// ** end of parameter validation
@@ -656,21 +656,21 @@ class HarmoniAgentManager
 			return $this->_everyoneGroup;
 		} else {
 			// Get the node for the agent
-			$hierarchyManager =& Services::getService("Hierarchy");
-			$hierarchy =& $hierarchyManager->getHierarchy($this->_hierarchyId);
+			$hierarchyManager = Services::getService("Hierarchy");
+			$hierarchy =$hierarchyManager->getHierarchy($this->_hierarchyId);
 			$group = false;
 			
 			if ($hierarchy->nodeExists($id)) {
-				$group =& new HarmoniGroup($hierarchy, $hierarchy->getNode($id));
+				$group = new HarmoniGroup($hierarchy, $hierarchy->getNode($id));
 			} else {
 				// Check external directories
-				$authNMethodManager =& Services::getService("AuthNMethodManager");		
-				$types =& $authNMethodManager->getAuthNTypes();
+				$authNMethodManager = Services::getService("AuthNMethodManager");		
+				$types =$authNMethodManager->getAuthNTypes();
 				while ($types->hasNext()) {
-					$type =& $types->next();
-					$authNMethod =& $authNMethodManager->getAuthNMethodForType($type);
+					$type =$types->next();
+					$authNMethod =$authNMethodManager->getAuthNMethodForType($type);
 					if ($authNMethod->supportsDirectory() && $authNMethod->isGroup($id)) {
-						$group =& $authNMethod->getGroup($id);
+						$group =$authNMethod->getGroup($id);
 						break;
 					}
 				}
@@ -703,33 +703,33 @@ class HarmoniAgentManager
 	 * 
 	 * @access public
 	 */
-	function &getGroups () { 
-		$hierarchyManager =& Services::getService("Hierarchy");
-		$hierarchy =& $hierarchyManager->getHierarchy($this->_hierarchyId);
-		$node =& $hierarchy->getNode($this->_allGroupsId);
-		$children =& $node->getChildren();
+	function getGroups () { 
+		$hierarchyManager = Services::getService("Hierarchy");
+		$hierarchy =$hierarchyManager->getHierarchy($this->_hierarchyId);
+		$node =$hierarchy->getNode($this->_allGroupsId);
+		$children =$node->getChildren();
 		
 		$groups = array();
 		
-		$groups[] =& $this->getGroup($this->_everyoneId);
-		$groups[] =& $this->getGroup($this->_usersId);
+		$groups[] =$this->getGroup($this->_everyoneId);
+		$groups[] =$this->getGroup($this->_usersId);
 		
-		$nodeGroups =& new GroupsFromNodesIterator($children);
+		$nodeGroups = new GroupsFromNodesIterator($children);
 		while ($nodeGroups->hasNext()) {
-			$groups[] =& $nodeGroups->next();
+			$groups[] =$nodeGroups->next();
 		}
 		
 		// :: Add External Groups
-		$authNMethodManager =& Services::getService("AuthNMethodManager");		
-		$types =& $authNMethodManager->getAuthNTypes();
+		$authNMethodManager = Services::getService("AuthNMethodManager");		
+		$types =$authNMethodManager->getAuthNTypes();
 		while ($types->hasNext()) {
-			$type =& $types->next();
-			$authNMethod =& $authNMethodManager->getAuthNMethodForType($type);
+			$type =$types->next();
+			$authNMethod =$authNMethodManager->getAuthNMethodForType($type);
 			if ($authNMethod->supportsDirectory()) {
-				$groupsIterator =& $authNMethod->getAllGroups();
+				$groupsIterator =$authNMethod->getAllGroups();
 				
 				while ($groupsIterator->hasNext()) {
-					$groups[] =& $groupsIterator->next();
+					$groups[] =$groupsIterator->next();
 				}
 			}
 		}
@@ -762,14 +762,14 @@ class HarmoniAgentManager
 	 * 
 	 * @access public
 	 */
-	function &getGroupsBySearch ( &$searchCriteria, &$groupSearchType ) { 
+	function getGroupsBySearch ( $searchCriteria, $groupSearchType ) { 
 		ArgumentValidator::validate($groupSearchType, ExtendsValidatorRule::getRule("Type"));
 		$typeString = $groupSearchType->getDomain()
 						."::".$groupSearchType->getAuthority()
 						."::".$groupSearchType->getKeyword();
 		
 		// get the Group Search object
-		$groupSearch =& $this->_groupSearches[$typeString];
+		$groupSearch =$this->_groupSearches[$typeString];
 		if (!is_object($groupSearch))
 			throwError(new Error(AgentException::UNKNOWN_TYPE().", ".Type::typeToString($groupSearchType),"GroupManager",true));
 		
@@ -797,16 +797,16 @@ class HarmoniAgentManager
 	 * 
 	 * @access public
 	 */
-	function &getGroupSearchTypes () { 
+	function getGroupSearchTypes () { 
 		$types = array();
 		// Break our search type keys on "::" and create type objects
 		// to return.
 		foreach (array_keys($this->_groupSearches) as $typeString) {
 			$parts = explode("::", $typeString);
-			$types[] =& new HarmoniType($parts[0], $parts[1], $parts[2]);
+			$types[] = new HarmoniType($parts[0], $parts[1], $parts[2]);
 		}
 		
-		$obj =& new HarmoniIterator($types);
+		$obj = new HarmoniIterator($types);
 		
 		return $obj;
 	}
@@ -832,33 +832,33 @@ class HarmoniAgentManager
 	 * 
 	 * @access public
 	 */
-	function &getGroupTypes () { 
-		$hierarchyManager =& Services::getService("Hierarchy");
-		$hierarchy =& $hierarchyManager->getHierarchy($this->_hierarchyId);
-		$node =& $hierarchy->getNode($this->_allGroupsId);
-		$groups =& $node->getChildren();
+	function getGroupTypes () { 
+		$hierarchyManager = Services::getService("Hierarchy");
+		$hierarchy =$hierarchyManager->getHierarchy($this->_hierarchyId);
+		$node =$hierarchy->getNode($this->_allGroupsId);
+		$groups =$node->getChildren();
 		
 		$types = array();
 		$seen = array();
 		while($groups->hasNext()) {
-			$group =& $groups->next();
+			$group =$groups->next();
 			$typeString = Type::typeToString($group->getType());
 			if (in_array($typeString, $seen)) continue;
 			$seen[] = $typeString;
-			$types[] =& $group->getType();
+			$types[] =$group->getType();
 		}
 		
 		// Add external directory types
-		$authNMethodManager =& Services::getService("AuthNMethodManager");		
-		$authNTypes =& $authNMethodManager->getAuthNTypes();
+		$authNMethodManager = Services::getService("AuthNMethodManager");		
+		$authNTypes =$authNMethodManager->getAuthNTypes();
 		while ($authNTypes->hasNext()) {
-			$type =& $authNTypes->next();
-			$authNMethod =& $authNMethodManager->getAuthNMethodForType($type);
+			$type =$authNTypes->next();
+			$authNMethod =$authNMethodManager->getAuthNMethodForType($type);
 			if ($authNMethod->supportsDirectory())
-				$types[] =& $type;
+				$types[] =$type;
 		}
 		
-		$i =& new HarmoniIterator($types);
+		$i = new HarmoniIterator($types);
 		return $i;
 	}
 	
@@ -885,7 +885,7 @@ class HarmoniAgentManager
 	 * 
 	 * @access public
 	 */
-	function &getAgentsByType ( &$agentType ) { 
+	function getAgentsByType ( $agentType ) { 
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	} 
 
@@ -912,7 +912,7 @@ class HarmoniAgentManager
 	 * 
 	 * @access public
 	 */
-	function &getGroupsByType ( &$groupType ) { 
+	function getGroupsByType ( $groupType ) { 
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	} 
 	
@@ -925,7 +925,7 @@ class HarmoniAgentManager
 	 *
 	 * @return boolean
 	 */
-	function isAgent( &$id) {
+	function isAgent( $id) {
 		// ** parameter validation
 		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"), true);
 		// ** end of parameter validation
@@ -933,14 +933,14 @@ class HarmoniAgentManager
 		if ($id->isEqual($this->_usersId))
 			return false;
 		
-		$hierarchyManager =& Services::getService("Hierarchy");
-		$hierarchy =& $hierarchyManager->getHierarchy($this->_hierarchyId);
+		$hierarchyManager = Services::getService("Hierarchy");
+		$hierarchy =$hierarchyManager->getHierarchy($this->_hierarchyId);
 		
 		if ($hierarchy->nodeExists($id)) {
-			$agentNode =& $hierarchy->getNode($id);
-			$parents =& $agentNode->getParents();
+			$agentNode =$hierarchy->getNode($id);
+			$parents =$agentNode->getParents();
 			while($parents->hasNext()) {
-				$parent =& $parents->next();
+				$parent =$parents->next();
 				if ($this->_allAgentsId->isEqual($parent->getId()))
 					return true;
 			}
@@ -958,7 +958,7 @@ class HarmoniAgentManager
 	 * @param ref object Id
 	 * @return ref object
 	 **/
-	function &getAgentOrGroup(&$id)
+	function getAgentOrGroup($id)
 	{
 		if ($this->isAgent($id)) return $this->getAgent($id);
 		if ($this->isGroup($id)) return $this->getGroup($id);
@@ -975,7 +975,7 @@ class HarmoniAgentManager
 	 *
 	 * @return boolean
 	 */
-	function isGroup(& $id) {
+	function isGroup($id) {
 		// ** parameter validation
 		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"), true);
 		// ** end of parameter validation
@@ -994,33 +994,33 @@ class HarmoniAgentManager
 		if (!isset($this->_groupTreeIds)) {
 			$this->_groupTreeIds = array();
 		
-			$this->_groupTreeIds[$this->_everyoneId->getIdString()] =& $this->_everyoneId;
-			$this->_groupTreeIds[$this->_allGroupsId->getIdString()] =& $this->_allGroupsId;
-			$this->_groupTreeIds[$this->_allAgentsId->getIdString()] =& $this->_allAgentsId;
-			$this->_groupTreeIds[$this->_usersId->getIdString()] =& $this->_usersId;
+			$this->_groupTreeIds[$this->_everyoneId->getIdString()] =$this->_everyoneId;
+			$this->_groupTreeIds[$this->_allGroupsId->getIdString()] =$this->_allGroupsId;
+			$this->_groupTreeIds[$this->_allAgentsId->getIdString()] =$this->_allAgentsId;
+			$this->_groupTreeIds[$this->_usersId->getIdString()] =$this->_usersId;
 
 
-			$hierarchyManager =& Services::getService("Hierarchy");
-			$hierarchy =& $hierarchyManager->getHierarchy($this->_hierarchyId);
-			$traversalIterator =& $hierarchy->traverse($this->_allGroupsId,
+			$hierarchyManager = Services::getService("Hierarchy");
+			$hierarchy =$hierarchyManager->getHierarchy($this->_hierarchyId);
+			$traversalIterator =$hierarchy->traverse($this->_allGroupsId,
 					Hierarchy::TRAVERSE_MODE_DEPTH_FIRST(), Hierarchy::TRAVERSE_DIRECTION_DOWN(), 
 					Hierarchy::TRAVERSE_LEVELS_ALL());
 			
 			while ($traversalIterator->hasNext()) {
-				$traversalInfo =& $traversalIterator->next();
-				$nodeId =& $traversalInfo->getNodeId();
-				$this->_groupTreeIds[$nodeId->getIdString()] =& $nodeId;
+				$traversalInfo =$traversalIterator->next();
+				$nodeId =$traversalInfo->getNodeId();
+				$this->_groupTreeIds[$nodeId->getIdString()] =$nodeId;
 			}
 		}
 		if (array_key_exists($id->getIdString(), $this->_groupTreeIds))
 			return true;
 		
 		// Check external directories
-		$authNMethodManager =& Services::getService("AuthNMethodManager");		
-		$types =& $authNMethodManager->getAuthNTypes();
+		$authNMethodManager = Services::getService("AuthNMethodManager");		
+		$types =$authNMethodManager->getAuthNTypes();
 		while ($types->hasNext()) {
-			$type =& $types->next();
-			$authNMethod =& $authNMethodManager->getAuthNMethodForType($type);
+			$type =$types->next();
+			$authNMethod =$authNMethodManager->getAuthNMethodForType($type);
 			if ($authNMethod->supportsDirectory() && $authNMethod->isGroup($id))
 				return true;
 		}

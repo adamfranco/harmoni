@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: FromNodesAssetIterator.class.php,v 1.2 2007/04/12 15:37:31 adamfranco Exp $
+ * @version $Id: FromNodesAssetIterator.class.php,v 1.3 2007/09/04 20:25:43 adamfranco Exp $
  */
 
 require_once(dirname(__FILE__)."/HarmoniAssetIterator.class.php");
@@ -24,7 +24,7 @@ require_once(dirname(__FILE__)."/HarmoniAssetIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FromNodesAssetIterator.class.php,v 1.2 2007/04/12 15:37:31 adamfranco Exp $ 
+ * @version $Id: FromNodesAssetIterator.class.php,v 1.3 2007/09/04 20:25:43 adamfranco Exp $ 
  */
 class FromNodesAssetIterator
 	extends HarmoniAssetIterator
@@ -40,12 +40,12 @@ class FromNodesAssetIterator
 	 * @access public
 	 * @since 5/4/06
 	 */
-	function FromNodesAssetIterator ( &$nodes, &$repository ) {
+	function FromNodesAssetIterator ( $nodes, $repository ) {
 // 		ArgumentValidator::validate($nodes, ExtendsValidatorRule::getRule("Iterator"));
 		ArgumentValidator::validate($repository, ExtendsValidatorRule::getRule("Repository"));
 		
-		$this->_nodes =& $nodes;
-		$this->_repository =& $repository;
+		$this->_nodes =$nodes;
+		$this->_repository =$repository;
 	}
 	
 	/**
@@ -92,8 +92,8 @@ class FromNodesAssetIterator
 	 * 
 	 * @access public
 	 */
-	function &next () {
-		$child =& $this->_nodes->next();
+	function next () {
+		$child =$this->_nodes->next();
 		return $this->_repository->getAsset($child->getId());
 	} 
 

@@ -72,7 +72,7 @@ extends HarmoniIterator
      * 
      * @access public
      */
-    function &nextAgentCommitment () { 
+    function nextAgentCommitment () { 
         return $this->next();
     } 
 }

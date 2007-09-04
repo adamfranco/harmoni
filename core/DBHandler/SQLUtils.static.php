@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SQLUtils.static.php,v 1.6 2005/04/07 16:33:23 adamfranco Exp $
+ * @version $Id: SQLUtils.static.php,v 1.7 2007/09/04 20:25:18 adamfranco Exp $
  */
 
 /**
@@ -18,7 +18,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SQLUtils.static.php,v 1.6 2005/04/07 16:33:23 adamfranco Exp $
+ * @version $Id: SQLUtils.static.php,v 1.7 2007/09/04 20:25:18 adamfranco Exp $
  * @static
  */
 
@@ -80,7 +80,7 @@ class SQLUtils {
 		// break up the query string.
 		$queryStrings = explode(";", $queryString);
 	
-		$dbHandler =& Services::getService("DatabaseManager");
+		$dbHandler = Services::getService("DatabaseManager");
 		
 		// Run each query
 		foreach ($queryStrings as $string) {
@@ -88,7 +88,7 @@ class SQLUtils {
 			if ($string) {
 				$query = new GenericSQLQuery();
 				$query->addSQLQuery($string);
-				$genericResult =& $dbHandler->query($query, $dbIndex);
+				$genericResult =$dbHandler->query($query, $dbIndex);
 			}
 		}
 	}

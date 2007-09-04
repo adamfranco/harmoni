@@ -10,7 +10,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/ValidatorRule.interface.
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DoubleValidatorRule.class.php,v 1.4 2005/06/01 17:58:58 gabeschine Exp $
+ * @version $Id: DoubleValidatorRule.class.php,v 1.5 2007/09/04 20:25:55 adamfranco Exp $
  */ 
 class DoubleValidatorRule
 	extends ValidatorRuleInterface 
@@ -22,7 +22,7 @@ class DoubleValidatorRule
 	 * @access public
 	 * @return boolean TRUE, if the value is an Double; FALSE if it is not.
 	 **/
-	function check( & $val ) {
+	function check( $val ) {
 		return (is_double($val) || $val === 0.0);
 	}
 	
@@ -39,7 +39,7 @@ class DoubleValidatorRule
 	 * @static
 	 * @since 3/28/05
 	 */
-	function &getRule () {
+	function getRule () {
 		// Because there is no way in PHP to get the class name of the descendent
 		// class on which this method is called, this method must be implemented
 		// in each descendent class.
@@ -49,7 +49,7 @@ class DoubleValidatorRule
 		
 		$class = __CLASS__;
 		if (!isset($GLOBALS['validator_rules'][$class]))
-			$GLOBALS['validator_rules'][$class] =& new $class;
+			$GLOBALS['validator_rules'][$class] = new $class;
 		
 		return $GLOBALS['validator_rules'][$class];
 	}

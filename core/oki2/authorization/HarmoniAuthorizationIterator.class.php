@@ -15,7 +15,7 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthorizationIterator.class.php,v 1.6 2005/02/07 21:38:24 adamfranco Exp $
+ * @version $Id: HarmoniAuthorizationIterator.class.php,v 1.7 2007/09/04 20:25:38 adamfranco Exp $
  */
 class HarmoniAuthorizationIterator
 	extends HarmoniIterator
@@ -66,7 +66,7 @@ class HarmoniAuthorizationIterator
 	 * 
 	 * @access public
 	 */
-	function &nextAuthorization () { 
+	function nextAuthorization () { 
 		return $this->next();
 	} 
 }

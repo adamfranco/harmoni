@@ -68,7 +68,7 @@ class RepositoryManager
      * 
      * @access public
      */
-    function &createRepository ( $displayName, $description, &$repositoryType ) { 
+    function createRepository ( $displayName, $description, $repositoryType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -94,7 +94,7 @@ class RepositoryManager
      * 
      * @access public
      */
-    function deleteRepository ( &$repositoryId ) { 
+    function deleteRepository ( $repositoryId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -121,7 +121,7 @@ class RepositoryManager
      * 
      * @access public
      */
-    function &getRepositories () { 
+    function getRepositories () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -151,7 +151,7 @@ class RepositoryManager
      * 
      * @access public
      */
-    function &getRepositoriesByType ( &$repositoryType ) { 
+    function getRepositoriesByType ( $repositoryType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -179,7 +179,7 @@ class RepositoryManager
      * 
      * @access public
      */
-    function &getRepository ( &$repositoryId ) { 
+    function getRepository ( $repositoryId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -207,7 +207,7 @@ class RepositoryManager
      * 
      * @access public
      */
-    function &getAsset ( &$assetId ) { 
+    function getAsset ( $assetId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -239,7 +239,7 @@ class RepositoryManager
      * 
      * @access public
      */
-    function &getAssetByDate ( &$assetId, $date ) { 
+    function getAssetByDate ( $assetId, $date ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -267,7 +267,7 @@ class RepositoryManager
      * 
      * @access public
      */
-    function &getAssetDates ( &$assetId ) { 
+    function getAssetDates ( $assetId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -303,7 +303,7 @@ class RepositoryManager
      * 
      * @access public
      */
-    function &getAssetsBySearch ( &$repositories, &$searchCriteria, &$searchType, &$searchProperties ) { 
+    function getAssetsBySearch ( $repositories, $searchCriteria, $searchType, $searchProperties ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -334,7 +334,7 @@ class RepositoryManager
      * 
      * @access public
      */
-    function &copyAsset ( &$repository, &$assetId ) { 
+    function copyAsset ( $repository, $assetId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -359,7 +359,7 @@ class RepositoryManager
      * 
      * @access public
      */
-    function &getRepositoryTypes () { 
+    function getRepositoryTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 }

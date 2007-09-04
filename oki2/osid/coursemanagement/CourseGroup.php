@@ -88,7 +88,7 @@ class CourseGroup
      * 
      * @access public
      */
-    function &getId () { 
+    function getId () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -112,7 +112,7 @@ class CourseGroup
      * 
      * @access public
      */
-    function &getType () { 
+    function getType () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -143,7 +143,7 @@ class CourseGroup
      * 
      * @access public
      */
-    function addCourse ( &$canonicalCourseId ) { 
+    function addCourse ( $canonicalCourseId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -171,7 +171,7 @@ class CourseGroup
      * 
      * @access public
      */
-    function removeCourse ( &$canonicalCourseId ) { 
+    function removeCourse ( $canonicalCourseId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -198,7 +198,7 @@ class CourseGroup
      * 
      * @access public
      */
-    function &getCourses () { 
+    function getCourses () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 }

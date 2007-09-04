@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: EventTrigger.abstract.php,v 1.2 2005/07/22 20:29:19 gabeschine Exp $
+ * @version $Id: EventTrigger.abstract.php,v 1.3 2007/09/04 20:25:30 adamfranco Exp $
  */ 
 
 require_once(HARMONI."/Primitives/Objects/SObject.class.php");
@@ -20,7 +20,7 @@ require_once(HARMONI."/Primitives/Objects/SObject.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: EventTrigger.abstract.php,v 1.2 2005/07/22 20:29:19 gabeschine Exp $
+ * @version $Id: EventTrigger.abstract.php,v 1.3 2007/09/04 20:25:30 adamfranco Exp $
  * @abstract
  */
 class EventTrigger extends SObject {
@@ -37,14 +37,14 @@ class EventTrigger extends SObject {
 	 * @access public
 	 * @return ref object
 	 */
-	function addEventListener (&$eventListener) {
+	function addEventListener ($eventListener) {
 		ArgumentValidator::validate($eventListener, HasMethodsValidatorRule::getRule("handleEvent"), true);
 //		if (!isset($this->_eventListeners[$eventType]) || !is_array($this->_eventListeners[$eventType])) {
 //			$this->_eventListeners[$eventType] = array();
 //		}
 		
-//		$this->_eventListeners[$eventType][] =& $eventListener;
-		$this->_eventListeners[] =& $eventListener;
+//		$this->_eventListeners[$eventType][] =$eventListener;
+		$this->_eventListeners[] =$eventListener;
 	}
 	
 	/**
@@ -56,15 +56,15 @@ class EventTrigger extends SObject {
 	 * @access public
 	 * @return void
 	 */
-	function triggerEvent ($eventType, &$source, $context = null) {
+	function triggerEvent ($eventType, $source, $context = null) {
 //		print "event triggered: $eventType<br/>";
 //		if (isset($this->_eventListeners[$eventType]) && is_array($this->_eventListeners[$eventType])) {
-//			$list =& $this->_eventListeners[$eventType];
+//			$list =$this->_eventListeners[$eventType];
 //			foreach (array_keys($list) as $key) {
 //				$list[$key]->handleEvent($eventType, $source, $context);
 //			}
 //		}
-		$list =& $this->_eventListeners;
+		$list =$this->_eventListeners;
 		foreach (array_keys($list) as $key) {
 			$list[$key]->handleEvent($eventType, $source, $context);
 		}

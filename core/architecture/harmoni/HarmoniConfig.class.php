@@ -13,7 +13,7 @@ require_once(HARMONI . "errorHandler/throw.inc.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniConfig.class.php,v 1.12 2006/11/30 22:02:13 adamfranco Exp $
+ * @version $Id: HarmoniConfig.class.php,v 1.13 2007/09/04 20:25:30 adamfranco Exp $
  */
 
 class HarmoniConfig extends DataContainer {
@@ -29,11 +29,11 @@ class HarmoniConfig extends DataContainer {
         // initialize the data container
         $this -> init(); 
         // add the fields we want to allow
-    	$e =& new Error("HarmoniConfig - the option 'defaultAction' must be set to a string value!","Harmoni",true);
+    	$e = new Error("HarmoniConfig - the option 'defaultAction' must be set to a string value!","Harmoni",true);
 		$this -> add("defaultAction", StringValidatorRule::getRule(),$e);
 		$this -> add("defaultAction", FieldRequiredValidatorRule::getRule(),$e);
 		unset($e);
-    	$e =& new Error("HarmoniConfig - the option 'defaultModule' must be set to a string value!","Harmoni",true);
+    	$e = new Error("HarmoniConfig - the option 'defaultModule' must be set to a string value!","Harmoni",true);
 		$this -> add("defaultModule", StringValidatorRule::getRule(),$e);
 		$this -> add("defaultModule", FieldRequiredValidatorRule::getRule(),$e);
 		$this -> add("programTitle", StringValidatorRule::getRule(),$e);

@@ -23,7 +23,7 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniTraversalInfoIterator.class.php,v 1.7 2007/04/12 15:37:31 adamfranco Exp $
+ * @version $Id: HarmoniTraversalInfoIterator.class.php,v 1.8 2007/09/04 20:25:41 adamfranco Exp $
  */
 class HarmoniTraversalInfoIterator
 	extends HarmoniIterator
@@ -74,7 +74,7 @@ class HarmoniTraversalInfoIterator
 	 * 
 	 * @access public
 	 */
-	function &nextTraversalInfo () { 
+	function nextTraversalInfo () { 
 		return $this->next();
 	} 
 }

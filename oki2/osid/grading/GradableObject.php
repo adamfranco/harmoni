@@ -123,7 +123,7 @@ class GradableObject
      * 
      * @access public
      */
-    function &getId () { 
+    function getId () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -146,7 +146,7 @@ class GradableObject
      * 
      * @access public
      */
-    function &getCourseSection () { 
+    function getCourseSection () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -169,7 +169,7 @@ class GradableObject
      * 
      * @access public
      */
-    function &getExternalReference () { 
+    function getExternalReference () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -191,7 +191,7 @@ class GradableObject
      * 
      * @access public
      */
-    function &getGradeType () { 
+    function getGradeType () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -213,7 +213,7 @@ class GradableObject
      * 
      * @access public
      */
-    function &getScoringDefinition () { 
+    function getScoringDefinition () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -235,7 +235,7 @@ class GradableObject
      * 
      * @access public
      */
-    function &getGradeScale () { 
+    function getGradeScale () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -284,7 +284,7 @@ class GradableObject
      * 
      * @access public
      */
-    function &getPropertiesByType ( &$propertiesType ) { 
+    function getPropertiesByType ( $propertiesType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -306,7 +306,7 @@ class GradableObject
      * 
      * @access public
      */
-    function &getPropertyTypes () { 
+    function getPropertyTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -328,7 +328,7 @@ class GradableObject
      * 
      * @access public
      */
-    function &getProperties () { 
+    function getProperties () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -350,7 +350,7 @@ class GradableObject
      * 
      * @access public
      */
-    function &getModifiedBy () { 
+    function getModifiedBy () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 

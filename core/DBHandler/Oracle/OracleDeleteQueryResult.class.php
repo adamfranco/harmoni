@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OracleDeleteQueryResult.class.php,v 1.6 2005/07/15 22:25:13 gabeschine Exp $
+ * @version $Id: OracleDeleteQueryResult.class.php,v 1.7 2007/09/04 20:25:19 adamfranco Exp $
  */
 require_once(HARMONI."DBHandler/DeleteQueryResult.interface.php");
 
@@ -18,7 +18,7 @@ require_once(HARMONI."DBHandler/DeleteQueryResult.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OracleDeleteQueryResult.class.php,v 1.6 2005/07/15 22:25:13 gabeschine Exp $
+ * @version $Id: OracleDeleteQueryResult.class.php,v 1.7 2007/09/04 20:25:19 adamfranco Exp $
  */
 class OracleDeleteQueryResult 
 	extends DeleteQueryResultInterface 
@@ -48,7 +48,7 @@ class OracleDeleteQueryResult
 	 */
 	function OracleDeleteQueryResult($resourceId) {
 		// ** parameter validation
-		$resourceRule =& ResourceValidatorRule::getRule();
+		$resourceRule = ResourceValidatorRule::getRule();
 		ArgumentValidator::validate($resourceId, $resourceRule, true);
 		// ** end of parameter validation
 

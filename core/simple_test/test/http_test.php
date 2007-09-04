@@ -1,5 +1,5 @@
 <?php
-    // $Id: http_test.php,v 1.1 2003/08/14 19:26:31 gabeschine Exp $
+    // $Id: http_test.php,v 1.2 2007/09/04 20:25:51 adamfranco Exp $
     
     if (!defined("SIMPLE_TEST")) {
         define("SIMPLE_TEST", "../");
@@ -152,7 +152,7 @@
             $request = new SimpleHttpRequest("http://a.bad.page/");
             $socket = &new MockSimpleSocket($this);
             $socket->setReturnValue("isError", true);
-            $this->assertFalse($request->fetch(&$socket));
+            $this->assertFalse($request->fetch($socket));
         }
         function testReadingGoodConnection() {
             $request = new SimpleHttpRequest("http://a.valid.host/and/path");
@@ -163,7 +163,7 @@
             $socket->expectArgumentsSequence(2, "write", array("Connection: close\r\n"));
             $socket->expectArgumentsSequence(3, "write", array("\r\n"));
             $socket->expectCallCount("write", 4);
-            $this->assertIsA($request->fetch(&$socket), "SimpleHttpResponse");
+            $this->assertIsA($request->fetch($socket), "SimpleHttpResponse");
             $socket->tally();
         }
         function testWritingGetRequest() {
@@ -171,7 +171,7 @@
             $socket = &new MockSimpleSocket($this);
             $socket->setReturnValue("isError", false);
             $socket->expectArgumentsSequence(0, "write", array("GET /and/path?a=A&b=B HTTP/1.0\r\n"));
-            $request->fetch(&$socket);
+            $request->fetch($socket);
             $socket->tally();
         }
         function testWritingAdditionalHeaders() {
@@ -185,7 +185,7 @@
             $socket->expectArgumentsSequence(3, "write", array("Connection: close\r\n"));
             $socket->expectArgumentsSequence(4, "write", array("\r\n"));
             $socket->expectCallCount("write", 5);
-            $request->fetch(&$socket);
+            $request->fetch($socket);
             $socket->tally();
         }
         function testCookieWriting() {
@@ -199,7 +199,7 @@
             $socket->expectArgumentsSequence(3, "write", array("Connection: close\r\n"));
             $socket->expectArgumentsSequence(4, "write", array("\r\n"));
             $socket->expectCallCount("write", 5);
-            $this->assertIsA($request->fetch(&$socket), "SimpleHttpResponse");
+            $this->assertIsA($request->fetch($socket), "SimpleHttpResponse");
             $socket->tally();
         }
         function testMultipleCookieWriting() {
@@ -209,7 +209,7 @@
             $socket = &new MockSimpleSocket($this);
             $socket->setReturnValue("isError", false);
             $socket->expectArgumentsSequence(2, "write", array("Cookie: a=A;b=B\r\n"));
-            $request->fetch(&$socket);
+            $request->fetch($socket);
             $socket->tally();
         }
     }

@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: ThumbnailMimeTypePartStructure.class.php,v 1.7 2007/04/12 15:37:32 adamfranco Exp $ 
+ * @version $Id: ThumbnailMimeTypePartStructure.class.php,v 1.8 2007/09/04 20:25:47 adamfranco Exp $ 
  */
 class ThumbnailMimeTypePartStructure extends PartStructure
 //	extends java.io.Serializable
@@ -27,8 +27,8 @@ class ThumbnailMimeTypePartStructure extends PartStructure
 
 	var $_partStructure;
 	
-	function ThumbnailMimeTypePartStructure(&$partStructure) {
-		$this->_partStructure =& $partStructure;
+	function ThumbnailMimeTypePartStructure($partStructure) {
+		$this->_partStructure =$partStructure;
 	}
 	
 	/**
@@ -96,9 +96,9 @@ class ThumbnailMimeTypePartStructure extends PartStructure
 	 * 
 	 * @access public
 	 */
-	function &getType() {
+	function getType() {
 		if (!isset($this->_type)) {
-			$this->_type =& new HarmoniType("Repository", "edu.middlebury.harmoni", "string");
+			$this->_type = new HarmoniType("Repository", "edu.middlebury.harmoni", "string");
 		}
 		
 		return $this->_type;
@@ -123,8 +123,8 @@ class ThumbnailMimeTypePartStructure extends PartStructure
 	 * 
 	 * @access public
 	 */
-	function &getId() {
-		$idManager =& Services::getService("Id");
+	function getId() {
+		$idManager = Services::getService("Id");
 		return $idManager->getId("THUMBNAIL_MIME_TYPE");
 	}
 	/**
@@ -147,9 +147,9 @@ class ThumbnailMimeTypePartStructure extends PartStructure
 	 * 
 	 * @access public
 	 */
-	function &getPartStructures() {
+	function getPartStructures() {
 		$array = array();
-		$obj =& new HarmoniNodeIterator($array);
+		$obj = new HarmoniNodeIterator($array);
 		return $obj; // @todo replace with HarmoniPartStructureIterator
 	}
 
@@ -244,7 +244,7 @@ class ThumbnailMimeTypePartStructure extends PartStructure
 	 * 
 	 * @access public
 	 */
-	function &getPartStructure() {
+	function getPartStructure() {
 		return $this->_partStructure;
 	}
 
@@ -275,7 +275,7 @@ class ThumbnailMimeTypePartStructure extends PartStructure
 	 * 
 	 * @access public
 	 */
-	function validatePart(& $part) {
+	function validatePart($part) {
 		// we can check if the Part (ie, ValueVersions) has values of the right type.
 		// @todo
 		
@@ -301,9 +301,9 @@ class ThumbnailMimeTypePartStructure extends PartStructure
 	 * @access public
 	 * @since 4/25/06
 	 */
-	function &getAuthoritativeValues () {
+	function getAuthoritativeValues () {
 		$array = array();
-		$iterator =& new HarmoniIterator($array);
+		$iterator = new HarmoniIterator($array);
 		return $iterator;
 	}
 	
@@ -317,7 +317,7 @@ class ThumbnailMimeTypePartStructure extends PartStructure
 	 * @access public
 	 * @since 4/25/06
 	 */
-	function isAuthoritativeValue ( &$value ) {
+	function isAuthoritativeValue ( $value ) {
 		return false;	
 	}
 	
@@ -331,7 +331,7 @@ class ThumbnailMimeTypePartStructure extends PartStructure
 	 * @access public
 	 * @since 4/25/06
 	 */
-	function removeAuthoritativeValue ( &$value ) {
+	function removeAuthoritativeValue ( $value ) {
 	}
 	
 	/**
@@ -344,7 +344,7 @@ class ThumbnailMimeTypePartStructure extends PartStructure
 	 * @access public
 	 * @since 4/25/06
 	 */
-	function addAuthoritativeValue ( &$value ) {
+	function addAuthoritativeValue ( $value ) {
 		$false = false;
 		return $false;
 	}
@@ -371,7 +371,7 @@ class ThumbnailMimeTypePartStructure extends PartStructure
 	 * @access public
 	 * @since 4/27/06
 	 */
-	function &createValueObjectFromString ( $valueString ) {
+	function createValueObjectFromString ( $valueString ) {
 		$false = false;
 		return $false;
 	}

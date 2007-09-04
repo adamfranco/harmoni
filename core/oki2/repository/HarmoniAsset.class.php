@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAsset.class.php,v 1.45 2007/07/10 20:58:25 adamfranco Exp $
+ * @version $Id: HarmoniAsset.class.php,v 1.46 2007/09/04 20:25:43 adamfranco Exp $
  */
 
 require_once(HARMONI."oki2/repository/HarmoniAsset.interface.php");
@@ -26,7 +26,7 @@ require_once(dirname(__FILE__)."/FromNodesAssetIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniAsset.class.php,v 1.45 2007/07/10 20:58:25 adamfranco Exp $ 
+ * @version $Id: HarmoniAsset.class.php,v 1.46 2007/09/04 20:25:43 adamfranco Exp $ 
  */
 
 class HarmoniAsset
@@ -51,22 +51,22 @@ class HarmoniAsset
 	/**
 	 * Constructor
 	 */
-	function HarmoniAsset (& $hierarchy, & $repository, & $id, & $configuration) {
+	function HarmoniAsset ($hierarchy, $repository, $id, $configuration) {
 	 	// Get the node coresponding to our id
-		$this->_hierarchy =& $hierarchy;
-		$this->_node =& $this->_hierarchy->getNode($id);
-		$this->_repository =& $repository;
+		$this->_hierarchy =$hierarchy;
+		$this->_node =$this->_hierarchy->getNode($id);
+		$this->_repository =$repository;
 		
 		$this->_recordIDs = array();
 		$this->_createdRecords = array();
 		$this->_createdRecordStructures = array();
 		
 		// Store our configuration
-		$this->_configuration =& $configuration;
+		$this->_configuration =$configuration;
 		$this->_versionControlAll = ($configuration->getProperty('version_control_all'))?TRUE:FALSE;
 		if (is_array($configuration->getProperty('version_control_types'))) {
 			ArgumentValidator::validate($configuration->getProperty('version_control_types'), ArrayValidatorRuleWithRule::getRule( ExtendsValidatorRule::getRule("Type")));
-			$this->_versionControlTypes =& $configuration->getProperty('version_control_types');
+			$this->_versionControlTypes =$configuration->getProperty('version_control_types');
 		} else {
 			$this->_versionControlTypes = array();
 		}
@@ -191,7 +191,7 @@ class HarmoniAsset
      * 
      * @access public
      */
-    function &getId () { 
+    function getId () { 
 		return $this->_node->getId();
 	}
 	
@@ -217,7 +217,7 @@ class HarmoniAsset
      * 
      * @access public
      */
-    function &getRepository () { 
+    function getRepository () { 
 
 		return $this->_repository;
 	}
@@ -242,24 +242,24 @@ class HarmoniAsset
      * 
      * @access public
      */
-    function &getContent () { 
+    function getContent () { 
 	
- 		$idManager =& Services::getService("Id");
- 		$recordMgr =& Services::getService("RecordManager");
+ 		$idManager = Services::getService("Id");
+ 		$recordMgr = Services::getService("RecordManager");
  		
  		// Ready our type for comparisson
  		$contentType = "edu.middlebury.harmoni.repository.asset_content";
- 		$myId =& $this->_node->getId();
+ 		$myId =$this->_node->getId();
  		
  		// Get the content DataSet.
- 		$myRecordSet =& $recordMgr->fetchRecordSet($myId->getIdString());
+ 		$myRecordSet =$recordMgr->fetchRecordSet($myId->getIdString());
  		$myRecordSet->loadRecords();
-		$contentRecords =& $myRecordSet->getRecordsByType($contentType);
+		$contentRecords =$myRecordSet->getRecordsByType($contentType);
 		
-		$contentRecord =& $contentRecords[0];
+		$contentRecord =$contentRecords[0];
 		
  		if (!$contentRecord) {
- 			$obj =& new Blob();
+ 			$obj = new Blob();
  			return $obj;
  		} else {
  			return $contentRecord->getValue("Content");
@@ -287,30 +287,30 @@ class HarmoniAsset
      * 
      * @access public
      */
-    function updateContent ( &$content ) { 
+    function updateContent ( $content ) { 
  		ArgumentValidator::validate($content, ExtendsValidatorRule::getRule("Blob"));
- 		$idManager =& Services::getService("Id");
- 		$recordMgr =& Services::getService("RecordManager");
+ 		$idManager = Services::getService("Id");
+ 		$recordMgr = Services::getService("RecordManager");
  		
  		// Ready our type for comparisson
  		$contentType = "edu.middlebury.harmoni.repository.asset_content";
- 		$myId =& $this->_node->getId();
+ 		$myId =$this->_node->getId();
  		
  		// Get the content DataSet.
- 		$myRecordSet =& $recordMgr->fetchRecordSet($myId->getIdString());
+ 		$myRecordSet =$recordMgr->fetchRecordSet($myId->getIdString());
  		$myRecordSet->loadRecords();
-		$contentRecords =& $myRecordSet->getRecordsByType($contentType);
+		$contentRecords =$myRecordSet->getRecordsByType($contentType);
 
  		if (count($contentRecords)) {
- 			$contentRecord =& $contentRecords[0];
+ 			$contentRecord =$contentRecords[0];
  			
  			$contentRecord->setValue("Content", $content);
  		
 			$contentRecord->commit(TRUE);
  		} else {
 			// Set up and create our new record
-			$schemaMgr =& Services::getService("SchemaManager");
-			$contentSchema =& $schemaMgr->getSchemaByID($contentType);
+			$schemaMgr = Services::getService("SchemaManager");
+			$contentSchema =$schemaMgr->getSchemaByID($contentType);
 			$contentSchema->load();
 //			printpre($contentSchema->getAllLabels());
 			
@@ -325,7 +325,7 @@ class HarmoniAsset
 				}
 			}
 			
-			$contentRecord =& $recordMgr->createRecord($contentType, $versionControl);
+			$contentRecord =$recordMgr->createRecord($contentType, $versionControl);
 			
 			$contentRecord->setValue("Content", $content);
  		
@@ -396,7 +396,7 @@ class HarmoniAsset
 		// Make sure that we have dates from the DB if they exist.
 		$this->_loadDates();
 		// Update our date in preparation for DB updating
-		$this->_effectiveDate =& $effectiveDate;
+		$this->_effectiveDate =$effectiveDate;
 		// Store the dates
 		$this->_storeDates();
 	}
@@ -459,7 +459,7 @@ class HarmoniAsset
 		// Make sure that we have dates from the DB if they exist.
 		$this->_loadDates();
 		// Update our date in preparation for DB updating
-		$this->_expirationDate =& $expirationDate;
+		$this->_expirationDate =$expirationDate;
 		// Store the dates
 		$this->_storeDates();
 	}
@@ -488,11 +488,11 @@ class HarmoniAsset
      * 
      * @access public
      */
-    function addAsset ( &$assetId ) { 
-		$node =& $this->_hierarchy->getNode($assetId);
-		$oldParents =& $node->getParents();
+    function addAsset ( $assetId ) { 
+		$node =$this->_hierarchy->getNode($assetId);
+		$oldParents =$node->getParents();
 		// We are assuming a single-parent hierarchy
-		$oldParent =& $oldParents->next();
+		$oldParent =$oldParents->next();
 		$node->changeParent($oldParent->getId(), $this->_node->getId());
 		
 		$this->save();
@@ -523,15 +523,15 @@ class HarmoniAsset
      * 
      * @access public
      */
-    function removeAsset ( &$assetId, $includeChildren = FALSE ) { 
-		$node =& $this->_hierarchy->getNode($assetId);
+    function removeAsset ( $assetId, $includeChildren = FALSE ) { 
+		$node =$this->_hierarchy->getNode($assetId);
 	
 		if (!$includeChildren) {
 			// Move the children to the current asset before moving
 			// the asset to the repository root
-			$children =& $node->getChildren();
+			$children =$node->getChildren();
 			while ($children->hasNext()) {
-				$child =& $children->next();
+				$child =$children->next();
 				$child->changeParent($node->getId(), $this->_node->getId());
 			}
 		}
@@ -563,9 +563,9 @@ class HarmoniAsset
      * 
      * @access public
      */
-    function &getAssets () { 		
+    function getAssets () { 		
 		// create an AssetIterator and return it
-		$assetIterator =& new FromNodesAssetIterator(
+		$assetIterator = new FromNodesAssetIterator(
 									$this->_node->getChildren(),
 									$this->_repository);
 		
@@ -594,21 +594,21 @@ class HarmoniAsset
      * 
      * @access public
      */
-    function &getParents () { 
+    function getParents () { 
     	$assets = array();
-		$parents =& $this->_node->getParents();
+		$parents =$this->_node->getParents();
 		
-		$manager =& Services::getService("Repository");
-    	$repositoryKeyType =& $manager->repositoryKeyType;
+		$manager = Services::getService("Repository");
+    	$repositoryKeyType =$manager->repositoryKeyType;
     	
 		while ($parents->hasNext()) {
-			$parent =& $parents->next();
+			$parent =$parents->next();
 			if (!$repositoryKeyType->isEqual($parent->getType()))
-				$assets[] =& $this->_repository->getAsset($parent->getId());
+				$assets[] =$this->_repository->getAsset($parent->getId());
 		}
 		
 		// create an AssetIterator and return it
-		$assetIterator =& new HarmoniAssetIterator($assets);
+		$assetIterator = new HarmoniAssetIterator($assets);
 		
 		return $assetIterator;
     }
@@ -622,8 +622,8 @@ class HarmoniAsset
      * @access public
      * @since 12/15/05
      */
-    function &getDescendentInfo () {
-    	$traversalInfo =& $this->_hierarchy->traverse(
+    function getDescendentInfo () {
+    	$traversalInfo =$this->_hierarchy->traverse(
     		$this->getId(),
     		Hierarchy::TRAVERSE_MODE_DEPTH_FIRST(),
     		Hierarchy::TRAVERSE_DIRECTION_DOWN(),
@@ -659,17 +659,17 @@ class HarmoniAsset
      * 
      * @access public
      */
-    function &getParentsByType ( &$assetType ) {
+    function getParentsByType ( $assetType ) {
     	$assets = array();
-		$parents =& $this->_node->getParents();
+		$parents =$this->_node->getParents();
 		while ($parents->hasNext()) {
-			$parent =& $parents->next();
+			$parent =$parents->next();
 			if ($assetType->isEqual($parent->getType()))
-				$assets[] =& $this->_repository->getAsset($parent->getId());
+				$assets[] =$this->_repository->getAsset($parent->getId());
 		}
 		
 		// create an AssetIterator and return it
-		$assetIterator =& new HarmoniAssetIterator($assets);
+		$assetIterator = new HarmoniAssetIterator($assets);
 		
 		return $assetIterator;
     }
@@ -701,16 +701,16 @@ class HarmoniAsset
      * @access public
      */
 	
-    function &getAssetsByType ( &$assetType ) { 
+    function getAssetsByType ( $assetType ) { 
     	$assets = array();
-		$children =& $this->_node->getChildren();
+		$children =$this->_node->getChildren();
 		while ($children->hasNext()) {
-			$child =& $children->next();
+			$child =$children->next();
 			if ($assetType->isEqual($child->getType()))
-				$assets[] =& $this->_repository->getAsset($child->getId());
+				$assets[] =$this->_repository->getAsset($child->getId());
 		}
 		
-		$obj =& new HarmoniAssetIterator($assets);
+		$obj = new HarmoniAssetIterator($assets);
 		
 		return $obj;
 	}
@@ -740,7 +740,7 @@ class HarmoniAsset
      * 
      * @access public
      */
-    function &createRecord ( &$recordStructureId ) { 
+    function createRecord ( $recordStructureId ) { 
 		ArgumentValidator::validate($recordStructureId, ExtendsValidatorRule::getRule("Id"));
 		
 		// If this is a schema that is hard coded into our implementation, create
@@ -748,46 +748,46 @@ class HarmoniAsset
 		if (in_array($recordStructureId->getIdString(), array_keys($this->_repository->_builtInTypes))) 
 		{
 			// Create an Id for the record;
-			$idManager =& Services::getService("Id");
-			$newId =& $idManager->createId();
+			$idManager = Services::getService("Id");
+			$newId =$idManager->createId();
 	
 			// instantiate the new record.
 			$recordClass = $this->_repository->_builtInTypes[$recordStructureId->getIdString()];
-			$recordStructure =& $this->_repository->getRecordStructure($recordStructureId);
-			$record =& new $recordClass($recordStructure, $newId, $this->_configuration, $this);
+			$recordStructure =$this->_repository->getRecordStructure($recordStructureId);
+			$record = new $recordClass($recordStructure, $newId, $this->_configuration, $this);
 			
 			// store a relation to the record
-			$dbHandler =& Services::getService("DatabaseManager");
-			$query =& new InsertQuery;
+			$dbHandler = Services::getService("DatabaseManager");
+			$query = new InsertQuery;
 			$query->setTable("dr_asset_record");
 			$query->setColumns(array("FK_asset", "FK_record", "structure_id"));
-			$myId =& $this->getId();
+			$myId =$this->getId();
 			$query->addRowOfValues(array(
 								"'".$myId->getIdString()."'",
 								"'".$newId->getIdString()."'",
 								"'".$recordStructureId->getIdString()."'"));
-			$result =& $dbHandler->query($query, $this->_dbIndex);
+			$result =$dbHandler->query($query, $this->_dbIndex);
 		} 
 		
 		// Otherwise use the data manager
 		else {
 			// Get the DataSetGroup for this Asset
-			$recordMgr =& Services::getService("RecordManager");
-			$myId =& $this->_node->getId();
-			$myGroup =& $recordMgr->fetchRecordSet($myId->getIdString());
+			$recordMgr = Services::getService("RecordManager");
+			$myId =$this->_node->getId();
+			$myGroup =$recordMgr->fetchRecordSet($myId->getIdString());
 			
 			// Get the recordStructure needed.
-			$recordStructures =& $this->_repository->getRecordStructures();
+			$recordStructures =$this->_repository->getRecordStructures();
 			while ($recordStructures->hasNext()) {
-				$structure =& $recordStructures->next();
+				$structure =$recordStructures->next();
 				if ($recordStructureId->isEqual($structure->getId()))
 					break;
 			}
 			
 			// 	get the type for the new data set.
-			$schemaMgr =& Services::getService("SchemaManager");
+			$schemaMgr = Services::getService("SchemaManager");
 			$schemaID = $recordStructureId->getIdString();
-//			$type =& $schemaMgr->getSchemaByID($recordStructureId->getIdString());
+//			$type =$schemaMgr->getSchemaByID($recordStructureId->getIdString());
 			
 			// Set up and create our new dataset
 			// Decide if we want to version-control this field.
@@ -801,7 +801,7 @@ class HarmoniAsset
 					}
 				}
 				
-				$newRecord =& $recordMgr->createRecord($schemaID, $versionControl);
+				$newRecord =$recordMgr->createRecord($schemaID, $versionControl);
 			
 			// The ignoreMandatory Allows this record to be created without checking for
 			// values on mandatory fields. These constraints should be checked when
@@ -812,12 +812,12 @@ class HarmoniAsset
 			$myGroup->add($newRecord);
 			
 			// us the RecordStructure and the dataSet to create a new Record
-			$record =& new HarmoniRecord($structure, $newRecord, $this);
+			$record = new HarmoniRecord($structure, $newRecord, $this);
 		}
 		
 		// Add the record to our createdRecords array, so we can pass out references to it.
-		$recordId =& $record->getId();
-		$this->_createdRecords[$recordId->getIdString()] =& $record;
+		$recordId =$record->getId();
+		$this->_createdRecords[$recordId->getIdString()] =$record;
 		
 		$this->save();
 		$this->updateModificationDate();
@@ -853,7 +853,7 @@ class HarmoniAsset
      * 
      * @access public
      */
-    function inheritRecordStructure ( &$assetId, &$recordStructureId ) { 
+    function inheritRecordStructure ( $assetId, $recordStructureId ) { 
 	
 		// Check the arguments
 		ArgumentValidator::validate($recordStructureId, ExtendsValidatorRule::getRule("Id"));
@@ -864,25 +864,25 @@ class HarmoniAsset
 		if (in_array($recordStructureId->getIdString(), array_keys($this->_repository->_builtInTypes))) 
 		{
 			// Create an Id for the record;
-			$idManager =& Services::getService("Id");
-			$dbHandler =& Services::getService("DatabaseManager");
+			$idManager = Services::getService("Id");
+			$dbHandler = Services::getService("DatabaseManager");
 	
 			// get the record ids that we want to inherit
-			$query =& new SelectQuery();
+			$query = new SelectQuery();
 			$query->addTable("dr_asset_record");
 			$query->addColumn("FK_record");
 			$query->addWhere("FK_asset = '".$assetId->getIdString()."'");
 			$query->addWhere("structure_id = '".$recordStructureId->getIdString()."'", _AND);
 			
-			$result =& $dbHandler->query($query, $this->_dbIndex);
+			$result =$dbHandler->query($query, $this->_dbIndex);
 			
 			// store a relation to the record
-			$dbHandler =& Services::getService("DatabaseManager");
-			$query =& new InsertQuery;
+			$dbHandler = Services::getService("DatabaseManager");
+			$query = new InsertQuery;
 			$query->setTable("dr_asset_record");
 			$query->setColumns(array("FK_asset", "FK_record", "structure_id"));
 			
-			$myId =& $this->getId();
+			$myId =$this->getId();
 			
 			while ($result->hasMoreRows()) {
 				$query->addRowOfValues(array(
@@ -899,24 +899,24 @@ class HarmoniAsset
 		// Otherwise use the data manager
 		else {
 			// Get our managers:
-			$recordMgr =& Services::getService("RecordManager");
-			$idMgr =& Services::getService("Id");
+			$recordMgr = Services::getService("RecordManager");
+			$idMgr = Services::getService("Id");
 		
 			// Get the DataSetGroup for this Asset
-			$myId =& $this->_node->getId();
-			$mySet =& $recordMgr->fetchRecordSet($myId->getIdString());
+			$myId =$this->_node->getId();
+			$mySet =$recordMgr->fetchRecordSet($myId->getIdString());
 			
 			// Get the DataSetGroup for the source Asset
-			$otherSet =& $recordMgr->fetchRecordSet($assetId->getIdString());
+			$otherSet =$recordMgr->fetchRecordSet($assetId->getIdString());
 			$otherSet->loadRecords(RECORD_FULL);
-			$records =& $otherSet->getRecords();
+			$records =$otherSet->getRecords();
 			
 			// Add all of DataSets (Records) of the specified RecordStructure and Asset
 			// to our RecordSet.
 			foreach (array_keys($records) as $key) {
 				// Get the ID of the current DataSet's TypeDefinition
-				$schema =& $records[$key]->getSchema();
-				$schemaId =& $idMgr->getId($schema->getID());
+				$schema =$records[$key]->getSchema();
+				$schemaId =$idMgr->getId($schema->getID());
 				
 				// If the current DataSet's DataSetTypeDefinition's ID is the same as
 				// the RecordStructure ID that we are looking for, add that dataSet to our
@@ -960,37 +960,37 @@ class HarmoniAsset
      * 
      * @access public
      */
-    function copyRecordStructure ( &$assetId, &$recordStructureId ) { 
+    function copyRecordStructure ( $assetId, $recordStructureId ) { 
 	
 		// Check the arguments	
 		ArgumentValidator::validate($recordStructureId, ExtendsValidatorRule::getRule("Id"));
 		ArgumentValidator::validate($assetId, ExtendsValidatorRule::getRule("Id"));
 		
 		// Get our managers:
-		$recordMgr =& Services::getService("RecordManager");
-		$idMgr =& Services::getService("Id");
+		$recordMgr = Services::getService("RecordManager");
+		$idMgr = Services::getService("Id");
 		
 		// Get the RecordSet for this Asset
-		$myId =& $this->_node->getId();
-		$set =& $recordMgr->fetchRecordSet($myId->getIdString());
+		$myId =$this->_node->getId();
+		$set =$recordMgr->fetchRecordSet($myId->getIdString());
 		
 		// Get the DataSetGroup for the source Asset
-		$otherSet =& $recordMgr->fetchRecordSet($assetId->getIdString());
+		$otherSet =$recordMgr->fetchRecordSet($assetId->getIdString());
 		$otherSet->loadRecords(RECORD_FULL);
-		$records =& $otherSet->getRecords();
+		$records =$otherSet->getRecords();
 		
 		// Add all of Records (Records) of the specified RecordStructure and Asset
 		// to our RecordSet.
 		foreach (array_keys($records) as $key) {
 			// Get the ID of the current DataSet's TypeDefinition
-			$schema =& $records[$key]->getSchema();
-			$schemaId =& $idMgr->getId($schema->getID());
+			$schema =$records[$key]->getSchema();
+			$schemaId =$idMgr->getId($schema->getID());
 			
 			// If the current Record's Schema ID is the same as
 			// the RecordStructure ID that we are looking for, add replicates of that Record
 			// to our RecordSet.
 			if ($recordStructureId->isEqual($schemaId)) {
-				$newRecord =& $records[$key]->replicate();
+				$newRecord =$records[$key]->replicate();
 				$set->add($newRecord);
 			}
 		}
@@ -1025,46 +1025,46 @@ class HarmoniAsset
      * 
      * @access public
      */
-    function deleteRecord ( &$recordId ) { 
+    function deleteRecord ( $recordId ) { 
 		ArgumentValidator::validate($recordId, ExtendsValidatorRule::getRule("Id"));
 		
-		$record =& $this->getRecord($recordId);
-		$structure =& $record->getRecordStructure();
-		$structureId =& $structure->getId();
+		$record =$this->getRecord($recordId);
+		$structure =$record->getRecordStructure();
+		$structureId =$structure->getId();
 		
 		// If this is a schema that is hard coded into our implementation, create
 		// a record for that schema.
 		if (in_array($structureId->getIdString(), array_keys($this->_repository->_builtInTypes))) 
 		{
 			// Delete all of the Parts for the record
-			$parts =& $record->getParts();
+			$parts =$record->getParts();
 			while ($parts->hasNext()) {
-				$part =& $parts->next();
+				$part =$parts->next();
 				$record->deletePart($part->getId());
 			}
 			
 			// Delete the relation for the record.
-			$dbHandler =& Services::getService("DatabaseManager");
-			$query =& new DeleteQuery;
+			$dbHandler = Services::getService("DatabaseManager");
+			$query = new DeleteQuery;
 			$query->setTable("dr_asset_record");
-			$myId =& $this->getId();
+			$myId =$this->getId();
 			$query->addWhere("FK_asset = '".$myId->getIdString()."'");
 			$query->addWhere("FK_record = '".$recordId->getIdString()."'");
 			
-			$result =& $dbHandler->query($query, $this->_dbIndex);
+			$result =$dbHandler->query($query, $this->_dbIndex);
 		}
 		// Otherwise use the data manager
 		else {
-			$recordMgr =& Services::getService("RecordManager");
-			$record =& $recordMgr->fetchRecord($recordId->getIdString(),RECORD_FULL);
+			$recordMgr = Services::getService("RecordManager");
+			$record =$recordMgr->fetchRecord($recordId->getIdString(),RECORD_FULL);
 			
 			// Check if the record is part of other record sets (assets via inheretance)
-			$myId =& $this->getId();
+			$myId =$this->getId();
 			$setsContaining = $recordMgr->getRecordSetIDsContaining($record);
-			$myRecordSet =& $recordMgr->fetchRecordSet($myId->getIdString());
+			$myRecordSet =$recordMgr->fetchRecordSet($myId->getIdString());
 			
 			// If this is the last asset referencing this record, delete it.
-			$idManager =& Services::getService('Id');
+			$idManager = Services::getService('Id');
 			if (count($setsContaining) == 1 && $myId->isEqual($idManager->getId($setsContaining[0]))) {
 				$myRecordSet->removeRecord($record);
 				$myRecordSet->commit(TRUE);
@@ -1074,7 +1074,7 @@ class HarmoniAsset
 			// If this record is used by other assets, remove the record from this set, 
 			// but leave it in the rest.
 			else {
-				$myRecordSet =& $recordMgr->fetchRecordSet($myId->getIdString());
+				$myRecordSet =$recordMgr->fetchRecordSet($myId->getIdString());
 				$myRecordSet->removeRecord($record);
 				$myRecordSet->commit(TRUE);
 			}
@@ -1107,7 +1107,7 @@ class HarmoniAsset
      * 
      * @access public
      */
-    function &getRecord ( &$recordId ) { 
+    function getRecord ( $recordId ) { 
 		ArgumentValidator::validate($recordId, ExtendsValidatorRule::getRule("Id"));
 		
 		// Check to see if the record is in our cache.
@@ -1115,27 +1115,27 @@ class HarmoniAsset
 		if (!isset($this->_createdRecords[$recordId->getIdString()])) {
 			// Check for the record in our non-datamanager records;
 		
-			$idManager =& Services::getService("Id");
-			$dbHandler =& Services::getService("DatabaseManager");
-			$myId =& $this->getId();
+			$idManager = Services::getService("Id");
+			$dbHandler = Services::getService("DatabaseManager");
+			$myId =$this->getId();
 
 			// get the record ids that we want to inherit
-			$query =& new SelectQuery();
+			$query = new SelectQuery();
 			$query->addTable("dr_asset_record");
 			$query->addColumn("structure_id");
 			$query->addWhere("FK_asset = '".$myId->getIdString()."'");
 			$query->addWhere("FK_record = '".$recordId->getIdString()."'", _AND);
 			
-			$result =& $dbHandler->query($query, $this->_dbIndex);
+			$result =$dbHandler->query($query, $this->_dbIndex);
 			
 			if ($result->getNumberOfRows()) {
 				$structureIdString = $result->field("structure_id");
 				
 				$recordClass = $this->_repository->_builtInTypes[$structureIdString];
-				$recordStructureId =& $idManager->getId($structureIdString);
-				$recordStructure =& $this->_repository->getRecordStructure($recordStructureId);
+				$recordStructureId =$idManager->getId($structureIdString);
+				$recordStructure =$this->_repository->getRecordStructure($recordStructureId);
 				
-				$this->_createdRecords[$recordId->getIdString()] =& new $recordClass(
+				$this->_createdRecords[$recordId->getIdString()] = new $recordClass(
 												$recordStructure,
 												$recordId,
 												$this->_configuration,
@@ -1147,26 +1147,26 @@ class HarmoniAsset
 			else {
 				
 				// Get the DataSet.
-				$recordMgr =& Services::getService("RecordManager");
+				$recordMgr = Services::getService("RecordManager");
 				// Specifying TRUE for editable because it is unknown whether or not editing will
 				// be needed. @todo Change this if we wish to re-fetch the $dataSet when doing 
 				// editing functions.
-				$record =& $recordMgr->fetchRecord($recordId->getIdString());
+				$record =$recordMgr->fetchRecord($recordId->getIdString());
 	
 				// Make sure that we have a valid dataSet
-				$rule =& ExtendsValidatorRule::getRule("Record");
+				$rule = ExtendsValidatorRule::getRule("Record");
 				if (!$rule->check($record))
 					throwError(new Error(RepositoryException::UNKNOWN_ID(), "Repository :: Asset", TRUE));
 				
 				// Get the record structure.
-				$schema =& $record->getSchema();
+				$schema =$record->getSchema();
 				if (!isset($this->_createdRecordStructures[$schema->getID()])) {
-					$repository =& $this->getRepository();
-					$this->_createdRecordStructures[$schema->getID()] =& new HarmoniRecordStructure($schema, $repository->getId());
+					$repository =$this->getRepository();
+					$this->_createdRecordStructures[$schema->getID()] = new HarmoniRecordStructure($schema, $repository->getId());
 				}
 				
 				// Create the Record in our cache.
-				$this->_createdRecords[$recordId->getIdString()] =& new HarmoniRecord (
+				$this->_createdRecords[$recordId->getIdString()] = new HarmoniRecord (
 								$this->_createdRecordStructures[$schema->getID()], $record, $this);
 			}
 			$result->free();
@@ -1196,52 +1196,52 @@ class HarmoniAsset
      * 
      * @access public
      */
-    function &getRecords () { 
+    function getRecords () { 
 		
-		$id =& $this->getId();
-		$recordMgr =& Services::getService("RecordManager");
-		$idManager =& Services::getService("Id");		
+		$id =$this->getId();
+		$recordMgr = Services::getService("RecordManager");
+		$idManager = Services::getService("Id");		
 		$records = array();
 		
 		// Get the records from the data manager.
-		if ($recordSet =& $recordMgr->fetchRecordSet($id->getIdString())) {
+		if ($recordSet =$recordMgr->fetchRecordSet($id->getIdString())) {
 			// fetching as editable since we don't know if it will be edited.
 			$recordSet->loadRecords();
-			$dmRecords =& $recordSet->getRecords();
+			$dmRecords =$recordSet->getRecords();
 	
 			// create  records for each dataSet as needed.
 			foreach (array_keys($dmRecords) as $key) {
 				$recordIdString = $dmRecords[$key]->getID();
-				$recordId =& $idManager->getId($recordIdString);
-				$record =& $this->getRecord($recordId);
-				$structure =& $record->getRecordStructure();
+				$recordId =$idManager->getId($recordIdString);
+				$record =$this->getRecord($recordId);
+				$structure =$record->getRecordStructure();
 				
 				// Add the record to our array
-				$records[] =& $record;
+				$records[] =$record;
 			}
 		}
 		
 		// get the record ids that we want to inherit
-		$dbHandler =& Services::getService("DatabaseManager");
-		$myId =& $this->getId();
+		$dbHandler = Services::getService("DatabaseManager");
+		$myId =$this->getId();
 		
-		$query =& new SelectQuery();
+		$query = new SelectQuery();
 		$query->addTable("dr_asset_record");
 		$query->addColumn("FK_record");
 		$query->addWhere("FK_asset = '".$myId->getIdString()."'");
 		
-		$result =& $dbHandler->query($query, $this->_dbIndex);
+		$result =$dbHandler->query($query, $this->_dbIndex);
 		
 		while ($result->hasMoreRows()) {
-			$recordId =& $idManager->getId($result->field("FK_record"));
+			$recordId =$idManager->getId($result->field("FK_record"));
 			
-			$records[] =& $this->getRecord($recordId);
+			$records[] =$this->getRecord($recordId);
 			
 			$result->advanceRow();
 		}
 		$result->free();
 		// Create an iterator and return it.
-		$recordIterator =& new HarmoniRecordIterator($records);
+		$recordIterator = new HarmoniRecordIterator($records);
 		
 		return $recordIterator;
 	}
@@ -1271,33 +1271,33 @@ class HarmoniAsset
      * 
      * @access public
      */
-    function &getRecordsByRecordStructure ( &$recordStructureId ) { 
+    function getRecordsByRecordStructure ( $recordStructureId ) { 
 		ArgumentValidator::validate($recordStructureId, ExtendsValidatorRule::getRule("Id"));
 		
-		$id =& $this->getId();
-		$recordMgr =& Services::getService("RecordManager");
-		$idManager =& Services::getService("Id");		
+		$id =$this->getId();
+		$recordMgr = Services::getService("RecordManager");
+		$idManager = Services::getService("Id");		
 		$records = array();
 		
 		// Get our non-datamanager records
 		if (in_array($recordStructureId->getIdString(), array_keys($this->_repository->_builtInTypes))) 
 		{
 			// get the record ids that we want to inherit
-			$dbHandler =& Services::getService("DatabaseManager");
-			$myId =& $this->getId();
+			$dbHandler = Services::getService("DatabaseManager");
+			$myId =$this->getId();
 			
-			$query =& new SelectQuery();
+			$query = new SelectQuery();
 			$query->addTable("dr_asset_record");
 			$query->addColumn("FK_record");
 			$query->addWhere("FK_asset = '".$myId->getIdString()."'");
 			$query->addWhere("structure_id = '".$recordStructureId->getIdString()."'", _AND);
 			
-			$result =& $dbHandler->query($query, $this->_dbIndex);
+			$result =$dbHandler->query($query, $this->_dbIndex);
 			
 			while ($result->hasMoreRows()) {
-				$recordId =& $idManager->getId($result->field("FK_record"));
+				$recordId =$idManager->getId($result->field("FK_record"));
 				
-				$records[] =& $this->getRecord($recordId);
+				$records[] =$this->getRecord($recordId);
 				
 				$result->advanceRow();
 			}
@@ -1305,26 +1305,26 @@ class HarmoniAsset
 			$result->free();
 		}
 		// Get the records from the data manager.
-		else if ($recordSet =& $recordMgr->fetchRecordSet($id->getIdString())) {
+		else if ($recordSet =$recordMgr->fetchRecordSet($id->getIdString())) {
 			// fetching as editable since we don't know if it will be edited.
 			$recordSet->loadRecords();
-			$dmRecords =& $recordSet->getRecords();
+			$dmRecords =$recordSet->getRecords();
 	
 			// create  records for each dataSet as needed.
 			foreach (array_keys($dmRecords) as $key) {
 				$recordIdString = $dmRecords[$key]->getID();
-				$recordId =& $idManager->getId($recordIdString);
-				$record =& $this->getRecord($recordId);
-				$structure =& $record->getRecordStructure();
+				$recordId =$idManager->getId($recordIdString);
+				$record =$this->getRecord($recordId);
+				$structure =$record->getRecordStructure();
 				
 				// Add the record to our array
 				if ($recordStructureId->isEqual($structure->getId()))
-					$records[] =& $record;
+					$records[] =$record;
 			}
 		}
 		
 		// Create an iterator and return it.
-		$recordIterator =& new HarmoniRecordIterator($records);
+		$recordIterator = new HarmoniRecordIterator($records);
 		
 		return $recordIterator;
 	}
@@ -1354,7 +1354,7 @@ class HarmoniAsset
      * 
      * @access public
      */
-    function &getRecordsByRecordStructureType ( &$recordStructureType ) { 
+    function getRecordsByRecordStructureType ( $recordStructureType ) { 
         throwError(new Error(RepositoryException::UNIMPLEMENTED(), "Repository :: Asset", TRUE));
     } 
  	
@@ -1378,7 +1378,7 @@ class HarmoniAsset
      * 
      * @access public
      */
-    function &getAssetType () { 
+    function getAssetType () { 
 		return $this->_node->getType();
 	}
 
@@ -1403,21 +1403,21 @@ class HarmoniAsset
      * 
      * @access public
      */
-    function &getRecordStructures () { 
+    function getRecordStructures () { 
 		// cycle through all our DataSets, get their type and make a RecordStructure for each. 
 		$recordStructures = array();
 		
-		$records =& $this->getRecords();
+		$records =$this->getRecords();
 		
 		while ($records->hasNext()) {
-			$record =& $records->next();
-			$structure =& $record->getRecordStructure();
-			$structureId =& $structure->getId();
+			$record =$records->next();
+			$structure =$record->getRecordStructure();
+			$structureId =$structure->getId();
 			if (!isset($recordStructures[$structureId->getIdString()]))
-				$recordStructures[$structureId->getIdString()] =& $structure;
+				$recordStructures[$structureId->getIdString()] =$structure;
 		}
 		
-		$obj =& new HarmoniIterator($recordStructures);
+		$obj = new HarmoniIterator($recordStructures);
 		
 		return $obj;
 	}
@@ -1441,18 +1441,18 @@ class HarmoniAsset
      * 
      * @access public
      */
-    function &getContentRecordStructure () { 
-		$idManager =& Services::getService("Id");
-		$schemaMgr =& Services::getService("SchemaManager");
+    function getContentRecordStructure () { 
+		$idManager = Services::getService("Id");
+		$schemaMgr = Services::getService("SchemaManager");
 		
-		$recordStructures =& $this->_repository->getRecordStructures();
+		$recordStructures =$this->_repository->getRecordStructures();
 
 		// Get the id of the Content DataSetTypeDef
 		$contentType = "edu.middlebury.harmoni.repository.asset_content";
-		$contentTypeId =& $idManager->getId($contentType);
+		$contentTypeId =$idManager->getId($contentType);
 		
 		while ($recordStructures->hasNext()) {
-			$structure =& $recordStructures->next();
+			$structure =$recordStructures->next();
 			if ($contentTypeId->isEqual($structure->getId()))
 				return $structure;
 		}
@@ -1485,14 +1485,14 @@ class HarmoniAsset
      * 
      * @access public
      */
-    function &getPart ( &$partId ) { 
+    function getPart ( $partId ) { 
 	
-		$records =& $this->getRecords();
+		$records =$this->getRecords();
 		while ($records->hasNext()) {
-			$record =& $records->next();
-			$parts =& $record->getParts();
+			$record =$records->next();
+			$parts =$record->getParts();
 			while ($parts->hasNext()) {
-				$part =& $parts->next();
+				$part =$parts->next();
 				if ($partId->isEqual($part->getId()))
 					return $part;
 			}
@@ -1526,8 +1526,8 @@ class HarmoniAsset
      * 
      * @access public
      */
-    function &getPartValue ( &$partId ) { 
-		$part =& $this->getPart($partId);
+    function getPartValue ( $partId ) { 
+		$part =$this->getPart($partId);
 		return $part->getValue();
 	}
 	
@@ -1556,20 +1556,20 @@ class HarmoniAsset
      * 
      * @access public
      */
-    function &getPartsByPartStructure ( &$partStructureId ) { 
+    function getPartsByPartStructure ( $partStructureId ) { 
 		$returnParts = array();
-		$records =& $this->getRecords();
+		$records =$this->getRecords();
 		while ($records->hasNext()) {
-			$record =& $records->next();
-			$parts =& $record->getParts();
+			$record =$records->next();
+			$parts =$record->getParts();
 			while ($parts->hasNext()) {
-				$part =& $parts->next();
-				$partStructure =& $part->getPartStructure();
+				$part =$parts->next();
+				$partStructure =$part->getPartStructure();
 				if ($partStructureId->isEqual($partStructure->getId()))
-					$returnParts[] =& $part;
+					$returnParts[] =$part;
 			}
 		}
-    	$obj =& new HarmoniIterator($returnParts);
+    	$obj = new HarmoniIterator($returnParts);
     	return $obj;
     }
 	
@@ -1598,15 +1598,15 @@ class HarmoniAsset
      * 
      * @access public
      */
-    function &getPartValuesByPartStructure ( &$partStructureId ) { 
-    	$partIterator =& $this->getPartsByPartStructure($partStructureId);
+    function getPartValuesByPartStructure ( $partStructureId ) { 
+    	$partIterator =$this->getPartsByPartStructure($partStructureId);
     	$partValues = array();
 //		print $partStructureId->getIdString()."<br />";
     	while ($partIterator->hasNext()) {
-    		$part =& $partIterator->next();
-    		$partValues[] =& $part->getValue();
+    		$part =$partIterator->next();
+    		$partValues[] =$part->getValue();
     	}
-    	$obj =& new HarmoniIterator($partValues);
+    	$obj = new HarmoniIterator($partValues);
     	return $obj;
     } 
 
@@ -1619,18 +1619,18 @@ class HarmoniAsset
 	 * @since 8/10/04
 	 */
 	function _storeDates () {
-		$dbHandler =& Services::getService("DatabaseManager");
-		$id =& $this->_node->getId();
+		$dbHandler = Services::getService("DatabaseManager");
+		$id =$this->_node->getId();
 		
 		// If we have stored dates for this asset set them
 		if ($this->_datesInDB) {
-			$query =& new UpdateQuery;
+			$query = new UpdateQuery;
 			$query->setWhere("asset_id='".addslashes($id->getIdString())."'");
 		} 
 		
 		// Otherwise, insert Them
 		else {
-			$query =& new InsertQuery;
+			$query = new InsertQuery;
 		}
 		
 		$columns = array("asset_id", "effective_date", "expiration_date", "create_timestamp", "modify_timestamp");
@@ -1659,7 +1659,7 @@ class HarmoniAsset
 			
 			// Add the creator
 			$columns[] = "creator";
-			$agentId =& $this->_getCurrentAgent();
+			$agentId =$this->_getCurrentAgent();
 			$values[] = $agentId->getIdString();
 		}
 		
@@ -1667,7 +1667,7 @@ class HarmoniAsset
 		$query->setValues($values);
 		$query->setTable("dr_asset_info");
 		
-		$result =& $dbHandler->query($query, $this->_dbIndex);
+		$result =$dbHandler->query($query, $this->_dbIndex);
 	}
 	
 	/**
@@ -1677,15 +1677,15 @@ class HarmoniAsset
 	 * @access private
 	 * @since 7/9/07
 	 */
-	function &_getCurrentAgent () {
-		$authN =& Services::getService("AuthN");
-		$agentM =& Services::getService("Agent");
-		$idM =& Services::getService("Id");
-		$authTypes =& $authN->getAuthenticationTypes();
+	function _getCurrentAgent () {
+		$authN = Services::getService("AuthN");
+		$agentM = Services::getService("Agent");
+		$idM = Services::getService("Id");
+		$authTypes =$authN->getAuthenticationTypes();
 		
 		while ($authTypes->hasNext()) {
-			$authType =& $authTypes->next();
-			$id =& $authN->getUserId($authType);
+			$authType =$authTypes->next();
+			$id =$authN->getUserId($authType);
 			if (!$id->isEqual($idM->getId('edu.middlebury.agents.anonymous'))) {
 				return $id;
 			}
@@ -1703,11 +1703,11 @@ class HarmoniAsset
 	 * @since 8/10/04
 	 */
 	function _loadDates () {
-		$dbHandler =& Services::getService("DatabaseManager");
+		$dbHandler = Services::getService("DatabaseManager");
 		// Get the content DataSet.
-		$id =& $this->_node->getId();
+		$id =$this->_node->getId();
 		
-		$query =& new SelectQuery;
+		$query = new SelectQuery;
 		$query->addTable("dr_asset_info");
 		$query->addColumn("effective_date");
 		$query->addColumn("expiration_date");
@@ -1716,28 +1716,28 @@ class HarmoniAsset
 		$query->addColumn("modify_timestamp");
 		$query->addWhere("asset_id='".$id->getIdString()."'");
 		
-		$result =& $dbHandler->query($query, $this->_dbIndex);
+		$result =$dbHandler->query($query, $this->_dbIndex);
 		
 		// If we have stored dates for this asset set them
 		if ($result->getNumberOfRows()) {
-			$this->_effectiveDate =& $dbHandler->fromDBDate($result->field("effective_date"), $this->_dbIndex);
-			$this->_expirationDate =& $dbHandler->fromDBDate($result->field("expiration_date"), $this->_dbIndex);
-			$this->_createDate =& $dbHandler->fromDBDate($result->field("create_timestamp"), $this->_dbIndex);
+			$this->_effectiveDate =$dbHandler->fromDBDate($result->field("effective_date"), $this->_dbIndex);
+			$this->_expirationDate =$dbHandler->fromDBDate($result->field("expiration_date"), $this->_dbIndex);
+			$this->_createDate =$dbHandler->fromDBDate($result->field("create_timestamp"), $this->_dbIndex);
 			$this->_creator = $result->field("creator");
-			$this->_modifyDate =& $dbHandler->fromDBDate($result->field("modify_timestamp"), $this->_dbIndex);
+			$this->_modifyDate =$dbHandler->fromDBDate($result->field("modify_timestamp"), $this->_dbIndex);
 			$this->_datesInDB = TRUE;
 			
 			if (!$this->_createDate)
-				$this->_createDate =& DateAndTime::epoch();
+				$this->_createDate = DateAndTime::epoch();
 			if (!$this->_modifyDate)
-				$this->_modifyDate =& DateAndTime::epoch();
+				$this->_modifyDate = DateAndTime::epoch();
 		} 
 		
 		else {
 			$this->_effectiveDate = NULL;
 			$this->_expirationDate = NULL;
-			$this->_createDate =& DateAndTime::epoch();
-			$this->_modifyDate =& DateAndTime::epoch();
+			$this->_createDate = DateAndTime::epoch();
+			$this->_modifyDate = DateAndTime::epoch();
 			$this->_creator = NULL;
 			$this->_datesInDB = FALSE;
 		}
@@ -1759,8 +1759,8 @@ class HarmoniAsset
 		// minute (to save on many repeated updates while changing lots of values
 		// at once).
 		if (isset($this->_modifyDate) && is_object($this->_modifyDate)) {
-			$now =& DateAndTime::now();
-			$minute =& Duration::withSeconds(60);
+			$now = DateAndTime::now();
+			$minute = Duration::withSeconds(60);
 			if ($minute->isGreaterThan($now->minus($this->_modifyDate)))
 				return;			
 		}
@@ -1790,7 +1790,7 @@ class HarmoniAsset
      * 
      * @access public
      */
-    function &getCreationDate () { 
+    function getCreationDate () { 
 		if (!isset($this->_createDate) || $this->_createDate->isEqualTo(DateAndTime::epoch())) {
 			$this->_loadDates();
 		}
@@ -1807,7 +1807,7 @@ class HarmoniAsset
 	 * @access public
 	 * @since 7/9/07
 	 */
-	function &getCreator () {
+	function getCreator () {
 		if (!isset($this->_creator)) {
 			$this->_loadDates();
 		}
@@ -1816,7 +1816,7 @@ class HarmoniAsset
 			$null = null;
 			return $null;
 		} else {
-			$idManager =& Services::getService("Id");
+			$idManager = Services::getService("Id");
 			return $idManager->getId($this->_creator);
 		}
 	}
@@ -1842,7 +1842,7 @@ class HarmoniAsset
      * 
      * @access public
      */
-    function &getModificationDate () { 
+    function getModificationDate () { 
 		if (!isset($this->_modifyDate) || $this->_modifyDate->isEqualTo(DateAndTime::epoch())) {
 			$this->_loadDates();
 		}
@@ -1856,9 +1856,9 @@ class HarmoniAsset
 	 */
 	function save () {		
 		// Save the dataManager
-		$recordMgr =& Services::getService("RecordManager");
-		$nodeId =& $this->_node->getId();
-		$group =& $recordMgr->fetchRecordSet($nodeId->getIdString(), true);
+		$recordMgr = Services::getService("RecordManager");
+		$nodeId =$this->_node->getId();
+		$group =$recordMgr->fetchRecordSet($nodeId->getIdString(), true);
 		
 		// The ignoreMandatory Allows this record to be created without checking for
 		// values on mandatory fields. These constraints should be checked when

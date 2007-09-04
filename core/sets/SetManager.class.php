@@ -11,7 +11,7 @@ require_once(dirname(__FILE__)."/PersistentOrderedSet.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SetManager.class.php,v 1.12 2005/08/05 16:22:31 adamfranco Exp $
+ * @version $Id: SetManager.class.php,v 1.13 2007/09/04 20:25:49 adamfranco Exp $
  */
 class SetManager {
 	
@@ -64,10 +64,10 @@ class SetManager {
 	 * 
 	 * @access public
 	 */
-	function assignConfiguration ( &$configuration ) { 
-		$this->_configuration =& $configuration;
+	function assignConfiguration ( $configuration ) { 
+		$this->_configuration =$configuration;
 		
-		$dbIndex =& $configuration->getProperty('database_index');
+		$dbIndex =$configuration->getProperty('database_index');
 		
 		// ** parameter validation
 		ArgumentValidator::validate($dbIndex, IntegerValidatorRule::getRule(), true);
@@ -85,7 +85,7 @@ class SetManager {
 	 * 
 	 * @access public
 	 */
-	function &getOsidContext () { 
+	function getOsidContext () { 
 		return $this->_osidContext;
 	} 
 
@@ -100,8 +100,8 @@ class SetManager {
 	 * 
 	 * @access public
 	 */
-	function assignOsidContext ( &$context ) { 
-		$this->_osidContext =& $context;
+	function assignOsidContext ( $context ) { 
+		$this->_osidContext =$context;
 	} 
 	
 	/**
@@ -114,10 +114,10 @@ class SetManager {
 	 * @access public
 	 * @since 6/28/04
 	 */
-	function &getPersistentSet ( & $id ) {
+	function getPersistentSet ( $id ) {
 		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"), true);
 		if (!isset($this->_persistentSets[$id->getIdString()])) {
-			$this->_persistentSets[$id->getIdString()] =& new PersistentOrderedSet(
+			$this->_persistentSets[$id->getIdString()] = new PersistentOrderedSet(
 															$id, $this->_dbIndex);
 		}
 		
@@ -132,8 +132,8 @@ class SetManager {
 	 * @access public
 	 * @since 6/28/04
 	 */
-	function deletePersistentSet ( & $id ) {
-		$set =& $this->getPersistentSet($id);
+	function deletePersistentSet ( $id ) {
+		$set =$this->getPersistentSet($id);
 		$set->removeAllItems();
 	}
 	
@@ -147,10 +147,10 @@ class SetManager {
 	 * @access public
 	 * @since 6/28/04
 	 */
-	function &getTemporarySet ( & $id ) {
+	function getTemporarySet ( $id ) {
 		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"), true);
 		if (!isset($_SESSION['__temporarySets'][$id->getIdString()])) {
-			$_SESSION['__temporarySets'][$id->getIdString()] =& new OrderedSet($id);
+			$_SESSION['__temporarySets'][$id->getIdString()] = new OrderedSet($id);
 		}
 		
 		return $_SESSION['__temporarySets'][$id->getIdString()];
@@ -164,8 +164,8 @@ class SetManager {
 	 * @access public
 	 * @since 6/28/04
 	 */
-	function deleteTemporarySet ( & $id ) {
-		$set =& $this->getTemporarySet($id);
+	function deleteTemporarySet ( $id ) {
+		$set =$this->getTemporarySet($id);
 		$set->removeAllItems();
 	}
 	
@@ -178,8 +178,8 @@ class SetManager {
 	 * @access public
 	 * @since 8/5/05
 	 */
-	function &persist ( &$set ) {
-		$persistentSet =& $this->getPersistentSet($set->getId());
+	function persist ( $set ) {
+		$persistentSet =$this->getPersistentSet($set->getId());
 		
 		if ($persistentSet->isNotEqualTo($set)) {
 			$persistentSet->removeAllItems();

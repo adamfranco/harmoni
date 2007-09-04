@@ -71,7 +71,7 @@ extends HarmoniIterator
      * 
      * @access public
      */
-    function &nextTimespan () { 
+    function nextTimespan () { 
         return $this->next();
     } 
 }

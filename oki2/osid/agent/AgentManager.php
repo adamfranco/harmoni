@@ -67,7 +67,7 @@ class AgentManager
      * 
      * @access public
      */
-    function &createAgent ( $displayName, &$agentType, &$properties ) { 
+    function createAgent ( $displayName, $agentType, $properties ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -92,7 +92,7 @@ class AgentManager
      * 
      * @access public
      */
-    function deleteAgent ( &$id ) { 
+    function deleteAgent ( $id ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -120,7 +120,7 @@ class AgentManager
      * 
      * @access public
      */
-    function &getAgent ( &$id ) { 
+    function getAgent ( $id ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -145,7 +145,7 @@ class AgentManager
      * 
      * @access public
      */
-    function &getAgents () { 
+    function getAgents () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -170,7 +170,7 @@ class AgentManager
      * 
      * @access public
      */
-    function &getAgentTypes () { 
+    function getAgentTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -196,7 +196,7 @@ class AgentManager
      * 
      * @access public
      */
-    function &getPropertyTypes () { 
+    function getPropertyTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -227,7 +227,7 @@ class AgentManager
      * 
      * @access public
      */
-    function &createGroup ( $displayName, &$groupType, $description, &$properties ) { 
+    function createGroup ( $displayName, $groupType, $description, $properties ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -252,7 +252,7 @@ class AgentManager
      * 
      * @access public
      */
-    function deleteGroup ( &$id ) { 
+    function deleteGroup ( $id ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -280,7 +280,7 @@ class AgentManager
      * 
      * @access public
      */
-    function &getGroup ( &$id ) { 
+    function getGroup ( $id ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -306,7 +306,7 @@ class AgentManager
      * 
      * @access public
      */
-    function &getGroups () { 
+    function getGroups () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -331,7 +331,7 @@ class AgentManager
      * 
      * @access public
      */
-    function &getGroupTypes () { 
+    function getGroupTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -358,7 +358,7 @@ class AgentManager
      * 
      * @access public
      */
-    function &getAgentsByType ( &$agentType ) { 
+    function getAgentsByType ( $agentType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -385,7 +385,7 @@ class AgentManager
      * 
      * @access public
      */
-    function &getGroupsByType ( &$groupType ) { 
+    function getGroupsByType ( $groupType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -410,7 +410,7 @@ class AgentManager
      * 
      * @access public
      */
-    function &getAgentSearchTypes () { 
+    function getAgentSearchTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -438,7 +438,7 @@ class AgentManager
      * 
      * @access public
      */
-    function &getAgentsBySearch ( &$searchCriteria, &$agentSearchType ) { 
+    function getAgentsBySearch ( $searchCriteria, $agentSearchType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -463,7 +463,7 @@ class AgentManager
      * 
      * @access public
      */
-    function &getGroupSearchTypes () { 
+    function getGroupSearchTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -491,7 +491,7 @@ class AgentManager
      * 
      * @access public
      */
-    function &getGroupsBySearch ( &$searchCriteria, &$groupSearchType ) { 
+    function getGroupsBySearch ( $searchCriteria, $groupSearchType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 }

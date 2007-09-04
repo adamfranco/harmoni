@@ -27,7 +27,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StyleProperty.interface.php,v 1.5 2005/02/07 21:38:14 adamfranco Exp $
+ * @version $Id: StyleProperty.interface.php,v 1.6 2007/09/04 20:25:21 adamfranco Exp $
  **/
 
 class StylePropertyInterface {
@@ -73,7 +73,7 @@ class StylePropertyInterface {
 	 * @access public
 	 * @param ref object A StyleComponent object.
 	 **/
-	function addSC(& $sc) {
+	function addSC($sc) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 

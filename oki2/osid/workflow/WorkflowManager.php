@@ -65,7 +65,7 @@ class WorkflowManager
      * 
      * @access public
      */
-    function &createProcess ( $displayName, $description ) { 
+    function createProcess ( $displayName, $description ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -97,7 +97,7 @@ class WorkflowManager
      * 
      * @access public
      */
-    function &copyProcess ( &$originalProcessId, $newDisplayName, $newDescription ) { 
+    function copyProcess ( $originalProcessId, $newDisplayName, $newDescription ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -123,7 +123,7 @@ class WorkflowManager
      * 
      * @access public
      */
-    function deleteProcess ( &$processId ) { 
+    function deleteProcess ( $processId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -151,7 +151,7 @@ class WorkflowManager
      * 
      * @access public
      */
-    function &getProcess ( &$processId ) { 
+    function getProcess ( $processId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -174,7 +174,7 @@ class WorkflowManager
      * 
      * @access public
      */
-    function &getProcesses () { 
+    function getProcesses () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -197,7 +197,7 @@ class WorkflowManager
      * 
      * @access public
      */
-    function &getExpressions () { 
+    function getExpressions () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -225,7 +225,7 @@ class WorkflowManager
      * 
      * @access public
      */
-    function &getExpressionsByType ( &$expressionType ) { 
+    function getExpressionsByType ( $expressionType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -253,7 +253,7 @@ class WorkflowManager
      * 
      * @access public
      */
-    function &getUnfinishedWork ( &$processId ) { 
+    function getUnfinishedWork ( $processId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -281,7 +281,7 @@ class WorkflowManager
      * 
      * @access public
      */
-    function &getCompletedWork ( &$processId ) { 
+    function getCompletedWork ( $processId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -304,7 +304,7 @@ class WorkflowManager
      * 
      * @access public
      */
-    function &getOutputStates () { 
+    function getOutputStates () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -327,7 +327,7 @@ class WorkflowManager
      * 
      * @access public
      */
-    function &getExpressionTypes () { 
+    function getExpressionTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 

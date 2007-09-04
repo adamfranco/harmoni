@@ -16,7 +16,7 @@ require_once(HARMONI."GUIManager/StyleCollection.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Component.class.php,v 1.20 2006/11/30 22:02:01 adamfranco Exp $
+ * @version $Id: Component.class.php,v 1.21 2007/09/04 20:25:21 adamfranco Exp $
  */
 class Component extends ComponentInterface {
 
@@ -98,9 +98,9 @@ class Component extends ComponentInterface {
 	 **/
 	function Component($content, $type, $index) {
 		// ** parameter validation
-		$rule =& OptionalRule::getRule(StringValidatorRule::getRule());
+		$rule = OptionalRule::getRule(StringValidatorRule::getRule());
 		ArgumentValidator::validate($content, $rule, true);
-		$rule =& ChoiceValidatorRule::getRule(BLANK, HEADING, HEADER, FOOTER, BLOCK, MENU, 
+		$rule = ChoiceValidatorRule::getRule(BLANK, HEADING, HEADER, FOOTER, BLOCK, MENU, 
 										SUB_MENU, MENU_ITEM_LINK_UNSELECTED,
 										MENU_ITEM_LINK_SELECTED, MENU_ITEM_HEADING, OTHER);
 		ArgumentValidator::validate($type, $rule, true);
@@ -131,9 +131,9 @@ class Component extends ComponentInterface {
 	 * to this component. 
 	 * @return ref object The style collection that was just added.
 	 **/
-	function &addStyle(& $styleCollection) {
+	function addStyle($styleCollection) {
 		// ** parameter validation
-		$rule =& ExtendsValidatorRule::getRule("StyleCollectionInterface");
+		$rule = ExtendsValidatorRule::getRule("StyleCollectionInterface");
 		ArgumentValidator::validate($styleCollection, $rule, true);
 		// ** end of parameter validation
 
@@ -149,7 +149,7 @@ class Component extends ComponentInterface {
 			throwError(new Error($err, "GUIManager", true));
 		}
 		
-	 	$this->_styleCollections[$styleCollection->getSelector()] =& $styleCollection;
+	 	$this->_styleCollections[$styleCollection->getSelector()] =$styleCollection;
 		
 		return $styleCollection;
 	}
@@ -160,7 +160,7 @@ class Component extends ComponentInterface {
 	 * @param string selector The selector.
 	 * @return ref object The style collection.
 	 **/
-	function &getStyle($selector) {
+	function getStyle($selector) {
 		if (isset($this->_styleCollections[$selector]))
 			return $this->_styleCollections[$selector];
 		else
@@ -174,8 +174,8 @@ class Component extends ComponentInterface {
 	 * @return ref object The style collection that was removed. <code>NULL</code>
 	 * if it could not be found.
 	 **/
-	function &removeStyle($selector) {
-	 	$result =& $this->_styleCollections[$selector];
+	function removeStyle($selector) {
+	 	$result =$this->_styleCollections[$selector];
 		unset($this->_styleCollections[$selector]);
 		
 		return $result;
@@ -187,7 +187,7 @@ class Component extends ComponentInterface {
 	 * @return array An array of style collections; the key corresponds to the
 	 * selector of each collection.
 	 **/
-	function &getStyles() {
+	function getStyles() {
 		return $this->_styleCollections;
 	}
 	
@@ -216,7 +216,7 @@ class Component extends ComponentInterface {
 	 * recommended in order to produce a nicely formatted HTML output.
 	 * @return string The HTML string.
 	 **/
-	function getPreHTML(& $theme, $tabs = "") {
+	function getPreHTML($theme, $tabs = "") {
 		// Sometimes we need to incrementally build our form pre-html, so
 		// provide access to it without the theme.
 		if ($theme === null) {
@@ -283,7 +283,7 @@ class Component extends ComponentInterface {
 	 * recommended in order to produce a nicely formatted HTML output.
 	 * @return string The HTML string.
 	 **/
-	function getPostHTML(& $theme, $tabs = "") {
+	function getPostHTML($theme, $tabs = "") {
 		// Sometimes we need to incrementally build our form pre-html, so
 		// provide access to it without the theme.
 		if ($theme === null) {
@@ -343,7 +343,7 @@ class Component extends ComponentInterface {
 	 * recommended in order to produce a nicely formatted HTML output.
 	 * @access public
 	 **/
-	function render(& $theme, $tabs = "") {
+	function render($theme, $tabs = "") {
 		echo $this->getPreHTML($theme, $tabs);
 		if (isset($this->_content))
 			echo $tabs.$this->_content;

@@ -67,7 +67,7 @@ class Part
      * 
      * @access public
      */
-    function &getId () { 
+    function getId () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -113,7 +113,7 @@ class Part
      * 
      * @access public
      */
-    function &getPartStructure () { 
+    function getPartStructure () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -144,7 +144,7 @@ class Part
      * 
      * @access public
      */
-    function &createPart ( &$partStructureId, &$value ) { 
+    function createPart ( $partStructureId, $value ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -170,7 +170,7 @@ class Part
      * 
      * @access public
      */
-    function deletePart ( &$partId ) { 
+    function deletePart ( $partId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -193,7 +193,7 @@ class Part
      * 
      * @access public
      */
-    function &getParts () { 
+    function getParts () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -216,7 +216,7 @@ class Part
      * 
      * @access public
      */
-    function &getValue () { 
+    function getValue () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -241,7 +241,7 @@ class Part
      * 
      * @access public
      */
-    function updateValue ( &$value ) { 
+    function updateValue ( $value ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 }

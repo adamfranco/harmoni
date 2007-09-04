@@ -14,7 +14,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: storage.cfg.php,v 1.4 2005/04/07 15:12:32 adamfranco Exp $
+ * @version $Id: storage.cfg.php,v 1.5 2007/09/04 20:25:18 adamfranco Exp $
  */
 
 /**
@@ -24,15 +24,15 @@
 
 // start the service
 require_once(OKI2."osid/OsidContext.php");
-$context =& new OsidContext;
+$context = new OsidContext;
 $context->assignContext('harmoni', $harmoni);
 
 require_once(HARMONI."oki2/shared/ConfigurationProperties.class.php");
-$configuration =& new ConfigurationProperties;
+$configuration = new ConfigurationProperties;
 Services::startManagerAsService("Storage", $context, $configuration);
 
 // get the Storage service and store in $storage
-$storage =& Services::getService("Storage");
+$storage = Services::getService("Storage");
 
 
 /**

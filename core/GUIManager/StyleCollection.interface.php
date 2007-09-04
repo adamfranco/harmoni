@@ -26,7 +26,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StyleCollection.interface.php,v 1.7 2005/02/07 21:38:13 adamfranco Exp $
+ * @version $Id: StyleCollection.interface.php,v 1.8 2007/09/04 20:25:21 adamfranco Exp $
  **/
 
 class StyleCollectionInterface {
@@ -96,7 +96,7 @@ class StyleCollectionInterface {
 	 * @param ref object sc A StyleProperty object.
 	 * @return ref object The style property that was just added.
 	 **/
-	function &addSP(& $sp) {
+	function addSP($sp) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -117,7 +117,7 @@ class StyleCollectionInterface {
 	 * @return ref object The style property that was removed. <code>NULL</code>
 	 * if it could not be found.
 	 **/
-	function &removeSP(& $sp) {
+	function removeSP($sp) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	

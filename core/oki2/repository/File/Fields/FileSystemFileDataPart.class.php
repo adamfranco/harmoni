@@ -17,7 +17,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileSystemFileDataPart.class.php,v 1.6 2007/04/12 15:37:32 adamfranco Exp $
+ * @version $Id: FileSystemFileDataPart.class.php,v 1.7 2007/09/04 20:25:46 adamfranco Exp $
  */
  
 class FileSystemFileDataPart 
@@ -95,17 +95,17 @@ class FileSystemFileDataPart
 		
 		
 		// Check to see if the size is in the database
-		$dbHandler =& Services::getService("DatabaseManager");
+		$dbHandler = Services::getService("DatabaseManager");
 		
-		$query =& new SelectQuery;
+		$query = new SelectQuery;
 		$query->addTable("dr_file");
 		$query->addColumn("COUNT(*) as count");
 		$query->addWhere("id = '".$this->_recordId->getIdString()."'");
-		$result =& $dbHandler->query($query, $this->_configuration->getProperty("database_index"));
+		$result =$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 		
 		// If it already exists, use an update query.
 		if ($result->field("count") > 0) {
-			$query =& new UpdateQuery;
+			$query = new UpdateQuery;
 			$query->setTable("dr_file");
 			$query->setColumns(array("size"));
 			$query->setValues(array("'".strlen($value)."'"));
@@ -113,7 +113,7 @@ class FileSystemFileDataPart
 		}
 		// If it doesn't exist, use an insert query.
 		else {
-			$query =& new InsertQuery;
+			$query = new InsertQuery;
 			$query->setTable("dr_file");
 			$query->setColumns(array("id","size"));
 			$query->setValues(array("'".$this->_recordId->getIdString()."'",

@@ -10,7 +10,7 @@ require_once(HARMONI."dataManager/storablePrimitives/StorableString.abstract.php
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableBlob.class.php,v 1.9 2007/04/12 15:37:26 adamfranco Exp $
+ * @version $Id: StorableBlob.class.php,v 1.10 2007/09/04 20:25:33 adamfranco Exp $
  */
 class StorableBlob 
 	extends StorableStringAbstract 
@@ -29,8 +29,8 @@ class StorableBlob
 	 * @return object StorableBlob
 	 * @static
 	 */
-	function &createAndPopulate( $dbRow ) {
-		$blob =& new StorableBlob;
+	function createAndPopulate( $dbRow ) {
+		$blob = new StorableBlob;
 		$blob->_setValue($dbRow["blob_data"]);
 		return $blob;
 	}
@@ -74,7 +74,7 @@ class StorableBlob
 	 * @access public
 	 * @return void
 	 */
-	function alterQuery( &$query ) {
+	function alterQuery( $query ) {
 		$query->addTable("dm_blob",LEFT_JOIN,"dm_blob.id = fk_data");
 		$query->addColumn("data","blob_data","dm_blob");
 	}
@@ -96,7 +96,7 @@ class StorableBlob
 	 * @access public
 	 * @since 6/9/06
 	 */
-	function &asABlob () {
+	function asABlob () {
 		return $this;
 	}
 	
@@ -107,7 +107,7 @@ class StorableBlob
 	 * @access public
 	 * @since 6/9/06
 	 */
-	function &asAString () {
+	function asAString () {
 		return String::fromString($this->asString());
 	}
 	
@@ -118,7 +118,7 @@ class StorableBlob
 	 * @access public
 	 * @since 6/9/06
 	 */
-	function &asAShortString () {
+	function asAShortString () {
 		return String::fromString($this->asString());
 	}	
 }

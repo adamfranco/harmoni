@@ -38,7 +38,7 @@ class Qualifier
      * 
      * @access public
      */
-    function &getId () { 
+    function getId () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -134,7 +134,7 @@ class Qualifier
      * 
      * @access public
      */
-    function &getQualifierType () { 
+    function getQualifierType () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -189,7 +189,7 @@ class Qualifier
      * 
      * @access public
      */
-    function addParent ( &$parentQualifierId ) { 
+    function addParent ( $parentQualifierId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -219,7 +219,7 @@ class Qualifier
      * 
      * @access public
      */
-    function removeParent ( &$parentQualifierId ) { 
+    function removeParent ( $parentQualifierId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -249,7 +249,7 @@ class Qualifier
      * 
      * @access public
      */
-    function changeParent ( &$oldParentId, &$newParentId ) { 
+    function changeParent ( $oldParentId, $newParentId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -279,7 +279,7 @@ class Qualifier
      * 
      * @access public
      */
-    function isChildOf ( &$parentId ) { 
+    function isChildOf ( $parentId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -309,7 +309,7 @@ class Qualifier
      * 
      * @access public
      */
-    function isDescendantOf ( &$ancestorId ) { 
+    function isDescendantOf ( $ancestorId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -333,7 +333,7 @@ class Qualifier
      * 
      * @access public
      */
-    function &getChildren () { 
+    function getChildren () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -357,7 +357,7 @@ class Qualifier
      * 
      * @access public
      */
-    function &getParents () { 
+    function getParents () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 }

@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ImageMagickProcessor.class.php,v 1.9 2006/11/30 22:02:03 adamfranco Exp $
+ * @version $Id: ImageMagickProcessor.class.php,v 1.10 2007/09/04 20:25:24 adamfranco Exp $
  */
 
 class ImageMagickProcessor {
@@ -175,7 +175,7 @@ class ImageMagickProcessor {
 	 */
 	function isSupported ($format) {
 		// Get the extension coresponding to the format.
-		$mime =& Services::getService("MIME");
+		$mime = Services::getService("MIME");
 		$extension = $mime->getExtensionForMIMEType($format);
 		
 		if (isset($this->_formatConversions[$extension]))
@@ -197,7 +197,7 @@ class ImageMagickProcessor {
 	 */
 	function generateThumbnailData ($format, $data) {
 		// Get the extension coresponding to the format.
-		$mime =& Services::getService("MIME");
+		$mime = Services::getService("MIME");
 		$extension = $mime->getExtensionForMIMEType($format);
 		$thumbExtension = $mime->getExtensionForMIMEType($this->_thumbnailFormat);
 		
@@ -214,7 +214,7 @@ class ImageMagickProcessor {
 	 * @since 10/22/04
 	 */
 	function getResizedFormat ($format) {
-		$mime =& Services::getService("MIME");
+		$mime = Services::getService("MIME");
 		$extension = $mime->getExtensionForMIMEType($format);
 		if ($newExtension = $this->_formatConversions[$extension]) {
 			return $mime->getMIMETypeForExtension($newExtension);
@@ -236,7 +236,7 @@ class ImageMagickProcessor {
 	 */
 	function getResizedData ($format, $size, $data) {
 		// get the original extension and our new one.
-		$mime =& Services::getService("MIME");
+		$mime = Services::getService("MIME");
 		$extension = $mime->getExtensionForMIMEType($format);
 		if ($newExtension = $mime->getExtensionForMIMEType($this->getResizedFormat($format))) {
 			return $this->_generateData($extension, $newExtension, $size, $data);
@@ -254,7 +254,7 @@ class ImageMagickProcessor {
 	 * @since 10/22/04
 	 */
 	function getWebsafeFormat ($format) {
-		$mime =& Services::getService("MIME");
+		$mime = Services::getService("MIME");
 		$extension = $mime->getExtensionForMIMEType($format);
 		$newExtension = $this->_formatConversions[$extension];
 		if (!in_array($newExtension, $this->_websafeFormats))
@@ -280,7 +280,7 @@ class ImageMagickProcessor {
 	 */
 	function getWebsafeData ($format, $size, $data) {
 		// get the original extension and our new one.
-		$mime =& Services::getService("MIME");
+		$mime = Services::getService("MIME");
 		$extension = $mime->getExtensionForMIMEType($format);
 		if ($newExtension = $mime->getExtensionForMIMEType($this->getWebsafeFormat($format))) {
 			return $this->_generateData($extension, $newExtension, $size, $data);

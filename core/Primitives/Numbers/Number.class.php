@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Number.class.php,v 1.4 2006/03/14 22:02:42 cws-midd Exp $
+ * @version $Id: Number.class.php,v 1.5 2007/09/04 20:25:28 adamfranco Exp $
  */ 
  
 require_once(dirname(__FILE__)."/../Magnitudes/Magnitude.class.php");
@@ -41,7 +41,7 @@ require_once(dirname(__FILE__)."/../Magnitudes/Magnitude.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Number.class.php,v 1.4 2006/03/14 22:02:42 cws-midd Exp $
+ * @version $Id: Number.class.php,v 1.5 2007/09/04 20:25:28 adamfranco Exp $
  */
 class Number 
 	extends Magnitude
@@ -61,14 +61,14 @@ class Number
 	 * @access public
 	 * @since 7/14/05
 	 */
-	function &withValue ( $value, $class = 'Number') {
+	function withValue ( $value, $class = 'Number') {
 		// Validate our passed class name.
 		if (!is_subclass_of(new $class, 'Number'))
 		{
 			die("Class, '$class', is not a subclass of 'Number'.");
 		}
 		
-		$number =& new $class;
+		$number = new $class;
 		$number->_setValue($value);
 		return $number;
 	}
@@ -83,14 +83,14 @@ class Number
 	 * @access public
 	 * @since 3/14/06
 	 */
-	function &fromString ( $string, $class = 'Number') {
+	function fromString ( $string, $class = 'Number') {
 		// Validate our passed class name.
 		if (!is_subclass_of(new $class, 'Number'))
 		{
 			die("Class, '$class', is not a subclass of 'Number'.");
 		}
 		
-		$number =& new $class;
+		$number = new $class;
 		$number->_setValue($value);
 		return $number;
 	}
@@ -105,8 +105,8 @@ class Number
 	 * @access public
 	 * @since 7/14/05
 	 */
-	function &zero ( $class = 'Number') {
-		eval('$result =& '.$class.'::withValue(0);');
+	function zero ( $class = 'Number') {
+		eval('$result = '.$class.'::withValue(0);');
 		
 		return $result;
 	}
@@ -123,7 +123,7 @@ class Number
 	 * @access public
 	 * @since 7/14/05
 	 */
-	function &plus ( &$aNumber ) {
+	function plus ( $aNumber ) {
 		die("Method ".__FUNCTION__." in class ".__CLASS__
 			." should have been overridden by a child class.");
 	}
@@ -136,7 +136,7 @@ class Number
 	 * @access public
 	 * @since 7/14/05
 	 */
-	function &minus ( &$aNumber ) {
+	function minus ( $aNumber ) {
 		return $this->plus($aNumber->negated());
 	}
 	
@@ -148,7 +148,7 @@ class Number
 	 * @access public
 	 * @since 7/14/05
 	 */
-	function &multipliedBy ( &$aNumber ) {
+	function multipliedBy ( $aNumber ) {
 		die("Method ".__FUNCTION__." in class ".__CLASS__
 			." should have been overridden by a child class.");
 	}
@@ -161,7 +161,7 @@ class Number
 	 * @access public
 	 * @since 7/14/05
 	 */
-	function &dividedBy ( &$aNumber ) {
+	function dividedBy ( $aNumber ) {
 		die("Method ".__FUNCTION__." in class ".__CLASS__
 			." should have been overridden by a child class.");
 	}
@@ -176,8 +176,8 @@ class Number
 	 * @access public
 	 * @since 7/14/05
 	 */
-	function &modIntegerQuotient ( &$aNumber ) {
-		$temp =& $this->dividedBy($aNumber);
+	function modIntegerQuotient ( $aNumber ) {
+		$temp =$this->dividedBy($aNumber);
 		return $temp->floor();
 	}
 	
@@ -191,9 +191,9 @@ class Number
 	 * @access public
 	 * @since 7/14/05
 	 */
-	function &modulo ( &$aNumber ) {
-		$temp =& $this->integerQuotient($aNumber);
-		$temp =& $temp->multipliedBy($aNumber);
+	function modulo ( $aNumber ) {
+		$temp =$this->integerQuotient($aNumber);
+		$temp =$temp->multipliedBy($aNumber);
 		return $this->minus($temp);
 	}
 	
@@ -205,7 +205,7 @@ class Number
 	 * @access public
 	 * @since 7/14/05
 	 */
-	function &abs () {
+	function abs () {
 		if ($this->isLessThan(Integer::zero())) {
 			return $this->negated();
 		} else {
@@ -220,8 +220,8 @@ class Number
 	 * @access public
 	 * @since 7/14/05
 	 */
-	function &negated () {
-		$zero =& Integer::zero();
+	function negated () {
+		$zero = Integer::zero();
 		return $zero->minus($this);
 	}
 	
@@ -236,8 +236,8 @@ class Number
 	 * @access public
 	 * @since 7/14/05
 	 */
-	function &remIntegerQuotient ( &$aNumber ) {
-		$temp =& $this->dividedBy($aNumber);
+	function remIntegerQuotient ( $aNumber ) {
+		$temp =$this->dividedBy($aNumber);
 		return $temp->truncated();
 	}
 	
@@ -250,8 +250,8 @@ class Number
 	 * @access public
 	 * @since 7/14/05
 	 */
-	function &remainder ( &$aNumber ) {
-		$temp =& $this->remIntegerQuotient($aNumber);
+	function remainder ( $aNumber ) {
+		$temp =$this->remIntegerQuotient($aNumber);
 		return $this->minus($temp->multipliedBy($aNumber));
 	}
 	
@@ -264,11 +264,11 @@ class Number
 	 * @access public
 	 * @since 7/14/05
 	 */
-	function &reciprical () {
+	function reciprical () {
 		if ($this->isEqualTo(Integer::withValue(0)))
 			throwError(new Error("Division by zero"));
 		else {
-			$one =& Integer::withValue(1);
+			$one = Integer::withValue(1);
 			return $one->dividedBy($this);
 		}
 	}
@@ -284,12 +284,12 @@ class Number
 	 * @access public
 	 * @since 7/14/05
 	 */
-	function &ceiling () {
+	function ceiling () {
 		if ($this->isLessThanOrEqualTo(Integer::zero()))
 			return $this->truncated();
 		else {
-			$temp =& $this->negated();
-			$temp =& $temp->floor();
+			$temp =$this->negated();
+			$temp =$temp->floor();
 			return $temp->negated();
 		}
 	}
@@ -301,8 +301,8 @@ class Number
 	 * @access public
 	 * @since 7/14/05
 	 */
-	function &floor () {
-		$truncation =& $this->truncated();
+	function floor () {
+		$truncation =$this->truncated();
 		if ($this->isGreaterThanOrEqualTo(Integer::zero()))
 			return $truncation;
 		else {
@@ -320,7 +320,7 @@ class Number
 	 * @access public
 	 * @since 7/14/05
 	 */
-	function &truncated () {
+	function truncated () {
 		return $this->remIntegerQuotient(Integer::withValue(1));
 	}
 	
@@ -335,8 +335,8 @@ class Number
  	 * @access public
  	 * @since 7/14/05
  	 */
- 	function &asDouble () {
- 		$obj =& Double::withValue(doubleval($this->value()));
+ 	function asDouble () {
+ 		$obj = Double::withValue(doubleval($this->value()));
  		return $obj;
  	}
  	
@@ -347,8 +347,8 @@ class Number
  	 * @access public
  	 * @since 7/14/05
  	 */
- 	function &asFloat () {
- 		$obj =& Float::withValue(floatval($this->value()));
+ 	function asFloat () {
+ 		$obj = Float::withValue(floatval($this->value()));
  		return $obj;
  	}
  	
@@ -359,7 +359,7 @@ class Number
  	 * @access public
  	 * @since 7/14/05
  	 */
- 	function &asInteger () {
+ 	function asInteger () {
  		return $this->truncated();
  	}
  	
@@ -370,7 +370,7 @@ class Number
  	 * @access public
  	 * @since 7/14/05
  	 */
- 	function &asNumber () {
+ 	function asNumber () {
  		return $this;
  	}
  	
@@ -386,11 +386,11 @@ class Number
 	 * @access public
 	 * @since 5/4/05
 	 */
-	function isLessThan ( &$aMagnitude ) {
+	function isLessThan ( $aMagnitude ) {
 		if (!method_exists($aMagnitude, 'asFloat'))
  			return false;
  		
- 		$asFloat =& $aMagnitude->asFloat();
+ 		$asFloat =$aMagnitude->asFloat();
  		return ($this->value() < $asFloat->value())?true:false;
 	}
 	
@@ -404,11 +404,11 @@ class Number
  	 * @access public
  	 * @since 7/11/05
  	 */
- 	function isEqualTo ( &$anObject ) {
+ 	function isEqualTo ( $anObject ) {
  		if (!method_exists($anObject, 'asFloat'))
  			return false;
  		
- 		$asFloat =& $anObject->asFloat();
+ 		$asFloat =$anObject->asFloat();
 		return ($this->value() == $asFloat->value())?true:false;
 	}
  	

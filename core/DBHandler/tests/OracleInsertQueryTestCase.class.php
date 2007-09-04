@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OracleInsertQueryTestCase.class.php,v 1.3 2005/04/07 16:33:25 adamfranco Exp $
+ * @version $Id: OracleInsertQueryTestCase.class.php,v 1.4 2007/09/04 20:25:21 adamfranco Exp $
  */
  
     require_once(HARMONI.'DBHandler/InsertQuery.class.php');
@@ -21,7 +21,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OracleInsertQueryTestCase.class.php,v 1.3 2005/04/07 16:33:25 adamfranco Exp $ 
+ * @version $Id: OracleInsertQueryTestCase.class.php,v 1.4 2007/09/04 20:25:21 adamfranco Exp $ 
  */
 
     class OracleInsertQueryTestCase extends UnitTestCase {
@@ -39,7 +39,7 @@
          */
         function setUp() {
 			// perhaps, initialize $obj here
-			$this->query =& new InsertQuery();
+			$this->query = new InsertQuery();
         }
 		
         /**

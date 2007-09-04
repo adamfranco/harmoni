@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ISO8601StringParserTestCase.class.php,v 1.4 2006/11/30 22:02:05 adamfranco Exp $
+ * @version $Id: ISO8601StringParserTestCase.class.php,v 1.5 2007/09/04 20:25:25 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -27,7 +27,7 @@ require_once(dirname(__FILE__)."/../ISO8601TimeStringParser.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ISO8601StringParserTestCase.class.php,v 1.4 2006/11/30 22:02:05 adamfranco Exp $
+ * @version $Id: ISO8601StringParserTestCase.class.php,v 1.5 2007/09/04 20:25:25 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -56,7 +56,7 @@ class ISO8601StringParserTestCase extends UnitTestCase {
 	 * Test the creation methods.
 	 */ 
 	function test_full_format() {
-		$parser =& new ISO8601StringParser(
+		$parser = new ISO8601StringParser(
 			'2005-05-23T15:25:10-04:00');
 		$this->assertTrue($parser->canHandle());
 		$this->assertEqual($parser->year(), 2005);
@@ -69,7 +69,7 @@ class ISO8601StringParserTestCase extends UnitTestCase {
 		$this->assertEqual($parser->offsetMinute(), 0);
 		$this->assertEqual($parser->offsetSecond(), NULL);
 		
-		$parser =& new ISO8601StringParser(
+		$parser = new ISO8601StringParser(
 			'2005-05-03 15:25:10-04:30');
 		$this->assertTrue($parser->canHandle());
 		$this->assertEqual($parser->year(), 2005);
@@ -82,7 +82,7 @@ class ISO8601StringParserTestCase extends UnitTestCase {
 		$this->assertEqual($parser->offsetMinute(), -30);
 		$this->assertEqual($parser->offsetSecond(), NULL);
 		
-		$parser =& new ISO8601StringParser(
+		$parser = new ISO8601StringParser(
 			'20050523152510-0400');
 		$this->assertTrue($parser->canHandle());
 		$this->assertEqual($parser->year(), 2005);
@@ -95,7 +95,7 @@ class ISO8601StringParserTestCase extends UnitTestCase {
 		$this->assertEqual($parser->offsetMinute(), 0);
 		$this->assertEqual($parser->offsetSecond(), NULL);
 		
-		$parser =& new ISO8601StringParser(
+		$parser = new ISO8601StringParser(
 			'20050523152510');
 		$this->assertTrue($parser->canHandle());
 		$this->assertEqual($parser->year(), 2005);
@@ -108,7 +108,7 @@ class ISO8601StringParserTestCase extends UnitTestCase {
 		$this->assertEqual($parser->offsetMinute(), NULL);
 		$this->assertEqual($parser->offsetSecond(), NULL);
 		
-		$parser =& new ISO8601StringParser(
+		$parser = new ISO8601StringParser(
 			'2005-05-03 15:25:10Z');
 		$this->assertTrue($parser->canHandle());
 		$this->assertEqual($parser->year(), 2005);
@@ -121,7 +121,7 @@ class ISO8601StringParserTestCase extends UnitTestCase {
 		$this->assertEqual($parser->offsetMinute(), 0);
 		$this->assertEqual($parser->offsetSecond(), 0);
 		
-		$parser =& new ISO8601StringParser(
+		$parser = new ISO8601StringParser(
 			'2006-11-12 18:00:00');
 		$this->assertTrue($parser->canHandle());
 		$this->assertEqual($parser->year(), 2006);
@@ -134,7 +134,7 @@ class ISO8601StringParserTestCase extends UnitTestCase {
 		$this->assertEqual($parser->offsetMinute(), 0);
 		$this->assertEqual($parser->offsetSecond(), 0);
 		
-		$parser =& new ISO8601StringParser(
+		$parser = new ISO8601StringParser(
 			'2005-05-03');
 		$this->assertTrue($parser->canHandle());
 		$this->assertEqual($parser->year(), 2005);
@@ -147,7 +147,7 @@ class ISO8601StringParserTestCase extends UnitTestCase {
 		$this->assertEqual($parser->offsetMinute(), NULL);
 		$this->assertEqual($parser->offsetSecond(), NULL);
 		
-		$parser =& new ISO8601StringParser(
+		$parser = new ISO8601StringParser(
 			'20050503');
 		$this->assertTrue($parser->canHandle());
 		$this->assertEqual($parser->year(), 2005);
@@ -160,7 +160,7 @@ class ISO8601StringParserTestCase extends UnitTestCase {
 		$this->assertEqual($parser->offsetMinute(), NULL);
 		$this->assertEqual($parser->offsetSecond(), NULL);
 		
-		$parser =& new ISO8601StringParser(
+		$parser = new ISO8601StringParser(
 			'2005-05');
 		$this->assertTrue($parser->canHandle());
 		$this->assertEqual($parser->year(), 2005);
@@ -173,7 +173,7 @@ class ISO8601StringParserTestCase extends UnitTestCase {
 		$this->assertEqual($parser->offsetMinute(), NULL);
 		$this->assertEqual($parser->offsetSecond(), NULL);
 		
-		$parser =& new ISO8601StringParser(
+		$parser = new ISO8601StringParser(
 			'200505');
 		$this->assertTrue($parser->canHandle());
 		$this->assertEqual($parser->year(), 2005);
@@ -186,7 +186,7 @@ class ISO8601StringParserTestCase extends UnitTestCase {
 		$this->assertEqual($parser->offsetMinute(), NULL);
 		$this->assertEqual($parser->offsetSecond(), NULL);
 		
-		$parser =& new ISO8601StringParser(
+		$parser = new ISO8601StringParser(
 			'2005');
 		$this->assertTrue($parser->canHandle());
 		$this->assertEqual($parser->year(), 2005);
@@ -199,7 +199,7 @@ class ISO8601StringParserTestCase extends UnitTestCase {
 		$this->assertEqual($parser->offsetMinute(), NULL);
 		$this->assertEqual($parser->offsetSecond(), NULL);
 		
-		$parser =& new ISO8601TimeStringParser(
+		$parser = new ISO8601TimeStringParser(
 			'15:25:10Z');
 		$this->assertTrue($parser->canHandle());
 		$this->assertEqual($parser->year(), NULL);
@@ -212,7 +212,7 @@ class ISO8601StringParserTestCase extends UnitTestCase {
 		$this->assertEqual($parser->offsetMinute(), 0);
 		$this->assertEqual($parser->offsetSecond(), 0);
 		
-		$parser =& new ISO8601TimeStringParser(
+		$parser = new ISO8601TimeStringParser(
 			'15:25:10');
 		$this->assertTrue($parser->canHandle());
 		$this->assertEqual($parser->year(), NULL);
@@ -225,7 +225,7 @@ class ISO8601StringParserTestCase extends UnitTestCase {
 		$this->assertEqual($parser->offsetMinute(), NULL);
 		$this->assertEqual($parser->offsetSecond(), NULL);
 		
-		$parser =& new ISO8601TimeStringParser(
+		$parser = new ISO8601TimeStringParser(
 			'T152510');
 		$this->assertTrue($parser->canHandle());
 		$this->assertEqual($parser->year(), NULL);
@@ -238,7 +238,7 @@ class ISO8601StringParserTestCase extends UnitTestCase {
 		$this->assertEqual($parser->offsetMinute(), NULL);
 		$this->assertEqual($parser->offsetSecond(), NULL);
 		
-		$parser =& new ISO8601TimeStringParser(
+		$parser = new ISO8601TimeStringParser(
 			'T152510.375');
 		$this->assertTrue($parser->canHandle());
 		$this->assertEqual($parser->year(), NULL);
@@ -253,15 +253,15 @@ class ISO8601StringParserTestCase extends UnitTestCase {
 	}
 	
 	function test_bad_forms() {
-		$parser =& new ISO8601StringParser(
+		$parser = new ISO8601StringParser(
 			'April');
 		$this->assertFalse($parser->canHandle());
 		
-		$parser =& new ISO8601StringParser(
+		$parser = new ISO8601StringParser(
 			'5-4-2000');
 		$this->assertFalse($parser->canHandle());
 		
-		$parser =& new ISO8601StringParser(
+		$parser = new ISO8601StringParser(
 			'1234567890');
 		$this->assertFalse($parser->canHandle());
 	

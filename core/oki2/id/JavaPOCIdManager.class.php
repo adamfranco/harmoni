@@ -39,7 +39,7 @@ require_once(OKI2."/osid/id/IdManager.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: JavaPOCIdManager.class.php,v 1.6 2007/04/12 15:37:31 adamfranco Exp $
+ * @version $Id: JavaPOCIdManager.class.php,v 1.7 2007/09/04 20:25:42 adamfranco Exp $
  */
 
 class JavaPOCIdManager
@@ -58,7 +58,7 @@ class JavaPOCIdManager
 		if ($ex) die("Could not instantiate '$className' (Java): ".$ex->toString);
 		java_last_exception_clear();
 		
-		$this->_javaClass =& $testClass;
+		$this->_javaClass =$testClass;
 	}
 
 	/**
@@ -77,7 +77,7 @@ class JavaPOCIdManager
 	 * 
 	 * @access public
 	 */
-	function &createId () { 
+	function createId () { 
 		$result = $this->_javaClass->createId();
 		$ex = java_last_exception_get();
 		if ($ex) { java_last_exception_clear(); return $ex->toString(); }
@@ -105,7 +105,7 @@ class JavaPOCIdManager
 	 * 
 	 * @access public
 	 */
-	function &getId ( $idString ) { 
+	function getId ( $idString ) { 
 		$result = $this->_javaClass->getId($idString);
 		$ex = java_last_exception_get();
 		if ($ex) { java_last_exception_clear(); return $ex->toString(); }

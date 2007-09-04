@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: FunctionTestCase.class.php,v 1.6 2005/04/07 16:33:28 adamfranco Exp $
+ * @version $Id: FunctionTestCase.class.php,v 1.7 2007/09/04 20:25:39 adamfranco Exp $
  */
  
 require_once(HARMONI.'oki/authorization/HarmoniFunction.class.php');
@@ -20,7 +20,7 @@ require_once(HARMONI.'oki/authorization/HarmoniFunction.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: FunctionTestCase.class.php,v 1.6 2005/04/07 16:33:28 adamfranco Exp $
+ * @version $Id: FunctionTestCase.class.php,v 1.7 2007/09/04 20:25:39 adamfranco Exp $
  */
 class HarmoniFunctionTestCase extends UnitTestCase {
 
@@ -41,10 +41,10 @@ class HarmoniFunctionTestCase extends UnitTestCase {
 		$dbHandler->pConnect($dbIndex);
 		unset($dbHandler); // done with that for now
 		
-		$this->type =& new HarmoniType("authorization", "blah", "generic");
-		$this->id1 =& new HarmoniId("1");
-		$this->id4 =& new HarmoniId("4");
-		$this->function =& new HarmoniFunction($this->id1, "It doesn't matter",
+		$this->type = new HarmoniType("authorization", "blah", "generic");
+		$this->id1 = new HarmoniId("1");
+		$this->id4 = new HarmoniId("4");
+		$this->function = new HarmoniFunction($this->id1, "It doesn't matter",
 				"It doesn't matter too", $this->type, $this->id4, $dbIndex, "doboHarmoniTest");
 
 	}

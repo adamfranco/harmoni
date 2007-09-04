@@ -51,43 +51,43 @@
 
         function TestOfCourseSection() {
         	
-        	$cm =& Services::getService("CourseManagement");
-        	$sm =& Services::getService("Scheduling");
+        	$cm = Services::getService("CourseManagement");
+        	$sm = Services::getService("Scheduling");
         	
         	$this->write(7, "Test Course Section");
 
         	
-        	$canType =& new Type("CanonicalCourseType", "edu.middlebury", "DED", "Deductive Reasoning");
-          	$canStatType =& new Type("CanonicalCourseStatusType", "edu.middlebury", "Still offered", "Offerd sometimes");          	
-          	$offerType =& new Type("CourseOfferingType", "edu.middlebury", "default", "");         	
-          	$offerStatType =& new Type("CourseOfferingStatusType", "edu.middlebury", "Full", "You can't still register.");
-          	$gradeType =& new Type("GradeType", "edu.middlebury", "AutoFail", "Sucks to be you");
-          	$termType =& new Type("TermType", "edu.middlebury", "Fall");
-          	$scheduleItemType =& new Type("ScheduleItemStatusType", "edu.middlebury", "default");
+        	$canType = new Type("CanonicalCourseType", "edu.middlebury", "DED", "Deductive Reasoning");
+          	$canStatType = new Type("CanonicalCourseStatusType", "edu.middlebury", "Still offered", "Offerd sometimes");          	
+          	$offerType = new Type("CourseOfferingType", "edu.middlebury", "default", "");         	
+          	$offerStatType = new Type("CourseOfferingStatusType", "edu.middlebury", "Full", "You can't still register.");
+          	$gradeType = new Type("GradeType", "edu.middlebury", "AutoFail", "Sucks to be you");
+          	$termType = new Type("TermType", "edu.middlebury", "Fall");
+          	$scheduleItemType = new Type("ScheduleItemStatusType", "edu.middlebury", "default");
           	
-          	$sectionType1 =& new Type("CourseSectionType", "edu.middlebury", "lecture", "");
-          	$sectionType2 =& new Type("CourseSectionType", "edu.middlebury", "lab", "");         	          	         	
-          	$sectionStatType1 =& new Type("CourseSectionStatusType", "edu.middlebury", "Slots open", "register, baby!");
-          	$sectionStatType2 =& new Type("CourseSectionStatusType", "edu.middlebury", "Full", "You can't still register.");
+          	$sectionType1 = new Type("CourseSectionType", "edu.middlebury", "lecture", "");
+          	$sectionType2 = new Type("CourseSectionType", "edu.middlebury", "lab", "");         	          	         	
+          	$sectionStatType1 = new Type("CourseSectionStatusType", "edu.middlebury", "Slots open", "register, baby!");
+          	$sectionStatType2 = new Type("CourseSectionStatusType", "edu.middlebury", "Full", "You can't still register.");
           	
           	
           	
-          	$cs1 =& $cm->createCanonicalCourse("Intro to CSCI", "CSCI101", "",$canType, $canStatType,1);
-          	$cs2 =& $cm->createCanonicalCourse("Computer Graphics", "CSCI367", "descrip",$canType, $canStatType,1);
+          	$cs1 =$cm->createCanonicalCourse("Intro to CSCI", "CSCI101", "",$canType, $canStatType,1);
+          	$cs2 =$cm->createCanonicalCourse("Computer Graphics", "CSCI367", "descrip",$canType, $canStatType,1);
           	
           	       
           	
           	 	
-			$scheduleItemA1 =& $sm->createScheduleItem("Fall 2006 range", "", $scheduleItemType, 300, 900, null);
-			$scheduleItemA2 =& $sm->createScheduleItem("Thanksgiving", "", $scheduleItemType, 350, 400, null);
-			$scheduleItemA3 =& $sm->createScheduleItem("Christmas", "ho ho ho", $scheduleItemType, 500, 600, null);
+			$scheduleItemA1 =$sm->createScheduleItem("Fall 2006 range", "", $scheduleItemType, 300, 900, null);
+			$scheduleItemA2 =$sm->createScheduleItem("Thanksgiving", "", $scheduleItemType, 350, 400, null);
+			$scheduleItemA3 =$sm->createScheduleItem("Christmas", "ho ho ho", $scheduleItemType, 500, 600, null);
 			
-			$scheduleItemB1 =& $sm->createScheduleItem("Fall 2006 range", "", $scheduleItemType, 1300, 1900, null);
-			$scheduleItemB2 =& $sm->createScheduleItem("Thanksgiving", "", $scheduleItemType, 1350, 1400, null);
-			$scheduleItemB3 =& $sm->createScheduleItem("Christmas", "ho ho ho", $scheduleItemType, 1500, 1600, null);				
+			$scheduleItemB1 =$sm->createScheduleItem("Fall 2006 range", "", $scheduleItemType, 1300, 1900, null);
+			$scheduleItemB2 =$sm->createScheduleItem("Thanksgiving", "", $scheduleItemType, 1350, 1400, null);
+			$scheduleItemB3 =$sm->createScheduleItem("Christmas", "ho ho ho", $scheduleItemType, 1500, 1600, null);				
 			
-			$scheduleItemC1 =& $sm->createScheduleItem("Funky time", "", $scheduleItemType, 100, 500, null);
-			$scheduleItemC2 =& $sm->createScheduleItem("Dance party", "", $scheduleItemType, 700, 1400, null);
+			$scheduleItemC1 =$sm->createScheduleItem("Funky time", "", $scheduleItemType, 100, 500, null);
+			$scheduleItemC2 =$sm->createScheduleItem("Dance party", "", $scheduleItemType, 700, 1400, null);
 	
 			
 			$scheduleA = array($scheduleItemA1,$scheduleItemA2,$scheduleItemA3);
@@ -97,25 +97,25 @@
 			
 			
 						
-			$term1 =& $cm->createTerm($termType, $scheduleA);
+			$term1 =$cm->createTerm($termType, $scheduleA);
 			$term1->updateDisplayName("Fall 2005");
-			$term2 =& $cm->createTerm($termType, $scheduleB);
+			$term2 =$cm->createTerm($termType, $scheduleB);
 			$term2->updateDisplayName("Fall 2006");
 			
 			
-          	$cs1_05 =& $cs1->createCourseOffering(null,null,null, $term1->getId(),$offerType,$offerStatType,$gradeType);
-          	$cs1_06 =& $cs1->createCourseOffering(null,null,null, $term2->getId(),$offerType,$offerStatType,$gradeType);
-          	$cs2_06 =& $cs2->createCourseOffering(null,null,null, $term2->getId(),$offerType,$offerStatType,$gradeType);
+          	$cs1_05 =$cs1->createCourseOffering(null,null,null, $term1->getId(),$offerType,$offerStatType,$gradeType);
+          	$cs1_06 =$cs1->createCourseOffering(null,null,null, $term2->getId(),$offerType,$offerStatType,$gradeType);
+          	$cs2_06 =$cs2->createCourseOffering(null,null,null, $term2->getId(),$offerType,$offerStatType,$gradeType);
 
           	$loc1 = "Bihall 514";
           	$loc2 = "Bihall 505";
           	$loc3 = "Bihall 632";
           	
-          	$cs1A_05 =& $cs1_05->createCourseSection("Program 2005 lecture","cx121","fun!", $sectionType1, $sectionStatType1,$loc1);
-          	$cs1Z_05 =& $cs1_05->createCourseSection("Program 2005 lab","cx121",null, $sectionType2, $sectionStatType2,$loc3);
-          	$cs1A_06 =& $cs1_06->createCourseSection("Program 2006 lecture",null,null, $sectionType1, $sectionStatType1,$loc3);
-          	$cs2A_06 =& $cs2_06->createCourseSection("Learn to program 2006 lecture",null,null, $sectionType1, $sectionStatType2,$loc2);
-          	$cs2Z_06 =& $cs2_06->createCourseSection("Graphics 2006 lab",null,null, $sectionType2, $sectionStatType1,$loc2);
+          	$cs1A_05 =$cs1_05->createCourseSection("Program 2005 lecture","cx121","fun!", $sectionType1, $sectionStatType1,$loc1);
+          	$cs1Z_05 =$cs1_05->createCourseSection("Program 2005 lab","cx121",null, $sectionType2, $sectionStatType2,$loc3);
+          	$cs1A_06 =$cs1_06->createCourseSection("Program 2006 lecture",null,null, $sectionType1, $sectionStatType1,$loc3);
+          	$cs2A_06 =$cs2_06->createCourseSection("Learn to program 2006 lecture",null,null, $sectionType1, $sectionStatType2,$loc2);
+          	$cs2Z_06 =$cs2_06->createCourseSection("Graphics 2006 lab",null,null, $sectionType2, $sectionStatType1,$loc2);
           	
           	
           	
@@ -149,7 +149,7 @@
           	    
           	$this->write(3,"Test of getCourseSection()");
           	
-          	$cs2Z_06a =& $cm->getCourseSection($cs2Z_06->getID());
+          	$cs2Z_06a =$cm->getCourseSection($cs2Z_06->getID());
           	
           	
           	
@@ -167,7 +167,7 @@
           	$this->write(4,"Test of basic update methods");
           	
           	
-          	$courseStatusType2 =& new Type("CourseManagement", "edu.middlebury", "No longer offered", "You're out of luck");
+          	$courseStatusType2 = new Type("CourseManagement", "edu.middlebury", "No longer offered", "You're out of luck");
          	
           	$cs1Z_05->updateDisplayName("Economic Statistics (Graphics 2006 lab)");          	
 			$cs1Z_05->updateTitle("Snore");					
@@ -185,17 +185,17 @@
 
         	$this->write(4,"Test of assets");
         	
-        	$idManager =& Services::getService("Id");
+        	$idManager = Services::getService("Id");
         	
        		//rather than create actual assets, Ids, will work fine.
        		
-       		$assetA =& $idManager->createId();
-        	$assetB =& $idManager->createId();
-        	$assetC =& $idManager->createId();
+       		$assetA =$idManager->createId();
+        	$assetB =$idManager->createId();
+        	$assetC =$idManager->createId();
         	
         	
         	$this->write(1,"Group A");
-        	$iter =& $cs2Z_06->getAssets();
+        	$iter =$cs2Z_06->getAssets();
         	$this->assertTrue(!$this->idIteratorHas($iter,$assetA));
         	$this->assertTrue(!$this->idIteratorHas($iter,$assetB));
         	$this->assertTrue(!$this->idIteratorHas($iter,$assetC));
@@ -205,7 +205,7 @@
         	$cs2Z_06->addAsset($assetA);
         	
         	$this->write(1,"Group B");
-        	$iter =& $cs2Z_06->getAssets();
+        	$iter =$cs2Z_06->getAssets();
         	$this->assertTrue($this->idIteratorHas($iter,$assetA));
         	$this->assertTrue(!$this->idIteratorHas($iter,$assetB));
         	$this->assertTrue(!$this->idIteratorHas($iter,$assetC));
@@ -214,7 +214,7 @@
         	$cs2Z_06->addAsset($assetB);
         	
         	$this->write(1,"Group C");
-        	$iter =& $cs2Z_06->getAssets();
+        	$iter =$cs2Z_06->getAssets();
         	$this->assertTrue($this->idIteratorHas($iter,$assetA));
         	$this->assertTrue($this->idIteratorHas($iter,$assetB));
         	$this->assertTrue(!$this->idIteratorHas($iter,$assetC));
@@ -224,7 +224,7 @@
         	$cs2Z_06->addAsset($assetC);
         	
         	$this->write(1,"Group D");
-        	$iter =& $cs2Z_06->getAssets();
+        	$iter =$cs2Z_06->getAssets();
         	$this->assertTrue($this->idIteratorHas($iter,$assetA));
         	$this->assertTrue($this->idIteratorHas($iter,$assetB));
         	$this->assertTrue($this->idIteratorHas($iter,$assetC));
@@ -235,11 +235,11 @@
         	$cs2A_06->addAsset($assetC);
         	
         	$this->write(1,"Group E");
-        	$iter =& $cs2Z_06->getAssets();
+        	$iter =$cs2Z_06->getAssets();
         	$this->assertTrue(!$this->idIteratorHas($iter,$assetA));
         	$this->assertTrue($this->idIteratorHas($iter,$assetB));
         	$this->assertTrue($this->idIteratorHas($iter,$assetC));
-        	$iter =& $cs2A_06->getAssets();
+        	$iter =$cs2A_06->getAssets();
         	$this->assertTrue(!$this->idIteratorHas($iter,$assetA));
         	$this->assertTrue(!$this->idIteratorHas($iter,$assetB));
         	$this->assertTrue($this->idIteratorHas($iter,$assetC));
@@ -248,7 +248,7 @@
         	$cs2Z_06->removeAsset($assetC);
         	
         	$this->write(1,"Group F");
-        	$iter =& $cs2Z_06->getAssets();
+        	$iter =$cs2Z_06->getAssets();
         	$this->assertTrue(!$this->idIteratorHas($iter,$assetA));
         	$this->assertTrue($this->idIteratorHas($iter,$assetB));
         	$this->assertTrue(!$this->idIteratorHas($iter,$assetC));
@@ -257,7 +257,7 @@
         	
         	
         	$this->write(1,"Group G");
-        	$iter =& $cs2Z_06->getAssets();
+        	$iter =$cs2Z_06->getAssets();
         	$this->assertTrue(!$this->idIteratorHas($iter,$assetA));
         	$this->assertTrue(!$this->idIteratorHas($iter,$assetB));
         	$this->assertTrue(!$this->idIteratorHas($iter,$assetC));
@@ -265,24 +265,24 @@
         	
         	/*
         	
-        	$cs1_05 =& $cs1->createCourseOffering(null,null,null, $term1->getId(),$offerType,$offerStatType,$gradeType);
-          	$cs1_06 =& $cs1->createCourseOffering(null,null,null, $term2->getId(),$offerType,$offerStatType,$gradeType);
-          	$cs2_06 =& $cs2->createCourseOffering(null,null,null, $term2->getId(),$offerType,$offerStatType,$gradeType);
+        	$cs1_05 =$cs1->createCourseOffering(null,null,null, $term1->getId(),$offerType,$offerStatType,$gradeType);
+          	$cs1_06 =$cs1->createCourseOffering(null,null,null, $term2->getId(),$offerType,$offerStatType,$gradeType);
+          	$cs2_06 =$cs2->createCourseOffering(null,null,null, $term2->getId(),$offerType,$offerStatType,$gradeType);
 
        
           	
-          	$cs1A_05 =& $cs1_05->createCourseSection("Learn to program","cx121","fun!", $sectionType1, $sectionStatType1,$loc1);
-          	$cs1Z_05 =& $cs1_05->createCourseSection(null,"cx121",null, $sectionType2, $sectionStatType2,$loc3);
-          	$cs1A_06 =& $cs1_06->createCourseSection(null,null,null, $sectionType1, $sectionStatType1,$loc3);
-          	$cs2A_06 =& $cs2_06->createCourseSection(null,null,null, $sectionType1, $sectionStatType2,$loc2);
-          	$cs2Z_06 =& $cs2_06->createCourseSection(null,null,null, $sectionType2, $sectionStatType1,$loc2);
+          	$cs1A_05 =$cs1_05->createCourseSection("Learn to program","cx121","fun!", $sectionType1, $sectionStatType1,$loc1);
+          	$cs1Z_05 =$cs1_05->createCourseSection(null,"cx121",null, $sectionType2, $sectionStatType2,$loc3);
+          	$cs1A_06 =$cs1_06->createCourseSection(null,null,null, $sectionType1, $sectionStatType1,$loc3);
+          	$cs2A_06 =$cs2_06->createCourseSection(null,null,null, $sectionType1, $sectionStatType2,$loc2);
+          	$cs2Z_06 =$cs2_06->createCourseSection(null,null,null, $sectionType2, $sectionStatType1,$loc2);
           	
           	*/
         	
         	$this->write(4,"Test of getting CourseSections");
         	
         	$this->write(1,"Group A");
-        	$iter =& $cs1_05->getCourseSections();
+        	$iter =$cs1_05->getCourseSections();
         	$this->assertIteratorHasItemWithId($iter, $cs1A_05);
         	$this->assertIteratorHasItemWithId($iter, $cs1Z_05);
         	$this->assertIteratorLacksItemWithId($iter, $cs1A_06);
@@ -290,7 +290,7 @@
         	$this->assertIteratorLacksItemWithId($iter, $cs2Z_06);
         	
         	$this->write(1,"Group B");
-        	$iter =& $cs1_06->getCourseSections();
+        	$iter =$cs1_06->getCourseSections();
         	$this->assertIteratorLacksItemWithId($iter, $cs1A_05);
         	$this->assertIteratorLacksItemWithId($iter, $cs1Z_05);
         	$this->assertIteratorHasItemWithId($iter, $cs1A_06);
@@ -298,7 +298,7 @@
         	$this->assertIteratorLacksItemWithId($iter, $cs2Z_06);
         	
         	$this->write(1,"Group C");
-        	$iter =& $cs2_06->getCourseSections();
+        	$iter =$cs2_06->getCourseSections();
         	$this->assertIteratorLacksItemWithId($iter, $cs1A_05);
         	$this->assertIteratorLacksItemWithId($iter, $cs1Z_05);
         	$this->assertIteratorLacksItemWithId($iter, $cs1A_06);
@@ -306,7 +306,7 @@
         	$this->assertIteratorHasItemWithId($iter, $cs2Z_06);
         	
         	$this->write(1,"Group D");
-        	$iter =& $cs1_05->getCourseSectionsByType($sectionType1);
+        	$iter =$cs1_05->getCourseSectionsByType($sectionType1);
         	$this->assertIteratorHasItemWithId($iter, $cs1A_05);
         	$this->assertIteratorLacksItemWithId($iter, $cs1Z_05);
         	$this->assertIteratorLacksItemWithId($iter, $cs1A_06);
@@ -314,7 +314,7 @@
         	$this->assertIteratorLacksItemWithId($iter, $cs2Z_06);
         	
         	$this->write(1,"Group E");
-        	$iter =& $cs1_06->getCourseSectionsByType($sectionType1);
+        	$iter =$cs1_06->getCourseSectionsByType($sectionType1);
         	$this->assertIteratorLacksItemWithId($iter, $cs1A_05);
         	$this->assertIteratorLacksItemWithId($iter, $cs1Z_05);
         	$this->assertIteratorHasItemWithId($iter, $cs1A_06);
@@ -322,7 +322,7 @@
         	$this->assertIteratorLacksItemWithId($iter, $cs2Z_06);
         	
         	$this->write(1,"Group F");
-        	$iter =& $cs2_06->getCourseSectionsByType($sectionType1);
+        	$iter =$cs2_06->getCourseSectionsByType($sectionType1);
         	$this->assertIteratorLacksItemWithId($iter, $cs1A_05);
         	$this->assertIteratorLacksItemWithId($iter, $cs1Z_05);
         	$this->assertIteratorLacksItemWithId($iter, $cs1A_06);
@@ -331,7 +331,7 @@
         	
         	
         	$this->write(1,"Group G");
-        	$iter =& $cs1_05->getCourseSectionsByType($sectionType2);
+        	$iter =$cs1_05->getCourseSectionsByType($sectionType2);
         	$this->assertIteratorLacksItemWithId($iter, $cs1A_05);
         	$this->assertIteratorHasItemWithId($iter, $cs1Z_05);
         	$this->assertIteratorLacksItemWithId($iter, $cs1A_06);
@@ -339,7 +339,7 @@
         	$this->assertIteratorLacksItemWithId($iter, $cs2Z_06);
         	
         	$this->write(1,"Group H");
-        	$iter =& $cs1_06->getCourseSectionsByType($sectionType2);
+        	$iter =$cs1_06->getCourseSectionsByType($sectionType2);
         	$this->assertIteratorLacksItemWithId($iter, $cs1A_05);
         	$this->assertIteratorLacksItemWithId($iter, $cs1Z_05);
         	$this->assertIteratorLacksItemWithId($iter, $cs1A_06);
@@ -347,7 +347,7 @@
         	$this->assertIteratorLacksItemWithId($iter, $cs2Z_06);
         	
         	$this->write(1,"Group I");
-        	$iter =& $cs2_06->getCourseSectionsByType($sectionType2);
+        	$iter =$cs2_06->getCourseSectionsByType($sectionType2);
         	$this->assertIteratorLacksItemWithId($iter, $cs1A_05);
         	$this->assertIteratorLacksItemWithId($iter, $cs1Z_05);
         	$this->assertIteratorLacksItemWithId($iter, $cs1A_06);
@@ -362,12 +362,12 @@
         		
         	$this->write(4,"Test of getting Types");
 			$this->write(1,"Group A");
-			$iter1 =& $cm->getSectionTypes();
+			$iter1 =$cm->getSectionTypes();
 			$this->assertTrue($this->typeIteratorHas($iter1, $sectionType1));
 			$this->assertTrue($this->typeIteratorHas($iter1, $sectionType2));
 			$this->assertTrue(!$this->typeIteratorHas($iter1,new Type("sadfsz234dfwerwer","sadfszd23fwerwer","asdfwer123")));
 			$this->write(1,"Group B");
-			$iter1 =& $cm->getSectionStatusTypes();
+			$iter1 =$cm->getSectionStatusTypes();
 			$this->assertTrue($this->typeIteratorHas($iter1, $sectionStatType1));
 			$this->assertTrue($this->typeIteratorHas($iter1, $sectionStatType2));
 			$this->assertTrue(!$this->typeIteratorHas($iter1,new Type("sadfsz234dfwerwer","sadfszd23fwerwer","asdfwer123")));
@@ -379,7 +379,7 @@
         	 
         	$cs1A_05->updateSchedule($scheduleA);
         	$this->write(1,"Group A");
-        	$iter =& $cs1A_05->getSchedule();
+        	$iter =$cs1A_05->getSchedule();
 			$this->assertIteratorHasItemWithId($iter, $scheduleItemA1);
 			$this->assertIteratorHasItemWithId($iter, $scheduleItemA2);
 			$this->assertIteratorHasItemWithId($iter, $scheduleItemA3);			
@@ -392,7 +392,7 @@
 			
 			$cs1A_06->updateSchedule($scheduleB);
 			$this->write(1,"Group B");
-			$iter =& $cs1A_06->getSchedule();
+			$iter =$cs1A_06->getSchedule();
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA1);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA2);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA3);			
@@ -404,7 +404,7 @@
 			
 			$cs1A_05->updateSchedule($scheduleB);
 			$this->write(1,"Group C");
-			$iter =& $cs1A_05->getSchedule();
+			$iter =$cs1A_05->getSchedule();
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA1);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA2);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA3);			
@@ -415,7 +415,7 @@
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemC2);
 			
 			$this->write(1,"Group D");
-			$iter =& $cs1A_06->getSchedule();
+			$iter =$cs1A_06->getSchedule();
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA1);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA2);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA3);			
@@ -427,7 +427,7 @@
 			
 			$cs1A_06->updateSchedule($scheduleC);
 			$this->write(1,"Group E");
-			$iter =& $cs1A_06->getSchedule();
+			$iter =$cs1A_06->getSchedule();
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA1);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA2);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA3);			
@@ -484,31 +484,31 @@
 		//This function's name can't start with test or it is called without parameters
 		function goTestPropertiesFunctions($itemToTest){
 			$this->write(1,"Group A");
-			$courseType =& $itemToTest->getSectionType();
-			$correctType =& new Type("PropertiesType", $courseType->getAuthority(), "properties");  
-			$propertyType =& $itemToTest->getPropertyTypes();
+			$courseType =$itemToTest->getSectionType();
+			$correctType = new Type("PropertiesType", $courseType->getAuthority(), "properties");  
+			$propertyType =$itemToTest->getPropertyTypes();
 			$this->assertTrue($propertyType->hasNext());
 			if($propertyType->hasNext()){
-				$type1 =&  $propertyType->next();		
+				$type1 =  $propertyType->next();		
 				$this->assertEqualTypes($type1, $correctType);
 				$this->assertFalse($propertyType->hasNext());		
 			}
 			$this->write(1,"Group B");
 			//multiple objects of type properties?  Propertiesies!
-			$propertiesies =& $itemToTest->getProperties();
+			$propertiesies =$itemToTest->getProperties();
 			$this->assertTrue($propertiesies->hasNextProperties());
 			if($propertiesies->hasNextProperties()){
-				$properties =&  $propertiesies->nextProperties();
-				$type1 =&  $properties->getType();		
+				$properties =  $propertiesies->nextProperties();
+				$type1 =  $properties->getType();		
 				$this->assertEqualTypes($type1, $correctType);
 				$this->goTestProperties($properties,$itemToTest);
 				$this->assertFalse($propertiesies->hasNextProperties());		
 			}
 			$this->write(1,"Group C");
-			$properties =& $itemToTest->getPropertiesByType($correctType);
+			$properties =$itemToTest->getPropertiesByType($correctType);
 			$this->assertNotEqual($properties,null);
 			if(!is_null($properties)){
-				$type1 =&  $properties->getType();		
+				$type1 =  $properties->getType();		
 				$this->assertEqualTypes($type1, $correctType);
 				$this->goTestProperties($properties,$itemToTest);
 			}	
@@ -519,7 +519,7 @@
 		/*
 		
 		$property->addProperty('type', $courseType);		
-		$statusType =& $this->getStatus();
+		$statusType =$this->getStatus();
 		$property->addProperty('status_type', $statusType);
 		$property->addProperty('location', $row['location']);
 		*/
@@ -530,10 +530,10 @@
 			
 			
 			
-			$idManager =& Services::getService("Id");
+			$idManager = Services::getService("Id");
 			
 			
-			$keys =& $prop->getKeys();
+			$keys =$prop->getKeys();
 			
 			$key = "display_name";			
 			$this->assertTrue($this->primitiveIteratorHas($keys,$key));

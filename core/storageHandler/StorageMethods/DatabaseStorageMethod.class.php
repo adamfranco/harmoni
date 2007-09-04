@@ -16,7 +16,7 @@ require_once(HARMONI.'storageHandler/Storable.abstract.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DatabaseStorageMethod.class.php,v 1.7 2005/08/11 17:58:40 cws-midd Exp $
+ * @version $Id: DatabaseStorageMethod.class.php,v 1.8 2007/09/04 20:25:52 adamfranco Exp $
  */
 
 class DatabaseStorageMethod extends StorageMethodInterface {
@@ -44,14 +44,14 @@ class DatabaseStorageMethod extends StorageMethodInterface {
 
 	function DatabaseStorageMethod($databaseStorableDataContainer) {
         // validate the type of the parameter (dbSDC)
-        $extendsRule =& ExtendsValidatorRule::getRule("DatabaseStorableDataContainer");
+        $extendsRule = ExtendsValidatorRule::getRule("DatabaseStorableDataContainer");
 		ArgumentValidator::validate($databaseStorableDataContainer, $extendsRule, true);
         // now, validate the data container itself
         $databaseStorableDataContainer->checkAll();
 
         $this->_parameters = $databaseStorableDataContainer;
 
-		$this->_dbHandler =& Services::getService("DatabaseManager");
+		$this->_dbHandler = Services::getService("DatabaseManager");
 
 		if(!$this->_dbHandler->isConnected($this->_parameters->get("dbIndex")))
             return $this->_dbHandler->pConnect($this->_parameters->get("dbIndex"));
@@ -66,21 +66,21 @@ class DatabaseStorageMethod extends StorageMethodInterface {
      * @access public
      */
 
-    function store(&$storable,$path,$name) { 
+    function store($storable,$path,$name) { 
 		$path = addslashes($path); $name = addslashes($name);
 
-        $extendsRule =& ExtendsValidatorRule::getRule("AbstractStorable");
+        $extendsRule = ExtendsValidatorRule::getRule("AbstractStorable");
 		ArgumentValidator::validate($storable, $extendsRule, true);
 
-		$dbHandler =& Services::getService("DatabaseManager");
+		$dbHandler = Services::getService("DatabaseManager");
 
 		// create a new queue of queries to execuete
-		$queryQueue =& new Queue();
+		$queryQueue = new Queue();
 
 		// if the row does not exist in the database - create it first.
 		if(!$this->exists($path,$name)){
 
-			$query =& new InsertQuery();
+			$query = new InsertQuery();
 			
 			$query->setTable($this->_parameters->get("dbTable"));
 
@@ -93,7 +93,7 @@ class DatabaseStorageMethod extends StorageMethodInterface {
 
 		// now add the data. If there is no Size Column (Data Column must be there imperatively), ommit it.
 
-		$query =& new UpdateQuery();
+		$query = new UpdateQuery();
 		$query->setTable($this->_parameters->get("dbTable"));
 
 		$sizeColumn = $this->_parameters->get("sizeColumn");
@@ -115,7 +115,7 @@ class DatabaseStorageMethod extends StorageMethodInterface {
 
 		$queryQueue->add($query);
 		
-		$result =& $this->_dbHandler->queryQueue($queryQueue,$this->_parameters->get("dbIndex"));
+		$result =$this->_dbHandler->queryQueue($queryQueue,$this->_parameters->get("dbIndex"));
 	}
 
     /**
@@ -125,9 +125,9 @@ class DatabaseStorageMethod extends StorageMethodInterface {
 	 * @return object DatabaseStorable A reference to the storable, which can be used to retrieve the data. False if no such storable exists.
      * @access public
      */
-    function &retrieve($path,$name) { 
+    function retrieve($path,$name) { 
 		if ($this->exists($path,$name)){
-			$storable =& new DatabaseStorable($this->_parameters,$path,$name);
+			$storable = new DatabaseStorable($this->_parameters,$path,$name);
 			return $storable;
 		}
 		else return false;
@@ -142,7 +142,7 @@ class DatabaseStorageMethod extends StorageMethodInterface {
     function delete($path,$name) { 
 		if($this->exists($path,$name)){
 			$path = addslashes($path); $name = addslashes($name);
-			$query =& new DeleteQuery();
+			$query = new DeleteQuery();
 			$query->setTable($this->_parameters->get("dbTable"));
 			$query->setWhere($this->_parameters->get("nameColumn")."= '$name' AND ".
 							 $this->_parameters->get("pathColumn")."= '$path'");
@@ -159,7 +159,7 @@ class DatabaseStorageMethod extends StorageMethodInterface {
      * @access public
      */
     function exists($path,$name=null) { 
-		$query =& new SelectQuery();
+		$query = new SelectQuery();
 		$query->addTable($this->_parameters->get("dbTable"));
 		$query->addColumn($this->_parameters->get("pathColumn"));
 
@@ -170,7 +170,7 @@ class DatabaseStorageMethod extends StorageMethodInterface {
 			$name = addslashes($name);
 			$query->addWhere($this->_parameters->get("nameColumn")." = '$name'",_AND);
 		}
-		$result =& $this->_dbHandler->query($query,$this->_parameters->get("dbIndex"));
+		$result =$this->_dbHandler->query($query,$this->_parameters->get("dbIndex"));
 
 		if($result->getNumberOfRows()>0) {
 			$result->free();	
@@ -190,7 +190,7 @@ class DatabaseStorageMethod extends StorageMethodInterface {
      * @access public
      */
     function getSizeOf($path,$name=null) { 
-		$query =& new SelectQuery();
+		$query = new SelectQuery();
 
 		$query->addTable($this->_parameters->get("dbTable"));
 		$query->addColumn($this->_parameters->get("pathColumn"));
@@ -204,13 +204,13 @@ class DatabaseStorageMethod extends StorageMethodInterface {
 		else
 			$query->addWhere($this->_parameters->get("pathColumn")." LIKE '$path%'");
 
-		$result =& $this->_dbHandler->query($query,$this->_parameters->get("dbIndex"));
+		$result =$this->_dbHandler->query($query,$this->_parameters->get("dbIndex"));
 
 		$totalsize = 0;
 		while($result->hasMoreRows()){
 			$path_value = $result->field($this->_parameters->get("pathColumn"));
 			$name_value = $result->field($this->_parameters->get("nameColumn"));
-			$storable =& $this->retrieve($path_value,$name_value);
+			$storable =$this->retrieve($path_value,$name_value);
 			$totalsize += $storable->getSize();
 			$result->advanceRow();
 		}
@@ -224,7 +224,7 @@ class DatabaseStorageMethod extends StorageMethodInterface {
      * @access public
      */
     function deleteRecursive($path) {
-		$query =& new DeleteQuery();
+		$query = new DeleteQuery();
 		$query->setTable($this->_parameters->get("dbTable"));
 
 		$path = addslashes($path);
@@ -240,7 +240,7 @@ class DatabaseStorageMethod extends StorageMethodInterface {
      * @access public
      */
     function listInPath($path,$recursive=true) {
-		$query =& new SelectQuery();
+		$query = new SelectQuery();
 
 		$query->addTable($this->_parameters->get("dbTable"));
 		$query->addColumn($this->_parameters->get("pathColumn"));
@@ -252,13 +252,13 @@ class DatabaseStorageMethod extends StorageMethodInterface {
 		else
 			$query->addWhere($this->_parameters->get("pathColumn")." = '$path'");
 
-		$result =& $this->_dbHandler->query($query,$this->_parameters->get("dbIndex"));
+		$result =$this->_dbHandler->query($query,$this->_parameters->get("dbIndex"));
 
 		$storables = array();
 		while($result->hasMoreRows()){
 			$path_value = $result->field($this->_parameters->get("pathColumn"));
 			$name_value = $result->field($this->_parameters->get("nameColumn"));
-			$storables[] =& $this->retrieve($path_value,$name_value);
+			$storables[] =$this->retrieve($path_value,$name_value);
 			$result->advanceRow();
 		}
 		$result->free();
@@ -272,7 +272,7 @@ class DatabaseStorageMethod extends StorageMethodInterface {
      * @access public
      */
     function getCount($path,$recursive=true) { 
-		$query =& new SelectQuery();
+		$query = new SelectQuery();
 
 		$query->addTable($this->_parameters->get("dbTable"));
 		$query->addColumn($this->_parameters->get("pathColumn"));
@@ -284,7 +284,7 @@ class DatabaseStorageMethod extends StorageMethodInterface {
 		else
 			$query->addWhere($this->_parameters->get("pathColumn")." = '$path'");
 
-		$result =& $this->_dbHandler->query($query,$this->_parameters->get("dbIndex"));
+		$result =$this->_dbHandler->query($query,$this->_parameters->get("dbIndex"));
 		
 		$numRows = $result->getNumberOfRows();
 		

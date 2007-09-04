@@ -10,7 +10,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/ValidatorRule.interface.
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ChoiceValidatorRule.class.php,v 1.6 2005/06/01 17:58:58 gabeschine Exp $
+ * @version $Id: ChoiceValidatorRule.class.php,v 1.7 2007/09/04 20:25:55 adamfranco Exp $
  */ 
 class ChoiceValidatorRule 
 	extends ValidatorRuleInterface
@@ -47,7 +47,7 @@ class ChoiceValidatorRule
 	 * @access public
 	 * @return boolean true if the check succeeds, false if it (guess...) fails.
 	 **/
-	function check( & $val ) {
+	function check( $val ) {
 		// go through the choices array and see if $val is in there somewhere
 		foreach ($this->_choices as $choice) if ($val == $choice) return true;
 		return false;
@@ -66,7 +66,7 @@ class ChoiceValidatorRule
 	 * @static
 	 * @since 3/28/05
 	 */
-	function &getRule () {
+	function getRule () {
 		// Because there is no way in PHP to get the class name of the descendent
 		// class on which this method is called, this method must be implemented
 		// in each descendent class.
@@ -87,7 +87,7 @@ class ChoiceValidatorRule
 			$ruleKey = $class."(".implode(", ",$a).")";
 
 		if (!isset($GLOBALS['validator_rules'][$ruleKey])) {
-			$evalString = '$GLOBALS[\'validator_rules\'][$ruleKey] =& new '.$class.'(';
+			$evalString = '$GLOBALS[\'validator_rules\'][$ruleKey] = new '.$class.'(';
 			$i = 0;
 			foreach (array_keys($a) as $key) {
 				if ($i > 0)

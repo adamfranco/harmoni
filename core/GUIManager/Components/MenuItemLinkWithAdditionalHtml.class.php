@@ -13,7 +13,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MenuItemLinkWithAdditionalHtml.class.php,v 1.1 2006/01/24 18:37:12 adamfranco Exp $
+ * @version $Id: MenuItemLinkWithAdditionalHtml.class.php,v 1.2 2007/09/04 20:25:22 adamfranco Exp $
  */
 class MenuItemLinkWithAdditionalHtml 
 	extends MenuItemLink 
@@ -64,7 +64,7 @@ class MenuItemLinkWithAdditionalHtml
 	 * recommended in order to produce a nicely formatted HTML output.
 	 * @access public
 	 **/
-	function render(& $theme, $tabs = "") {
+	function render($theme, $tabs = "") {
 		echo $tabs."<table width='100%'><tr><td valign='top'>\n";
 		
 		

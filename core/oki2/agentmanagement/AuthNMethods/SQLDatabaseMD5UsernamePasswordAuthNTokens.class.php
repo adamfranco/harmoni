@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SQLDatabaseMD5UsernamePasswordAuthNTokens.class.php,v 1.6 2005/08/11 17:58:38 cws-midd Exp $
+ * @version $Id: SQLDatabaseMD5UsernamePasswordAuthNTokens.class.php,v 1.7 2007/09/04 20:25:37 adamfranco Exp $
  */ 
 
 require_once(dirname(__FILE__)."/UsernamePasswordAuthNTokens.class.php");
@@ -19,7 +19,7 @@ require_once(dirname(__FILE__)."/UsernamePasswordAuthNTokens.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SQLDatabaseMD5UsernamePasswordAuthNTokens.class.php,v 1.6 2005/08/11 17:58:38 cws-midd Exp $
+ * @version $Id: SQLDatabaseMD5UsernamePasswordAuthNTokens.class.php,v 1.7 2007/09/04 20:25:37 adamfranco Exp $
  */
 class SQLDatabaseMD5UsernamePasswordAuthNTokens
 	extends UsernamePasswordAuthNTokens
@@ -43,13 +43,13 @@ class SQLDatabaseMD5UsernamePasswordAuthNTokens
 		$this->_identifier = $tokens['username'];
 		
 		// set the password to the encrypted version.
-		$dbc =& Services::getService("DatabaseManager");
+		$dbc = Services::getService("DatabaseManager");
 		$dbId = $this->_configuration->getProperty('database_id');
 		
-		$passwordQuery = & new SelectQuery;
+		$passwordQuery =  new SelectQuery;
 		$passwordQuery->addColumn(	"MD5('".addslashes($tokens['password'])."')",
 									"encryptedPassword");
-		$passwordResult = & $dbc->query($passwordQuery, $dbId);
+		$passwordResult =  $dbc->query($passwordQuery, $dbId);
 		$this->_tokens['password'] = $passwordResult->field("encryptedPassword");
 		$passwordResult->free();
 	}

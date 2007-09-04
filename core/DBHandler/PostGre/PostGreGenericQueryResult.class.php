@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreGenericQueryResult.class.php,v 1.8 2006/01/17 20:06:20 adamfranco Exp $
+ * @version $Id: PostGreGenericQueryResult.class.php,v 1.9 2007/09/04 20:25:20 adamfranco Exp $
  */
  
 require_once(HARMONI."DBHandler/GenericQueryResult.interface.php");
@@ -21,7 +21,7 @@ require_once(HARMONI."DBHandler/GenericQueryResult.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreGenericQueryResult.class.php,v 1.8 2006/01/17 20:06:20 adamfranco Exp $
+ * @version $Id: PostGreGenericQueryResult.class.php,v 1.9 2007/09/04 20:25:20 adamfranco Exp $
  */
 class PostGreGenericQueryResult 
 	extends GenericQueryResultInterface 
@@ -54,7 +54,7 @@ class PostGreGenericQueryResult
 	 */
 	function PostGreGenericQueryResult ($resourceId, $linkId) {
 		// ** parameter validation
-		$resourceRule =& ResourceValidatorRule::getRule();
+		$resourceRule = ResourceValidatorRule::getRule();
 		if (!is_bool($resourceId)) {
 			ArgumentValidator::validate($resourceId, $resourceRule, true);
 		}
@@ -85,8 +85,8 @@ class PostGreGenericQueryResult
 	 * @access public
 	 * @since 7/1/04
 	 */
-	function &returnAsSelectQueryResult () {
-		$obj =& new PostGreSelectQueryResult($this->_resourceId, $this->_linkId);
+	function returnAsSelectQueryResult () {
+		$obj = new PostGreSelectQueryResult($this->_resourceId, $this->_linkId);
 		return $obj;
 	}
 	
@@ -97,8 +97,8 @@ class PostGreGenericQueryResult
 	 * @access public
 	 * @since 7/1/04
 	 */
-	function &returnAsInsertQueryResult () {
-		$obj =& new PostGreInsertQueryResult($this->_linkId);
+	function returnAsInsertQueryResult () {
+		$obj = new PostGreInsertQueryResult($this->_linkId);
 		return $obj;
 	}
 	
@@ -109,8 +109,8 @@ class PostGreGenericQueryResult
 	 * @access public
 	 * @since 7/1/04
 	 */
-	function &returnAsUpdateQueryResult () {
-		$obj =& new PostGreUpdateQueryResult($this->_linkId);
+	function returnAsUpdateQueryResult () {
+		$obj = new PostGreUpdateQueryResult($this->_linkId);
 		return $obj;
 	}
 	
@@ -121,8 +121,8 @@ class PostGreGenericQueryResult
 	 * @access public
 	 * @since 7/1/04
 	 */
-	function &returnAsDeleteQueryResult () {
-		$obj =& new PostGreDeleteQueryResult($this->_linkId);
+	function returnAsDeleteQueryResult () {
+		$obj = new PostGreDeleteQueryResult($this->_linkId);
 		return $obj;
 	}
 }

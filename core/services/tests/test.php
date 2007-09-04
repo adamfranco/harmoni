@@ -10,7 +10,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: test.php,v 1.2 2005/04/07 16:33:30 adamfranco Exp $
+ * @version $Id: test.php,v 1.3 2007/09/04 20:25:49 adamfranco Exp $
  */
 
 if (!defined('HARMONI')) {
@@ -25,7 +25,7 @@ require_once(HARMONI."DBHandler/DBHandler.class.php");
     require_once(SIMPLE_TEST . 'simple_unit.php');
     require_once(SIMPLE_TEST . 'dobo_simple_html_test.php');
 
-    $test =& new GroupTest('Services tests');
+    $test = new GroupTest('Services tests');
     $test->addTestFile(HARMONI.'services/tests/ServicesTestCase.class.php');
     $test->attachObserver(new DoboTestHtmlDisplay());
     $test->run();

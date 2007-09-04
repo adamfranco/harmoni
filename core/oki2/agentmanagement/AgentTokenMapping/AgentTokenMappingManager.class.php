@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AgentTokenMappingManager.class.php,v 1.10 2006/01/17 20:06:21 adamfranco Exp $
+ * @version $Id: AgentTokenMappingManager.class.php,v 1.11 2007/09/04 20:25:37 adamfranco Exp $
  */ 
  
  require_once(dirname(__FILE__)."/AgentTokenMapping.class.php");
@@ -36,7 +36,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AgentTokenMappingManager.class.php,v 1.10 2006/01/17 20:06:21 adamfranco Exp $
+ * @version $Id: AgentTokenMappingManager.class.php,v 1.11 2007/09/04 20:25:37 adamfranco Exp $
  */
 class AgentTokenMappingManager
 	extends OsidManager
@@ -69,7 +69,7 @@ class AgentTokenMappingManager
      * 
      * @access public
      */
-    function &getOsidContext () { 
+    function getOsidContext () { 
         return $this->_osidContext;
     } 
 
@@ -84,8 +84,8 @@ class AgentTokenMappingManager
      * 
      * @access public
      */
-    function assignOsidContext ( &$context ) { 
-        $this->_osidContext =& $context;
+    function assignOsidContext ( $context ) { 
+        $this->_osidContext =$context;
     } 
 
     /**
@@ -105,8 +105,8 @@ class AgentTokenMappingManager
      * 
      * @access public
      */
-    function assignConfiguration ( &$configuration ) { 
-        $this->_configuration =& $configuration;
+    function assignConfiguration ( $configuration ) { 
+        $this->_configuration =$configuration;
         ArgumentValidator::validate($this->_configuration->getProperty('database_id'),
         	IntegerValidatorRule::getRule());
         	
@@ -125,7 +125,7 @@ class AgentTokenMappingManager
 	 * @access public
 	 * @since 3/1/05
 	 */
-	function &createMapping ( &$agentId, &$authNTokens, &$authenticationType ) {
+	function createMapping ( $agentId, $authNTokens, $authenticationType ) {
 		$this->_checkConfig();
 		
 		ArgumentValidator::validate($authNTokens, ExtendsValidatorRule::getRule("AuthNTokens"));
@@ -150,12 +150,12 @@ class AgentTokenMappingManager
 				.$authenticationType->getKeyword()."')",
 				"AgentTokenMappingManager", true));
 		
-		$dbc =& Services::getService("DatabaseManager");
+		$dbc = Services::getService("DatabaseManager");
 		$dbc->beginTransaction($this->_dbId);
 		
 		$typeKey = $this->_getTypeKey($authenticationType);
 		
-		$query =& new InsertQuery;
+		$query = new InsertQuery;
 		$query->setTable($this->_mappingTable);
 		$query->setColumns(
 			array(
@@ -168,11 +168,11 @@ class AgentTokenMappingManager
 				"'".addslashes($authNTokens->getIdentifier())."'",
 				"'".addslashes($typeKey)."'",));
 		
-		$result =& $dbc->query($query, $this->_dbId);
+		$result =$dbc->query($query, $this->_dbId);
 
 		$dbc->commitTransaction($this->_dbId);
 		
-		$mapping =& new AgentTokenMapping($authenticationType, $agentId, $authNTokens);
+		$mapping = new AgentTokenMapping($authenticationType, $agentId, $authNTokens);
 		
 		return $mapping;
 	}
@@ -185,20 +185,20 @@ class AgentTokenMappingManager
 	 * @access public
 	 * @since 3/9/05
 	 */
-	function deleteMapping ( &$mapping ) {
+	function deleteMapping ( $mapping ) {
 		$this->_checkConfig();
 		
 		ArgumentValidator::validate($mapping, ExtendsValidatorRule::getRule("AgentTokenMapping"));
 		
-		$dbc =& Services::getService("DatabaseManager");
+		$dbc = Services::getService("DatabaseManager");
 		$dbc->beginTransaction($this->_dbId);
 		
-		$agentId =& $mapping->getAgentId();
-		$authNTokens =& $mapping->getTokens();
+		$agentId =$mapping->getAgentId();
+		$authNTokens =$mapping->getTokens();
 		$typeKey = $this->_getTypeKey($mapping->getAuthenticationType());
 		
 		// Delete the mapping.
-		$query =& new DeleteQuery;
+		$query = new DeleteQuery;
 		$query->setTable($this->_mappingTable);
 		$query->addWhere(
 			"agent_id='".addslashes($agentId->getIdString())."'");
@@ -209,21 +209,21 @@ class AgentTokenMappingManager
 			"fk_type='".addslashes($typeKey)."'",
 			_AND);
 		
-		$result =& $dbc->query($query, $this->_dbId);
+		$result =$dbc->query($query, $this->_dbId);
 		
 		// Delete the type if nothing is referencing it.
-		$query =& new SelectQuery;
+		$query = new SelectQuery;
 		$query->addTable($this->_mappingTable);
 		$query->addColumn("COUNT(*)", "count");
 		$query->addWhere("fk_type='".addslashes($typeKey)."'");
-		$result =& $dbc->query($query, $this->_dbId);
+		$result =$dbc->query($query, $this->_dbId);
 		
 		if ($result->getNumberOfRows() == 0) {
-			$query =& new DeleteQuery;
+			$query = new DeleteQuery;
 			$query->addTable($this->_typeTable);
 			$query->addWhere(
 				"id='".addslashes($typeKey)."'");
-			$result =& $dbc->query($query, $this->_dbId);
+			$result =$dbc->query($query, $this->_dbId);
 		}
 		$result->free();
 		$dbc->commitTransaction($this->_dbId);
@@ -238,15 +238,15 @@ class AgentTokenMappingManager
 	 * @access public
 	 * @since 3/9/05
 	 */
-	function &getMappingForTokens ( &$authNTokens, &$authenticationType ) {
+	function getMappingForTokens ( $authNTokens, $authenticationType ) {
 		$this->_checkConfig();
 		
 		ArgumentValidator::validate($authNTokens, ExtendsValidatorRule::getRule("AuthNTokens"));
 		ArgumentValidator::validate($authenticationType, ExtendsValidatorRule::getRule("Type"));
 		
-		$dbc =& Services::getService("DatabaseManager");
+		$dbc = Services::getService("DatabaseManager");
 		
-		$query =& $this->_createSelectQuery();
+		$query =$this->_createSelectQuery();
 		
 		$query->addWhere(
 			"token_identifier='".addslashes($authNTokens->getIdentifier())."'");
@@ -260,9 +260,9 @@ class AgentTokenMappingManager
 			"keyword='".addslashes($authenticationType->getKeyword())."'",
 			_AND);
 		
-		$result =& $dbc->query($query, $this->_dbId);
+		$result =$dbc->query($query, $this->_dbId);
 		
-		$mappings =& $this->_createMappingsFromResult($result);
+		$mappings =$this->_createMappingsFromResult($result);
 		
 		if (count($mappings) == 0) {
 			$mapping = FALSE;	// Returning by reference, so must create a var.
@@ -283,15 +283,15 @@ class AgentTokenMappingManager
 	 * @access public
 	 * @since 3/9/05
 	 */
-	function &getMappingsForAgentIdAndAuthenticationType ( &$agentId, &$authenticationType ) {
+	function getMappingsForAgentIdAndAuthenticationType ( $agentId, $authenticationType ) {
 		$this->_checkConfig();
 		
 		ArgumentValidator::validate($agentId, ExtendsValidatorRule::getRule("Id"));
 		ArgumentValidator::validate($authenticationType, ExtendsValidatorRule::getRule("Type"));
 		
-		$dbc =& Services::getService("DatabaseManager");
+		$dbc = Services::getService("DatabaseManager");
 		
-		$query =& $this->_createSelectQuery();
+		$query =$this->_createSelectQuery();
 		
 		$query->addWhere(
 			"agent_id='".addslashes($agentId->getIdString())."'");
@@ -305,11 +305,11 @@ class AgentTokenMappingManager
 			"keyword='".addslashes($authenticationType->getKeyword())."'",
 			_AND);
 		
-		$result =& $dbc->query($query, $this->_dbId);
+		$result =$dbc->query($query, $this->_dbId);
 		
-		$mappings =& $this->_createMappingsFromResult($result);
+		$mappings =$this->_createMappingsFromResult($result);
 		
-		$obj =& new HarmoniObjectIterator($mappings);
+		$obj = new HarmoniObjectIterator($mappings);
 		
 		return $obj;
 	}
@@ -323,23 +323,23 @@ class AgentTokenMappingManager
 	 * @access public
 	 * @since 3/9/05
 	 */
-	function &getMappingsForAgentId ( &$agentId ) {
+	function getMappingsForAgentId ( $agentId ) {
 		$this->_checkConfig();
 		
 		ArgumentValidator::validate($agentId, ExtendsValidatorRule::getRule("Id"));
 		
-		$dbc =& Services::getService("DatabaseManager");
+		$dbc = Services::getService("DatabaseManager");
 		
-		$query =& $this->_createSelectQuery();
+		$query =$this->_createSelectQuery();
 		
 		$query->addWhere(
 			"agent_id='".addslashes($agentId->getIdString())."'");
 		
-		$result =& $dbc->query($query, $this->_dbId);
+		$result =$dbc->query($query, $this->_dbId);
 		
-		$mappings =& $this->_createMappingsFromResult($result);
+		$mappings =$this->_createMappingsFromResult($result);
 		
-		$obj =& new HarmoniObjectIterator($mappings);
+		$obj = new HarmoniObjectIterator($mappings);
 		
 		return $obj;
 	}
@@ -355,16 +355,16 @@ class AgentTokenMappingManager
 	 * @access public
 	 * @since 3/1/05
 	 */
-	function mappingExists ( &$agentId, &$authNTokens, &$authenticationType ) {
+	function mappingExists ( $agentId, $authNTokens, $authenticationType ) {
 		$this->_checkConfig();
 		
 		ArgumentValidator::validate($authNTokens, ExtendsValidatorRule::getRule("AuthNTokens"));
 		ArgumentValidator::validate($agentId, ExtendsValidatorRule::getRule("Id"));
 		ArgumentValidator::validate($authenticationType, ExtendsValidatorRule::getRule("Type"));
 		
-		$dbc =& Services::getService("DatabaseManager");
+		$dbc = Services::getService("DatabaseManager");
 		
-		$query =& new SelectQuery;
+		$query = new SelectQuery;
 		$query->addTable($this->_mappingTable);
 		$query->addTable($this->_typeTable, 
 			LEFT_JOIN, 
@@ -386,7 +386,7 @@ class AgentTokenMappingManager
 			"keyword='".addslashes($authenticationType->getKeyword())."'",
 			_AND);
 		
-		$result =& $dbc->query($query, $this->_dbId);
+		$result =$dbc->query($query, $this->_dbId);
 		
 		if ($result->getNumberOfRows() == 1) {
 			$result->free();
@@ -411,15 +411,15 @@ class AgentTokenMappingManager
 	 * @access private
 	 * @since 3/1/05
 	 */
-	function _mappingExistsForTokens (&$authNTokens, &$authenticationType ) {
+	function _mappingExistsForTokens ($authNTokens, $authenticationType ) {
 		$this->_checkConfig();
 		
 		ArgumentValidator::validate($authNTokens, ExtendsValidatorRule::getRule("AuthNTokens"));
 		ArgumentValidator::validate($authenticationType, ExtendsValidatorRule::getRule("Type"));
 		
-		$dbc =& Services::getService("DatabaseManager");
+		$dbc = Services::getService("DatabaseManager");
 		
-		$query =& new SelectQuery;
+		$query = new SelectQuery;
 		$query->addTable($this->_mappingTable);
 		$query->addTable($this->_typeTable, 
 			LEFT_JOIN, 
@@ -439,7 +439,7 @@ class AgentTokenMappingManager
 			"keyword='".addslashes($authenticationType->getKeyword())."'",
 			_AND);
 		
-		$result =& $dbc->query($query, $this->_dbId);
+		$result =$dbc->query($query, $this->_dbId);
 		
 		if ($result->getNumberOfRows() == 1) {
 			$result->free();
@@ -475,11 +475,11 @@ class AgentTokenMappingManager
 	 * @access private
 	 * @since 3/9/05
 	 */
-	function _getTypeKey ( &$type ) {
-		$dbc =& Services::getService("DatabaseManager");
+	function _getTypeKey ( $type ) {
+		$dbc = Services::getService("DatabaseManager");
 		
 		// Check if the type exists and return its key if found.
-		$query =& new SelectQuery;
+		$query = new SelectQuery;
 		$query->addTable($this->_typeTable);
 		$query->addColumn('id');
 		$query->addWhere(
@@ -491,7 +491,7 @@ class AgentTokenMappingManager
 			"keyword='".addslashes($type->getKeyword())."'",
 			_AND);
 		
-		$result =& $dbc->query($query, $this->_dbId);
+		$result =$dbc->query($query, $this->_dbId);
 		
 		if ($result->getNumberOfRows() == 1) {
 			return $result->field('id');
@@ -500,7 +500,7 @@ class AgentTokenMappingManager
 		// Otherwise, insert the type and return the new key.
 		else {
 			$result->free();
-			$query =& new InsertQuery;
+			$query = new InsertQuery;
 			$query->setTable($this->_typeTable);
 			$query->setColumns(
 				array(
@@ -515,7 +515,7 @@ class AgentTokenMappingManager
 					"'".addslashes($type->getKeyword())."'",
 					"'".addslashes($type->getDescription())."'"));
 			
-			$result =& $dbc->query($query, $this->_dbId);
+			$result =$dbc->query($query, $this->_dbId);
 			return $result->getLastAutoIncrementValue();
 		}
 	}
@@ -528,11 +528,11 @@ class AgentTokenMappingManager
 	 * @access private
 	 * @since 3/9/05
 	 */
-	function &_createMappingsFromResult ( &$result ) {
+	function _createMappingsFromResult ( $result ) {
 		$mappings = array();
 		$types = array();
-		$idManager =& Services::getService('Id');
-		$authNMethodManager =& Services::getService('AuthNMethods');
+		$idManager = Services::getService('Id');
+		$authNMethodManager = Services::getService('AuthNMethods');
 		
 		while ($row = $result->getCurrentRow()) {
 			$typeString = $row['domain']."::".
@@ -541,15 +541,15 @@ class AgentTokenMappingManager
 				$row['description'];
 			
 			if (!isset($types[$typeString]))
-				$types[$typeString] =& new Type (
+				$types[$typeString] = new Type (
 					$row['domain'], 
 					$row['authority'], 
 					$row['keyword'], 
 					$row['description']);
 			
-			$authNMethod =& $authNMethodManager->getAuthNMethodForType($types[$typeString]);
+			$authNMethod =$authNMethodManager->getAuthNMethodForType($types[$typeString]);
 			
-			$mappings[] =& new AgentTokenMapping( 
+			$mappings[] = new AgentTokenMapping( 
 				$types[$typeString],
 				$idManager->getId($row['agent_id']),
 				$authNMethod->createTokensForIdentifier($row['token_identifier']));
@@ -567,8 +567,8 @@ class AgentTokenMappingManager
 	 * @access private
 	 * @since 3/9/05
 	 */
-	function &_createSelectQuery () {
-		$query =& new SelectQuery;
+	function _createSelectQuery () {
+		$query = new SelectQuery;
 		$query->addTable($this->_mappingTable);
 		$query->addTable($this->_typeTable, 
 			LEFT_JOIN, 

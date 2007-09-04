@@ -13,7 +13,7 @@ require_once(dirname(__FILE__)."/OrderedSet.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PersistentOrderedSet.class.php,v 1.3 2005/09/06 19:56:23 cws-midd Exp $
+ * @version $Id: PersistentOrderedSet.class.php,v 1.4 2007/09/04 20:25:49 adamfranco Exp $
  * @author Adam Franco
  */
  
@@ -32,7 +32,7 @@ class PersistentOrderedSet
  	 * @param integer $dbIndex The index of the database connection which has
 	 * 		tables in which to store the set.
 	 */
-	function PersistentOrderedSet ( & $setId, $dbIndex ) {
+	function PersistentOrderedSet ( $setId, $dbIndex ) {
 		parent::OrderedSet($setId);
 		
 		ArgumentValidator::validate($dbIndex, IntegerValidatorRule::getRule(), true);
@@ -41,15 +41,15 @@ class PersistentOrderedSet
 		$this->_dbIndex = $dbIndex;
 		
 		// populate our array with any previously stored items.
-		$query =& new SelectQuery;
+		$query = new SelectQuery;
 		$query->addColumn("sets.item_order", "item_order");
 		$query->addColumn("sets.item_id", "item_id");
 		$query->addTable("sets");
 		$query->addWhere("sets.id = '".addslashes($this->_setId->getIdString())."'");
 		$query->addOrderBy("sets.item_order");
 		
-		$dbHandler =& Services::getService("DatabaseManager");
-		$result =& $dbHandler->query($query, $this->_dbIndex);
+		$dbHandler = Services::getService("DatabaseManager");
+		$result =$dbHandler->query($query, $this->_dbIndex);
 		
 		$i = 0;
 		$oldItems = array();
@@ -77,20 +77,20 @@ class PersistentOrderedSet
 	 * @access public
 	 * @return void
 	 */
-	function addItem ( &$id ) {
+	function addItem ( $id ) {
 		parent::addItem($id);
 		
 		$position = $this->getPosition($id);
 		
 		// Add the item to the database
-		$query =& new InsertQuery;
+		$query = new InsertQuery;
 		$query->setTable("sets");
 		$columns = array("sets.id", "sets.item_id", "sets.item_order");
 		$values = array("'".addslashes($this->_setId->getIdString())."'", "'".addslashes($id->getIdString())."'", "'".$position."'");
 		$query->setColumns($columns);
 		$query->setValues($values);
 		
-		$dbHandler =& Services::getService("DatabaseManager");
+		$dbHandler = Services::getService("DatabaseManager");
 		$dbHandler->query($query, $this->_dbIndex);
 	}
 	
@@ -100,7 +100,7 @@ class PersistentOrderedSet
 	 * @access public
 	 * @return void
 	 */
-	function removeItem ( &$id ) {
+	function removeItem ( $id ) {
 		// Store the old order 
 		$oldOrder = $this->_items;
 		
@@ -111,12 +111,12 @@ class PersistentOrderedSet
 		$this->_updateOrders($oldOrder);
 		
 		// Remove the item from the database
-		$query =& new DeleteQuery;
+		$query = new DeleteQuery;
 		$query->setTable("sets");
 		$query->addWhere("sets.id='".addslashes($this->_setId->getIdString())."'");
 		$query->addWhere("sets.item_id='".addslashes($id->getIdString())."'");
 		
-		$dbHandler =& Services::getService("DatabaseManager");
+		$dbHandler = Services::getService("DatabaseManager");
 		$dbHandler->query($query, $this->_dbIndex);
 	}
 	
@@ -129,12 +129,12 @@ class PersistentOrderedSet
 		parent::removeAllItems();
 		
 		// Remove the item from the database
-		$query =& new DeleteQuery;
+		$query = new DeleteQuery;
 		$query->setTable("sets");
 		$query->addWhere("sets.id='".addslashes(
 			$this->_setId->getIdString())."'");
 				
-		$dbHandler =& Services::getService("DatabaseManager");
+		$dbHandler = Services::getService("DatabaseManager");
 		$dbHandler->query($query, $this->_dbIndex);
 	}
 	
@@ -145,7 +145,7 @@ class PersistentOrderedSet
 	 * @access public
 	 * @return void
 	 */
-	function moveToPosition ( & $id, $position ) {
+	function moveToPosition ( $id, $position ) {
 		// Store the old order 
 		$oldOrder = $this->_items;
 		
@@ -162,7 +162,7 @@ class PersistentOrderedSet
 	 * @access public
 	 * @return void
 	 */
-	function moveUp ( & $id ) {
+	function moveUp ( $id ) {
 		// Store the old order 
 		$oldOrder = $this->_items;
 		
@@ -179,7 +179,7 @@ class PersistentOrderedSet
 	 * @access public
 	 * @return void
 	 */
-	function moveDown ( & $id ) {
+	function moveDown ( $id ) {
 		// Store the old order 
 		$oldOrder = $this->_items;
 		
@@ -198,13 +198,13 @@ class PersistentOrderedSet
 	 * @return void
 	 */
 	function _updateOrders ( $oldOrders ) {
-		$dbHandler =& Services::getService("DatabaseManager");
+		$dbHandler = Services::getService("DatabaseManager");
 
 		foreach ($this->_items as $key => $val) {
 			// If the old key-value pairs don't match the current ones, 
 			// update that row
 			if ($oldOrders[$key] != $val) {
-				$query =& new UpdateQuery;
+				$query = new UpdateQuery;
 				$query->setTable("sets");
 				$columns = array("sets.item_order");
 				$query->setColumns($columns);

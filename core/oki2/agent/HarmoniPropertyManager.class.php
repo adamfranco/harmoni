@@ -35,7 +35,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniPropertyManager.class.php,v 1.6 2005/11/01 20:26:01 adamfranco Exp $
+ * @version $Id: HarmoniPropertyManager.class.php,v 1.7 2007/09/04 20:25:36 adamfranco Exp $
  *
  * @author Ben Gore
  */
@@ -59,11 +59,11 @@ class HarmoniPropertyManager
 	 * @return void
 	 */
 	
-	function assignConfiguration(&$configuration){
-		$this->_configuration =& $configuration;
+	function assignConfiguration($configuration){
+		$this->_configuration =$configuration;
 		
-		$dbIndex =& $configuration->getProperty('database_index');
-		$dbName =& $configuration->getProperty('database_name');
+		$dbIndex =$configuration->getProperty('database_index');
+		$dbName =$configuration->getProperty('database_name');
 		
 		// ** parameter validation
 		ArgumentValidator::validate($dbIndex, IntegerValidatorRule::getRule(), true);
@@ -84,7 +84,7 @@ class HarmoniPropertyManager
 	 * 
 	 * @access public
 	 */
-	function &getOsidContext () { 
+	function getOsidContext () { 
 		return $this->_osidContext;
 	} 
 
@@ -99,8 +99,8 @@ class HarmoniPropertyManager
 	 * 
 	 * @access public
 	 */
-	function assignOsidContext ( &$context ) { 
-		$this->_osidContext =& $context;
+	function assignOsidContext ( $context ) { 
+		$this->_osidContext =$context;
 	} 
 	
 	
@@ -116,14 +116,14 @@ class HarmoniPropertyManager
 	 * @access public
 	 */
 
-	function &retrieveProperties($object_id_string){
+	function retrieveProperties($object_id_string){
 		$current_property_type = null;//for distinguishing whether the type retrieved is new or not.  Obviously, the first one is
 		$propertiesArray = array();//for storing each property object of type
 		
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler = Services::getService("DBHandler");
 		
 		//select the properties associated with this object (usually an agent)
-		$query =& new SelectQuery();
+		$query = new SelectQuery();
 		$query->addTable($this->_sharedDB.".agent_properties");
 		$query->addTable($this->_sharedDB.".type", LEFT_JOIN, "agent_properties.fk_type_id=type.type_id");
 		$query->addColumn("*");
@@ -131,7 +131,7 @@ class HarmoniPropertyManager
 		$query->addOrderBy("fk_type_id");
 		
 		
-		$result =& $dbHandler->query($query, $this->_dbIndex);
+		$result =$dbHandler->query($query, $this->_dbIndex);
 			
 		//loop through the results
 		while($result->hasMoreRows()){
@@ -139,9 +139,9 @@ class HarmoniPropertyManager
 			
 			if($row['fk_type_id']!=$current_property_type){//if this is a new type (the results are sorted by type), we add a new property object to the array for that type
 				$current_property_type = $row['fk_type_id'];
-				$type =& new HarmoniType($row['type_domain'], $row['type_authority'], $row['type_keyword'], $row['type_description']);
+				$type = new HarmoniType($row['type_domain'], $row['type_authority'], $row['type_keyword'], $row['type_description']);
 				
-				$propertiesArray[$current_property_type] =& new HarmoniProperties($type);//the property
+				$propertiesArray[$current_property_type] = new HarmoniProperties($type);//the property
 	
 			}
 			
@@ -169,8 +169,8 @@ class HarmoniPropertyManager
 	 * @access public
 	 */
 	
-	function storeProperties($object_id, & $properties){
-		$dbHandler =& Services::getService("DBHandler");
+	function storeProperties($object_id, $properties){
+		$dbHandler = Services::getService("DBHandler");
 	
 		//ArgumentValidator::validate($object_id, new StringValidatorRule("Type"), true);
 
@@ -178,29 +178,29 @@ class HarmoniPropertyManager
 			return false;
 		}		
 						
-		$type =& $properties->getType();//so we know the type
+		$type =$properties->getType();//so we know the type
 		$typeIdString = $this->getTypeId($type);//get the database id for type
 		
 		//If we don't delete them all every time we store then if we've deleted one off of the object it will remain in the DB
-		$query =& new DeleteQuery();
+		$query = new DeleteQuery();
 		$query->setTable($this->_sharedDB.".agent_properties");
 		$query->addWhere("fk_object_id='$object_id' AND fk_type_id='$typeIdString'");
 		
 		$dbHandler->query($query, $this->_dbIndex);
 		
-		$keys =& $properties->getKeys();//all the keys for the various properties
+		$keys =$properties->getKeys();//all the keys for the various properties
 		
 		while($keys->hasNextObject()){//loop through all the properties
-			$key =& $keys->nextObject();//get the next key
-			$propertyValue =& $properties->getProperty($key);//get the value of the property
+			$key =$keys->nextObject();//get the next key
+			$propertyValue =$properties->getProperty($key);//get the value of the property
 						
-			$query =& new InsertQuery();
+			$query = new InsertQuery();
 			$query->setTable($this->_sharedDB.".agent_properties");
 			$query->setColumns(array("fk_object_id","fk_type_id", "property_key", "property_value"));
 			$query->addRowOfValues(array("'".addslashes($object_id)."'", $typeIdString, "'".addslashes($key)."'", "'".addslashes($propertyValue)."'"));
 		//	}
 			
-			$result =& $dbHandler->query($query, $this->_dbIndex);
+			$result =$dbHandler->query($query, $this->_dbIndex);
 			if(!$result){//at the first failure we'll stop and return false
 				return false;
 			}
@@ -224,18 +224,18 @@ class HarmoniPropertyManager
 	 * @since 11/18/04
 	 */
 	
-	function getTypeId ( & $type ) {
-		$dbc =& Services::getService("DBHandler");
+	function getTypeId ( $type ) {
+		$dbc = Services::getService("DBHandler");
 		
 		// Check to see if the type already exists in the DB
-		$query =& new SelectQuery;
+		$query = new SelectQuery;
 		$query->addColumn("type_id");
 		$query->addTable("type");
 		$query->addWhere("type_domain='".addslashes($type->getDomain())."'");
 		$query->addWhere("type_authority='".addslashes($type->getAuthority())."'", _AND);
 		$query->addWhere("type_keyword='".addslashes($type->getKeyword())."'", _AND);
 		
-		$result =& $dbc->query($query, $this->_dbIndex);
+		$result =$dbc->query($query, $this->_dbIndex);
 		
 		// If we have a type id already, use that
 		if ($result->getNumberOfRows()) {
@@ -245,7 +245,7 @@ class HarmoniPropertyManager
 		// otherwise insert a new one.
 		else {
 			$result->free();
-			$query =& new InsertQuery;
+			$query = new InsertQuery;
 			$query->setTable("type");
 			$query->setColumns(array(
 								"type_domain",
@@ -258,7 +258,7 @@ class HarmoniPropertyManager
 								"'".addslashes($type->getKeyword())."'",
 								"'".addslashes($type->getDescription())."'"));
 			
-			$result =& $dbc->query($query, $this->_dbIndex);
+			$result =$dbc->query($query, $this->_dbIndex);
 			$typeId = $result->getLastAutoIncrementValue();
 		}
 		
@@ -277,14 +277,14 @@ class HarmoniPropertyManager
 	 */
 	 
 	 function deleteAllProperties($object_id_string){
-	 	$dbHandler =& Services::getService("DBHandler");
+	 	$dbHandler = Services::getService("DBHandler");
 	 	
 	 	//create a query to remove all properties associated with $object_id_string
-	 	$query=& new DeleteQuery();
+	 	$query= new DeleteQuery();
 	 	$query->setTable($this->_sharedDB.".agent_properties");
 	 	$query->addWhere("fk_object_id='$object_id_string'");
 	 	
-	 	$result =& $dbHandler->query($query, $this->_dbIndex);
+	 	$result =$dbHandler->query($query, $this->_dbIndex);
 	 	
 	 	return $result ? true : false;
 	 }
@@ -303,8 +303,8 @@ class HarmoniPropertyManager
 	 * @acess public
 	 */
 	 
-	 function &convertArrayToObject($propertiesArray, &$type){
-	 	$property =& new HarmoniProperties($type);
+	 function convertArrayToObject($propertiesArray, $type){
+	 	$property = new HarmoniProperties($type);
 	 	
 	 	foreach($propertiesArray as $key => $propertyValue){
 	 		$property->addProperty($key, $propertyValue);
@@ -323,10 +323,10 @@ class HarmoniPropertyManager
 	 */
 	function getAllPropertyKeys(){
 		$propertyKeys = array();
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler = Services::getService("DBHandler");
 		
 		//select the propertykeys
-		$query =& new SelectQuery();
+		$query = new SelectQuery();
 		$query->addTable($this->_sharedDB.".agent_properties");
 		
 		$query->addColumn("DISTINCT property_key");
@@ -342,10 +342,10 @@ class HarmoniPropertyManager
 		$query->addOrderBy("property_key");
 		
 		
-		$result =& $dbHandler->query($query, $this->_dbIndex);
+		$result =$dbHandler->query($query, $this->_dbIndex);
 		while($result->hasMoreRows()){
 			$propertyKeys[] = $result->field('property_key');
-// 			$propertyKeys[$result->field('property_key')] =& new Type(
+// 			$propertyKeys[$result->field('property_key')] = new Type(
 // 				$result->field('type_domain'),
 // 				$result->field('type_authority'),
 // 				$result->field('type_keyword'),

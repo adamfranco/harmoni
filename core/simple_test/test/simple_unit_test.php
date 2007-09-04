@@ -1,5 +1,5 @@
 <?php
-    // $Id: simple_unit_test.php,v 1.1 2003/08/14 19:26:31 gabeschine Exp $
+    // $Id: simple_unit_test.php,v 1.2 2007/09/04 20:25:51 adamfranco Exp $
     
     // NOTE..
     // Some of these tests are designed to fail! Do not be alarmed.
@@ -58,7 +58,7 @@
         }
         function testOfReference() {
             $a = "fred";
-            $b = &$a;
+            $b = $a;
             $this->assertReference($a, $b);
             $this->assertCopy($a, $b);        // Fail.
             $c = "Hello";

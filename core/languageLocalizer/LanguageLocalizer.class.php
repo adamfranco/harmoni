@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LanguageLocalizer.class.php,v 1.21 2005/07/22 20:29:19 gabeschine Exp $
+ * @version $Id: LanguageLocalizer.class.php,v 1.22 2007/09/04 20:25:35 adamfranco Exp $
  */
 class LanguageLocalizer {
 	/**
@@ -81,8 +81,8 @@ class LanguageLocalizer {
 	 * 
 	 * @access public
 	 */
-	function assignConfiguration ( &$configuration ) { 
-		$this->_configuration =& $configuration;
+	function assignConfiguration ( $configuration ) { 
+		$this->_configuration =$configuration;
 		
 		ArgumentValidator::validate($configuration->getProperty('default_language'),
 			StringValidatorRule::getRule(), true);
@@ -115,7 +115,7 @@ class LanguageLocalizer {
 	 * 
 	 * @access public
 	 */
-	function &getOsidContext () { 
+	function getOsidContext () { 
 		return $this->_osidContext;
 	} 
 
@@ -130,8 +130,8 @@ class LanguageLocalizer {
 	 * 
 	 * @access public
 	 */
-	function assignOsidContext ( &$context ) { 
-		$this->_osidContext =& $context;
+	function assignOsidContext ( $context ) { 
+		$this->_osidContext =$context;
 	}
 	
 	/**

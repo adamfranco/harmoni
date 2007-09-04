@@ -1,5 +1,5 @@
 <?php
-    // $Id: browser.php,v 1.2 2005/01/19 16:33:26 adamfranco Exp $
+    // $Id: browser.php,v 1.3 2007/09/04 20:25:49 adamfranco Exp $
     
     if (!defined("SIMPLE_TEST")) {
         define("SIMPLE_TEST", "./");
@@ -118,8 +118,8 @@
          *    @param $test     Test case with assertTrue().
          *    @access public
          */
-        function TestBrowser(&$test) {
-            $this->_test = &$test;
+        function TestBrowser($test) {
+            $this->_test = $test;
             $this->_response = false;
             $this->_cookie_jar = new CookieJar();
             $this->_clearExpectations();
@@ -150,7 +150,7 @@
             foreach ($this->_cookie_jar->getValidCookies() as $cookie) {
                 $request->setCookie($cookie);
             }
-            $this->_response = &$request->fetch();
+            $this->_response = $request->fetch();
             $this->_checkExpectations($url, $this->_response);
             foreach ($this->_response->getNewCookies() as $cookie) {
                 $parsed_url = new SimpleUrl($url);
@@ -246,7 +246,7 @@
          *    @param $reponse     HTTP response from the fetch.
          *    @access private
          */
-        function _checkExpectations($url, &$response) {
+        function _checkExpectations($url, $response) {
             if (isset($this->_expect_connection)) {
                 $this->_assertTrue(
                         $response->isError() != $this->_expect_connection,

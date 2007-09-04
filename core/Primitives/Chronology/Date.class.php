@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Date.class.php,v 1.3 2006/11/30 22:02:03 adamfranco Exp $
+ * @version $Id: Date.class.php,v 1.4 2007/09/04 20:25:25 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -40,7 +40,7 @@ require_once(dirname(__FILE__)."/DateAndTime.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Date.class.php,v 1.3 2006/11/30 22:02:03 adamfranco Exp $
+ * @version $Id: Date.class.php,v 1.4 2007/09/04 20:25:25 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -78,8 +78,8 @@ class Date
 	 * @since 5/5/05
 	 * @static
 	 */
-	function &current ( $class = 'Date' ) {
-		$obj =& parent::current($class);
+	function current ( $class = 'Date' ) {
+		$obj = parent::current($class);
 		return $obj;
 	}
 	
@@ -95,8 +95,8 @@ class Date
 	 * @since 5/5/05
 	 * @static
 	 */
-	function &epoch ( $class = 'Date' ) {
-		$obj =& parent::epoch($class);
+	function epoch ( $class = 'Date' ) {
+		$obj = parent::epoch($class);
 		return $obj;
 	}
 	
@@ -121,8 +121,8 @@ class Date
 	 * @access public
 	 * @since 5/10/05
 	 */
-	function &fromString ( $aString, $class = 'Date' ) {
-		$parser =& StringParser::getParserFor($aString);
+	function fromString ( $aString, $class = 'Date' ) {
+		$parser = StringParser::getParserFor($aString);
 		
 		if (!is_string($aString) || !preg_match('/[^\W]/', $aString) || !$parser) {
  			$null = null;
@@ -130,7 +130,7 @@ class Date
 			// die("'".$aString."' is not in a valid format.");
 		}
 		
-		eval('$result =& '.$class.'::withYearMonthDay($parser->year(),
+		eval('$result = '.$class.'::withYearMonthDay($parser->year(),
 						$parser->month(), $parser->day(), $class);');
 		return $result;
 	}
@@ -144,8 +144,8 @@ class Date
 	 * @since 5/5/05
 	 * @static
 	 */
-	function &starting ( &$aDateAndTime, $class = 'Date' ) {
-		$obj =& parent::startingDuration($aDateAndTime->atMidnight(), 
+	function starting ( $aDateAndTime, $class = 'Date' ) {
+		$obj = parent::startingDuration($aDateAndTime->atMidnight(), 
 			Duration::withDays(1), $class);
 
 		return $obj;
@@ -165,8 +165,8 @@ class Date
 	 * @since 5/5/05
 	 * @static
 	 */
-	function &startingDuration ( &$aDateAndTime, &$aDuration, $class = 'Date' ) {
-		$obj =& parent::startingDuration ( $aDateAndTime, $aDuration, $class );
+	function startingDuration ( $aDateAndTime, $aDuration, $class = 'Date' ) {
+		$obj = parent::startingDuration ( $aDateAndTime, $aDuration, $class );
 		return $obj;
 	}
 	
@@ -181,8 +181,8 @@ class Date
 	 * @access public
 	 * @since 5/10/05
 	 */
-	function &today ( $class = 'Date' ) {
-		eval('$today =& '.$class.'::current($class);');
+	function today ( $class = 'Date' ) {
+		eval('$today = '.$class.'::current($class);');
 		return $today;
 	}
 	
@@ -193,9 +193,9 @@ class Date
 	 * @access public
 	 * @since 5/10/05
 	 */
-	function &tomorrow ( $class = 'Date' ) {
-		eval('$today =& '.$class.'::today($class);');
-		$obj =& $today->next();
+	function tomorrow ( $class = 'Date' ) {
+		eval('$today = '.$class.'::today($class);');
+		$obj =$today->next();
 		return $obj;
 	}
 	
@@ -207,8 +207,8 @@ class Date
 	 * @access public
 	 * @since 5/10/05
 	 */
-	function &withJulianDayNumber ( $anInteger, $class = 'Date' ) {
-		eval('$result =& '.$class.'::starting(DateAndTime::withJulianDayNumber($anInteger));');
+	function withJulianDayNumber ( $anInteger, $class = 'Date' ) {
+		eval('$result = '.$class.'::starting(DateAndTime::withJulianDayNumber($anInteger));');
 		return $result;
 	}
 	
@@ -222,8 +222,8 @@ class Date
 	 * @access public
 	 * @since 5/10/05
 	 */
-	function &withYearMonthDay ( $anIntYear, $anIntOrStringMonth, $anIntDay, $class = 'Date' ) {
-		eval('$result =& '.$class.'::starting(DateAndTime::withYearMonthDay($anIntYear, 
+	function withYearMonthDay ( $anIntYear, $anIntOrStringMonth, $anIntDay, $class = 'Date' ) {
+		eval('$result = '.$class.'::starting(DateAndTime::withYearMonthDay($anIntYear, 
 			$anIntOrStringMonth, $anIntDay));');
 		return $result;
 	}
@@ -237,8 +237,8 @@ class Date
 	 * @access public
 	 * @since 5/10/05
 	 */
-	function &withYearDay ( $anIntYear, $anIntDay, $class = 'Date' ) {
-		eval('$result =& '.$class.'::starting(DateAndTime::withYearDay($anIntYear,  $anIntDay));');
+	function withYearDay ( $anIntYear, $anIntDay, $class = 'Date' ) {
+		eval('$result = '.$class.'::starting(DateAndTime::withYearDay($anIntYear,  $anIntDay));');
 		return $result;
 	}
 	
@@ -253,9 +253,9 @@ class Date
 	 * @access public
 	 * @since 5/10/05
 	 */
-	function &yesterday ( $class = 'Date' ) {
-		eval('$today =& '.$class.'::today($class);');
-		$obj =& $today->previous();
+	function yesterday ( $class = 'Date' ) {
+		eval('$today = '.$class.'::today($class);');
+		$obj =$today->previous();
 		return $obj;
 	}
 	
@@ -376,10 +376,10 @@ class Date
  	 * @access public
  	 * @since 5/20/05
  	 */
- 	function &addDays ( $anInteger ) {
- 		$asDateAndTime =& $this->asDateAndTime();
- 		$newDateAndTime =& $asDateAndTime->plus(Duration::withDays($anInteger));
- 		$obj =& $newDateAndTime->asDate();
+ 	function addDays ( $anInteger ) {
+ 		$asDateAndTime =$this->asDateAndTime();
+ 		$newDateAndTime =$asDateAndTime->plus(Duration::withDays($anInteger));
+ 		$obj =$newDateAndTime->asDate();
  		return $obj;
  	}
  	
@@ -391,8 +391,8 @@ class Date
  	 * @access public
  	 * @since 5/23/05
  	 */
- 	function &subtractDays ( $anInteger ) {
- 		$obj =& $this->addDays(0 - $anInteger);
+ 	function subtractDays ( $anInteger ) {
+ 		$obj =$this->addDays(0 - $anInteger);
  		return $obj;
  	}
  	
@@ -404,11 +404,11 @@ class Date
  	 * @access public
  	 * @since 5/23/05
  	 */
- 	function &previousDayNamed ( $dayNameString ) {
+ 	function previousDayNamed ( $dayNameString ) {
  		$days = abs($this->dayOfWeek() - (Week::indexOfDay($dayNameString) % 7));
  		if ($days == 0)
  			$days = 7;
- 		$obj =& $this->subtractDays($days);
+ 		$obj =$this->subtractDays($days);
  		return $obj;
  	}
  	
@@ -423,7 +423,7 @@ class Date
  	 * @access public
  	 * @since 5/23/05
  	 */
- 	function &asDate () {
+ 	function asDate () {
  		return $this;
  	}
  	

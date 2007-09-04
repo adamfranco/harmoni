@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AssetTypeSearch.class.php,v 1.5 2006/01/18 16:12:26 adamfranco Exp $
+ * @version $Id: AssetTypeSearch.class.php,v 1.6 2007/09/04 20:25:47 adamfranco Exp $
  */
 
 require_once(dirname(__FILE__)."/SearchModule.interface.php");
@@ -19,7 +19,7 @@ require_once(dirname(__FILE__)."/SearchModule.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AssetTypeSearch.class.php,v 1.5 2006/01/18 16:12:26 adamfranco Exp $
+ * @version $Id: AssetTypeSearch.class.php,v 1.6 2007/09/04 20:25:47 adamfranco Exp $
  */
 
 class AssetTypeSearch
@@ -34,7 +34,7 @@ class AssetTypeSearch
 	 * @since 11/2/04
 	 */
 	function AssetTypeSearch ( $dr ) {
-		$this->_dr =& $dr;
+		$this->_dr =$dr;
 	}
 	
 	
@@ -47,15 +47,15 @@ class AssetTypeSearch
 	 * @access public
 	 * @since 11/2/04
 	 */
-	function &searchAssets ( $searchCriteria ) {
+	function searchAssets ( $searchCriteria ) {
 		// get the root Nodes
-		$assets =& $this->_dr->getAssetsByType($searchCriteria);
+		$assets =$this->_dr->getAssetsByType($searchCriteria);
 		
 		// Add the ids of the root nodes to an array
 		$ids = array();
 		while ($assets->hasNext()) {
-			$asset =& $assets->next();
-			$ids[] =& $asset->getId();
+			$asset =$assets->next();
+			$ids[] =$asset->getId();
 		}
 		
 		// Return the array

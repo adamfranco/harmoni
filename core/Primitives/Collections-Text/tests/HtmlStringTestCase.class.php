@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HtmlStringTestCase.class.php,v 1.10 2006/11/30 22:02:09 adamfranco Exp $
+ * @version $Id: HtmlStringTestCase.class.php,v 1.11 2007/09/04 20:25:27 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -26,7 +26,7 @@ require_once(dirname(__FILE__)."/../HtmlString.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HtmlStringTestCase.class.php,v 1.10 2006/11/30 22:02:09 adamfranco Exp $
+ * @version $Id: HtmlStringTestCase.class.php,v 1.11 2007/09/04 20:25:27 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -59,7 +59,7 @@ class HtmlStringTestCase extends UnitTestCase {
 "Hello world.
 <p style='font-size: large;'>The quick brown <strong>fox</strong> 
 jumped over the lazy <em>dog</em>.</p>";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->trim(100);
 		$this->assertEqual($htmlString->asString(), $string);
 		
@@ -68,7 +68,7 @@ jumped over the lazy <em>dog</em>.</p>";
 "Hello world.<hr/>
 <p style='font-size: large;'>The quick brown <strong>fox</strong> 
 jumped over the lazy <em>dog</em>.</p>";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->trim(100);
 		$this->assertEqual($htmlString->asString(), $string);
 		
@@ -76,7 +76,7 @@ jumped over the lazy <em>dog</em>.</p>";
 "Hello world.<img src='' border='1' />
 <p style='font-size: large;'>The quick brown <strong>fox</strong> 
 jumped over the lazy <em>dog</em>.</p>";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->trim(100);
 		$this->assertEqual($htmlString->asString(), $string);
 		
@@ -89,7 +89,7 @@ jumped over the lazy <em>dog</em>.</p>";
 "Hello world.<hr/> <img src='' border='1'/>
 <p style='font-size: large;'>The quick brown <strong>fox</strong> 
 jumped over the lazy <em>dog</em>.</p>";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->trim(100);
 		$this->assertEqual($htmlString->asString(), $result);
 		
@@ -98,7 +98,7 @@ jumped over the lazy <em>dog</em>.</p>";
 "Hello world.
 <p style='font-size: large;'>The quick brown <strong><em>fox</strong></em> 
 jumped over the lazy <em>dog</em>.</p>";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$string = 
 "Hello world.
 <p style='font-size: large;'>The quick brown <strong><em>fox</em></strong> 
@@ -120,7 +120,7 @@ jumped over the lazy <em>dog</em>.</p>";
 "Hello &lt; world.
 <p style='font-size: large;'>The quick brown <strong>fox</strong> 
 jumped over the lazy <em>dog</em>.</p>";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->trim(100);
 		$this->assertEqual($htmlString->asString(), $result);
 		
@@ -132,7 +132,7 @@ jumped over the lazy <em>dog</em>.</p>";
 "Hello &gt; world.
 <p style='font-size: large;'>The quick brown <strong>fox</strong> 
 jumped over the lazy <em>dog</em>.</p>";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->trim(100);
 		$this->assertEqual($htmlString->asString(), $result);
 		
@@ -140,7 +140,7 @@ jumped over the lazy <em>dog</em>.</p>";
 "Hello > world.";
 		$result = 
 "Hello &gt; world.";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->trim(3);
 		$this->assertEqual($htmlString->asString(), $result);
 		
@@ -151,7 +151,7 @@ jumped over the lazy <em>dog</em>.</p>";
 		$result = 
 "Hello &lt;world.
 <p style='font-size: large;'>The...</p>";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->trim(3);
 		$this->assertEqual($htmlString->asString(), $result);
 		
@@ -162,7 +162,7 @@ jumped over the lazy <em>dog</em>.</p>";
 		$result = 
 "Hello&lt;world.
 <p style='font-size: large;'>The quick...</p>";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->trim(3);
 		$this->assertEqual($htmlString->asString(), $result);
 	}
@@ -177,7 +177,7 @@ jumped over the lazy <em>dog</em>.</p>";
 jumped over the lazy <em>dog</em>.</p>";
 		$result = 
 "Hello...";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->trim(1);
 		$this->assertEqual($htmlString->asString(), $result);
 		
@@ -188,7 +188,7 @@ jumped over the lazy <em>dog</em>.</p>";
 jumped over the lazy <em>dog</em>.</p>";
 		$result = 
 "Hello world....";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->trim(2);
 		$this->assertEqual($htmlString->asString(), $result);
 		
@@ -199,7 +199,7 @@ jumped over the lazy <em>dog</em>.</p>";
 jumped over the lazy <em>dog</em>.</p>";
 		$result = 
 "Hello   \n \n\t \n\r  world....";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->trim(2);
 		$this->assertEqual($htmlString->asString(), $result);
 		
@@ -211,7 +211,7 @@ jumped over the lazy <em>dog</em>.</p>";
 		$result = 
 "Hello world.
 <p style='font-size: large;'>The...</p>";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->trim(3);
 		$this->assertEqual($htmlString->asString(), $result);
 		
@@ -223,7 +223,7 @@ jumped over the lazy <em>dog</em>.</p>";
 		$result = 
 "Hello world.
 <p style='font-size: large;'>The quick...</p>";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->trim(4);
 		$this->assertEqual($htmlString->asString(), $result);
 		
@@ -235,7 +235,7 @@ jumped over the lazy <em>dog</em>.</p>";
 		$result = 
 "Hello world.
 <p style='font-size: large;'>The quick brown...</p>";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->trim(5);
 		$this->assertEqual($htmlString->asString(), $result);
 		
@@ -247,7 +247,7 @@ jumped over the lazy <em>dog</em>.</p>";
 		$result = 
 "Hello world.
 <p style='font-size: large;'>The quick brown <strong>fox</strong>...</p>";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->trim(6);
 		$this->assertEqual($htmlString->asString(), $result);
 		
@@ -260,7 +260,7 @@ jumped over the lazy <em>dog</em>.</p>";
 "Hello world.
 <p style='font-size: large;'>The quick brown <strong>fox</strong> 
 jumped...</p>";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->trim(7);
 		$this->assertEqual($htmlString->asString(), $result);
 		
@@ -273,7 +273,7 @@ jumped over the lazy <em>dog</em>.</p>";
 "Hello world.
 <p style='font-size: large;'>The quick brown <strong>fox</strong> 
 jumped over...</p>";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->trim(8);
 		$this->assertEqual($htmlString->asString(), $result);
 		
@@ -286,7 +286,7 @@ jumped over the lazy <em>dog</em>.</p>";
 "Hello world.
 <p style='font-size: large;'>The quick brown <strong>fox</strong> 
 jumped over the...</p>";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->trim(9);
 		$this->assertEqual($htmlString->asString(), $result);
 		
@@ -299,7 +299,7 @@ jumped over the lazy <em>dog</em>.</p>";
 "Hello world.
 <p style='font-size: large;'>The quick brown <strong>fox</strong> 
 jumped over the lazy...</p>";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->trim(10);
 		$this->assertEqual($htmlString->asString(), $result);
 		
@@ -312,7 +312,7 @@ jumped over the lazy <em>dog</em>.</p>";
 "Hello world.
 <p style='font-size: large;'>The quick brown <strong>fox</strong> 
 jumped over the lazy <em>dog</em>.</p>";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->trim(11);
 		$this->assertEqual($htmlString->asString(), $result);
 		
@@ -325,7 +325,7 @@ jumped over the lazy <em>dog</em>.</p>";
 "Hello world.
 <p style='font-size: large;'>The quick brown <strong>fox</strong> 
 jumped over the lazy <em>dog</em>.</p>";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->trim(12);
 		$this->assertEqual($htmlString->asString(), $result);
 		
@@ -338,7 +338,7 @@ jumped over the lazy <em>dog</em>.</p>";
 "Hello world.
 <p style='font-size: large;'>The quick brown <strong>fox</strong> 
 jumped over the lazy <em>dog</em>.</p>";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->trim(13);
 		$this->assertEqual($htmlString->asString(), $result);
 	}
@@ -353,7 +353,7 @@ jumped over the lazy <em>dog</em>.</p>";
 jumped over the lazy <em>dog</em>.</p>";
 		$result = 
 "Hello world....";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->trim(2);
 		$this->assertEqual($htmlString->asString(), $result);
 		
@@ -363,7 +363,7 @@ jumped over the lazy <em>dog</em>.</p>";
 jumped over the lazy <em>dog</em>.</p>";
 		$result = 
 "Hello world.";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->trim(2, false);
 		$this->assertEqual($htmlString->asString(), $result);
 	}
@@ -389,7 +389,7 @@ jumped over the lazy <em>dog</em>.</p>";
 	<ul>
 		<li>This is one</li>
 		<li>This is two</li></ul>...</div>";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->trim(8);
 		$this->assertEqual($htmlString->asString(), $result);
 		
@@ -410,7 +410,7 @@ jumped over the lazy <em>dog</em>.</p>";
 	<ul>
 		<li>This is one</li>
 		<li>This is...</li></ul></div>";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->trim(7);
 		$this->assertEqual($htmlString->asString(), $result);
 		
@@ -436,7 +436,7 @@ jumped over the lazy <em>dog</em>.</p>";
 	<table>
 		<tr>
 			<td>This is...</td></tr></table></div>";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->trim(4);
 		$this->assertEqual($htmlString->asString(), $result);
 		
@@ -460,7 +460,7 @@ jumped over the lazy <em>dog</em>.</p>";
 	<table>
 		<tr>
 			<td>This is one</td></tr></table>...</div>";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->trim(5);
 		$this->assertEqual($htmlString->asString(), $result);
 	}
@@ -513,7 +513,7 @@ can be assigned.</p>
 <li>NISO Standard Z39.85-2001 (September 2001):...</li></ul>
 END;
 		$result = ob_get_clean();
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->trim(99);
 		$this->assertEqual($htmlString->asString(), $result);	
 		
@@ -563,7 +563,7 @@ can be assigned.</p>
 <li>NISO Standard Z39.85-2001 (September 2001): <a href="http://www.niso.org/standards/resources/Z39-85.pdf">http://www.niso.org/standards/resources/Z39-85.pdf</a></li></ul>...
 END;
 		$result = ob_get_clean();
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->trim(100);
 		$this->assertEqual($htmlString->asString(), $result);
 		
@@ -575,7 +575,7 @@ END;
 	 */ 
 	function test_cdata() {
 		$string = "<![CDATA[Hello.]]>";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->clean();
 		$this->assertEqual($htmlString->asString(), $string);
 		
@@ -583,34 +583,34 @@ END;
 "<![CDATA[
 Hello.
 ]]>";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->clean();
 		$this->assertEqual($htmlString->asString(), $string);
 		
 		$string = 
 "<![CDATA[  <  ]]>";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->clean();
 		$this->assertEqual($htmlString->asString(), $string);
 		
 		$string = 
 "<![CDATA[  >  ]]>";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->clean();
 		$this->assertEqual($htmlString->asString(), $string);
 		
 		$string = "<![CDATA[&]]>";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->clean();
 		$this->assertEqual($htmlString->asString(), $string);
 		
 		$string = "<![CDATA[ & ]]>";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->clean();
 		$this->assertEqual($htmlString->asString(), $string);
 		
 		$string = "Hello there <![CDATA[ & ]]> with CDATA";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->clean();
 		$this->assertEqual($htmlString->asString(), $string);
 		
@@ -625,7 +625,7 @@ Hello.
 
 <br/>Above is CDATA.
 </p>";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->clean();
 		$this->assertEqual($htmlString->asString(), $string);
 		
@@ -637,7 +637,7 @@ Hello.
 	</style>
 	with CDATA.
 </div>";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->clean();
 		$this->assertEqual($htmlString->asString(), $string);
 		
@@ -647,7 +647,7 @@ Hello.
 		<
 		>
 ]]>";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->clean();
 		$this->assertEqual($htmlString->asString(), $string);
 		
@@ -661,7 +661,7 @@ Hello.
 ]]>
 
 jumped over the lazy <em>dog</em>.</p>";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->clean();
 		$this->assertEqual($htmlString->asString(), $string);
 		
@@ -673,7 +673,7 @@ Hello.
 "<![CDATA[
 Hello.
 ]]>";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->clean();
 		$this->assertEqual($htmlString->asString(), $string2);
 	}
@@ -684,7 +684,7 @@ Hello.
 "Hello 
 <!---->
 Goodbye";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->clean();
 		$this->assertEqual($htmlString->asString(), $string);
 		
@@ -692,7 +692,7 @@ Goodbye";
 "Hello 
 <!-- -->
 Goodbye";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->clean();
 		$this->assertEqual($htmlString->asString(), $string);
 		
@@ -701,7 +701,7 @@ Goodbye";
 <!-- You my 
 mommy.-->
 Goodbye";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->clean();
 		$this->assertEqual($htmlString->asString(), $string);
 	}
@@ -711,7 +711,7 @@ Goodbye";
 "</div><p>Hello world.</p>";
 		$string2 = 
 "<p>Hello world.</p>";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->clean();
 		$this->assertEqual($htmlString->asString(), $string2);
 		
@@ -719,7 +719,7 @@ Goodbye";
 "</td></tr></table><p>Hello </div> world.</p>";
 		$string2 = 
 "<p>Hello </p> world.";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->clean();
 		$this->assertEqual($htmlString->asString(), $string2);
 	}
@@ -729,7 +729,7 @@ Goodbye";
 "<tr><td>Hello world.</td></tr>";
 		$string2 = 
 "<table><tr><td>Hello world.</td></tr></table>";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->clean();
 		$this->assertEqual($htmlString->asString(), $string2);
 		
@@ -737,7 +737,7 @@ Goodbye";
 "<td>Hello world.</td>";
 		$string2 = 
 "<table><tr><td>Hello world.</td></tr></table>";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->clean();
 		$this->assertEqual($htmlString->asString(), $string2);
 		
@@ -745,7 +745,7 @@ Goodbye";
 "<th>Hello world.</th>";
 		$string2 = 
 "<table><tr><th>Hello world.</th></tr></table>";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->clean();
 		$this->assertEqual($htmlString->asString(), $string2);
 		
@@ -753,7 +753,7 @@ Goodbye";
 "<tbody><th>Hello world.</th>";
 		$string2 = 
 "<table><tbody><tr><th>Hello world.</th></tr></tbody></table>";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->clean();
 		$this->assertEqual($htmlString->asString(), $string2);
 	}
@@ -763,7 +763,7 @@ Goodbye";
 "<li>Hello world.</li>";
 		$string2 = 
 "<ul><li>Hello world.</li></ul>";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->clean();
 		$this->assertEqual($htmlString->asString(), $string2);
 		
@@ -771,7 +771,7 @@ Goodbye";
 "<li>Hello world.";
 		$string2 = 
 "<ul><li>Hello world.</li></ul>";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->clean();
 		$this->assertEqual($htmlString->asString(), $string2);
 		
@@ -779,7 +779,7 @@ Goodbye";
 "<dt>saying:</dt>";
 		$string2 = 
 "<dl><dt>saying:</dt></dl>";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->clean();
 		$this->assertEqual($htmlString->asString(), $string2);
 		
@@ -789,7 +789,7 @@ Goodbye";
 		$string2 = 
 "<dl><dt>saying:</dt>
 <dd>Hello world.</dd></dl>";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->clean();
 		$this->assertEqual($htmlString->asString(), $string2);
 	}
@@ -799,7 +799,7 @@ Goodbye";
 "<option>Hello world.";
 		$string2 = 
 "<select><option>Hello world.</option></select>";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->clean();
 		$this->assertEqual($htmlString->asString(), $string2);
 		
@@ -807,7 +807,7 @@ Goodbye";
 "<optgroup><option>Hello world.</optgroup></option>";
 		$string2 = 
 "<select><optgroup><option>Hello world.</option></optgroup></select>";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->clean();
 		$this->assertEqual($htmlString->asString(), $string2);
 		
@@ -815,7 +815,7 @@ Goodbye";
 "<optgroup><option>Hello world.</optgroup></option></select>";
 		$string2 = 
 "<select><optgroup><option>Hello world.</option></optgroup></select>";
-		$htmlString =& HtmlString::withValue($string);
+		$htmlString = HtmlString::withValue($string);
 		$htmlString->clean();
 		$this->assertEqual($htmlString->asString(), $string2);
 	}

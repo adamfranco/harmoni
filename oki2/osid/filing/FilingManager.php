@@ -65,7 +65,7 @@ class FilingManager
      * 
      * @access public
      */
-    function &getRoots () { 
+    function getRoots () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -87,7 +87,7 @@ class FilingManager
      * 
      * @access public
      */
-    function &getCabinetEntry ( &$id ) { 
+    function getCabinetEntry ( $id ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -112,7 +112,7 @@ class FilingManager
      * 
      * @access public
      */
-    function &createRootCabinet ( $displayName ) { 
+    function createRootCabinet ( $displayName ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -137,7 +137,7 @@ class FilingManager
      * 
      * @access public
      */
-    function delete ( &$cabinetEntryId ) { 
+    function delete ( $cabinetEntryId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 }

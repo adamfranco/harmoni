@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TagManager.class.php,v 1.3 2006/12/04 19:34:55 adamfranco Exp $
+ * @version $Id: TagManager.class.php,v 1.4 2007/09/04 20:25:29 adamfranco Exp $
  */ 
 
 /**
@@ -36,7 +36,7 @@ require_once(dirname(__FILE__)."/StructuredMetaDataTagGenerator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TagManager.class.php,v 1.3 2006/12/04 19:34:55 adamfranco Exp $
+ * @version $Id: TagManager.class.php,v 1.4 2007/09/04 20:25:29 adamfranco Exp $
  */
 class TagManager
 	extends OsidManager	
@@ -53,8 +53,8 @@ class TagManager
 	 * @access public
 	 * @since 11/1/06
 	 */
-	function &getTagsByAgent ( &$agentId, $sortBy = TAG_SORT_ALFA, $max = 0 ) {
-		$query =& new SelectQuery;
+	function getTagsByAgent ( $agentId, $sortBy = TAG_SORT_ALFA, $max = 0 ) {
+		$query = new SelectQuery;
 		$query->addColumn('value');
 		$query->addColumn('COUNT(value)', 'occurances');
 		$query->addTable('tag');
@@ -66,14 +66,14 @@ class TagManager
 		if ($max)
 			$query->limitNumberOfRows($max);
 		
-		$dbc =& Services::getService("DatabaseManager");
-		$result =& $dbc->query($query, $this->getDatabaseIndex());
+		$dbc = Services::getService("DatabaseManager");
+		$result =$dbc->query($query, $this->getDatabaseIndex());
 		
 		// Add tag objects to an array, still sorted by frequency of usage
 		$tags = array();
 		while ($result->hasNext()) {
 			$row = $result->next();
-			$tags[$row['value']] =& new Tag($row['value']);
+			$tags[$row['value']] = new Tag($row['value']);
 			$tags[$row['value']]->setOccurancesForAgent($agentId, $row['occurances']);
 		}
 		
@@ -81,7 +81,7 @@ class TagManager
 		if ($sortBy == TAG_SORT_ALFA)
 			ksort($tags);
 		
-		$iterator =& new HarmoniIterator($tags);
+		$iterator = new HarmoniIterator($tags);
 		return $iterator;
 	}
 	
@@ -95,8 +95,8 @@ class TagManager
 	 * @access public
 	 * @since 11/1/06
 	 */
-	function &getUserTags ( $sortBy = TAG_SORT_ALFA, $max = 0 ) {
-		$tags =& $this->getTagsByAgent($this->getCurrentUserId(), $sortBy, $max);
+	function getUserTags ( $sortBy = TAG_SORT_ALFA, $max = 0 ) {
+		$tags =$this->getTagsByAgent($this->getCurrentUserId(), $sortBy, $max);
 		return $tags;
 	}
 	
@@ -110,8 +110,8 @@ class TagManager
 	 * @access public
 	 * @since 11/1/06
 	 */
-	function &getTags ( $sortBy = TAG_SORT_ALFA, $max = 0 ) {
-		$query =& new SelectQuery;
+	function getTags ( $sortBy = TAG_SORT_ALFA, $max = 0 ) {
+		$query = new SelectQuery;
 		$query->addColumn('value');
 		$query->addColumn('COUNT(value)', 'occurances');
 		$query->addTable('tag');
@@ -121,14 +121,14 @@ class TagManager
 		if ($max)
 			$query->limitNumberOfRows($max);
 		
-		$dbc =& Services::getService("DatabaseManager");
-		$result =& $dbc->query($query, $this->getDatabaseIndex());
+		$dbc = Services::getService("DatabaseManager");
+		$result =$dbc->query($query, $this->getDatabaseIndex());
 		
 		// Add tag objects to an array, still sorted by frequency of usage
 		$tags = array();
 		while ($result->hasNext()) {
 			$row = $result->next();
-			$tags[$row['value']] =& new Tag($row['value']);
+			$tags[$row['value']] = new Tag($row['value']);
 			$tags[$row['value']]->setOccurances($row['occurances']);
 		}
 		
@@ -136,7 +136,7 @@ class TagManager
 		if ($sortBy == TAG_SORT_ALFA)
 			ksort($tags);
 		
-		$iterator =& new HarmoniIterator($tags);
+		$iterator = new HarmoniIterator($tags);
 		return $iterator;
 	}
 	
@@ -152,8 +152,8 @@ class TagManager
 	 * @access public
 	 * @since 11/1/06
 	 */
-	function &getTagsForItems ( &$items, $sortBy = TAG_SORT_ALFA, $max = 0 ) {
-		$query =& new SelectQuery;
+	function getTagsForItems ( $items, $sortBy = TAG_SORT_ALFA, $max = 0 ) {
+		$query = new SelectQuery;
 		$query->addColumn('value');
 		$query->addColumn('COUNT(value)', 'occurances');
 		$query->addTable('tag');
@@ -174,7 +174,7 @@ class TagManager
 		// iterator
 		else if (method_exists($items, 'next')) {
 			while($items->hasNext()) {
-				$item =& $items->next();
+				$item =$items->next();
 				$itemDbIds[] = "'".addslashes($item->getDatabaseId())."'";
 			}
 		} 
@@ -187,20 +187,20 @@ class TagManager
 		
 		// Return an empty iterator if we have no item ids
 		if (!count($itemDbIds)) {
-			$iterator =& new HarmoniIterator($itemDbIds);
+			$iterator = new HarmoniIterator($itemDbIds);
 			return $iterator;
 		}
 		
 		$query->addWhere("tag.fk_item IN (".implode(", ", $itemDbIds).")");
 		
-		$dbc =& Services::getService("DatabaseManager");
-		$result =& $dbc->query($query, $this->getDatabaseIndex());
+		$dbc = Services::getService("DatabaseManager");
+		$result =$dbc->query($query, $this->getDatabaseIndex());
 		
 		// Add tag objects to an array, still sorted by frequency of usage
 		$tags = array();
 		while ($result->hasNext()) {
 			$row = $result->next();
-			$tags[$row['value']] =& new Tag($row['value']);
+			$tags[$row['value']] = new Tag($row['value']);
 			$tags[$row['value']]->setOccurances($row['occurances']);
 		}
 		
@@ -208,7 +208,7 @@ class TagManager
 		if ($sortBy == TAG_SORT_ALFA)
 			ksort($tags);
 		
-		$iterator =& new HarmoniIterator($tags);
+		$iterator = new HarmoniIterator($tags);
 		return $iterator;
 	}
 	
@@ -225,8 +225,8 @@ class TagManager
 	 * @access public
 	 * @since 11/10/06
 	 */
-	function &getTagsForItemsByAgent ( &$items, &$agentId, $sortBy = TAG_SORT_ALFA, $max = 0 ) {
-		$query =& new SelectQuery;
+	function getTagsForItemsByAgent ( $items, $agentId, $sortBy = TAG_SORT_ALFA, $max = 0 ) {
+		$query = new SelectQuery;
 		$query->addColumn('value');
 		$query->addColumn('COUNT(value)', 'occurances');
 		$query->addTable('tag');
@@ -248,7 +248,7 @@ class TagManager
 		// iterator
 		else if (method_exists($items, 'next')) {
 			while($items->hasNext()) {
-				$item =& $items->next();
+				$item =$items->next();
 				$itemDbIds[] = "'".addslashes($item->getDatabaseId())."'";
 			}
 		} 
@@ -261,14 +261,14 @@ class TagManager
 		$query->addWhere("tag.fk_item IN (".implode(", ", $itemDbIds).")");
 		
 		
-		$dbc =& Services::getService("DatabaseManager");
-		$result =& $dbc->query($query, $this->getDatabaseIndex());
+		$dbc = Services::getService("DatabaseManager");
+		$result =$dbc->query($query, $this->getDatabaseIndex());
 		
 		// Add tag objects to an array, still sorted by frequency of usage
 		$tags = array();
 		while ($result->hasNext()) {
 			$row = $result->next();
-			$tags[$row['value']] =& new Tag($row['value']);
+			$tags[$row['value']] = new Tag($row['value']);
 			$tags[$row['value']]->setOccurances($row['occurances']);
 		}
 		
@@ -276,7 +276,7 @@ class TagManager
 		if ($sortBy == TAG_SORT_ALFA)
 			ksort($tags);
 		
-		$iterator =& new HarmoniIterator($tags);
+		$iterator = new HarmoniIterator($tags);
 		return $iterator;
 	}
 	
@@ -292,8 +292,8 @@ class TagManager
 	 * @access public
 	 * @since 11/1/06
 	 */
-	function &getUserTagsForItems ( &$items, $sortBy = TAG_SORT_ALFA, $max = 0 ) {
-		$tags =& $this->getTagsForItemsByAgent($items, $this->getCurrentUserId(), $sortBy, $max);
+	function getUserTagsForItems ( $items, $sortBy = TAG_SORT_ALFA, $max = 0 ) {
+		$tags =$this->getTagsForItemsByAgent($items, $this->getCurrentUserId(), $sortBy, $max);
 		return $tags;
 	}
 	
@@ -310,8 +310,8 @@ class TagManager
 	 * @access public
 	 * @since 11/10/06
 	 */
-	function &getTagsForItemsNotByAgent ( &$items, &$agentId, $sortBy = TAG_SORT_ALFA, $max = 0 ) {
-		$query =& new SelectQuery;
+	function getTagsForItemsNotByAgent ( $items, $agentId, $sortBy = TAG_SORT_ALFA, $max = 0 ) {
+		$query = new SelectQuery;
 		$query->addColumn('value');
 		$query->addColumn('COUNT(value)', 'occurances');
 		$query->addTable('tag');
@@ -333,7 +333,7 @@ class TagManager
 		// iterator
 		else if (method_exists($items, 'next')) {
 			while($items->hasNext()) {
-				$item =& $items->next();
+				$item =$items->next();
 				$itemDbIds[] = "'".addslashes($item->getDatabaseId())."'";
 			}
 		} 
@@ -346,14 +346,14 @@ class TagManager
 		$query->addWhere("tag.fk_item IN (".implode(", ", $itemDbIds).")");
 		
 		
-		$dbc =& Services::getService("DatabaseManager");
-		$result =& $dbc->query($query, $this->getDatabaseIndex());
+		$dbc = Services::getService("DatabaseManager");
+		$result =$dbc->query($query, $this->getDatabaseIndex());
 		
 		// Add tag objects to an array, still sorted by frequency of usage
 		$tags = array();
 		while ($result->hasNext()) {
 			$row = $result->next();
-			$tags[$row['value']] =& new Tag($row['value']);
+			$tags[$row['value']] = new Tag($row['value']);
 			$tags[$row['value']]->setOccurances($row['occurances']);
 		}
 		
@@ -361,7 +361,7 @@ class TagManager
 		if ($sortBy == TAG_SORT_ALFA)
 			ksort($tags);
 		
-		$iterator =& new HarmoniIterator($tags);
+		$iterator = new HarmoniIterator($tags);
 		return $iterator;
 	}
 	
@@ -375,7 +375,7 @@ class TagManager
 	 * @access public
 	 * @since 11/2/06
 	 */
-	function deleteItems ( &$items ) {
+	function deleteItems ( $items ) {
 		$itemDbIds = array();
 		
 		// array
@@ -387,7 +387,7 @@ class TagManager
 		// iterator
 		else if (method_exists($items, 'next')) {
 			while($items->hasNext()) {
-				$item =& $items->next();
+				$item =$items->next();
 				$itemDbIds[] = "'".addslashes($item->getDatabaseId())."'";
 			}
 		} 
@@ -401,15 +401,15 @@ class TagManager
 		if (!count($itemDbIds))
 			return;
 		
-		$dbc =& Services::getService("DatabaseManager");
+		$dbc = Services::getService("DatabaseManager");
 		
-		$query =& new DeleteQuery;
+		$query = new DeleteQuery;
 		$query->setTable('tag');
 		$query->addWhere("tag.fk_item IN (".implode(", ", $itemDbIds).")");		
 		
 		$dbc->query($query, $this->getDatabaseIndex()); 
 		
-		$query =& new DeleteQuery;
+		$query = new DeleteQuery;
 		$query->setTable('tag_item');
 		$query->addWhere("id IN (".implode(", ", $itemDbIds).")");		
 		
@@ -429,7 +429,7 @@ class TagManager
 	 * @access public
 	 * @since 11/1/06
 	 */
-	function &getTagsForItemIds ( &$ids, $system, $sortBy = TAG_SORT_ALFA, $max = 0 ) {
+	function getTagsForItemIds ( $ids, $system, $sortBy = TAG_SORT_ALFA, $max = 0 ) {
 		 die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
 
@@ -450,8 +450,8 @@ class TagManager
      * 
      * @access public
      */
-    function assignConfiguration ( &$configuration ) { 
-       $this->_configuration =& $configuration;
+    function assignConfiguration ( $configuration ) { 
+       $this->_configuration =$configuration;
     }
     
     /**
@@ -462,7 +462,7 @@ class TagManager
      * @access public
      */
     function getConfigurationForSystem ($system) { 
-       $systems =& $this->_configuration->getProperty('Systems');
+       $systems =$this->_configuration->getProperty('Systems');
        return $systems[$system];
     }
     
@@ -502,26 +502,26 @@ class TagManager
 	 * @access public
 	 * @since 11/1/06
 	 */
-	function &getAgentIds () {
-		$query =& new SelectQuery;
+	function getAgentIds () {
+		$query = new SelectQuery;
 		$query->addColumn('user_id');
 		$query->addColumn('COUNT(user_id)', 'occurances');
 		$query->addTable('tag');
 		$query->setGroupBy(array('user_id'));
 		$query->addOrderBy('occurances', DESCENDING);
 		
-		$dbc =& Services::getService("DatabaseManager");
-		$result =& $dbc->query($query, $this->getDatabaseIndex());
+		$dbc = Services::getService("DatabaseManager");
+		$result =$dbc->query($query, $this->getDatabaseIndex());
 		
 		// Add tag objects to an array, still sorted by frequency of usage
 		$agentIds = array();
-		$idManager =& Services::getService('Id');
+		$idManager = Services::getService('Id');
 		while ($result->hasNext()) {
 			$row = $result->next();
-			$agentIds[] =& $idManager->getId($row['user_id']);
+			$agentIds[] =$idManager->getId($row['user_id']);
 		}
 				
-		$iterator =& new HarmoniIterator($agentIds);
+		$iterator = new HarmoniIterator($agentIds);
 		return $iterator;
 	}
     
@@ -532,16 +532,16 @@ class TagManager
      * @access public
      * @since 11/6/06
      */
-    function &getCurrentUserId () {
+    function getCurrentUserId () {
     	if (!isset($this->_currentUserId)) {
-    		$authN =& Services::getService("AuthN");
-			$idM =& Services::getService("Id");
-			$authTypes =& $authN->getAuthenticationTypes();
+    		$authN = Services::getService("AuthN");
+			$idM = Services::getService("Id");
+			$authTypes =$authN->getAuthenticationTypes();
 			while ($authTypes->hasNext()) {
-				$authType =& $authTypes->next();
-				$id =& $authN->getUserId($authType);
+				$authType =$authTypes->next();
+				$id =$authN->getUserId($authType);
 				if (!$id->isEqual($idM->getId('edu.middlebury.agents.anonymous'))) {
-					$this->_currentUserId =& $id;
+					$this->_currentUserId =$id;
 					$this->_currentUserIdString = $id->getIdString();
 					break;
 				}
@@ -576,7 +576,7 @@ class TagManager
      * 
      * @access public
      */
-    function &getOsidContext () { 
+    function getOsidContext () { 
 		return $this->_osidContext;
     } 
 
@@ -591,8 +591,8 @@ class TagManager
      * 
      * @access public
      */
-    function assignOsidContext ( &$context ) { 
-		$this->_osidContext =& $context;
+    function assignOsidContext ( $context ) { 
+		$this->_osidContext =$context;
     }  
 	
 }

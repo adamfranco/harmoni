@@ -7,7 +7,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniLoggingManager.class.php,v 1.2 2006/03/07 18:01:19 adamfranco Exp $
+ * @version $Id: HarmoniLoggingManager.class.php,v 1.3 2007/09/04 20:25:43 adamfranco Exp $
  */
 
 require_once(OKI2."/osid/logging/LoggingManager.php");
@@ -80,8 +80,8 @@ class HarmoniLoggingManager
 	 * 
 	 * @access public
 	 */
-	function assignConfiguration ( &$configuration ) { 
-		$this->_configuration =& $configuration;
+	function assignConfiguration ( $configuration ) { 
+		$this->_configuration =$configuration;
 		
 		$dbIndex = $configuration->getProperty('database_index');
 		
@@ -101,7 +101,7 @@ class HarmoniLoggingManager
 	 * 
 	 * @access public
 	 */
-	function &getOsidContext () { 
+	function getOsidContext () { 
 		return $this->_osidContext;
 	}
 
@@ -116,8 +116,8 @@ class HarmoniLoggingManager
 	 * 
 	 * @access public
 	 */
-	function assignOsidContext ( &$context ) { 
-		$this->_osidContext =& $context;
+	function assignOsidContext ( $context ) { 
+		$this->_osidContext =$context;
 	}
 	
 	/**
@@ -138,10 +138,10 @@ class HarmoniLoggingManager
 	 * 
 	 * @access public
 	 */
-	function &getFormatTypes () { 
-// 		$dbc =& Services::getService("DatabaseManager");
+	function getFormatTypes () { 
+// 		$dbc = Services::getService("DatabaseManager");
 // 		
-// 		$query =& new SelectQuery;
+// 		$query = new SelectQuery;
 // 		$query->addColumn("domain", "domain", "log_type");
 // 		$query->addColumn("authority", "authority", "log_type");
 // 		$query->addColumn("keyword", "keyword", "log_type");
@@ -151,10 +151,10 @@ class HarmoniLoggingManager
 // 		$query->addTable("log_type", INNER_JOIN, "log_entry.fk_format_type = log_type.id");
 // 		$query->addGroupBy("log_type.id");
 // 		
-// 		$results =& $dbc->query($query, $this->_dbIndex);
+// 		$results =$dbc->query($query, $this->_dbIndex);
 // 		$types = array();
 // 		while ($results->hasNext()) {
-// 			$types[] =& new Type(	$results->field("domain"),
+// 			$types[] = new Type(	$results->field("domain"),
 // 									$results->field("authority"), 
 // 									$results->field("keyword"), 
 // 									$results->field("description"));
@@ -163,10 +163,10 @@ class HarmoniLoggingManager
 // 		$results->free();
 		
 		$types = array();
-		$types[] =& new Type("logging", "edu.middlebury", "AgentsAndNodes",
+		$types[] = new Type("logging", "edu.middlebury", "AgentsAndNodes",
 						"A format in which the acting Agent[s] and the target nodes affected are specified.");
 		
-		$iterator =& new HarmoniIterator($types);
+		$iterator = new HarmoniIterator($types);
 		return $iterator;
 	} 
 
@@ -188,10 +188,10 @@ class HarmoniLoggingManager
 	 * 
 	 * @access public
 	 */
-	function &getPriorityTypes () { 
-		$dbc =& Services::getService("DatabaseManager");
+	function getPriorityTypes () { 
+		$dbc = Services::getService("DatabaseManager");
 		
-		$query =& new SelectQuery;
+		$query = new SelectQuery;
 		$query->addColumn("domain", "domain", "log_type");
 		$query->addColumn("authority", "authority", "log_type");
 		$query->addColumn("keyword", "keyword", "log_type");
@@ -202,10 +202,10 @@ class HarmoniLoggingManager
 		$query->setGroupBy(array("log_type.id"));
 		$query->addOrderBy("keyword");
 		
-		$results =& $dbc->query($query, $this->_dbIndex);
+		$results =$dbc->query($query, $this->_dbIndex);
 		$types = array();
 		while ($results->hasNext()) {
-			$types[] =& new Type(	$results->field("domain"),
+			$types[] = new Type(	$results->field("domain"),
 									$results->field("authority"), 
 									$results->field("keyword"), 
 									$results->field("description"));
@@ -213,7 +213,7 @@ class HarmoniLoggingManager
 		}
 		$results->free();
 		
-		$iterator =& new HarmoniIterator($types);
+		$iterator = new HarmoniIterator($types);
 		return $iterator;
 	} 
 
@@ -235,16 +235,16 @@ class HarmoniLoggingManager
 	 * 
 	 * @access public
 	 */
-	function &getLogNamesForWriting () { 
-		$dbc =& Services::getService("DatabaseManager");
+	function getLogNamesForWriting () { 
+		$dbc = Services::getService("DatabaseManager");
 		
-		$query =& new SelectQuery;
+		$query = new SelectQuery;
 		$query->addColumn("log_name");		
 		$query->addTable("log_entry");
 		$query->setDistinct(true);
 		$query->addOrderBy("log_name");
 		
-		$results =& $dbc->query($query, $this->_dbIndex);
+		$results =$dbc->query($query, $this->_dbIndex);
 		$names = array();
 		while ($results->hasNext()) {
 			$names[] = $results->field("log_name");
@@ -252,7 +252,7 @@ class HarmoniLoggingManager
 		}
 		$results->free();
 		
-		$iterator =& new HarmoniIterator($names);
+		$iterator = new HarmoniIterator($names);
 		return $iterator;
 	} 
 
@@ -277,9 +277,9 @@ class HarmoniLoggingManager
 	 * 
 	 * @access public
 	 */
-	function &getLogForWriting ( $logName ) { 
+	function getLogForWriting ( $logName ) { 
 		if (!isset($this->_logs[$logName]))
-			$this->_logs[$logName] =& new HarmoniWritableLog($logName, $this->_dbIndex);
+			$this->_logs[$logName] = new HarmoniWritableLog($logName, $this->_dbIndex);
 		
 		return $this->_logs[$logName];
 	} 
@@ -302,7 +302,7 @@ class HarmoniLoggingManager
 	 * 
 	 * @access public
 	 */
-	function &getLogNamesForReading () { 
+	function getLogNamesForReading () { 
 		return $this->getLogNamesForWriting();
 	} 
 
@@ -327,7 +327,7 @@ class HarmoniLoggingManager
 	 * 
 	 * @access public
 	 */
-	function &getLogForReading ( $logName ) { 
+	function getLogForReading ( $logName ) { 
 		return $this->getLogForWriting($logName);
 	} 
 
@@ -353,7 +353,7 @@ class HarmoniLoggingManager
 	 * 
 	 * @access public
 	 */
-	function &createLog ( $logName ) { 
+	function createLog ( $logName ) { 
 		return $this->getLogForWriting($logName);
 	} 
 
@@ -377,17 +377,17 @@ class HarmoniLoggingManager
 	 * @access public
 	 */
 	function deleteLog ( $logName ) { 
-		$log =& $this->getLogForWriting($logName);
+		$log =$this->getLogForWriting($logName);
 		$log = null;
 		
-		$dbc =& Services::getService("DatabaseManager");
+		$dbc = Services::getService("DatabaseManager");
 		
 		// get the entry Ids
-		$query =& new SelectQuery;
+		$query = new SelectQuery;
 		$query->addColumn("id");
 		$query->addTable("log_entry");
 		$query->addWhere("log_name = '".addslashes($logName)."'");
-		$result =& $dbc->query($query, $this->_dbIndex);
+		$result =$dbc->query($query, $this->_dbIndex);
 		$entryIds = array();
 		while ($result->hasMoreRows()) {
 			$entryIds[] = "'".addslashes($result->field("id"))."'";
@@ -396,7 +396,7 @@ class HarmoniLoggingManager
 		$result->free();
 		
 		// delete the agent keys
-		$query =& new DeleteQuery;
+		$query = new DeleteQuery;
 		$query->setTable("log_agent");
 		$query->addWhere("fk_entry IN (".implode(", ", $entryIds).")");
 		$dbc->query($query, $this->_dbIndex);
@@ -406,7 +406,7 @@ class HarmoniLoggingManager
 		$dbc->query($query, $this->_dbIndex);
 		
 		// delete the entries
-		$query =& new DeleteQuery;
+		$query = new DeleteQuery;
 		$query->setTable("log_entry");
 		$query->addWhere("log_name = '".addslashes($logName)."'");
 		$dbc->query($query, $this->_dbIndex);

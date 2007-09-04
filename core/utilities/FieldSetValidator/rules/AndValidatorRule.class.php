@@ -10,7 +10,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/ValidatorRule.interface.
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AndValidatorRule.class.php,v 1.4 2005/06/01 17:58:58 gabeschine Exp $
+ * @version $Id: AndValidatorRule.class.php,v 1.5 2007/09/04 20:25:55 adamfranco Exp $
  */ 
 class AndValidatorRule extends ValidatorRuleInterface {
 
@@ -23,9 +23,9 @@ class AndValidatorRule extends ValidatorRuleInterface {
 	 * @access public
 	 * @return void 
 	 **/
-	function AndValidatorRule( & $rule1, & $rule2 ) {
-		$this->_rule1 =& $rule1;
-		$this->_rule2 =& $rule2;
+	function AndValidatorRule( $rule1, $rule2 ) {
+		$this->_rule1 =$rule1;
+		$this->_rule2 =$rule2;
 	}
 
 
@@ -36,7 +36,7 @@ class AndValidatorRule extends ValidatorRuleInterface {
 	 * @access public
 	 * @return boolean TRUE, if validated; FALSE if not.
 	 **/
-	function check( & $val ) {
+	function check( $val ) {
 		return ($this->_rule1->check($val) && $this->_rule2->check($val));
 	}
 	
@@ -55,7 +55,7 @@ class AndValidatorRule extends ValidatorRuleInterface {
 	 * @static
 	 * @since 3/28/05
 	 */
-	function &getRule (&$rule1, &$rule2) {		
+	function getRule ($rule1, $rule2) {		
 		// Because there is no way in PHP to get the class name of the descendent
 		// class on which this method is called, this method must be implemented
 		// in each descendent class.
@@ -67,7 +67,7 @@ class AndValidatorRule extends ValidatorRuleInterface {
 		$ruleKey = $class."(".$rule1->getRuleKey().", ".$rule2->getRuleKey().")";
 		
 		if (!isset($GLOBALS['validator_rules'][$ruleKey]))
-			$GLOBALS['validator_rules'][$ruleKey] =& new $class($rule1, $rule2);
+			$GLOBALS['validator_rules'][$ruleKey] = new $class($rule1, $rule2);
 		
 		return $GLOBALS['validator_rules'][$ruleKey];
 	}

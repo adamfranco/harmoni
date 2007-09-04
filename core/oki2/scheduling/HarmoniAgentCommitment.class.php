@@ -38,9 +38,9 @@ extends AgentCommitment
 	 * @access public
 	 * @return void
 	 */
-	function HarmoniAgentCommitment(&$id)
+	function HarmoniAgentCommitment($id)
 	{
-		$this->_id =& $id;
+		$this->_id =$id;
 		$this->_table = 'sc_commit';
 		
 	}
@@ -66,8 +66,8 @@ extends AgentCommitment
      * 
      * @access public
      */
-    function &getAgentId () { 
-    	$idManager =& Services::getService("Id");
+    function getAgentId () { 
+    	$idManager = Services::getService("Id");
     	$id = $this->_getField('fk_agent_id');
     	return $idManager->getId($id);
        
@@ -94,7 +94,7 @@ extends AgentCommitment
      * 
      * @access public
      */
-    function &getStatus () { 
+    function getStatus () { 
         return $this->_getType('commit_stat');
     } 
     
@@ -121,19 +121,19 @@ extends AgentCommitment
      * 
      * @access public
      */
-    function &getScheduleItem () { 
-    	$ret =& new ScheduleItem($this->_id);
+    function getScheduleItem () { 
+    	$ret = new ScheduleItem($this->_id);
         return $ret;
     } 
     
     
-    function _typeToIndex($typename, &$type)
+    function _typeToIndex($typename, $type)
 	{	
 		$sc=Services::getService("Scheduling");
 		return $sc->_typeToIndex($typename, $type);
 	}
 	
-	function &_getTypes($typename)
+	function _getTypes($typename)
 	{	
 		$sc=Services::getService("Scheduling");
 		return $sc->_getTypes($typename);
@@ -146,7 +146,7 @@ extends AgentCommitment
 	}
 	
 	
-	function &_getType($typename){
+	function _getType($typename){
 		$sc=Services::getService("Scheduling");
 		return $sc->_getType($this->_id,$this->_table,$typename);
 	}

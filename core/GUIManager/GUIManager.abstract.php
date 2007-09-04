@@ -16,7 +16,7 @@ require_once(HARMONI."GUIManager/Layout.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GUIManager.abstract.php,v 1.6 2007/08/22 20:13:53 adamfranco Exp $
+ * @version $Id: GUIManager.abstract.php,v 1.7 2007/09/04 20:25:21 adamfranco Exp $
  */
 class GUIManagerAbstract
 	extends OutputHandler
@@ -36,12 +36,12 @@ class GUIManagerAbstract
 	 * @access public
 	 * @since 4/4/05
 	 */
-	function output ( &$returnedContent, $printedContent ) {		
+	function output ( $returnedContent, $printedContent ) {		
 		// alright, if what we got back was a layout, let's print it out!
 		$rule = ExtendsValidatorRule::getRule("ComponentInterface");
 		if ($rule->check($returnedContent)){
-			$osidContext =& $this->getOsidContext();
-			$harmoni =& $osidContext->getContext('harmoni');
+			$osidContext =$this->getOsidContext();
+			$harmoni =$osidContext->getContext('harmoni');
 			
 			$doctypeDef = $this->_configuration->getProperty('document_type_definition');
 			$doctype =  $this->_configuration->getProperty('document_type');
@@ -102,11 +102,11 @@ END;
 	 * @access public
 	 * @return void
 	 **/
-	function setTheme(&$themeObject) {
+	function setTheme($themeObject) {
 		ArgumentValidator::validate($themeObject, 
 			ExtendsValidatorRule::getRule("ThemeInterface"));
 		
-		$this->_theme =& $themeObject;
+		$this->_theme =$themeObject;
 	}
 	
 	/**
@@ -114,7 +114,7 @@ END;
 	 * @access public
 	 * @return ref object A {@link ThemeInterface Theme} object.
 	 **/
-	function &getTheme() {
+	function getTheme() {
 		return $this->_theme;
 	}
 
@@ -223,7 +223,7 @@ END;
 	 * @param ref object theme The theme whose state needs to be saved.
 	 * @return ref object A HarmoniId objecting identifying the saved state uniquely.
 	 **/
-	function &saveTheme(& $theme) {
+	function saveTheme($theme) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -238,7 +238,7 @@ END;
 	 * @param ref object stateId The id of the theme state that will be loaded.
 	 * @param ref object theme The theme whose state needs to be loaded.
 	 **/
-	function loadTheme(& $stateId, & $theme) {
+	function loadTheme($stateId, $theme) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -249,7 +249,7 @@ END;
 	 * @param ref object $id A HarmoniId identifying the theme state that needs to
 	 * be deleted.
 	 **/
-	function deleteTheme(& $id) {
+	function deleteTheme($id) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 }

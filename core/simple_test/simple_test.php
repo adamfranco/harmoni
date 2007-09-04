@@ -1,5 +1,5 @@
 <?php
-    // $Id: simple_test.php,v 1.3 2005/01/19 16:33:26 adamfranco Exp $
+    // $Id: simple_test.php,v 1.4 2007/09/04 20:25:50 adamfranco Exp $
     
     if (!defined("SIMPLE_TEST")) {
         define("SIMPLE_TEST", "./");
@@ -149,9 +149,9 @@
          *                             runnable test interface.
          *    @access public
          */
-        function addTestCase(&$test_case) {
+        function addTestCase($test_case) {
             $test_case->attachObserver($this);
-            $this->_test_cases[] = &$test_case;
+            $this->_test_cases[] = $test_case;
         }
         
         /**

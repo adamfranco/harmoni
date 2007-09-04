@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQLUpdateQueryResult.class.php,v 1.4 2005/04/07 16:33:24 adamfranco Exp $
+ * @version $Id: MySQLUpdateQueryResult.class.php,v 1.5 2007/09/04 20:25:19 adamfranco Exp $
  */
  
 require_once(HARMONI."DBHandler/UpdateQueryResult.interface.php");
@@ -20,7 +20,7 @@ require_once(HARMONI."DBHandler/UpdateQueryResult.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQLUpdateQueryResult.class.php,v 1.4 2005/04/07 16:33:24 adamfranco Exp $
+ * @version $Id: MySQLUpdateQueryResult.class.php,v 1.5 2007/09/04 20:25:19 adamfranco Exp $
  */
 
 class MySQLUpdateQueryResult extends UpdateQueryResultInterface {
@@ -54,7 +54,7 @@ class MySQLUpdateQueryResult extends UpdateQueryResultInterface {
 	 */
 	function MySQLUpdateQueryResult($linkId) {
 		// ** parameter validation
-		$resourceRule =& ResourceValidatorRule::getRule();
+		$resourceRule = ResourceValidatorRule::getRule();
 		ArgumentValidator::validate($linkId, $resourceRule, true);
 		// ** end of parameter validation
 

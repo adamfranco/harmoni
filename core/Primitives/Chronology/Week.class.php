@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Week.class.php,v 1.4 2006/11/30 22:02:04 adamfranco Exp $
+ * @version $Id: Week.class.php,v 1.5 2007/09/04 20:25:25 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -32,7 +32,7 @@ require_once(dirname(__FILE__)."/Timespan.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Week.class.php,v 1.4 2006/11/30 22:02:04 adamfranco Exp $
+ * @version $Id: Week.class.php,v 1.5 2007/09/04 20:25:25 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -121,8 +121,8 @@ class Week
 	 * @since 5/5/05
 	 * @static
 	 */
-	function &current ( $class = 'Week' ) {
-		$obj =& parent::current($class);
+	function current ( $class = 'Week' ) {
+		$obj = parent::current($class);
 		return $obj;
 	}
 	
@@ -138,8 +138,8 @@ class Week
 	 * @since 5/5/05
 	 * @static
 	 */
-	function &epoch ( $class = 'Week' ) {
-		$obj =& parent::epoch($class);
+	function epoch ( $class = 'Week' ) {
+		$obj = parent::epoch($class);
 		return $obj;
 	}
 	
@@ -156,8 +156,8 @@ class Week
 	 * @since 5/5/05
 	 * @static
 	 */
-	function &starting ( &$aDateAndTime, $class = 'Week' ) {
-		$obj =& parent::starting($aDateAndTime, $class);
+	function starting ( $aDateAndTime, $class = 'Week' ) {
+		$obj = parent::starting($aDateAndTime, $class);
 		return $obj;
 	}
 	
@@ -174,10 +174,10 @@ class Week
 	 * @access public
 	 * @since 5/11/05
 	 */
-	function &startingEnding ( &$startDateAndTime, &$endDateAndTime, 
+	function startingEnding ( $startDateAndTime, $endDateAndTime, 
 		$class = 'Week' ) 
 	{
-		$obj =& parent::startingEnding ( $startDateAndTime, $endDateAndTime, $class);
+		$obj = parent::startingEnding ( $startDateAndTime, $endDateAndTime, $class);
 		return $obj;
 	}
 	
@@ -197,7 +197,7 @@ class Week
 	 * @since 5/5/05
 	 * @static
 	 */
-	function &startingDuration ( &$aDateAndTime, &$aDuration, $class = 'Week' ) {
+	function startingDuration ( $aDateAndTime, $aDuration, $class = 'Week' ) {
 		
 		// Validate our passed class name.
 		if (!(strtolower($class) == strtolower('Week')
@@ -206,15 +206,15 @@ class Week
 			die("Class, '$class', is not a subclass of 'Week'.");
 		}
 		
-		$asDateAndTime =& $aDateAndTime->asDateAndTime();
-		$midnight =& $asDateAndTime->atMidnight();
+		$asDateAndTime =$aDateAndTime->asDateAndTime();
+		$midnight =$asDateAndTime->atMidnight();
 		$dayNames = ChronologyConstants::DayNames();
 		$temp = $midnight->dayOfWeek() + 7 - array_search(Week::startDay(), $dayNames);
 		$delta =  abs($temp - (intval($temp/7) * 7));
 		
-		$adjusted =& $midnight->minus(Duration::withDays($delta));
+		$adjusted =$midnight->minus(Duration::withDays($delta));
 		
-		$obj =& parent::startingDuration($adjusted, Duration::withWeeks(1), $class);
+		$obj = parent::startingDuration($adjusted, Duration::withWeeks(1), $class);
 		
 		return $obj;
 	}
@@ -231,7 +231,7 @@ class Week
  	 * @access public
  	 * @since 5/23/05
  	 */
- 	function &asWeek () {
+ 	function asWeek () {
  		return $this;
  	}
 }

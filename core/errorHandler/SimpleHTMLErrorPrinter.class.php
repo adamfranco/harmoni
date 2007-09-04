@@ -11,7 +11,7 @@ require_once(HARMONI."errorHandler/ErrorPrinter.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SimpleHTMLErrorPrinter.class.php,v 1.2 2005/01/19 21:10:00 adamfranco Exp $
+ * @version $Id: SimpleHTMLErrorPrinter.class.php,v 1.3 2007/09/04 20:25:35 adamfranco Exp $
  */
 
 class SimpleHTMLErrorPrinter extends ErrorPrinterInterface {
@@ -35,7 +35,7 @@ class SimpleHTMLErrorPrinter extends ErrorPrinterInterface {
 
 		/* We are assuming that only the last Error (first in the reversed queue) can be Fatal.*/
 		while($errors->hasNext()) {
-			$error =& $errors->next();
+			$error =$errors->next();
 			
 			$result .= $this->_printError( $error );
 		}
@@ -83,7 +83,7 @@ class SimpleHTMLErrorPrinter extends ErrorPrinterInterface {
      * @param boolean $isDetailed If TRUE, will print the error with details.
      * @access private
      */
-    function _printError(& $error, $isDetailed = false) {
+    function _printError($error, $isDetailed = false) {
 		$result = "";
 		
 		$type = $error->getType();

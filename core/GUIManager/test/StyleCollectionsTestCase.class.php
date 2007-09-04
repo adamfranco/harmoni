@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StyleCollectionsTestCase.class.php,v 1.8 2006/08/02 23:50:28 sporktim Exp $
+ * @version $Id: StyleCollectionsTestCase.class.php,v 1.9 2007/09/04 20:25:24 adamfranco Exp $
  */
 require_once(HARMONI."GUIManager/StyleCollection.class.php");
 require_once(HARMONI."GUIManager/StyleProperties/ColorSP.class.php");
@@ -21,7 +21,7 @@ require_once(HARMONI."GUIManager/StyleProperties/BorderSP.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StyleCollectionsTestCase.class.php,v 1.8 2006/08/02 23:50:28 sporktim Exp $
+ * @version $Id: StyleCollectionsTestCase.class.php,v 1.9 2007/09/04 20:25:24 adamfranco Exp $
  */
 
     class StyleCollectionsTestCase extends UnitTestCase {
@@ -48,7 +48,7 @@ require_once(HARMONI."GUIManager/StyleProperties/BorderSP.class.php");
 		}
 	
 		function test_collections() {
-			$collection =& new StyleCollection("div", null, "The Block", "Some Blocky Block");
+			$collection = new StyleCollection("div", null, "The Block", "Some Blocky Block");
 			$collection->addSP(new ColorSP("#FFBBAA"));
 			
 			$css1 = $collection->getCSS();
@@ -57,8 +57,8 @@ require_once(HARMONI."GUIManager/StyleProperties/BorderSP.class.php");
 			$this->assertFalse($collection->canBeApplied());
 
 			// another one
-			$collection =& new StyleCollection("p.col3", "col3", "The Block", "Some Blocky Block");
-			$sp =& $collection->addSP(new ColorSP("#FFBBAA"));
+			$collection = new StyleCollection("p.col3", "col3", "The Block", "Some Blocky Block");
+			$sp =$collection->addSP(new ColorSP("#FFBBAA"));
 			$collection->addSP(new BorderSP("3em", "solid", "#421"));
 			
 			$css1 = $collection->getCSS("\t\t");
@@ -68,10 +68,10 @@ require_once(HARMONI."GUIManager/StyleProperties/BorderSP.class.php");
 			$this->assertIdentical($collection->getClassSelector(), "col3");
 			
 			$this->assertNotNull($collection->_SPs['color']);
-			$sp1 =& $collection->removeSP($sp);			
+			$sp1 =$collection->removeSP($sp);			
 			$this->assertReference($sp1, $sp);
 			$this->assertTrue(!isset($collection->_SPs['color']));
-			$sps =& $collection->getSPs();
+			$sps =$collection->getSPs();
 			$this->assertTrue(!isset($sps['color']));
 		}
 		

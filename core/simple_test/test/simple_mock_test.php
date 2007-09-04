@@ -1,5 +1,5 @@
 <?php
-    // $Id: simple_mock_test.php,v 1.1 2003/08/14 19:26:31 gabeschine Exp $
+    // $Id: simple_mock_test.php,v 1.2 2007/09/04 20:25:51 adamfranco Exp $
     
     class TestOfParameterList extends UnitTestCase {
         function TestOfParameterList() {
@@ -71,7 +71,7 @@
         function testExactReference() {
             $map = new CallMap("wild");
             $ref = "Fred";
-            $map->addReference(array(0), &$ref);
+            $map->addReference(array(0), $ref);
             $this->assertEqual($map->findFirstMatch(array(0)), "Fred");
             $this->assertReference($map->findFirstMatch(array(0)), $ref);
         }
@@ -121,7 +121,7 @@
     Mock::generate("Dummy", "AnotherMockDummy");
     
     class SpecialSimpleMock extends SimpleMock {
-        function SpecialSimpleMock(&$test, $wildcard) {
+        function SpecialSimpleMock($test, $wildcard) {
             $this->SimpleMock($test, $wildcard);
         }
     }

@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableBoolean.class.php,v 1.12 2007/04/12 15:37:26 adamfranco Exp $
+ * @version $Id: StorableBoolean.class.php,v 1.13 2007/09/04 20:25:33 adamfranco Exp $
  */
 class StorableBoolean 
 	extends Boolean 
@@ -27,8 +27,8 @@ class StorableBoolean
 	 * @return object StorableBoolean
 	 * @static
 	 */
-	function &createAndPopulate( $dbRow ) {
-		$boolean =& new StorableBoolean;
+	function createAndPopulate( $dbRow ) {
+		$boolean = new StorableBoolean;
 		$boolean->_setValue($dbRow["boolean_data"]);
 		return $boolean;
 	}
@@ -43,7 +43,7 @@ class StorableBoolean
 	 * @return string or NULL if no searching is allowed.
 	 * @static
 	 */
-	function makeSearchString(&$value, $searchType = SEARCH_TYPE_EQUALS) {
+	function makeSearchString($value, $searchType = SEARCH_TYPE_EQUALS) {
 		if ($searchType == SEARCH_TYPE_EQUALS) {
 			return "dm_boolean.data = ".($value->value()?"1":"0");
 		}
@@ -73,17 +73,17 @@ class StorableBoolean
 	 * @return integer Returns the new ID of the data stored.
 	 */
 	function insert($dbID) {
-		$idManager =& Services::getService("Id");
-		$newID =& $idManager->createId();
+		$idManager = Services::getService("Id");
+		$newID =$idManager->createId();
 		
-		$query =& new InsertQuery();
+		$query = new InsertQuery();
 		$query->setTable("dm_boolean");
 		$query->setColumns(array("id","data"));
 		
 		$query->addRowOfValues(array("'".addslashes($newID->getIdString())."'", $this->value()?1:0));
 		
-		$dbHandler =& Services::getService("DatabaseManager");
-		$result =& $dbHandler->query($query, $dbID);
+		$dbHandler = Services::getService("DatabaseManager");
+		$result =$dbHandler->query($query, $dbID);
 		if (!$result || $result->getNumberOfRows() != 1) {
 			throwError( new UnknownDBError("Storable") );
 			return false;
@@ -103,15 +103,15 @@ class StorableBoolean
 	function update($dbID, $dataID) {
 		if (!$dataID) return false;
 		
-		$query =& new UpdateQuery();
+		$query = new UpdateQuery();
 		$query->setTable("dm_boolean");
 		$query->setColumns(array("data"));
 		$query->setWhere("id='".addslashes($dataID)."'");
 		
 		$query->setValues(array($this->value()?1:0));
 		
-		$dbHandler =& Services::getService("DatabaseManager");
-		$result =& $dbHandler->query($query, $dbID);
+		$dbHandler = Services::getService("DatabaseManager");
+		$result =$dbHandler->query($query, $dbID);
 		
 		if (!$result) {
 			throwError( new UnknownDBError("Storable") );
@@ -128,7 +128,7 @@ class StorableBoolean
 	 * @access public
 	 * @return void
 	 */
-	function alterQuery( &$query ) {
+	function alterQuery( $query ) {
 		$query->addTable("dm_boolean",LEFT_JOIN,"dm_boolean.id = fk_data");
 		$query->addColumn("data","boolean_data","dm_boolean");
 	}
@@ -145,12 +145,12 @@ class StorableBoolean
 		// delete ourselves from our data table
 		$table = "dm_boolean";
 		
-		$query =& new DeleteQuery;
+		$query = new DeleteQuery;
 		$query->setTable($table);
 		$query->setWhere("id='".addslashes($dataID)."'");
 		
-		$dbHandler =& Services::getService("DatabaseManager");
-		$res =& $dbHandler->query($query, $dbID);
+		$dbHandler = Services::getService("DatabaseManager");
+		$res =$dbHandler->query($query, $dbID);
 		
 		if (!$res) throwError( new UnknownDBError("StorablePrimitive"));
 	}
@@ -166,7 +166,7 @@ class StorableBoolean
 	 * @access public
 	 * @since 6/9/06
 	 */
-	function &asABlob () {
+	function asABlob () {
 		return Blob::fromString($this->asString());
 	}
 	
@@ -177,7 +177,7 @@ class StorableBoolean
 	 * @access public
 	 * @since 6/9/06
 	 */
-	function &asAString () {
+	function asAString () {
 		return String::fromString($this->asString());
 	}
 	
@@ -188,7 +188,7 @@ class StorableBoolean
 	 * @access public
 	 * @since 6/9/06
 	 */
-	function &asAShortString () {
+	function asAShortString () {
 		return String::fromString($this->asString());
 	}
 	
@@ -199,7 +199,7 @@ class StorableBoolean
 	 * @access public
 	 * @since 6/9/06
 	 */
-	function &asAInteger() {
+	function asAInteger() {
 		return Integer::withValue($this->getValue()?1:0);
 	}
 	
@@ -210,7 +210,7 @@ class StorableBoolean
 	 * @access public
 	 * @since 6/9/06
 	 */
-	function &asAFloat () {
+	function asAFloat () {
 		return Float::withValue($this->getValue()?1:0);
 	}
 	
@@ -221,7 +221,7 @@ class StorableBoolean
 	 * @access public
 	 * @since 6/9/06
 	 */
-	function &asABoolean() {
+	function asABoolean() {
 		return $this;
 	}
 }

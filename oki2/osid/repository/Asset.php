@@ -160,7 +160,7 @@ class Asset
      * 
      * @access public
      */
-    function &getId () { 
+    function getId () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -184,7 +184,7 @@ class Asset
      * 
      * @access public
      */
-    function &getAssetType () { 
+    function getAssetType () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -279,7 +279,7 @@ class Asset
      * 
      * @access public
      */
-    function &getRepository () { 
+    function getRepository () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -303,7 +303,7 @@ class Asset
      * 
      * @access public
      */
-    function &getContent () { 
+    function getContent () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -328,7 +328,7 @@ class Asset
      * 
      * @access public
      */
-    function updateContent ( &$content ) { 
+    function updateContent ( $content ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -356,7 +356,7 @@ class Asset
      * 
      * @access public
      */
-    function addAsset ( &$assetId ) { 
+    function addAsset ( $assetId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -384,7 +384,7 @@ class Asset
      * 
      * @access public
      */
-    function removeAsset ( &$assetId, $includeChildren ) { 
+    function removeAsset ( $assetId, $includeChildren ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -408,7 +408,7 @@ class Asset
      * 
      * @access public
      */
-    function &getAssets () { 
+    function getAssets () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -438,7 +438,7 @@ class Asset
      * 
      * @access public
      */
-    function &getAssetsByType ( &$assetType ) { 
+    function getAssetsByType ( $assetType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -467,7 +467,7 @@ class Asset
      * 
      * @access public
      */
-    function &createRecord ( &$recordStructureId ) { 
+    function createRecord ( $recordStructureId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -499,7 +499,7 @@ class Asset
      * 
      * @access public
      */
-    function inheritRecordStructure ( &$assetId, &$recordStructureId ) { 
+    function inheritRecordStructure ( $assetId, $recordStructureId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -530,7 +530,7 @@ class Asset
      * 
      * @access public
      */
-    function copyRecordStructure ( &$assetId, &$recordStructureId ) { 
+    function copyRecordStructure ( $assetId, $recordStructureId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -558,7 +558,7 @@ class Asset
      * 
      * @access public
      */
-    function deleteRecord ( &$recordId ) { 
+    function deleteRecord ( $recordId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -582,7 +582,7 @@ class Asset
      * 
      * @access public
      */
-    function &getRecords () { 
+    function getRecords () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -611,7 +611,7 @@ class Asset
      * 
      * @access public
      */
-    function &getRecordsByRecordStructure ( &$recordStructureId ) { 
+    function getRecordsByRecordStructure ( $recordStructureId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -640,7 +640,7 @@ class Asset
      * 
      * @access public
      */
-    function &getRecordsByRecordStructureType ( &$recordStructureType ) { 
+    function getRecordsByRecordStructureType ( $recordStructureType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -665,7 +665,7 @@ class Asset
      * 
      * @access public
      */
-    function &getRecordStructures () { 
+    function getRecordStructures () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -688,7 +688,7 @@ class Asset
      * 
      * @access public
      */
-    function &getContentRecordStructure () { 
+    function getContentRecordStructure () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -716,7 +716,7 @@ class Asset
      * 
      * @access public
      */
-    function &getRecord ( &$recordId ) { 
+    function getRecord ( $recordId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -745,7 +745,7 @@ class Asset
      * 
      * @access public
      */
-    function &getPart ( &$partId ) { 
+    function getPart ( $partId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -774,7 +774,7 @@ class Asset
      * 
      * @access public
      */
-    function &getPartValue ( &$partId ) { 
+    function getPartValue ( $partId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -803,7 +803,7 @@ class Asset
      * 
      * @access public
      */
-    function &getPartsByPartStructure ( &$partStructureId ) { 
+    function getPartsByPartStructure ( $partStructureId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -832,7 +832,7 @@ class Asset
      * 
      * @access public
      */
-    function &getPartValuesByPartStructure ( &$partStructureId ) { 
+    function getPartValuesByPartStructure ( $partStructureId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 }

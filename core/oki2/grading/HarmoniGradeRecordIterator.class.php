@@ -70,7 +70,7 @@ extends HarmoniIterator
      * 
      * @access public
      */
-    function &nextGradeRecord () { 
+    function nextGradeRecord () { 
         return $this->next();
     } 
 }

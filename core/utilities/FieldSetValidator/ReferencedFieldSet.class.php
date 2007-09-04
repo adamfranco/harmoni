@@ -10,7 +10,7 @@ require_once (dirname(__FILE__)."/FieldSetValidator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ReferencedFieldSet.class.php,v 1.3 2005/01/19 21:10:15 adamfranco Exp $
+ * @version $Id: ReferencedFieldSet.class.php,v 1.4 2007/09/04 20:25:55 adamfranco Exp $
  */
 class ReferencedFieldSet extends FieldSet {
 	/**
@@ -30,8 +30,8 @@ class ReferencedFieldSet extends FieldSet {
 	 * @access public
 	 * @return void 
 	 **/
-	function set( $key, & $val ) {
-		$this->_fields[$key] = & $val;
+	function set( $key, $val ) {
+		$this->_fields[$key] =  $val;
 	}
 	
 }

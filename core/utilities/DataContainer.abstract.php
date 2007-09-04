@@ -14,7 +14,7 @@ require_once(HARMONI."utilities/FieldSetValidator/RuleSet.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DataContainer.abstract.php,v 1.6 2005/04/06 20:38:44 adamfranco Exp $
+ * @version $Id: DataContainer.abstract.php,v 1.7 2007/09/04 20:25:54 adamfranco Exp $
  *
  * @abstract
  */
@@ -41,8 +41,8 @@ class DataContainer
 	 * @return void 
 	 **/
 	function init() {
-		$this->_fieldSet = & new FieldSet;
-		$this->_ruleSet = & new RuleSet;
+		$this->_fieldSet =  new FieldSet;
+		$this->_ruleSet =  new RuleSet;
 	}
 	
 	/**
@@ -54,7 +54,7 @@ class DataContainer
 	 * @see FieldSetValidator
 	 * @return void 
 	 **/
-	function add( $field, & $rule, $error = null ) {
+	function add( $field, $rule, $error = null ) {
 		// add the $field to the ruleset with the rule & error
 		if ($error == null) {
 			// add the default error for a DataContainer
@@ -63,7 +63,7 @@ class DataContainer
 			$description .= "' could not be validated using the rule: ";
 			$description .= get_class($rule);
 			$description .= ".";
-			$error =& new Error($description,"System",true);
+			$error = new Error($description,"System",true);
 		}
 		$this->_ruleSet->addRule( $field, $rule, $error );
 		// done;
@@ -75,7 +75,7 @@ class DataContainer
 	 * @access public
 	 * @return mixed The value of $field. 
 	 **/
-	function &get( $field ) {
+	function get( $field ) {
 		// check if this is a valid key
 		if (!in_array($field,$this->_ruleSet->getKeys())) {
 			throwError(new Error(get_class($this)." - can not get the value for key '$field' because it is not a valid key!","DataContainer",true));

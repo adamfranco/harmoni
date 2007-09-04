@@ -33,7 +33,7 @@ require_once(HARMONI."oki2/hierarchy/HarmoniTraversalInfoIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HierarchyCache.class.php,v 1.35 2006/07/06 15:00:42 sporktim Exp $
+ * @version $Id: HierarchyCache.class.php,v 1.36 2007/09/04 20:25:41 adamfranco Exp $
  **/
 
 class HierarchyCache {
@@ -147,7 +147,7 @@ class HierarchyCache {
 
 		// initialize a generic SELECT query to fetch one node from the DB
 		$db = $this->_hyDB.".";
-		$this->_nodeQuery =& new SelectQuery();
+		$this->_nodeQuery = new SelectQuery();
 		$this->_nodeQuery->addColumn("node_id", "id", $db."node");
 		$this->_nodeQuery->addColumn("node_display_name", "display_name", $db."node");
 		$this->_nodeQuery->addColumn("node_description", "description", $db."node");
@@ -171,8 +171,8 @@ class HierarchyCache {
 	 * @access public
 	 * @since 12/20/05
 	 */
-	function &getHierarchyId () {
-		$idManager =& Services::getService("Id");
+	function getHierarchyId () {
+		$idManager = Services::getService("Id");
 		return $idManager->getId($this->_hierarchyId);
 	}
 	
@@ -267,8 +267,8 @@ class HierarchyCache {
 		// ** end of parameter validation
 		
 		// get the two nodes
-		$parent =& $this->getNode($parentIdValue);
-		$child =& $this->getNode($childIdValue);
+		$parent =$this->getNode($parentIdValue);
+		$child =$this->getNode($childIdValue);
 		// the next two calls make sure everything will go smoothly
 		// i.e. will help to detect that $parent is not already a parent of $child
 		$parent->getChildren();
@@ -276,8 +276,8 @@ class HierarchyCache {
 		$this->traverse($child->getId(), true, -1); // traverse fully down in order to detect cycles
 		
 		// get the tree nodes
-		$parentTreeNode =& $this->_tree->getNode($parentIdValue);
-		$childTreeNode =& $this->_tree->getNode($childIdValue);
+		$parentTreeNode =$this->_tree->getNode($parentIdValue);
+		$childTreeNode =$this->_tree->getNode($childIdValue);
 
 		// make sure that we are not adding a second parent in a single-parent hierarchy
 		if (!$this->_allowsMultipleParents)
@@ -318,8 +318,8 @@ class HierarchyCache {
 
 		// 2) update the database
 		$db = $this->_hyDB.".";
-		$dbHandler =& Services::getService("DatabaseManager");
-		$query =& new InsertQuery();
+		$dbHandler = Services::getService("DatabaseManager");
+		$query = new InsertQuery();
 		$query->setTable($db."j_node_node");
 		$columns = array();
 		$columns[] = $db."j_node_node.fk_parent";
@@ -334,7 +334,7 @@ class HierarchyCache {
 //		echo MySQL_SQLGenerator::generateSQLQuery($query);
 //		echo "</pre>\n";
 		
-		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 	
 		if ($queryResult->getNumberOfRows() != 1)
 			throwError(new Error(HierarchyException::OPERATION_FAILED(),"HierarchyCache",true));
@@ -368,8 +368,8 @@ class HierarchyCache {
 		
 
 		// get the two nodes
-		$parent =& $this->getNode($parentIdValue);
-		$child =& $this->getNode($childIdValue);
+		$parent =$this->getNode($parentIdValue);
+		$child =$this->getNode($childIdValue);
 		// the next two calls make sure everything will go smoothly
 		// i.e. will help to detect that $parent is indeed a parent of $child
 
@@ -379,14 +379,14 @@ class HierarchyCache {
 		// now add remove the parent
 		
 		// 1) update the cache
-		$parentTreeNode =& $this->_tree->getNode($parentIdValue);
-		$childTreeNode =& $this->_tree->getNode($childIdValue); 
+		$parentTreeNode =$this->_tree->getNode($parentIdValue);
+		$childTreeNode =$this->_tree->getNode($childIdValue); 
 		$parentTreeNode->detachChild($childTreeNode);
 
 		// 2) update the database
 		$db = $this->_hyDB.".";
-		$dbHandler =& Services::getService("DatabaseManager");
-		$query =& new DeleteQuery();
+		$dbHandler = Services::getService("DatabaseManager");
+		$query = new DeleteQuery();
 		$query->setTable($db."j_node_node");
 		$query->addWhere($db."j_node_node.fk_parent = '".addslashes($parentIdValue)."'");
 		$query->addWhere($db."j_node_node.fk_child = '".addslashes($childIdValue)."'");
@@ -395,7 +395,7 @@ class HierarchyCache {
 //		echo MySQL_SQLGenerator::generateSQLQuery($query);
 //		echo "</pre>\n";
 		
-		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 		
 		if ($queryResult->getNumberOfRows() != 1)
 			throwError(new Error(HierarchyException::OPERATION_FAILED(),"HierarchyCache",true));
@@ -414,34 +414,34 @@ class HierarchyCache {
 	 * which nodes to return.
 	 * @return ref object An array of HarmoniNode objects.
 	 **/
-	function &getNodesFromDB($where) {
+	function getNodesFromDB($where) {
 		// ** parameter validation
 		ArgumentValidator::validate($where, StringValidatorRule::getRule(), true);
 		// ** end of parameter validation
 
-		$dbHandler =& Services::getService("DatabaseManager");
+		$dbHandler = Services::getService("DatabaseManager");
 
 		$this->_nodeQuery->resetWhere();
 		$this->_nodeQuery->addWhere($where);
 		$this->_nodeQuery->addWhere($this->_hyDB."."."node.fk_hierarchy = '".addslashes($this->_hierarchyId)."'");
 
-		$nodeQueryResult =& $dbHandler->query($this->_nodeQuery, $this->_dbIndex);
+		$nodeQueryResult =$dbHandler->query($this->_nodeQuery, $this->_dbIndex);
 		
 		$result = array();
 
-		$idManager =& Services::getService("Id");
+		$idManager = Services::getService("Id");
 
 		while ($nodeQueryResult->hasMoreRows()) {
 			$nodeRow = $nodeQueryResult->getCurrentRow();
-			$idValue =& $nodeRow['id'];
+			$idValue =$nodeRow['id'];
 			
-			$id =& $idManager->getId($idValue);
-			$type =& new HarmoniType($nodeRow['domain'], $nodeRow['authority'], 
+			$id =$idManager->getId($idValue);
+			$type = new HarmoniType($nodeRow['domain'], $nodeRow['authority'], 
 									  $nodeRow['keyword'], $nodeRow['type_description']);
-			$node =& new HarmoniNode($id, $type, 
+			$node = new HarmoniNode($id, $type, 
 									  $nodeRow['display_name'], $nodeRow['description'], $this);
 	
-			$result[] =& $node;
+			$result[] =$node;
 		
 			$nodeQueryResult->advanceRow();
 		}
@@ -455,12 +455,12 @@ class HierarchyCache {
 	 * @access public
 	 * @return ref array An array of all nodes in this hierarchy.
 	 **/
-	function &getAllNodes() {
-		$dbHandler =& Services::getService("DatabaseManager");
-		$idManager =& Services::getService("Id");
+	function getAllNodes() {
+		$dbHandler = Services::getService("DatabaseManager");
+		$idManager = Services::getService("Id");
 
 		$db = $this->_hyDB.".";
-		$query =& new SelectQuery();
+		$query = new SelectQuery();
 		$query->addColumn("node_id", "id", $db."node");
 		$query->addColumn("node_display_name", "display_name", $db."node");
 		$query->addColumn("node_description", "description", $db."node");
@@ -480,7 +480,7 @@ class HierarchyCache {
 
 		$query->addOrderBy($db."node.node_id");
 		
-		$nodeQueryResult =& $dbHandler->query($query, $this->_dbIndex);
+		$nodeQueryResult =$dbHandler->query($query, $this->_dbIndex);
 		
 		$result = array();
 		
@@ -496,9 +496,9 @@ class HierarchyCache {
 			// 1) update the tree structure
 			// create a TreeNode for the current node, if necessary
 			if ($this->_tree->nodeExists($idValue))
-				$tn =& $this->_tree->getNode($idValue);
+				$tn =$this->_tree->getNode($idValue);
 			else
-				$tn =& new TreeNode($idValue);
+				$tn = new TreeNode($idValue);
 			
 			// 2) create a TreeNode for the parent node, if necessary
 			if (is_null($parentIdValue)) {
@@ -507,9 +507,9 @@ class HierarchyCache {
 				$parent_tn = null;
 			}
 			else if ($this->_tree->nodeExists($parentIdValue))
-				$parent_tn =& $this->_tree->getNode($parentIdValue);
+				$parent_tn =$this->_tree->getNode($parentIdValue);
 			else {
-				$parent_tn =& new TreeNode($parentIdValue);
+				$parent_tn = new TreeNode($parentIdValue);
 				$nullValue = NULL; 	// getting rid of PHP warnings by specifying
 									// this second argument
 				$this->_tree->addNode($parent_tn, $nullValue);
@@ -518,16 +518,16 @@ class HierarchyCache {
 			$this->_tree->addNode($tn, $parent_tn);
 
 			// 4) update cache of hierarchy nodes
-			$id =& $idManager->getId($idValue);
-			$type =& new HarmoniType($nodeRow['domain'], $nodeRow['authority'], 
+			$id =$idManager->getId($idValue);
+			$type = new HarmoniType($nodeRow['domain'], $nodeRow['authority'], 
 									  $nodeRow['keyword'], $nodeRow['type_description']);
-			$node =& new HarmoniNode($id, $type, 
+			$node = new HarmoniNode($id, $type, 
 									  $nodeRow['display_name'], $nodeRow['description'], $this);
-			$this->_cache[$idValue][0] =& $node;
+			$this->_cache[$idValue][0] =$node;
 			$this->_cache[$idValue][1] = -1;
 			$this->_cache[$idValue][2] = -1;
 			
-			$result[] =& $this->_cache[$idValue][0];
+			$result[] =$this->_cache[$idValue][0];
 		
 			$nodeQueryResult->advanceRow();
 		}
@@ -542,9 +542,9 @@ class HierarchyCache {
 	 * @access public
 	 * @return ref array An array of all root nodes in this hierarchy.
 	 **/
-	function &getRootNodes() {
-		$dbHandler =& Services::getService("DatabaseManager");
-		$idManager =& Services::getService("Id");
+	function getRootNodes() {
+		$dbHandler = Services::getService("DatabaseManager");
+		$idManager = Services::getService("Id");
 		$db = $this->_hyDB.".";
 
 		// copy _nodeQuery into a new object
@@ -561,31 +561,31 @@ class HierarchyCache {
 //		echo MySQL_SQLGenerator::generateSQLQuery($query);
 //		echo "</pre>\n";
 
-		$nodeQueryResult =& $dbHandler->query($query, $this->_dbIndex);
+		$nodeQueryResult =$dbHandler->query($query, $this->_dbIndex);
 		
 		$result = array();
 
 		while ($nodeQueryResult->hasMoreRows()) {
 			$nodeRow = $nodeQueryResult->getCurrentRow();
-			$idValue =& $nodeRow['id'];
+			$idValue =$nodeRow['id'];
 			
 			if (!$this->_isCached($idValue)) {
-				$id =& $idManager->getId($idValue);
-				$type =& new HarmoniType($nodeRow['domain'], $nodeRow['authority'], 
+				$id =$idManager->getId($idValue);
+				$type = new HarmoniType($nodeRow['domain'], $nodeRow['authority'], 
 										  $nodeRow['keyword'], $nodeRow['type_description']);
-				$node =& new HarmoniNode($id, $type, 
+				$node = new HarmoniNode($id, $type, 
 										  $nodeRow['display_name'], $nodeRow['description'], $this);
 
 				// insert node into cache
 				$nullValue = NULL; 	// getting rid of PHP warnings by specifying
 									// this second argument
 				$this->_tree->addNode(new TreeNode($idValue), $nullValue);
-				$this->_cache[$idValue][0] =& $node;
+				$this->_cache[$idValue][0] =$node;
 				$this->_cache[$idValue][1] = 0;
 				$this->_cache[$idValue][2] = 0;
 			}
 			
-			$result[] =& $this->_cache[$idValue][0];
+			$result[] =$this->_cache[$idValue][0];
 		
 			$nodeQueryResult->advanceRow();
 		}
@@ -602,7 +602,7 @@ class HierarchyCache {
 	 * @param mixed idValue The string id of the node.
 	 * @return mixed The corresponding <code>Node</code> object.
 	 **/
-	function &getNode($idValue) {
+	function getNode($idValue) {
 		// ** parameter validation
 		ArgumentValidator::validate($idValue, 
 			OrValidatorRule::getRule(
@@ -615,7 +615,7 @@ class HierarchyCache {
 		if (!$this->_isCached($idValue)) {
 			// now fetch the node from the database
 			$db = $this->_hyDB.".";
-			$nodes =& $this->getNodesFromDB($db."node.node_id = '".addslashes($idValue)."'");
+			$nodes =$this->getNodesFromDB($db."node.node_id = '".addslashes($idValue)."'");
 			
 			// must be only one node
 			if (count($nodes) != 1) {
@@ -629,14 +629,14 @@ class HierarchyCache {
 			$nullValue = NULL; 	// getting rid of PHP warnings by specifying
 								// this second argument
 			$this->_tree->addNode(new TreeNode($idValue), $nullValue);
-			$this->_cache[$idValue][0] =& $nodes[0];
+			$this->_cache[$idValue][0] =$nodes[0];
 			$this->_cache[$idValue][1] = 0;
 			$this->_cache[$idValue][2] = 0;
 		
 		}
 		
 		// now that all nodes are cached, just return all children
-		$result =& $this->_cache[$idValue][0];
+		$result =$this->_cache[$idValue][0];
 
 		return $result;
 	}
@@ -662,7 +662,7 @@ class HierarchyCache {
 		if (!$this->_isCached($idValue)) {
 			// now fetch the node from the database
 			$db = $this->_hyDB.".";
-			$nodes =& $this->getNodesFromDB($db."node.node_id = '".addslashes($idValue)."'");
+			$nodes =$this->getNodesFromDB($db."node.node_id = '".addslashes($idValue)."'");
 			
 			// if it isn't in the database, then it doesn't exist
 			if (count($nodes) < 1) {
@@ -680,7 +680,7 @@ class HierarchyCache {
 			$nullValue = NULL; 	// getting rid of PHP warnings by specifying
 								// this second argument
 			$this->_tree->addNode(new TreeNode($idValue), $nullValue);
-			$this->_cache[$idValue][0] =& $nodes[0];
+			$this->_cache[$idValue][0] =$nodes[0];
 			$this->_cache[$idValue][1] = 0;
 			$this->_cache[$idValue][2] = 0;
 		}
@@ -697,7 +697,7 @@ class HierarchyCache {
 	 * @param object node The node object whose parents we must cache.
 	 * @return ref array An array of the parent nodes of the given node.
 	 **/
-	function &getParents($node) {
+	function getParents($node) {
 		// ** parameter validation
 		ArgumentValidator::validate($node, ExtendsValidatorRule::getRule("HarmoniNode"), true);
 		// ** end of parameter validation
@@ -712,18 +712,18 @@ class HierarchyCache {
 				$nullValue = NULL; 	// getting rid of PHP warnings by specifying
 									// this second argument
 				$this->_tree->addNode(new TreeNode($idValue), $nullValue);
-				$this->_cache[$idValue][0] =& $node;
+				$this->_cache[$idValue][0] =$node;
 			}
 	
 			// now fetch <code>$node</code>'s parents from the database
 			// with the exception of those parents that have been already fetched
-			$treeNode =& $this->_tree->getNode($idValue);
+			$treeNode =$this->_tree->getNode($idValue);
 			$nodesToExclude = (isset($treeNode)) ? ($treeNode->getParents()) : array();
 	
 			$db = $this->_hyDB.".";
-			$dbHandler =& Services::getService("DatabaseManager");
-			$idManager =& Services::getService("Id");
-			$query =& new SelectQuery();
+			$dbHandler = Services::getService("DatabaseManager");
+			$idManager = Services::getService("Id");
+			$query = new SelectQuery();
 	
 			// set the columns to select
 			$query->addColumn("node_id", "id", $db."parents");
@@ -758,7 +758,7 @@ class HierarchyCache {
 //			echo MySQL_SQLGenerator::generateSQLQuery($query);
 //			echo "</pre>\n";
 			
-			$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+			$queryResult =$dbHandler->query($query, $this->_dbIndex);
 	
 			// for all rows returned by the query
 			while($queryResult->hasMoreRows()) {
@@ -768,17 +768,17 @@ class HierarchyCache {
 				$parentIdValue = $row['id'];
 				// if not create it and cache it
 				if (!$this->_isCached($parentIdValue)) {
-					$parentId =& $idManager->getId($parentIdValue);
-					$parentType =& new HarmoniType($row['domain'], $row['authority'], 
+					$parentId =$idManager->getId($parentIdValue);
+					$parentType = new HarmoniType($row['domain'], $row['authority'], 
 												  $row['keyword'], $row['type_description']);
-					$parent =& new HarmoniNode($parentId, $parentType, 
+					$parent = new HarmoniNode($parentId, $parentType, 
 											  $row['display_name'], $row['description'], $this);
-					$parentTreeNode =& new TreeNode($parentIdValue);
+					$parentTreeNode = new TreeNode($parentIdValue);
 					$nullValue = NULL; 	// getting rid of PHP warnings by specifying
 										// this second argument
 					$this->_tree->addNode($parentTreeNode, $nullValue);
 					$this->_tree->addNode($treeNode, $parentTreeNode);
-					$this->_cache[$parentIdValue][0] =& $parent;
+					$this->_cache[$parentIdValue][0] =$parent;
 					$this->_cache[$parentIdValue][1] = 0;
 					$this->_cache[$parentIdValue][2] = 0;
 				}
@@ -795,11 +795,11 @@ class HierarchyCache {
 		}
 		
 		// now that all nodes are cached, just return all children
-		$treeNode =& $this->_tree->getNode($idValue);
+		$treeNode =$this->_tree->getNode($idValue);
 		$result = array();
-		$parentsIds =& $treeNode->getParents();
+		$parentsIds =$treeNode->getParents();
 		foreach (array_keys($parentsIds) as $i => $key)
-			$result[] =& $this->_cache[$key][0];
+			$result[] =$this->_cache[$key][0];
 			
 		return $result;
 	}
@@ -815,7 +815,7 @@ class HierarchyCache {
 	 * @param object node The node object whose children we must cache.
 	 * @return ref array An array of the children nodes of the given node.
 	 **/
-	function &getChildren($node) {
+	function getChildren($node) {
 		// ** parameter validation
 		ArgumentValidator::validate($node, ExtendsValidatorRule::getRule("HarmoniNode"), true);
 		// ** end of parameter validation
@@ -830,18 +830,18 @@ class HierarchyCache {
 				$nullValue = NULL; 		// getting rid of PHP warnings by specifying
 								// this second argument
 				$this->_tree->addNode(new TreeNode($idValue), $nullValue);
-				$this->_cache[$idValue][0] =& $node;
+				$this->_cache[$idValue][0] =$node;
 			}
 	
 			// now fetch <code>$node</code>'s children from the database
 			// with the exception of those children that have been already fetched
-			$treeNode =& $this->_tree->getNode($idValue);
+			$treeNode =$this->_tree->getNode($idValue);
 			$nodesToExclude = (isset($treeNode)) ? ($treeNode->getChildren()) : array();
 	
 			$db = $this->_hyDB.".";
-			$dbHandler =& Services::getService("DatabaseManager");
-			$idManager =& Services::getService("Id");
-			$query =& new SelectQuery();
+			$dbHandler = Services::getService("DatabaseManager");
+			$idManager = Services::getService("Id");
+			$query = new SelectQuery();
 	
 			// set the columns to select
 			$query->addColumn("node_id", "id", $db."children");
@@ -876,7 +876,7 @@ class HierarchyCache {
 //			echo MySQL_SQLGenerator::generateSQLQuery($query);
 //			echo "</pre>\n";
 			
-			$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+			$queryResult =$dbHandler->query($query, $this->_dbIndex);
 	
 			// for all rows returned by the query
 			while($queryResult->hasMoreRows()) {
@@ -886,13 +886,13 @@ class HierarchyCache {
 				$childIdValue = $row['id'];
 				// if not create it and cache it
 				if (!$this->_isCached($childIdValue)) {
-					$childId =& $idManager->getId($childIdValue);
-					$childType =& new HarmoniType($row['domain'], $row['authority'], 
+					$childId =$idManager->getId($childIdValue);
+					$childType = new HarmoniType($row['domain'], $row['authority'], 
 												  $row['keyword'], $row['type_description']);
-					$child =& new HarmoniNode($childId, $childType, 
+					$child = new HarmoniNode($childId, $childType, 
 											  $row['display_name'], $row['description'], $this);
 					$this->_tree->addNode(new TreeNode($childIdValue), $treeNode);
-					$this->_cache[$childIdValue][0] =& $child;
+					$this->_cache[$childIdValue][0] =$child;
 					$this->_cache[$childIdValue][1] = 0;
 					$this->_cache[$childIdValue][2] = 0;
 				}
@@ -910,11 +910,11 @@ class HierarchyCache {
 		
 		
 		// now that all nodes are cached, just return all children
-		$treeNode =& $this->_tree->getNode($idValue);
+		$treeNode =$this->_tree->getNode($idValue);
 		$result = array();
-		$childrenIds =& $treeNode->getChildren();
+		$childrenIds =$treeNode->getChildren();
 		foreach (array_keys($childrenIds) as $i => $key)
-			$result[] =& $this->_cache[$key][0];
+			$result[] =$this->_cache[$key][0];
 			
 		return $result;
 	}
@@ -935,18 +935,18 @@ class HierarchyCache {
 
 		// if the children has been already cached, use it
 		if ($this->_isCachedDown($idValue, 1)) {
-			$treeNode =& $this->_tree->getNode($idValue);
+			$treeNode =$this->_tree->getNode($idValue);
 			return !$treeNode->hasChildren();
 		} else {
 		
 			// now fetch <code>$node</code>'s children from the database
 			// with the exception of those children that have been already fetched
-			$treeNode =& $this->_tree->getNode($idValue);
+			$treeNode =$this->_tree->getNode($idValue);
 			$nodesToExclude = (isset($treeNode)) ? ($treeNode->getChildren()) : array();
 	
-			$dbHandler =& Services::getService("DatabaseManager");
-			$idManager =& Services::getService("Id");
-			$query =& new SelectQuery();
+			$dbHandler = Services::getService("DatabaseManager");
+			$idManager = Services::getService("Id");
+			$query = new SelectQuery();
 	
 			// set the columns to select
 			$query->addColumn("count(*)", "count");
@@ -961,7 +961,7 @@ class HierarchyCache {
 // 			echo MySQL_SQLGenerator::generateSQLQuery($query);
 // 			echo "</pre>\n";
 			
-			$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+			$queryResult =$dbHandler->query($query, $this->_dbIndex);
 	
 			if ($queryResult->field("count") == '0')
 				return true;
@@ -983,7 +983,7 @@ class HierarchyCache {
 	 * @return ref array An array of all nodes in the tree visited in a pre-order
 	 * manner.
 	 **/
-	function &traverse(& $id, $down, $levels) {
+	function traverse($id, $down, $levels) {
 		// ** parameter validation
 		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"), true);
 		ArgumentValidator::validate($down, BooleanValidatorRule::getRule(), true);
@@ -1020,13 +1020,13 @@ class HierarchyCache {
 		}
 
 		// now that all nodes are cached, return them
-		$treeNode =& $this->_tree->getNode($idValue);
-		$treeNodes =& $this->_tree->traverse($treeNode, $down, $levels);
+		$treeNode = $this->_tree->getNode($idValue);
+		$treeNodes = $this->_tree->traverse($treeNode, $down, $levels);
 		
 		$result = array();
 		
 		foreach (array_keys($treeNodes) as $i => $key) {
-			$node =& $this->_cache[$key][0];
+			$node = $this->_cache[$key][0];
 
 			// If the node was deleted, but the cache still has a key for it, 
 			// continue.
@@ -1035,17 +1035,17 @@ class HierarchyCache {
 //				throwError(new Error("Missing node object", "Hierarchy Cache"));
 			}
 
-			$nodeId =& $node->getId();
+			$nodeId =$node->getId();
 			if (!isset($this->_infoCache[$nodeId->getIdString()])) {
 				$this->_infoCache[$nodeId->getIdString()] 
-					=& new HarmoniTraversalInfo($nodeId,
+					= new HarmoniTraversalInfo($nodeId,
 												  $node->getDisplayName(),
 												  $treeNodes[$key][1]);
 			}
-			$result[] =& $this->_infoCache[$nodeId->getIdString()];
+			$result[] =$this->_infoCache[$nodeId->getIdString()];
 		}
 		
-		$iterator =& new HarmoniTraversalInfoIterator($result);
+		$iterator = new HarmoniTraversalInfoIterator($result);
 		return $iterator;
 	}
 	
@@ -1059,8 +1059,8 @@ class HierarchyCache {
 	 * @return void
 	 **/
 	function _traverseDown($idValue, $levels) {
-		$dbHandler =& Services::getService("DatabaseManager");
-		$query =& new SelectQuery();
+		$dbHandler = Services::getService("DatabaseManager");
+		$query = new SelectQuery();
 		
 		$db = $this->_hyDB.".";
 		
@@ -1100,11 +1100,11 @@ class HierarchyCache {
 //		echo MySQL_SQLGenerator::generateSQLQuery($query);
 //		echo "</pre>\n";
 
-// $timer1 =& new Timer;
+// $timer1 = new Timer;
 // $timer1->start();
 		
 		// execute the query
-		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 
 // $timer1->end();
 // printf("<br/>Traversal Query Time: %1.6f", $timer1->printTime());
@@ -1116,7 +1116,7 @@ class HierarchyCache {
 			
 		// note that the query only returns ids of nodes; thus, for each id,
 		// we would need to fetch the actual node information from the node table.
-// $timer1 =& new Timer;
+// $timer1 = new Timer;
 // $timer1->start();
 		// for all rows returned by the query
 		while($queryResult->hasMoreRows()) {
@@ -1138,7 +1138,7 @@ class HierarchyCache {
 				// if the node has not been cached, then we must create it
 //				echo "<br />--- CACHE UPDATE: ";
 				if (!$this->_isCached($nodeId)) {
-					$nodes =& $this->getNodesFromDB($db."node.node_id = '".addslashes($nodeId)."'");
+					$nodes =$this->getNodesFromDB($db."node.node_id = '".addslashes($nodeId)."'");
 					
 					// must be only one node
 					if (count($nodes) != 1) {
@@ -1149,7 +1149,7 @@ class HierarchyCache {
 //					echo "Creating node # <b>$nodeId - '$displayName'</b>, ";
 
 					// insert node into cache
-					$this->_cache[$nodeId][0] =& $nodes[0];
+					$this->_cache[$nodeId][0] =$nodes[0];
 					$this->_cache[$nodeId][1] = 0;
 					$this->_cache[$nodeId][2] = 0;
 				}
@@ -1178,10 +1178,10 @@ class HierarchyCache {
 
 				// get the current node (create it, if necessary)
 				if ($this->_tree->nodeExists($nodeId))
-					$node =& $this->_tree->getNode($nodeId);
+					$node =$this->_tree->getNode($nodeId);
 				else {
 //					echo "Creating new tree node # <b>$nodeId</b>, ";
-					$node =& new TreeNode($nodeId);
+					$node = new TreeNode($nodeId);
 					$nullValue = NULL; 		// getting rid of PHP warnings by specifying
 											// this second argument
 					$this->_tree->addNode($node, $nullValue);
@@ -1198,7 +1198,7 @@ class HierarchyCache {
 					// get the parent id
 					$parentId = $row["level".($level-1)."_id"];
 					// get the parent node
-					$parent =& $this->_tree->getNode($parentId);
+					$parent =$this->_tree->getNode($parentId);
 						
 					// has the parent been added? if no, add it!
 					if (!$node->isParent($parent)) {
@@ -1227,12 +1227,12 @@ class HierarchyCache {
 	 * @return void
 	 **/
 	function _traverseUpAncestory($idValue, $levels) {
-		$dbHandler =& Services::getService("DatabaseManager");		
+		$dbHandler = Services::getService("DatabaseManager");		
 		$db = $this->_hyDB.".";
 		
 // 		echo "<br /><br /><br /><b>=== TraverseUpAncestory: Caching node # $idValue, $levels levels up</b><br />";
 		
-		$query =& new SelectQuery();
+		$query = new SelectQuery();
 		$query->addColumn("*");
 		$query->addTable($db."node_ancestry");
 		$query->addTable($db."j_node_node", LEFT_JOIN, "fk_ancestor = fk_child");
@@ -1245,7 +1245,7 @@ class HierarchyCache {
 // 		echo "</pre>\n";
 		
 		// execute the query
-		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 		
 		if ($queryResult->getNumberOfRows() == 0) {
 			$queryResult->free();
@@ -1276,7 +1276,7 @@ class HierarchyCache {
 			// if the node has not been cached, then we must create it
 // 			echo "<br />--- CACHE UPDATE: ";
 			if (!$this->_isCached($nodeId)) {
-				$nodes =& $this->getNodesFromDB($db."node.node_id = '".addslashes($nodeId)."'");
+				$nodes =$this->getNodesFromDB($db."node.node_id = '".addslashes($nodeId)."'");
 				
 				// must be only one node
 				if (count($nodes) != 1) {
@@ -1287,7 +1287,7 @@ class HierarchyCache {
 // 				echo "Creating node # <b>$nodeId - '$displayName'</b>, ";
 
 				// insert node into cache
-				$this->_cache[$nodeId][0] =& $nodes[0];
+				$this->_cache[$nodeId][0] =$nodes[0];
 				$this->_cache[$nodeId][1] = 0;
 				$this->_cache[$nodeId][2] = 0;
 			}
@@ -1316,10 +1316,10 @@ class HierarchyCache {
 
 			// get the current node (create it, if necessary)
 			if ($this->_tree->nodeExists($nodeId))
-				$node =& $this->_tree->getNode($nodeId);
+				$node =$this->_tree->getNode($nodeId);
 			else {
 // 				echo "Creating new tree node # <b>$nodeId</b>, ";
-				$node =& new TreeNode($nodeId);
+				$node = new TreeNode($nodeId);
 				$nullValue = NULL; // getting rid of PHP warnings by specifying
 								// this second argument
 				$this->_tree->addNode($node, $nullValue);
@@ -1339,10 +1339,10 @@ class HierarchyCache {
 				
 				// get the child node (create it, if necessary)
 				if ($this->_tree->nodeExists($childId))
-					$child =& $this->_tree->getNode($childId);
+					$child =$this->_tree->getNode($childId);
 				else {
 // 					echo "Creating new tree node # <b>$childId</b>, ";
-					$child =& new TreeNode($childId);
+					$child = new TreeNode($childId);
 					$nullValue = NULL; // getting rid of PHP warnings by specifying
 									// this second argument
 					$this->_tree->addNode($child, $nullValue);
@@ -1373,8 +1373,8 @@ class HierarchyCache {
 	 * @return void
 	 **/
 	function _traverseUp($idValue, $levels) {
-		$dbHandler =& Services::getService("DatabaseManager");
-		$query =& new SelectQuery();
+		$dbHandler = Services::getService("DatabaseManager");
+		$query = new SelectQuery();
 		
 		$db = $this->_hyDB.".";
 		
@@ -1415,7 +1415,7 @@ class HierarchyCache {
 //		echo "</pre>\n";
 		
 		// execute the query
-		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 		
 		if ($queryResult->getNumberOfRows() == 0) {
 			$queryResult->free();
@@ -1445,7 +1445,7 @@ class HierarchyCache {
 				// if the node has not been cached, then we must create it
 // 				echo "<br />--- CACHE UPDATE: ";
 				if (!$this->_isCached($nodeId)) {
-					$nodes =& $this->getNodesFromDB($db."node.node_id = '".addslashes($nodeId)."'");
+					$nodes =$this->getNodesFromDB($db."node.node_id = '".addslashes($nodeId)."'");
 					
 					// must be only one node
 					if (count($nodes) != 1) {
@@ -1456,7 +1456,7 @@ class HierarchyCache {
 // 					echo "Creating node # <b>$nodeId - '$displayName'</b>, ";
 
 					// insert node into cache
-					$this->_cache[$nodeId][0] =& $nodes[0];
+					$this->_cache[$nodeId][0] =$nodes[0];
 					$this->_cache[$nodeId][1] = 0;
 					$this->_cache[$nodeId][2] = 0;
 				}
@@ -1486,10 +1486,10 @@ class HierarchyCache {
 
 				// get the current node (create it, if necessary)
 				if ($this->_tree->nodeExists($nodeId))
-					$node =& $this->_tree->getNode($nodeId);
+					$node =$this->_tree->getNode($nodeId);
 				else {
 // 					echo "Creating new tree node # <b>$nodeId</b>, ";
-					$node =& new TreeNode($nodeId);
+					$node = new TreeNode($nodeId);
 					$nullValue = NULL; // getting rid of PHP warnings by specifying
 									// this second argument
 					$this->_tree->addNode($node, $nullValue);
@@ -1506,7 +1506,7 @@ class HierarchyCache {
 					// get the child id
 					$childId = $row["level".($level-1)."_id"];
 					// get the child node
-					$child =& $this->_tree->getNode($childId);
+					$child =$this->_tree->getNode($childId);
 						
 					// has the child been added? if no, add it!
 					if (!$node->isChild($child)) {
@@ -1535,11 +1535,11 @@ class HierarchyCache {
 	 * @param string description The description of the node.
 	 * @return void
 	 **/
-	function &createRootNode(& $nodeId, & $type, $displayName, $description) {
+	function createRootNode($nodeId, $type, $displayName, $description) {
 		// ** parameter validation
 		ArgumentValidator::validate($nodeId, ExtendsValidatorRule::getRule("Id"), true);
 		ArgumentValidator::validate($type, ExtendsValidatorRule::getRule("Type"), true);
-		$stringRule =& StringValidatorRule::getRule();
+		$stringRule = StringValidatorRule::getRule();
 		ArgumentValidator::validate($displayName, $stringRule, true);
 		ArgumentValidator::validate($description, $stringRule, true);
 		// ** end of parameter validation
@@ -1552,7 +1552,7 @@ class HierarchyCache {
 		}
 		
 		// attempt to insert the node now
-		$dbHandler =& Services::getService("DatabaseManager");
+		$dbHandler = Services::getService("DatabaseManager");
 		$db = $this->_hyDB.".";
 
 		// 1. Insert the type
@@ -1563,7 +1563,7 @@ class HierarchyCache {
 		$typeDescription = $type->getDescription();
 
 		// check whether the type is already in the DB, if not insert it
-		$query =& new SelectQuery();
+		$query = new SelectQuery();
 		$query->addTable($db."type");
 		$query->addColumn("type_id", "id", $db."type");
 		$where = $db."type.type_domain = '".addslashes($domain)."'";
@@ -1573,14 +1573,14 @@ class HierarchyCache {
 											  
 		$query->addWhere($where);
 
-		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 		if ($queryResult->getNumberOfRows() > 0) {// if the type is already in the database
 			$typeIdValue = $queryResult->field("id"); // get the id
 			$queryResult->free();
 		} else { // if not, insert it
 			$queryResult->free();
 
-			$query =& new InsertQuery();
+			$query = new InsertQuery();
 			$query->setTable($db."type");
 			$columns = array();
 			$columns[] = "type_domain";
@@ -1595,12 +1595,12 @@ class HierarchyCache {
 			$values[] = "'".addslashes($typeDescription)."'";
 			$query->setValues($values);
 
-			$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+			$queryResult =$dbHandler->query($query, $this->_dbIndex);
 			$typeIdValue = $queryResult->getLastAutoIncrementValue();
 		}
 		
 		// 2. Now that we know the id of the type, insert the node itself
-		$query =& new InsertQuery();
+		$query = new InsertQuery();
 		$query->setTable($db."node");
 		$columns = array();
 		$columns[] = "node_id";
@@ -1617,7 +1617,7 @@ class HierarchyCache {
 		$values[] = "'".addslashes($typeIdValue)."'";
 		$query->setValues($values);
 
-		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 		
 		if ($queryResult->getNumberOfRows() != 1) {
 				//"Could not insert the node (it already exists?)";
@@ -1625,9 +1625,9 @@ class HierarchyCache {
 		}
 		
 		// create the node object to return
-		$node =& new HarmoniNode($nodeId, $type, $displayName, $description, $this);
+		$node = new HarmoniNode($nodeId, $type, $displayName, $description, $this);
 		// then cache it
-		$this->_cache[$idValue][0] =& $node;
+		$this->_cache[$idValue][0] =$node;
 		$this->_cache[$idValue][1] = -1; // fully cached up and down because
 		$this->_cache[$idValue][2] = -1; // in fact this node does not have any ancestors or descendents
 		// update _tree
@@ -1650,9 +1650,9 @@ class HierarchyCache {
 	 * @param string description The description of the node.
 	 * @return void
 	 **/
-	function &createNode(& $nodeId, & $parentId, & $type, $displayName, $description) {
+	function createNode($nodeId, $parentId, $type, $displayName, $description) {
 		// create the root node and assign the parent
-		$node =& $this->createRootNode($nodeId, $type, $displayName, $description);
+		$node =$this->createRootNode($nodeId, $type, $displayName, $description);
 		$this->addParent($parentId->getIdString(), $nodeId->getIdString());
 		
 		return $node;
@@ -1676,7 +1676,7 @@ class HierarchyCache {
 		// ** end of parameter validation
 		
 		// get the node
-		$node =& $this->getNode($idValue);
+		$node =$this->getNode($idValue);
 		// if not a leaf, cannot delete
 		if (!$node->isLeaf()) {
 				// "Can not delete non-leaf nodes.";
@@ -1686,14 +1686,14 @@ class HierarchyCache {
 		// clear the cache and update the _tree structure
 
 		// detach the node from each of its parents and update the join table
-		$parents =& $node->getParents();
+		$parents =$node->getParents();
 		while ($parents->hasNext()) {
-			$parent =& $parents->next();
+			$parent =$parents->next();
 			$node->removeParent($parent->getId());
 		}
 			
 		// now delete the tree node
-		$treeNode =& $this->_tree->getNode($idValue);
+		$treeNode =$this->_tree->getNode($idValue);
 		$this->_tree->deleteNode($treeNode);
 
 		// -----------------		
@@ -1703,17 +1703,17 @@ class HierarchyCache {
 		$node = null;
 
 		// now remove from database
-		$dbHandler =& Services::getService("DatabaseManager");
+		$dbHandler = Services::getService("DatabaseManager");
 
 		// 1. Get the id of the type associated with the node
-		$query =& new SelectQuery();
+		$query = new SelectQuery();
 		
 		$db = $this->_hyDB.".";
 		$query->addTable($db."node");
 		$query->addColumn("fk_type", "type_id", $db."node");
 		$query->addWhere($db."node.node_id = '".addslashes($idValue)."'");
 
-		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0) {
 			$queryResult->free();
 			throwError(new Error(HierarchyException::OPERATION_FAILED(),"HierarchyCache",true));
@@ -1726,13 +1726,13 @@ class HierarchyCache {
 		$queryResult->free();
 		
 		// 2. Now delete the node
-		$query =& new DeleteQuery();
+		$query = new DeleteQuery();
 		$query->setTable($db."node");
 		$query->addWhere($db."node.node_id = '".addslashes($idValue)."'");
-		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 		
 		// 3. Now see if any other nodes have the same type
-		$query =& new SelectQuery();
+		$query = new SelectQuery();
 		
 		$db = $this->_hyDB.".";
 		$query->addTable($db."node");
@@ -1740,14 +1740,14 @@ class HierarchyCache {
 		$query->addColumn("COUNT({$db}node.fk_type)", "num");
 		$query->addWhere($db."node.fk_type = '".addslashes($typeIdValue)."'");
 
-		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 		$num = $queryResult->field("num");
 		$queryResult->free();
 		if ($num == 0) { // if no other nodes use this type, then delete the type
-			$query =& new DeleteQuery();
+			$query = new DeleteQuery();
 			$query->setTable($db."type");
 			$query->addWhere($db."type.type_id = '".addslashes($typeIdValue)."'");
-			$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+			$queryResult =$dbHandler->query($query, $this->_dbIndex);
 		}
 		
 		// Delete the node's ancestory from the Ancestory table
@@ -1776,12 +1776,12 @@ class HierarchyCache {
 	 * @access public
 	 * @since 11/4/05
 	 */
-	function rebuildNodeAncestory ( &$id ) {
+	function rebuildNodeAncestory ( $id ) {
 // 		print "<hr/><hr/>";
 // 		print "<strong>"; printpre($id); print "</strong>";
 		$idString = $id->getIdString();
 		$db = $this->_hyDB.".";
-		$dbHandler =& Services::getService("DatabaseManager");
+		$dbHandler = Services::getService("DatabaseManager");
 		
 		// Delete the old ancestory rows
 		$this->clearNodeAncestory($idString);
@@ -1797,22 +1797,22 @@ class HierarchyCache {
 		
 		// now that all nodes are cached, add their ids to the ancestor table for
 		// easy future searching.
-		$query =& new InsertQuery;
+		$query = new InsertQuery;
 		$query->setTable($db."node_ancestry");
 		$query->setColumns(array("fk_node", "fk_ancestor", "level", "fk_ancestors_child"));
 		
-		$treeNode =& $this->_tree->getNode($idString);
-		$treeNodes =& $this->_tree->traverse($treeNode, false, -1);
+		$treeNode =$this->_tree->getNode($idString);
+		$treeNodes =$this->_tree->traverse($treeNode, false, -1);
 		
 		if (count($treeNodes) > 1) {
 			foreach (array_keys($treeNodes) as $i => $key) {
-				$node =& $this->_cache[$key][0];
+				$node =$this->_cache[$key][0];
 				// If the node was deleted, but the cache still has a key for it, 
 				// continue.
 				if (!is_object($node))
 					continue;
 					
-				$nodeId =& $node->getId();
+				$nodeId =$node->getId();
 // 				printpre($nodeId->getIdString());
 	
 				if (!$nodeId->isEqual($id)) {
@@ -1832,7 +1832,7 @@ class HierarchyCache {
 				}
 			}
 			
-			$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+			$queryResult =$dbHandler->query($query, $this->_dbIndex);
 	// 		$queryResult->free();
 		}
 	}
@@ -1845,23 +1845,23 @@ class HierarchyCache {
 	 * @access public
 	 * @since 11/4/05
 	 */
-	function rebuildSubtreeAncestory ( &$id ) {
+	function rebuildSubtreeAncestory ( $id ) {
 		$idString = $id->getIdString();
 		// Traverse down to get the nodes in the sub-tree
 		if (!$this->_isCachedDown($idString, -1))
 			$this->_traverseDown($idString, -1);
 		
-		$treeNode =& $this->_tree->getNode($idString);
-		$treeNodes =& $this->_tree->traverse($treeNode, true, -1);
+		$treeNode =$this->_tree->getNode($idString);
+		$treeNodes =$this->_tree->traverse($treeNode, true, -1);
 		foreach (array_keys($treeNodes) as $i => $key) {
-			$node =& $this->_cache[$key][0];
+			$node =$this->_cache[$key][0];
 
 			// If the node was deleted, but the cache still has a key for it, 
 			// continue.
 			if (!is_object($node))
 				continue;
 			
-			$nodeId =& $node->getId();
+			$nodeId =$node->getId();
 			$this->rebuildNodeAncestory($nodeId);
 		}
 	}
@@ -1876,13 +1876,13 @@ class HierarchyCache {
 	 */
 	function clearNodeAncestory ( $idString ) {
 		$db = $this->_hyDB.".";
-		$dbHandler =& Services::getService("DatabaseManager");
+		$dbHandler = Services::getService("DatabaseManager");
 		
 		// Delete the old ancestory
-		$query =& new DeleteQuery;
+		$query = new DeleteQuery;
 		$query->setTable($db."node_ancestry");
 		$query->addWhere($db."node_ancestry.fk_node = '".addslashes($idString)."'");
-		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 // 		$queryResult->free();
 	}
 }

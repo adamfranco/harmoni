@@ -10,7 +10,7 @@ require_once(HARMONI."dataManager/storablePrimitives/StorableString.abstract.php
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableShortString.class.php,v 1.9 2007/04/12 15:37:26 adamfranco Exp $
+ * @version $Id: StorableShortString.class.php,v 1.10 2007/09/04 20:25:33 adamfranco Exp $
  */
 class StorableShortString
 	extends StorableStringAbstract 
@@ -40,8 +40,8 @@ class StorableShortString
 	 * @return object StorableShortString
 	 * @static
 	 */
-	function &createAndPopulate( $dbRow ) {
-		$string =& new StorableShortString;
+	function createAndPopulate( $dbRow ) {
+		$string = new StorableShortString;
 		$string->_setValue($dbRow["shortstring_data"]);
 		return $string;
 	}
@@ -56,7 +56,7 @@ class StorableShortString
 	 * @return string or NULL if no searching is allowed.
 	 * @static
 	 */
-	function makeSearchString(&$value, $searchType = SEARCH_TYPE_EQUALS) {		
+	function makeSearchString($value, $searchType = SEARCH_TYPE_EQUALS) {		
 		switch ($searchType) {
 			case SEARCH_TYPE_EQUALS:
 				return "dm_shortstring.data='".addslashes($value->asString())."'";
@@ -65,7 +65,7 @@ class StorableShortString
 			case SEARCH_TYPE_IN_LIST:
 				$string = "dm_shortstring.data IN (";
 				while ($value->hasNext()) {
-					$valueObj =& $value->next();
+					$valueObj =$value->next();
 					$string .= "'".addslashes($valueObj->asString())."'";
 					if ($value->hasNext())
 						$string .= ", ";
@@ -75,7 +75,7 @@ class StorableShortString
 			case SEARCH_TYPE_NOT_IN_LIST:
 				$string = "dm_shortstring.data NOT IN (";
 				while ($value->hasNext()) {
-					$valueObj =& $value->next();
+					$valueObj =$value->next();
 					$string .= "'".addslashes($valueObj->asString())."'";
 					if ($value->hasNext())
 						$string .= ", ";
@@ -115,7 +115,7 @@ class StorableShortString
 	 * @access public
 	 * @return void
 	 */
-	function alterQuery( &$query ) {
+	function alterQuery( $query ) {
 		$query->addTable("dm_shortstring",LEFT_JOIN,"dm_shortstring.id = fk_data");
 		$query->addColumn("data","shortstring_data","dm_shortstring");
 	}

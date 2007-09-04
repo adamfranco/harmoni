@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SubMenu.class.php,v 1.2 2006/11/30 22:02:02 adamfranco Exp $
+ * @version $Id: SubMenu.class.php,v 1.3 2007/09/04 20:25:22 adamfranco Exp $
  */ 
 
 /**
@@ -18,7 +18,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SubMenu.class.php,v 1.2 2006/11/30 22:02:02 adamfranco Exp $
+ * @version $Id: SubMenu.class.php,v 1.3 2007/09/04 20:25:22 adamfranco Exp $
  */
 class SubMenu
 	extends Menu
@@ -39,7 +39,7 @@ class SubMenu
 	 * result in copying the objects instead of referencing them as using
 	 * <code>addStyle()</code> would do.
 	 **/
-	function SubMenu(&$layout, $index) {
+	function SubMenu($layout, $index) {
 		$this->Container($layout, SUB_MENU, $index);
 		
 		$this->_selectedId = null;

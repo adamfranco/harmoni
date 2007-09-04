@@ -101,7 +101,7 @@ class AssessmentManager
      * 
      * @access public
      */
-    function &createAssessment ( $name, $description, &$assessmentType ) { 
+    function createAssessment ( $name, $description, $assessmentType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -127,7 +127,7 @@ class AssessmentManager
      * 
      * @access public
      */
-    function deleteAssessment ( &$assessmentId ) { 
+    function deleteAssessment ( $assessmentId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -155,7 +155,7 @@ class AssessmentManager
      * 
      * @access public
      */
-    function &getAssessment ( &$assessmentId ) { 
+    function getAssessment ( $assessmentId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -184,7 +184,7 @@ class AssessmentManager
      * 
      * @access public
      */
-    function &getAssessmentsByType ( &$assessmentType ) { 
+    function getAssessmentsByType ( $assessmentType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -207,7 +207,7 @@ class AssessmentManager
      * 
      * @access public
      */
-    function &getAssessments () { 
+    function getAssessments () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -238,7 +238,7 @@ class AssessmentManager
      * 
      * @access public
      */
-    function &createSection ( $name, $description, &$sectionType ) { 
+    function createSection ( $name, $description, $sectionType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -264,7 +264,7 @@ class AssessmentManager
      * 
      * @access public
      */
-    function deleteSection ( &$sectionId ) { 
+    function deleteSection ( $sectionId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -292,7 +292,7 @@ class AssessmentManager
      * 
      * @access public
      */
-    function &getSection ( &$sectionId ) { 
+    function getSection ( $sectionId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -321,7 +321,7 @@ class AssessmentManager
      * 
      * @access public
      */
-    function &getSectionsByType ( &$sectionType ) { 
+    function getSectionsByType ( $sectionType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -344,7 +344,7 @@ class AssessmentManager
      * 
      * @access public
      */
-    function &getSections () { 
+    function getSections () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -375,7 +375,7 @@ class AssessmentManager
      * 
      * @access public
      */
-    function &createItem ( $name, $description, &$itemType ) { 
+    function createItem ( $name, $description, $itemType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -401,7 +401,7 @@ class AssessmentManager
      * 
      * @access public
      */
-    function deleteItem ( &$itemId ) { 
+    function deleteItem ( $itemId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -429,7 +429,7 @@ class AssessmentManager
      * 
      * @access public
      */
-    function &getItem ( &$itemId ) { 
+    function getItem ( $itemId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -458,7 +458,7 @@ class AssessmentManager
      * 
      * @access public
      */
-    function &getItemsByType ( &$itemType ) { 
+    function getItemsByType ( $itemType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -481,7 +481,7 @@ class AssessmentManager
      * 
      * @access public
      */
-    function &getItems () { 
+    function getItems () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -508,7 +508,7 @@ class AssessmentManager
      * 
      * @access public
      */
-    function &createAssessmentPublished ( &$assessment ) { 
+    function createAssessmentPublished ( $assessment ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -534,7 +534,7 @@ class AssessmentManager
      * 
      * @access public
      */
-    function deleteAssessmentPublished ( &$assessmentPublishedId ) { 
+    function deleteAssessmentPublished ( $assessmentPublishedId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -562,7 +562,7 @@ class AssessmentManager
      * 
      * @access public
      */
-    function &getAssessmentPublished ( &$assessmentPublishedId ) { 
+    function getAssessmentPublished ( $assessmentPublishedId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -585,7 +585,7 @@ class AssessmentManager
      * 
      * @access public
      */
-    function &getAssessmentsPublished () { 
+    function getAssessmentsPublished () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -608,7 +608,7 @@ class AssessmentManager
      * 
      * @access public
      */
-    function &getAssessmentTypes () { 
+    function getAssessmentTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -631,7 +631,7 @@ class AssessmentManager
      * 
      * @access public
      */
-    function &getSectionTypes () { 
+    function getSectionTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -654,7 +654,7 @@ class AssessmentManager
      * 
      * @access public
      */
-    function &getItemTypes () { 
+    function getItemTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -677,7 +677,7 @@ class AssessmentManager
      * 
      * @access public
      */
-    function &getEvaluationTypes () { 
+    function getEvaluationTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 }

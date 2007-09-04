@@ -14,7 +14,7 @@ require_once(HARMONI.'storageHandler/Storable.abstract.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: VirtualStorable.class.php,v 1.2 2005/01/19 21:10:13 adamfranco Exp $
+ * @version $Id: VirtualStorable.class.php,v 1.3 2007/09/04 20:25:51 adamfranco Exp $
  */
 
 class VirtualStorable extends AbstractStorable {
@@ -36,8 +36,8 @@ class VirtualStorable extends AbstractStorable {
 	 * @param ref object Storable $storable The storable object to be wrapped.
      * @access public
      */
-    function VirtualStorable($basePath, &$storable) { 
-		$this->_storable =& $storable;
+    function VirtualStorable($basePath, $storable) { 
+		$this->_storable =$storable;
 		// strip the trailing /
 		if (ereg("/$", $basePath))
 			$basePath = substr($basePath, 0, strlen($basePath)-1);

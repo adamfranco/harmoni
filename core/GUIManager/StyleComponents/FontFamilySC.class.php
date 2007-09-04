@@ -27,7 +27,7 @@ require_once(HARMONI."GUIManager/StyleComponent.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: FontFamilySC.class.php,v 1.10 2006/08/15 20:44:58 sporktim Exp $
+ * @version $Id: FontFamilySC.class.php,v 1.11 2007/09/04 20:25:22 adamfranco Exp $
  */
 class FontFamilySC extends StyleComponent {
 
@@ -45,7 +45,7 @@ class FontFamilySC extends StyleComponent {
 						   Also, you can specify one or many comma-separated values.";
 		
 		
-		$rule =& CSSFontFamilyValidatorRule::getRule();
+		$rule = CSSFontFamilyValidatorRule::getRule();
 		
 		$displayName = "Font Family";
 		$description = "Specifies the font to use. Allowed values are: ".implode(", ", $options)."
@@ -79,7 +79,7 @@ class CSSFontFamilyValidatorRule extends RegexValidatorRule {
 	
 	
 	/*
-	function check(& $val) {
+	function check($val) {
 		$regs = array();
 		$fonts = explode(",", $val);
 		
@@ -113,7 +113,7 @@ class CSSFontFamilyValidatorRule extends RegexValidatorRule {
 	 * @static
 	 * @since 3/28/05
 	 */
-	function &getRule () {
+	function getRule () {
 		// Because there is no way in PHP to get the class name of the descendent
 		// class on which this method is called, this method must be implemented
 		// in each descendent class.
@@ -123,7 +123,7 @@ class CSSFontFamilyValidatorRule extends RegexValidatorRule {
 		
 		$class = __CLASS__;
 		if (!isset($GLOBALS['validator_rules'][$class]))
-			$GLOBALS['validator_rules'][$class] =& new $class;
+			$GLOBALS['validator_rules'][$class] = new $class;
 		
 		return $GLOBALS['validator_rules'][$class];
 	}

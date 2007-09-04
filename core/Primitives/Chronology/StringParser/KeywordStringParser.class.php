@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: KeywordStringParser.class.php,v 1.2 2006/06/26 12:55:08 adamfranco Exp $
+ * @version $Id: KeywordStringParser.class.php,v 1.3 2007/09/04 20:25:25 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -36,7 +36,7 @@ require_once(dirname(__FILE__)."/StringParser.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: KeywordStringParser.class.php,v 1.2 2006/06/26 12:55:08 adamfranco Exp $
+ * @version $Id: KeywordStringParser.class.php,v 1.3 2007/09/04 20:25:25 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -79,16 +79,16 @@ class KeywordStringParser
 		$term = trim(strtolower($this->input));
 		
 		if (in_array($term, $this->nowArray()))
-			$timespan =& Timespan::current();
+			$timespan = Timespan::current();
 		else if (in_array($term, $this->todayArray()))
-			$timespan =& Date::today();
+			$timespan = Date::today();
 		else if (in_array($term, $this->tomorrowArray()))
-			$timespan =& Date::tomorrow();
+			$timespan = Date::tomorrow();
 		else if (in_array($term, $this->yesterdayArray()))
-			$timespan =& Date::yesterday();
+			$timespan = Date::yesterday();
 		
-		$dateAndTime =& $timespan->start();
-		$offset =& $dateAndTime->offset();
+		$dateAndTime =$timespan->start();
+		$offset =$dateAndTime->offset();
 
 		$this->setYear($dateAndTime->year());
 		$this->setMonth($dateAndTime->month());

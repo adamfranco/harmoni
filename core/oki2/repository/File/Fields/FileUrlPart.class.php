@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: FileUrlPart.class.php,v 1.1 2006/12/06 20:45:00 adamfranco Exp $
+ * @version $Id: FileUrlPart.class.php,v 1.2 2007/09/04 20:25:46 adamfranco Exp $
  */ 
 
 /**
@@ -18,7 +18,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: FileUrlPart.class.php,v 1.1 2006/12/06 20:45:00 adamfranco Exp $
+ * @version $Id: FileUrlPart.class.php,v 1.2 2007/09/04 20:25:46 adamfranco Exp $
  */
 class FileUrlPart
 	extends Part
@@ -28,11 +28,11 @@ class FileUrlPart
 	var $_partStructure;
 	var $_value;
 	
-	function FileUrlPart( &$partStructure, &$recordId, &$configuration, &$asset ) {
-		$this->_recordId =& $recordId;
-		$this->_partStructure =& $partStructure;
-		$this->_configuration =& $configuration;
-		$this->_asset =& $asset;
+	function FileUrlPart( $partStructure, $recordId, $configuration, $asset ) {
+		$this->_recordId =$recordId;
+		$this->_partStructure =$partStructure;
+		$this->_configuration =$configuration;
+		$this->_asset =$asset;
 		
 		// Set our data to NULL, so that we can know if it has not been checked
 		// for yet. If we search for data, but don't have any, or the data is
@@ -59,8 +59,8 @@ class FileUrlPart
 	 * 
 	 * @access public
 	 */
-	function &getId() {
-		$idManager =& Services::getService("Id");
+	function getId() {
+		$idManager = Services::getService("Id");
 		return $idManager->getId($this->_recordId->getIdString()."-FILE_URL");
 	}
 	
@@ -91,7 +91,7 @@ class FileUrlPart
 	 * 
 	 * @access public
 	 */
-	function &createPart(& $partStructureId, & $value) {
+	function createPart($partStructureId, $value) {
 		throwError(
 			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
 	}
@@ -118,7 +118,7 @@ class FileUrlPart
 	 * 
 	 * @access public
 	 */
-	function deletePart(& $partId) {
+	function deletePart($partId) {
 		throwError(
 			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
 	}
@@ -142,7 +142,7 @@ class FileUrlPart
 	 * 
 	 * @access public
 	 */
-	function &getParts() {
+	function getParts() {
 		throwError(
 			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
 	}
@@ -169,16 +169,16 @@ class FileUrlPart
 	function getValue() {
 		// If we don't have the name, load it from the database.
 		if ($this->_value === NULL) {
-			$dbHandler =& Services::getService("DatabaseManager");
+			$dbHandler = Services::getService("DatabaseManager");
 			
 			// Get the data from the database,
-			$query =& new SelectQuery;
+			$query = new SelectQuery;
 			$query->addTable("dr_file");
 			$query->addTable("dr_file_url", LEFT_JOIN, "dr_file.id = dr_file_url.FK_file");
 			$query->addColumn("url");
 			$query->addWhere("dr_file.id = '".$this->_recordId->getIdString()."'");
 			
-			$result =& $dbHandler->query($query, $this->_configuration->getProperty("database_index"));
+			$result =$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 			
 			// If no name was found, return an empty string.
 			if ($result->getNumberOfRows() == 0)
@@ -219,19 +219,19 @@ class FileUrlPart
 		$this->_value = $value;
 		
 	// then write it to the database.
-		$dbHandler =& Services::getService("DatabaseManager");
+		$dbHandler = Services::getService("DatabaseManager");
 	
 		// Check to see if the name is in the database
 		// Check to see if the data is in the database
-		$query =& new SelectQuery;
+		$query = new SelectQuery;
 		$query->addTable("dr_file_url");
 		$query->addColumn("COUNT(*) as count");
 		$query->addWhere("FK_file = '".$this->_recordId->getIdString()."'");
-		$result =& $dbHandler->query($query, $this->_configuration->getProperty("database_index"));
+		$result =$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 		
 		// If it already exists, use an update query.
 		if ($result->field("count") > 0) {
-			$query =& new UpdateQuery;
+			$query = new UpdateQuery;
 			$query->setTable("dr_file_url");
 			$query->setColumns(array("url"));
 			$query->setValues(array("'".addslashes($value)."'"));
@@ -239,7 +239,7 @@ class FileUrlPart
 		}
 		// If it doesn't exist, use an insert query.
 		else {
-			$query =& new InsertQuery;
+			$query = new InsertQuery;
 			$query->setTable("dr_file_url");
 			$query->setColumns(array("FK_file","url"));
 			$query->setValues(array("'".$this->_recordId->getIdString()."'",
@@ -271,7 +271,7 @@ class FileUrlPart
 	 * 
 	 * @access public
 	 */
-	function &getPartStructure() {
+	function getPartStructure() {
 		return $this->_partStructure;
 	}
 	

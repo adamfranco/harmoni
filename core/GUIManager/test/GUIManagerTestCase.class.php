@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GUIManagerTestCase.class.php,v 1.11 2006/08/02 23:50:28 sporktim Exp $
+ * @version $Id: GUIManagerTestCase.class.php,v 1.12 2007/09/04 20:25:24 adamfranco Exp $
  */
 require_once(HARMONI."GUIManager/GUIManager.class.php");
 require_once(HARMONI."GUIManager/Theme.class.php");
@@ -20,7 +20,7 @@ require_once(HARMONI."GUIManager/Theme.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GUIManagerTestCase.class.php,v 1.11 2006/08/02 23:50:28 sporktim Exp $
+ * @version $Id: GUIManagerTestCase.class.php,v 1.12 2007/09/04 20:25:24 adamfranco Exp $
  */
 
     class GUIManagerTestCase extends UnitTestCase {
@@ -42,8 +42,8 @@ require_once(HARMONI."GUIManager/Theme.class.php");
 			//$dbHandler->connect($dbIndex);
 			//unset($dbHandler); // done with that for now
 			
-			//$this->manager =& new GUIManager($dbIndex, "doboHarmoniTest");
-			$this->manager =& Services::getService("GUI");
+			//$this->manager = new GUIManager($dbIndex, "doboHarmoniTest");
+			$this->manager = Services::getService("GUI");
 		}
 		
 		/**
@@ -60,41 +60,41 @@ require_once(HARMONI."GUIManager/Theme.class.php");
 		}
 	
 		function test_db_methods() {
-			$theme =& new Theme("Master", "And Servant");
+			$theme = new Theme("Master", "And Servant");
 
-			$sp1 =& new BackgroundColorSP("#FFFCF0");
+			$sp1 = new BackgroundColorSP("#FFFCF0");
 			$id1 = $theme->registerSP($sp1);
-			$sp2 =& new ColorSP("#2E2B33");
+			$sp2 = new ColorSP("#2E2B33");
 			$id2 = $theme->registerSP($sp2);
-			$sp3 =& new FontSP("Verdana", "10pt");
+			$sp3 = new FontSP("Verdana", "10pt");
 			$id3 = $theme->registerSP($sp3);
 			
 			$this->manager->setTheme($theme);
 			$this->manager->saveTheme();
-			$id =& $theme->getId();
+			$id =$theme->getId();
 			$this->assertIsA($id, "HarmoniId");
 			
-			$theme1 =& new Theme("Master", "And Servant");
+			$theme1 = new Theme("Master", "And Servant");
 
-			$sp1 =& new BackgroundColorSP("#241");
+			$sp1 = new BackgroundColorSP("#241");
 			$id1 = $theme1->registerSP($sp1);
-			$sp2 =& new ColorSP("#325");
+			$sp2 = new ColorSP("#325");
 			$id2 = $theme1->registerSP($sp2);
-			$sp3 =& new FontSP("Arial", "9pt");
+			$sp3 = new FontSP("Arial", "9pt");
 			$id3 = $theme1->registerSP($sp3);
 			
 			$this->manager->loadTheme($id);
-			$themea =& $this->manager->getTheme();
+			$themea =$this->manager->getTheme();
 			$this->assertIdentical($theme, $themea);
 				
 			/*** testing method replaceThemeState ***/
-			$theme2 =& new Theme("Master", "And Servant");
+			$theme2 = new Theme("Master", "And Servant");
 
-			$sp1 =& new BackgroundColorSP("#241");
+			$sp1 = new BackgroundColorSP("#241");
 			$id1 = $theme2->registerSP($sp1);
-			$sp2 =& new ColorSP("#325");
+			$sp2 = new ColorSP("#325");
 			$id2 = $theme2->registerSP($sp2);
-			$sp3 =& new FontSP("Arial", "9pt");
+			$sp3 = new FontSP("Arial", "9pt");
 			$id3 = $theme2->registerSP($sp3);
 			
 			$this->manager->saveTheme($id, $theme2);
@@ -111,13 +111,13 @@ require_once(HARMONI."GUIManager/Theme.class.php");
 			
 			$this->manager->deleteTheme($id);
 			$idValue = $id->getIdString();
-			$query =& new SelectQuery;
+			$query = new SelectQuery;
 			$query->addColumn("gui_theme");
 			$query->addColumn("gui_state");
 			$query->addTable("gui");
 			$query->addWhere("gui_id = ".$idValue);
 			
-			$queryResult =& $dbHandler->query($query, $dbIndex);
+			$queryResult =$dbHandler->query($query, $dbIndex);
 			
 			$affectedRows = $queryResult->getNumberOfRows();
 			$this->assertIdentical($affectedRows,0);

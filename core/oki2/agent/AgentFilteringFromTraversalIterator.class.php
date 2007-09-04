@@ -22,7 +22,7 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AgentFilteringFromTraversalIterator.class.php,v 1.3 2007/04/12 15:37:26 adamfranco Exp $
+ * @version $Id: AgentFilteringFromTraversalIterator.class.php,v 1.4 2007/09/04 20:25:35 adamfranco Exp $
  */
 class AgentFilteringFromTraversalIterator
 	extends HarmoniAgentIterator
@@ -57,8 +57,8 @@ class AgentFilteringFromTraversalIterator
 	 * @access public
 	 * @since 8/30/05
 	 */
-	function AgentFilteringFromTraversalIterator ( &$traversalInfoIterator ) {
-		$this->_traversalInfoIterator =& $traversalInfoIterator;
+	function AgentFilteringFromTraversalIterator ( $traversalInfoIterator ) {
+		$this->_traversalInfoIterator =$traversalInfoIterator;
 		$this->_idsToIgnore = array();
 		
 		for ($i = 1; $i < func_num_args(); $i++) {
@@ -115,8 +115,8 @@ class AgentFilteringFromTraversalIterator
 	 * 
 	 * @access public
 	 */
-	function &next () { 
-		$next =& $this->_nextAgent;
+	function next () { 
+		$next =$this->_nextAgent;
 		$this->_selectNextAgent();
 		return $next;
 	}
@@ -133,17 +133,17 @@ class AgentFilteringFromTraversalIterator
 		// We just want to change the reference, leaving any existing references
 		// untouched.
 		$null = null;
-		$this->_nextAgent =& $null;
+		$this->_nextAgent =$null;
 				
 		while ($this->_nextAgent == null 
 			&& $this->_traversalInfoIterator->hasNext())
 		{
-			$info =& $this->_traversalInfoIterator->next();
-			$nodeId =& $info->getNodeId();
+			$info =$this->_traversalInfoIterator->next();
+			$nodeId =$info->getNodeId();
 			if ($this->_shouldSelect($nodeId)
 				&& !in_array($nodeId->getIdString(), $this->_idsToIgnore)) 
 			{
-				$this->_nextAgent =& $this->_getAgent($nodeId);
+				$this->_nextAgent =$this->_getAgent($nodeId);
 				break;
 			}
 		}
@@ -160,10 +160,10 @@ class AgentFilteringFromTraversalIterator
 		if ($this->_count === null) {
 			$this->_count = 0;
 			
-			$tempTraversalIterator =& $this->_traversalInfoIterator->shallowCopy();
+			$tempTraversalIterator =$this->_traversalInfoIterator->shallowCopy();
 			
 			while ($tempTraversalIterator->hasNext()) {
-				$info =& $tempTraversalIterator->next();
+				$info =$tempTraversalIterator->next();
 				if ($this->_shouldSelect($info->getNodeId())) {
 					$this->_count++;
 				}
@@ -182,7 +182,7 @@ class AgentFilteringFromTraversalIterator
 	 * @access private
 	 * @since 8/31/05
 	 */
-	function _shouldSelect ( &$id ) {
+	function _shouldSelect ( $id ) {
 		die("Method ".__FUNCTION__." in class ".__CLASS__
 			." should have been overridden by a child class.");
 	}
@@ -195,7 +195,7 @@ class AgentFilteringFromTraversalIterator
 	 * @access private
 	 * @since 8/31/05
 	 */
-	function &_getAgent ( &$id ) {
+	function _getAgent ( $id ) {
 		die("Method ".__FUNCTION__." in class ".__CLASS__
 			." should have been overridden by a child class.");
 	}

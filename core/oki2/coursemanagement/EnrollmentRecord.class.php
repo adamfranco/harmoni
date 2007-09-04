@@ -21,7 +21,7 @@ require_once(OKI2."/osid/coursemanagement/EnrollmentRecord.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: EnrollmentRecord.class.php,v 1.10 2007/03/21 15:51:57 adamfranco Exp $
+ * @version $Id: EnrollmentRecord.class.php,v 1.11 2007/09/04 20:25:39 adamfranco Exp $
  */
 class HarmoniEnrollmentRecord
 	extends EnrollmentRecord
@@ -44,9 +44,9 @@ class HarmoniEnrollmentRecord
 	 * @access public
 	 * @return void
 	 */
-	function HarmoniEnrollmentRecord(&$id)
+	function HarmoniEnrollmentRecord($id)
 	{
-		$this->_id =& $id;
+		$this->_id =$id;
 		$this->_table = 'cm_enroll';
 		
 	}
@@ -73,10 +73,10 @@ class HarmoniEnrollmentRecord
 	 * 
 	 * @access public
 	 */
-	function &getStudent () { 
-		$idManager =& Services::getService("IdManager");
+	function getStudent () { 
+		$idManager = Services::getService("IdManager");
 		$idString = $this->_getField('fk_student_id');
-		$ret =& $idManager->getId($idString);
+		$ret =$idManager->getId($idString);
 		return $ret;
 		 
 	} 
@@ -104,11 +104,11 @@ class HarmoniEnrollmentRecord
 	 * 
 	 * @access public
 	 */
-	function &getCourseSection () { 
-		$cm =& Services::getService("CourseManagement");
-		$idManager =& Services::getService("IdManager");
+	function getCourseSection () { 
+		$cm = Services::getService("CourseManagement");
+		$idManager = Services::getService("IdManager");
 		$idString = $this->_getField('fk_cm_section');
-		$id =& $idManager->getId($idString);
+		$id =$idManager->getId($idString);
 		return $cm->getCourseSection($id);
 		 
 	} 
@@ -136,20 +136,20 @@ class HarmoniEnrollmentRecord
 	 * 
 	 * @access public
 	 */
-	function &getStatus () { 
+	function getStatus () { 
 		 
 		return $this->_getType('enroll_stat');
 	} 
 	
 	
 	
-	function _typeToIndex($typename, &$type)
+	function _typeToIndex($typename, $type)
 	{	
 		$cm=Services::getService("CourseManagement");
 		return $cm->_typeToIndex($typename, $type);
 	}
 	
-	function &_getTypes($typename)
+	function _getTypes($typename)
 	{	
 		$cm=Services::getService("CourseManagement");
 		return $cm->_getTypes($typename);
@@ -162,7 +162,7 @@ class HarmoniEnrollmentRecord
 	}
 	
 	
-	function &_getType($typename){
+	function _getType($typename){
 		$cm=Services::getService("CourseManagement");
 		return $cm->_getType($this->_id,$this->_table,$typename);
 	}

@@ -58,7 +58,7 @@ class IdManager
      * 
      * @access public
      */
-    function &createId () { 
+    function createId () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -82,7 +82,7 @@ class IdManager
      * 
      * @access public
      */
-    function &getId ( $idString ) { 
+    function getId ( $idString ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 }

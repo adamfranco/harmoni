@@ -59,7 +59,7 @@ class WorkEvent
      * 
      * @access public
      */
-    function &getAgentId () { 
+    function getAgentId () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -82,7 +82,7 @@ class WorkEvent
      * 
      * @access public
      */
-    function &getStep () { 
+    function getStep () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 

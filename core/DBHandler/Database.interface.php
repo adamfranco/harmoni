@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Database.interface.php,v 1.9 2006/06/01 14:41:06 adamfranco Exp $
+ * @version $Id: Database.interface.php,v 1.10 2007/09/04 20:25:18 adamfranco Exp $
  */
  
 class DatabaseInterface {
@@ -107,7 +107,7 @@ class DatabaseInterface {
 	 * @param ref object DateAndTime The DateAndTime object to convert.
 	 * @return mixed A proper datetime/timestamp/time representation for this Database.
 	 */
-	function toDBDate(& $dateAndTime) {
+	function toDBDate($dateAndTime) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -120,7 +120,7 @@ class DatabaseInterface {
 	 * from the db).
 	 * @return ref object The DateAndTime object.
 	 */
-	function &fromDBDate($value) {
+	function fromDBDate($value) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -186,8 +186,8 @@ class DatabaseInterface {
 	 * @since 6/1/06
 	 */
 	function getConnectionErrorInfo () {
-		$dbManager =& Services::getService("DatabaseManager");
-		$configuration =& $dbManager->_configuration;
+		$dbManager = Services::getService("DatabaseManager");
+		$configuration =$dbManager->_configuration;
 		if ($configuration->getProperty('connectionInfo')) {
 			return '<div style="border: 1px dotted; background-color: #FAA; margin: 10px; padding: 10px;">'.$configuration->getProperty('connectionInfo').'</div>';
 		} else {

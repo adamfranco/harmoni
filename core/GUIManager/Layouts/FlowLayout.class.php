@@ -20,7 +20,7 @@ require_once(HARMONI."GUIManager/Layout.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: FlowLayout.class.php,v 1.6 2005/03/10 03:18:19 dobomode Exp $
+ * @version $Id: FlowLayout.class.php,v 1.7 2007/09/04 20:25:22 adamfranco Exp $
  */
 class FlowLayout extends LayoutInterface {
 
@@ -43,11 +43,11 @@ class FlowLayout extends LayoutInterface {
 	 * prepended to each text line. This argument is optional but its usage is highly 
 	 * recommended in order to produce a nicely formatted HTML output.
 	 **/
-	function render(& $container, & $theme, $tabs = "") {
+	function render($container, $theme, $tabs = "") {
 		// now output each component of the given container
-		$components =& $container->getComponents();
+		$components =$container->getComponents();
 		foreach (array_keys($components) as $key) {
-			$component =& $components[$key];
+			$component =$components[$key];
 			$component->render($theme, $tabs."\t");
 		}
 	}

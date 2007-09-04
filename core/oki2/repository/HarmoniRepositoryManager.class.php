@@ -36,7 +36,7 @@ require_once(HARMONI."oki2/repository/HarmoniRepository.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepositoryManager.class.php,v 1.37 2007/04/12 15:37:31 adamfranco Exp $ 
+ * @version $Id: HarmoniRepositoryManager.class.php,v 1.38 2007/09/04 20:25:43 adamfranco Exp $ 
  */
 
 class HarmoniRepositoryManager
@@ -61,29 +61,29 @@ class HarmoniRepositoryManager
 		
 		
 		// Define the type to use as a key for Identifying repositories
-		$this->repositoryKeyType =& new HarmoniType("Repository", "edu.middlebury.harmoni", 
+		$this->repositoryKeyType = new HarmoniType("Repository", "edu.middlebury.harmoni", 
 							"Repository", "Nodes with this type are by definition Repositories.");
 		
 		// Cache any created repositories so that we can pass out references to them.
 		$this->_createdRepositories = array();
 
-		$schemaMgr =& Services::getService("SchemaManager");
-		$ids =& Services::getService("Id");
-		$recordStructureId =& $ids->getId("edu.middlebury.harmoni.repository.asset_content");
+		$schemaMgr = Services::getService("SchemaManager");
+		$ids = Services::getService("Id");
+		$recordStructureId =$ids->getId("edu.middlebury.harmoni.repository.asset_content");
 		$recordDesc = "A RecordStructure for the generic content of an asset.";
 		
 		if (!$schemaMgr->schemaExists($recordStructureId->getIdString())) {
 			// Create the Schema
-			$schema =& new Schema($recordStructureId->getIdString(), "Repository Asset Content", 1, $recordDesc);
+			$schema = new Schema($recordStructureId->getIdString(), "Repository Asset Content", 1, $recordDesc);
 			$schema->addField(new SchemaField("Content", "Content", "blob", "The binary content of the Asset"));
 			$schemaMgr->synchronize($schema);
 			
 			// The SchemaManager only allows you to use Schemas created by it for use with Records.
-			$schema =& $schemaMgr->getSchemaByID($recordStructureId->getIdString());
+			$schema =$schemaMgr->getSchemaByID($recordStructureId->getIdString());
 			debug::output("RecordStructure is being created from Schema with Id: '".$schema->getID()."'");
 			
-			$nullRepositoryId =& $ids->getId('null');
-			$this->_createdRecordStructures[$schema->getID()] =& new HarmoniRecordStructure(
+			$nullRepositoryId =$ids->getId('null');
+			$this->_createdRecordStructures[$schema->getID()] = new HarmoniRecordStructure(
 																	$schema, 
 																	$nullRepositoryId);
 			// Add the parts to the schema
@@ -120,8 +120,8 @@ class HarmoniRepositoryManager
 	 * 
 	 * @access public
 	 */
-	function assignConfiguration ( &$configuration ) { 
-		$this->_configuration =& $configuration;
+	function assignConfiguration ( $configuration ) { 
+		$this->_configuration =$configuration;
 		
 		$dbIndex = $configuration->getProperty('database_index');
 		$hierarchyIdString = $configuration->getProperty('hierarchy_id');
@@ -136,10 +136,10 @@ class HarmoniRepositoryManager
 		$this->_dbIndex = $dbIndex;
 		
 		// Set up our hierarchy
-		$hierarchyManager =& Services::getService("Hierarchy");
-		$idManager =& Services::getService("Id");
+		$hierarchyManager = Services::getService("Hierarchy");
+		$idManager = Services::getService("Id");
 		$hierarchyId = $idManager->getId($hierarchyIdString);
-		$this->_hierarchy =& $hierarchyManager->getHierarchy($hierarchyId);
+		$this->_hierarchy =$hierarchyManager->getHierarchy($hierarchyId);
 		
 		// Record what parent to store newly created repositories under
 		if ($defaultParentIdString) {
@@ -158,7 +158,7 @@ class HarmoniRepositoryManager
 	 * 
 	 * @access public
 	 */
-	function &getOsidContext () { 
+	function getOsidContext () { 
 		return $this->_osidContext;
 	} 
 
@@ -173,8 +173,8 @@ class HarmoniRepositoryManager
 	 * 
 	 * @access public
 	 */
-	function assignOsidContext ( &$context ) { 
-		$this->_osidContext =& $context;
+	function assignOsidContext ( $context ) { 
+		$this->_osidContext =$context;
 	} 
 
 	/**
@@ -205,7 +205,7 @@ class HarmoniRepositoryManager
 	 * 
 	 * @access public
 	 */
-	function &createRepository ( $displayName, $description, &$repositoryType, $id = NULL ){
+	function createRepository ( $displayName, $description, $repositoryType, $id = NULL ){
 		// Argument Validation
 		ArgumentValidator::validate($displayName, StringValidatorRule::getRule());
 		ArgumentValidator::validate($description, StringValidatorRule::getRule());
@@ -213,30 +213,30 @@ class HarmoniRepositoryManager
 		
 		// Create an Id for the digital Repository Node
 		if (!is_object($id)) {
-			$IDManager =& Services::getService("Id");
-			$id =& $IDManager->createId();
+			$IDManager = Services::getService("Id");
+			$id =$IDManager->createId();
 		}
 		
 		// Store the type passed in our own table as we will be using
 		// a special type, "repositoryKeyType", as definition of which
 		// Nodes in the Hierarchy are Repositories.
-		$dbc =& Services::getService("DatabaseManager");
+		$dbc = Services::getService("DatabaseManager");
 		
-		$query =& new SelectQuery;
+		$query = new SelectQuery;
 		$query->addColumn("type_id");
 		$query->addTable("dr_type");
 		$query->addWhere("type_domain = '".addslashes($repositoryType->getDomain())."'");
 		$query->addWhere("type_authority = '".addslashes($repositoryType->getAuthority())."'", _AND);
 		$query->addWhere("type_keyword = '".addslashes($repositoryType->getKeyword())."'", _AND);
 		
-		$result =& $dbc->query($query, $this->_dbIndex);
+		$result =$dbc->query($query, $this->_dbIndex);
 		
 		if ($result->getNumberOfRows()) {
 			$typeId = $result->field("type_id");
 			$result->free();
 		} else {
 			$result->free();
-			$query =& new InsertQuery;
+			$query = new InsertQuery;
 			$query->setTable("dr_type");
 			$query->setColumns(array(
 								"type_domain",
@@ -251,11 +251,11 @@ class HarmoniRepositoryManager
 								"'".addslashes($repositoryType->getDescription())."'",
 							));
 			
-			$result =& $dbc->query($query, $this->_dbIndex);
+			$result =$dbc->query($query, $this->_dbIndex);
 			$typeId = $result->getLastAutoIncrementValue();
 		}
 		
-		$query =& new InsertQuery;
+		$query = new InsertQuery;
 		$query->setTable("dr_repository_type");
 		$query->setColumns(array(
 							"repository_id",
@@ -266,25 +266,25 @@ class HarmoniRepositoryManager
 							"'".addslashes($typeId)."'",
 						));
 		
-		$result =& $dbc->query($query, $this->_dbIndex);
+		$result =$dbc->query($query, $this->_dbIndex);
 		
 		
 		// Add this DR's node to the hierarchy.
 		// If we don't have a default parent specified, create
 		// it as a root node
 		if ($this->_defaultParentId == NULL) {
-			$node =& $this->_hierarchy->createRootNode($id, 
+			$node =$this->_hierarchy->createRootNode($id, 
 						$this->repositoryKeyType, $displayName, $description);
 		} 
 		// If we have a default parent specified, create the
 		// Node as a child of that.
 		else {
-			$node =& $this->_hierarchy->createNode($id, 
+			$node =$this->_hierarchy->createNode($id, 
 						$this->_defaultParentId, 
 						$this->repositoryKeyType, $displayName, $description);
 		}
 		
-		$this->_createdRepositories[$id->getIdString()] =& new HarmoniRepository ($this->_hierarchy, $id, $this->_configuration);
+		$this->_createdRepositories[$id->getIdString()] = new HarmoniRepository ($this->_hierarchy, $id, $this->_configuration);
 		return  $this->_createdRepositories[$id->getIdString()];
 	}
 
@@ -310,18 +310,18 @@ class HarmoniRepositoryManager
      * 
      * @access public
      */
-	function deleteRepository(& $repositoryId) {
-		$repository =& $this->getRepository($repositoryId);
+	function deleteRepository($repositoryId) {
+		$repository =$this->getRepository($repositoryId);
 		
 		// Check to see if this DR has any assets.
-		$assets =& $repository->getAssets();
+		$assets =$repository->getAssets();
 		// If so, delete them.
 		if ($assets->hasNext()) {
 			// We need to delete the assets by deleting the root assets
 			$hasRootSearch = FALSE;
-			$rootSearchType =& new HarmoniType("Repository",
+			$rootSearchType = new HarmoniType("Repository",
 				"edu.middlebury.harmoni","RootAssets", "");
-			$searchTypes =& $repository->getSearchTypes();
+			$searchTypes =$repository->getSearchTypes();
 			while ($searchTypes->hasNext()) {
 				if ($rootSearchType->isEqual( $searchTypes->next() )) {
 					$hasRootSearch = TRUE;
@@ -331,33 +331,33 @@ class HarmoniRepositoryManager
 
 			if ($hasRootSearch) {
 				$criteria = NULL;
-				$rootAssets =& $repository->getAssetsBySearch($criteria,
+				$rootAssets =$repository->getAssetsBySearch($criteria,
 					$rootSearchType, $searchProperties = NULL);
 				
 				while ($rootAssets->hasNext()) {
-					$asset =& $rootAssets->next();
+					$asset =$rootAssets->next();
 					$repository->deleteAsset($asset->getId());
 				} 
 			}
 			else {
 				// if we cant then sort the asset ids by depth
-				$infoIterator =& $this->_hierarchy->traverse(
+				$infoIterator =$this->_hierarchy->traverse(
 					$repositoryId,
 					Hierarchy::TRAVERSE_MODE_DEPTH_FIRST(),
 					Hierarchy::TRAVERSE_DIRECTION_DOWN(),
 					Hierarchy::TRAVERSE_LEVELS_ALL());
 				$levels = array();
 				while ($infoIterator->hasNextTraversalInfo()) {
-					$info =& $infoIterator->nextTraversalInfo();
+					$info =$infoIterator->nextTraversalInfo();
 					
 					if (!is_array($levels[$info->getLevel()]))
 						$levels[$info->getLevel()] = array();
 					
-					$levels[$info->getLevel()][] =& $info->getNodeId();
+					$levels[$info->getLevel()][] =$info->getNodeId();
 				}
 				
 				for ($i = count($levels) - 1; $i > 0; $i--) {
-					$level =& $levels[$i];
+					$level =$levels[$i];
 					foreach (array_keys($level) as $key) {
 						$repository->deleteAsset($level[$key]);
 					}
@@ -369,12 +369,12 @@ class HarmoniRepositoryManager
 		$this->_hierarchy->deleteNode($repositoryId);
 		
 		// Delete type type for the Repository
-		$query =& new DeleteQuery;
+		$query = new DeleteQuery;
 		$query->setTable("dr_repository_type");
 		$query->addWhere("repository_id = '"
 						.addslashes($repositoryId->getIdString())
 						."' LIMIT 1");
-		$dbc =& Services::getService("DatabaseManager");
+		$dbc = Services::getService("DatabaseManager");
 		$dbc->query($query, $this->_dbIndex);
 		
 		unset($this->_createdRepositories[$repositoryId->getIdString()]);
@@ -403,17 +403,17 @@ class HarmoniRepositoryManager
 	 * 
 	 * @access public
 	 */
-	function &getRepositories () { 
-		$nodes =& $this->_hierarchy->getNodesByType($this->repositoryKeyType);
+	function getRepositories () { 
+		$nodes =$this->_hierarchy->getNodesByType($this->repositoryKeyType);
 		while ($nodes->hasNext()) {
-			$node =& $nodes->next();
+			$node =$nodes->next();
 			
 			// make sure that the dr is loaded into the createdDRs array
 			$this->getRepository($node->getId());
 		}
 		
 		// create a DigitalRepositoryIterator with all fo the DRs in the createdDRs array
-		$repositoryIterator =& new HarmoniRepositoryIterator($this->_createdRepositories);
+		$repositoryIterator = new HarmoniRepositoryIterator($this->_createdRepositories);
 		
 		return $repositoryIterator;
 	}
@@ -445,11 +445,11 @@ class HarmoniRepositoryManager
 	 * 
 	 * @access public
 	 */
-  function &getRepositoriesByType ( &$repositoryType ) { 
+  function getRepositoriesByType ( $repositoryType ) { 
 		ArgumentValidator::validate($repositoryType, ExtendsValidatorRule::getRule("Type"));
 		
 		// Select the Ids of corresponding repositories
-		$query =& new SelectQuery;
+		$query = new SelectQuery;
 		$query->addColumn("repository_id");
 		$query->addTable("dr_repository_type");
 		$query->addTable("dr_type", INNER_JOIN, "fk_dr_type = type_id");
@@ -457,25 +457,25 @@ class HarmoniRepositoryManager
 		$query->addWhere("type_authority = '".addslashes($repositoryType->getAuthority())."'", _AND);
 		$query->addWhere("type_keyword = '".addslashes($repositoryType->getKeyword())."'", _AND);
 		
-		$dbc =& Services::getService("DatabaseManager");
-		$result =& $dbc->query($query, $this->_dbIndex);
+		$dbc = Services::getService("DatabaseManager");
+		$result =$dbc->query($query, $this->_dbIndex);
 		
-		$idManager =& Services::getService("Id");
+		$idManager = Services::getService("Id");
 		
 		$rs = array();
 		while ($result->hasMoreRows()) {
 			$idString = $result->field("repository_id");
-			$id =& $idManager->getId($idString);
+			$id =$idManager->getId($idString);
 			
 			// make sure that the repository is loaded into the createdRepositories array
-			$rs[] =& $this->getRepository($id);
+			$rs[] =$this->getRepository($id);
 			$result->advanceRow();
 		}
 		
 		$result->free();
 		
 		// create a repositoryIterator with all fo the repositories in the createdRepositories array
-		$repositoryIterator =& new HarmoniRepositoryIterator($rs);
+		$repositoryIterator = new HarmoniRepositoryIterator($rs);
 		
 		return $repositoryIterator;
 	}
@@ -504,7 +504,7 @@ class HarmoniRepositoryManager
 	 * 
 	 * @access public
 	 */
-	function &getRepository ( &$repositoryId ) { 
+	function getRepository ( $repositoryId ) { 
 		ArgumentValidator::validate($repositoryId, ExtendsValidatorRule::getRule("Id"));
 		
 		if (!isset($this->_createdRepositories[$repositoryId->getIdString()])) {
@@ -515,7 +515,7 @@ class HarmoniRepositoryManager
 				throwError(new Error(RepositoryException::UNKNOWN_ID(), "RepositoryManager", 1));
 			
 			// create the repository and add it to the cache
-			$this->_createdRepositories[$repositoryId->getIdString()] =& new HarmoniRepository($this->_hierarchy, $repositoryId, $this->_configuration);
+			$this->_createdRepositories[$repositoryId->getIdString()] = new HarmoniRepository($this->_hierarchy, $repositoryId, $this->_configuration);
 			$this->_repositoryValidFlags[$repositoryId->getIdString()] = true;
 		}
 		
@@ -547,7 +547,7 @@ class HarmoniRepositoryManager
 	 * 
 	 * @access public
 	 */
-	function &getAsset ( &$assetId ) { 
+	function getAsset ( $assetId ) { 
 		ArgumentValidator::validate($assetId, ExtendsValidatorRule::getRule("Id"));
 		
 		// Get the node for this asset to make sure its availible
@@ -558,10 +558,10 @@ class HarmoniRepositoryManager
 		}
 		
 		// figure out which DR it is in.
-		if (! $repositoryId =& $this->_getAssetRepository($assetId))
+		if (! $repositoryId =$this->_getAssetRepository($assetId))
 			throwError(new Error(RepositoryException::UNKNOWN_ID(), "RepositoryManager", 1));
 			
-		$repository =& $this->getRepository($repositoryId);
+		$repository =$this->getRepository($repositoryId);
 		
 		// have the repostiroy create it.
 		return $repository->getAsset($assetId);
@@ -583,12 +583,12 @@ class HarmoniRepositoryManager
 	 * {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 * {@link DigitalRepositoryException#NO_OBJECT_WITH_THIS_DATE NO_OBJECT_WITH_THIS_DATE}
 	 */
-	function &getAssetByDate(& $assetId, & $date) {
+	function getAssetByDate($assetId, $date) {
 		// figure out which DR it is in.
-		if (! $repositoryId =& $this->_getAssetRepository($assetId))
+		if (! $repositoryId =$this->_getAssetRepository($assetId))
 			throwError(new Error(RepositoryException::UNKNOWN_ID(), "RepositoryManager", 1));
 			
-		$repository =& $this->getRepository($repositoryId);
+		$repository =$this->getRepository($repositoryId);
 		
 		//return the assetByDate
 		return $repository->getAssetByDate($assetId, $date);
@@ -619,12 +619,12 @@ class HarmoniRepositoryManager
    * 
    * @access public
    */
-  function &getAssetDates ( &$assetId ) { 
+  function getAssetDates ( $assetId ) { 
 		// figure out which Repository it is in.
-		if (! $repositoryId =& $this->_getAssetRepository($assetId))
+		if (! $repositoryId =$this->_getAssetRepository($assetId))
 			throwError(new Error(RepositoryException::UNKNOWN_ID(), "RepositoryManager", 1));
 			
-		$repository =& $this->getRepository($repositoryId);
+		$repository =$this->getRepository($repositoryId);
 		
 		//return the assetByDate
 		return $repository->getAssetDates($assetId, $date);
@@ -662,7 +662,7 @@ class HarmoniRepositoryManager
 	 * 
 	 * @access public
 	 */
-	function &getAssetsBySearch ( &$repositories, &$searchCriteria, &$searchType, &$searchProperties ) { 
+	function getAssetsBySearch ( $repositories, $searchCriteria, $searchType, $searchProperties ) { 
       die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
   } 
 	
@@ -690,21 +690,21 @@ class HarmoniRepositoryManager
 	 * {@link DigitalRepositoryException#UNKNOWN_TYPE UNKNOWN_TYPE}, 
 	 * {@link DigitalRepositoryException#UNKNOWN_DR UNKNOWN_DR}
 	 */
-	function &getAssets(& $repositories, & $searchCriteria, & $searchType, &$searchProperties) {
+	function getAssets($repositories, $searchCriteria, $searchType, $searchProperties) {
 		$combinedAssets = array();
 		
 		foreach ($digitalRepositories as $key => $val) {
 			// Get the assets that match from this DR.
-			$assets =& $repositories[$key]->getAssetsBySearch($searchCriteria, $searchType, $searchProperties);
+			$assets =$repositories[$key]->getAssetsBySearch($searchCriteria, $searchType, $searchProperties);
 			
 			// Add the assets from this dr into our combined array.
 			while ($assets->hasNext()) {
-				$combinedAssets[] =& $assets->next();
+				$combinedAssets[] =$assets->next();
 			}
 		}
 		
 		// create an AssetIterator with all fo the Assets in the createdAssets array
-		$assetIterator =& new HarmoniAssetIterator($combinedAssets);
+		$assetIterator = new HarmoniAssetIterator($combinedAssets);
 		
 		return $assetIterator;
 	}
@@ -736,8 +736,8 @@ class HarmoniRepositoryManager
 	 * 
 	 * @access public
 	 */
-	function &copyAsset ( &$repository, &$assetId ) { 
-		$asset =& $repository->getAsset($assetId);
+	function copyAsset ( $repository, $assetId ) { 
+		$asset =$repository->getAsset($assetId);
 		return $repository->copyAsset( $asset );
 	}
 
@@ -762,22 +762,22 @@ class HarmoniRepositoryManager
 	 * 
 	 * @access public
 	 */
-	function &getRepositoryTypes () { 
+	function getRepositoryTypes () { 
 		$types = array();
 		
-		$query =& new SelectQuery;
+		$query = new SelectQuery;
 		$query->addColumn("type_domain");
 		$query->addColumn("type_authority");
 		$query->addColumn("type_keyword");
 		$query->addColumn("type_description");
 		$query->addTable("dr_type");
 		
-		$dbc =& Services::getService("DatabaseManager");
-		$result =& $dbc->query($query, $this->_dbIndex);
+		$dbc = Services::getService("DatabaseManager");
+		$result =$dbc->query($query, $this->_dbIndex);
 		
 		// Return our types
 		while ($result->hasMoreRows()) {
-			$types[] =& new HarmoniType($result->field("type_domain"),
+			$types[] = new HarmoniType($result->field("type_domain"),
 											$result->field("type_authority"),
 											$result->field("type_keyword"),
 											$result->field("type_description"));
@@ -786,7 +786,7 @@ class HarmoniRepositoryManager
 		
 		$result->free();
 		
-		$obj =& new HarmoniTypeIterator($types);
+		$obj = new HarmoniTypeIterator($types);
 		
 		return $obj;
 	}
@@ -795,8 +795,8 @@ class HarmoniRepositoryManager
  * Private Functions:	
  ******************************************************************************/
  
-	function &_getAssetRepository (& $assetId) {
-		$node =& $this->_hierarchy->getNode($assetId);
+	function _getAssetRepository ($assetId) {
+		$node =$this->_hierarchy->getNode($assetId);
 		
 		// If we have reached the top of the hierarchy and don't have a parent that
 		// is of the Repository type, then we aren't in a Repository and are therefore unknown
@@ -806,14 +806,14 @@ class HarmoniRepositoryManager
 			return FALSE;
 		
 		// Get the parent and return its ID if it is a root node (repositories are root nodes).
-		$parents =& $node->getParents();
+		$parents =$node->getParents();
 		
 		// Make sure that we have Parents
 		if (!$parents->hasNext())
 			return FALSE;
 		
 		// assume a single-parent hierarchy
-		$parent =& $parents->next();
+		$parent =$parents->next();
 		
 		if ($this->repositoryKeyType->isEqual($parent->getType()))
 			return $parent->getId();

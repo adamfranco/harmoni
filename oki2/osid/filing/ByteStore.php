@@ -184,7 +184,7 @@ class ByteStore
      * 
      * @access public
      */
-    function getDigest ( &$algorithmType ) { 
+    function getDigest ( $algorithmType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -198,7 +198,7 @@ class ByteStore
      * 
      * @access public
      */
-    function &getDigestAlgorithmTypes () { 
+    function getDigestAlgorithmTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -213,7 +213,7 @@ class ByteStore
      * 
      * @access public
      */
-    function &read ( $version ) { 
+    function read ( $version ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 

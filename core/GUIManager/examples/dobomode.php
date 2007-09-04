@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: dobomode.php,v 1.6 2005/08/22 15:11:56 adamfranco Exp $
+ * @version $Id: dobomode.php,v 1.7 2007/09/04 20:25:24 adamfranco Exp $
  */
 
 // =============================================================================
@@ -25,7 +25,7 @@
 	    require_once("../../../harmoni.inc.php");
 	}
 	
-	$errorHandler =& Services::getService("ErrorHandler");
+	$errorHandler = Services::getService("ErrorHandler");
 
 // =============================================================================
 // Include all needed files.
@@ -52,20 +52,20 @@
 // =============================================================================
 
 	// initialize layouts and theme
-	$theme =& new DobomodeTheme();
+	$theme = new DobomodeTheme();
 	
 	// create and add menus
 	
 	// create and add components
-	$main =& new Block($theme->getDisplayName().": ".$theme->getDescription()."\n", 0);
+	$main = new Block($theme->getDisplayName().": ".$theme->getDescription()."\n", 0);
 	
 	// create menus
-	$menu1 =& new Menu(new FlowLayout(), 1);
+	$menu1 = new Menu(new FlowLayout(), 1);
 	$menu1->add(new MenuItemHeading("Main Menu", 1));
 	$menu1->add(new MenuItemLink("Home", "http://www.google.com", true, 1, null, null, "Home"));
 	$menu1->add(new MenuItemLink("Alone", "http://www.depeche-mode.org", false, 1, null, null, "Alone"));
 	
-	$menu2 =& new Menu(new FlowLayout(), 2);
+	$menu2 = new Menu(new FlowLayout(), 2);
 	$menu2->add(new MenuItemHeading("Sub-menu", 2));
 	$menu2->add(new MenuItemLink("Up", "http://www.google.com", true, 2, null, null, "Up"));
 	$menu2->add(new MenuItemLink("Down", "http://www.depeche-mode.org", false, 2, null, null, "Down"));

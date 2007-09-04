@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthoritativeValuesSearch.class.php,v 1.3 2006/04/28 15:53:23 adamfranco Exp $
+ * @version $Id: AuthoritativeValuesSearch.class.php,v 1.4 2007/09/04 20:25:47 adamfranco Exp $
  */
 
 require_once(dirname(__FILE__)."/RegexSearch.abstract.php");
@@ -19,7 +19,7 @@ require_once(dirname(__FILE__)."/RegexSearch.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthoritativeValuesSearch.class.php,v 1.3 2006/04/28 15:53:23 adamfranco Exp $
+ * @version $Id: AuthoritativeValuesSearch.class.php,v 1.4 2007/09/04 20:25:47 adamfranco Exp $
  */
 
 class AuthoritativeValuesSearch
@@ -35,7 +35,7 @@ class AuthoritativeValuesSearch
 	 * @since 11/2/04
 	 */
 	function AuthoritativeValuesSearch ( $repository ) {
-		$this->_repository =& $repository;
+		$this->_repository =$repository;
 	}
 	
 	
@@ -48,31 +48,31 @@ class AuthoritativeValuesSearch
 	 * @access public
 	 * @since 11/2/04
 	 */
-	function &searchAssets ( $searchCriteria ) {		
+	function searchAssets ( $searchCriteria ) {		
 		$matchingIds = array();
 		
-		$recordMgr =& Services::getService("RecordManager");
-		$schemaMgr =& Services::getService("SchemaManager");
-		$repositoryMgr =& Services::getService("Repository");
+		$recordMgr = Services::getService("RecordManager");
+		$schemaMgr = Services::getService("SchemaManager");
+		$repositoryMgr = Services::getService("Repository");
 		
-		$schema =& $schemaMgr->getSchemaByID(
+		$schema =$schemaMgr->getSchemaByID(
 			$searchCriteria['RecordStructureId']->getIdString());
 		
 		if ($searchCriteria['AuthoritativeValue']->asString() == '__NonMatching__') {
 			$authoritativeValueArray = array();
-			$recordStructure =& $this->_repository->getRecordStructure(
+			$recordStructure =$this->_repository->getRecordStructure(
 				$searchCriteria['RecordStructureId']);
-			$partStructure =& $recordStructure->getPartStructure(
+			$partStructure =$recordStructure->getPartStructure(
 				$searchCriteria['PartStructureId']);
 			
-			$criteria =& new FieldValueSearch(
+			$criteria = new FieldValueSearch(
 				$searchCriteria['RecordStructureId']->getIdString(), 
 				$schema->getFieldLabelFromID(
 					$searchCriteria['PartStructureId']->getIdString()),
 				$partStructure->getAuthoritativeValues(), 
 				SEARCH_TYPE_NOT_IN_LIST);
 		} else {
-			$criteria =& new FieldValueSearch(
+			$criteria = new FieldValueSearch(
 				$searchCriteria['RecordStructureId']->getIdString(), 
 				$schema->getFieldLabelFromID(
 					$searchCriteria['PartStructureId']->getIdString()),
@@ -82,11 +82,11 @@ class AuthoritativeValuesSearch
 
 		
 		// Get the asset Ids to limit to.
-		$allAssets =& $this->_repository->getAssets();
+		$allAssets =$this->_repository->getAssets();
 		$idStrings = array();
 		while ($allAssets->hasNext()) {
-			$asset =& $allAssets->next();
-			$id =& $asset->getId();
+			$asset =$allAssets->next();
+			$id =$asset->getId();
 			$idStrings[] = $id->getIdString();
 		}
 		
@@ -96,9 +96,9 @@ class AuthoritativeValuesSearch
 		// Ensure uniqueness and convert the ids to id objects.
 		$matchingIds = array_unique($matchingIds);
 		sort($matchingIds);
-		$idManager =& Services::getService("Id");
+		$idManager = Services::getService("Id");
 		for ($i=0; $i<count($matchingIds); $i++) {
-			$matchingIds[$i] =& $idManager->getId($matchingIds[$i]);
+			$matchingIds[$i] =$idManager->getId($matchingIds[$i]);
 		}
 		
 		// Return the array

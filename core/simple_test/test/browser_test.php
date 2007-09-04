@@ -1,5 +1,5 @@
 <?php
-    // $Id: browser_test.php,v 1.1 2003/08/14 19:26:31 gabeschine Exp $
+    // $Id: browser_test.php,v 1.2 2007/09/04 20:25:51 adamfranco Exp $
     
     if (!defined("SIMPLE_TEST")) {
         define("SIMPLE_TEST", "../");
@@ -117,7 +117,7 @@
         function TestOfBadHosts() {
             $this->UnitTestCase();
         }
-        function &_createSimulatedBadHost() {
+        function _createSimulatedBadHost() {
             $response = &new MockSimpleHttpResponse($this);
             $response->setReturnValue("isError", true);
             $response->setReturnValue("getError", "Bad socket");
@@ -131,9 +131,9 @@
             $test = &new MockUnitTestCase($this);
             $test->expectCallCount("assertTrue", 0);
             $browser = &new TestBrowser($test);
-            $request = &$this->_createSimulatedBadHost();
+            $request = $this->_createSimulatedBadHost();
             $this->assertIdentical(
-                    $browser->fetchUrl("http://this.host/this/path/page.html", &$request),
+                    $browser->fetchUrl("http://this.host/this/path/page.html", $request),
                     false);
             $test->tally();
         }
@@ -143,9 +143,9 @@
             $test->expectCallCount("assertTrue", 1);
             $browser = &new TestBrowser($test);
             $browser->expectConnection();
-            $request = &$this->_createSimulatedBadHost();
+            $request = $this->_createSimulatedBadHost();
             $this->assertIdentical(
-                    $browser->fetchUrl("http://this.host/this/path/page.html", &$request),
+                    $browser->fetchUrl("http://this.host/this/path/page.html", $request),
                     false);
             $test->tally();
         }
@@ -155,9 +155,9 @@
             $test->expectCallCount("assertTrue", 1);
             $browser = &new TestBrowser($test);
             $browser->expectConnection(false);
-            $request = &$this->_createSimulatedBadHost();
+            $request = $this->_createSimulatedBadHost();
             $this->assertIdentical(
-                    $browser->fetchUrl("http://this.host/this/path/page.html", &$request),
+                    $browser->fetchUrl("http://this.host/this/path/page.html", $request),
                     false);
             $test->tally();
         }
@@ -182,7 +182,7 @@
             $this->_test->expectCallCount("assertTrue", 1);
             $browser = &new TestBrowser($this->_test);
             $browser->expectResponseCodes(array(404));
-            $browser->fetchUrl("http://this.host/this/path/page.html", &$this->_request);
+            $browser->fetchUrl("http://this.host/this/path/page.html", $this->_request);
             $this->_test->tally();
         }
         function testUnwantedResponseCode() {
@@ -191,7 +191,7 @@
             $this->_test->expectCallCount("assertTrue", 1);
             $browser = &new TestBrowser($this->_test);
             $browser->expectResponseCodes(array(100, 200));
-            $browser->fetchUrl("http://this.host/this/path/page.html", &$this->_request);
+            $browser->fetchUrl("http://this.host/this/path/page.html", $this->_request);
             $this->_test->tally();
         }
         function testExpectedMimeTypes() {
@@ -200,7 +200,7 @@
             $this->_test->expectCallCount("assertTrue", 1);
             $browser = &new TestBrowser($this->_test);
             $browser->expectMimeTypes(array("text/plain", "text/xml"));
-            $browser->fetchUrl("http://this.host/this/path/page.xml", &$this->_request);
+            $browser->fetchUrl("http://this.host/this/path/page.xml", $this->_request);
             $this->_test->tally();
         }
         function testClearExpectations() {
@@ -210,7 +210,7 @@
             $browser->expectResponseCodes(array(100, 200));
             $browser->expectConnection();
             $browser->_clearExpectations();
-            $browser->fetchUrl("http://this.host/this/path/page.html", &$this->_request);
+            $browser->fetchUrl("http://this.host/this/path/page.html", $this->_request);
             $this->_test->tally();
         }
     }
@@ -219,14 +219,14 @@
         function TestOfBrowserCookies() {
             $this->UnitTestCase();
         }
-        function &_createStandardResponse() {
+        function _createStandardResponse() {
             $response = &new MockSimpleHttpResponse($this);
             $response->setReturnValue("isError", false);
             $response->setReturnValue("getNewCookies", array());
             $response->setReturnValue("getContent", "stuff");
             return $response;
         }
-        function &_createCookieSite($cookies) {
+        function _createCookieSite($cookies) {
             $response = &new MockSimpleHttpResponse($this);
             $response->setReturnValue("isError", false);
             $response->setReturnValue("getContent", "stuff");
@@ -242,7 +242,7 @@
             $request->expectCallCount("setCookie", 1);
             $browser = &new TestBrowser(new MockUnitTestCase($this));
             $browser->setCookie("a", "A");
-            $browser->fetchUrl("http://this.host/this/path/page.html", &$request);
+            $browser->fetchUrl("http://this.host/this/path/page.html", $request);
             $request->tally();
         }
         function testMissingCookie() {
@@ -253,35 +253,35 @@
             $test->expectCallCount("assertTrue", 1);
             $browser = &new TestBrowser($test);
             $browser->expectCookie("a", "A");
-            $browser->fetchUrl("http://this.host/this/path/page.html", &$request);
+            $browser->fetchUrl("http://this.host/this/path/page.html", $request);
             $test->tally();
             $this->assertIdentical($browser->getCookieValues("this.host", "this/page/", "a"), array());
         }
         function testNewCookie() {
-            $request = &$this->_createCookieSite(array(new SimpleCookie("a", "A", "this/path/")));
+            $request = $this->_createCookieSite(array(new SimpleCookie("a", "A", "this/path/")));
             $test = &new MockUnitTestCase($this);
             $test->expectArguments("assertTrue", array(true, "*"));
             $test->expectCallCount("assertTrue", 1);
             $browser = &new TestBrowser($test);
             $browser->expectCookie("a", "A");
-            $browser->fetchUrl("http://this-host.com/this/path/page.html", &$request);
+            $browser->fetchUrl("http://this-host.com/this/path/page.html", $request);
             $test->tally();
             $this->assertEqual($browser->getCookieValues("this-host.com", "this/path/", "a"), array("A"));
             $this->assertIdentical($browser->getCookieValues("this-host.com", "this/", "a"), array());
             $this->assertIdentical($browser->getCookieValues("another.com", "this/path/", "a"), array());
         }
         function testReceiveExistingCookie() {
-            $request = &$this->_createCookieSite(array(new SimpleCookie("a", "AAAA", "this/path/")));
+            $request = $this->_createCookieSite(array(new SimpleCookie("a", "AAAA", "this/path/")));
             $browser = &new TestBrowser(new MockUnitTestCase($this));
             $browser->setCookie("a", "A");
-            $browser->fetchUrl("http://this.host/this/path/page.html", &$request);
+            $browser->fetchUrl("http://this.host/this/path/page.html", $request);
             $this->assertEqual($browser->getCookieValues("this.host", "this/path/", "a"), array("AAAA"));
         }
         function testClearCookie() {
-            $request = &$this->_createCookieSite(array(new SimpleCookie("a", "", "this/path/", time() - 1)));
+            $request = $this->_createCookieSite(array(new SimpleCookie("a", "", "this/path/", time() - 1)));
             $browser = &new TestBrowser(new MockUnitTestCase($this));
             $browser->setCookie("a", "A", "this/path/", time());
-            $browser->fetchUrl("http://this.host/this/path/page.html", &$request);
+            $browser->fetchUrl("http://this.host/this/path/page.html", $request);
             $this->assertIdentical($browser->getCookieValues("this.host", "this/path/", "a"), array(""));
         }
     }

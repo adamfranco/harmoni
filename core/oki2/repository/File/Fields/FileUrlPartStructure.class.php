@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: FileUrlPartStructure.class.php,v 1.1 2006/12/06 20:45:00 adamfranco Exp $
+ * @version $Id: FileUrlPartStructure.class.php,v 1.2 2007/09/04 20:25:46 adamfranco Exp $
  */ 
 
 /**
@@ -18,7 +18,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: FileUrlPartStructure.class.php,v 1.1 2006/12/06 20:45:00 adamfranco Exp $
+ * @version $Id: FileUrlPartStructure.class.php,v 1.2 2007/09/04 20:25:46 adamfranco Exp $
  */
 class FileUrlPartStructure
 	extends FileNamePartStructure
@@ -89,8 +89,8 @@ class FileUrlPartStructure
 	 * 
 	 * @access public
 	 */
-	function &getId() {
-		$idManager =& Services::getService("Id");
+	function getId() {
+		$idManager = Services::getService("Id");
 		return $idManager->getId("FILE_URL");
 	}
 	

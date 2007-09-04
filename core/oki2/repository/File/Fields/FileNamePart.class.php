@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileNamePart.class.php,v 1.10 2007/04/12 15:37:32 adamfranco Exp $
+ * @version $Id: FileNamePart.class.php,v 1.11 2007/09/04 20:25:44 adamfranco Exp $
  */
 class FileNamePart extends Part
 //	extends java.io.Serializable
@@ -29,11 +29,11 @@ class FileNamePart extends Part
 	var $_partStructure;
 	var $_name;
 	
-	function FileNamePart( &$partStructure, &$recordId, $configuration, &$asset ) {
-		$this->_recordId =& $recordId;
-		$this->_partStructure =& $partStructure;
+	function FileNamePart( $partStructure, $recordId, $configuration, $asset ) {
+		$this->_recordId =$recordId;
+		$this->_partStructure =$partStructure;
 		$this->_configuration = $configuration;
-		$this->_asset =& $asset;
+		$this->_asset =$asset;
 		
 		// Set our name to NULL, so that we can know if it has not been checked
 		// for yet. If we search for name, but don't have any, or the name is
@@ -60,8 +60,8 @@ class FileNamePart extends Part
 	 * 
 	 * @access public
 	 */
-	function &getId() {
-		$idManager =& Services::getService("Id");
+	function getId() {
+		$idManager = Services::getService("Id");
 		return $idManager->getId($this->_recordId->getIdString()."-FILE_NAME");
 	}
 
@@ -92,7 +92,7 @@ class FileNamePart extends Part
 	 * 
 	 * @access public
 	 */
-	function &createPart(& $partStructureId, & $value) {
+	function createPart($partStructureId, $value) {
 		throwError(
 			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
 	}
@@ -119,7 +119,7 @@ class FileNamePart extends Part
 	 * 
 	 * @access public
 	 */
-	function deletePart(& $partId) {
+	function deletePart($partId) {
 		throwError(
 			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
 	}
@@ -143,7 +143,7 @@ class FileNamePart extends Part
 	 * 
 	 * @access public
 	 */
-	function &getParts() {
+	function getParts() {
 		throwError(
 			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
 	}
@@ -170,15 +170,15 @@ class FileNamePart extends Part
 	function getValue() {
 		// If we don't have the name, load it from the database.
 		if ($this->_name === NULL) {
-			$dbHandler =& Services::getService("DatabaseManager");
+			$dbHandler = Services::getService("DatabaseManager");
 			
 			// Get the name from the database,
-			$query =& new SelectQuery;
+			$query = new SelectQuery;
 			$query->addTable("dr_file");
 			$query->addColumn("filename");
 			$query->addWhere("id = '".$this->_recordId->getIdString()."'");
 			
-			$result =& $dbHandler->query($query, $this->_configuration->getProperty("database_index"));
+			$result =$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 			
 			// If no name was found, return an empty string.
 			if ($result->getNumberOfRows() == 0)
@@ -219,18 +219,18 @@ class FileNamePart extends Part
 		$this->_name = $value;
 		
 	// then write it to the database.
-		$dbHandler =& Services::getService("DatabaseManager");
+		$dbHandler = Services::getService("DatabaseManager");
 	
 		// Check to see if the name is in the database
-		$query =& new SelectQuery;
+		$query = new SelectQuery;
 		$query->addTable("dr_file");
 		$query->addColumn("COUNT(*) as count");
 		$query->addWhere("id = '".$this->_recordId->getIdString()."'");
-		$result =& $dbHandler->query($query, $this->_configuration->getProperty("database_index"));
+		$result =$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 		
 		// If it already exists, use an update query.
 		if ($result->field("count") > 0) {
-			$query =& new UpdateQuery;
+			$query = new UpdateQuery;
 			$query->setTable("dr_file");
 			$query->setColumns(array("filename"));
 			$query->setValues(array("'".addslashes($this->_name)."'"));
@@ -238,7 +238,7 @@ class FileNamePart extends Part
 		}
 		// If it doesn't exist, use an insert query.
 		else {
-			$query =& new InsertQuery;
+			$query = new InsertQuery;
 			$query->setTable("dr_file");
 			$query->setColumns(array("id","filename"));
 			$query->setValues(array("'".$this->_recordId->getIdString()."'",
@@ -270,7 +270,7 @@ class FileNamePart extends Part
 	 * 
 	 * @access public
 	 */
-	function &getPartStructure() {
+	function getPartStructure() {
 		return $this->_partStructure;
 	}
 	

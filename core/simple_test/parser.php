@@ -1,5 +1,5 @@
 <?php
-    // $Id: parser.php,v 1.2 2005/01/19 16:33:26 adamfranco Exp $
+    // $Id: parser.php,v 1.3 2007/09/04 20:25:50 adamfranco Exp $
     
     if (!defined("SIMPLE_TEST")) {
         define("SIMPLE_TEST", "./");
@@ -48,7 +48,7 @@
          *    @return              True on success.
          *    @access public
          */
-        function match($subject, &$match) {
+        function match($subject, $match) {
             if (count($this->_patterns) == 0) {
                 return false;
             }
@@ -154,9 +154,9 @@
          *    @param $start      Starting mode.
          *    @access public
          */
-        function SimpleLexer(&$handler, $start = "_default") {
+        function SimpleLexer($handler, $start = "_default") {
             $this->_regexes = array();
-            $this->_handler = &$handler;
+            $this->_handler = $handler;
             $this->_mode = new StateStack($start);
         }
         
@@ -257,7 +257,7 @@
          *                        is an parsing error.
          *    @access private
          */
-        function _reduce(&$raw) {
+        function _reduce($raw) {
             if (!isset($this->_regexes[$this->_mode->getCurrent()])) {
                 return false;
             }
@@ -334,7 +334,7 @@
          *                       successfully.
          *    @access public
          */
-        function parse($raw, &$page) {
+        function parse($raw, $page) {
             return true;
         }
     }

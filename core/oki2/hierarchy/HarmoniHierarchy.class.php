@@ -24,7 +24,7 @@ require_once(HARMONI.'/oki2/hierarchy/DefaultNodeType.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniHierarchy.class.php,v 1.20 2007/04/12 15:37:31 adamfranco Exp $
+ * @version $Id: HarmoniHierarchy.class.php,v 1.21 2007/09/04 20:25:41 adamfranco Exp $
  */
 
 class HarmoniHierarchy 
@@ -65,7 +65,7 @@ class HarmoniHierarchy
 	 * one that all other nodes in the Hierarchy are using.
 	 * @access public
 	 */
-	function HarmoniHierarchy(& $id, $displayName, $description, & $cache) {
+	function HarmoniHierarchy($id, $displayName, $description, $cache) {
 		// ** parameter validation
 		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"), true);
 		ArgumentValidator::validate($displayName, StringValidatorRule::getRule(), true);
@@ -73,10 +73,10 @@ class HarmoniHierarchy
 		ArgumentValidator::validate($cache, ExtendsValidatorRule::getRule("HierarchyCache"), true);
 		// ** end of parameter validation
 	
-		$this->_id =& $id;
+		$this->_id =$id;
 		$this->_displayName = $displayName;
 		$this->_description = $description;
-		$this->_cache =& $cache;
+		$this->_cache =$cache;
 	}
 
 	
@@ -99,7 +99,7 @@ class HarmoniHierarchy
 	 * 
 	 * @access public
 	 */
-	function &getId () { 
+	function getId () { 
 		return $this->_id;
 	}
 
@@ -147,7 +147,7 @@ class HarmoniHierarchy
 	 */
 	function updateDisplayName ( $displayName ) { 
 		// ** parameter validation
-		$stringRule =& StringValidatorRule::getRule();
+		$stringRule = StringValidatorRule::getRule();
 		ArgumentValidator::validate($displayName, $stringRule, true);
 		// ** end of parameter validation
 		
@@ -158,19 +158,19 @@ class HarmoniHierarchy
 		$this->_displayName = $displayName;
 
 		// update the database
-		$dbHandler =& Services::getService("DatabaseManager");
+		$dbHandler = Services::getService("DatabaseManager");
 		$db = $this->_cache->_hyDB.".";
 		
-		$query =& new UpdateQuery();
+		$query = new UpdateQuery();
 		$query->setTable($db."hierarchy");
-		$id =& $this->getId();
+		$id =$this->getId();
 		$idValue = $id->getIdString();
 		$where = "{$db}hierarchy.hierarchy_id = '{$idValue}'";
 		$query->setWhere($where);
 		$query->setColumns(array("{$db}hierarchy.hierarchy_display_name"));
 		$query->setValues(array("'".addslashes($displayName)."'"));
 		
-		$queryResult =& $dbHandler->query($query, $this->_cache->_dbIndex);
+		$queryResult =$dbHandler->query($query, $this->_cache->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0)
 			throwError(new Error(HierarchyException::OPERATION_FAILED(),"Hierarchy",true));
 		if ($queryResult->getNumberOfRows() > 1)
@@ -233,19 +233,19 @@ class HarmoniHierarchy
 		$this->_description = $description;
 
 		// update the database
-		$dbHandler =& Services::getService("DatabaseManager");
+		$dbHandler = Services::getService("DatabaseManager");
 		$db = $this->_cache->_hyDB.".";
 		
-		$query =& new UpdateQuery();
+		$query = new UpdateQuery();
 		$query->setTable($db."hierarchy");
-		$id =& $this->getId();
+		$id =$this->getId();
 		$idValue = $id->getIdString();
 		$where = "{$db}hierarchy.hierarchy_id = '{$idValue}'";
 		$query->setWhere($where);
 		$query->setColumns(array("{$db}hierarchy.hierarchy_description"));
 		$query->setValues(array("'".addslashes($description)."'"));
 		
-		$queryResult =& $dbHandler->query($query, $this->_cache->_dbIndex);
+		$queryResult =$dbHandler->query($query, $this->_cache->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0)
 			throwError(new Error(HierarchyException::OPERATION_FAILED(),"Hierarchy",true));
 		if ($queryResult->getNumberOfRows() > 1)
@@ -282,7 +282,7 @@ class HarmoniHierarchy
 	 * 
 	 * @access public
 	 */
-	function &createRootNode ( &$nodeId, &$nodeType, $displayName, $description ) { 
+	function createRootNode ( $nodeId, $nodeType, $displayName, $description ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($nodeId, ExtendsValidatorRule::getRule("Id"), true);
 		ArgumentValidator::validate($nodeType, ExtendsValidatorRule::getRule("Type"), true);
@@ -325,7 +325,7 @@ class HarmoniHierarchy
 	 * 
 	 * @access public
 	 */
-	function &createNode ( &$nodeId, &$parentId, &$type, $displayName, $description ) { 
+	function createNode ( $nodeId, $parentId, $type, $displayName, $description ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($nodeId, ExtendsValidatorRule::getRule("Id"), true);
 		ArgumentValidator::validate($parentId, ExtendsValidatorRule::getRule("Id"), true);
@@ -362,7 +362,7 @@ class HarmoniHierarchy
 	 * 
 	 * @access public
 	 */
-	function deleteNode ( &$nodeId ) { 
+	function deleteNode ( $nodeId ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($nodeId, ExtendsValidatorRule::getRule("Id"), true);
 		// ** end of parameter validation
@@ -393,7 +393,7 @@ class HarmoniHierarchy
 	 * 
 	 * @access public
 	 */
-	function addNodeType ( &$type ) { 
+	function addNodeType ( $type ) { 
 		throwError(new Error(HierarchyException::UNIMPLEMENTED(), "Hierarchy", true));
 	}
 
@@ -423,7 +423,7 @@ class HarmoniHierarchy
 	 * 
 	 * @access public
 	 */
-	function removeNodeType ( &$type ) { 
+	function removeNodeType ( $type ) { 
 		throwError(new Error(HierarchyException::UNIMPLEMENTED(), "Hierarchy", true));
 	}
 
@@ -446,12 +446,12 @@ class HarmoniHierarchy
 	 * 
 	 * @access public
 	 */
-	function &getAllNodes () { 
+	function getAllNodes () { 
 		// if all the nodes haven't been cached then do it
-		$nodes =& $this->_cache->getAllNodes();
+		$nodes =$this->_cache->getAllNodes();
 
 		// create the iterator and return them
-		$obj =& new HarmoniNodeIterator($nodes);
+		$obj = new HarmoniNodeIterator($nodes);
 		return $obj;
 	}
 
@@ -474,12 +474,12 @@ class HarmoniHierarchy
 	 * 
 	 * @access public
 	 */
-	function &getRootNodes () { 
+	function getRootNodes () { 
 		// if all the nodes haven't been cached then do it
-		$nodes =& $this->_cache->getRootNodes();
+		$nodes =$this->_cache->getRootNodes();
 
 		// create the iterator and return them
-		$obj =& new HarmoniNodeIterator($nodes);
+		$obj = new HarmoniNodeIterator($nodes);
 		return $obj;
 	}
 
@@ -508,13 +508,13 @@ class HarmoniHierarchy
 	 * 
 	 * @access public
 	 */
-	function &getNode ( &$nodeId ) { 
+	function getNode ( $nodeId ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($nodeId, ExtendsValidatorRule::getRule("Id"), true);
 		// ** end of parameter validation
 		
 		$idValue = $nodeId->getIdString();
-		$node =& $this->_cache->getNode($idValue);
+		$node =$this->_cache->getNode($idValue);
 		
 		return $node;
 	}
@@ -530,7 +530,7 @@ class HarmoniHierarchy
 	 * 
 	 * @access public
 	 */
-	function nodeExists ( &$nodeId ) { 
+	function nodeExists ( $nodeId ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($nodeId, ExtendsValidatorRule::getRule("Id"), true);
 		// ** end of parameter validation
@@ -558,9 +558,9 @@ class HarmoniHierarchy
 	 * 
 	 * @access public
 	 */
-	function &getNodeTypes () { 
-		$dbHandler =& Services::getService("DatabaseManager");
-		$query =& new SelectQuery();
+	function getNodeTypes () { 
+		$dbHandler = Services::getService("DatabaseManager");
+		$query = new SelectQuery();
 		
 		$db = $this->_cache->_hyDB.".";
 		// set the tables
@@ -577,7 +577,7 @@ class HarmoniHierarchy
 		$query->addColumn("type_authority", "authority", $db."type");
 		$query->addColumn("type_keyword", "keyword", $db."type");
 		$query->addColumn("type_description", "description", $db."type");
-		$queryResult =& $dbHandler->query($query, $this->_cache->_dbIndex);
+		$queryResult =$dbHandler->query($query, $this->_cache->_dbIndex);
 
 		$types = array();
 		while ($queryResult->hasMoreRows()) {
@@ -585,16 +585,16 @@ class HarmoniHierarchy
 			$arr = $queryResult->getCurrentRow();
 			
 			// create type object
-			$type =& new HarmoniType($arr['domain'],$arr['authority'],$arr['keyword'],$arr['description']);
+			$type = new HarmoniType($arr['domain'],$arr['authority'],$arr['keyword'],$arr['description']);
 			
 			// add it to array
-			$types[] =& $type;
+			$types[] =$type;
 
 			$queryResult->advanceRow();
 		}
 		$queryResult->free();
 		
-		$result =& new HarmoniTypeIterator($types);
+		$result = new HarmoniTypeIterator($types);
 		return $result;
 	}
 	
@@ -614,15 +614,15 @@ class HarmoniHierarchy
 	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function &getNodesByType( & $nodeType ) {
+	function getNodesByType( $nodeType ) {
 		// if all the nodes haven't been cached then do it
 		$where = "type_domain = '".addslashes($nodeType->getDomain())."'";
 		$where .= " AND type_authority = '".addslashes($nodeType->getAuthority())."'";
 		$where .= " AND type_keyword = '".addslashes($nodeType->getKeyword())."'";
-		$nodes =& $this->_cache->getNodesFromDB($where);
+		$nodes =$this->_cache->getNodesFromDB($where);
 
 		// create the iterator and return them
-		$iterator =& new HarmoniNodeIterator($nodes);
+		$iterator = new HarmoniNodeIterator($nodes);
 		return $iterator;
 	}
 
@@ -702,7 +702,7 @@ class HarmoniHierarchy
 	 * 
 	 * @access public
 	 */
-	function &traverse ( &$startId, $mode, $direction, $levels ) { 
+	function traverse ( $startId, $mode, $direction, $levels ) { 
 		// Check the arguments
 		ArgumentValidator::validate($startId, ExtendsValidatorRule::getRule("Id"));
 		ArgumentValidator::validate($mode, IntegerValidatorRule::getRule());
@@ -715,7 +715,7 @@ class HarmoniHierarchy
 		}
 
 		$down = ($direction == Hierarchy::TRAVERSE_DIRECTION_DOWN());
-		$result =& $this->_cache->traverse($startId, $down, $levels);
+		$result = $this->_cache->traverse($startId, $down, $levels);
 
 		return $result;
 	}

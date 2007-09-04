@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: VersionConstraint.interface.php,v 1.5 2007/04/12 15:37:26 adamfranco Exp $
+ * @version $Id: VersionConstraint.interface.php,v 1.6 2007/09/04 20:25:33 adamfranco Exp $
  */
 class VersionConstraint {
 	
@@ -20,7 +20,7 @@ class VersionConstraint {
 	 * @param ref object $value A {@link RecordFieldValue} object.
 	 * @return void
 	 */
-	function checkRecordFieldValue(&$value) { }
+	function checkRecordFieldValue($value) { }
 	
 	/**
 	 * Takes a {@link Record} and checks all the tags to make sure
@@ -29,7 +29,7 @@ class VersionConstraint {
 	 * @param ref object $record
 	 * @return void
 	 */
-	function checkTags(&$record) { }
+	function checkTags($record) { }
 	
 	/**
 	 * Takes a {@link Record} and returns if it is still valid or should be deleted. TRUE if it's still OK.
@@ -39,6 +39,6 @@ class VersionConstraint {
 	 * @return bool
 	 * @deprecated no longer used - Jul 13, 2005
 	 */
-	function checkRecord(&$record) { }
+	function checkRecord($record) { }
 	
 }

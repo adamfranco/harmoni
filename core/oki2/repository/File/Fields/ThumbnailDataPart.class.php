@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: ThumbnailDataPart.class.php,v 1.10 2007/04/12 15:37:32 adamfranco Exp $
+ * @version $Id: ThumbnailDataPart.class.php,v 1.11 2007/09/04 20:25:47 adamfranco Exp $
  */
 class ThumbnailDataPart extends Part
 //	extends java.io.Serializable
@@ -29,11 +29,11 @@ class ThumbnailDataPart extends Part
 	var $_partStructure;
 	var $_data;
 	
-	function ThumbnailDataPart( &$partStructure, &$recordId, $configuration, &$asset ) {
-		$this->_recordId =& $recordId;
-		$this->_partStructure =& $partStructure;
+	function ThumbnailDataPart( $partStructure, $recordId, $configuration, $asset ) {
+		$this->_recordId =$recordId;
+		$this->_partStructure =$partStructure;
 		$this->_configuration = $configuration;
-		$this->_asset =& $asset;
+		$this->_asset =$asset;
 		
 		// Set our data to NULL, so that we can know if it has not been checked
 		// for yet. If we search for data, but don't have any, or the data is
@@ -60,8 +60,8 @@ class ThumbnailDataPart extends Part
 	 * 
 	 * @access public
 	 */
-	function &getId() {
-		$idManager =& Services::getService("Id");
+	function getId() {
+		$idManager = Services::getService("Id");
 		return $idManager->getId($this->_recordId->getIdString()."-THUMBNAIL_DATA");
 	}
 	/**
@@ -91,7 +91,7 @@ class ThumbnailDataPart extends Part
 	 * 
 	 * @access public
 	 */
-	function &createPart(& $partStructureId, & $value) {
+	function createPart($partStructureId, $value) {
 		throwError(
 			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
 	}
@@ -119,7 +119,7 @@ class ThumbnailDataPart extends Part
 	 * 
 	 * @access public
 	 */
-	function deletePart(& $partId) {
+	function deletePart($partId) {
 		throwError(
 			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
 	}
@@ -144,7 +144,7 @@ class ThumbnailDataPart extends Part
 	 * 
 	 * @access public
 	 */
-	function &getParts() {
+	function getParts() {
 		throwError(
 			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
 	}
@@ -171,15 +171,15 @@ class ThumbnailDataPart extends Part
 	function getValue() {
 		// If we don't have the data, load it from the database.
 //		if ($this->_data === NULL) {
-			$dbHandler =& Services::getService("DatabaseManager");
+			$dbHandler = Services::getService("DatabaseManager");
 			
 			// Get the data from the database,
-			$query =& new SelectQuery;
+			$query = new SelectQuery;
 			$query->addTable("dr_thumbnail");
 			$query->addColumn("data");
 			$query->addWhere("FK_file = '".$this->_recordId->getIdString()."'");
 			
-			$result =& $dbHandler->query($query, $this->_configuration->getProperty("database_index"));
+			$result =$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 			
 			// If no data was found, return an empty string.
 			if ($result->getNumberOfRows() == 0)
@@ -223,18 +223,18 @@ class ThumbnailDataPart extends Part
 		
 	// Base64 encode the data to preserve it,
 	// then write it to the database.
-		$dbHandler =& Services::getService("DatabaseManager");
+		$dbHandler = Services::getService("DatabaseManager");
 	
 		// Check to see if the data is in the database
-		$query =& new SelectQuery;
+		$query = new SelectQuery;
 		$query->addTable("dr_thumbnail");
 		$query->addColumn("COUNT(*) as count");
 		$query->addWhere("FK_file = '".$this->_recordId->getIdString()."'");
-		$result =& $dbHandler->query($query, $this->_configuration->getProperty("database_index"));
+		$result =$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 		
 		// If it already exists, use an update query.
 		if ($result->field("count") > 0) {
-			$query =& new UpdateQuery;
+			$query = new UpdateQuery;
 			$query->setTable("dr_thumbnail");
 			$query->setColumns(array("data"));
 			$query->setValues(array("'".base64_encode($value)."'"));
@@ -242,7 +242,7 @@ class ThumbnailDataPart extends Part
 		}
 		// If it doesn't exist, use an insert query.
 		else {
-			$query =& new InsertQuery;
+			$query = new InsertQuery;
 			$query->setTable("dr_thumbnail");
 			$query->setColumns(array("FK_file","data"));
 			$query->setValues(array("'".$this->_recordId->getIdString()."'",
@@ -277,7 +277,7 @@ class ThumbnailDataPart extends Part
 	 * 
 	 * @access public
 	 */
-	function &getPartStructure() {
+	function getPartStructure() {
 		return $this->_partStructure;
 	}
 }

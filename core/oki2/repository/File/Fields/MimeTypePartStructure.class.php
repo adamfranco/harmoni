@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: MimeTypePartStructure.class.php,v 1.7 2007/04/12 15:37:32 adamfranco Exp $ 
+ * @version $Id: MimeTypePartStructure.class.php,v 1.8 2007/09/04 20:25:46 adamfranco Exp $ 
  */
 class MimeTypePartStructure extends PartStructure
 //	extends java.io.Serializable
@@ -27,8 +27,8 @@ class MimeTypePartStructure extends PartStructure
 
 	var $_recordStructure;
 	
-	function MimeTypePartStructure(&$recordStructure) {
-		$this->_recordStructure =& $recordStructure;
+	function MimeTypePartStructure($recordStructure) {
+		$this->_recordStructure =$recordStructure;
 	}
 	
 	/**
@@ -96,9 +96,9 @@ class MimeTypePartStructure extends PartStructure
 	 * 
 	 * @access public
 	 */
-	function &getType() {
+	function getType() {
 		if (!isset($this->_type)) {
-			$this->_type =& new HarmoniType("Repository", "edu.middlebury.harmoni", "string");
+			$this->_type = new HarmoniType("Repository", "edu.middlebury.harmoni", "string");
 		}
 		
 		return $this->_type;
@@ -123,8 +123,8 @@ class MimeTypePartStructure extends PartStructure
 	 * 
 	 * @access public
 	 */
-	function &getId() {
-		$idManager =& Services::getService("Id");
+	function getId() {
+		$idManager = Services::getService("Id");
 		return $idManager->getId("MIME_TYPE");
 	}
 
@@ -148,9 +148,9 @@ class MimeTypePartStructure extends PartStructure
 	 * 
 	 * @access public
 	 */
-	function &getPartStructure() {
+	function getPartStructure() {
 		$array = array();
-		$obj =& new HarmoniNodeIterator($array);
+		$obj = new HarmoniNodeIterator($array);
 		return $obj; // @todo replace with HarmoniPartStructureIterator
 	}
 
@@ -245,7 +245,7 @@ class MimeTypePartStructure extends PartStructure
 	 * 
 	 * @access public
 	 */
-	function &getRecordStructure() {
+	function getRecordStructure() {
 		return $this->_recordStructure;
 	}
 
@@ -277,7 +277,7 @@ class MimeTypePartStructure extends PartStructure
 	 * 
 	 * @access public
 	 */
-	function validatePart(& $part) {
+	function validatePart($part) {
 		// we can check if the part (ie, ValueVersions) has values of the right type.
 		// @todo
 		
@@ -303,9 +303,9 @@ class MimeTypePartStructure extends PartStructure
 	 * @access public
 	 * @since 4/25/06
 	 */
-	function &getAuthoritativeValues () {
+	function getAuthoritativeValues () {
 		$array = array();
-		$iterator =& new HarmoniIterator($array);
+		$iterator = new HarmoniIterator($array);
 		return $iterator;
 	}
 	
@@ -319,7 +319,7 @@ class MimeTypePartStructure extends PartStructure
 	 * @access public
 	 * @since 4/25/06
 	 */
-	function isAuthoritativeValue ( &$value ) {
+	function isAuthoritativeValue ( $value ) {
 		return false;	
 	}
 	
@@ -333,7 +333,7 @@ class MimeTypePartStructure extends PartStructure
 	 * @access public
 	 * @since 4/25/06
 	 */
-	function removeAuthoritativeValue ( &$value ) {
+	function removeAuthoritativeValue ( $value ) {
 	}
 	
 	/**
@@ -346,7 +346,7 @@ class MimeTypePartStructure extends PartStructure
 	 * @access public
 	 * @since 4/25/06
 	 */
-	function addAuthoritativeValue ( &$value ) {
+	function addAuthoritativeValue ( $value ) {
 		$false = false;
 		return $false;
 	}
@@ -373,7 +373,7 @@ class MimeTypePartStructure extends PartStructure
 	 * @access public
 	 * @since 4/27/06
 	 */
-	function &createValueObjectFromString ( $valueString ) {
+	function createValueObjectFromString ( $valueString ) {
 		$false = false;
 		return $false;
 	}

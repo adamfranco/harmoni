@@ -48,7 +48,7 @@ require_once(dirname(__FILE__)."/SearchModules/AuthoritativeValuesSearch.class.p
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepository.class.php,v 1.61 2007/07/10 20:58:25 adamfranco Exp $ 
+ * @version $Id: HarmoniRepository.class.php,v 1.62 2007/09/04 20:25:43 adamfranco Exp $ 
  */
 
 class HarmoniRepository
@@ -68,10 +68,10 @@ class HarmoniRepository
 	/**
 	 * Constructor
 	 */
-	function HarmoniRepository (& $hierarchy, & $id, & $configuration) {
+	function HarmoniRepository ($hierarchy, $id, $configuration) {
 		// Get the node coresponding to our id
-		$this->_hierarchy =& $hierarchy;
-		$this->_node =& $this->_hierarchy->getNode($id);
+		$this->_hierarchy =$hierarchy;
+		$this->_node =$this->_hierarchy->getNode($id);
 		
 		// Cache any created Assets so that we can pass out references to them.
 		$this->_createdAssets = array();
@@ -82,15 +82,15 @@ class HarmoniRepository
 		$this->_registerSearchTypes();
 		
 		// Define the type to use as a key for Identifying DRs
-		$this->_repositoryKeyType =& new HarmoniType("Repository", "edu.middlebury.harmoni", 
+		$this->_repositoryKeyType = new HarmoniType("Repository", "edu.middlebury.harmoni", 
 							"Repository", "Nodes with this type are by definition Repositories.");
 		
 		// Set up an array of created RecordStructures so we can pass out references to them.
 		$this->_createdRecordStructures = array();
 		
 		// Add the file RecordStructure to the DR
-		$this->_createdRecordStructures['FILE'] =& new HarmoniFileRecordStructure;
-		$this->_createdRecordStructures['REMOTE_FILE'] =& new RemoteFileRecordStructure;
+		$this->_createdRecordStructures['FILE'] = new HarmoniFileRecordStructure;
+		$this->_createdRecordStructures['REMOTE_FILE'] = new RemoteFileRecordStructure;
 		
 		// Built-in Types
 		// Keys of the array are the RecordStructure Ids,
@@ -105,7 +105,7 @@ class HarmoniRepository
 		$this->_builtInTypes['REMOTE_FILE'] = 'RemoteFileRecord';
 		
 		// Store our configuration
-		$this->_configuration =& $configuration;
+		$this->_configuration =$configuration;
 	}
 	 
 	/**
@@ -116,7 +116,7 @@ class HarmoniRepository
 	 * @param object assetId
 	 * @return bool
 	 */
-	function isAssetValid(&$assetId) {
+	function isAssetValid($assetId) {
 		throw(new Error("Method gone from OSID","Repository",TRUE));
 		return $this->_assetValidFlags[$assetId->getIdString()];
 	}
@@ -188,7 +188,7 @@ class HarmoniRepository
    * @access public
    */
   
-	function &getId() {
+	function getId() {
 		return $this->_node->getId();
 	}
 
@@ -211,12 +211,12 @@ class HarmoniRepository
 	 * 
 	 * @access public
 	 */
-	function &getType () { 
+	function getType () { 
 		// If we don't have it cached, get our type.
 		if (!$this->_type) {
-			$myId =& $this->getId();
+			$myId =$this->getId();
 			
-			$query =& new SelectQuery;
+			$query = new SelectQuery;
 			$query->addColumn("type_domain");
 			$query->addColumn("type_authority");
 			$query->addColumn("type_keyword");
@@ -225,12 +225,12 @@ class HarmoniRepository
 			$query->addTable("dr_type", INNER_JOIN, "fk_dr_type = type_id");
 			$query->addWhere("repository_id = '".addslashes($myId->getIdString())."'");
 			
-			$dbc =& Services::getService("DatabaseManager");
-			$result =& $dbc->query($query, $this->_configuration->getProperty('database_index'));
+			$dbc = Services::getService("DatabaseManager");
+			$result =$dbc->query($query, $this->_configuration->getProperty('database_index'));
 			
 			// Return our type
 			if ($result->getNumberOfRows()) {
-				$this->_type =& new HarmoniType($result->field("type_domain"),
+				$this->_type = new HarmoniType($result->field("type_domain"),
 												$result->field("type_authority"),
 												$result->field("type_keyword"),
 												$result->field("type_description"));
@@ -308,14 +308,14 @@ class HarmoniRepository
 	 * 
 	 * @access public
 	 */
-	function &createAsset ( $displayName, $description, &$assetType, $id = NULL ) { 
+	function createAsset ( $displayName, $description, $assetType, $id = NULL ) { 
 		// Get our id for the parent id
-		$repositoryId =& $this->_node->getId();
+		$repositoryId =$this->_node->getId();
 		
 		// Create an Id for the new Asset
 		if (!is_object($id)) {
-			$IDManager =& Services::getService("Id");
-			$id =& $IDManager->createId();
+			$IDManager = Services::getService("Id");
+			$id =$IDManager->createId();
 		}
 		
 		// verify that this type exists or add it if needed.
@@ -328,14 +328,14 @@ class HarmoniRepository
 				}
 			}
 			if (!$typeExists)
-				$this->_assetTypes[] =& $assetType;
+				$this->_assetTypes[] =$assetType;
 		}
 		
 		// Add this DR's root node to the hierarchy.
-		$node =& $this->_hierarchy->createNode($id, $repositoryId, $assetType, $displayName, $description);
+		$node =$this->_hierarchy->createNode($id, $repositoryId, $assetType, $displayName, $description);
 		
 		// Create the asset with its new ID and cache it.
-		$this->_createdAssets[$id->getIdString()] =& new HarmoniAsset($this->_hierarchy, $this, $id, $this->_configuration);
+		$this->_createdAssets[$id->getIdString()] = new HarmoniAsset($this->_hierarchy, $this, $id, $this->_configuration);
 		
 		$this->_createdAssets[$id->getIdString()]->updateModificationDate();
 		
@@ -364,47 +364,47 @@ class HarmoniRepository
 	 * 
 	 * @access public
 	 */
-	function deleteAsset ( &$assetId , $parentId = null) { 
+	function deleteAsset ( $assetId , $parentId = null) { 
 		ArgumentValidator::validate($assetId, ExtendsValidatorRule::getRule("Id"));
 				
 		// Get the asset
-		$asset =& $this->getAsset($assetId);
+		$asset =$this->getAsset($assetId);
 		$assetIdString = $assetId->getIdString();
-		$children =& $asset->getAssets();
+		$children =$asset->getAssets();
 		
 		// deeper and deeper
 		while ($children->hasNext()) {
-			$child =& $children->next();
+			$child =$children->next();
 			$this->deleteAsset($child->getId(), $assetIdString);
 		}
 		
 		// climbing out if multiparent unlink parent
-		$parents =& $asset->_node->getParents();
+		$parents =$asset->_node->getParents();
 		if ($parents->count() > 1) {
-			$idManager =& Services::getService("Id");
+			$idManager = Services::getService("Id");
 			$asset->_node->removeParent($idManager->getId($parentId));
 			return;
 		}
 		// not multiparent delete asset itself
 
 		// Delete the Records for the Asset
-		$records =& $asset->getRecords();
+		$records =$asset->getRecords();
 		while ($records->hasNext()) {
-			$record =& $records->next();
-			$recordId =& $record->getId();
+			$record =$records->next();
+			$recordId =$record->getId();
 			$asset->deleteRecord($recordId);
 		}
 		
 		// Delete the Record Set
-		$recordMgr =& Services::getService("RecordManager");
-		$assetId =& $asset->getId();
+		$recordMgr = Services::getService("RecordManager");
+		$assetId =$asset->getId();
 		$recordMgr->deleteRecordSet($assetId->getIdString());
 		
 		// Delete the Asset info
-		$query =& new DeleteQuery;
+		$query = new DeleteQuery;
 		$query->setTable("dr_asset_info");
 		$query->setWhere("asset_id='".addslashes($assetId->getIdString())."'");
-		$dbc =& Services::getService("DatabaseManager");
+		$dbc = Services::getService("DatabaseManager");
 		$dbc->query($query, $this->_configuration->getProperty('database_index'));
 		
 		// Delete the Node for this Asset
@@ -437,9 +437,9 @@ class HarmoniRepository
 	 * 
 	 * @access public
 	 */
-	function &getAssets () { 
+	function getAssets () { 
 		// get a list for all the nodes under this hierarchy.
-		$traversalInfoIterator =& $this->_hierarchy->traverse($this->_node->getId(), 
+		$traversalInfoIterator =$this->_hierarchy->traverse($this->_node->getId(), 
 										Hierarchy::TRAVERSE_MODE_DEPTH_FIRST(), Hierarchy::TRAVERSE_DIRECTION_DOWN(), 
 										Hierarchy::TRAVERSE_LEVELS_ALL());
 		
@@ -449,8 +449,8 @@ class HarmoniRepository
 		$childRepositoryLevel = NULL;
 		
 		while ($traversalInfoIterator->hasNext()) {
-			$traversalInfo =& $traversalInfoIterator->next();
-			$assetId =& $traversalInfo->getNodeId();
+			$traversalInfo =$traversalInfoIterator->next();
+			$assetId =$traversalInfo->getNodeId();
 			
 			// If we are skipping a child repository, break out of skipping
 			// when we have reached the level of the child repository and
@@ -465,7 +465,7 @@ class HarmoniRepository
 			// make sure that the asset is loaded into the createdAssets array
 			// make sure that we don't create an asset with the id of the dr.
 			if (!$assetId->isEqual($this->getId())) {
-				$node =& $this->_hierarchy->getNode($assetId);
+				$node =$this->_hierarchy->getNode($assetId);
 				
 				// Make sure the child nod is not also a DR
 				// If the node has the type which defines it as an repository
@@ -481,7 +481,7 @@ class HarmoniRepository
 		}
 		
 		// create an AssetIterator with all fo the Assets in the createdAssets array
-		$assetIterator =& new HarmoniAssetIterator($this->_createdAssets);
+		$assetIterator = new HarmoniAssetIterator($this->_createdAssets);
 		
 		return $assetIterator;
 	}
@@ -512,17 +512,17 @@ class HarmoniRepository
 	 * 
 	 * @access public
 	 */
-	function &getAssetsByType ( &$assetType ) { 
+	function getAssetsByType ( $assetType ) { 
 		ArgumentValidator::validate($assetType, ExtendsValidatorRule::getRule("Type"));
 		$assets = array();
-		$allAssets =& $this->getAssets();
+		$allAssets =$this->getAssets();
 		while ($allAssets->hasNext()) {
-			$asset =& $allAssets->next();
+			$asset =$allAssets->next();
 			if ($assetType->isEqual($asset->getAssetType()))
-				$assets[] =& $asset;
+				$assets[] =$asset;
 		}
 		
-		$obj =& new HarmoniAssetIterator($assets);
+		$obj = new HarmoniAssetIterator($assets);
 		
 		return $obj;
 	}
@@ -547,12 +547,12 @@ class HarmoniRepository
 	 * 
 	 * @access public
 	 */
-	function &getAssetTypes () { 
+	function getAssetTypes () { 
 		if (!isset($this->_assetTypes)) {
-			$assets =& $this->getAssets();
+			$assets =$this->getAssets();
 			$this->_assetTypes = array();
 			while ($assets->hasNext()) {
-				$asset =& $assets->next();
+				$asset =$assets->next();
 				
 				// Make sure we haven't added the type yet.
 				$added = FALSE;
@@ -564,12 +564,12 @@ class HarmoniRepository
 				}
 				// if we haven't, add the type
 				if (!$added)
-					$this->_assetTypes[] =& $asset->getAssetType();
+					$this->_assetTypes[] =$asset->getAssetType();
 			}
 		}
 		
 		// create the iterator and return it
-		$typeIterator =& new HarmoniTypeIterator($this->_assetTypes);
+		$typeIterator = new HarmoniTypeIterator($this->_assetTypes);
 		
 		return $typeIterator;
 	}
@@ -599,7 +599,7 @@ class HarmoniRepository
 	 * 
 	 * @access public
 	 */
-	function &getPropertiesByType ( &$propertiesType ) { 
+	function getPropertiesByType ( $propertiesType ) { 
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	} 
 
@@ -622,7 +622,7 @@ class HarmoniRepository
 	 * 
 	 * @access public
 	 */
-	function &getPropertyTypes () { 
+	function getPropertyTypes () { 
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	} 
 	
@@ -645,7 +645,7 @@ class HarmoniRepository
 	 * 
 	 * @access public
 	 */
-	function &getProperties () { 
+	function getProperties () { 
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	} 
 	
@@ -674,7 +674,7 @@ class HarmoniRepository
 	 * 
 	 * @access public
 	 */
-	function &getRecordStructuresByType ( &$recordStructureType ) { 
+	function getRecordStructuresByType ( $recordStructureType ) { 
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	} 
 	
@@ -698,8 +698,8 @@ class HarmoniRepository
 	 * 
 	 * @access public
 	 */
-	function &getSearchTypes () { 
-		$obj =& new HarmoniTypeIterator($this->_searchTypes);
+	function getSearchTypes () { 
+		$obj = new HarmoniTypeIterator($this->_searchTypes);
 		return $obj;
 	}
 	
@@ -723,7 +723,7 @@ class HarmoniRepository
 	 * 
 	 * @access public
 	 */
-	function &getStatusTypes () { 
+	function getStatusTypes () { 
 		die ("Method <b>".__FUNCTION__."()</b> declared in class <b> ".__CLASS__."</b> has not been implimented.");
 	}
 	
@@ -735,13 +735,13 @@ class HarmoniRepository
 	 * @return object RecordStructure	 The RecordStructure of the requested Id.
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 */
-	function &getRecordStructure( & $infoStructureId ) {
+	function getRecordStructure( $infoStructureId ) {
 		// Check that we have created an infoStructure with the ID
 		if (!isset($this->_createdRecordStructures[$infoStructureId->getIdString()])) {
 			// If not, create the infoStructure
-			$schemaMgr =& Services::getService("SchemaManager");
-			$schema =& $schemaMgr->getSchemaByID($infoStructureId->getIdString());
-			$this->_createdRecordStructures[$infoStructureId->getIdString()] =& new HarmoniRecordStructure(
+			$schemaMgr = Services::getService("SchemaManager");
+			$schema =$schemaMgr->getSchemaByID($infoStructureId->getIdString());
+			$this->_createdRecordStructures[$infoStructureId->getIdString()] = new HarmoniRecordStructure(
 															$schema, $this->getId());
 		}
 		
@@ -770,13 +770,13 @@ class HarmoniRepository
 	 * 
 	 * @access public
 	 */
-	function &getRecordStructures () { 
-		$schemaMgr =& Services::getService("SchemaManager");
+	function getRecordStructures () { 
+		$schemaMgr = Services::getService("SchemaManager");
 		$schemaIDs = $schemaMgr->getAllSchemaIDs();
 		foreach ($schemaIDs as $id) {
 			// Make sure that this record structure is either a global one
 			// or particular to this repository
-			$repositoryId =& $this->getId();
+			$repositoryId =$this->getId();
 			$repositoryIdString = str_replace('.', '\.', $repositoryId->getIdString());
 			if ((preg_match("/^Repository::".$repositoryIdString."::.+/", $id)
 				|| !preg_match("/^Repository::.+::.+/", $id))
@@ -784,14 +784,14 @@ class HarmoniRepository
 				&& !isset($this->_createdRecordStructures[$id]))
 			{
 					// If not, create the RecordStructure
-					$schema =& $schemaMgr->getSchemaByID($id);
-					$this->_createdRecordStructures[$id] =& new HarmoniRecordStructure(
+					$schema =$schemaMgr->getSchemaByID($id);
+					$this->_createdRecordStructures[$id] = new HarmoniRecordStructure(
 																$schema, $this->getId());
 			}
 		}
 		
 		// create an Iterator and return it
-		$iterator =& new HarmoniRecordStructureIterator($this->_createdRecordStructures);
+		$iterator = new HarmoniRecordStructureIterator($this->_createdRecordStructures);
 		
 		return $iterator;
 		
@@ -821,7 +821,7 @@ class HarmoniRepository
 	 * 
 	 * @access public
 	 */
-	function &getStatus ( &$assetId ) { 
+	function getStatus ( $assetId ) { 
 		die ("Method <b>".__FUNCTION__."()</b> declared in class <b> ".__CLASS__."</b> has not been implimented.");
 	}
 
@@ -852,7 +852,7 @@ class HarmoniRepository
 	 * 
 	 * @access public
 	 */
-	function validateAsset ( &$assetId ) { 
+	function validateAsset ( $assetId ) { 
 		$string = $assetId->getIdString();
 		
 		$this->_assetValidFlags[$string] = true;
@@ -881,7 +881,7 @@ class HarmoniRepository
 	 * 
 	 * @access public
 	 */
-	function invalidateAsset ( &$assetId ) { 
+	function invalidateAsset ( $assetId ) { 
 		$string = $assetId->getIdString();
 		
 		$this->_assetValidFlags[$string] = false;
@@ -915,7 +915,7 @@ class HarmoniRepository
 	 * 
 	 * @access public
 	 */
-	function &getAsset ( &$assetId, $verifyExistance = TRUE) { 
+	function getAsset ( $assetId, $verifyExistance = TRUE) { 
 		ArgumentValidator::validate($assetId, ExtendsValidatorRule::getRule("Id"));
 		
 		if (!isset($this->_createdAssets[$assetId->getIdString()])) {
@@ -926,7 +926,7 @@ class HarmoniRepository
 					throwError(new Error(RepositoryException::UNKNOWN_ID(), "Repository", 1));
 				
 				// Verify that the requested Asset is in this DR.
-				$repositoryMan =& Services::getService("Repository");
+				$repositoryMan = Services::getService("Repository");
 				$repositoryId = $repositoryMan->_getAssetRepository($assetId);
 				if (!$repositoryId
 					|| !$repositoryId->isEqual($this->getId()))
@@ -936,7 +936,7 @@ class HarmoniRepository
 			}
 			
 			// create the asset and add it to the cache
-			$this->_createdAssets[$assetId->getIdString()] =& new HarmoniAsset($this->_hierarchy, $this, $assetId, $this->_configuration);
+			$this->_createdAssets[$assetId->getIdString()] = new HarmoniAsset($this->_hierarchy, $this, $assetId, $this->_configuration);
 			$this->_assetValidFlags[$assetId->getIdString()] = true;
 		}
 		
@@ -954,7 +954,7 @@ class HarmoniRepository
 	 * @access public
 	 * @since 1/22/07
 	 */
-	function assetExists ( &$assetId ) {
+	function assetExists ( $assetId ) {
 		if (isset($this->_createdAssets[$assetId->getIdString()]))
 			return true;
 		else {
@@ -993,7 +993,7 @@ class HarmoniRepository
 	 * 
 	 * @access public
 	 */
-	function &getAssetByDate ( &$assetId, $date ) { 
+	function getAssetByDate ( $assetId, $date ) { 
 		ArgumentValidator::validate($assetId, ExtendsValidatorRule::getRule("Id"));
 		ArgumentValidator::validate($date, HasMethodsValidatorRule::getRule("asDateAndTime"));
 		
@@ -1027,20 +1027,20 @@ class HarmoniRepository
 	 * 
 	 * @access public
 	 */
-	function &getAssetDates ( &$assetId ) { 
+	function getAssetDates ( $assetId ) { 
 		ArgumentValidator::validate($assetId, ExtendsValidatorRule::getRule("Id"));
 		
-		$recordMgr =& Services::getService("RecordManager");
+		$recordMgr = Services::getService("RecordManager");
 		
 		// Get the DataSets in the Asset's DataSetGroup
-		$recordSet =& $recordMgr->fetchRecordSet($assetId->getIdString());
+		$recordSet =$recordMgr->fetchRecordSet($assetId->getIdString());
 //		$recordSet->loadRecords(RECORD_FULL);
-//		$records =& $dataSetGroup->fetchDataSets(TRUE);
+//		$records =$dataSetGroup->fetchDataSets(TRUE);
 		
 		$dates = $recordSet->getMergedTagDates();
 
 		// Create and return an iterator.
-		$dateIterator =& new HarmoniCalendarIterator($dates);
+		$dateIterator = new HarmoniCalendarIterator($dates);
 		return $dateIterator;
 	}
 
@@ -1072,7 +1072,7 @@ class HarmoniRepository
 	 * 
 	 * @access public
 	 */
-	function &getAssetsBySearch ( &$searchCriteria, &$searchType, &$searchProperties ) {
+	function getAssetsBySearch ( $searchCriteria, $searchType, $searchProperties ) {
 		ArgumentValidator::validate($searchType, ExtendsValidatorRule::getRule("Type"));
 		ArgumentValidator::validate($searchProperties, OptionalRule::getRule(
 			ExtendsValidatorRule::getRule("Properties")));
@@ -1088,8 +1088,8 @@ class HarmoniRepository
 		}
 		
 		if ($supported) {
-			$search =& new $searchName($this);
-			$assetIds =& $search->searchAssets($searchCriteria, $searchProperties);
+			$search = new $searchName($this);
+			$assetIds =$search->searchAssets($searchCriteria, $searchProperties);
 			
 			// get the assets for the resuting ids
 			$assets = array();
@@ -1099,33 +1099,33 @@ class HarmoniRepository
 				&& $searchProperties->getProperty("order") == ("DisplayName")) 
 			{
 				foreach ($assetIds as $key => $id) {
-					$asset =& $this->getAsset($assetIds[$key], FALSE);
-					$assets[$asset->getDisplayName().$id->getIdString()] =& $asset;
+					$asset =$this->getAsset($assetIds[$key], FALSE);
+					$assets[$asset->getDisplayName().$id->getIdString()] =$asset;
 				}
 			} else if (is_object($searchProperties) 
 				&& $searchProperties->getProperty("order") == ("Id")) 
 			{
 				foreach ($assetIds as $key => $id)
-					$assets[$assetIds[$key]->getIdString()] =& $this->getAsset($assetIds[$key], FALSE);
+					$assets[$assetIds[$key]->getIdString()] =$this->getAsset($assetIds[$key], FALSE);
 			} else if (is_object($searchProperties) 
 				&& $searchProperties->getProperty("order") == ("ModificationDate")) 
 			{
 				foreach ($assetIds as $key => $id) {
-					$asset =& $this->getAsset($assetIds[$key], FALSE);
-					$date =& $asset->getModificationDate();
-					$assets[$date->asString().$id->getIdString()] =& $asset;
+					$asset =$this->getAsset($assetIds[$key], FALSE);
+					$date =$asset->getModificationDate();
+					$assets[$date->asString().$id->getIdString()] =$asset;
 				}
 			} else if (is_object($searchProperties) 
 				&& $searchProperties->getProperty("order") == ("CreationDate")) 
 			{
 				foreach ($assetIds as $key => $id) {
-					$asset =& $this->getAsset($assetIds[$key], FALSE);
-					$date =& $asset->getCreationDate();
-					$assets[$date->asString().$id->getIdString()] =& $asset;
+					$asset =$this->getAsset($assetIds[$key], FALSE);
+					$date =$asset->getCreationDate();
+					$assets[$date->asString().$id->getIdString()] =$asset;
 				}
 			} else {
 				foreach ($assetIds as $key => $id)
-					$assets[] =& $this->getAsset($assetIds[$key], FALSE);
+					$assets[] =$this->getAsset($assetIds[$key], FALSE);
 			}
 			
 			// Filter based on type
@@ -1136,9 +1136,9 @@ class HarmoniRepository
 				&& is_array($searchProperties->getProperty("allowed_types"))
 				&& count($searchProperties->getProperty("allowed_types")))
 			{
-				$allowedTypes =& $searchProperties->getProperty("allowed_types");
+				$allowedTypes =$searchProperties->getProperty("allowed_types");
 				foreach (array_keys($assets) as $key) {
-					$type =& $assets[$key]->getAssetType();
+					$type =$assets[$key]->getAssetType();
 					$allowed = FALSE;
 					foreach (array_keys($allowedTypes) as $typeKey) {
 						if ($type->isEqual($allowedTypes[$typeKey])) {
@@ -1163,7 +1163,7 @@ class HarmoniRepository
 			
 			
 			// create an AssetIterator and return it
-			$assetIterator =& new HarmoniAssetIterator($assets);
+			$assetIterator = new HarmoniAssetIterator($assets);
 			
 			return $assetIterator;
 			
@@ -1198,9 +1198,9 @@ class HarmoniRepository
 	 * 
 	 * @access public
 	 */
-	function &copyAsset ( &$asset ) { 
+	function copyAsset ( $asset ) { 
 		// Copy the asset to the dr root (recursivley for children)
-		$id =& $this->_copyAsset($asset, $this->getId());
+		$id =$this->_copyAsset($asset, $this->getId());
 		
 		return $id;
 	}
@@ -1289,16 +1289,16 @@ class HarmoniRepository
 	 * @access public
 	 * @since 2/17/05
 	 */
-	function &createRecordStructure($displayName, $description, $format, $schema,
+	function createRecordStructure($displayName, $description, $format, $schema,
 		$theID=null, $isGlobal = FALSE) 
 	{
-		$schemaMgr =& Services::getService("SchemaManager");
+		$schemaMgr = Services::getService("SchemaManager");
 		
 		if ($theID == null) {
-			$idMgr =& Services::getService("Id");
-			$id =& $idMgr->createId();
+			$idMgr = Services::getService("Id");
+			$id =$idMgr->createId();
 		} else {
-			$id =& $theID;
+			$id =$theID;
 		}
 		
 		// Limit the Record Struture just to this repository if it is not
@@ -1306,19 +1306,19 @@ class HarmoniRepository
 		if ($isGlobal)
 			$idString = $id->getIdString();
 		else {
-			$repositoryId =& $this->getId();
+			$repositoryId =$this->getId();
 			$idString = "Repository::".$repositoryId->getIdString()."::".$id->getIdString();
 		}
 
 		// Create the Schema
-		$tempSchema =& new Schema($idString, $displayName, 1, $description, 
+		$tempSchema = new Schema($idString, $displayName, 1, $description, 
 			array("format"=>$format, "schema"=>$schema));
 		$schemaMgr->synchronize($tempSchema);
 		
 		// The SchemaManager only allows you to use Schemas created by it for use with Records.
-		$schema =& $schemaMgr->getSchemaByID($idString);
+		$schema =$schemaMgr->getSchemaByID($idString);
 		//debug::output("RecordStructure is being created from Schema with Id: '".$schema->getID()."'");
-		$this->_createdRecordStructures[$schema->getID()] =& new HarmoniRecordStructure(
+		$this->_createdRecordStructures[$schema->getID()] = new HarmoniRecordStructure(
 																$schema, $this->getId());
 		return $this->_createdRecordStructures[$schema->getID()];
 	}
@@ -1333,18 +1333,18 @@ class HarmoniRepository
 	 * @access public
 	 * @since 6/6/06
 	 */
-	function deleteRecordStructure ( &$recordStructureId, $statusStars = null ) {
+	function deleteRecordStructure ( $recordStructureId, $statusStars = null ) {
 		// Delete the Records that use this RecordStructure
-		$assets =& $this->getAssets();
+		$assets =$this->getAssets();
 		
 		if (!is_null($statusStars))
 			$statusStars->initializeStatistics($assets->count());
 		
 		while ($assets->hasNext()) {
-			$asset =& $assets->next();
-			$records =& $asset->getRecordsByRecordStructure($recordStructureId);
+			$asset =$assets->next();
+			$records =$asset->getRecordsByRecordStructure($recordStructureId);
 			while ($records->hasNext()) {
-				$record =& $records->next();
+				$record =$records->next();
 				$asset->deleteRecord($record->getId());
 			}
 			
@@ -1354,8 +1354,8 @@ class HarmoniRepository
 		
 		
 		// Delete the Structure
-		$schemaMgr =& Services::getService("SchemaManager");
-		$recordMgr =& Services::getService("RecordManager");
+		$schemaMgr = Services::getService("SchemaManager");
+		$recordMgr = Services::getService("RecordManager");
 		
 		$recordIdsForSchema = $recordMgr->getRecordIDsByType($recordStructureId->getIdString());
 		
@@ -1368,7 +1368,7 @@ class HarmoniRepository
 				"Repository", 1));
 		}
 		
-		$schema =& $schemaMgr->deleteSchema($recordStructureId->getIdString());
+		$schema =$schemaMgr->deleteSchema($recordStructureId->getIdString());
 	}
 	
 	/**
@@ -1395,7 +1395,7 @@ class HarmoniRepository
 	 * @access public
 	 * @since 6/7/06
 	 */
-	function &duplicateRecordStructure ( &$recordStructureId, $copyRecords = FALSE, 
+	function duplicateRecordStructure ( $recordStructureId, $copyRecords = FALSE, 
 		$id = null, $isGlobal = FALSE, $statusStars = null ) 
 	{
 		ArgumentValidator::validate($recordStructureId, ExtendsValidatorRule::getRule("Id"));
@@ -1404,8 +1404,8 @@ class HarmoniRepository
 			ExtendsValidatorRule::getRule("Id")));
 		ArgumentValidator::validate($isGlobal, BooleanValidatorRule::getRule());
 		
-		$oldRecStruct =& $this->getRecordStructure($recordStructureId);
-		$newRecStruct =& $this->createRecordStructure(
+		$oldRecStruct =$this->getRecordStructure($recordStructureId);
+		$newRecStruct =$this->createRecordStructure(
 							$oldRecStruct->getDisplayName()._(" Copy"),
 							$oldRecStruct->getDescription(),
 							$oldRecStruct->getFormat(),
@@ -1414,10 +1414,10 @@ class HarmoniRepository
 							$isGlobal);
 		
 		$mapping = array();
-		$oldPartStructs =& $oldRecStruct->getPartStructures();
+		$oldPartStructs =$oldRecStruct->getPartStructures();
 		while ($oldPartStructs->hasNext()) {
-			$oldPartStruct =& $oldPartStructs->next();
-			$newPartStruct =& $newRecStruct->createPartStructure(
+			$oldPartStruct =$oldPartStructs->next();
+			$newPartStruct =$newRecStruct->createPartStructure(
 							$oldPartStruct->getDisplayName(),
 							$oldPartStruct->getDescription(),
 							$oldPartStruct->getType(),
@@ -1426,33 +1426,33 @@ class HarmoniRepository
 							$oldPartStruct->isPopulatedByRepository());
 			
 			// Mapping
-			$oldPartStructId =& $oldPartStruct->getId();
-			$mapping[$oldPartStructId->getIdString()] =& $newPartStruct->getId();
+			$oldPartStructId =$oldPartStruct->getId();
+			$mapping[$oldPartStructId->getIdString()] =$newPartStruct->getId();
 		}
 		unset($oldPartStruct, $newPartStruct);
 		
 		if ($copyRecords) {
-			$assets =& $this->getAssets();
+			$assets =$this->getAssets();
 			
 			if (!is_null($statusStars))
 				$statusStars->initializeStatistics($assets->count());
 			
 			while ($assets->hasNext()) {
-				$asset =& $assets->next();
-				$oldRecords =& $asset->getRecordsByRecordStructure($oldRecStruct->getId());
+				$asset =$assets->next();
+				$oldRecords =$asset->getRecordsByRecordStructure($oldRecStruct->getId());
 				while ($oldRecords->hasNext()) {
-					$oldRecord =& $oldRecords->next();
+					$oldRecord =$oldRecords->next();
 					
 					// Create the new Record
-					$newRecord =& $asset->createRecord($newRecStruct->getId());
+					$newRecord =$asset->createRecord($newRecStruct->getId());
 					
-					$oldParts =& $oldRecord->getParts();
+					$oldParts =$oldRecord->getParts();
 					while ($oldParts->hasNext()) {
-						$oldPart =& $oldParts->next();
-						$oldPartStruct =& $oldPart->getPartStructure();
-						$oldPartStructId =& $oldPartStruct->getId();
+						$oldPart =$oldParts->next();
+						$oldPartStruct =$oldPart->getPartStructure();
+						$oldPartStructId =$oldPartStruct->getId();
 						
-						$newPart =& $newRecord->createPart(
+						$newPart =$newRecord->createPart(
 										$mapping[$oldPartStructId->getIdString()],
 										$oldPart->getValue());
 					}
@@ -1471,14 +1471,14 @@ class HarmoniRepository
 	 * 
 	 * @access private
 	 */
-	function &_copyAsset(& $asset, & $newParentId) {
+	function _copyAsset($asset, $newParentId) {
 		// Create the new asset
-		$newAsset =& $this->createAsset($asset->getDisplayName(),$asset->getDescription(), $asset->getAssetType());
+		$newAsset =$this->createAsset($asset->getDisplayName(),$asset->getDescription(), $asset->getAssetType());
 		
 		// Move the new asset to the proper parent if it 
 		// is not being copied to the dr root.
 		if (!$newParentId->isEqual($this->getId())) {
-			$newParent =& $this->getAsset($newParentId);
+			$newParent =$this->getAsset($newParentId);
 			$newParent->addAsset($newAsset->getId());
 		}
 		
@@ -1486,9 +1486,9 @@ class HarmoniRepository
 		// @todo
 		
 		// Copy the children
-		$children =& $asset->getAssets();
+		$children =$asset->getAssets();
 		while ($children->hasNext()) {
-			$childAsset =& $children->next();
+			$childAsset =$children->next();
 			$this->_copyAsset($childAsset, $newAsset->getId());
 		}
 		
@@ -1506,24 +1506,24 @@ class HarmoniRepository
 // 	 * @access public
 // 	 * @since 2/17/05
 // 	 */
-// 	function convertRecords ( &$recordStructureId, $destinationClass ) {
-// 		$recordStructure =& $this->getRecordStructure($recordStructureId);
+// 	function convertRecords ( $recordStructureId, $destinationClass ) {
+// 		$recordStructure =$this->getRecordStructure($recordStructureId);
 // 		
-// 		$allAssets =& $this->getAssets();
+// 		$allAssets =$this->getAssets();
 // 		while ($allAssets->hasNextAsset()) {
-// 			$asset =& $allAssets->nextAsset();
+// 			$asset =$allAssets->nextAsset();
 // 			
-// 			$assetId =& $asset->getId();
+// 			$assetId =$asset->getId();
 // 			print "\n<br/>\t - Converting Asset: ".$assetId->getIdString();
 // 			
-// 			$origRecords =& $asset->getRecordsByRecordStructure($recordStructureId);
+// 			$origRecords =$asset->getRecordsByRecordStructure($recordStructureId);
 // 			while ($origRecords->hasNextRecord()) {
-// 				$origRecord =& $origRecords->nextRecord();
+// 				$origRecord =$origRecords->nextRecord();
 // 				
-// 				$recordId =& $origRecord->getId();
+// 				$recordId =$origRecord->getId();
 // 				print "\n<br/>\t - \t - Converting Record: ".$recordId->getIdString();
 // 				
-// 				$newRecord =& new $destinationClass (
+// 				$newRecord = new $destinationClass (
 // 									$recordStructure,
 // 									$origRecord->getId(),
 // 									$this->_configuration()
@@ -1554,43 +1554,43 @@ class HarmoniRepository
 		$this->_searchTypes = array();
 		
 		// classname => type obj
-		$this->_searchTypes["KeywordSearch"] =& new Type(
+		$this->_searchTypes["KeywordSearch"] = new Type(
 			"Repository",
 			"edu.middlebury.harmoni",
 			"Keyword", 
 			"Search with a string for keywords.");
 		
-		$this->_searchTypes["AuthoritativeValuesSearch"] =& new Type(
+		$this->_searchTypes["AuthoritativeValuesSearch"] = new Type(
 			"Repository",
 			"edu.middlebury.harmoni",
 			"Authoritative Values", 
 			"Select from the authoritative values on a particular field.");
 		
-		$this->_searchTypes["AssetTypeSearch"] =& new Type(
+		$this->_searchTypes["AssetTypeSearch"] = new Type(
 			"Repository",
 			"edu.middlebury.harmoni",
 			"AssetType", 
 			"Select all asset's of the specified Type.");
 		
-		$this->_searchTypes["RootAssetSearch"] =& new Type(
+		$this->_searchTypes["RootAssetSearch"] = new Type(
 			"Repository",
 			"edu.middlebury.harmoni",
 			"RootAssets", 
 			"Search for just the 'root' or 'top level' assets which are not assets of other assets.");
 		
-		$this->_searchTypes["DisplayNameSearch"] =& new Type(
+		$this->_searchTypes["DisplayNameSearch"] = new Type(
 			"Repository",
 			"edu.middlebury.harmoni",
 			"DisplayName", 
 			"Search with a regular expression string in the Asset DisplayName.");
 
-		$this->_searchTypes["DescriptionSearch"] =& new Type(
+		$this->_searchTypes["DescriptionSearch"] = new Type(
 			"Repository",
 			"edu.middlebury.harmoni",
 			"Description", 
 			"Search with a regular expression string in the Asset Description.");
 
-		$this->_searchTypes["ContentSearch"] =& new Type(
+		$this->_searchTypes["ContentSearch"] = new Type(
 			"Repository",
 			"edu.middlebury.harmoni",
 			"Content", 

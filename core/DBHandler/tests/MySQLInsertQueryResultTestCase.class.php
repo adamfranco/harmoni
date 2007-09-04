@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQLInsertQueryResultTestCase.class.php,v 1.5 2005/08/17 19:46:59 adamfranco Exp $
+ * @version $Id: MySQLInsertQueryResultTestCase.class.php,v 1.6 2007/09/04 20:25:20 adamfranco Exp $
  */
     require_once(HARMONI.'DBHandler/MySQL/MySQLDatabase.class.php');
 
@@ -19,7 +19,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQLInsertQueryResultTestCase.class.php,v 1.5 2005/08/17 19:46:59 adamfranco Exp $
+ * @version $Id: MySQLInsertQueryResultTestCase.class.php,v 1.6 2007/09/04 20:25:20 adamfranco Exp $
  */
 
     class MySQLINSERTQueryResultTestCase extends UnitTestCase {
@@ -40,7 +40,7 @@
 			// perhaps, initialize $obj here
 
 			// connect to some database and do a INSERT query
-			$this->db =& new MySQLDatabase("localhost", "test", "test", "test");
+			$this->db = new MySQLDatabase("localhost", "test", "test", "test");
 			$this->db->connect();
         }
 		
@@ -59,7 +59,7 @@
         function test_Constructor() {
 			// get the query result
 			$rid = $this->db->_query("INSERT INTO test1 SET value = 'depeche'");
-			$queryResult =& new MySQLInsertQueryResult($this->db->_linkId);
+			$queryResult = new MySQLInsertQueryResult($this->db->_linkId);
 
 			$this->assertEqual($this->db->_linkId, $queryResult->_linkId);
 		}
@@ -70,7 +70,7 @@
         function test_One_Insert() {
 			// get the query result
 			$rid = $this->db->_query("INSERT INTO test1 SET value = 'depeche'");
-			$queryResult =& new MySQLInsertQueryResult($this->db->_linkId);
+			$queryResult = new MySQLInsertQueryResult($this->db->_linkId);
 
 			$this->assertNotNull($queryResult->getLastAutoIncrementValue());
 			$this->assertEqual($queryResult->getNumberOfRows(), 1);
@@ -83,7 +83,7 @@
         function test_Many_Inserts() {
 			// get the query result
 			$rid = $this->db->_query("INSERT INTO test1 (value) VALUES('depeche'),('depeche1'),('depeche2')");
-			$queryResult =& new MySQLInsertQueryResult($this->db->_linkId);
+			$queryResult = new MySQLInsertQueryResult($this->db->_linkId);
 
 			$this->assertNotNull($queryResult->getLastAutoIncrementValue());
 			$this->assertEqual($queryResult->getNumberOfRows(), 3);

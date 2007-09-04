@@ -1,5 +1,5 @@
 <?php
-    // $Id: observer.php,v 1.3 2006/07/13 20:39:04 jwlee100 Exp $
+    // $Id: observer.php,v 1.4 2007/09/04 20:25:50 adamfranco Exp $
     
     if (!defined("SIMPLE_TEST")) {
         define("SIMPLE_TEST", "./");
@@ -36,7 +36,7 @@
          *    @param $painter    TestReporter class to write to.
          *    @abstract
          */
-        function paint(&$painter) {
+        function paint($painter) {
         }
     }
     
@@ -66,7 +66,7 @@
          *    @param $painter    TestReporter class to write to.
          *    @access public
          */
-        function paint(&$painter) {
+        function paint($painter) {
             if ($this->_result) {
                 $painter->paintPass($this->getLabel());
             } else {
@@ -100,7 +100,7 @@
          *    @param $painter    TestReporter class to write to.
          *    @access public
          */
-        function paint(&$painter) {
+        function paint($painter) {
             $painter->paintStart($this->getLabel(), $this->_size);
         }
     }
@@ -130,7 +130,7 @@
          *    @param $type       Type of object sending the event.
          *    @access public
          */
-        function paint(&$painter) {
+        function paint($painter) {
             $painter->paintEnd($this->getLabel(), $this->_size);
         }
     }
@@ -155,8 +155,8 @@
          *    @param $observer    Observer added to the internal list.
          *    @access public
          */
-        function attachObserver(&$observer) {
-            $this->_observers[] = &$observer;
+        function attachObserver($observer) {
+            $this->_observers[] = $observer;
         }
         
         /**
@@ -165,7 +165,7 @@
          *    @param $event        Event to pass on.
          *    @access public
          */
-        function notify(&$event) {
+        function notify($event) {
             for ($i = 0; $i < count($this->_observers); $i++) {
                 $this->_observers[$i]->notify($event);
             }
@@ -190,7 +190,7 @@
          *    @param $event    Event to acted upon.
          *    @access public
          */
-        function notify(&$event) {
+        function notify($event) {
         }
     }
     
@@ -218,7 +218,7 @@
          *    @param $event        Event to show.
          *    @access public
          */
-        function notify(&$event) {
+        function notify($event) {
             $event->paint($this);
         }
         

@@ -22,7 +22,7 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPAgentIterator.class.php,v 1.2 2007/04/12 15:37:27 adamfranco Exp $
+ * @version $Id: LDAPAgentIterator.class.php,v 1.3 2007/09/04 20:25:37 adamfranco Exp $
  */
 class LDAPAgentIterator
 	extends HarmoniAgentIterator
@@ -53,7 +53,7 @@ class LDAPAgentIterator
 	 * @access public
 	 * @since 8/30/05
 	 */
-	function LDAPAgentIterator ( &$authNMethod, &$agents, $dns = array() ) {
+	function LDAPAgentIterator ( $authNMethod, $agents, $dns = array() ) {
 		
 		// determine the count (if we are passed dns, or just a poplulated $agents array)
 		if (count($dns) > count($agents))
@@ -63,8 +63,8 @@ class LDAPAgentIterator
 		
 		$this->_current = 0;
 		
-		$this->_authNMethod =& $authNMethod;
-		$this->_agents =& $agents;
+		$this->_authNMethod =$authNMethod;
+		$this->_agents =$agents;
 		$this->_dns = $dns;
 	}
 	
@@ -113,19 +113,19 @@ class LDAPAgentIterator
 	 * 
 	 * @access public
 	 */
-	function &next () {
+	function next () {
 		if (!isset($this->_agents[$this->_current])) {
-			$authenticationManager =& Services::getService("AuthN");
-			$agentManager =& Services::getService("AgentManager");
+			$authenticationManager = Services::getService("AuthN");
+			$agentManager = Services::getService("AgentManager");
 			
 			if (!isset($this->_dns[$this->_current]))
 				throwError(new Error("Tried to get Group for un-passed dn", "LDAPAgentIterator", true));
 			
-			$tokens =& $this->_authNMethod->createTokensForIdentifier($this->_dns[$this->_current]);
-			$agentId =& $authenticationManager->_getAgentIdForAuthNTokens($tokens, $this->_authNMethod->getType());
-			$this->_agents[$this->_current] =& $agentManager->getAgent($agentId);
+			$tokens =$this->_authNMethod->createTokensForIdentifier($this->_dns[$this->_current]);
+			$agentId =$authenticationManager->_getAgentIdForAuthNTokens($tokens, $this->_authNMethod->getType());
+			$this->_agents[$this->_current] =$agentManager->getAgent($agentId);
 		}
-		$agent =& $this->_agents[$this->_current];
+		$agent =$this->_agents[$this->_current];
 		$this->_current++;
 		return $agent;
 	}

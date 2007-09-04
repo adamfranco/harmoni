@@ -32,7 +32,7 @@ require_once(HARMONI."GUIManager/StyleComponent.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StyleComponent.class.php,v 1.13 2006/08/15 20:44:57 sporktim Exp $
+ * @version $Id: StyleComponent.class.php,v 1.14 2007/09/04 20:25:21 adamfranco Exp $
  **/
 
 class StyleComponent extends StyleComponentInterface {
@@ -109,10 +109,10 @@ class StyleComponent extends StyleComponentInterface {
 	 **/
 	function StyleComponent($value, $rule, $options, $limitedToOptions, $errorDescription, $displayName, $description) {
 		if (isset($rule)&&!is_null($rule)){
-			$this->_rule =& $rule;
+			$this->_rule =$rule;
 		}else{
 			//always true regex rule
-			$this->_rule =& RegexValidatorRule::getRule(".*");
+			$this->_rule = RegexValidatorRule::getRule(".*");
 		}
 		
 		
@@ -133,11 +133,11 @@ class StyleComponent extends StyleComponentInterface {
 			if ($limitedToOptions) {
 				// create the appropriate ChoiceValidatorRule with the given options
 				$this->_limitedToOptions = true;
-				//$choiceRule =& ChoiceValidatorRule::getRule($options);
-				//$this->_rule =& AndValidatorRule::getRule($this->_rule, $choiceRule);
+				//$choiceRule = ChoiceValidatorRule::getRule($options);
+				//$this->_rule = AndValidatorRule::getRule($this->_rule, $choiceRule);
 			}
 			//else
-			//	$this->_rule =& OrValidatorRule::getRule($this->_rule, ChoiceValidatorRule::getRule($options));
+			//	$this->_rule = OrValidatorRule::getRule($this->_rule, ChoiceValidatorRule::getRule($options));
 		}
 	
 		
@@ -157,10 +157,10 @@ class StyleComponent extends StyleComponentInterface {
 	 * @access public
 	 * @since 4/26/06
 	 */
-	function setId (& $id) {
+	function setId ($id) {
 		if (!is_object($id))
 			throwError(new Error("GUIMANAGER", "STRING ID PASSED"));
-		$this->_id =& $id;
+		$this->_id =$id;
 	}
 	
 	/**
@@ -170,11 +170,11 @@ class StyleComponent extends StyleComponentInterface {
 	 * @access public
 	 * @since 4/26/06
 	 */
-	function &getId () {
+	function getId () {
 		if (isset($this->_id)){
 			return $this->_id;
 		}else{
-			$im =& Services::getService("Id");		
+			$im = Services::getService("Id");		
 			$this->_id  = 	$im->createId();
 			return $this->_id;
 		}
@@ -221,7 +221,7 @@ class StyleComponent extends StyleComponentInterface {
 	 * @access public
 	 * @return object ValidatorRule The rule of this SC.
 	 **/
-	function &getRule() {
+	function getRule() {
 		return $this->_rule;
 	}
 	

@@ -71,7 +71,7 @@ class CourseGradeRecordIterator
      * 
      * @access public
      */
-    function &nextCourseGradeRecord () { 
+    function nextCourseGradeRecord () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 }

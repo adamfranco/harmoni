@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ActionHandler.class.php,v 1.21 2006/01/13 19:42:05 adamfranco Exp $
+ * @version $Id: ActionHandler.class.php,v 1.22 2007/09/04 20:25:29 adamfranco Exp $
  */
 
 //require_once(HARMONI."actionHandler/ActionHandler.interface.php");
@@ -73,7 +73,7 @@ define("ACTIONS_CLASSES_METHOD","execute");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ActionHandler.class.php,v 1.21 2006/01/13 19:42:05 adamfranco Exp $
+ * @version $Id: ActionHandler.class.php,v 1.22 2007/09/04 20:25:29 adamfranco Exp $
  */
 class ActionHandler extends EventTrigger {
 	/**
@@ -127,8 +127,8 @@ class ActionHandler extends EventTrigger {
 	 * @access public
 	 * @return void
 	 **/
-	function ActionHandler(&$harmoni) {
-		$this->_harmoni =& $harmoni;
+	function ActionHandler($harmoni) {
+		$this->_harmoni =$harmoni;
 		$this->_actionsExecuted = array();
 		$this->_threads = array();
 		$this->_actionSources = array();
@@ -146,7 +146,7 @@ class ActionHandler extends EventTrigger {
 	 */
 	function forward( $module, $action=null ) {
 		debug::output("attempting to forward to action: $module.$action",DEBUG_SYS5,"ActionHandler");
-		$test =& DottedPairValidatorRule::getRule();
+		$test = DottedPairValidatorRule::getRule();
 		if ($this->_executing) {
 			if ($test->check($module) && !$action) {
 				$this->_forwardToAction = $module;
@@ -171,10 +171,10 @@ class ActionHandler extends EventTrigger {
 	 * @return ref mixed Returns whatever is recieved from the last action
 	 * to execute. Can be: a {@link Layout} object, TRUE/FALSE, etc.
 	 **/
-	function &execute($module, $action) {
+	function execute($module, $action) {
 		
 		$this->_executing = $module.".".$action;
-		$result =& $this->_execute($module, $action);
+		$result =$this->_execute($module, $action);
 		$this->_executing = false;
 		
 		return $result;
@@ -187,7 +187,7 @@ class ActionHandler extends EventTrigger {
 	 * @access private
 	 * @return mixed
 	 **/
-	function &_execute($module, $action) {
+	function _execute($module, $action) {
 		debug::output("executing action '$module.$action'...",DEBUG_SYS5,"ActionHandler");
 		$_pair = "$module.$action";
 		// if we've already executed this action, we're probably stuck
@@ -205,9 +205,9 @@ class ActionHandler extends EventTrigger {
 		$result = null;
 
 		foreach (array_keys($this->_actionSources) as $sourceID) {
-			$source =& $this->_actionSources[$sourceID];
+			$source =$this->_actionSources[$sourceID];
 			if ($source->actionExists($module, $action)) {
-				$result =& $source->executeAction($module, $action, $this->_harmoni);
+				$result =$source->executeAction($module, $action, $this->_harmoni);
 				$executedAction = true;
 				break;
 			}
@@ -258,9 +258,9 @@ class ActionHandler extends EventTrigger {
 	 * @access private
 	 * @return mixed
 	 **/
-	function &_executePair($pair) {
+	function _executePair($pair) {
 		list($module, $action) = explode(".",$pair);
-		$res =& $this->_execute($module, $action);
+		$res =$this->_execute($module, $action);
 		return $res;
 	}
 	
@@ -270,9 +270,9 @@ class ActionHandler extends EventTrigger {
 	 * @access public
 	 * @return mixed
 	 **/
-	function &executePair($pair) {
+	function executePair($pair) {
 		ArgumentValidator::validate($pair, DottedPairValidatorRule::getRule());
-		$res =& $this->_executePair($pair);
+		$res =$this->_executePair($pair);
 		return $res;
 	}
 	
@@ -372,9 +372,9 @@ class ActionHandler extends EventTrigger {
 	 * @access public
 	 * @return void
 	 */
-	function addActionSource( &$actionSourceObject )
+	function addActionSource( $actionSourceObject )
 	{
-		$this->_actionSources[] =& $actionSourceObject;
+		$this->_actionSources[] =$actionSourceObject;
 	}
 	
 	/**
@@ -391,7 +391,7 @@ class ActionHandler extends EventTrigger {
 	 **/
 	function setActionThread($action, $actionOnFail, $actionOnSuccess=null) {
 		// first, make sure that each thing we're passed is indeed a dotted pair
-		$dp =& DottedPairValidatorRule::getRule();
+		$dp = DottedPairValidatorRule::getRule();
 		ArgumentValidator::validate($action,$dp);
 		ArgumentValidator::validate($actionOnFail,$dp);
 		if ($actionOnSuccess)
@@ -418,7 +418,7 @@ class ActionHandler extends EventTrigger {
 	 * @access public
 	 * @return array
 	 **/
-	function &getExecutedActions() {
+	function getExecutedActions() {
 		return $this->_actionsExecuted;
 	}
 }

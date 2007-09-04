@@ -28,7 +28,7 @@ require_once(HARMONI."GUIManager/StyleCollection.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StyleCollection.class.php,v 1.14 2006/08/19 21:14:17 sporktim Exp $
+ * @version $Id: StyleCollection.class.php,v 1.15 2007/09/04 20:25:21 adamfranco Exp $
  */
 class StyleCollection extends StyleCollectionInterface {
 
@@ -117,10 +117,10 @@ class StyleCollection extends StyleCollectionInterface {
 	 * @access public
 	 * @since 4/26/06
 	 */
-	function setId (&$id) {
+	function setId ($id) {
 		if (!is_object($id))
 			throwError(new Error("String Id Passed","GUIManager",true));
-		$this->_id =& $id;
+		$this->_id =$id;
 	}
 	
 	/**
@@ -130,11 +130,11 @@ class StyleCollection extends StyleCollectionInterface {
 	 * @access public
 	 * @since 4/26/06
 	 */
-	function &getId () {
+	function getId () {
 		if (isset($this->_id)){
 			return $this->_id;
 		}else{
-			$im =& Services::getService("Id");		
+			$im = Services::getService("Id");		
 			$this->_id = 	$im->createId();
 			return $this->_id;
 		}
@@ -267,9 +267,9 @@ class StyleCollection extends StyleCollectionInterface {
 	 * @param ref object sc A StyleProperty object.
 	 * @return ref object The style property that was just added.
 	 **/
-	function &addSP(& $sp) {
+	function addSP($sp) {
 		ArgumentValidator::validate($sp, ExtendsValidatorRule::getRule("StylePropertyInterface"), true);
-		$this->_SPs[$sp->getName()] =& $sp;
+		$this->_SPs[$sp->getName()] =$sp;
 		
 		return $sp;
 	}
@@ -280,7 +280,7 @@ class StyleCollection extends StyleCollectionInterface {
 	 * @access public
 	 * @return ref array An array of the StyleProperties of this StyleCollection.
 	 **/
-	function &getSPs() {
+	function getSPs() {
 		return $this->_SPs;
 	}
 	
@@ -291,7 +291,7 @@ class StyleCollection extends StyleCollectionInterface {
 	 * @access public
 	 * @return ref object StyleProperty
 	 **/
-	function &getStyleProperty($name) {
+	function getStyleProperty($name) {
 		if(isset($this->_SPs[$name])){
 			return $this->_SPs[$name];
 		}else{
@@ -308,10 +308,10 @@ class StyleCollection extends StyleCollectionInterface {
 	 * @return ref object The style property that was removed. <code>NULL</code>
 	 * if it could not be found.
 	 **/
-	function &removeSP(& $sp) {
+	function removeSP($sp) {
 		ArgumentValidator::validate($sp, ExtendsValidatorRule::getRule("StylePropertyInterface"), true);
 
-		$result =& $this->_SPs[$sp->getName()];
+		$result =$this->_SPs[$sp->getName()];
 		unset($this->_SPs[$sp->getName()]);
 		
 		return $result;

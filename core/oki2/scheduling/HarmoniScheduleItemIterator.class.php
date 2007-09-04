@@ -71,7 +71,7 @@ extends HarmoniIterator
      * 
      * @access public
      */
-    function &nextScheduleItem () { 
+    function nextScheduleItem () { 
         return $this->next();
     } 
 }

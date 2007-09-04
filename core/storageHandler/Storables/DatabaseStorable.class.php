@@ -12,7 +12,7 @@ require_once(HARMONI.'storageHandler/Storables/DatabaseStorableDataContainer.cla
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DatabaseStorable.class.php,v 1.6 2005/08/11 17:58:40 cws-midd Exp $
+ * @version $Id: DatabaseStorable.class.php,v 1.7 2007/09/04 20:25:51 adamfranco Exp $
  */
 
 class DatabaseStorable extends AbstractStorable {
@@ -30,7 +30,7 @@ class DatabaseStorable extends AbstractStorable {
 	 */
 	function DatabaseStorable($databaseStorableDataContainer,$path,$name) {
 		// validate the type of the parameter (dbSDC)
-		$extendsRule =& ExtendsValidatorRule::getRule("DatabaseStorableDataContainer");
+		$extendsRule = ExtendsValidatorRule::getRule("DatabaseStorableDataContainer");
 		ArgumentValidator::validate($databaseStorableDataContainer, $extendsRule, true);
 		// now, validate the data container itself
 		$databaseStorableDataContainer->checkAll();
@@ -46,9 +46,9 @@ class DatabaseStorable extends AbstractStorable {
      * @access public
      */
     function getData() {
-		$dbHandler =& Services::getService("DatabaseManager");
+		$dbHandler = Services::getService("DatabaseManager");
 		
-		$query =& new SelectQuery();
+		$query = new SelectQuery();
 
 		$query->addTable($this->_parameters->get("dbTable"));
 
@@ -60,7 +60,7 @@ class DatabaseStorable extends AbstractStorable {
 
 		if(!$dbHandler->isConnected($this->_parameters->get("dbIndex")))   
 			$dbHandler->connect($this->_parameters->get("dbIndex"));
-		$result =& $dbHandler->query($query,$this->_parameters->get("dbIndex"));
+		$result =$dbHandler->query($query,$this->_parameters->get("dbIndex"));
 
 		
 		$data = $result->field($this->_parameters->get("dataColumn"));
@@ -76,9 +76,9 @@ class DatabaseStorable extends AbstractStorable {
      * @access public
      */
     function getSize() { 
-		$dbHandler =& Services::getService("DatabaseManager");
+		$dbHandler = Services::getService("DatabaseManager");
 		
-		$query =& new SelectQuery();
+		$query = new SelectQuery();
 
 		$query->addTable($this->_parameters->get("dbTable"));
 
@@ -95,7 +95,7 @@ class DatabaseStorable extends AbstractStorable {
 
 		if(!$dbHandler->isConnected($this->_parameters->get("dbIndex")))
 			$dbHandler->connect($this->_parameters->get("dbIndex"));
-		$result =& $dbHandler->query($query,$this->_parameters->get("dbIndex"));
+		$result =$dbHandler->query($query,$this->_parameters->get("dbIndex"));
 
 		$data = $result->field($selectColumn);
 

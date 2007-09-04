@@ -8,16 +8,16 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: test.php,v 1.1 2006/07/26 07:27:16 sporktim Exp $
+ * @version $Id: test.php,v 1.2 2007/09/04 20:25:41 adamfranco Exp $
  */
  
  require_once(dirname(__FILE__)."/../../../../../concerto/index.php");
  
 require_once dirname(__FILE__)."/../../../../core/utilities/Timer.class.php";
-$timer =& new Timer;
+$timer = new Timer;
 $timer->start();
 
-$harmonyLoadupTimer =& new Timer;
+$harmonyLoadupTimer = new Timer;
 $harmonyLoadupTimer->start();
 
 require_once(dirname(__FILE__)."/../../../../harmoni.inc.php");
@@ -36,13 +36,13 @@ $harmonyLoadupTimer->end();
 /*	} */
 
 	require_once(HARMONI."errorHandler/ErrorHandler.class.php");
-	$errorHandler =& Services::getService("ErrorHandler");
-	$context =& new OsidContext;
-	$configuration =& new ConfigurationProperties;
+	$errorHandler = Services::getService("ErrorHandler");
+	$context = new OsidContext;
+	$configuration = new ConfigurationProperties;
 	Services::startManagerAsService("DatabaseManager", $context, $configuration);
 	
 	
-	$test =& new GroupTest('SchedulingTest');
+	$test = new GroupTest('SchedulingTest');
 	
 	$test->addTestFile(dirname(__FILE__).'/GradingTest.class.php');
 

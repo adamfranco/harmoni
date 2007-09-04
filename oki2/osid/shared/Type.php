@@ -63,7 +63,7 @@ class Type
      * 
      * @access public
      */
-    function isEqualTo ( &$type2 )
+    function isEqualTo ( $type2 )
     {
         if ((null != $type2) && (null != $type2->getDomain()) &&
                 (null != $type2->getAuthority()) && (null != $type2->getKeyword()) &&
@@ -86,7 +86,7 @@ class Type
      * 
      * @access public
      */
-    function isEqual ( &$type2 )
+    function isEqual ( $type2 )
     {
         return $this->isEqualTo($type2);
     }
@@ -187,7 +187,7 @@ class Type
      * @since 6/1/05
      * @static
      */
-     function typeToString(&$aType, $glue="::") {
+     function typeToString($aType, $glue="::") {
     	ArgumentValidator::validate($aType, ExtendsValidatorRule::getRule("Type"));
     	return $aType->getDomain() . $glue . $aType->getAuthority() . $glue . $aType->getKeyword();
     }
@@ -202,12 +202,12 @@ class Type
      * @since 6/1/05
      * @static
      */
-    function &fromString($aString, $glue = "::") {
+    function fromString($aString, $glue = "::") {
     	ArgumentValidator::validate($aString, StringValidatorRule::getRule());
 
     	$parts = explode($glue, $aString);
 
-    	$obj =& new Type($parts[0], $parts[1], $parts[2]);
+    	$obj = new Type($parts[0], $parts[1], $parts[2]);
 
     	return $obj;
     }

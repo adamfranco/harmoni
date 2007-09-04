@@ -14,7 +14,7 @@ require_once(dirname(__FILE__)."/HarmoniAgent.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AnonymousAgent.class.php,v 1.3 2005/08/05 18:32:44 gabeschine Exp $
+ * @version $Id: AnonymousAgent.class.php,v 1.4 2007/09/04 20:25:35 adamfranco Exp $
  */
 class AnonymousAgent 
 	extends HarmoniAgent
@@ -29,16 +29,16 @@ class AnonymousAgent
 	 * @since 2/8/05
 	 */
 	function AnonymousAgent ($dbIndex, $sharedDB) {
-		$idManager =& Services::getService("Id");
-		$id =& $idManager->getId("edu.middlebury.agents.anonymous");
+		$idManager = Services::getService("Id");
+		$id =$idManager->getId("edu.middlebury.agents.anonymous");
 		
-		$type =& new Type("Agents", "edu.middlebury.harmoni", "Any/Anonymous", 
+		$type = new Type("Agents", "edu.middlebury.harmoni", "Any/Anonymous", 
 			_("Special users that can represent anyone or unknown users."));
 		
 		$propertiesArray = array();
 // 		$propertiesType = new HarmoniType('Agents', 'Harmoni', 'Agent Properties',
 // 						'Properties known to the Harmoni Agents System.');
-// 		$propertiesArray[0] =& new HarmoniProperties($propertiesType);
+// 		$propertiesArray[0] = new HarmoniProperties($propertiesType);
 		
 		$this->HarmoniAgent(	_("Anonymous"),
 								$id,

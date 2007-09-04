@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: KeywordStringParserTestCase.class.php,v 1.2 2006/06/26 12:55:08 adamfranco Exp $
+ * @version $Id: KeywordStringParserTestCase.class.php,v 1.3 2007/09/04 20:25:25 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -27,7 +27,7 @@ require_once(dirname(__FILE__)."/../../Date.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: KeywordStringParserTestCase.class.php,v 1.2 2006/06/26 12:55:08 adamfranco Exp $
+ * @version $Id: KeywordStringParserTestCase.class.php,v 1.3 2007/09/04 20:25:25 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -56,11 +56,11 @@ class KeywordStringParserTestCase extends UnitTestCase {
 	 * Test the methods.
 	 */ 
 	function test_now() {
-		$parser =& new KeywordStringParser('now');
+		$parser = new KeywordStringParser('now');
 		$this->assertTrue($parser->canHandle());
 		
-		$dateAndTime =& DateAndTime::now();
-		$offset =& $dateAndTime->offset();
+		$dateAndTime = DateAndTime::now();
+		$offset =$dateAndTime->offset();
 		
 		$this->assertEqual($parser->year(), $dateAndTime->year());
 		$this->assertEqual($parser->month(), $dateAndTime->month());
@@ -77,12 +77,12 @@ class KeywordStringParserTestCase extends UnitTestCase {
 	 * Test the methods.
 	 */ 
 	function test_today() {
-		$parser =& new KeywordStringParser('today');
+		$parser = new KeywordStringParser('today');
 		$this->assertTrue($parser->canHandle());
 		
-		$date =& Date::today();
-		$dateAndTime =& $date->start();
-		$offset =& $dateAndTime->offset();
+		$date = Date::today();
+		$dateAndTime =$date->start();
+		$offset =$dateAndTime->offset();
 		
 		$this->assertEqual($parser->year(), $dateAndTime->year());
 		$this->assertEqual($parser->month(), $dateAndTime->month());
@@ -99,12 +99,12 @@ class KeywordStringParserTestCase extends UnitTestCase {
 	 * Test the methods.
 	 */ 
 	function test_tomorrow() {
-		$parser =& new KeywordStringParser('tomorrow');
+		$parser = new KeywordStringParser('tomorrow');
 		$this->assertTrue($parser->canHandle());
 		
-		$date =& Date::tomorrow();
-		$dateAndTime =& $date->start();
-		$offset =& $dateAndTime->offset();
+		$date = Date::tomorrow();
+		$dateAndTime =$date->start();
+		$offset =$dateAndTime->offset();
 		
 		$this->assertEqual($parser->year(), $dateAndTime->year());
 		$this->assertEqual($parser->month(), $dateAndTime->month());
@@ -121,12 +121,12 @@ class KeywordStringParserTestCase extends UnitTestCase {
 	 * Test the methods.
 	 */ 
 	function test_yesterday() {
-		$parser =& new KeywordStringParser('yesterday');
+		$parser = new KeywordStringParser('yesterday');
 		$this->assertTrue($parser->canHandle());
 		
-		$date =& Date::yesterday();
-		$dateAndTime =& $date->start();
-		$offset =& $dateAndTime->offset();
+		$date = Date::yesterday();
+		$dateAndTime =$date->start();
+		$offset =$dateAndTime->offset();
 		
 		$this->assertEqual($parser->year(), $dateAndTime->year());
 		$this->assertEqual($parser->month(), $dateAndTime->month());

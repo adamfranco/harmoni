@@ -11,7 +11,7 @@ require_once(dirname(__FILE__)."/AgentSearch.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AncestorGroupSearch.class.php,v 1.16 2006/12/12 17:18:15 adamfranco Exp $
+ * @version $Id: AncestorGroupSearch.class.php,v 1.17 2007/09/04 20:25:36 adamfranco Exp $
  */
 
 class AncestorGroupSearch
@@ -31,8 +31,8 @@ class AncestorGroupSearch
 	 * @access public
 	 * @since 12/1/04
 	 */
-	function AncestorGroupSearch ( &$hierarchy) {
-		$this->_hierarchy =& $hierarchy;
+	function AncestorGroupSearch ( $hierarchy) {
+		$this->_hierarchy =$hierarchy;
 	}
 	
 	
@@ -48,10 +48,10 @@ class AncestorGroupSearch
 	 * @access public
 	 * @since 11/10/04
 	 */
-	function &getAgentsBySearch ( & $searchCriteria) {
+	function getAgentsBySearch ( $searchCriteria) {
 		$agents = array();
 		
-		$obj =& new HarmoniIterator($agents);
+		$obj = new HarmoniIterator($agents);
 		
 		return $obj;
 	}
@@ -67,21 +67,21 @@ class AncestorGroupSearch
 	 * @access public
 	 * @since 11/10/04
 	 */
-	function &getGroupsBySearch ( & $searchCriteria) {
+	function getGroupsBySearch ( $searchCriteria) {
 		ArgumentValidator::validate($searchCriteria, ExtendsValidatorRule::getRule("Id"));
 		
-		$agentManager =& Services::getService("Agent");
-		$idManager =& Services::getService("Id");
-		$everyoneId =& $idManager->getId("edu.middlebury.agents.everyone");
-		$usersId =& $idManager->getId("edu.middlebury.agents.users");
+		$agentManager = Services::getService("Agent");
+		$idManager = Services::getService("Id");
+		$everyoneId =$idManager->getId("edu.middlebury.agents.everyone");
+		$usersId =$idManager->getId("edu.middlebury.agents.users");
 		
 	// :: Special case for Users group, parents are:
 	//		Everyone
 		if ($searchCriteria->isEqual($usersId)) {
 			$groups = array();
-			$groups[] =& $agentManager->getGroup($everyoneId);
+			$groups[] =$agentManager->getGroup($everyoneId);
 			
-			$iterator =& new HarmoniAgentIterator($groups);
+			$iterator = new HarmoniAgentIterator($groups);
 			return $iterator;
 		}
 		
@@ -90,7 +90,7 @@ class AncestorGroupSearch
 		
 	// :: Load Groups from the Hierarchy
 		if ($this->_hierarchy->nodeExists($searchCriteria)) {
-			$traversalIterator =& $this->_hierarchy->traverse($searchCriteria,
+			$traversalIterator =$this->_hierarchy->traverse($searchCriteria,
 					Hierarchy::TRAVERSE_MODE_DEPTH_FIRST(), 
 					Hierarchy::TRAVERSE_DIRECTION_UP(), 
 					Hierarchy::TRAVERSE_LEVELS_ALL());
@@ -98,8 +98,8 @@ class AncestorGroupSearch
 			$levelToReturnTo = NULL;
 			
 			while ($traversalIterator->hasNext()) {
-				$traversalInfo =& $traversalIterator->next();
-				$nodeId =& $traversalInfo->getNodeId();
+				$traversalInfo =$traversalIterator->next();
+				$nodeId =$traversalInfo->getNodeId();
 				
 				// if we are within the agent/groups tree...
 				if ($levelToReturnTo == null
@@ -118,7 +118,7 @@ class AncestorGroupSearch
 					if (!$searchCriteria->isEqual($nodeId)
 						&& $agentManager->isGroup($nodeId))
 					{
-						$groupIds[$nodeId->getIdString()] =& $nodeId;
+						$groupIds[$nodeId->getIdString()] =$nodeId;
 					}
 				}			
 			}
@@ -130,33 +130,33 @@ class AncestorGroupSearch
 		if ($isAgent && !$searchCriteria->isEqual(
 				$idManager->getId("edu.middlebury.agents.anonymous")))
 		{
-			$groupIds[$usersId->getIdString()] =& $usersId;
+			$groupIds[$usersId->getIdString()] =$usersId;
 		}
 	
 	// :: Build Group Objects
 	// now create an array of the group objects to add to the iterator.
 		$groups = array();
 		foreach ($groupIds as $groupId) {
-			$groups[] =& $agentManager->getGroup($groupId);
+			$groups[] =$agentManager->getGroup($groupId);
 		}
 		
 	
 	// :: Add External Groups
-		$authNMethodManager =& Services::getService("AuthNMethodManager");
-		$mappingManager =& Services::getService("AgentTokenMapping");
+		$authNMethodManager = Services::getService("AuthNMethodManager");
+		$mappingManager = Services::getService("AgentTokenMapping");
 		// If we have an agent, get the AuthN systems for it and search our 
 		// directories for it there
 		if ($isAgent) {
-			$mappings =& $mappingManager->getMappingsForAgentId($searchCriteria);
+			$mappings =$mappingManager->getMappingsForAgentId($searchCriteria);
 			while ($mappings->hasNext()) {
-				$mapping =& $mappings->next();
-				$authNMethod =& $authNMethodManager->getAuthNMethodForType(
+				$mapping =$mappings->next();
+				$authNMethod =$authNMethodManager->getAuthNMethodForType(
 										$mapping->getAuthenticationType());
 				if ($authNMethod->supportsDirectory()) {
-					$groupIterator =& $authNMethod->getGroupsContainingTokens(
+					$groupIterator =$authNMethod->getGroupsContainingTokens(
 										$mapping->getTokens(), true);
 					while ($groupIterator->hasNext()) {
-						$groups[] =& $groupIterator->next();
+						$groups[] =$groupIterator->next();
 					}
 				}
 			}
@@ -164,25 +164,25 @@ class AncestorGroupSearch
 		}
 		// assume that the search criteria is a group and search our directories for it.
 		else {		
-			$types =& $authNMethodManager->getAuthNTypes();
+			$types =$authNMethodManager->getAuthNTypes();
 			while ($types->hasNext()) {
-				$type =& $types->next();
-				$authNMethod =& $authNMethodManager->getAuthNMethodForType($type);
+				$type =$types->next();
+				$authNMethod =$authNMethodManager->getAuthNMethodForType($type);
 				
 				if ($authNMethod->supportsDirectory() 
 					&& $authNMethod->isGroup($searchCriteria)) 
 				{
-					$groupIterator =& $authNMethod->getGroupsContainingGroup(
+					$groupIterator =$authNMethod->getGroupsContainingGroup(
 										$searchCriteria, true);
 					while ($groupIterator->hasNext()) {
-						$groups[] =& $groupIterator->next();
+						$groups[] =$groupIterator->next();
 					}
 				}
 			}
 		}
 		
 	// :: Return our iterator
-		$iterator =& new HarmoniIterator($groups);
+		$iterator = new HarmoniIterator($groups);
 		return $iterator;
 	}
 }

@@ -85,7 +85,7 @@ class Authorization
      * 
      * @access public
      */
-    function &getModifiedBy () { 
+    function getModifiedBy () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -133,7 +133,7 @@ class Authorization
      * 
      * @access public
      */
-    function &getFunction () { 
+    function getFunction () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -157,7 +157,7 @@ class Authorization
      * 
      * @access public
      */
-    function &getQualifier () { 
+    function getQualifier () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -181,7 +181,7 @@ class Authorization
      * 
      * @access public
      */
-    function &getAgentId () { 
+    function getAgentId () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 

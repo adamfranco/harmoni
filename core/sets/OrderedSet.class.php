@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OrderedSet.class.php,v 1.19 2006/06/12 15:00:12 adamfranco Exp $
+ * @version $Id: OrderedSet.class.php,v 1.20 2007/09/04 20:25:49 adamfranco Exp $
  */ 
 
 require_once(HARMONI."Primitives/Objects/SObject.class.php");
@@ -21,7 +21,7 @@ require_once(HARMONI."Primitives/Objects/SObject.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OrderedSet.class.php,v 1.19 2006/06/12 15:00:12 adamfranco Exp $
+ * @version $Id: OrderedSet.class.php,v 1.20 2007/09/04 20:25:49 adamfranco Exp $
  * @author Adam Franco
  */
  
@@ -51,12 +51,12 @@ class OrderedSet
 	 * Constructor.
 	 * @param object Id $setId The Id of this set.
 	 */
-	function OrderedSet ( &$setId ) {
+	function OrderedSet ( $setId ) {
 		ArgumentValidator::validate($setId, ExtendsValidatorRule::getRule("Id"), true);
 		
 		// Create our internal array
 		$this->_items = array();
-		$this->_setId =& $setId;
+		$this->_setId =$setId;
 		$this->_i = -1;
 	}
 	
@@ -67,7 +67,7 @@ class OrderedSet
 	 * @access public
 	 * @since 8/5/05
 	 */
-	function &getId () {
+	function getId () {
 		return $this->_setId;
 	}
 	
@@ -86,7 +86,7 @@ class OrderedSet
 	 * @access public
 	 * @return boolean
 	 */
-	function isInSet ( & $id ) {
+	function isInSet ( $id ) {
 		return in_array($id->getIdString(), $this->_items);
 	}
 	
@@ -95,8 +95,8 @@ class OrderedSet
 	 * @access public
 	 * @return object id
 	 */
-	function &next () {
-		$idManager =& Services::getService("Id");
+	function next () {
+		$idManager = Services::getService("Id");
 		if ($this->hasNext()) {
 			$this->_i++;
 			return $idManager->getId($this->_items[$this->_i]);
@@ -120,7 +120,7 @@ class OrderedSet
 	 * @access public
 	 * @return void
 	 */
-	function addItem ( & $id ) {
+	function addItem ( $id ) {
 		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"), true);
 		
 		// Add the item to our internal list
@@ -134,7 +134,7 @@ class OrderedSet
 	 * @access public
 	 * @return void
 	 */
-	function removeItem ( & $id ) {
+	function removeItem ( $id ) {
 		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"), true);
 		
 		if (!$this->isInSet($id))
@@ -164,7 +164,7 @@ class OrderedSet
 	 * @access public
 	 * @return integer
 	 */
-	function getPosition ( & $id ) {
+	function getPosition ( $id ) {
 		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"), true);
 		
 		return array_search($id->getIdString(), $this->_items);
@@ -178,8 +178,8 @@ class OrderedSet
 	 * @access public
 	 * @since 1/30/06
 	 */
-	function &atPosition ( $position ) {
-		$idManager =& Services::getService("Id");
+	function atPosition ( $position ) {
+		$idManager = Services::getService("Id");
 		if (isset($this->_items[$position]))
 			return $idManager->getId($this->_items[$position]);
 		else {
@@ -204,7 +204,7 @@ class OrderedSet
 	 * @access public
 	 * @return void
 	 */
-	function moveToPosition ( & $id, $position ) {
+	function moveToPosition ( $id, $position ) {
 		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"), true);
 		
 // 		printpre("Moving ".$id->getIdString()." from ".$this->getPosition($id)." to ".$position);
@@ -239,7 +239,7 @@ class OrderedSet
 	 * @access public
 	 * @return void
 	 */
-	function moveUp ( & $id ) {
+	function moveUp ( $id ) {
 		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"), true);
 		
 		if (($position = $this->getPosition($id)) > 0) {
@@ -255,7 +255,7 @@ class OrderedSet
 	 * @access public
 	 * @return void
 	 */
-	function moveDown ( & $id ) {
+	function moveDown ( $id ) {
 		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"), true);
 		
 		if (($position = $this->getPosition($id)) < ($this->count() - 1)) {
@@ -273,7 +273,7 @@ class OrderedSet
 	 * @access public
 	 * @since 1/30/06
 	 */
-	function moveToBeginning ( &$id ) {
+	function moveToBeginning ( $id ) {
 		$this->moveToPosition($id, 0);
 	}
 	
@@ -285,7 +285,7 @@ class OrderedSet
 	 * @access public
 	 * @since 1/30/06
 	 */
-	function moveToEnd ( &$id ) {
+	function moveToEnd ( $id ) {
 		$this->moveToPosition($id, $this->count() - 1);
 	}
 	

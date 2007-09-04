@@ -9,16 +9,16 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: test.php,v 1.13 2006/08/02 23:50:28 sporktim Exp $
+ * @version $Id: test.php,v 1.14 2007/09/04 20:25:24 adamfranco Exp $
  */
 
   require_once(dirname(__FILE__)."/../../../../concerto/index.php");
   
   require_once dirname(__FILE__)."/../../../core/utilities/Timer.class.php";
-$timer =& new Timer;
+$timer = new Timer;
 $timer->start();
 
-$harmonyLoadupTimer =& new Timer;
+$harmonyLoadupTimer = new Timer;
 $harmonyLoadupTimer->start();
 
 require_once(dirname(__FILE__)."/../../../harmoni.inc.php");
@@ -41,8 +41,8 @@ $harmonyLoadupTimer->end();
         require_once("../../../harmoni.inc.php");
     }
 
-	$errorHandler =& Services::getService("ErrorHandler");
-	$dbHandler =& Services::getService("DatabaseManager");
+	$errorHandler = Services::getService("ErrorHandler");
+	$dbHandler = Services::getService("DatabaseManager");
 	$dbIndex = $dbHandler->addDatabase( new MySQLDatabase("devo.middlebury.edu","doboHarmoniTest","test","test") );
 	$dbHandler->pConnect($dbIndex);
 	Services::startService("Shared", $dbIndex, "doboHarmoniTest");
@@ -55,7 +55,7 @@ $harmonyLoadupTimer->end();
     require_once(SIMPLE_TEST . 'simple_unit.php');
     require_once(SIMPLE_TEST . 'dobo_simple_html_test.php');
 	
-    $test =& new GroupTest('GUI tests');
+    $test = new GroupTest('GUI tests');
     $test->addTestFile(HARMONI.'GUIManager/test/StylePropertiesTestCase.class.php');
     $test->addTestFile(HARMONI.'GUIManager/test/StyleComponentsTestCase.class.php');
     $test->addTestFile(HARMONI.'GUIManager/test/StyleCollectionsTestCase.class.php');

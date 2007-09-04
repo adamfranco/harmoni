@@ -32,7 +32,7 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniTypeIterator.class.php,v 1.9 2007/04/12 15:37:33 adamfranco Exp $
+ * @version $Id: HarmoniTypeIterator.class.php,v 1.10 2007/09/04 20:25:48 adamfranco Exp $
  */
 class HarmoniTypeIterator
 	extends HarmoniIterator
@@ -79,7 +79,7 @@ class HarmoniTypeIterator
 	 * 
 	 * @access public
 	 */
-	function &nextType () { 
+	function nextType () { 
 		return $this->next();
 	} 
 }

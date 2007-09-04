@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthNTokens.abstract.php,v 1.3 2005/04/07 19:42:12 adamfranco Exp $
+ * @version $Id: AuthNTokens.abstract.php,v 1.4 2007/09/04 20:25:37 adamfranco Exp $
  */ 
 
 /**
@@ -31,7 +31,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthNTokens.abstract.php,v 1.3 2005/04/07 19:42:12 adamfranco Exp $
+ * @version $Id: AuthNTokens.abstract.php,v 1.4 2007/09/04 20:25:37 adamfranco Exp $
  */
 class AuthNTokens {
 
@@ -43,8 +43,8 @@ class AuthNTokens {
 	 * @access public
 	 * @since 3/1/05
 	 */
-	function AuthNTokens ( &$configuration ) {
-		$this->_configuration =& $configuration;
+	function AuthNTokens ( $configuration ) {
+		$this->_configuration =$configuration;
 	}
 	
 	/**

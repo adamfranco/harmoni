@@ -15,7 +15,7 @@ require_once(OKI2."/osid/coursemanagement/CourseGradeRecord.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CourseGradeRecord.class.php,v 1.8 2006/07/21 20:15:54 sporktim Exp $
+ * @version $Id: CourseGradeRecord.class.php,v 1.9 2007/09/04 20:25:39 adamfranco Exp $
  */
 class HarmoniCourseGradeRecord
 	extends CourseGradeRecord
@@ -83,7 +83,7 @@ class HarmoniCourseGradeRecord
 	 * 
 	 * @access public
 	 */
-	function updateCourseGrade ( &$courseGrade ) { 
+	function updateCourseGrade ( $courseGrade ) { 
 		$this->_setField('grade',$courseGrade);
 	} 
 
@@ -133,7 +133,7 @@ class HarmoniCourseGradeRecord
 	 * 
 	 * @access public
 	 */
-	function &getCourseGrade () {
+	function getCourseGrade () {
 	  	$grade = $this->_getField('grade'); 
 		return $grade; 
 	} 
@@ -182,7 +182,7 @@ class HarmoniCourseGradeRecord
 	 * 
 	 * @access public
 	 */
-	function &getId () { 
+	function getId () { 
 		return $this->_id;
 	} 
 
@@ -206,11 +206,11 @@ class HarmoniCourseGradeRecord
 	 * 
 	 * @access public
 	 */
-	function &getAgent () { 
+	function getAgent () { 
 		
-		$IdManager =& Services::getService("Id");
+		$IdManager = Services::getService("Id");
 		$id = $IdManager->getId($this->_getField('fk_student_id'));
-		$AgentManager =& Services::getService("Agent");
+		$AgentManager = Services::getService("Agent");
 		return $AgentManager->getAgent($id);		
 	} 
 
@@ -236,9 +236,9 @@ class HarmoniCourseGradeRecord
 	 * 
 	 * @access public
 	 */
-	function &getType () { 
+	function getType () { 
 		//@TODO could be sped up with an innerjoin
-		$course =& $this->getCourseOffering();
+		$course =$this->getCourseOffering();
 		return $course->getCourseGradeType();
 	} 
 	
@@ -263,7 +263,7 @@ class HarmoniCourseGradeRecord
 	 * 
 	 * @access public
 	 */
-	function &getCourseGradeType () { 
+	function getCourseGradeType () { 
 		return $this->getType();
 	} 
 
@@ -287,11 +287,11 @@ class HarmoniCourseGradeRecord
 	 * 
 	 * @access public
 	 */
-	function &getCourseOffering () { 
+	function getCourseOffering () { 
 		$idstring = $this->_getField('fk_cm_offer');
-		$idManager =& Services::getService("Id");
-		$cm =& Services::getService("CourseManagement");
-		$id =& $idManager->getId($idstring);
+		$idManager = Services::getService("Id");
+		$cm = Services::getService("CourseManagement");
+		$id =$idManager->getId($idstring);
 		return $cm->getCourseOffering($id);	
 	} 
 	
@@ -301,13 +301,13 @@ class HarmoniCourseGradeRecord
 	
 	
 	
-	function _typeToIndex($typename, &$type)
+	function _typeToIndex($typename, $type)
 	{	
 		$cm=Services::getService("CourseManagement");
 		return $cm->_typeToIndex($typename, $type);
 	}
 	
-	function &_getTypes($typename)
+	function _getTypes($typename)
 	{	
 		$cm=Services::getService("CourseManagement");
 		return $cm->_getTypes($typename);
@@ -320,7 +320,7 @@ class HarmoniCourseGradeRecord
 	}
 	
 	
-	function &_getType($typename){
+	function _getType($typename){
 		$cm=Services::getService("CourseManagement");
 		return $cm->_getType($this->_id,$this->_table,$typename);
 	}

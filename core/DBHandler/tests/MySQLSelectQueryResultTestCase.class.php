@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQLSelectQueryResultTestCase.class.php,v 1.7 2005/08/17 19:46:59 adamfranco Exp $
+ * @version $Id: MySQLSelectQueryResultTestCase.class.php,v 1.8 2007/09/04 20:25:20 adamfranco Exp $
  */
 require_once(HARMONI . 'DBHandler/MySQL/MySQLDatabase.class.php');
 
@@ -20,7 +20,7 @@ require_once(HARMONI . 'DBHandler/MySQL/MySQLDatabase.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQLSelectQueryResultTestCase.class.php,v 1.7 2005/08/17 19:46:59 adamfranco Exp $
+ * @version $Id: MySQLSelectQueryResultTestCase.class.php,v 1.8 2007/09/04 20:25:20 adamfranco Exp $
  */
 
 class MySQLSelectQueryResultTestCase extends UnitTestCase {
@@ -46,12 +46,12 @@ class MySQLSelectQueryResultTestCase extends UnitTestCase {
 	{ 
 		// perhaps, initialize $obj here
 		// connect to some database and do a select query
-		$this->db =& new MySQLDatabase("localhost", "test", "test", "test");
+		$this->db = new MySQLDatabase("localhost", "test", "test", "test");
 		$this->db->connect();
 		
 		$this->rid = $this->db->_query("SELECT * FROM test LIMIT 100,4"); 
 		// create the query result
-		$this->queryResult =& new MySQLSelectQueryResult($this->rid, $this->db->_linkId);
+		$this->queryResult = new MySQLSelectQueryResult($this->rid, $this->db->_linkId);
 	} 
 	
 	/**

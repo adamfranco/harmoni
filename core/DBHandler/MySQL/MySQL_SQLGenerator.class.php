@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQL_SQLGenerator.class.php,v 1.12 2005/04/07 16:33:24 adamfranco Exp $
+ * @version $Id: MySQL_SQLGenerator.class.php,v 1.13 2007/09/04 20:25:19 adamfranco Exp $
  */
  
 require_once(HARMONI."DBHandler/SQLGenerator.interface.php");
@@ -19,7 +19,7 @@ require_once(HARMONI."DBHandler/SQLGenerator.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQL_SQLGenerator.class.php,v 1.12 2005/04/07 16:33:24 adamfranco Exp $
+ * @version $Id: MySQL_SQLGenerator.class.php,v 1.13 2007/09/04 20:25:19 adamfranco Exp $
  */
 
 class MySQL_SQLGenerator extends SQLGeneratorInterface {
@@ -32,9 +32,9 @@ class MySQL_SQLGenerator extends SQLGeneratorInterface {
 	 * @static
 	 * @access public
 	 */
-	function generateSQLQuery(& $query) {
+	function generateSQLQuery($query) {
 		// ** parameter validation
-		$queryRule =& ExtendsValidatorRule::getRule("QueryInterface");
+		$queryRule = ExtendsValidatorRule::getRule("QueryInterface");
 		ArgumentValidator::validate($query, $queryRule, true);
 		// ** end of parameter validation
 
@@ -73,9 +73,9 @@ class MySQL_SQLGenerator extends SQLGeneratorInterface {
 	 * @access public
 	 * @static
 	 */
-	function generateGenericSQLQuery(& $query) {
+	function generateGenericSQLQuery($query) {
 		// ** parameter validation
-		$queryRule =& ExtendsValidatorRule::getRule("GenericSQLQueryInterface");
+		$queryRule = ExtendsValidatorRule::getRule("GenericSQLQueryInterface");
 		ArgumentValidator::validate($query, $queryRule, true);
 		// ** end of parameter validation
 
@@ -100,9 +100,9 @@ class MySQL_SQLGenerator extends SQLGeneratorInterface {
 	 * @access public
 	 * @static
 	 */
-	function generateInsertSQLQuery(& $query) {
+	function generateInsertSQLQuery($query) {
 		// ** parameter validation
-		$queryRule =& ExtendsValidatorRule::getRule("InsertQueryInterface");
+		$queryRule = ExtendsValidatorRule::getRule("InsertQueryInterface");
 		ArgumentValidator::validate($query, $queryRule, true);
 		// ** end of parameter validation
 
@@ -163,9 +163,9 @@ class MySQL_SQLGenerator extends SQLGeneratorInterface {
 	 * @static
 	 * @access public
 	 */
-	function generateUpdateSQLQuery(& $query) {
+	function generateUpdateSQLQuery($query) {
 		// ** parameter validation
-		$queryRule =& ExtendsValidatorRule::getRule("UpdateQueryInterface");
+		$queryRule = ExtendsValidatorRule::getRule("UpdateQueryInterface");
 		ArgumentValidator::validate($query, $queryRule, true);
 		// ** end of parameter validation
 
@@ -234,9 +234,9 @@ class MySQL_SQLGenerator extends SQLGeneratorInterface {
 	 * @static
 	 * @access public
 	 */
-	function generateDeleteSQLQuery(& $query) {
+	function generateDeleteSQLQuery($query) {
 		// ** parameter validation
-		$queryRule =& ExtendsValidatorRule::getRule("DeleteQueryInterface");
+		$queryRule = ExtendsValidatorRule::getRule("DeleteQueryInterface");
 		ArgumentValidator::validate($query, $queryRule, true);
 		// ** end of parameter validation
 
@@ -287,9 +287,9 @@ class MySQL_SQLGenerator extends SQLGeneratorInterface {
 	 * @return string A string representing the SELECT SQL query corresonding to the Query object.
 	 * @access public
 	 */
-	function generateSelectSQLQuery(& $query) {
+	function generateSelectSQLQuery($query) {
 		// ** parameter validation
-		$queryRule =& ExtendsValidatorRule::getRule("SelectQueryInterface");
+		$queryRule = ExtendsValidatorRule::getRule("SelectQueryInterface");
 		ArgumentValidator::validate($query, $queryRule, true);
 		// ** end of parameter validation
 

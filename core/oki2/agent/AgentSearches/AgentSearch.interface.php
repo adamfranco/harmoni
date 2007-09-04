@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AgentSearch.interface.php,v 1.5 2005/04/11 20:56:05 adamfranco Exp $
+ * @version $Id: AgentSearch.interface.php,v 1.6 2007/09/04 20:25:36 adamfranco Exp $
  */
 
 class AgentSearchInterface {
@@ -25,7 +25,7 @@ class AgentSearchInterface {
 	 * @access public
 	 * @since 11/10/04
 	 */
-	function &getAgentsBySearch ( & $searchCriteria) {
+	function getAgentsBySearch ( $searchCriteria) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -40,7 +40,7 @@ class AgentSearchInterface {
 	 * @access public
 	 * @since 11/10/04
 	 */
-	function &getGroupsBySearch ( & $searchCriteria) {
+	function getGroupsBySearch ( $searchCriteria) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 }

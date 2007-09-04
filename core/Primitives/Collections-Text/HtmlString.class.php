@@ -10,7 +10,7 @@ require_once(dirname(__FILE__)."/String.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HtmlString.class.php,v 1.13 2007/04/12 15:37:22 adamfranco Exp $
+ * @version $Id: HtmlString.class.php,v 1.14 2007/09/04 20:25:26 adamfranco Exp $
  */
 class HtmlString 
 	extends String 
@@ -28,8 +28,8 @@ class HtmlString
 	 * @access public
 	 * @static
 	 */
-	function &withValue($value) {
-		$string =& new HtmlString($value);
+	function withValue($value) {
+		$string = new HtmlString($value);
 		return $string;
 	}
 
@@ -42,8 +42,8 @@ class HtmlString
 	 * @access public
 	 * @static
 	 */
-	function &fromString($aString) {
-		$string =& new HtmlString($aString);
+	function fromString($aString) {
+		$string = new HtmlString($aString);
 		return $string;
 	}
 
@@ -235,7 +235,7 @@ class HtmlString
 	 * @access public
 	 * @since 1/27/06
 	 */
-	function ensureNesting ($tag, &$tags) {		
+	function ensureNesting ($tag, $tags) {		
 		if (count($tags))
 			$lastTag = $tags[count($tags) - 1];
 		else

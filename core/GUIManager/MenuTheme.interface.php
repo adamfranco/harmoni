@@ -14,7 +14,7 @@ require_once(HARMONI."GUIManager/Menu.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MenuTheme.interface.php,v 1.1 2005/03/10 03:18:18 dobomode Exp $
+ * @version $Id: MenuTheme.interface.php,v 1.2 2007/09/04 20:25:21 adamfranco Exp $
  **/
 class MenuThemeInterface {
 	
@@ -26,7 +26,7 @@ class MenuThemeInterface {
 	 * menu that is being added. Only one menu can exist at any given level. 
 	 * Levels cannot be skipped. Levels allow the user to create a hierarchy of menus.
 	 **/
-	function addMenu(& $menu, $level) {
+	function addMenu($menu, $level) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -39,7 +39,7 @@ class MenuThemeInterface {
 	 * @return ref object The <code>Menu</code> object at the specified level, or <code>NULL</code>
 	 * if no menu was found.
 	 **/
-	function getMenu(& $menu, $level) {
+	function getMenu($menu, $level) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	

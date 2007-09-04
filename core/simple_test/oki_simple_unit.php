@@ -10,7 +10,7 @@
 * @copyright Copyright &copy; 2006, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: oki_simple_unit.php,v 1.5 2006/12/12 17:18:18 adamfranco Exp $
+* @version $Id: oki_simple_unit.php,v 1.6 2007/09/04 20:25:50 adamfranco Exp $
 */
 
  if (!defined("SIMPLE_TEST")) {
@@ -28,7 +28,7 @@
 		
 		
 		//@TODO  currently assumes the types are not null
-		function assertNotEqualTypes(&$typeA, &$typeB) {  
+		function assertNotEqualTypes($typeA, $typeB) {  
 			if(!$typeA->isEqual($typeB)){
 				$this->assertTrue(true);
 			}else{
@@ -37,7 +37,7 @@
 			}
 		}
 		
-		function assertEqualTypes(&$typeA,&$typeB){
+		function assertEqualTypes($typeA,$typeB){
 			
 			//parameter validation
 			ArgumentValidator::validate($typeA, ExtendsValidatorRule::getRule("Type"), true);
@@ -73,7 +73,7 @@
 			
 		}
 		
-		function assertEqualIds(&$idA,&$idB){
+		function assertEqualIds($idA,$idB){
 			
 			
 			//parameter validation
@@ -91,7 +91,7 @@
 		}
 		
 		//currently assumes the ids are not null
-		function assertNotEqualIds(&$idA,&$idB){
+		function assertNotEqualIds($idA,$idB){
 			
 			
 			//parameter validation
@@ -110,11 +110,11 @@
 		}
 		
 		//currently assumes the ids are not null
-		function assertHaveEqualIds(&$thingA,&$thingB){
+		function assertHaveEqualIds($thingA,$thingB){
 			
 			
-			$idA =& $thingA->getId();
-			$idB =& $thingB->getId();
+			$idA =$thingA->getId();
+			$idB =$thingB->getId();
 			
 			if($idA->isEqual($idB)){
 				$this->assertTrue(true);
@@ -146,7 +146,7 @@
 			print "(";
 			while($iter->hasNext()){
 				
-					$item =& $iter->next();
+					$item =$iter->next();
 				print $item->getDisplayName().",";
 					if($name == $item->getDisplayName()){
 						$bool=true;;
@@ -158,8 +158,8 @@
 				return $bool;*/
 			
 				while($iter->hasNext()){
-					//$am =& Services::GetService("AgentManager");
-					$item =& $iter->next();
+					//$am = Services::GetService("AgentManager");
+					$item =$iter->next();
 					if($name == $item->getDisplayName()){
 						return true;
 					}
@@ -172,8 +172,8 @@
 			$iter->_i=-1;
 			
 				while($iter->hasNext()){
-					//$am =& Services::GetService("AgentManager");
-					$item =& $iter->next();
+					//$am = Services::GetService("AgentManager");
+					$item =$iter->next();
 					if($goal === $item){
 						return true;
 					}
@@ -201,7 +201,7 @@
 				//this relies on usage of the HarmoniIterator
 				$iter->_i=-1;
 				while($iter->hasNextId()){
-					$item =& $iter->nextId();
+					$item =$iter->nextId();
 					if($item->isEqual($id)){						
 						return true;
 					}
@@ -218,7 +218,7 @@
 				//this relies on usage of the HarmoniIterator
 				$iter->_i=-1;
 				while($iter->hasNext()){
-					$item =& $iter->next();
+					$item =$iter->next();
 					if($item->isEqual($type)){						
 						return true;
 					}
@@ -230,9 +230,9 @@
 		function assertIteratorLacksItemWithId($iter, $theItem){
 				//this relies on usage of the HarmoniIterator
 				$iter->_i=-1;
-				$id =& $theItem->getId();
+				$id =$theItem->getId();
 				while($iter->hasNext()){
-					$item =& $iter->next();
+					$item =$iter->next();
 					if($id->isEqual($item->getId())){						
 						$this->assertFalse(true);
 						print "<p align=center><font size=4 color=#FF0044> Iterator should not have '".$theItem->getDisplayName()."'[".$id->getIdString()."] but...</font></p>";
@@ -246,9 +246,9 @@
 		function assertIteratorHasItemWithId($iter, $theItem){
 				//this relies on usage of the HarmoniIterator
 				$iter->_i=-1;
-				$id =& $theItem->getId();
+				$id =$theItem->getId();
 				while($iter->hasNext()){
-					$item =& $iter->next();
+					$item =$iter->next();
 					if($id->isEqual($item->getId())){						
 						$this->assertTrue(true);
 						return;
@@ -266,11 +266,11 @@
 				print "<p align=center><font size=4 color=#88FF66> Iterator contains: {";
 				$first = true;
 				while($iter->hasNext()){					
-					$item =& $iter->next();
+					$item =$iter->next();
 					if(!$first){
 						print ", ";
 					}
-					$id =& $item->getId();
+					$id =$item->getId();
 					print "'".$item->getDisplayName()."'[".$id->getIdString()."]";
 					$first=false;
 				}

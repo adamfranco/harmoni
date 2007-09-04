@@ -10,7 +10,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: test.php,v 1.4 2005/04/07 16:33:30 adamfranco Exp $
+ * @version $Id: test.php,v 1.5 2007/09/04 20:25:53 adamfranco Exp $
  **/
 
 require_once("../harmoni.inc.php");
@@ -23,11 +23,11 @@ require_once(HARMONI."errorHandler/ErrorHandler.class.php");
     require_once(SIMPLE_TEST . 'simple_unit.php');
     require_once(SIMPLE_TEST . 'dobo_simple_html_test.php');
 
-$errorHandler =& Services::getService("ErrorHandler");
+$errorHandler = Services::getService("ErrorHandler");
 $errorHandler->setDebugMode(true);
 
 
-    $test =& new GroupTest('Global Test: All Tests');
+    $test = new GroupTest('Global Test: All Tests');
     $test->addTestFile(HARMONI.'authenticationHandler/tests/test.php');
     $test->addTestFile(HARMONI.'authorizationHandler/tests/test.php');
     $test->addTestFile(HARMONI.'DBHandler/tests/test.php');

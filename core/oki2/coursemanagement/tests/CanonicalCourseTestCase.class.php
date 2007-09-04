@@ -53,7 +53,7 @@
         function TestOfCanonicalCourse() {
         	
         	
-        	$cm =& Services::getService("CourseManagement");
+        	$cm = Services::getService("CourseManagement");
         	
         	$this->write(7,"Canonical Course Test");
         	
@@ -62,12 +62,12 @@
           	$title = "Intro to Computer Science";
           	$number = "CS101";
           	$description = "Yeah!  Buggles!";
-          	$courseType =& new Type("CourseManagement", "edu.middlebury", "DED", "Deductive Reasoning");
-          	$courseStatusType =& new Type("CourseManagement", "edu.middlebury", "Available", "You can still register.");
+          	$courseType = new Type("CourseManagement", "edu.middlebury", "DED", "Deductive Reasoning");
+          	$courseStatusType = new Type("CourseManagement", "edu.middlebury", "Available", "You can still register.");
           	$credits = "3.14159";
           	
        
-          	$cs101 =& $cm->createCanonicalCourse($title, $number, $description, 
+          	$cs101 =$cm->createCanonicalCourse($title, $number, $description, 
 			  																	$courseType, $courseStatusType,
 												                                $credits);
    		
@@ -85,7 +85,7 @@
           	
           	$this->write(4,"Test of getCanonicalCourse()");
           	
-          	$cs101a =& $cm->getCanonicalCourse($cs101->getID());
+          	$cs101a =$cm->getCanonicalCourse($cs101->getID());
           	
           	
           	$this->assertEqual($cs101->getID(),$cs101a->getID());
@@ -102,7 +102,7 @@
           	$this->write(4,"Test of basic update methods");
           	
           	
-          	$courseStatusType2 =& new Type("CourseManagement", "edu.middlebury", "No longer offered", "You're out of luck");
+          	$courseStatusType2 = new Type("CourseManagement", "edu.middlebury", "No longer offered", "You're out of luck");
          	
           	$cs101->updateDisplayName("Economic Statistics");          	
 			$cs101->updateTitle("Snore");					
@@ -120,7 +120,7 @@
 			
 			$this->write(4,"Test of topics");
 			
-			$iter =& $cs101->getTopics();
+			$iter =$cs101->getTopics();
 			$this->assertTrue(!$this->stringIteratorHas($iter, "Buggles"));
 			$this->assertTrue(!$this->stringIteratorHas($iter, "Computers"));
 			$this->assertTrue(!$this->stringIteratorHas($iter, "ScharBraid"));
@@ -129,7 +129,7 @@
 			$cs101->addTopic("Computers");
 			$cs101->addTopic("ScharBraid");
 			
-			$iter =& $cs101->getTopics();
+			$iter =$cs101->getTopics();
 			$this->assertTrue($this->stringIteratorHas($iter, "Buggles"));
 			$this->assertTrue($this->stringIteratorHas($iter, "Computers"));
 			$this->assertTrue($this->stringIteratorHas($iter, "ScharBraid"));
@@ -138,14 +138,14 @@
 			$cs101->removeTopic("Buggles");
 			$cs101->removeTopic("Computers");
 			
-			$iter =& $cs101->getTopics();
+			$iter =$cs101->getTopics();
 			$this->assertTrue(!$this->stringIteratorHas($iter, "Buggles"));
 			$this->assertTrue(!$this->stringIteratorHas($iter, "Computers"));
 			$this->assertTrue($this->stringIteratorHas($iter, "ScharBraid"));
 			
 			$cs101->removeTopic("ScharBraid");
 			
-			$iter =& $cs101->getTopics();
+			$iter =$cs101->getTopics();
 			$this->assertTrue(!$this->stringIteratorHas($iter, "Buggles"));
 			$this->assertTrue(!$this->stringIteratorHas($iter, "Computers"));
 			$this->assertTrue(!$this->stringIteratorHas($iter, "ScharBraid"));
@@ -155,38 +155,38 @@
 			$title = "Comp sci numbers";
           	$number = "CS102";
           	$description = "Just be a math major, okay";
-          	$courseType2 =& new Type("CourseManagement", "edu.middlebury", "Nastiness", "Free roadkill");
-          	$courseStatusType =& new Type("CourseManagement", "edu.middlebury", "Available", "You can still register.");
+          	$courseType2 = new Type("CourseManagement", "edu.middlebury", "Nastiness", "Free roadkill");
+          	$courseStatusType = new Type("CourseManagement", "edu.middlebury", "Available", "You can still register.");
           	$credits = "1";
           	
        
-          	$cs102 =& $cs101->createCanonicalCourse($title, $number, $description, 
+          	$cs102 =$cs101->createCanonicalCourse($title, $number, $description, 
 			  																	$courseType2, $courseStatusType,
 												                                $credits);
 												                                
 			$title = "Not a course";
           	$number = "CS103";
           	$description = "No really";
-          	$courseType =& new Type("CourseManagement", "edu.middlebury", "DED", "Deductive Reasoning");
-          	$courseStatusType =& new Type("CourseManagement", "edu.middlebury", "Available", "You can still register.");
+          	$courseType = new Type("CourseManagement", "edu.middlebury", "DED", "Deductive Reasoning");
+          	$courseStatusType = new Type("CourseManagement", "edu.middlebury", "Available", "You can still register.");
           	$credits = "0";
           	
        
-          	$cs103 =& $cs101->createCanonicalCourse($title, $number, $description, 
+          	$cs103 =$cs101->createCanonicalCourse($title, $number, $description, 
 			  																	$courseType, $courseStatusType,
 												                                $credits);
 			
 			$this->write(1,"Group A:");									                                
 			
-			$iter1 =& $cs101->getEquivalentCourses();
+			$iter1 =$cs101->getEquivalentCourses();
 			$this->assertIteratorLacksItemWithId($iter1, $cs101);
 			$this->assertIteratorLacksItemWithId($iter1, $cs102);
 			$this->assertIteratorLacksItemWithId($iter1, $cs103);
-			$iter1 =& $cs102->getEquivalentCourses();
+			$iter1 =$cs102->getEquivalentCourses();
 			$this->assertIteratorLacksItemWithId($iter1, $cs101);
 			$this->assertIteratorLacksItemWithId($iter1, $cs102);
 			$this->assertIteratorLacksItemWithId($iter1, $cs103);
-			$iter1 =& $cs103->getEquivalentCourses();
+			$iter1 =$cs103->getEquivalentCourses();
 			$this->assertIteratorLacksItemWithId($iter1, $cs101);
 			$this->assertIteratorLacksItemWithId($iter1, $cs102);
 			$this->assertIteratorLacksItemWithId($iter1, $cs103);
@@ -195,15 +195,15 @@
 			
 			$cs101->addEquivalentCourse($cs102->getId());								                                
 			
-			$iter1 =& $cs101->getEquivalentCourses();
+			$iter1 =$cs101->getEquivalentCourses();
 			$this->assertIteratorLacksItemWithId($iter1, $cs101);
 			$this->assertIteratorHasItemWithId($iter1, $cs102);
 			$this->assertIteratorLacksItemWithId($iter1, $cs103);
-			$iter1 =& $cs102->getEquivalentCourses();
+			$iter1 =$cs102->getEquivalentCourses();
 			$this->assertIteratorHasItemWithId($iter1, $cs101);
 			$this->assertIteratorLacksItemWithId($iter1, $cs102);
 			$this->assertIteratorLacksItemWithId($iter1, $cs103);
-			$iter1 =& $cs103->getEquivalentCourses();
+			$iter1 =$cs103->getEquivalentCourses();
 			$this->assertIteratorLacksItemWithId($iter1, $cs101);
 			$this->assertIteratorLacksItemWithId($iter1, $cs102);
 			$this->assertIteratorLacksItemWithId($iter1, $cs103);
@@ -211,15 +211,15 @@
 			$cs101->removeEquivalentCourse($cs102->getId());	
 			
 
-			$iter1 =& $cs101->getEquivalentCourses();
+			$iter1 =$cs101->getEquivalentCourses();
 			$this->assertIteratorLacksItemWithId($iter1, $cs101);
 			$this->assertIteratorLacksItemWithId($iter1, $cs102);
 			$this->assertIteratorLacksItemWithId($iter1, $cs103);
-			$iter1 =& $cs102->getEquivalentCourses();
+			$iter1 =$cs102->getEquivalentCourses();
 			$this->assertIteratorLacksItemWithId($iter1, $cs101);
 			$this->assertIteratorLacksItemWithId($iter1, $cs102);
 			$this->assertIteratorLacksItemWithId($iter1, $cs103);
-			$iter1 =& $cs103->getEquivalentCourses();
+			$iter1 =$cs103->getEquivalentCourses();
 			$this->assertIteratorLacksItemWithId($iter1, $cs101);
 			$this->assertIteratorLacksItemWithId($iter1, $cs102);
 			$this->assertIteratorLacksItemWithId($iter1, $cs103);
@@ -227,15 +227,15 @@
 			$this->write(1,"Group D:");	
 			$cs102->addEquivalentCourse($cs101->getId());								                                
 			
-			$iter1 =& $cs101->getEquivalentCourses();
+			$iter1 =$cs101->getEquivalentCourses();
 			$this->assertIteratorLacksItemWithId($iter1, $cs101);
 			$this->assertIteratorHasItemWithId($iter1, $cs102);
 			$this->assertIteratorLacksItemWithId($iter1, $cs103);
-			$iter1 =& $cs102->getEquivalentCourses();
+			$iter1 =$cs102->getEquivalentCourses();
 			$this->assertIteratorHasItemWithId($iter1, $cs101);
 			$this->assertIteratorLacksItemWithId($iter1, $cs102);
 			$this->assertIteratorLacksItemWithId($iter1, $cs103);
-			$iter1 =& $cs103->getEquivalentCourses();
+			$iter1 =$cs103->getEquivalentCourses();
 			$this->assertIteratorLacksItemWithId($iter1, $cs101);
 			$this->assertIteratorLacksItemWithId($iter1, $cs102);
 			$this->assertIteratorLacksItemWithId($iter1, $cs103);
@@ -243,15 +243,15 @@
 			$this->write(1,"Group E:");	
 			$cs103->addEquivalentCourse($cs101->getId());
 			
-			$iter1 =& $cs101->getEquivalentCourses();
+			$iter1 =$cs101->getEquivalentCourses();
 			$this->assertIteratorLacksItemWithId($iter1, $cs101);
 			$this->assertIteratorHasItemWithId($iter1, $cs102);
 			$this->assertIteratorHasItemWithId($iter1, $cs103);
-			$iter1 =& $cs102->getEquivalentCourses();
+			$iter1 =$cs102->getEquivalentCourses();
 			$this->assertIteratorHasItemWithId($iter1, $cs101);
 			$this->assertIteratorLacksItemWithId($iter1, $cs102);
 			$this->assertIteratorHasItemWithId($iter1, $cs103);
-			$iter1 =& $cs103->getEquivalentCourses();
+			$iter1 =$cs103->getEquivalentCourses();
 			$this->assertIteratorHasItemWithId($iter1, $cs101);
 			$this->assertIteratorHasItemWithId($iter1, $cs102);
 			$this->assertIteratorLacksItemWithId($iter1, $cs103);
@@ -263,15 +263,15 @@
 			
 			
 			
-			$iter1 =& $cs101->getEquivalentCourses();
+			$iter1 =$cs101->getEquivalentCourses();
 			$this->assertIteratorLacksItemWithId($iter1, $cs101);
 			$this->assertIteratorLacksItemWithId($iter1, $cs102);
 			$this->assertIteratorLacksItemWithId($iter1, $cs103);
-			$iter1 =& $cs102->getEquivalentCourses();
+			$iter1 =$cs102->getEquivalentCourses();
 			$this->assertIteratorLacksItemWithId($iter1, $cs101);
 			$this->assertIteratorLacksItemWithId($iter1, $cs102);
 			$this->assertIteratorHasItemWithId($iter1, $cs103);
-			$iter1 =& $cs103->getEquivalentCourses();
+			$iter1 =$cs103->getEquivalentCourses();
 			$this->assertIteratorLacksItemWithId($iter1, $cs101);
 			$this->assertIteratorHasItemWithId($iter1, $cs102);
 			$this->assertIteratorLacksItemWithId($iter1, $cs103);
@@ -281,15 +281,15 @@
 			$cs102->addEquivalentCourse($cs101->getId());
 			$cs103->removeEquivalentCourse($cs103->getId());
 			
-			$iter1 =& $cs101->getEquivalentCourses();
+			$iter1 =$cs101->getEquivalentCourses();
 			$this->assertIteratorLacksItemWithId($iter1, $cs101);
 			$this->assertIteratorHasItemWithId($iter1, $cs102);
 			$this->assertIteratorLacksItemWithId($iter1, $cs103);
-			$iter1 =& $cs102->getEquivalentCourses();
+			$iter1 =$cs102->getEquivalentCourses();
 			$this->assertIteratorHasItemWithId($iter1, $cs101);
 			$this->assertIteratorLacksItemWithId($iter1, $cs102);
 			$this->assertIteratorLacksItemWithId($iter1, $cs103);
-			$iter1 =& $cs103->getEquivalentCourses();
+			$iter1 =$cs103->getEquivalentCourses();
 			$this->assertIteratorLacksItemWithId($iter1, $cs101);
 			$this->assertIteratorLacksItemWithId($iter1, $cs102);
 			$this->assertIteratorLacksItemWithId($iter1, $cs103);
@@ -299,12 +299,12 @@
 			$title = "Also Not a course";
           	$number = "CS104";
           	$description = "No really really";
-          	$courseType =& new Type("CourseManagement", "edu.middlebury", "DED", "Deductive Reasoning");
-          	$courseStatusType =& new Type("CourseManagement", "edu.middlebury", "Available", "You can still register.");
+          	$courseType = new Type("CourseManagement", "edu.middlebury", "DED", "Deductive Reasoning");
+          	$courseStatusType = new Type("CourseManagement", "edu.middlebury", "Available", "You can still register.");
           	$credits = "0";
           	
        
-          	$cs104 =& $cs102->createCanonicalCourse($title, $number, $description, 
+          	$cs104 =$cs102->createCanonicalCourse($title, $number, $description, 
 			  																	$courseType, $courseStatusType,
 												                                $credits);												                                
 												                                
@@ -312,12 +312,12 @@
 			
 			$this->write(1,"Group H:");	
 			
-			$iter1 =& $cs101->getEquivalentCourses();
+			$iter1 =$cs101->getEquivalentCourses();
 			$this->assertIteratorLacksItemWithId($iter1, $cs101);
 			$this->assertIteratorHasItemWithId($iter1, $cs102);
 			$this->assertIteratorLacksItemWithId($iter1, $cs103);
 			$this->assertIteratorLacksItemWithId($iter1, $cs104);
-			$iter1 =& $cs103->getEquivalentCourses();
+			$iter1 =$cs103->getEquivalentCourses();
 			$this->assertIteratorLacksItemWithId($iter1, $cs101);
 			$this->assertIteratorLacksItemWithId($iter1, $cs102);
 			$this->assertIteratorLacksItemWithId($iter1, $cs103);
@@ -329,12 +329,12 @@
 			$this->write(1,"Group I:");	
 			
 			
-			$iter1 =& $cs101->getEquivalentCourses();
+			$iter1 =$cs101->getEquivalentCourses();
 			$this->assertIteratorLacksItemWithId($iter1, $cs101);
 			$this->assertIteratorHasItemWithId($iter1, $cs102);
 			$this->assertIteratorHasItemWithId($iter1, $cs103);
 			$this->assertIteratorHasItemWithId($iter1, $cs104);
-			$iter1 =& $cs103->getEquivalentCourses();
+			$iter1 =$cs103->getEquivalentCourses();
 			$this->assertIteratorHasItemWithId($iter1, $cs101);
 			$this->assertIteratorHasItemWithId($iter1, $cs102);
 			$this->assertIteratorLacksItemWithId($iter1, $cs103);
@@ -344,12 +344,12 @@
 			
 			$this->write(1,"Group J:");	
 
-			$iter1 =& $cs101->getEquivalentCourses();
+			$iter1 =$cs101->getEquivalentCourses();
 			$this->assertIteratorLacksItemWithId($iter1, $cs101);
 			$this->assertIteratorLacksItemWithId($iter1, $cs102);
 			$this->assertIteratorLacksItemWithId($iter1, $cs103);
 			$this->assertIteratorLacksItemWithId($iter1, $cs104);
-			$iter1 =& $cs103->getEquivalentCourses();
+			$iter1 =$cs103->getEquivalentCourses();
 			$this->assertIteratorLacksItemWithId($iter1, $cs101);
 			$this->assertIteratorHasItemWithId($iter1, $cs102);
 			$this->assertIteratorLacksItemWithId($iter1, $cs103);
@@ -363,106 +363,106 @@
 			$title = "Lone course";
           	$number = "CS105";
           	$description = "Only the lonely";
-          	$courseType =& new Type("CourseManagement", "edu.middlebury", "DED", "Deductive Reasoning");
-          	$courseStatusType =& new Type("CourseManagement", "edu.middlebury", "Available", "You can still register.");
+          	$courseType = new Type("CourseManagement", "edu.middlebury", "DED", "Deductive Reasoning");
+          	$courseStatusType = new Type("CourseManagement", "edu.middlebury", "Available", "You can still register.");
           	$credits = "2";
           	
        
-          	$cs105 =& $cm->createCanonicalCourse($title, $number, $description, 
+          	$cs105 =$cm->createCanonicalCourse($title, $number, $description, 
 			  																	$courseType, $courseStatusType,
 												                                $credits);		
 			
 			$this->write(1,"Group A:");										                                
 
 
-			$iter1 =& $cm->getCanonicalCourses();
+			$iter1 =$cm->getCanonicalCourses();
 			$this->assertIteratorHasItemWithId($iter1, $cs101);
 			$this->assertIteratorHasItemWithId($iter1, $cs102);
 			$this->assertIteratorHasItemWithId($iter1, $cs103);
 			$this->assertIteratorHasItemWithId($iter1, $cs104);
 			$this->assertIteratorHasItemWithId($iter1, $cs105);
-			$iter1 =& $cs101->getCanonicalCourses();
+			$iter1 =$cs101->getCanonicalCourses();
 			$this->assertIteratorLacksItemWithId($iter1, $cs101);
 			$this->assertIteratorHasItemWithId($iter1, $cs102);
 			$this->assertIteratorHasItemWithId($iter1, $cs103);
 			$this->assertIteratorLacksItemWithId($iter1, $cs104);
 			$this->assertIteratorLacksItemWithId($iter1, $cs105);
-			$iter1 =& $cs102->getCanonicalCourses();
+			$iter1 =$cs102->getCanonicalCourses();
 			$this->assertIteratorLacksItemWithId($iter1, $cs101);
 			$this->assertIteratorLacksItemWithId($iter1, $cs102);
 			$this->assertIteratorLacksItemWithId($iter1, $cs103);
 			$this->assertIteratorHasItemWithId($iter1, $cs104);
 			$this->assertIteratorLacksItemWithId($iter1, $cs105);
-			$iter1 =& $cs103->getCanonicalCourses();
+			$iter1 =$cs103->getCanonicalCourses();
 			$this->assertFalse($iter1->hasNext());
-			$iter1 =& $cs104->getCanonicalCourses();
+			$iter1 =$cs104->getCanonicalCourses();
 			$this->assertFalse($iter1->hasNext());
-			$iter1 =& $cs105->getCanonicalCourses();
+			$iter1 =$cs105->getCanonicalCourses();
 			$this->assertFalse($iter1->hasNext());
 			
 			$this->write(1,"Group B:");										                                
 
-			$iter1 =& $cm->getCanonicalCoursesByType($courseType);
+			$iter1 =$cm->getCanonicalCoursesByType($courseType);
 			$this->assertIteratorHasItemWithId($iter1, $cs101);
 			$this->assertIteratorLacksItemWithId($iter1, $cs102);
 			$this->assertIteratorHasItemWithId($iter1, $cs103);
 			$this->assertIteratorHasItemWithId($iter1, $cs104);
 			$this->assertIteratorHasItemWithId($iter1, $cs105); 
-			$iter1 =& $cs101->getCanonicalCoursesByType($courseType);
+			$iter1 =$cs101->getCanonicalCoursesByType($courseType);
 			$this->assertIteratorLacksItemWithId($iter1, $cs101);
 			$this->assertIteratorLacksItemWithId($iter1, $cs102);
 			$this->assertIteratorHasItemWithId($iter1, $cs103);
 			$this->assertIteratorLacksItemWithId($iter1, $cs104);
 			$this->assertIteratorLacksItemWithId($iter1, $cs105);
-			$iter1 =& $cs102->getCanonicalCoursesByType($courseType);
+			$iter1 =$cs102->getCanonicalCoursesByType($courseType);
 			$this->assertIteratorLacksItemWithId($iter1, $cs101);
 			$this->assertIteratorLacksItemWithId($iter1, $cs102);
 			$this->assertIteratorLacksItemWithId($iter1, $cs103);
 			$this->assertIteratorHasItemWithId($iter1, $cs104);
 			$this->assertIteratorLacksItemWithId($iter1, $cs105);
-			$iter1 =& $cs103->getCanonicalCoursesByType($courseType);
+			$iter1 =$cs103->getCanonicalCoursesByType($courseType);
 			$this->assertFalse($iter1->hasNext());
-			$iter1 =& $cs104->getCanonicalCoursesByType($courseType);
+			$iter1 =$cs104->getCanonicalCoursesByType($courseType);
 			$this->assertFalse($iter1->hasNext());
-			$iter1 =& $cs105->getCanonicalCoursesByType($courseType);
+			$iter1 =$cs105->getCanonicalCoursesByType($courseType);
 			$this->assertFalse($iter1->hasNext());
 			
 			$this->write(1,"Group C:");										                                
 
-			$iter1 =& $cm->getCanonicalCoursesByType($courseType2);
+			$iter1 =$cm->getCanonicalCoursesByType($courseType2);
 			$this->assertIteratorLacksItemWithId($iter1, $cs101);
 			$this->assertIteratorHasItemWithId($iter1, $cs102);
 			$this->assertIteratorLacksItemWithId($iter1, $cs103);
 			$this->assertIteratorLacksItemWithId($iter1, $cs104);
 			$this->assertIteratorLacksItemWithId($iter1, $cs105);
-			$iter1 =& $cs101->getCanonicalCoursesByType($courseType2);
+			$iter1 =$cs101->getCanonicalCoursesByType($courseType2);
 			$this->assertIteratorLacksItemWithId($iter1, $cs101);
 			$this->assertIteratorHasItemWithId($iter1, $cs102);
 			$this->assertIteratorLacksItemWithId($iter1, $cs103);
 			$this->assertIteratorLacksItemWithId($iter1, $cs104);
 			$this->assertIteratorLacksItemWithId($iter1, $cs105);
-			$iter1 =& $cs102->getCanonicalCoursesByType($courseType2);
+			$iter1 =$cs102->getCanonicalCoursesByType($courseType2);
 			$this->assertIteratorLacksItemWithId($iter1, $cs101);
 			$this->assertIteratorLacksItemWithId($iter1, $cs102);
 			$this->assertIteratorLacksItemWithId($iter1, $cs103);
 			$this->assertIteratorLacksItemWithId($iter1, $cs104);
 			$this->assertIteratorLacksItemWithId($iter1, $cs105);
-			$iter1 =& $cs103->getCanonicalCoursesByType($courseType2);
+			$iter1 =$cs103->getCanonicalCoursesByType($courseType2);
 			$this->assertFalse($iter1->hasNext());
-			$iter1 =& $cs104->getCanonicalCoursesByType($courseType2);
+			$iter1 =$cs104->getCanonicalCoursesByType($courseType2);
 			$this->assertFalse($iter1->hasNext());
-			$iter1 =& $cs105->getCanonicalCoursesByType($courseType2);
+			$iter1 =$cs105->getCanonicalCoursesByType($courseType2);
 			$this->assertFalse($iter1->hasNext());
 			
 			
 			$this->write(4,"Test of getting Types");
 			
-			$iter1 =& $cm->getCourseTypes();
+			$iter1 =$cm->getCourseTypes();
 			$this->assertTrue($this->typeIteratorHas($iter1, $courseType));
 			$this->assertTrue($this->typeIteratorHas($iter1, $courseType2));
 			$this->assertTrue(!$this->typeIteratorHas($iter1,new Type("sadfsz234dfwerwer","sadfszd23fwerwer","asdfwer123")));
 			
-			$iter1 =& $cm->getCourseStatusTypes();
+			$iter1 =$cm->getCourseStatusTypes();
 			$this->assertTrue($this->typeIteratorHas($iter1, $courseStatusType));
 			$this->assertTrue($this->typeIteratorHas($iter1, $courseStatusType2));
 			$this->assertTrue(!$this->typeIteratorHas($iter1,new Type("sadfsz234dfwerwer","sadfszd23fwerwer","asdfwer123")));
@@ -498,31 +498,31 @@
 		//This function's name can't start with test or it is called without parameters
 		function goTestPropertiesFunctions($itemToTest){
 			$this->write(1,"Group A");
-			$courseType =& $itemToTest->getCourseType();
-			$correctType =& new Type("PropertiesType", $courseType->getAuthority(), "properties");  
-			$propertyType =& $itemToTest->getPropertyTypes();
+			$courseType =$itemToTest->getCourseType();
+			$correctType = new Type("PropertiesType", $courseType->getAuthority(), "properties");  
+			$propertyType =$itemToTest->getPropertyTypes();
 			$this->assertTrue($propertyType->hasNext());
 			if($propertyType->hasNext()){
-				$type1 =&  $propertyType->next();		
+				$type1 =  $propertyType->next();		
 				$this->assertEqualTypes($type1, $correctType);
 				$this->assertFalse($propertyType->hasNext());		
 			}
 			$this->write(1,"Group B");
 			//multiple objects of type properties?  Propertiesies!
-			$propertiesies =& $itemToTest->getProperties();
+			$propertiesies =$itemToTest->getProperties();
 			$this->assertTrue($propertiesies->hasNextProperties());
 			if($propertiesies->hasNextProperties()){
-				$properties =&  $propertiesies->nextProperties();
-				$type1 =&  $properties->getType();		
+				$properties =  $propertiesies->nextProperties();
+				$type1 =  $properties->getType();		
 				$this->assertEqualTypes($type1, $correctType);
 				$this->goTestProperties($properties,$itemToTest);
 				$this->assertFalse($propertiesies->hasNextProperties());		
 			}
 			$this->write(1,"Group C");
-			$properties =& $itemToTest->getPropertiesByType($correctType);
+			$properties =$itemToTest->getPropertiesByType($correctType);
 			$this->assertNotEqual($properties,null);
 			if(!is_null($properties)){
-				$type1 =&  $properties->getType();		
+				$type1 =  $properties->getType();		
 				$this->assertEqualTypes($type1, $correctType);
 				$this->goTestProperties($properties,$itemToTest);
 			}	
@@ -537,10 +537,10 @@
 			
 			
 			
-			$idManager =& Services::getService("Id");
+			$idManager = Services::getService("Id");
 			
 			
-			$keys =& $prop->getKeys();
+			$keys =$prop->getKeys();
 			
 			$key = "display_name";			
 			$this->assertTrue($this->primitiveIteratorHas($keys,$key));

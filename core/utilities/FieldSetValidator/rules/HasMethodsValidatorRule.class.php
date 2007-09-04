@@ -10,7 +10,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/ValidatorRule.interface.
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HasMethodsValidatorRule.class.php,v 1.5 2005/07/13 17:41:14 adamfranco Exp $
+ * @version $Id: HasMethodsValidatorRule.class.php,v 1.6 2007/09/04 20:25:55 adamfranco Exp $
  */ 
 class HasMethodsValidatorRule
 	extends ValidatorRuleInterface 
@@ -42,7 +42,7 @@ class HasMethodsValidatorRule
 	 * @access public
 	 * @return boolean TRUE, if the object extends the class; FALSE if it is not.
 	 **/
-	function check( & $val ) {
+	function check( $val ) {
 		$hasMethods = TRUE;
 		foreach ($this->_methods as $method) {
 			if (!method_exists($val, $method))
@@ -66,7 +66,7 @@ class HasMethodsValidatorRule
 	 * @static
 	 * @since 3/28/05
 	 */
-	function &getRule ($methodName) {
+	function getRule ($methodName) {
 		if (!isset($GLOBALS['validator_rules']) || !is_array($GLOBALS['validator_rules']))
 			$GLOBALS['validator_rules'] = array();
 		
@@ -74,7 +74,7 @@ class HasMethodsValidatorRule
 		$ruleKey = $class."(".strtolower($methodName).")";
 		
 		if (!isset($GLOBALS['validator_rules'][$ruleKey]))
-			$GLOBALS['validator_rules'][$ruleKey] =& new $class($methodName);
+			$GLOBALS['validator_rules'][$ruleKey] = new $class($methodName);
 		
 		return $GLOBALS['validator_rules'][$ruleKey];
 	}

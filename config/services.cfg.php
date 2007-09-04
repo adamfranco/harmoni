@@ -11,7 +11,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: services.cfg.php,v 1.58 2006/11/30 22:01:59 adamfranco Exp $
+ * @version $Id: services.cfg.php,v 1.59 2007/09/04 20:25:18 adamfranco Exp $
  */
 
 /* :: what services should we load? you can disable some to save on startup time :: */
@@ -153,7 +153,7 @@ if (!defined("LOAD_TAGGING")) 			define("LOAD_TAGGING", true);
  * Using this feature, your scripts can use the service like this:
  *
  *   Services::startManagerAsService(<user-defined name>, <OsidContext>, <configuration>);
- *   $var =& Service::getService(<user-defined name>);
+ *   $var = Service::getService(<user-defined name>);
  *	 ...
  *   $var->someMethod($someParameter,...);
  *   ...
@@ -190,7 +190,7 @@ Services::createServiceAlias("Property", "PropertyManager");
 require_once(HARMONI."utilities/ArgumentValidator.class.php");
 
 require_once(OKI2."osid/OsidContext.php");
-$context =& new OsidContext;
+$context = new OsidContext;
 $context->assignContext('harmoni', $harmoni);
 
 
@@ -202,7 +202,7 @@ require_once(HARMONI."errorHandler/throw.inc.php");
 Services::registerService("ErrorHandler","ErrorHandler");
 
 require_once(HARMONI."oki2/shared/ConfigurationProperties.class.php");
-$configuration =& new ConfigurationProperties;
+$configuration = new ConfigurationProperties;
 Services::startManagerAsService("ErrorHandler", $context, $configuration);
 
 
@@ -211,7 +211,7 @@ Services::startManagerAsService("ErrorHandler", $context, $configuration);
  */
 Services::registerService("UserError","ErrorHandler");
 require_once(HARMONI."oki2/shared/ConfigurationProperties.class.php");
-$configuration =& new ConfigurationProperties;
+$configuration = new ConfigurationProperties;
 Services::startManagerAsService("UserError", $context, $configuration);
 /**
  * load DBHandler
@@ -230,7 +230,7 @@ if (LOAD_DEBUG) {
 	require_once(HARMONI."debugHandler/debug.class.php");
 	
 	require_once(HARMONI."oki2/shared/ConfigurationProperties.class.php");
-	$configuration =& new ConfigurationProperties;
+	$configuration = new ConfigurationProperties;
 	Services::startManagerAsService("DebugManager", $context, $configuration);
 }
 

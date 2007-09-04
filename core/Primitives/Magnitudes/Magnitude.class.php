@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Magnitude.class.php,v 1.4 2006/11/30 22:02:10 adamfranco Exp $
+ * @version $Id: Magnitude.class.php,v 1.5 2007/09/04 20:25:27 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -30,7 +30,7 @@ require_once(dirname(__FILE__)."/../Objects/SObject.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Magnitude.class.php,v 1.4 2006/11/30 22:02:10 adamfranco Exp $
+ * @version $Id: Magnitude.class.php,v 1.5 2007/09/04 20:25:27 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -47,7 +47,7 @@ class Magnitude
 	 * @access public
 	 * @since 5/4/05
 	 */
-	function isLessThan ( &$aMagnitude ) {
+	function isLessThan ( $aMagnitude ) {
 		die("Method ".__FUNCTION__." in class ".__CLASS__
 			." should have been overridden by a child class.");
 	}
@@ -60,7 +60,7 @@ class Magnitude
 	 * @access public
 	 * @since 5/4/05
 	 */
-	function isEqualTo ( &$aMagnitude ) {
+	function isEqualTo ( $aMagnitude ) {
 		die("Method ".__FUNCTION__." in class ".__CLASS__
 		." should have been overridden by a child class.");
 	}
@@ -73,7 +73,7 @@ class Magnitude
 	 * @access public
 	 * @since 5/3/05
 	 */
-	function isGreaterThan ( &$aMagnitude ) {
+	function isGreaterThan ( $aMagnitude ) {
 		return $aMagnitude->isLessThan($this);
 	}
 	
@@ -85,7 +85,7 @@ class Magnitude
 	 * @access public
 	 * @since 5/3/05
 	 */
-	function isLessThanOrEqualTo ( &$aMagnitude ) {
+	function isLessThanOrEqualTo ( $aMagnitude ) {
 		return ! $this->isGreaterThan($aMagnitude);
 	}
 	
@@ -97,7 +97,7 @@ class Magnitude
 	 * @access public
 	 * @since 5/3/05
 	 */
-	function isGreaterThanOrEqualTo ( &$aMagnitude ) {
+	function isGreaterThanOrEqualTo ( $aMagnitude ) {
 		return ! $this->isLessThan($aMagnitude);
 	}
 	
@@ -111,7 +111,7 @@ class Magnitude
 	 * @access public
 	 * @since 5/4/05
 	 */
-	function isBetween ( &$min, &$max ) {
+	function isBetween ( $min, $max ) {
 		return ($this->isGreaterThanOrEqualTo($min) && $this->isLessThanOrEqualTo($max));
 	}
 	
@@ -124,7 +124,7 @@ class Magnitude
 	 * @access public
 	 * @since 5/4/05
 	 */
-	function &max ( &$aMagnitude ) {
+	function max ( $aMagnitude ) {
 		if ($this->isGreaterThan($aMagnitude))
 			return $this;
 		else
@@ -140,7 +140,7 @@ class Magnitude
 	 * @access public
 	 * @since 5/4/05
 	 */
-	function &min ( &$aMagnitude ) {
+	function min ( $aMagnitude ) {
 		if ($this->isLessThan($aMagnitude))
 			return $this;
 		else

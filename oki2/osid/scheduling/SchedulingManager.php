@@ -77,7 +77,7 @@ class SchedulingManager
      * 
      * @access public
      */
-    function &createScheduleItem ( $displayName, $description, &$agents, $start, $end, $masterIdentifier ) { 
+    function createScheduleItem ( $displayName, $description, $agents, $start, $end, $masterIdentifier ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -103,7 +103,7 @@ class SchedulingManager
      * 
      * @access public
      */
-    function deleteScheduleItem ( &$scheduleItemId ) { 
+    function deleteScheduleItem ( $scheduleItemId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -135,7 +135,7 @@ class SchedulingManager
      * 
      * @access public
      */
-    function &getAvailableTimes ( &$agents, $start, $end ) { 
+    function getAvailableTimes ( $agents, $start, $end ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -163,7 +163,7 @@ class SchedulingManager
      * 
      * @access public
      */
-    function &getScheduleItem ( &$scheduleItemId ) { 
+    function getScheduleItem ( $scheduleItemId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -197,7 +197,7 @@ class SchedulingManager
      * 
      * @access public
      */
-    function &getScheduleItems ( $start, $end, &$status ) { 
+    function getScheduleItems ( $start, $end, $status ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -234,7 +234,7 @@ class SchedulingManager
      * 
      * @access public
      */
-    function &getScheduleItemsForAgents ( $start, $end, &$status, &$agents ) { 
+    function getScheduleItemsForAgents ( $start, $end, $status, $agents ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -265,7 +265,7 @@ class SchedulingManager
      * 
      * @access public
      */
-    function &getScheduleItemsByMasterId ( $masterIdentifier ) { 
+    function getScheduleItemsByMasterId ( $masterIdentifier ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -288,7 +288,7 @@ class SchedulingManager
      * 
      * @access public
      */
-    function &getItemStatusTypes () { 
+    function getItemStatusTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -312,7 +312,7 @@ class SchedulingManager
      * 
      * @access public
      */
-    function &getCommitmentStatusTypes () { 
+    function getCommitmentStatusTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 }

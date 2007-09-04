@@ -12,7 +12,7 @@ require_once HARMONI."dataManager/record/StorableRecordSet.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordManager.class.php,v 1.26 2006/02/15 21:11:51 adamfranco Exp $
+ * @version $Id: RecordManager.class.php,v 1.27 2007/09/04 20:25:32 adamfranco Exp $
  *
  * @author Gabe Schine
  */
@@ -38,7 +38,7 @@ class RecordManager {
 	 * @return void
 	 */
 	function setCacheMode($mode) {
-		$mgr =& Services::getService("RecordManager");
+		$mgr = Services::getService("RecordManager");
 		$mgr->_setCacheMode($mode);
 	}
 
@@ -52,7 +52,7 @@ class RecordManager {
 	 * @param optional bool $dontLoad If set to TRUE will not attempt to load the RecordSet, only return it if it's already loaded.
 	 * @return ref object OR NULL if not found.
 	 */
-	function &fetchRecordSet($groupID, $dontLoad=false) {
+	function fetchRecordSet($groupID, $dontLoad=false) {
 		if ($dontLoad) {
 			return $this->getCachedRecordSet($groupID);
 		} else {
@@ -67,7 +67,7 @@ class RecordManager {
 	 * @access public
 	 * @return ref object
 	 */
-	function &getCachedRecordSet($id)
+	function getCachedRecordSet($id)
 	{
 		if (isset($this->_recordSetCache[$id])) {
 			return $this->_recordSetCache[$id];
@@ -84,12 +84,12 @@ class RecordManager {
 	 * @access public
 	 * @return void
 	 */
-	function cacheRecordSet(&$set, $force=false)
+	function cacheRecordSet($set, $force=false)
 	{
 		$id = $set->getID();
 		
 		if ($force || !isset($this->_recordSetCache[$id])) {
-			$this->_recordSetCache[$id] =& $set;
+			$this->_recordSetCache[$id] =$set;
 		}
 	}
 
@@ -100,7 +100,7 @@ class RecordManager {
 	 * @return void
 	 */
 	function uncacheRecordSet($id) {
-		$set =& $this->getCachedRecordSet($id);
+		$set =$this->getCachedRecordSet($id);
 		if ($set) {
 			foreach($set->getRecordIDs() as $i) {
 				$this->uncacheRecord($i);
@@ -125,7 +125,7 @@ class RecordManager {
 	 * @param ref object $record The {@link Record}.
 	 * @return array An indexed array of the group ids (integers).
 	 */
-	function getRecordSetIDsContaining(&$record) {
+	function getRecordSetIDsContaining($record) {
 		return $this->getRecordSetIDsContainingID($record->getID());
 	}
 	
@@ -137,12 +137,12 @@ class RecordManager {
 	 */
 	function getRecordSetIDsContainingID($id) {
 		if (!$id) return array(); // no ID
-		$query =& new SelectQuery;
+		$query = new SelectQuery;
 		$query->addTable("dm_record_set");
 		$query->addColumn("id");
 		$query->addWhere("fk_record='".addslashes($id)."'");
 		
-		$dbHandler =& Services::getService("DatabaseManager");
+		$dbHandler = Services::getService("DatabaseManager");
 		$result = $dbHandler->query($query,DATAMANAGER_DBID);
 		
 		$groupIds = array();
@@ -175,23 +175,23 @@ class RecordManager {
 				$wheres[] = "dm_record_set.id='".addslashes($id)."'";
 			}
 			
-			$query =& new SelectQuery;
+			$query = new SelectQuery;
 			$query->addTable("dm_record_set");
 			$query->addTable("dm_record", LEFT_JOIN, "dm_record_set.fk_record=dm_record.id");
 			$query->addColumn("id","","dm_record_set");
 			$query->addColumn("fk_record","","dm_record_set");
 			$query->setWhere(implode(" OR ",$wheres));
 			
-			$dbHandler =& Services::getService("DatabaseManager");
+			$dbHandler = Services::getService("DatabaseManager");
 			$result = $dbHandler->query($query,DATAMANAGER_DBID);
 
 			while ($result->hasMoreRows()) {
 				$a = $result->getCurrentRow();
 				$result->advanceRow();
 				$id = $a["id"];
-				$newSet =& $this->getCachedRecordSet($id);
+				$newSet =$this->getCachedRecordSet($id);
 				if (!$newSet) {
-					$newSet =& new StorableRecordSet($id);
+					$newSet = new StorableRecordSet($id);
 					$this->cacheRecordSet($newSet);
 				}
 				
@@ -204,7 +204,7 @@ class RecordManager {
 		// now, if some of the IDs didn't exist in the DB, we'll create new ones.
 		foreach ($groupIDsArray as $id) {
 			if (!$this->getCachedRecordSet($id)) {
-				$newSet =& new StorableRecordSet($id);
+				$newSet = new StorableRecordSet($id);
 				$this->cacheRecordSet($newSet);
 			}
 		}
@@ -222,7 +222,7 @@ class RecordManager {
 		$this->loadRecordSets($ids);
 		$recordIDs = array();
 		foreach ($ids as $id) {
-			$set =& $this->fetchRecordSet($id);
+			$set =$this->fetchRecordSet($id);
 			$temp = $set->getRecordIDs();
 			$recordIDs = array_merge($temp, $recordIDs);
 		}
@@ -239,7 +239,7 @@ class RecordManager {
 	* @param optional object $limitResults NOT YET IMPLEMENTED
 	* criteria. If not specified, will fetch all IDs.
 	*/
-	function &fetchRecords( $IDs, $mode = RECORD_CURRENT, $limitResults = null ) {
+	function fetchRecords( $IDs, $mode = RECORD_CURRENT, $limitResults = null ) {
 		ArgumentValidator::validate($IDs, ArrayValidatorRuleWithRule::getRule(OrValidatorRule::getRule(StringValidatorRule::getRule(), IntegerValidatorRule::getRule())));
 		ArgumentValidator::validate($mode, IntegerValidatorRule::getRule());
 		$IDs = array_unique($IDs);
@@ -270,12 +270,12 @@ class RecordManager {
 
 		// put all the records from the cache into the array
 		foreach ($IDs as $id) {
-			if (isset($this->_recordCache[$id])) $records[$id] =& $this->_recordCache[$id];
+			if (isset($this->_recordCache[$id])) $records[$id] =$this->_recordCache[$id];
 		}
 		
 		if (count($fromDBIDs)) {
 			// first, make the new query
-			$query =& new SelectQuery();
+			$query = new SelectQuery();
 	
 			$this->_setupSelectQuery($query, $mode);
 	
@@ -302,11 +302,11 @@ class RecordManager {
 				$query->addWhere('(' . implode(" AND ", $temp) . ')');
 			}
 			
-			$dbHandler =& Services::getService("DatabaseManager");
+			$dbHandler = Services::getService("DatabaseManager");
 			
 //			print "<PRE>" . MySQL_SQLGenerator::generateSQLQuery($query)."</PRE>";
 			
-			$result =& $dbHandler->query($query,DATAMANAGER_DBID);
+			$result =$dbHandler->query($query,DATAMANAGER_DBID);
 			
 			if (!$result) {
 				throwError(new UnknownDBError("RecordManager"));
@@ -321,11 +321,11 @@ class RecordManager {
 				$type = $a['fk_schema'];
 				$vcontrol =$a['record_ver_control'];
 				if (!isset($records[$id])) {
-					$schemaManager =& Services::getService("SchemaManager");
-					$schema =& $schemaManager->getSchemaByID($type);
+					$schemaManager = Services::getService("SchemaManager");
+					$schema =$schemaManager->getSchemaByID($type);
 					$schema->load();
-					$records[$id] =& new Record($schema, $vcontrol?true:false, $mode);
-					if ($this->_cacheMode) $this->_recordCache[$id] =& $records[$id];
+					$records[$id] = new Record($schema, $vcontrol?true:false, $mode);
+					if ($this->_cacheMode) $this->_recordCache[$id] =$records[$id];
 				}
 				
 				$records[$id]->takeRow($a);
@@ -337,7 +337,7 @@ class RecordManager {
 		}				
 
 		// make sure we found the data sets
-		$rule =& ExtendsValidatorRule::getRule("Record");
+		$rule = ExtendsValidatorRule::getRule("Record");
 		foreach ($IDs as $id) {
 			if (!$rule->check($records[$id]))
 				throwError(new Error(UNKNOWN_ID.": Record $id was requested, but not found.", "DataManager", TRUE));
@@ -357,10 +357,10 @@ class RecordManager {
 	 * @param optional array $ids An array of Record IDs to search among. If not specified, all records will be searched.
 	 * @access public
 	 */
-	function getRecordIDsBySearch(&$criteria, $ids=null) {
+	function getRecordIDsBySearch($criteria, $ids=null) {
 		// this should happen in one query.
 		// the WHERE clause of the SQL query will be relatively complicated.
-		$query =& new SelectQuery();
+		$query = new SelectQuery();
 		$this->_setupSelectQuery($query, RECORD_CURRENT);
 		
 		$searchString = $criteria->returnSearchString();
@@ -381,9 +381,9 @@ class RecordManager {
 		
 //		print "<PRE>". MySQL_SQLGenerator::generateSQLQuery($query)."</PRE>";
 		
-		$dbHandler =& Services::getService("DatabaseManager");
+		$dbHandler = Services::getService("DatabaseManager");
 		
-		$result =& $dbHandler->query($query, DATAMANAGER_DBID);
+		$result =$dbHandler->query($query, DATAMANAGER_DBID);
 		
 		$resultIds = array();
 		
@@ -409,10 +409,10 @@ class RecordManager {
 	 * @return array
 	 * @access public
 	 */
-	function getRecordSetIDsBySearch(&$criteria, $ids=null) {
+	function getRecordSetIDsBySearch($criteria, $ids=null) {
 		// this should happen in one query.
 		// the WHERE clause of the SQL query will be relatively complicated.
-		$query =& new SelectQuery();
+		$query = new SelectQuery();
 		
 		$query->addColumn("id","record_set_id","dm_record_set");
 		
@@ -421,7 +421,7 @@ class RecordManager {
 		$query->addTable("dm_schema_field",LEFT_JOIN,"dm_record_field.fk_schema_field=dm_schema_field.id");
 		$query->addTable("dm_record_set", INNER_JOIN, "dm_record_set.fk_record = dm_record.id");
 		
-		$dataTypeManager =& Services::getService("DataTypeManager");
+		$dataTypeManager = Services::getService("DataTypeManager");
 		$list = $dataTypeManager->getRegisteredStorablePrimitives();
 
 		foreach ($list as $type) {
@@ -446,9 +446,9 @@ class RecordManager {
 		
 // 		print "<PRE>". MySQL_SQLGenerator::generateSQLQuery($query)."</PRE>";
 		
-		$dbHandler =& Services::getService("DatabaseManager");
+		$dbHandler = Services::getService("DatabaseManager");
 		
-		$result =& $dbHandler->query($query, DATAMANAGER_DBID);
+		$result =$dbHandler->query($query, DATAMANAGER_DBID);
 		
 		$resultIds = array();
 		
@@ -471,8 +471,8 @@ class RecordManager {
 	* @param int $id
 	* @param optional int $mode
 	*/
-	function &fetchRecord( $id, $mode=RECORD_CURRENT ) {
-		$records =& $this->fetchRecords(array($id), $mode);
+	function fetchRecord( $id, $mode=RECORD_CURRENT ) {
+		$records =$this->fetchRecords(array($id), $mode);
 		return $records[$id];
 	}
 	
@@ -481,9 +481,9 @@ class RecordManager {
 	 * @param int $id
 	 * @param optional bool $prune Set to TRUE if you want the Record to actually be pruned from the database and not just deactivated.
 	 */
-	function &deleteRecord ( $id, $prune=false ) {
+	function deleteRecord ( $id, $prune=false ) {
 		$mode = RECORD_FULL;
-		$record =& $this->fetchRecord( $id, $mode );
+		$record =$this->fetchRecord( $id, $mode );
 		$record->delete();
 		$record->commit();
 	}
@@ -501,14 +501,14 @@ class RecordManager {
 	 */
 	function deleteRecordSet ($id, $prune = false) {
 		ArgumentValidator::validate($id, StringValidatorRule::getRule());
-		$recordSet =& $this->fetchRecordSet($id);
+		$recordSet =$this->fetchRecordSet($id);
 		
 		$recordSet->loadRecords($prune?RECORD_FULL:RECORD_NODATA);
 		// Delete the records in the set.
-		$records =& $recordSet->getRecords();
+		$records =$recordSet->getRecords();
 		
 		foreach (array_keys($records) as $key) {
-			$record =& $records[$key];
+			$record =$records[$key];
 			
 			// Only delete records if they are not shared with other sets.
 			$setsContaining = $this->getRecordSetIDsContaining($record);
@@ -520,12 +520,12 @@ class RecordManager {
 		}
 		
 		// Delete the set from the database
-		$query =& new DeleteQuery;
+		$query = new DeleteQuery;
 		$query->setTable("dm_record_set");
 		$query->addWhere("id = '".addslashes($id)."'");
 		
-		$dbHandler =& Services::getService("DatabaseManager");
-		$result =& $dbHandler->query($query,DATAMANAGER_DBID);
+		$dbHandler = Services::getService("DatabaseManager");
+		$result =$dbHandler->query($query,DATAMANAGER_DBID);
 		
 		$this->_recordSetCache[$id] = NULL;
 		unset($this->_recordSetCache[$id]);
@@ -538,7 +538,7 @@ class RecordManager {
 	* @param optional int $mode Specifies the mode we are fetching our results. Must be one of RESULT_* constants.
 	* @access private
 	*/
-	function _setupSelectQuery(&$query, $mode=RECORD_CURRENT) {
+	function _setupSelectQuery($query, $mode=RECORD_CURRENT) {
 		// this function sets up the selectquery to include all the necessary tables
 		$query->addTable("dm_record");
 		if ($mode > RECORD_NODATA) {
@@ -549,7 +549,7 @@ class RecordManager {
 			}
 			$query->addTable("dm_schema_field",LEFT_JOIN,"dm_record_field.fk_schema_field=dm_schema_field.id");
 		
-			$dataTypeManager =& Services::getService("DataTypeManager");
+			$dataTypeManager = Services::getService("DataTypeManager");
 			$list = $dataTypeManager->getRegisteredStorablePrimitives();
 
 			foreach ($list as $type) {
@@ -581,8 +581,8 @@ class RecordManager {
 	* @param string $type The Schema type/ID that refers to the Schema to associate this Record with.
 	* @param optional bool $verControl Specifies if the Record should be created with Version Control. Default=no.
 	*/
-	function &createRecord( $type, $verControl = false ) {
-		$schemaManager =& Services::getService("SchemaManager");
+	function createRecord( $type, $verControl = false ) {
+		$schemaManager = Services::getService("SchemaManager");
 		if (!$schemaManager->schemaExists($type)) {
 			throwError ( new Error("could not create new Record of type ".$type.
 			" because the requested type does not seem to be registered
@@ -590,11 +590,11 @@ class RecordManager {
 		}
 		
 		// ok, let's make a new one.
-		$schema =& $schemaManager->getSchemaByID($type);
+		$schema =$schemaManager->getSchemaByID($type);
 		// load from the DB
 		$schema->load();
 		debug::output("Creating new Record of type '".$type."', which allows fields: ".implode(", ",$schema->getAllIDs()),DEBUG_SYS4,"DataManager");
-		$newRecord =& new Record($schema, $verControl);
+		$newRecord = new Record($schema, $verControl);
 		return $newRecord;
 	}
 	
@@ -606,7 +606,7 @@ class RecordManager {
 	function getRecordIDsByType($type) {
 		// we're going to get all the IDs that match a given type.
 		
-		$query =& new SelectQuery();
+		$query = new SelectQuery();
 		$query->addTable("dm_record");
 		$query->addTable("dm_schema",INNER_JOIN,"dm_schema.id=dm_record.fk_schema");
 		
@@ -614,9 +614,9 @@ class RecordManager {
 		
 		$query->setWhere("dm_schema.id='".addslashes($type)."'");
 		
-		$dbHandler =& Services::getService("DatabaseManager");
+		$dbHandler = Services::getService("DatabaseManager");
 		
-		$result =& $dbHandler->query($query,DATAMANAGER_DBID);
+		$result =$dbHandler->query($query,DATAMANAGER_DBID);
 		
 		if (!$result) {
 			throwError( new UnknownDBError("RecordManager") );

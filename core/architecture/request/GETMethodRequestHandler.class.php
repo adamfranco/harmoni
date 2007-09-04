@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GETMethodRequestHandler.class.php,v 1.14 2007/03/08 16:20:43 adamfranco Exp $
+ * @version $Id: GETMethodRequestHandler.class.php,v 1.15 2007/09/04 20:25:31 adamfranco Exp $
  */ 
  
 require_once(HARMONI."architecture/request/RequestHandler.interface.php");
@@ -25,7 +25,7 @@ require_once(HARMONI."architecture/request/URLWriter.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GETMethodRequestHandler.class.php,v 1.14 2007/03/08 16:20:43 adamfranco Exp $
+ * @version $Id: GETMethodRequestHandler.class.php,v 1.15 2007/09/04 20:25:31 adamfranco Exp $
  */
 
 class GETMethodRequestHandler extends RequestHandler {
@@ -59,8 +59,8 @@ class GETMethodRequestHandler extends RequestHandler {
 	 * @return ref object URLWriter
 	 * @access public
 	 */
-	function &createURLWriter() {
-		$writer =& new GETMethodURLWriter();
+	function createURLWriter() {
+		$writer = new GETMethodURLWriter();
 		return $writer;
 	}
 	
@@ -98,7 +98,7 @@ class GETMethodRequestHandler extends RequestHandler {
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GETMethodRequestHandler.class.php,v 1.14 2007/03/08 16:20:43 adamfranco Exp $
+ * @version $Id: GETMethodRequestHandler.class.php,v 1.15 2007/09/04 20:25:31 adamfranco Exp $
  */
 
 class GETMethodURLWriter 
@@ -134,7 +134,7 @@ class GETMethodURLWriter
 		
 		$url = MYURL;
 		$pairs = array();
-		$harmoni =& Harmoni::instance();
+		$harmoni = Harmoni::instance();
 		if (!$harmoni->config->get("sessionUseOnlyCookies") && defined("SID") && SID) 
 			$pairs[] = strip_tags(SID);
 		$pairs[] = "module=".$this->_module;

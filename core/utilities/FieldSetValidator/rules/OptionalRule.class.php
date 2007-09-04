@@ -11,7 +11,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/ValidatorRule.interface.
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OptionalRule.class.php,v 1.6 2006/01/13 22:31:36 adamfranco Exp $
+ * @version $Id: OptionalRule.class.php,v 1.7 2007/09/04 20:25:55 adamfranco Exp $
  */ 
 class OptionalRule
 	extends ValidatorRuleInterface
@@ -31,8 +31,8 @@ class OptionalRule
 	 * @access public
 	 * @return void 
 	 **/
-	function OptionalRule( & $rule ) {
-		$this->_rule = & $rule;
+	function OptionalRule( $rule ) {
+		$this->_rule =  $rule;
 	}
 	
 	
@@ -43,7 +43,7 @@ class OptionalRule
 	 * @access public
 	 * @return boolean true if the check succeeds, false if it (guess...) fails.
 	 **/
-	function check( & $val ) {
+	function check( $val ) {
 		if (is_null($val)) 
 			return true;
 		
@@ -69,7 +69,7 @@ class OptionalRule
 	 * @static
 	 * @since 3/28/05
 	 */
-	function &getRule (&$rule) {		
+	function getRule ($rule) {		
 		// Because there is no way in PHP to get the class name of the descendent
 		// class on which this method is called, this method must be implemented
 		// in each descendent class.
@@ -81,7 +81,7 @@ class OptionalRule
 		$ruleKey = $class."(".$rule->getRuleKey().")";
 		
 		if (!isset($GLOBALS['validator_rules'][$ruleKey]))
-			$GLOBALS['validator_rules'][$ruleKey] =& new $class($rule);
+			$GLOBALS['validator_rules'][$ruleKey] = new $class($rule);
 		
 		return $GLOBALS['validator_rules'][$ruleKey];
 	}

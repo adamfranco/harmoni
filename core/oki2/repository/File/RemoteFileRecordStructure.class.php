@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RemoteFileRecordStructure.class.php,v 1.1 2006/12/06 20:44:59 adamfranco Exp $
+ * @version $Id: RemoteFileRecordStructure.class.php,v 1.2 2007/09/04 20:25:44 adamfranco Exp $
  */ 
 
 require_once(dirname(__FILE__)."/Fields/FileUrlPartStructure.class.php");
@@ -34,7 +34,7 @@ require_once(dirname(__FILE__)."/Fields/RemoteFileSizePartStructure.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RemoteFileRecordStructure.class.php,v 1.1 2006/12/06 20:44:59 adamfranco Exp $
+ * @version $Id: RemoteFileRecordStructure.class.php,v 1.2 2007/09/04 20:25:44 adamfranco Exp $
  */
 class RemoteFileRecordStructure 
 	extends HarmoniFileRecordStructure
@@ -52,12 +52,12 @@ class RemoteFileRecordStructure
 		if (!is_array($this->_partStructures))
 			$this->_partStructures = array();
 		
-		$this->_partStructures['FILE_URL'] =& new FileUrlPartStructure($this);
+		$this->_partStructures['FILE_URL'] = new FileUrlPartStructure($this);
 		
 		$this->HarmoniFileRecordStructure();
 		unset($this->_partStructures['FILE_DATA'], $this->_partStructures['FILE_SIZE']);
 		
-		$this->_partStructures['FILE_SIZE'] =& new RemoteFileSizePartStructure($this);
+		$this->_partStructures['FILE_SIZE'] = new RemoteFileSizePartStructure($this);
 	}
 	
 	/**
@@ -102,8 +102,8 @@ class RemoteFileRecordStructure
 	 * 
 	 * @access public
 	 */
-	function &getId() {
-		$idManager =& Services::getService("Id");
+	function getId() {
+		$idManager = Services::getService("Id");
 		return $idManager->getId('REMOTE_FILE');
 	}
 }

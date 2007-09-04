@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileSizePart.class.php,v 1.10 2007/04/12 15:37:32 adamfranco Exp $
+ * @version $Id: FileSizePart.class.php,v 1.11 2007/09/04 20:25:45 adamfranco Exp $
  */
 class FileSizePart 
 	extends Part
@@ -29,11 +29,11 @@ class FileSizePart
 	var $_partStructure;
 	var $_size;
 	
-	function FileSizePart( &$partStructure, &$recordId, $configuration, &$asset ) {
-		$this->_recordId =& $recordId;
-		$this->_partStructure =& $partStructure;
+	function FileSizePart( $partStructure, $recordId, $configuration, $asset ) {
+		$this->_recordId =$recordId;
+		$this->_partStructure =$partStructure;
 		$this->_configuration = $configuration;
-		$this->_asset =& $asset;
+		$this->_asset =$asset;
 		
 		// Set our name to NULL, so that we can know if it has not been checked
 		// for yet. If we search for name, but don't have any, or the name is
@@ -60,8 +60,8 @@ class FileSizePart
 	 * 
 	 * @access public
 	 */
-	function &getId() {
-		$idManager =& Services::getService("Id");
+	function getId() {
+		$idManager = Services::getService("Id");
 		return $idManager->getId($this->_recordId->getIdString()."-FILE_SIZE");
 	}
 
@@ -92,7 +92,7 @@ class FileSizePart
 	 * 
 	 * @access public
 	 */
-	function &createPart(& $partStructureId, & $value) {
+	function createPart($partStructureId, $value) {
 		throwError(
 			new Error(UNIMPLEMENTED, "HarmoniPart", true));
 	}
@@ -119,7 +119,7 @@ class FileSizePart
 	 * 
 	 * @access public
 	 */
-	function deletePart(& $partId) {
+	function deletePart($partId) {
 		throwError(
 			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
 	}
@@ -143,7 +143,7 @@ class FileSizePart
 	 * 
 	 * @access public
 	 */
-	function &getParts() {
+	function getParts() {
 		throwError(
 			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
 	}
@@ -170,15 +170,15 @@ class FileSizePart
 	function getValue() {
 		// If we don't have the name, load it from the database.
 		if ($this->_size === NULL) {
-			$dbHandler =& Services::getService("DatabaseManager");
+			$dbHandler = Services::getService("DatabaseManager");
 			
 			// Get the name from the database,
-			$query =& new SelectQuery;
+			$query = new SelectQuery;
 			$query->addTable("dr_file");
 			$query->addColumn("size");
 			$query->addWhere("id = '".$this->_recordId->getIdString()."'");
 			
-			$result =& $dbHandler->query($query, $this->_configuration->getProperty("database_index"));
+			$result =$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 			
 			// If no name was found, return an empty string.
 			if ($result->getNumberOfRows() == 0)
@@ -236,7 +236,7 @@ class FileSizePart
 	 * 
 	 * @access public
 	 */
-	function &getPartStructure() {
+	function getPartStructure() {
 		return $this->_partStructure;
 	}
 	

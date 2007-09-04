@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniEntryIterator.class.php,v 1.5 2006/11/30 22:02:19 adamfranco Exp $
+ * @version $Id: HarmoniEntryIterator.class.php,v 1.6 2007/09/04 20:25:43 adamfranco Exp $
  */
 
 require_once(OKI2."/osid/logging/EntryIterator.php");
@@ -28,7 +28,7 @@ require_once(dirname(__FILE__)."/HarmoniEntry.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniEntryIterator.class.php,v 1.5 2006/11/30 22:02:19 adamfranco Exp $
+ * @version $Id: HarmoniEntryIterator.class.php,v 1.6 2007/09/04 20:25:43 adamfranco Exp $
  */
 class HarmoniEntryIterator
 	extends EntryIterator
@@ -44,10 +44,10 @@ class HarmoniEntryIterator
 	 * @access public
 	 * @since 3/1/06
 	 */
-	function HarmoniEntryIterator ( $logName, &$formatType, &$priorityType, $dbIndex ) {
+	function HarmoniEntryIterator ( $logName, $formatType, $priorityType, $dbIndex ) {
 		$this->_logName = $logName;
-		$this->_formatType =& $formatType;
-		$this->_priorityType =& $priorityType;
+		$this->_formatType =$formatType;
+		$this->_priorityType =$priorityType;
 		$this->_dbIndex = $dbIndex;
 		$this->_current = 0;
 		$this->_currentRow = 0;
@@ -101,7 +101,7 @@ class HarmoniEntryIterator
      * 
      * @access public
      */
-    function &nextEntry () { 
+    function nextEntry () { 
          return $this->next();
     }
     
@@ -148,7 +148,7 @@ class HarmoniEntryIterator
      * 
      * @access public
      */
-    function &next () { 
+    function next () { 
        if (!$this->hasNext())
 	 		throwError(new Error(SharedException::NO_MORE_ITERATOR_ELEMENTS(),
 	 			get_class($this), true));
@@ -156,7 +156,7 @@ class HarmoniEntryIterator
 		if (!isset($this->_entries[$this->_current]))
 			$this->loadNext();
 		
-		$entry =& $this->_entries[$this->_current];
+		$entry =$this->_entries[$this->_current];
 		$this->_current++;
 		return $entry;
     }
@@ -196,9 +196,9 @@ class HarmoniEntryIterator
 	  */
 	 function loadCount () {
 	 	// load the count
-		$dbc =& Services::getService("DatabaseManager");
+		$dbc = Services::getService("DatabaseManager");
 		
-		$query =& new SelectQuery;
+		$query = new SelectQuery;
 		$query->addTable("log_entry");
 		$query->addTable("log_type", INNER_JOIN, "log_entry.fk_format_type = format_type.id", "format_type");
 		$query->addTable("log_type", INNER_JOIN, "log_entry.fk_priority_type = priority_type.id", "priority_type");
@@ -207,7 +207,7 @@ class HarmoniEntryIterator
 		$this->addWhereClauses($query);
 		
 // 		Debug::printQuery($query);
-		$results =& $dbc->query($query, $this->_dbIndex);
+		$results =$dbc->query($query, $this->_dbIndex);
 		$this->_count = $results->getNumberOfRows();
 		$results->free();
 	 }
@@ -220,10 +220,10 @@ class HarmoniEntryIterator
 	 * @since 3/1/06
 	 */
 	function loadNext () {
-		$dbc =& Services::getService("DatabaseManager");
+		$dbc = Services::getService("DatabaseManager");
 
 		// get the list of the next set of Ids
-		$query =& new SelectQuery;
+		$query = new SelectQuery;
 		$query->addTable("log_entry");
 		$query->addTable("log_type", INNER_JOIN, "log_entry.fk_format_type = format_type.id", "format_type");
 		$query->addTable("log_type", INNER_JOIN, "log_entry.fk_priority_type = priority_type.id", "priority_type");
@@ -237,7 +237,7 @@ class HarmoniEntryIterator
 			$query->startFromRow($this->_currentRow + 1);
 		
 // 		debug::printQuery($query);
-		$results =& $dbc->query($query, $this->_dbIndex);
+		$results =$dbc->query($query, $this->_dbIndex);
 		$nextIds = array();
 		while ($results->hasNext()) {
 			$row = $results->next();
@@ -245,13 +245,13 @@ class HarmoniEntryIterator
 		}	
 		
 		// Load the rows for the next set of Ids		
-		$query =& $this->getBaseQuery();
+		$query =$this->getBaseQuery();
 		$query->addWhere("log_entry.id IN (".implode(", ", $nextIds).")");
 		$this->addColumnsAndOrder($query);
 		
 // 		debug::printQuery($query);
 		
-		$results =& $dbc->query($query, $this->_dbIndex);
+		$results =$dbc->query($query, $this->_dbIndex);
 		
 		$i = $this->_current;
 		$currentEntryId = null;
@@ -268,7 +268,7 @@ class HarmoniEntryIterator
 			// Create the entry if we have all of the data for it.
 			if ($currentEntryId && $currentEntryId != $row["id"]) {
 // 				printpre("Creating Entry: ".$currentEntryId." ".$timestamp." -- ".($i+1)." of ".$this->_count);
-				$this->_entries[$i] =& new HarmoniEntry($dbc->fromDBDate($timestamp, $this->_dbIndex),
+				$this->_entries[$i] = new HarmoniEntry($dbc->fromDBDate($timestamp, $this->_dbIndex),
 												$category,
 												$description,
 												$backtrace,
@@ -304,7 +304,7 @@ class HarmoniEntryIterator
 		// get the last entry if we are at the end of the iterator
 		if ($currentEntryId && $i == ($this->_count - 1)) {
 // 			printpre("Creating Entry: ".$currentEntryId." ".$timestamp." -- ".($i+1)." of ".$this->_count);
-			$this->_entries[$i] =& new HarmoniEntry($dbc->fromDBDate($timestamp, $this->_dbIndex),
+			$this->_entries[$i] = new HarmoniEntry($dbc->fromDBDate($timestamp, $this->_dbIndex),
 												$category,
 												$description,
 												$backtrace,
@@ -322,8 +322,8 @@ class HarmoniEntryIterator
 	 * @access public
 	 * @since 3/9/06
 	 */
-	function &getBaseQuery () {
-		$query =& new SelectQuery;
+	function getBaseQuery () {
+		$query = new SelectQuery;
 		
 		$query->addTable("log_entry");
 		$query->addTable("log_type", INNER_JOIN, "log_entry.fk_format_type = format_type.id", "format_type");
@@ -342,7 +342,7 @@ class HarmoniEntryIterator
 	 * @access public
 	 * @since 3/9/06
 	 */
-	function addColumnsAndOrder ( &$query ) {
+	function addColumnsAndOrder ( $query ) {
 		$query->addOrderBy("timestamp", DESCENDING);
 		$query->addOrderBy("id", ASCENDING);
 		
@@ -363,7 +363,7 @@ class HarmoniEntryIterator
 	 * @access public
 	 * @since 3/9/06
 	 */
-	function addWhereClauses ( &$query ) {
+	function addWhereClauses ( $query ) {
 		$query->addWhere("log_name = '".addslashes($this->_logName)."'");
 		$query->addWhere("format_type.domain = '".addslashes($this->_formatType->getDomain())."'");
 		$query->addWhere("format_type.authority = '".addslashes($this->_formatType->getAuthority())."'");

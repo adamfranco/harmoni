@@ -29,7 +29,7 @@ require_once(HARMONI."GUIManager/Theme.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MenuTheme.abstract.php,v 1.4 2006/08/02 23:50:27 sporktim Exp $
+ * @version $Id: MenuTheme.abstract.php,v 1.5 2007/09/04 20:25:21 adamfranco Exp $
  **/
 class MenuThemeAbstract extends Theme /* implements MenuThemeInterface */ {
 	
@@ -48,7 +48,7 @@ class MenuThemeAbstract extends Theme /* implements MenuThemeInterface */ {
 	 * menu that is being added. Only one menu can exist at any given level. 
 	 * Levels cannot be skipped. Levels allow the user to create a hierarchy of menus.
 	 **/
-	function addMenu(& $menu, $level) {
+	function addMenu($menu, $level) {
 		// ** parameter validation
 		ArgumentValidator::validate($menu, ExtendsValidatorRule::getRule("Menu"), true);
 		$greaterThanZero = $level > 0;
@@ -70,7 +70,7 @@ class MenuThemeAbstract extends Theme /* implements MenuThemeInterface */ {
 		}
 		
 		// now add the menu
-		$this->_menus[$level] =& $menu;
+		$this->_menus[$level] =$menu;
 	}
 	
 	/**
@@ -82,7 +82,7 @@ class MenuThemeAbstract extends Theme /* implements MenuThemeInterface */ {
 	 * @return ref object The <code>Menu</code> object at the specified level, or <code>NULL</code>
 	 * if no menu was found.
 	 **/
-	function &getMenu($level) {
+	function getMenu($level) {
 		// ** parameter validation
 		$greaterThanZero = $level > 0;
 		ArgumentValidator::validate($greaterThanZero, TrueValidatorRule::getRule(), true);

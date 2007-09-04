@@ -38,7 +38,7 @@ class Row
      * 
      * @access public
      */
-    function &getColumnByIndex ( $columnIndex ) { 
+    function getColumnByIndex ( $columnIndex ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -61,7 +61,7 @@ class Row
      * 
      * @access public
      */
-    function &getColumnByName ( $columnName ) { 
+    function getColumnByName ( $columnName ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -82,7 +82,7 @@ class Row
      * 
      * @access public
      */
-    function &getColumns () { 
+    function getColumns () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 }

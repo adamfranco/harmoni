@@ -13,7 +13,7 @@ require_once(HARMONI."dataManager/schema/SchemaField.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Schema.class.php,v 1.20 2006/06/12 15:00:11 adamfranco Exp $
+ * @version $Id: Schema.class.php,v 1.21 2007/09/04 20:25:32 adamfranco Exp $
  * @author Gabe Schine
  */
 class Schema extends SObject {
@@ -93,7 +93,7 @@ class Schema extends SObject {
 	 * @return ref object Returns the same {@link SchemaField} that was passed.
 	 * @access public
 	 */
-	function &addField(&$field) {
+	function addField($field) {
 		$this->_addField($field);
 		return $field;
 	}
@@ -172,7 +172,7 @@ class Schema extends SObject {
 	* @param optional int $id The ID in the Database referring to this field.
 	* @access private
 	*/
-	function _addField(&$field) {
+	function _addField($field) {
 		ArgumentValidator::validate($field, ExtendsValidatorRule::getRule("SchemaField"));
 		
 		$id = $this->getID() . "." . $field->getLabel();
@@ -185,7 +185,7 @@ class Schema extends SObject {
 		$field->associate($this);
 		
 		// add it to our list of fields
-		$this->_fields[$id] =& $field;
+		$this->_fields[$id] =$field;
 	}
 	
 	/**
@@ -206,7 +206,7 @@ class Schema extends SObject {
 			return false;
 		}
 
-		$query =& new SelectQuery;
+		$query = new SelectQuery;
 		$query->addTable("dm_schema_field");
 		$query->addColumn("id","","dm_schema_field");
 		$query->addColumn("name","","dm_schema_field");
@@ -217,8 +217,8 @@ class Schema extends SObject {
 		$query->addColumn("description","","dm_schema_field");
 		$query->setWhere("fk_schema='".addslashes($this->_id)."'");
 		
-		$dbHandler =& Services::getService("DatabaseManager");
-		$result =& $dbHandler->query($query,DATAMANAGER_DBID);
+		$dbHandler = Services::getService("DatabaseManager");
+		$result =$dbHandler->query($query,DATAMANAGER_DBID);
 		if (!$result) {
 			throwError( new UnknownDBError("DataManager") );
 		}
@@ -243,7 +243,7 @@ class Schema extends SObject {
 	function populate($arrayOfRows) {
 		foreach ($arrayOfRows as $a) {
 			$label = str_replace($this->getID() . ".", "", $a['id']);
-			$newField =& new SchemaField($label,$a['name'],$a['fieldtype'],
+			$newField = new SchemaField($label,$a['name'],$a['fieldtype'],
 					$a['description'],
 					(($a['mult'])?true:false),
 					($a['required']?true:false),
@@ -364,7 +364,7 @@ class Schema extends SObject {
 	* @return ref object
 	* @param string $id
 	*/
-	function &getField($id) {
+	function getField($id) {
 		if (!isset($this->_fields[$id])) {
 			throwError(new Error("I don't have a field id '$id'. I'm of type '".$this->getID()."'.","DataManager",true));
 			return false;
@@ -448,11 +448,11 @@ class Schema extends SObject {
 	 * @return ref object
 	 * @access public
 	 */
-	function &deepCopy() {
-		$schema =& new Schema($this->getID(), $this->getDisplayName(), $this->getRevision(), $this->getDescription(), $this->getOtherParameters());
+	function deepCopy() {
+		$schema = new Schema($this->getID(), $this->getDisplayName(), $this->getRevision(), $this->getDescription(), $this->getOtherParameters());
 		foreach (array_keys($this->_fields) as $key) {
-			$field =& $this->_fields[$key];
-			$newField =& $field->replicate();
+			$field =$this->_fields[$key];
+			$newField =$field->replicate();
 			$schema->addField($newField);
 		}
 		return $schema;

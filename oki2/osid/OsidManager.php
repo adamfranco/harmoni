@@ -69,7 +69,7 @@ class OsidManager
      * 
      * @access public
      */
-    function &getOsidContext () { 
+    function getOsidContext () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -84,7 +84,7 @@ class OsidManager
      * 
      * @access public
      */
-    function assignOsidContext ( &$context ) { 
+    function assignOsidContext ( $context ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -105,7 +105,7 @@ class OsidManager
      * 
      * @access public
      */
-    function assignConfiguration ( &$configuration ) { 
+    function assignConfiguration ( $configuration ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 

@@ -7,7 +7,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Double.class.php,v 1.4 2007/04/12 15:37:22 adamfranco Exp $
+ * @version $Id: Double.class.php,v 1.5 2007/09/04 20:25:28 adamfranco Exp $
  */ 
 
 require_once(dirname(__FILE__)."/Float.class.php");
@@ -20,7 +20,7 @@ require_once(dirname(__FILE__)."/Float.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Double.class.php,v 1.4 2007/04/12 15:37:22 adamfranco Exp $
+ * @version $Id: Double.class.php,v 1.5 2007/09/04 20:25:28 adamfranco Exp $
  */
 class Double 
 	extends Float
@@ -40,7 +40,7 @@ class Double
 	 * @access public
 	 * @since 7/14/05
 	 */
-	function &withValue ( $value, $class = 'Double') {
+	function withValue ( $value, $class = 'Double') {
 		return parent::withValue($value, $class);
 	}
 	
@@ -52,7 +52,7 @@ class Double
 	 * @access public
 	 * @since 3/14/06
 	 */
-	function &fromString ($string, $class = 'Double') {
+	function fromString ($string, $class = 'Double') {
 		return parent::fromString($string, $class);
 	}
 	
@@ -65,7 +65,7 @@ class Double
 	 * @access public
 	 * @since 7/14/05
 	 */
-	function &zero ( $class = 'Double') {
+	function zero ( $class = 'Double') {
 		return parent::zero($class);
 	}
 	

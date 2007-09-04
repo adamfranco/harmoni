@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTimeStringParserTestCase.class.php,v 1.2 2006/06/26 12:55:08 adamfranco Exp $
+ * @version $Id: DateAndTimeStringParserTestCase.class.php,v 1.3 2007/09/04 20:25:25 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -26,7 +26,7 @@ require_once(dirname(__FILE__)."/../DateAndTimeStringParser.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTimeStringParserTestCase.class.php,v 1.2 2006/06/26 12:55:08 adamfranco Exp $
+ * @version $Id: DateAndTimeStringParserTestCase.class.php,v 1.3 2007/09/04 20:25:25 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -55,7 +55,7 @@ class DateAndTimeStringParserTestCase extends UnitTestCase {
 	 * Test the creation methods.
 	 */ 
 	function test_full_format() {
-		$parser =& new DateAndTimeStringParser(
+		$parser = new DateAndTimeStringParser(
 			'2005-08-20 15:25:10');
 		$this->assertTrue($parser->canHandle());
 		$this->assertEqual($parser->year(), 2005);
@@ -68,7 +68,7 @@ class DateAndTimeStringParserTestCase extends UnitTestCase {
 		$this->assertEqual($parser->offsetMinute(), NULL);
 		$this->assertEqual($parser->offsetSecond(), NULL);
 		
-		$parser =& new DateAndTimeStringParser(
+		$parser = new DateAndTimeStringParser(
 			'2005-08-20 3:25:10 pm');
 		$this->assertTrue($parser->canHandle());
 		$this->assertEqual($parser->year(), 2005);
@@ -81,7 +81,7 @@ class DateAndTimeStringParserTestCase extends UnitTestCase {
 		$this->assertEqual($parser->offsetMinute(), NULL);
 		$this->assertEqual($parser->offsetSecond(), NULL);
 		
-		$parser =& new DateAndTimeStringParser(
+		$parser = new DateAndTimeStringParser(
 			'08/20/2005 3:25:10 pm');
 		$this->assertTrue($parser->canHandle());
 		$this->assertEqual($parser->year(), 2005);
@@ -94,7 +94,7 @@ class DateAndTimeStringParserTestCase extends UnitTestCase {
 		$this->assertEqual($parser->offsetMinute(), NULL);
 		$this->assertEqual($parser->offsetSecond(), NULL);
 		
-		$parser =& new DateAndTimeStringParser(
+		$parser = new DateAndTimeStringParser(
 			'August 20, 2005 3:25:10 pm');
 		$this->assertTrue($parser->canHandle());
 		$this->assertEqual($parser->year(), 2005);
@@ -109,15 +109,15 @@ class DateAndTimeStringParserTestCase extends UnitTestCase {
 	}
 	
 	function test_bad_forms() {
-		$parser =& new DateAndTimeStringParser(
+		$parser = new DateAndTimeStringParser(
 			'April');
 		$this->assertFalse($parser->canHandle());
 		
-		$parser =& new DateAndTimeStringParser(
+		$parser = new DateAndTimeStringParser(
 			'5-4-2000');
 		$this->assertFalse($parser->canHandle());
 		
-		$parser =& new DateAndTimeStringParser(
+		$parser = new DateAndTimeStringParser(
 			'1234567890');
 		$this->assertFalse($parser->canHandle());
 	

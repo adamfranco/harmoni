@@ -15,7 +15,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/inc.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ArgumentValidator.class.php,v 1.11 2006/03/06 19:29:07 adamfranco Exp $
+ * @version $Id: ArgumentValidator.class.php,v 1.12 2007/09/04 20:25:54 adamfranco Exp $
  */
 class ArgumentValidator {
 
@@ -33,7 +33,7 @@ class ArgumentValidator {
 	 * returned.
 	 * @static
 	 **/
-	function validate(&$argument, &$rule, $isFatal = true) {
+	function validate($argument, $rule, $isFatal = true) {
 		if (defined('DISABLE_VALIDATION') && DISABLE_VALIDATION)
 			return true;
 		

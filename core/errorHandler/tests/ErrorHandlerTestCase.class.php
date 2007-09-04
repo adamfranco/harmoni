@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ErrorHandlerTestCase.class.php,v 1.4 2005/04/07 16:33:28 adamfranco Exp $
+ * @version $Id: ErrorHandlerTestCase.class.php,v 1.5 2007/09/04 20:25:35 adamfranco Exp $
  */
 
 require_once(HARMONI.'errorHandler/ErrorHandler.class.php');
@@ -21,7 +21,7 @@ require_once(HARMONI.'errorHandler/ErrorPrinterBasic.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ErrorHandlerTestCase.class.php,v 1.4 2005/04/07 16:33:28 adamfranco Exp $
+ * @version $Id: ErrorHandlerTestCase.class.php,v 1.5 2007/09/04 20:25:35 adamfranco Exp $
  */
 
     class ErrorHandlerTestCase extends UnitTestCase {
@@ -51,13 +51,13 @@ require_once(HARMONI.'errorHandler/ErrorPrinterBasic.class.php');
 	}
 
 	function testTwoParameters(){
-	    $this->_testHandler =& new ErrorHandler();
-		$printer =& new ErrorPrinterBasic();
-		$this->_testHandler->addErrorPrinter(& $printer);
+	    $this->_testHandler = new ErrorHandler();
+		$printer = new ErrorPrinterBasic();
+		$this->_testHandler->addErrorPrinter($printer);
 		$this->_testHandler->addNewError("first Error","user");
 		$this->_testHandler->addNewError("second Error","prof");
-		$testError =& new Error("third error","system",true);
-		$this->_testHandler->addError(& $testError);
+		$testError = new Error("third error","system",true);
+		$this->_testHandler->addError($testError);
 		$this->assertEqual(3,$this->_testHandler->getNumberOfErrors());
 		$this->assertReference($testError,$this->_testHandler->_errorQueue->_queue[2]);
 	}

@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreDeleteQueryTestCase.class.php,v 1.4 2005/04/07 16:33:25 adamfranco Exp $
+ * @version $Id: PostGreDeleteQueryTestCase.class.php,v 1.5 2007/09/04 20:25:21 adamfranco Exp $
  */
     require_once(HARMONI.'DBHandler/DeleteQuery.class.php');
     require_once(HARMONI.'DBHandler/PostGre/PostGre_SQLGenerator.class.php');
@@ -20,7 +20,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreDeleteQueryTestCase.class.php,v 1.4 2005/04/07 16:33:25 adamfranco Exp $
+ * @version $Id: PostGreDeleteQueryTestCase.class.php,v 1.5 2007/09/04 20:25:21 adamfranco Exp $
  */
 
     class PostGreDeleteQueryTestCase extends UnitTestCase {
@@ -38,7 +38,7 @@
          */
         function setUp() {
 			// perhaps, initialize $obj here
-			$this->query =& new DeleteQuery();
+			$this->query = new DeleteQuery();
         }
 		
         /**

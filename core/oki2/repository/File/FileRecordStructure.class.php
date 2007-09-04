@@ -28,7 +28,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartStructureIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileRecordStructure.class.php,v 1.13 2007/04/12 15:37:32 adamfranco Exp $ 
+ * @version $Id: FileRecordStructure.class.php,v 1.14 2007/09/04 20:25:44 adamfranco Exp $ 
  */
 class HarmoniFileRecordStructure 
 	extends RecordStructure
@@ -37,20 +37,19 @@ class HarmoniFileRecordStructure
 	var $_partStructures;
 	
 	function HarmoniFileRecordStructure() {
-		$this->_schema =& $schema;
 		
 		// create an array of created PartStructures so we can return references to
 		// them instead of always making new ones.
 		if (!is_array($this->_partStructures))
 			$this->_partStructures = array();
-		$this->_partStructures['FILE_DATA'] =& new FileDataPartStructure($this);
-		$this->_partStructures['FILE_NAME'] =& new FileNamePartStructure($this);
-		$this->_partStructures['MIME_TYPE'] =& new MimeTypePartStructure($this);
-		$this->_partStructures['FILE_SIZE'] =& new FileSizePartStructure($this);
-		$this->_partStructures['DIMENSIONS'] =& new DimensionsPartStructure($this, 'DIMENSIONS');
-		$this->_partStructures['THUMBNAIL_DATA'] =& new ThumbnailDataPartStructure($this);
-		$this->_partStructures['THUMBNAIL_MIME_TYPE'] =& new ThumbnailMimeTypePartStructure($this);
-		$this->_partStructures['THUMBNAIL_DIMENSIONS'] =& new DimensionsPartStructure($this,  'THUMBNAIL_DIMENSIONS');
+		$this->_partStructures['FILE_DATA'] = new FileDataPartStructure($this);
+		$this->_partStructures['FILE_NAME'] = new FileNamePartStructure($this);
+		$this->_partStructures['MIME_TYPE'] = new MimeTypePartStructure($this);
+		$this->_partStructures['FILE_SIZE'] = new FileSizePartStructure($this);
+		$this->_partStructures['DIMENSIONS'] = new DimensionsPartStructure($this, 'DIMENSIONS');
+		$this->_partStructures['THUMBNAIL_DATA'] = new ThumbnailDataPartStructure($this);
+		$this->_partStructures['THUMBNAIL_MIME_TYPE'] = new ThumbnailMimeTypePartStructure($this);
+		$this->_partStructures['THUMBNAIL_DIMENSIONS'] = new DimensionsPartStructure($this,  'THUMBNAIL_DIMENSIONS');
 	}
 	
 	/**
@@ -118,8 +117,8 @@ class HarmoniFileRecordStructure
 	 * 
 	 * @access public
 	 */
-	function &getId() {
-		$idManager =& Services::getService("Id");
+	function getId() {
+		$idManager = Services::getService("Id");
 		return $idManager->getId('FILE');
 	}
 	
@@ -142,8 +141,8 @@ class HarmoniFileRecordStructure
 	 * 
 	 * @access public
 	 */
-	function &getType () { 
-		$type =& new Type("RecordStructures", "edu.middlebury.harmoni", "File", "RecordStructures that store files.");
+	function getType () { 
+		$type = new Type("RecordStructures", "edu.middlebury.harmoni", "File", "RecordStructures that store files.");
 		return $type;
 	} 
 
@@ -167,7 +166,7 @@ class HarmoniFileRecordStructure
 	 * 
 	 * @access public
 	 */
-	function &getPartStructure(& $partStructureId) {
+	function getPartStructure($partStructureId) {
 		if ($this->_partStructures[$partStructureId->getIdString()]) {		
 			return $this->_partStructures[$partStructureId->getIdString()];
 		} else {
@@ -195,8 +194,8 @@ class HarmoniFileRecordStructure
 	 * 
 	 * @access public
 	 */
-	function &getPartStructures() {
-		$obj =& new HarmoniPartStructureIterator($this->_partStructures);
+	function getPartStructures() {
+		$obj = new HarmoniPartStructureIterator($this->_partStructures);
 		return $obj;
 	}
 
@@ -275,7 +274,7 @@ class HarmoniFileRecordStructure
 	 * 
 	 * @access public
 	 */
-	function validateRecord(& $record) {
+	function validateRecord($record) {
 		// all we can really do is make sure the DataSet behind the Record is of the correct
 		// type to match this RecordStructure (DataSetTypeDefinition).
 		
@@ -289,7 +288,7 @@ class HarmoniFileRecordStructure
 	 */
 	function getPartStructureTypes() {
 		$types = array();
-		$obj =& new HarmoniIterator($types);
+		$obj = new HarmoniIterator($types);
 		return $obj;
 	}
 	

@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PathInfoRequestHandler.class.php,v 1.1 2007/01/08 21:04:34 adamfranco Exp $
+ * @version $Id: PathInfoRequestHandler.class.php,v 1.2 2007/09/04 20:25:31 adamfranco Exp $
  */ 
 
 require_once(HARMONI."architecture/request/RequestHandler.interface.php");
@@ -21,7 +21,7 @@ require_once(HARMONI."architecture/request/URLWriter.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PathInfoRequestHandler.class.php,v 1.1 2007/01/08 21:04:34 adamfranco Exp $
+ * @version $Id: PathInfoRequestHandler.class.php,v 1.2 2007/09/04 20:25:31 adamfranco Exp $
  */
 class PathInfoRequestHandler
 	extends RequestHandler
@@ -57,8 +57,8 @@ class PathInfoRequestHandler
 	 * @return ref object URLWriter
 	 * @access public
 	 */
-	function &createURLWriter() {
-		$writer =& new PathInfoURLWriter();
+	function createURLWriter() {
+		$writer = new PathInfoURLWriter();
 		return $writer;
 	}
 	
@@ -130,7 +130,7 @@ class PathInfoRequestHandler
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PathInfoRequestHandler.class.php,v 1.1 2007/01/08 21:04:34 adamfranco Exp $
+ * @version $Id: PathInfoRequestHandler.class.php,v 1.2 2007/09/04 20:25:31 adamfranco Exp $
  */
 
 class PathInfoURLWriter 
@@ -166,7 +166,7 @@ class PathInfoURLWriter
 		
 		$url = MYURL;
 		$pairs = array();
-		$harmoni =& Harmoni::instance();
+		$harmoni = Harmoni::instance();
 		if (!$harmoni->config->get("sessionUseOnlyCookies") && defined("SID") && SID) 
 			$pairs[] = strip_tags(SID);
 		$pairs[] = $this->_module;

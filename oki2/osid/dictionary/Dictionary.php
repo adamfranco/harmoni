@@ -138,7 +138,7 @@ class Dictionary
      * 
      * @access public
      */
-    function &getId () { 
+    function getId () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -163,7 +163,7 @@ class Dictionary
      * 
      * @access public
      */
-    function &getDomain () { 
+    function getDomain () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -193,7 +193,7 @@ class Dictionary
      * 
      * @access public
      */
-    function addEntry ( $tag, &$value ) { 
+    function addEntry ( $tag, $value ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -250,7 +250,7 @@ class Dictionary
      * 
      * @access public
      */
-    function &getEntry ( $tag ) { 
+    function getEntry ( $tag ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -274,7 +274,7 @@ class Dictionary
      * 
      * @access public
      */
-    function &getTags () { 
+    function getTags () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 }

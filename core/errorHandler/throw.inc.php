@@ -8,15 +8,15 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: throw.inc.php,v 1.11 2005/08/10 13:25:21 gabeschine Exp $
+ * @version $Id: throw.inc.php,v 1.12 2007/09/04 20:25:35 adamfranco Exp $
  */
 
 /**
  * Throws an error using the ErrorHandler.
  * @param object Error The error object to throw.
  */
-function throwError(& $error) {
-	$errorHandler =& Services::getService("ErrorHandler");
+function throwError($error) {
+	$errorHandler = Services::getService("ErrorHandler");
 
 	// throw the error
 	$errorHandler->addError($error);
@@ -26,8 +26,8 @@ function throwError(& $error) {
  * Throws an error using the UserErrorHandler.
  * @param object Error The error object to throw.
  */
-function userError(& $error) {
-	$errorHandler =& Services::getService("UserError");
+function userError($error) {
+	$errorHandler = Services::getService("UserError");
 
 	// throw the error
 	$errorHandler->addError($error);
@@ -38,9 +38,9 @@ function userError(& $error) {
  * @param ref object $printer The {@link ErrorPrinter} to use.
  * @return void
  */
-function printErrors(&$printer)
+function printErrors($printer)
 {
-	$handler =& Services::getService("ErrorHandler");
+	$handler = Services::getService("ErrorHandler");
 	
 	if (haveErrors())
 		return $handler->printErrorsWithErrorPrinter($printer);
@@ -52,7 +52,7 @@ function printErrors(&$printer)
  */
 function haveErrors()
 {
-	$handler =& Services::getService("ErrorHandler");
+	$handler = Services::getService("ErrorHandler");
 	
 	if ($handler->getNumberOfErrors()) {
 		return true;
@@ -67,11 +67,11 @@ function haveErrors()
  */
 function printUserErrors() {
 	// get it
-	$errorHandler =& Services::getService("UserError");
+	$errorHandler = Services::getService("UserError");
 	
 	// check if we have any
 	if ($errorHandler->getNumberOfErrors()) {
-		$printer =& new SimpleHTMLErrorPrinter;
+		$printer = new SimpleHTMLErrorPrinter;
 		return $errorHandler->printErrorsWithErrorPrinter($printer);
 	}
 		

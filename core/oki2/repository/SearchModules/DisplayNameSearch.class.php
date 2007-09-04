@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DisplayNameSearch.class.php,v 1.7 2006/01/18 16:12:26 adamfranco Exp $
+ * @version $Id: DisplayNameSearch.class.php,v 1.8 2007/09/04 20:25:47 adamfranco Exp $
  */
 
 require_once(dirname(__FILE__)."/RegexSearch.abstract.php");
@@ -19,7 +19,7 @@ require_once(dirname(__FILE__)."/RegexSearch.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DisplayNameSearch.class.php,v 1.7 2006/01/18 16:12:26 adamfranco Exp $
+ * @version $Id: DisplayNameSearch.class.php,v 1.8 2007/09/04 20:25:47 adamfranco Exp $
  */
 
 class DisplayNameSearch
@@ -35,7 +35,7 @@ class DisplayNameSearch
 	 * @since 11/2/04
 	 */
 	function DisplayNameSearch ( $dr ) {
-		$this->_dr =& $dr;
+		$this->_dr =$dr;
 	}
 	
 	
@@ -48,19 +48,19 @@ class DisplayNameSearch
 	 * @access public
 	 * @since 11/2/04
 	 */
-	function &searchAssets ( $searchCriteria ) {
+	function searchAssets ( $searchCriteria ) {
 		$searchCriteria = $this->translateToRegex($searchCriteria);
 		
 		$matchingIds = array();
 		
 		// Get All the assets
-		$assets =& $this->_dr->getAssets();
+		$assets =$this->_dr->getAssets();
 		
 		// Add their id to the array if the displayName matches
 		while ($assets->hasNext()) {
-			$asset =& $assets->next();
+			$asset =$assets->next();
 			if (preg_match($searchCriteria, $asset->getDisplayName()))
-				$matchingIds[] =& $asset->getId();
+				$matchingIds[] =$asset->getId();
 		}
 		
 		// Return the array

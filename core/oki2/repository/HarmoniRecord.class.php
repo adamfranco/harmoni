@@ -24,7 +24,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRecord.class.php,v 1.23 2007/04/12 15:37:31 adamfranco Exp $ 
+ * @version $Id: HarmoniRecord.class.php,v 1.24 2007/09/04 20:25:43 adamfranco Exp $ 
  */
 
 class HarmoniRecord 
@@ -36,13 +36,13 @@ class HarmoniRecord
 	
 	var $_createdParts;
 	
-	function HarmoniRecord( &$recordStructure, &$record, &$asset ) {
-		$this->_record=& $record;
-		$this->_recordStructure =& $recordStructure;
+	function HarmoniRecord( $recordStructure, $record, $asset ) {
+		$this->_record=$record;
+		$this->_recordStructure =$recordStructure;
 		
 		$this->_createdParts = array();
 		
-		$this->_asset =& $asset;
+		$this->_asset =$asset;
 	}
  /**
 	 * Get the unique Id for this Record.
@@ -63,8 +63,8 @@ class HarmoniRecord
 	 * 
 	 * @access public
 	 */
-	function &getId () { 
-		$idManager =& Services::getService("Id");
+	function getId () { 
+		$idManager = Services::getService("Id");
 		$id = $this->_record->getID();
 		return $idManager->getId($id);
 	}
@@ -96,17 +96,17 @@ class HarmoniRecord
 	 * 
 	 * @access public
 	 */
-	function &createPart ( &$partStructureId, &$value ) { 
+	function createPart ( $partStructureId, $value ) { 
 		ArgumentValidator::validate($value, ExtendsValidatorRule::getRule("SObject"));
 		$partID = $partStructureId->getIdString();
 		
 		// we need to find the label associated with this ID
-		$schema =& $this->_record->getSchema();
+		$schema =$this->_record->getSchema();
 		$found = false;
 		foreach ($schema->getAllIDs() as $id) {
 			if ($partID == $id) {
 				$found = true;
-				$part =& $schema->getField($id);
+				$part =$schema->getField($id);
 				break;
 			}
 		}
@@ -137,8 +137,8 @@ class HarmoniRecord
 			
 		$this->_record->commit(TRUE);
 		
-		$repository =& $this->_asset->getRepository();
-		$part =& new HarmoniPart(new HarmoniPartStructure($this->_recordStructure, $part, $repository->getId()),
+		$repository =$this->_asset->getRepository();
+		$part = new HarmoniPart(new HarmoniPartStructure($this->_recordStructure, $part, $repository->getId()),
 			$this->_record->getRecordFieldValue($id, $this->_record->numValues($label)-1),
 			$this->_asset);
 		
@@ -169,7 +169,7 @@ class HarmoniRecord
 	 * 
 	 * @access public
 	 */
-	function deletePart ( &$partId ) { 
+	function deletePart ( $partId ) { 
 		$string = $partId->getIdString();
 		if (ereg("(.+)::(.+)::([0-9]+)",$string,$r)) {
 			$recordId = $r[1];
@@ -206,20 +206,20 @@ class HarmoniRecord
 	 * 
 	 * @access public
 	 */
-	function &getParts () { 
+	function getParts () { 
 		// Get all of the PartStructures in this structure
-		$partStructures =& $this->_recordStructure->getPartStructures();
+		$partStructures =$this->_recordStructure->getPartStructures();
 		while ($partStructures->hasNext()) {
-			$partStructure =& $partStructures->next();
+			$partStructure =$partStructures->next();
 			$id = $partStructure->getId();
 			$idString = $id->getIdString();
-			$allRecordFieldValues =& $this->_record->getRecordFieldValues($idString);
+			$allRecordFieldValues =$this->_record->getRecordFieldValues($idString);
 			// Create an Part for each valueVersionObj
 			if (count($allRecordFieldValues)) {
 				foreach (array_keys($allRecordFieldValues) as $key) {
-					if ($activeValue =& $allRecordFieldValues[$key]->getActiveVersion()
-						&& !isset($this->_createdParts[$activeValue->getID()]))
-						$this->_createdParts[$activeValue->getID()] =& new HarmoniPart(
+					$activeValue = $allRecordFieldValues[$key]->getActiveVersion();
+					if ($activeValue && !isset($this->_createdParts[$activeValue->getID()]))
+						$this->_createdParts[$activeValue->getID()] = new HarmoniPart(
 													$partStructure, $allRecordFieldValues[$key],
 													$this->_asset);
 				}
@@ -227,7 +227,7 @@ class HarmoniRecord
 		}
 		
 		// Create an iterator and return it.
-		$partIterator =& new HarmoniPartIterator($this->_createdParts);
+		$partIterator = new HarmoniPartIterator($this->_createdParts);
 		
 		return $partIterator;
 	}
@@ -242,11 +242,11 @@ class HarmoniRecord
 	 * @access public
 	 * @since 10/10/05
 	 */
-	function &getPart ($id) {
-		$parts =& $this->getParts();
+	function getPart ($id) {
+		$parts =$this->getParts();
 		
 		while ($parts->hasNext()) {
-			$part =& $parts->next();
+			$part =$parts->next();
 			if ($part->getId() == $id)
 				return $part;
 		}
@@ -285,7 +285,7 @@ class HarmoniRecord
 	 * 
 	 * @access public
 	 */
-	function &getRecordStructure () { 
+	function getRecordStructure () { 
 		return $this->_recordStructure;
 	}
 	
@@ -316,31 +316,31 @@ class HarmoniRecord
      * 
      * @access public
      */
-    function &getPartsByPartStructure ( &$partStructureId ) {
-    	$partStructure =& $this->_recordStructure->getPartStructure($partStructureId);
+    function getPartsByPartStructure ( $partStructureId ) {
+    	$partStructure =$this->_recordStructure->getPartStructure($partStructureId);
 		$partStructureId = $partStructure->getId();
 		$idString = $partStructureId->getIdString();		
 		
 		$partsToReturn = array();
 		
 		// Create an Part for each valueVersionObj
-		$allRecordFieldValues =& $this->_record->getRecordFieldValues($idString);
+		$allRecordFieldValues =$this->_record->getRecordFieldValues($idString);
 		if (count($allRecordFieldValues)) {
 			foreach (array_keys($allRecordFieldValues) as $key) {
-				if ($activeValue =& $allRecordFieldValues[$key]->getActiveVersion()) {
+				if ($activeValue =$allRecordFieldValues[$key]->getActiveVersion()) {
 					if (!isset($this->_createdParts[$activeValue->getID()])) {
-						$this->_createdParts[$activeValue->getID()] =& new HarmoniPart(
+						$this->_createdParts[$activeValue->getID()] = new HarmoniPart(
 												$partStructure, $allRecordFieldValues[$key],
 												$this->_asset);
 					}
 					
-					$partsToReturn[] =& $this->_createdParts[$activeValue->getID()];
+					$partsToReturn[] =$this->_createdParts[$activeValue->getID()];
 				}
 				
 			}
 		}
 		
-		$partsIterator =& new HarmoniIterator($partsToReturn);
+		$partsIterator = new HarmoniIterator($partsToReturn);
 		return $partsIterator;
     }
 }

@@ -19,7 +19,7 @@ require_once(HARMONI."GUIManager/StyleProperties/HeightSP.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Container.class.php,v 1.16 2007/08/31 18:11:28 achapin Exp $
+ * @version $Id: Container.class.php,v 1.17 2007/09/04 20:25:21 adamfranco Exp $
  */
 class Container extends Component /* implements ContainerInterface */ {
 
@@ -63,15 +63,15 @@ class Container extends Component /* implements ContainerInterface */ {
 	 * result in copying the objects instead of referencing them as using
 	 * <code>addStyle()</code> would do.
 	 **/
-	function Container(& $layout, $type, $index) {
+	function Container($layout, $type, $index) {
 		// ** parameter validation
-		$rule =& ExtendsValidatorRule::getRule("LayoutInterface");
+		$rule = ExtendsValidatorRule::getRule("LayoutInterface");
 		ArgumentValidator::validate($layout, $rule, true);
 		ArgumentValidator::validate($index, IntegerValidatorRule::getRule(), true);
 		// ** end of parameter validation	
 	
 		$this->Component(null, $type, $index);
-		$this->_layout =& $layout;
+		$this->_layout =$layout;
 		$this->_components = array();
 		$this->_constraints = array();
 
@@ -90,7 +90,7 @@ class Container extends Component /* implements ContainerInterface */ {
 	 * recommended in order to produce a nicely formatted HTML output.
 	 * @access public
 	 **/
-	function render(& $theme, $tabs = "") {
+	function render($theme, $tabs = "") {
 		echo $this->getPreHTML($theme, $tabs);
 		$this->_layout->render($this, $theme, $tabs);
 		echo $this->getPostHTML($theme, $tabs);
@@ -110,7 +110,7 @@ class Container extends Component /* implements ContainerInterface */ {
 	 * If null, will be ignored.
 	 * @return ref object The component that was just added.
 	 **/
-	function &add(& $component, $width = NULL, $height = NULL, $alignmentX = NULL, $alignmentY = NULL) {
+	function add($component, $width = NULL, $height = NULL, $alignmentX = NULL, $alignmentY = NULL) {
 		// ** parameter validation
 		ArgumentValidator::validate($component, ExtendsValidatorRule::getRule("ComponentInterface"), true);
 		ArgumentValidator::validate($width, OptionalRule::getRule(StringValidatorRule::getRule(), true));
@@ -124,7 +124,7 @@ class Container extends Component /* implements ContainerInterface */ {
 		$constraint[1] = $height;
 		$constraint[2] = $alignmentX;
 		$constraint[3] = $alignmentY;
-		$this->_constraints[] =& $constraint;
+		$this->_constraints[] =$constraint;
 		
 		 $this->_components[] = $component;
 		 return $component;
@@ -169,7 +169,7 @@ class Container extends Component /* implements ContainerInterface */ {
 	 * @access public
 	 * @since 1/24/07
 	 */
-	function insertAtPlaceholder ($placeholderId, &$component, $width = NULL, 
+	function insertAtPlaceholder ($placeholderId, $component, $width = NULL, 
 		$height = NULL, $alignmentX = NULL, $alignmentY = NULL) 
 	{
 		// ** parameter validation
@@ -189,7 +189,7 @@ class Container extends Component /* implements ContainerInterface */ {
 		$constraint[1] = $height;
 		$constraint[2] = $alignmentX;
 		$constraint[3] = $alignmentY;
-		$this->_constraints[$placeholderId - 1] =& $constraint;
+		$this->_constraints[$placeholderId - 1] =$constraint;
 		
 		// Add any pre and post html that was added to the placeholder
 		$null = null;
@@ -201,7 +201,7 @@ class Container extends Component /* implements ContainerInterface */ {
 			.$this->_components[$placeholderId - 1]->getPostHTML($null));
 		
 		// Replace the placeholder with the component
-		$this->_components[$placeholderId - 1] =& $component;
+		$this->_components[$placeholderId - 1] =$component;
 		
 		return $this->_components[$placeholderId - 1];
 	}
@@ -214,7 +214,7 @@ class Container extends Component /* implements ContainerInterface */ {
 	 * @param integer id The id of the component which should be returned.
 	 * @return ref object The component.
 	 **/
-	function &getComponent($id) {
+	function getComponent($id) {
 		// ** parameter validation
 		ArgumentValidator::validate($id, IntegerValidatorRule::getRule(), true);
 		// ** end of parameter validation
@@ -240,7 +240,7 @@ class Container extends Component /* implements ContainerInterface */ {
 	 * @access public
 	 * @return ref array An array of the components in this <code>Container</code>.
 	 **/
-	function &getComponents() {
+	function getComponents() {
 		return $this->_components;
 	}
 
@@ -301,12 +301,12 @@ class Container extends Component /* implements ContainerInterface */ {
 	 * this container..
 	 * @return ref object The component that was just removed.
 	 **/
-	function &remove($id) {
+	function remove($id) {
 		// ** parameter validation
 		ArgumentValidator::validate($id, IntegerValidatorRule::getRule(), true);
 		// ** end of parameter validation
 
-		$component =& $this->_components[$id-1];
+		$component =$this->_components[$id-1];
 		unset($this->_components[$id-1]);
 		unset($this->_constraints[$id-1]);
 
@@ -327,7 +327,7 @@ class Container extends Component /* implements ContainerInterface */ {
 	 * @access public
 	 * @return ref object The <code>Layout</code> of this container.
 	 **/
-	function &getLayout() {
+	function getLayout() {
 		return $this->_layout;
 	}
 	
@@ -336,13 +336,13 @@ class Container extends Component /* implements ContainerInterface */ {
 	 * @access public
 	 * @param ref object layout The Layout to assign to this container.
 	 **/
-	function setLayout(& $layout) {
+	function setLayout($layout) {
 		// ** parameter validation
-		$rule =& ExtendsValidatorRule::getRule("LayoutInterface");
+		$rule = ExtendsValidatorRule::getRule("LayoutInterface");
 		ArgumentValidator::validate($layout, $rule, true);
 		// ** end of parameter validation	
 
-		$this->_layout =& $layout;		
+		$this->_layout =$layout;		
 	}
 	
 }

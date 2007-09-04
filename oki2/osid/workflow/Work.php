@@ -86,7 +86,7 @@ class Work
      * 
      * @access public
      */
-    function &getId () { 
+    function getId () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -156,7 +156,7 @@ class Work
      * 
      * @access public
      */
-    function &getQualifierId () { 
+    function getQualifierId () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -179,7 +179,7 @@ class Work
      * 
      * @access public
      */
-    function &getPropertyTypes () { 
+    function getPropertyTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -207,7 +207,7 @@ class Work
      * 
      * @access public
      */
-    function &getNextStepsForRole ( &$roleId ) { 
+    function getNextStepsForRole ( $roleId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -230,7 +230,7 @@ class Work
      * 
      * @access public
      */
-    function &getNextSteps () { 
+    function getNextSteps () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -263,7 +263,7 @@ class Work
      * 
      * @access public
      */
-    function updateStepOutputState ( &$stepId, $outputState ) { 
+    function updateStepOutputState ( $stepId, $outputState ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -287,7 +287,7 @@ class Work
      * 
      * @access public
      */
-    function &getHistory () { 
+    function getHistory () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -315,7 +315,7 @@ class Work
      * 
      * @access public
      */
-    function &getPropertiesByType ( &$propertiesType ) { 
+    function getPropertiesByType ( $propertiesType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -338,7 +338,7 @@ class Work
      * 
      * @access public
      */
-    function &getProperties () { 
+    function getProperties () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 }

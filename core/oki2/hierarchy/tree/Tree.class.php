@@ -11,7 +11,7 @@ require_once(HARMONI."oki2/hierarchy/tree/TreeNode.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Tree.class.php,v 1.15 2006/02/20 17:41:27 cws-midd Exp $
+ * @version $Id: Tree.class.php,v 1.16 2007/09/04 20:25:42 adamfranco Exp $
  * @since Created: 8/30/2003
  */
 class Tree extends TreeInterface {
@@ -57,10 +57,10 @@ class Tree extends TreeInterface {
 	 *		traversal cache. This is needed when changing parentage.
 	 * @return void
 	 */
-	function addNode(& $node, & $parent, $clearTraversal = false ) {
+	function addNode($node, $parent, $clearTraversal = false ) {
 		// ** parameter validation
-		$extendsRule =& ExtendsValidatorRule::getRule("TreeNode");
-		$optionalRule =& OptionalRule::getRule($extendsRule);
+		$extendsRule = ExtendsValidatorRule::getRule("TreeNode");
+		$optionalRule = OptionalRule::getRule($extendsRule);
 		ArgumentValidator::validate($node, $extendsRule, true);
 		ArgumentValidator::validate($parent, $optionalRule, true);
 		// ** end of parameter validation
@@ -70,7 +70,7 @@ class Tree extends TreeInterface {
 		// if node has not been cached then do so
 		if (!$this->nodeExists($id)) {
 			// add the node
-			$this->_nodes[$id] =& $node;
+			$this->_nodes[$id] =$node;
 			$this->_size++;
 		}
 
@@ -115,9 +115,9 @@ class Tree extends TreeInterface {
 	 * @param object node The node to delete.
 	 * @return void
 	 **/
-	function deleteNode(& $node, $clearTraversal = false) {
+	function deleteNode($node, $clearTraversal = false) {
 		// ** parameter validation
-		$extendsRule =& ExtendsValidatorRule::getRule("TreeNode");
+		$extendsRule = ExtendsValidatorRule::getRule("TreeNode");
 		ArgumentValidator::validate($node, $extendsRule, true);
 		// ** end of parameter validation
 		
@@ -170,7 +170,7 @@ class Tree extends TreeInterface {
 	 * @return ref object The requested node. <code>Null</code>, if the node
 	 * is not in the tree.
 	 */
-	function &getNode($id) {
+	function getNode($id) {
 		// ** parameter validation
 		ArgumentValidator::validate($id, 
 			OrValidatorRule::getRule(
@@ -208,7 +208,7 @@ class Tree extends TreeInterface {
 	 * @access public
 	 * @return ref array An array of all nodes.
 	 */
-	function &getNodes() {
+	function getNodes() {
 		return $this->_nodes;
 	}
 	
@@ -230,9 +230,9 @@ class Tree extends TreeInterface {
 	 * to the starting node. Descendants are assigned increasingly positive levels; 
 	 * ancestors increasingly negative levels. 
 	 */
-	function &traverse(& $node, $down, $levels) {
+	function traverse($node, $down, $levels) {
 		// ** parameter validation
-		$extendsRule =& ExtendsValidatorRule::getRule("TreeNodeInterface");
+		$extendsRule = ExtendsValidatorRule::getRule("TreeNodeInterface");
 		ArgumentValidator::validate($node, $extendsRule, true);
 		ArgumentValidator::validate($down, BooleanValidatorRule::getRule(), true);
 		ArgumentValidator::validate($levels, IntegerValidatorRule::getRule(), true);
@@ -262,10 +262,10 @@ class Tree extends TreeInterface {
 	 * @access public
 	 * @since 11/9/05
 	 */
-	function clearTraverseUpCaches ( &$node ) {
-		$treeNodes =& $this->traverse($node, false, -1);
+	function clearTraverseUpCaches ( $node ) {
+		$treeNodes =$this->traverse($node, false, -1);
 		foreach (array_keys($treeNodes) as $i => $key) {
-			$decendentNode =& $this->getNode($key);
+			$decendentNode =$this->getNode($key);
 			$this->clearTraversalCaches($decendentNode, false);
 		}
 	}
@@ -278,10 +278,10 @@ class Tree extends TreeInterface {
 	 * @access public
 	 * @since 11/9/05
 	 */
-	function clearTraverseDownCaches ( &$node ) {
-		$treeNodes =& $this->traverse($node, true, -1);
+	function clearTraverseDownCaches ( $node ) {
+		$treeNodes =$this->traverse($node, true, -1);
 		foreach (array_keys($treeNodes) as $i => $key) {
-			$ancestorNode =& $this->getNode($key);
+			$ancestorNode =$this->getNode($key);
 			$this->clearTraversalCaches($ancestorNode, true);
 		}
 	}
@@ -295,7 +295,7 @@ class Tree extends TreeInterface {
 	 * @access public
 	 * @since 11/9/05
 	 */
-	function clearTraversalCaches ( &$node, $down ) {
+	function clearTraversalCaches ( $node, $down ) {
 		$regex = "/^".$this->getCacheKey($node, $down, '[\-0-9]+')."$/";
 		foreach(array_keys($this->_traversalCache) as $cacheKey) {
 			if (preg_match($regex, $cacheKey)) {
@@ -315,7 +315,7 @@ class Tree extends TreeInterface {
 	 * @access public
 	 * @since 11/9/05
 	 */
-	function getCacheKey ( &$node, $down, $levels ) {
+	function getCacheKey ( $node, $down, $levels ) {
 		return $node->getId()."::".(($down)?"TRUE":"FALSE")."::".$levels;
 	}
 	
@@ -340,7 +340,7 @@ class Tree extends TreeInterface {
 	 * 		to the starting node. Descendants are assigned increasingly positive levels; 
 	 * 		ancestors increasingly negative levels. 
 	 */
-	function _traverse(& $result, & $node, $down, $levels, $startingLevel, $initiatingNodeId = null) {
+	function _traverse( &$result, $node, $down, $levels, $startingLevel, $initiatingNodeId = null) {
 		// visit the node
 		
 		// note: the node could possibly been have visited already (if it has
@@ -350,7 +350,7 @@ class Tree extends TreeInterface {
 		$newLevel = ($startingLevel - $levels) * $mult;
 		
 		if (!isset($result[$node->getId()])) {
-			$result[$node->getId()][0] =& $node;
+			$result[$node->getId()][0] =$node;
 			$result[$node->getId()][1] = $newLevel;
 		}
 		else if (abs($result[$node->getId()][1]) > abs($newLevel))
@@ -389,9 +389,9 @@ class Tree extends TreeInterface {
 
 		// visit the children/parents
 		if ($down)
-			$nodes =& $node->getChildren();
+			$nodes =$node->getChildren();
 		else
-			$nodes =& $node->getParents();
+			$nodes =$node->getParents();
 		foreach (array_keys($nodes) as $i => $key)
 			// recurse for each node
 			$this->_traverse($result, $nodes[$key], $down, $levels - 1, $startingLevel, $node->getId());

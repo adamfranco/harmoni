@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableTime.class.php,v 1.19 2007/04/12 15:37:26 adamfranco Exp $
+ * @version $Id: StorableTime.class.php,v 1.20 2007/09/04 20:25:33 adamfranco Exp $
  */
 class StorableTime 
 	extends DateAndTime /* implements StorablePrimitive */ 
@@ -31,13 +31,13 @@ class StorableTime
 	 * @return object StorableTime
 	 * @static
 	 */
-	function &createAndPopulate( $dbRow ) {
-		$date =& StorableTime::withJulianDayNumber($dbRow["time_jdn"]);
-		$timeComponent =& Duration::withSeconds($dbRow["time_seconds"]);
-		$date =& $date->plus($timeComponent);
+	function createAndPopulate( $dbRow ) {
+		$date = StorableTime::withJulianDayNumber($dbRow["time_jdn"]);
+		$timeComponent = Duration::withSeconds($dbRow["time_seconds"]);
+		$date =$date->plus($timeComponent);
 		
 		// The date in the DB was UTC, so be sure to set the offset to zero here.
-		$date =& $date->withOffset(Duration::zero());
+		$date =$date->withOffset(Duration::zero());
 		
 		// Convert the time to the local offset, maintain equivalent time to the 
 		// UTC version
@@ -54,10 +54,10 @@ class StorableTime
 	 * @return string or NULL if no searching is allowed.
 	 * @static
 	 */
-	function makeSearchString(&$value, $searchType = SEARCH_TYPE_EQUALS) {
+	function makeSearchString($value, $searchType = SEARCH_TYPE_EQUALS) {
 		// Convert to UTC
-		$utc =& $this->asUTC();
-		$utcTime =& $utc->asTime();
+		$utc =$this->asUTC();
+		$utcTime =$utc->asTime();
 		$jdn = $utc->julianDayNumber();
 		$seconds = $utcTime->asSeconds();
 		
@@ -75,7 +75,7 @@ class StorableTime
 			case SEARCH_TYPE_IN_LIST:
 				$string = "(";
 				while ($value->hasNext()) {
-					$valueObj =& $value->next();
+					$valueObj =$value->next();
 					$string .= "(dm_time.jdn=$jdn AND dm_time.seconds=$seconds)";
 					if ($value->hasNext())
 						$string .= " OR ";
@@ -85,7 +85,7 @@ class StorableTime
 			case SEARCH_TYPE_NOT_IN_LIST:
 				$string = "NOT (";
 				while ($value->hasNext()) {
-					$valueObj =& $value->next();
+					$valueObj =$value->next();
 					$string .= "(dm_time.jdn=$jdn AND dm_time.seconds=$seconds)";
 					if ($value->hasNext())
 						$string .= " OR ";
@@ -118,8 +118,8 @@ class StorableTime
  	 * @access public
  	 * @since 5/13/05
  	 */
- 	function &current ( $class = 'StorableTime' ) {
- 		eval('$result =& '.$class.'::now();');
+ 	function current ( $class = 'StorableTime' ) {
+ 		eval('$result = '.$class.'::now();');
  		return $result;
  	}
 	
@@ -135,7 +135,7 @@ class StorableTime
 	 * @since 5/2/05
 	 * @static
 	 */
-	function &epoch ( $class = 'StorableTime' ) {
+	function epoch ( $class = 'StorableTime' ) {
 		return parent::epoch($class);
 	}
 	
@@ -162,7 +162,7 @@ class StorableTime
 	 * @since 5/12/05
 	 * @static
 	 */
-	function &fromString ( $aString, $class = 'StorableTime' ) {
+	function fromString ( $aString, $class = 'StorableTime' ) {
 		return parent::fromString( $aString, $class);
 	}
 	
@@ -179,10 +179,10 @@ class StorableTime
 	 * @access public
 	 * @since 5/27/05
 	 */
-	function &fromUnixTimeStamp ( $aUnixTimeStamp, $class = 'StorableTime' ) {
-		$sinceUnixEpoch =& Duration::withSeconds($aUnixTimeStamp);
+	function fromUnixTimeStamp ( $aUnixTimeStamp, $class = 'StorableTime' ) {
+		$sinceUnixEpoch = Duration::withSeconds($aUnixTimeStamp);
 		
-		eval('$unixEpoch =& '.$class.'::withYearMonthDayHourMinuteSecondOffset(
+		eval('$unixEpoch = '.$class.'::withYearMonthDayHourMinuteSecondOffset(
 						1970, 1, 1, 0, 0, 0, Duration::zero());');
 		return $unixEpoch->plus($sinceUnixEpoch);
 	}
@@ -199,7 +199,7 @@ class StorableTime
 	 * @since 5/3/05
 	 * @static
 	 */
-	function &midnight ( $class = 'StorableTime' ) {
+	function midnight ( $class = 'StorableTime' ) {
 		return parent::midnight( $class );
 	}
 	
@@ -215,7 +215,7 @@ class StorableTime
 	 * @since 5/12/05
 	 * @static
 	 */
-	function &now ( $class = 'StorableTime' ) {
+	function now ( $class = 'StorableTime' ) {
 		return parent::now( $class );
 	}
 	
@@ -231,7 +231,7 @@ class StorableTime
 	 * @since 5/3/05
 	 * @static
 	 */
-	function &noon ( $class = 'StorableTime' ) {
+	function noon ( $class = 'StorableTime' ) {
 		return parent::noon( $class );
 	}
 	
@@ -247,7 +247,7 @@ class StorableTime
 	 * @since 5/12/05
 	 * @static
 	 */
-	function &today ( $class = 'StorableTime' ) {
+	function today ( $class = 'StorableTime' ) {
 		return parent::today( $class );
 	}
 	
@@ -263,7 +263,7 @@ class StorableTime
 	 * @since 5/12/05
 	 * @static
 	 */
-	function &tomorrow ( $class = 'StorableTime' ) {
+	function tomorrow ( $class = 'StorableTime' ) {
 		return parent::tomorrow( $class );
 	}
 	
@@ -279,7 +279,7 @@ class StorableTime
 	 * @since 5/12/05
 	 * @static
 	 */
-	function &withDateAndTime ( &$aDate, &$aTime, $class = 'StorableTime' ) {
+	function withDateAndTime ( $aDate, $aTime, $class = 'StorableTime' ) {
 		return parent::withDateAndTime( $aDate, $aTime, $class );
 	}
 	
@@ -296,7 +296,7 @@ class StorableTime
 	 * @since 5/2/05
 	 * @static
 	 */
-	function &withJulianDayNumber ( $aJulianDayNumber, $class = 'StorableTime' ) {
+	function withJulianDayNumber ( $aJulianDayNumber, $class = 'StorableTime' ) {
 		return parent::withJulianDayNumber($aJulianDayNumber, $class);
 	}
 	
@@ -313,7 +313,7 @@ class StorableTime
  	 * @static
 	 * @since 5/4/05
 	 */
-	function &withYearDay ( $anIntYear, $anIntDayOfYear, $class = 'StorableTime') {
+	function withYearDay ( $anIntYear, $anIntDayOfYear, $class = 'StorableTime') {
 		return parent::withYearDay ( $anIntYear, $anIntDayOfYear, $class );
 	}
 	
@@ -334,7 +334,7 @@ class StorableTime
  	 * @static
 	 * @since 5/4/05
 	 */
-	function &withYearDayHourMinuteSecond ( $anIntYear, $anIntDayOfYear, 
+	function withYearDayHourMinuteSecond ( $anIntYear, $anIntDayOfYear, 
 		$anIntHour, $anIntMinute, $anIntSecond, $class = 'StorableTime' ) 
 	{
 		return parent::withYearDayHourMinuteSecond ( $anIntYear, $anIntDayOfYear, 
@@ -359,8 +359,8 @@ class StorableTime
  	 * @static
 	 * @since 5/4/05
 	 */
-	function &withYearDayHourMinuteSecondOffset ( $anIntYear, $anIntDayOfYear, 
-		$anIntHour, $anIntMinute, $anIntSecond, &$aDurationOffset, $class = 'StorableTime' ) 
+	function withYearDayHourMinuteSecondOffset ( $anIntYear, $anIntDayOfYear, 
+		$anIntHour, $anIntMinute, $anIntSecond, $aDurationOffset, $class = 'StorableTime' ) 
 	{
 		return parent::withYearDayHourMinuteSecondOffset ( $anIntYear, $anIntDayOfYear, 
 			$anIntHour, $anIntMinute, $anIntSecond, $aDurationOffset, $class);
@@ -381,7 +381,7 @@ class StorableTime
  	 * @static
 	 * @since 5/4/05
 	 */
-	function &withYearMonthDay ( $anIntYear, $anIntOrStringMonth, $anIntDay, 
+	function withYearMonthDay ( $anIntYear, $anIntOrStringMonth, $anIntDay, 
 		$class = 'StorableTime' ) 
 	{
 		return parent::withYearMonthDay ( $anIntYear, $anIntOrStringMonth, $anIntDay, 
@@ -405,7 +405,7 @@ class StorableTime
  	 * @static
 	 * @since 5/4/05
 	 */
-	function &withYearMonthDayHourMinute ( $anIntYear, $anIntOrStringMonth, 
+	function withYearMonthDayHourMinute ( $anIntYear, $anIntOrStringMonth, 
 		$anIntDay, $anIntHour, $anIntMinute, $class = 'StorableTime' ) 
 	{
 		return parent::withYearMonthDayHourMinute ( $anIntYear, $anIntOrStringMonth, 
@@ -430,7 +430,7 @@ class StorableTime
  	 * @static
 	 * @since 5/4/05
 	 */
-	function &withYearMonthDayHourMinuteSecond ( $anIntYear, $anIntOrStringMonth, 
+	function withYearMonthDayHourMinuteSecond ( $anIntYear, $anIntOrStringMonth, 
 		$anIntDay, $anIntHour, $anIntMinute, $anIntSecond, $class = 'StorableTime' ) 
 	{
 		return parent::withYearMonthDayHourMinuteSecond ( $anIntYear, $anIntOrStringMonth, 
@@ -456,9 +456,9 @@ class StorableTime
  	 * @static
 	 * @since 5/4/05
 	 */
-	function &withYearMonthDayHourMinuteSecondOffset ( $anIntYear, 
+	function withYearMonthDayHourMinuteSecondOffset ( $anIntYear, 
 		$anIntOrStringMonth, $anIntDay, $anIntHour, $anIntMinute, 
-		$anIntSecond, &$aDurationOffset, $class = 'StorableTime'  ) 
+		$anIntSecond, $aDurationOffset, $class = 'StorableTime'  ) 
 	{
 		return parent::withYearMonthDayHourMinuteSecondOffset ( $anIntYear, 
 			$anIntOrStringMonth, $anIntDay, $anIntHour, $anIntMinute, 
@@ -477,7 +477,7 @@ class StorableTime
 	 * @since 5/12/05
 	 * @static
 	 */
-	function &yesterday ( $class = 'StorableTime' ) {
+	function yesterday ( $class = 'StorableTime' ) {
 		return parent::yesterday($class);
 	}
 	
@@ -493,7 +493,7 @@ class StorableTime
 	 * @access public
 	 * @return void
 	 */
-	function alterQuery( &$query ) {
+	function alterQuery( $query ) {
 		$query->addTable("dm_time",LEFT_JOIN,"dm_time.id = fk_data");
 		$query->addColumn("jdn","time_jdn","dm_time");
 		$query->addColumn("seconds","time_seconds","dm_time");
@@ -506,24 +506,24 @@ class StorableTime
 	 * @return integer Returns the new ID of the data stored.
 	 */
 	function insert($dbID) {
-		$idManager =& Services::getService("Id");
-		$newID =& $idManager->createId();
+		$idManager = Services::getService("Id");
+		$newID =$idManager->createId();
 		
-		$query =& new InsertQuery();
+		$query = new InsertQuery();
 		$query->setTable("dm_time");
 		$query->setColumns(array("id","jdn", "seconds"));
-		$dbHandler =& Services::getService("DatabaseManager");
+		$dbHandler = Services::getService("DatabaseManager");
 		
 		// Convert to UTC for storage
-		$utc =& $this->asUTC();
-		$utcTime =& $utc->asTime();
+		$utc =$this->asUTC();
+		$utcTime =$utc->asTime();
 		
 		$query->addRowOfValues(array(
 			"'".addslashes($newID->getIdString())."'",
 			"'".addslashes($utc->julianDayNumber())."'",
 			"'".addslashes($utcTime->asSeconds())."'"));
 		
-		$result =& $dbHandler->query($query, $dbID);
+		$result =$dbHandler->query($query, $dbID);
 		if (!$result || $result->getNumberOfRows() != 1) {
 			throwError( new UnknownDBError("StorableTime") );
 			return false;
@@ -543,21 +543,21 @@ class StorableTime
 	function update($dbID, $dataID) {
 		if (!$dataID) return false;
 		
-		$query =& new UpdateQuery();
+		$query = new UpdateQuery();
 		$query->setTable("dm_time");
 		$query->setColumns(array("jdn", "seconds"));
 		$query->setWhere("id='".addslashes($dataID)."'");
 		
 		// Convert to UTC for storage
-		$utc =& $this->asUTC();
-		$utcTime =& $utc->asTime();
+		$utc =$this->asUTC();
+		$utcTime =$utc->asTime();
 		
 		$query->setValues(array(
 			"'".addslashes($utc->julianDayNumber())."'",
 			"'".addslashes($utcTime->asSeconds())."'"));
 		
-		$dbHandler =& Services::getService("DatabaseManager");
-		$result =& $dbHandler->query($query, $dbID);
+		$dbHandler = Services::getService("DatabaseManager");
+		$result =$dbHandler->query($query, $dbID);
 		
 		if (!$result) {
 			throwError( new UnknownDBError("StorableTime") );
@@ -577,12 +577,12 @@ class StorableTime
 		if (!$dataID) return;
 		// delete ourselves from our data table
 		
-		$query =& new DeleteQuery;
+		$query = new DeleteQuery;
 		$query->setTable("dm_time");
 		$query->setWhere("id='".addslashes($dataID)."'");
 		
-		$dbHandler =& Services::getService("DatabaseManager");
-		$res =& $dbHandler->query($query, $dbID);
+		$dbHandler = Services::getService("DatabaseManager");
+		$res =$dbHandler->query($query, $dbID);
 		
 		if (!$res) throwError( new UnknownDBError("StorablePrimitive"));
 	}
@@ -600,7 +600,7 @@ class StorableTime
 	 * @access public
 	 * @since 6/9/06
 	 */
-	function &asABlob () {
+	function asABlob () {
 		return Blob::fromString($this->asString());
 	}
 	
@@ -611,7 +611,7 @@ class StorableTime
 	 * @access public
 	 * @since 6/9/06
 	 */
-	function &asAString () {
+	function asAString () {
 		return String::fromString($this->asString());
 	}
 	
@@ -622,7 +622,7 @@ class StorableTime
 	 * @access public
 	 * @since 6/9/06
 	 */
-	function &asAShortString () {
+	function asAShortString () {
 		return String::fromString($this->asString());
 	}
 	
@@ -633,7 +633,7 @@ class StorableTime
 	 * @access public
 	 * @since 6/9/06
 	 */
-	function &asADateTime () {
+	function asADateTime () {
 		return $this;
 	}
 	
@@ -644,8 +644,8 @@ class StorableTime
 	 * @access public
 	 * @since 6/9/06
 	 */
-	function &asAInteger() {
-		$tstamp =& $this->asTimestamp();
+	function asAInteger() {
+		$tstamp =$this->asTimestamp();
 		return Integer::withValue($tstamp->asUnixTimeStamp());
 	}
 	
@@ -656,8 +656,8 @@ class StorableTime
 	 * @access public
 	 * @since 6/9/06
 	 */
-	function &asAFloat () {
-		$tstamp =& $this->asTimestamp();
+	function asAFloat () {
+		$tstamp =$this->asTimestamp();
 		return Float::withValue($tstamp->asUnixTimeStamp());
 	}
 }

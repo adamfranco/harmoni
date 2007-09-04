@@ -11,7 +11,7 @@ require_once(dirname(__FILE__)."/AgentSearch.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ClassTokenSearch.class.php,v 1.2 2006/12/12 17:18:15 adamfranco Exp $
+ * @version $Id: ClassTokenSearch.class.php,v 1.3 2007/09/04 20:25:36 adamfranco Exp $
  */
 
 class ClassTokenSearch
@@ -28,7 +28,7 @@ class ClassTokenSearch
 	 * @access public
 	 * @since 11/10/04
 	 */
-	function &getAgentsBySearch ( & $searchCriteria) {
+	function getAgentsBySearch ( $searchCriteria) {
 	  die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a 		 child class.");
 	
 	}
@@ -44,7 +44,7 @@ class ClassTokenSearch
 	 * @access public
 	 * @since 11/10/04
 	 */
-	function &getGroupsBySearch ( & $searchCriteria) {
+	function getGroupsBySearch ( $searchCriteria) {
 	   die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a 		 child class.");
 	}
 	
@@ -59,27 +59,27 @@ class ClassTokenSearch
 	 * @access public
 	 * @since 11/10/04
 	 */
-	function &getClassDNsBySearch ( & $searchCriteria) {
+	function getClassDNsBySearch ( $searchCriteria) {
 		$allGroups = array();
 		
 		// See if the agent exists as known by harmoni
-		$authNMethodManager =& Services::getService("AuthNMethodManager");
-		$authenticationManager =& Services::getService("AuthenticationManager");
-		$agentManager =& Services::getService("AgentManager");
+		$authNMethodManager = Services::getService("AuthNMethodManager");
+		$authenticationManager = Services::getService("AuthenticationManager");
+		$agentManager = Services::getService("AgentManager");
 		
-		$types =& $authNMethodManager->getAuthNTypes();
+		$types =$authNMethodManager->getAuthNTypes();
 		while ($types->hasNext()) {
-			$type =& $types->next();
-			$authNMethod =& $authNMethodManager->getAuthNMethodForType($type);
+			$type =$types->next();
+			$authNMethod =$authNMethodManager->getAuthNMethodForType($type);
 			if(!method_exists($authNMethod,"getClassTokensBySearch")){
 			  continue;
 			}
-			$tokensIterator =& $authNMethod->getClassTokensBySearch($searchCriteria);
+			$tokensIterator =$authNMethod->getClassTokensBySearch($searchCriteria);
 			
 		
 			
 			while ($tokensIterator->hasNextObject()) {
-				$token =& $tokensIterator->nextObject();
+				$token =$tokensIterator->nextObject();
 				$allGroups[] = $token->getIdentifier();
 			}
 		}		

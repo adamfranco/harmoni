@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OracleInsertQueryResult.class.php,v 1.6 2005/07/15 22:25:14 gabeschine Exp $
+ * @version $Id: OracleInsertQueryResult.class.php,v 1.7 2007/09/04 20:25:19 adamfranco Exp $
  */
  
 require_once(HARMONI."DBHandler/InsertQueryResult.interface.php");
@@ -19,7 +19,7 @@ require_once(HARMONI."DBHandler/InsertQueryResult.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OracleInsertQueryResult.class.php,v 1.6 2005/07/15 22:25:14 gabeschine Exp $
+ * @version $Id: OracleInsertQueryResult.class.php,v 1.7 2007/09/04 20:25:19 adamfranco Exp $
  */
 
 class OracleInsertQueryResult extends InsertQueryResultInterface  {
@@ -58,8 +58,8 @@ class OracleInsertQueryResult extends InsertQueryResultInterface  {
 	 */
 	function OracleInsertQueryResult($resourceId, $lastId) {
 		// ** parameter validation
-		$resourceRule =& ResourceValidatorRule::getRule();
-		$integerRule =& OptionalRule::getRule(IntegerValidatorRule::getRule());
+		$resourceRule = ResourceValidatorRule::getRule();
+		$integerRule = OptionalRule::getRule(IntegerValidatorRule::getRule());
 		ArgumentValidator::validate($resourceId, $resourceRule, true);
 		ArgumentValidator::validate($lastId, $integerRule, true);
 		// ** end of parameter validation

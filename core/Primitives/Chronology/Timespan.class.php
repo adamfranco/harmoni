@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Timespan.class.php,v 1.4 2006/11/30 22:02:04 adamfranco Exp $
+ * @version $Id: Timespan.class.php,v 1.5 2007/09/04 20:25:25 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -32,7 +32,7 @@ require_once(dirname(__FILE__)."/../Magnitudes/Magnitude.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Timespan.class.php,v 1.4 2006/11/30 22:02:04 adamfranco Exp $
+ * @version $Id: Timespan.class.php,v 1.5 2007/09/04 20:25:25 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -77,8 +77,8 @@ class Timespan
 	 * @since 5/5/05
 	 * @static
 	 */
-	function &current ( $class = 'Timespan' ) {
-		eval('$result =& '.$class.'::starting(DateAndTime::now(), $class);');
+	function current ( $class = 'Timespan' ) {
+		eval('$result = '.$class.'::starting(DateAndTime::now(), $class);');
 		
 		return $result;
 	}
@@ -95,8 +95,8 @@ class Timespan
 	 * @since 5/5/05
 	 * @static
 	 */
-	function &epoch ( $class = 'Timespan' ) {
-		eval('$result =& '.$class.'::starting(DateAndTime::epoch(), $class);');
+	function epoch ( $class = 'Timespan' ) {
+		eval('$result = '.$class.'::starting(DateAndTime::epoch(), $class);');
 		
 		return $result;
 	}
@@ -114,8 +114,8 @@ class Timespan
 	 * @since 5/5/05
 	 * @static
 	 */
-	function &starting ( &$aDateAndTime, $class = 'Timespan' ) {
-		eval('$result =& '.$class.'::startingDuration(
+	function starting ( $aDateAndTime, $class = 'Timespan' ) {
+		eval('$result = '.$class.'::startingDuration(
 				$aDateAndTime, Duration::zero(), $class);');
 		
 		return $result;
@@ -135,7 +135,7 @@ class Timespan
 	 * @since 5/5/05
 	 * @static
 	 */
-	function &startingDuration ( &$aDateAndTime, &$aDuration, $class = 'Timespan' ) {
+	function startingDuration ( $aDateAndTime, $aDuration, $class = 'Timespan' ) {
 		
 		// Validate our passed class name.
 		if (!(strtolower($class) == strtolower('Timespan')
@@ -144,7 +144,7 @@ class Timespan
 			die("Class, '$class', is not a subclass of 'Timespan'.");
 		}
 		
-		$timeSpan =& new $class;
+		$timeSpan = new $class;
 		$timeSpan->setStart($aDateAndTime);
 		$timeSpan->setDuration($aDuration);
 		
@@ -164,10 +164,10 @@ class Timespan
 	 * @access public
 	 * @since 5/11/05
 	 */
-	function &startingEnding ( &$startDateAndTime, &$endDateAndTime, $class = 'Timespan' ) 
+	function startingEnding ( $startDateAndTime, $endDateAndTime, $class = 'Timespan' ) 
 	{
-		$end =& $endDateAndTime->asDateAndTime();
-		eval('$result =& '.$class.'::startingDuration(
+		$end =$endDateAndTime->asDateAndTime();
+		eval('$result = '.$class.'::startingDuration(
 			$startDateAndTime,
 			$end->minus($startDateAndTime),
 			$class);');
@@ -199,8 +199,8 @@ class Timespan
 	 * @access private
 	 * @since 5/4/05
 	 */
-	function setStart ( &$aDateAndTime ) {
-		$this->start =& $aDateAndTime;
+	function setStart ( $aDateAndTime ) {
+		$this->start =$aDateAndTime;
 	}
 	
 	/**
@@ -211,8 +211,8 @@ class Timespan
 	 * @access private
 	 * @since 5/4/05
 	 */
-	function setDuration ( &$aDuration ) {
-		$this->duration =& $aDuration;
+	function setDuration ( $aDuration ) {
+		$this->duration =$aDuration;
 	}
 
 /*********************************************************
@@ -227,7 +227,7 @@ class Timespan
 	 * @access public
 	 * @since 5/3/05
 	 */
-	function isEqualTo ( &$aTimespan ) {
+	function isEqualTo ( $aTimespan ) {
 		return ($this->start->isEqualTo($aTimespan->start())
 			&& $this->duration->isEqualTo($aTimespan->duration()));
 	}
@@ -240,7 +240,7 @@ class Timespan
 	 * @access public
 	 * @since 5/3/05
 	 */
-	function isLessThan ( &$aComparand ) {
+	function isLessThan ( $aComparand ) {
 		return ($this->start->isLessThan($aComparand));
 	}
 	
@@ -252,7 +252,7 @@ class Timespan
 	 * @access public
 	 * @since 5/13/05
 	 */
-	function includes ( &$aDateAndTime ) {
+	function includes ( $aDateAndTime ) {
 		// If the argument is a Timespan, check the end-date as well.
 		if (strtolower(get_class($aDateAndTime)) == 'timespan' 
 			|| is_subclass_of($aDateAndTime, 'Timespan')) 
@@ -263,7 +263,7 @@ class Timespan
 		} 
 		// If the argument is a DateAndTime, just check it.
 		else {
-			$asDandT =& $aDateAndTime->asDateAndTime();
+			$asDandT =$aDateAndTime->asDateAndTime();
 			return $asDandT->isBetween($this->start(), $this->end());
 		}
 	}
@@ -276,7 +276,7 @@ class Timespan
 	 * @access public
 	 * @since 5/13/05
 	 */
-	function includesAllOf ( &$anArray ) {
+	function includesAllOf ( $anArray ) {
 		foreach (array_keys($anArray) as $key) {
 			if (!$this->includes($anArray[$key]))
 				return FALSE;
@@ -293,7 +293,7 @@ class Timespan
 	 * @access public
 	 * @since 5/13/05
 	 */
-	function includesAnyOf ( &$anArray ) {
+	function includesAnyOf ( $anArray ) {
 		foreach (array_keys($anArray) as $key) {
 			if ($this->includes($anArray[$key]))
 				return TRUE;
@@ -314,18 +314,18 @@ class Timespan
 	 * @access public
 	 * @since 5/13/05
 	 */
-	function &intersection ( &$aTimespan ) {
-		$start =& $this->start();
-		$end =& $this->end();
+	function intersection ( $aTimespan ) {
+		$start =$this->start();
+		$end =$this->end();
 		
-		$aBeginning =& $start->max($aTimespan->start());
-		$anEnd =& $end->min($aTimespan->end());
+		$aBeginning =$start->max($aTimespan->start());
+		$anEnd =$end->min($aTimespan->end());
 		
 		if ($anEnd->isLessThan($aBeginning)) {
 			$null = null;
 			return $null;
 		} else {
-			eval('$result =& '.get_class($this).'::startingEnding($aBeginning, $anEnd);');
+			eval('$result = '.get_class($this).'::startingEnding($aBeginning, $anEnd);');
 			return $result;
 		}
 	}
@@ -338,19 +338,19 @@ class Timespan
 	 * @access public
 	 * @since 5/3/05
 	 */
-	function &minus ( &$operand ) {
+	function minus ( $operand ) {
 		$methods = get_class_methods($operand);
 		
 		// If this conforms to the DateAndTimeProtocal
 		if (in_array('asdateandtime', $methods) 
 			| in_array('asDateAndTime', $methods)) 
 		{
-			$obj =& $this->start->minus($operand);
+			$obj =$this->start->minus($operand);
 			return $obj;
 		} 
 		// If this conforms to the Duration protocal
 		else {
-			$obj =& $this->plus($operand->negated());
+			$obj =$this->plus($operand->negated());
 			return $obj;
 		}
 	}
@@ -362,8 +362,8 @@ class Timespan
 	 * @access public
 	 * @since 5/10/05
 	 */
-	function &next () {
- 		eval('$result =& '.get_class($this).'::startingDuration(
+	function next () {
+ 		eval('$result = '.get_class($this).'::startingDuration(
  			$this->start->plus($this->duration),
  			$this->duration,
  			"'.get_class($this).'");');
@@ -378,10 +378,10 @@ class Timespan
 	 * @access public
 	 * @since 5/3/05
 	 */
-	function &plus ( &$aDuration ) {
+	function plus ( $aDuration ) {
 		$classname = get_class($this);
 		
-		eval('$result =& '.$classname.'::startingDuration($this->start->plus($aDuration), 
+		eval('$result = '.$classname.'::startingDuration($this->start->plus($aDuration), 
 			$this->duration());');
 		
 		return $result;
@@ -394,8 +394,8 @@ class Timespan
 	 * @access public
 	 * @since 5/10/05
 	 */
-	function &previous () {
-		eval('$result =& '.get_class($this).'::startingDuration(
+	function previous () {
+		eval('$result = '.get_class($this).'::startingDuration(
  			$this->start->minus($this->duration),
  			$this->duration,
  			"'.get_class($this).'");');
@@ -410,14 +410,14 @@ class Timespan
 	 * @access public
 	 * @since 5/13/05
 	 */
-	function &union ( &$aTimespan ) {
-		$start =& $this->start();
-		$end =& $this->end();
+	function union ( $aTimespan ) {
+		$start =$this->start();
+		$end =$this->end();
 		
-		$aBeginning =& $start->min($aTimespan->start());
-		$anEnd =& $end->max($aTimespan->end());
+		$aBeginning =$start->min($aTimespan->start());
+		$anEnd =$end->max($aTimespan->end());
 		
-		$obj =& Timespan::startingEnding(
+		$obj = Timespan::startingEnding(
 				$aBeginning, 
 				$anEnd->plus(DateAndTime::clockPrecision()));
 		
@@ -524,7 +524,7 @@ class Timespan
  	 * @access public
  	 * @since 5/11/05
  	 */
- 	function &duration () {
+ 	function duration () {
  		return $this->duration;
  	}
  	
@@ -535,10 +535,10 @@ class Timespan
  	 * @access public
  	 * @since 5/11/05
  	 */
- 	function &end () {
- 		$next =& $this->next();
- 		$nextStart =& $next->start();
- 		$obj =& $nextStart->minus(DateAndTime::clockPrecision());
+ 	function end () {
+ 		$next =$this->next();
+ 		$nextStart =$next->start();
+ 		$obj =$nextStart->minus(DateAndTime::clockPrecision());
  		return $obj;
  	}
  	
@@ -637,7 +637,7 @@ class Timespan
  	 * @access public
  	 * @since 5/11/05
  	 */
- 	function &start () {
+ 	function start () {
  		return $this->start;
  	}
  	
@@ -663,15 +663,15 @@ class Timespan
 	 * @access public
 	 * @since 5/13/05
 	 */
-	function &every ( &$aDuration ) {
+	function every ( $aDuration ) {
 		$every = array();
 		
-		$element =& $this->start;
-		$end =& $this->end();
+		$element =$this->start;
+		$end =$this->end();
 		
 		while ($element->isLessThanOrEqualTo($end)) {
-			$every[] =& $element;
-			$element =& $element->plus($aDuration);
+			$every[] =$element;
+			$element =$element->plus($aDuration);
 		}
 		
 		return $every;
@@ -684,15 +684,15 @@ class Timespan
 	 * @access public
 	 * @since 5/13/05
 	 */
-	function &dates () {
+	function dates () {
 		$dates = array();
 		
-		$element =& $this->start->asDate();
-		$end =& $this->end();
+		$element =$this->start->asDate();
+		$end =$this->end();
 		
 		while ($element->isLessThanOrEqualTo($end)) {
-			$dates[] =& $element;
-			$element =& $element->next();
+			$dates[] =$element;
+			$element =$element->next();
 		}
 		
 		return $dates;
@@ -705,15 +705,15 @@ class Timespan
 	 * @access public
 	 * @since 5/13/05
 	 */
-	function &months () {
+	function months () {
 		$months = array();
 		
-		$element =& $this->start->asMonth();
-		$end =& $this->end();
+		$element =$this->start->asMonth();
+		$end =$this->end();
 		
 		while ($element->isLessThanOrEqualTo($end)) {
-			$months[] =& $element;
-			$element =& $element->next();
+			$months[] =$element;
+			$element =$element->next();
 		}
 		
 		return $months;
@@ -726,15 +726,15 @@ class Timespan
 	 * @access public
 	 * @since 5/13/05
 	 */
-	function &weeks () {
+	function weeks () {
 		$weeks = array();
 		
-		$element =& $this->start->asWeek();
-		$end =& $this->end();
+		$element =$this->start->asWeek();
+		$end =$this->end();
 		
 		while ($element->isLessThanOrEqualTo($end)) {
-			$weeks[] =& $element;
-			$element =& $element->next();
+			$weeks[] =$element;
+			$element =$element->next();
 		}
 		
 		return $weeks;
@@ -747,15 +747,15 @@ class Timespan
 	 * @access public
 	 * @since 5/13/05
 	 */
-	function &years () {
+	function years () {
 		$years = array();
 		
-		$element =& $this->start->asYear();
-		$end =& $this->end();
+		$element =$this->start->asYear();
+		$end =$this->end();
 		
 		while ($element->isLessThanOrEqualTo($end)) {
-			$years[] =& $element;
-			$element =& $element->next();
+			$years[] =$element;
+			$element =$element->next();
 		}
 		
 		return $years;
@@ -772,8 +772,8 @@ class Timespan
 	 * @access public
 	 * @since 5/13/05
 	 */
-	function &asDate () {
-		$obj =& $this->start->asDate();
+	function asDate () {
+		$obj =$this->start->asDate();
 		return $obj;
 	}
 	
@@ -784,7 +784,7 @@ class Timespan
 	 * @access public
 	 * @since 5/13/05
 	 */
-	function &asDateAndTime () {
+	function asDateAndTime () {
 		return $this->start;
 	}
 	
@@ -795,7 +795,7 @@ class Timespan
 	 * @access public
 	 * @since 5/13/05
 	 */
-	function &asDuration () {
+	function asDuration () {
 		return $this->duration;
 	}
 	
@@ -806,8 +806,8 @@ class Timespan
 	 * @access public
 	 * @since 5/13/05
 	 */
-	function &asMonth () {
-		$obj =& $this->start->asMonth();
+	function asMonth () {
+		$obj =$this->start->asMonth();
 		return $obj;
 	}
 	
@@ -818,8 +818,8 @@ class Timespan
 	 * @access public
 	 * @since 5/13/05
 	 */
-	function &asTime () {
-		$obj =& $this->start->asTime();
+	function asTime () {
+		$obj =$this->start->asTime();
 		return $obj;
 	}
 	
@@ -830,8 +830,8 @@ class Timespan
 	 * @access public
 	 * @since 5/13/05
 	 */
-	function &asTimeStamp () {
-		$obj =& $this->start->asTimeStamp();
+	function asTimeStamp () {
+		$obj =$this->start->asTimeStamp();
 		return $obj;
 	}
 	
@@ -842,8 +842,8 @@ class Timespan
 	 * @access public
 	 * @since 5/13/05
 	 */
-	function &asWeek () {
-		$obj =& $this->start->asWeek();
+	function asWeek () {
+		$obj =$this->start->asWeek();
 		return $obj;
 	}
 	
@@ -854,8 +854,8 @@ class Timespan
 	 * @access public
 	 * @since 5/13/05
 	 */
-	function &asYear () {
-		$obj =& $this->start->asYear();
+	function asYear () {
+		$obj =$this->start->asYear();
 		return $obj;
 	}
 	
@@ -867,8 +867,8 @@ class Timespan
 	 * @access public
 	 * @since 5/13/05
 	 */
-	function &to ( &$anEnd ) {
-		$obj =& Timespan::startingEnding($this->start(), $anEnd->asDateAndTime());
+	function to ( $anEnd ) {
+		$obj = Timespan::startingEnding($this->start(), $anEnd->asDateAndTime());
 		return $obj;
 	}
 }

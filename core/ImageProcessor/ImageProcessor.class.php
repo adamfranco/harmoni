@@ -11,7 +11,7 @@ require_once(dirname(__FILE__)."/ImageMagickProcessor.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ImageProcessor.class.php,v 1.7 2005/04/04 18:01:35 adamfranco Exp $
+ * @version $Id: ImageProcessor.class.php,v 1.8 2007/09/04 20:25:24 adamfranco Exp $
  */
 
 class ImageProcessor {
@@ -71,8 +71,8 @@ class ImageProcessor {
 	 * 
 	 * @access public
 	 */
-	function assignConfiguration ( &$configuration ) { 
-		$this->_configuration =& $configuration;
+	function assignConfiguration ( $configuration ) { 
+		$this->_configuration =$configuration;
 		
 		ArgumentValidator::validate($configuration->getProperty('thumbnail_format'), 
 			StringValidatorRule::getRule());
@@ -98,9 +98,9 @@ class ImageProcessor {
 		$this->_ImageMagickFormats = $configuration->getProperty('imagemagick_formats');
 		
 		if ($this->_useGD)
-			$this->_gdProcessor =& new GDProcessor($configuration->getProperty('thumbnail_format'));
+			$this->_gdProcessor = new GDProcessor($configuration->getProperty('thumbnail_format'));
 		if ($this->_useImageMagick)
-			$this->_ImageMagickProcessor =& new ImageMagickProcessor(
+			$this->_ImageMagickProcessor = new ImageMagickProcessor(
 						$configuration->getProperty('thumbnail_format'), $this->_ImageMagickPath, 
 						$this->_ImageMagickTempDir);
 	}
@@ -114,7 +114,7 @@ class ImageProcessor {
 	 * 
 	 * @access public
 	 */
-	function &getOsidContext () { 
+	function getOsidContext () { 
 		return $this->_osidContext;
 	} 
 
@@ -129,8 +129,8 @@ class ImageProcessor {
 	 * 
 	 * @access public
 	 */
-	function assignOsidContext ( &$context ) { 
-		$this->_osidContext =& $context;
+	function assignOsidContext ( $context ) { 
+		$this->_osidContext =$context;
 	}
 	
 	/**

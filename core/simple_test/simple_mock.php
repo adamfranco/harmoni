@@ -1,5 +1,5 @@
 <?php
-    // $Id: simple_mock.php,v 1.3 2005/04/12 18:48:10 adamfranco Exp $
+    // $Id: simple_mock.php,v 1.4 2007/09/04 20:25:50 adamfranco Exp $
     
     define('MOCK_WILDCARD', '*');
     
@@ -90,13 +90,13 @@
          *    @param $reference     Array reference placed in the map.
          *    @access public
          */
-        function addReference($parameters, &$reference) {
+        function addReference($parameters, $reference) {
             $place = count($this->_map);
             $this->_map[$place] = array();
             $this->_map[$place]["params"] = new ParameterList(
                     $parameters,
                     $this->_wildcard);
-            $this->_map[$place]["content"] = &$reference;
+            $this->_map[$place]["content"] = $reference;
         }
         
         /**
@@ -108,7 +108,7 @@
          *                          slot, otherwise null.
          *    @access public
          */
-        function &findFirstMatch($parameters) {
+        function findFirstMatch($parameters) {
             $slot = $this->_findFirstSlot($parameters);
             if (!isset($slot)) {
                 return null;
@@ -135,7 +135,7 @@
          *    @return               Reference to slot or null.
          *    @access private
          */
-        function &_findFirstSlot($parameters) {
+        function _findFirstSlot($parameters) {
             for ($i = 0; $i < count($this->_map); $i++) {
                 if ($this->_map[$i]["params"]->isMatch($parameters)) {
                     return $this->_map[$i];
@@ -169,8 +169,8 @@
          *    @param $test        Test case to test expectations in.
          *    @access public
          */
-        function SimpleMock(&$test, $wildcard) {
-            $this->_test = &$test;
+        function SimpleMock($test, $wildcard) {
+            $this->_test = $test;
             $this->_wildcard = $wildcard;
             $this->clearHistory();
             $this->_returns = array();
@@ -243,7 +243,7 @@
          *                          including wildcards.
          *    @access public
          */
-        function setReturnReference($method, &$reference, $args = "") {
+        function setReturnReference($method, $reference, $args = "") {
             $this->_dieOnNoMethod($method, "set return reference");
             $method = strtolower($method);
             if (!isset($this->_returns[$method])) {
@@ -266,7 +266,7 @@
          *                          including wildcards.
          *    @access public
          */
-        function setReturnReferenceSequence($timing, $method, &$reference, $args = "") {
+        function setReturnReferenceSequence($timing, $method, $reference, $args = "") {
             $this->_dieOnNoMethod($method, "set return reference sequence");
             $method = strtolower($method);
             if (!isset($this->_return_sequence[$method])) {
@@ -422,7 +422,7 @@
          *    @return               Stored return.
          *    @access private
          */
-        function &_mockMethod($method, $args) {
+        function _mockMethod($method, $args) {
             $method = strtolower($method);
             $step = $this->getCallCount($method);
             $this->_addCall($method, $args);
@@ -483,7 +483,7 @@
          *    @returns            Stored return.
          *    @access private
          */
-        function &_getReturn($method, $args, $step) {
+        function _getReturn($method, $args, $step) {
             if (isset($this->_return_sequence[$method][$step])) {
                 if ($this->_return_sequence[$method][$step]->isMatch($args)) {
                     return $this->_return_sequence[$method][$step]->findFirstMatch($args);
@@ -507,7 +507,7 @@
          *                           assertion to.
          *    @access protected
          */
-        function _assertTrue($assertion, $message , &$test) {
+        function _assertTrue($assertion, $message , $test) {
             $test->assertTrue($assertion, $message);
         }
         
@@ -606,7 +606,7 @@
             $code .= "        \$this->_mockMethod(\"$class\", \$args);\n";
             $code .= "    }\n";
             foreach (get_class_methods($class) as $method) {
-                $code .= "    function &$method() {\n";
+                $code .= "    function $method() {\n";
                 $code .= "        \$args = func_get_args();\n";
                 $code .= "        return \$this->_mockMethod(\"$method\", \$args);\n";
                 $code .= "    }\n";

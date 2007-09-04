@@ -44,7 +44,7 @@ class EnrollmentRecord
      * 
      * @access public
      */
-    function &getStudent () { 
+    function getStudent () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -71,7 +71,7 @@ class EnrollmentRecord
      * 
      * @access public
      */
-    function &getStatus () { 
+    function getStatus () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 }

@@ -11,7 +11,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/ValidatorRule.interface.
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: IntegerRangeValidatorRule.class.php,v 1.7 2005/06/09 20:37:29 gabeschine Exp $
+ * @version $Id: IntegerRangeValidatorRule.class.php,v 1.8 2007/09/04 20:25:55 adamfranco Exp $
  */ 
 class IntegerRangeValidatorRule
 	extends ValidatorRuleInterface 
@@ -48,7 +48,7 @@ class IntegerRangeValidatorRule
 	 * @access public
 	 * @return boolean TRUE, if the value is an integer; FALSE if it is not.
 	 **/
-	function check( & $val ) {
+	function check( $val ) {
 //		if (!(is_integer($val) || $val === 0))
 //			return false;
 //		print "checking $val against $this->_min to $this->_max<br>";
@@ -68,7 +68,7 @@ class IntegerRangeValidatorRule
 	 * @static
 	 * @since 3/28/05
 	 */
-	function &getRule ($min, $max) {
+	function getRule ($min, $max) {
 		// Because there is no way in PHP to get the class name of the descendent
 		// class on which this method is called, this method must be implemented
 		// in each descendent class.
@@ -79,7 +79,7 @@ class IntegerRangeValidatorRule
 		$class = __CLASS__;
 		$ruleKey = $class."(".$min.", ".$max.")";
 		if (!isset($GLOBALS['validator_rules'][$ruleKey]))
-			$GLOBALS['validator_rules'][$ruleKey] =& new $class($min, $max);
+			$GLOBALS['validator_rules'][$ruleKey] = new $class($min, $max);
 		
 		return $GLOBALS['validator_rules'][$ruleKey];
 	}

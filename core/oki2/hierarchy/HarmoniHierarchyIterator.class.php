@@ -22,7 +22,7 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniHierarchyIterator.class.php,v 1.7 2007/04/12 15:37:31 adamfranco Exp $
+ * @version $Id: HarmoniHierarchyIterator.class.php,v 1.8 2007/09/04 20:25:41 adamfranco Exp $
  */
 class HarmoniHierarchyIterator
 	extends HarmoniIterator
@@ -73,7 +73,7 @@ class HarmoniHierarchyIterator
 	 * 
 	 * @access public
 	 */
-	function &nextHierarchy () { 
+	function nextHierarchy () { 
 		return $this->next();
 	} 
 }

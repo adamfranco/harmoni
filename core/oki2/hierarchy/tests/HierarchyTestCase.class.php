@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HierarchyTestCase.class.php,v 1.11 2005/04/13 22:00:12 adamfranco Exp $
+ * @version $Id: HierarchyTestCase.class.php,v 1.12 2007/09/04 20:25:41 adamfranco Exp $
  */
  
 require_once(dirname(__FILE__).'/../HarmoniHierarchy.class.php');
@@ -20,7 +20,7 @@ require_once(dirname(__FILE__).'/../HarmoniHierarchy.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HierarchyTestCase.class.php,v 1.11 2005/04/13 22:00:12 adamfranco Exp $
+ * @version $Id: HierarchyTestCase.class.php,v 1.12 2007/09/04 20:25:41 adamfranco Exp $
  */
 
 	class HierarchyTestCase extends UnitTestCase {
@@ -40,15 +40,15 @@ require_once(dirname(__FILE__).'/../HarmoniHierarchy.class.php');
 			$dbHandler->pConnect($dbIndex);
 			unset($dbHandler); // done with that for now
 			
-			$cache =& new HierarchyCache("8", true, $dbIndex, "doboHarmoniTest");
-			$this->hierarchy =& new HarmoniHierarchy(new HarmoniId('8'), "Dobo Hierarchy", "Blah", $cache);
+			$cache = new HierarchyCache("8", true, $dbIndex, "doboHarmoniTest");
+			$this->hierarchy = new HarmoniHierarchy(new HarmoniId('8'), "Dobo Hierarchy", "Blah", $cache);
 			
-			$context =& new OsidContext;
-			$configuration =& new ConfigurationProperties;
+			$context = new OsidContext;
+			$configuration = new ConfigurationProperties;
 			$configuration->addProperty('database_index', $dbIndex);
 			$configuration->addProperty('database_name', $arg0 = "doboHarmoniTest");
 			unset($arg0);
-			$this->manager =& new HarmoniIdManager;
+			$this->manager = new HarmoniIdManager;
 			$this->manager->assignConfiguration($configuration);
 		}
 		
@@ -76,15 +76,15 @@ require_once(dirname(__FILE__).'/../HarmoniHierarchy.class.php');
 		
 		function test_creating_and_deleting_nodes() {
 			// create a type
-			$type =& new HarmoniType("This", "Type", "Does", "Not Matter Whatsoever");
+			$type = new HarmoniType("This", "Type", "Does", "Not Matter Whatsoever");
 			
 			// create one root node
-			$node1 =& $this->hierarchy->createRootNode(new HarmoniId("100"), $type, "KOKO", "FAFA");
+			$node1 =$this->hierarchy->createRootNode(new HarmoniId("100"), $type, "KOKO", "FAFA");
 			$this->assertIsA($node1, "HarmoniNode");
 			$this->assertReference($node1, $this->hierarchy->_cache->_cache['100'][0]);
 	
 			// create another one and make the first one its parent
-			$node2 =& $this->hierarchy->createNode(new HarmoniId("101"), new HarmoniId("100"), $type, "KOKOs child", "fandango sucks");
+			$node2 =$this->hierarchy->createNode(new HarmoniId("101"), new HarmoniId("100"), $type, "KOKOs child", "fandango sucks");
 			$this->assertIsA($node2, "HarmoniNode");
 			$this->assertReference($node2, $this->hierarchy->_cache->_cache['101'][0]);
 			
@@ -94,7 +94,7 @@ require_once(dirname(__FILE__).'/../HarmoniHierarchy.class.php');
 			$this->hierarchy->deleteNode($node2->getId());
 			$this->assertFalse(isset($this->hierarchy->_cache->_cache['101']));
 			$this->assertFalse($this->hierarchy->_cache->_tree->nodeExists('101'));
-			$treeNode =& $this->hierarchy->_cache->_tree->getNode('100');
+			$treeNode =$this->hierarchy->_cache->_tree->getNode('100');
 			$this->assertFalse($treeNode->hasChildren('100'));
 			$this->hierarchy->deleteNode($node1->getId());
 			$this->assertFalse(isset($this->hierarchy->_cache->_cache['100']));
@@ -104,37 +104,37 @@ require_once(dirname(__FILE__).'/../HarmoniHierarchy.class.php');
 		
 		function test_building_a_hierarchy_from_scratch_and_traversal() {
 			// build the hierarchy, one node at a time
-			$idA =& $this->manager->createId();
-			$nodeA =& $this->hierarchy->createRootNode($idA, new DefaultNodeType(), "A", "A");
+			$idA =$this->manager->createId();
+			$nodeA =$this->hierarchy->createRootNode($idA, new DefaultNodeType(), "A", "A");
 
-			$idB =& $this->manager->createId();
-			$nodeB =& $this->hierarchy->createRootNode($idB, new DefaultNodeType(), "B", "B");
+			$idB =$this->manager->createId();
+			$nodeB =$this->hierarchy->createRootNode($idB, new DefaultNodeType(), "B", "B");
 			
 			$nodeA->addParent($idB);
 	
-			$idC =& $this->manager->createId();
-			$nodeC =& $this->hierarchy->createRootNode($idC, new DefaultNodeType(), "C", "C");
+			$idC =$this->manager->createId();
+			$nodeC =$this->hierarchy->createRootNode($idC, new DefaultNodeType(), "C", "C");
 
 			$nodeC->addParent($idB);
 
-			$idD =& $this->manager->createId();
-			$nodeD =& $this->hierarchy->createRootNode($idD, new DefaultNodeType(), "D", "D");
+			$idD =$this->manager->createId();
+			$nodeD =$this->hierarchy->createRootNode($idD, new DefaultNodeType(), "D", "D");
 
-			$idE =& $this->manager->createId();
-			$nodeE =& $this->hierarchy->createRootNode($idE, new DefaultNodeType(), "E", "E");
+			$idE =$this->manager->createId();
+			$nodeE =$this->hierarchy->createRootNode($idE, new DefaultNodeType(), "E", "E");
 			
 			$nodeD->addParent($idE);
 	
-			$idF =& $this->manager->createId();
-			$nodeF =& $this->hierarchy->createRootNode($idF, new DefaultNodeType(), "F", "F");
+			$idF =$this->manager->createId();
+			$nodeF =$this->hierarchy->createRootNode($idF, new DefaultNodeType(), "F", "F");
 
 			$nodeF->addParent($idE);
 
 			$nodeE->addParent($idB);
 			$nodeD->addParent($idA);
 			
-			$idG =& $this->manager->createId();
-			$nodeG =& $this->hierarchy->createRootNode($idG, new DefaultNodeType(), "G", "G");
+			$idG =$this->manager->createId();
+			$nodeG =$this->hierarchy->createRootNode($idG, new DefaultNodeType(), "G", "G");
 
 			$nodeE->addParent($idG);
 			$nodeF->addParent($idG);
@@ -158,79 +158,79 @@ require_once(dirname(__FILE__).'/../HarmoniHierarchy.class.php');
 			
 			// check parents and children of all nodes
 			// parents
-			$nodes =& $nodeB->getParents();
+			$nodes =$nodeB->getParents();
 			$this->assertFalse($nodes->hasNext());
 			
-			$nodes =& $nodeG->getParents();
+			$nodes =$nodeG->getParents();
 			$this->assertFalse($nodes->hasNext());
 
-			$nodes =& $nodeA->getParents();
-			$node =& $nodes->next();
+			$nodes =$nodeA->getParents();
+			$node =$nodes->next();
 			$this->assertReference($node, $nodeB);
 			$this->assertFalse($nodes->hasNext());
 			
-			$nodes =& $nodeC->getParents();
-			$node =& $nodes->next();
+			$nodes =$nodeC->getParents();
+			$node =$nodes->next();
 			$this->assertReference($node, $nodeB);
 			$this->assertFalse($nodes->hasNext());
 			
-			$nodes =& $nodeE->getParents();
-			$node =& $nodes->next();
+			$nodes =$nodeE->getParents();
+			$node =$nodes->next();
 			$this->assertReference($node, $nodeB);
-			$node =& $nodes->next();
+			$node =$nodes->next();
 			$this->assertReference($node, $nodeG);
 			$this->assertFalse($nodes->hasNext());
 			
-			$nodes =& $nodeD->getParents();
-			$node =& $nodes->next();
+			$nodes =$nodeD->getParents();
+			$node =$nodes->next();
 			$this->assertReference($node, $nodeE);
-			$node =& $nodes->next();
+			$node =$nodes->next();
 			$this->assertReference($node, $nodeA);
 			$this->assertFalse($nodes->hasNext());
 
-			$nodes =& $nodeF->getParents();
-			$node =& $nodes->next();
+			$nodes =$nodeF->getParents();
+			$node =$nodes->next();
 			$this->assertReference($node, $nodeE);
-			$node =& $nodes->next();
+			$node =$nodes->next();
 			$this->assertReference($node, $nodeG);
 			$this->assertFalse($nodes->hasNext());
 
 			// children
-			$nodes =& $nodeB->getChildren();
-			$node =& $nodes->next();
+			$nodes =$nodeB->getChildren();
+			$node =$nodes->next();
 			$this->assertReference($node, $nodeA);
-			$node =& $nodes->next();
+			$node =$nodes->next();
 			$this->assertReference($node, $nodeC);
-			$node =& $nodes->next();
+			$node =$nodes->next();
 			$this->assertReference($node, $nodeE);
 			$this->assertFalse($nodes->hasNext());
 
-			$nodes =& $nodeG->getChildren();
-			$node =& $nodes->next();
+			$nodes =$nodeG->getChildren();
+			$node =$nodes->next();
 			$this->assertReference($node, $nodeE);
-			$node =& $nodes->next();
+			$node =$nodes->next();
 			$this->assertReference($node, $nodeF);
 			$this->assertFalse($nodes->hasNext());
 
-			$nodes =& $nodeA->getChildren();
-			$node =& $nodes->next();
+			$nodes =$nodeA->getChildren();
+			$node =$nodes->next();
 			$this->assertReference($node, $nodeD);
 			$this->assertFalse($nodes->hasNext());
 
-			$nodes =& $nodeC->getChildren();
+			$nodes =$nodeC->getChildren();
 			$this->assertFalse($nodes->hasNext());
 
-			$nodes =& $nodeE->getChildren();
-			$node =& $nodes->next();
+			$nodes =$nodeE->getChildren();
+			$node =$nodes->next();
 			$this->assertReference($node, $nodeD);
-			$node =& $nodes->next();
+			$node =$nodes->next();
 			$this->assertReference($node, $nodeF);
 			$this->assertFalse($nodes->hasNext());
 
-			$nodes =& $nodeD->getChildren();
+			$nodes =$nodeD->getChildren();
 			$this->assertFalse($nodes->hasNext());
 
-			$nodes =& $nodeF->getChildren();
+			$nodes =$nodeF->getChildren();
 			$this->assertFalse($nodes->hasNext());
 			
 			// clear cache
@@ -253,7 +253,7 @@ require_once(dirname(__FILE__).'/../HarmoniHierarchy.class.php');
 			// clear cache
 			$this->hierarchy->clearCache();
 
-			$iterator =& $this->hierarchy->traverse($idG, 
+			$iterator =$this->hierarchy->traverse($idG, 
 													Hierarchy::TRAVERSE_MODE_DEPTH_FIRST(), 
 													Hierarchy::TRAVERSE_DIRECTION_DOWN(), 
 													-1);
@@ -262,19 +262,19 @@ require_once(dirname(__FILE__).'/../HarmoniHierarchy.class.php');
 //			print_r($iterator);
 //			echo "</pre>\n";
 
-			$info =& $iterator->next();
+			$info =$iterator->next();
 			$this->assertIdentical($info->getDisplayName(), 'G');
 			$this->assertIdentical($info->getLevel(), 0);
-			$info =& $iterator->next();
+			$info =$iterator->next();
 			$this->assertIdentical($info->getDisplayName(), 'A');
 			$this->assertIdentical($info->getLevel(), 1);
-			$info =& $iterator->next();
+			$info =$iterator->next();
 			$this->assertIdentical($info->getDisplayName(), 'D');
 			$this->assertIdentical($info->getLevel(), 2);
-			$info =& $iterator->next();
+			$info =$iterator->next();
 			$this->assertIdentical($info->getDisplayName(), 'E');
 			$this->assertIdentical($info->getLevel(), 1);
-			$info =& $iterator->next();
+			$info =$iterator->next();
 			$this->assertIdentical($info->getDisplayName(), 'F');
 			$this->assertIdentical($info->getLevel(), 1);
 			$this->assertFalse($iterator->hasNext());
@@ -282,7 +282,7 @@ require_once(dirname(__FILE__).'/../HarmoniHierarchy.class.php');
 			// clear cache
 			$this->hierarchy->clearCache();
 
-			$iterator =& $this->hierarchy->traverse($idD, 
+			$iterator =$this->hierarchy->traverse($idD, 
 													Hierarchy::TRAVERSE_MODE_DEPTH_FIRST(), 
 													Hierarchy::TRAVERSE_DIRECTION_UP(), 
 													-1);
@@ -290,25 +290,25 @@ require_once(dirname(__FILE__).'/../HarmoniHierarchy.class.php');
 //			print_r($iterator);
 //			echo "</pre>\n";
 	
-			$info =& $iterator->next();
+			$info =$iterator->next();
 			$this->assertIdentical($info->getDisplayName(), 'D');
 			$this->assertIdentical($info->getLevel(), 0);
-			$info =& $iterator->next();
+			$info =$iterator->next();
 			$this->assertIdentical($info->getDisplayName(), 'A');
 			$this->assertIdentical($info->getLevel(), -1);
-			$info =& $iterator->next();
+			$info =$iterator->next();
 			$this->assertIdentical($info->getDisplayName(), 'B');
 			$this->assertIdentical($info->getLevel(), -2);
-			$info =& $iterator->next();
+			$info =$iterator->next();
 			$this->assertIdentical($info->getDisplayName(), 'C');
 			$this->assertIdentical($info->getLevel(), -2);
-			$info =& $iterator->next();
+			$info =$iterator->next();
 			$this->assertIdentical($info->getDisplayName(), 'G');
 			$this->assertIdentical($info->getLevel(), -2);
-			$info =& $iterator->next();
+			$info =$iterator->next();
 			$this->assertIdentical($info->getDisplayName(), 'E');
 			$this->assertIdentical($info->getLevel(), -1);
-			$info =& $iterator->next();
+			$info =$iterator->next();
 			$this->assertIdentical($info->getDisplayName(), 'F');
 			$this->assertIdentical($info->getLevel(), -1);
 			$this->assertFalse($iterator->hasNext());
@@ -337,10 +337,10 @@ require_once(dirname(__FILE__).'/../HarmoniHierarchy.class.php');
 		 * Testing getAgentTypes
 		 **/
 		function test_get_group_types() {
-			$types =& $this->hierarchy->getNodeTypes();
+			$types =$this->hierarchy->getNodeTypes();
 			$this->assertIsA($types, "HarmoniTypeIterator");
 			while ($types->hasNext()) {
-				$type =& $types->next();
+				$type =$types->next();
 				$this->assertIsA($type, "Type");
 			}
 		}
@@ -348,7 +348,7 @@ require_once(dirname(__FILE__).'/../HarmoniHierarchy.class.php');
 		
 		function test_get_stuff() {
 			// test getNode
-			$node =& $this->hierarchy->getNode(new HarmoniId("2"));
+			$node =$this->hierarchy->getNode(new HarmoniId("2"));
 			$this->assertIdentical($node->getId(), new HarmoniId("2"));
 			$this->assertIdentical($node->getDisplayName(), "B");
 
@@ -356,17 +356,17 @@ require_once(dirname(__FILE__).'/../HarmoniHierarchy.class.php');
 			$this->hierarchy->clearCache();
 			
 			// test getAllNodes
-			$iterator =& $this->hierarchy->getAllNodes();
+			$iterator =$this->hierarchy->getAllNodes();
 			$this->assertIdentical(count($this->hierarchy->_cache->_cache), 9);
 			while ($iterator->hasNext()) {
-				$node =& $iterator->next();
+				$node =$iterator->next();
 				$this->assertIsA($node, "HarmoniNode");
 			}
 			
 			// test getRootNodes
-			$iterator =& $this->hierarchy->getRootNodes();
+			$iterator =$this->hierarchy->getRootNodes();
 			while ($iterator->hasNext()) {
-				$node =& $iterator->next();
+				$node =$iterator->next();
 				$this->assertIsA($node, "HarmoniNode");
 			}
 			

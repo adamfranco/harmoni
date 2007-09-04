@@ -19,7 +19,7 @@ require_once(HARMONI."GUIManager/StyleProperties/BorderSP.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TableLayout.class.php,v 1.4 2007/02/28 21:34:41 adamfranco Exp $
+ * @version $Id: TableLayout.class.php,v 1.5 2007/09/04 20:25:22 adamfranco Exp $
  */
 class TableLayout 
 	extends LayoutInterface 
@@ -95,7 +95,7 @@ class TableLayout
 	 * prepended to each text line. This argument is optional but its usage is highly 
 	 * recommended in order to produce a nicely formatted HTML output.
 	 **/
-	function render(& $container, & $theme, $tabs = "") {
+	function render($container, $theme, $tabs = "") {
 		// print html for container (a table)
 		echo $tabs."<table width=\"100%\" border=\"0\" cellpadding=\"0px\" cellspacing=\"0px\">\n";
 		echo $tabs."\t<tr>\n";
@@ -108,7 +108,7 @@ class TableLayout
 		
 		
 		// Get the components
-		$components =& $container->getComponents();
+		$components =$container->getComponents();
 		
 		// Get the cell order, a mapping between the cells in the table
 		// and the original component order, as based on the flow direction
@@ -132,7 +132,7 @@ class TableLayout
 			
 			// otherwise render the component in a table cell
 			else {
-				$component =& $components[$key];
+				$component =$components[$key];
 				
 				// width and height of the component
 				$width = $height = "";

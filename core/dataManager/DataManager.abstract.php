@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DataManager.abstract.php,v 1.16 2006/11/30 22:02:15 adamfranco Exp $
+ * @version $Id: DataManager.abstract.php,v 1.17 2007/09/04 20:25:31 adamfranco Exp $
  */
  
 require_once(HARMONI."dataManager/schema/SchemaManager.class.php");
@@ -27,7 +27,7 @@ require_once(HARMONI."dataManager/versionConstraints/include.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DataManager.abstract.php,v 1.16 2006/11/30 22:02:15 adamfranco Exp $
+ * @version $Id: DataManager.abstract.php,v 1.17 2007/09/04 20:25:31 adamfranco Exp $
  *
  * @author Gabe Schine
  * @abstract
@@ -54,9 +54,9 @@ class DataManager {
 	 * 
 	 * @access public
 	 */
-	function assignConfiguration ( &$configuration ) { 
+	function assignConfiguration ( $configuration ) { 
 		$dbIndex = $configuration->getProperty('database_index');
-		$preloadTypes =& $configuration->getProperty('preload_types');
+		$preloadTypes =$configuration->getProperty('preload_types');
 		
 		$this->setup($dbIndex, $preloadTypes);
 	}
@@ -70,7 +70,7 @@ class DataManager {
 	 * 
 	 * @access public
 	 */
-	function &getOsidContext () { 
+	function getOsidContext () { 
 		return $this->_osidContext;
 	} 
 
@@ -85,8 +85,8 @@ class DataManager {
 	 * 
 	 * @access public
 	 */
-	function assignOsidContext ( &$context ) { 
-		$this->_osidContext =& $context;
+	function assignOsidContext ( $context ) { 
+		$this->_osidContext =$context;
 	} 
 	
 	/**
@@ -112,10 +112,10 @@ class DataManager {
 		define("DATAMANAGER_DBID",$dbID);
 
 		// ok, now on to registering everything
-		$schemaManager =& new SchemaManager($preloadTypes);
-		$dataTypeManager =& new DataTypeManager();
-		$recordManager =& new RecordManager();
-		$tagManager =& new RecordTagManager();
+		$schemaManager = new SchemaManager($preloadTypes);
+		$dataTypeManager = new DataTypeManager();
+		$recordManager = new RecordManager();
+		$tagManager = new RecordTagManager();
 
 		Services::registerObjectAsService("SchemaManager",$schemaManager);
 		Services::registerObjectAsService("DataTypeManager",$dataTypeManager);

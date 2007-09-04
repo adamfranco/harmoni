@@ -90,7 +90,7 @@ extends SchedulingManager
 	*
 	* @access public
 	*/
-	function assignConfiguration ( &$configuration ) {
+	function assignConfiguration ( $configuration ) {
 		$def = $configuration->getProperty('default_authority');
 
 
@@ -98,7 +98,7 @@ extends SchedulingManager
 		ArgumentValidator::validate($def, StringValidatorRule::getRule(), true);
 		// ** end of parameter validation
 
-		$this->_defaultAuthority =& $def;
+		$this->_defaultAuthority =$def;
 	}
 
 	/**
@@ -110,7 +110,7 @@ extends SchedulingManager
 	*
 	* @access public
 	*/
-	function &getOsidContext () {
+	function getOsidContext () {
 		return $this->_osidContext;
 	}
 
@@ -125,8 +125,8 @@ extends SchedulingManager
 	*
 	* @access public
 	*/
-	function assignOsidContext ( &$context ) {
-		$this->_osidContext =& $context;
+	function assignOsidContext ( $context ) {
+		$this->_osidContext =$context;
 	}
 
 
@@ -174,24 +174,24 @@ extends SchedulingManager
 	*
 	* @access public
 	*/
-	function &createScheduleItem ( $displayName, $description, &$scheduleItemStatusType, $start, $end, $masterIdentifier = null ) {
+	function createScheduleItem ( $displayName, $description, $scheduleItemStatusType, $start, $end, $masterIdentifier = null ) {
 
 		if($start>$end){
 			throwError(new Error("The end of a ScheduleItem cannot come before the end", "HarmoniSchedulingManager", true));
 		}
 
-		$idManager =& Services::getService("IdManager");
+		$idManager = Services::getService("IdManager");
 		$id=$idManager->createId();
 
 
 
 		//try to get the creator of this ScheduleItem
-		$authN =& Services::getService("AuthN");
-		$authNTypesIterator =& $authN->getAuthenticationTypes();
+		$authN = Services::getService("AuthN");
+		$authNTypesIterator =$authN->getAuthenticationTypes();
 		if($authNTypesIterator->hasNext()){
-			$authNType1 =& $authNTypesIterator->next();
+			$authNType1 =$authNTypesIterator->next();
 			//hopefully the first one is the right one to choose.
-			$creatorId =& $authN->getUserId($authNType1);
+			$creatorId =$authN->getUserId($authNType1);
 			$creatorIdString = $creatorId->getIdString();
 		}else{
 			$creatorIdString = "";
@@ -203,12 +203,12 @@ extends SchedulingManager
 		}
 
 		//set up a default item status type
-		$defType =& new Type("ScheduleItemStatusType",$this->_defaultAuthority,"default");
+		$defType = new Type("ScheduleItemStatusType",$this->_defaultAuthority,"default");
 		$defIndex = $this->_typeToIndex('item_stat',$defType);
 
 		//set up the query
-		$dbManager=& Services::getService("DBHandler");
-		$query=& new InsertQuery;
+		$dbManager= Services::getService("DBHandler");
+		$query= new InsertQuery;
 		$query->setTable('sc_item');
 		$query->setColumns(array('id','name','description','start','end','fk_sc_item_stat_type','master_id','fk_creator_id'));
 		$values[]="'".addslashes($id->getIdString())."'";
@@ -223,7 +223,7 @@ extends SchedulingManager
 
 		$dbManager->query($query);
 
-		$ret =& new HarmoniScheduleItem($id);
+		$ret = new HarmoniScheduleItem($id);
 
 	
 
@@ -252,13 +252,13 @@ extends SchedulingManager
 	*
 	* @access public
 	*/
-	function deleteScheduleItem ( &$scheduleItemId ) {
-		$dbHandler =& Services::getService("DBHandler");
-		$query=& new DeleteQuery;
+	function deleteScheduleItem ( $scheduleItemId ) {
+		$dbHandler = Services::getService("DBHandler");
+		$query= new DeleteQuery;
 		$query->setTable('sc_item');
 		$query->addWhere("id=".addslashes($scheduleItemId->getIdString()));
 		$dbHandler->query($query);
-		$query2=& new DeleteQuery;
+		$query2= new DeleteQuery;
 		$query2->setTable('sc_commit');
 		$query2->addWhere("fk_sc_item=".addslashes($scheduleItemId->getIdString()));
 		$dbHandler->query($query);
@@ -293,17 +293,17 @@ extends SchedulingManager
 	*
 	* @access public
 	*/
-	function &getAvailableTimes ( &$agents, $start, $end ) {
+	function getAvailableTimes ( $agents, $start, $end ) {
 		
 		if(count($agents)==0){
 			$array[] =&new HarmoniTimespan($start,$end);
-			$ret =& new  HarmoniTimespanIterator($array);
+			$ret = new  HarmoniTimespanIterator($array);
 			return $ret;
 		}
 		
 		//get all schedule item rows with the appropriate time and agents
-		$dbHandler =& Services::getService("DBHandler");
-		$query=& new SelectQuery;
+		$dbHandler = Services::getService("DBHandler");
+		$query= new SelectQuery;
 		$query->addTable('sc_item');
 		$query->addTable('sc_commit', INNER_JOIN, "sc_item.id=sc_commit.fk_sc_item");
 		$query->addColumn('sc_item.id');
@@ -325,19 +325,19 @@ extends SchedulingManager
 		$where .= ")";
 		$query->addOrderBy('sc_item.id');
 		$query->addWhere($where);
-		$res=& $dbHandler->query($query);
+		$res=$dbHandler->query($query);
 
 		//find times not conflicted by these items
 		//yes I know $mister11 is a terible name for the variable.  Deal with it :-P.
 		//We'll
 		$availableTimes = array();
-		$availableTimes[$start] =& new HarmoniTimeSpan($start,$end);
+		$availableTimes[$start] = new HarmoniTimeSpan($start,$end);
 
 
 
 		//print_r($thearray);
 
-		$idManager =& Services::getService("IdManager");
+		$idManager = Services::getService("IdManager");
 
 		$lastId = "";
 		while($res->hasMoreRows()){
@@ -345,8 +345,8 @@ extends SchedulingManager
 			$res->advanceRow();
 			$idString = $row['id'];
 			if($lastId!=$idString){
-				$id =& $idManager->getId($idString);
-				$item =& $this->getScheduleItem($id);
+				$id =$idManager->getId($idString);
+				$item =$this->getScheduleItem($id);
 
 				$availableTimes = $this->_restrict($item,  $availableTimes);
 				$lastId=$idString;
@@ -355,7 +355,7 @@ extends SchedulingManager
 		//print_r($thearray);
 		//ksort($thearray);
 
-		$ret =& new  HarmoniTimespanIterator($availableTimes);
+		$ret = new  HarmoniTimespanIterator($availableTimes);
 		return $ret;
 	}
 
@@ -365,7 +365,7 @@ extends SchedulingManager
 	*timespans that donot conflict with the event, but
 	* which contain as much of the original time as possible.
 	**/
-	function  _restrict(&$scheduleItem, &$mister11){
+	function  _restrict($scheduleItem, $mister11){
 		//print "in";
 		$start = $scheduleItem->getStart();
 		$end = $scheduleItem->getEnd();
@@ -373,7 +373,7 @@ extends SchedulingManager
 		$arrayOfTimeSpans2 =array();
 
 		foreach(array_keys($mister11) as $key){
-			$timespan =& $mister11[$key];
+			$timespan =$mister11[$key];
 			$start2 = $timespan->getStart();
 			$end2 = $timespan->getEnd();
 			if($start>=$end2 || $end<=$start2){
@@ -385,16 +385,16 @@ extends SchedulingManager
 				if ($start2 >= $start){//Item fully overlaps item
 					//do nothing
 				}else{
-					$arrayOfTimeSpans2[$end] =& new HarmoniTimespan($start2,$start);
+					$arrayOfTimeSpans2[$end] = new HarmoniTimespan($start2,$start);
 				}
 			}else{
 	
 				if ($start2 >= $start){
 	
-					$arrayOfTimeSpans2[$start2] =& new HarmoniTimespan($end,$end2);
+					$arrayOfTimeSpans2[$start2] = new HarmoniTimespan($end,$end2);
 				}else{
-					$arrayOfTimeSpans2[$start2] =& new HarmoniTimespan($start2,$start);
-					$arrayOfTimeSpans2[$end] =& new HarmoniTimespan($end,$end2);
+					$arrayOfTimeSpans2[$start2] = new HarmoniTimespan($start2,$start);
+					$arrayOfTimeSpans2[$end] = new HarmoniTimespan($end,$end2);
 				}
 
 			}
@@ -427,8 +427,8 @@ extends SchedulingManager
 	*
 	* @access public
 	*/
-	function &getScheduleItem ( &$scheduleItemId ) {
-		$ret =& new HarmoniScheduleItem($scheduleItemId);
+	function getScheduleItem ( $scheduleItemId ) {
+		$ret = new HarmoniScheduleItem($scheduleItemId);
 		return $ret;
 	}
 
@@ -464,11 +464,11 @@ extends SchedulingManager
 	*
 	* @access public
 	*/
-	function &getScheduleItems ( $start, $end, &$status ) {
+	function getScheduleItems ( $start, $end, $status ) {
 
 		//get all schedule item rows with the appropriate type
-		$dbHandler =& Services::getService("DBHandler");
-		$query=& new SelectQuery;
+		$dbHandler = Services::getService("DBHandler");
+		$query= new SelectQuery;
 		$query->addTable('sc_item');
 		$query->addColumn('id');
 
@@ -492,20 +492,20 @@ extends SchedulingManager
 		$query->addWhere($where);*/
 		//$query->addWhere("start <= ".addslashes($typeIndex)."'");
 		//$query->addWhere("end >= ".addslashes($typeIndex)."'");
-		$res=& $dbHandler->query($query);
+		$res=$dbHandler->query($query);
 
 		//convert results to array of ScheduleItems
 		$array = array();
-		$idManager =& Services::getService("IdManager");
+		$idManager = Services::getService("IdManager");
 		while($res->hasMoreRows()){
 			$row = $res->getCurrentRow();
 			$res->advanceRow();
-			$id =& $idManager->getId($row['id']);
-			$array[] =& $this->getScheduleItem($id);
+			$id =$idManager->getId($row['id']);
+			$array[] =$this->getScheduleItem($id);
 		}
 
 		//convert to an iterator
-		$ret =& new  HarmoniScheduleItemIterator($array);
+		$ret = new  HarmoniScheduleItemIterator($array);
 		return $ret;
 	}
 
@@ -544,7 +544,7 @@ extends SchedulingManager
 	*
 	* @access public
 	*/
-	function &getScheduleItemsForAgents ( $start, $end, &$status, &$agents ) {
+	function getScheduleItemsForAgents ( $start, $end, $status, $agents ) {
 
 
 		if(count($agents)==0){
@@ -553,18 +553,18 @@ extends SchedulingManager
 			return $ret;
 		}
 
-		$scheduleItems =& $this->getScheduleItems($start,$end,$status);
+		$scheduleItems =$this->getScheduleItems($start,$end,$status);
 
 
 
 		$array =array();
 
 		while($scheduleItems->hasNextScheduleItem()){
-			$scheduleItem =& $scheduleItems->nextScheduleItem();
+			$scheduleItem =$scheduleItems->nextScheduleItem();
 
 
-			$dbHandler =& Services::getService("DBHandler");
-			$query=& new SelectQuery;
+			$dbHandler = Services::getService("DBHandler");
+			$query= new SelectQuery;
 			$query->addTable('sc_commit');
 			$query->addColumn('id');//@TODO switch this to just a count
 
@@ -586,10 +586,10 @@ extends SchedulingManager
 			$where .= ")";
 			$query->addWhere($where);
 
-			$res=& $dbHandler->query($query);
+			$res=$dbHandler->query($query);
 
 			if($res->getNumberOfRows()>0){
-				$array[] =&  $scheduleItem;
+				$array[] =  $scheduleItem;
 			}
 
 		}
@@ -597,13 +597,13 @@ extends SchedulingManager
 
 
 		//convert to an iterator
-		$ret =& new  HarmoniScheduleItemIterator($array);
+		$ret = new  HarmoniScheduleItemIterator($array);
 		return $ret;
 
 		/*
 		//get all schedule item rows with the appropriate type
-		$dbHandler =& Services::getService("DBHandler");
-		$query=& new SelectQuery;
+		$dbHandler = Services::getService("DBHandler");
+		$query= new SelectQuery;
 		$query->addTable('sc_item');
 		$query->addColumn('id');
 
@@ -625,7 +625,7 @@ extends SchedulingManager
 		}else{
 		$firstElement=false;
 		}
-		$id =& $agent->getId();
+		$id =$agent->getId();
 		$where .= "'".addslashes($id->getIdString())."'=fk_agent_id ";
 		}
 
@@ -633,20 +633,20 @@ extends SchedulingManager
 		$query->addWhere($where);
 		//$query->addWhere("start <= ".addslashes($typeIndex)."'");
 		//$query->addWhere("end >= ".addslashes($typeIndex)."'");
-		$res=& $dbHandler->query($query);
+		$res=$dbHandler->query($query);
 
 		//convert results to array of ScheduleItems
 		$array = array();
-		$idManager =& Services::getService("IdManager");
+		$idManager = Services::getService("IdManager");
 		while($res->hasMoreRows()){
 		$row = $res->getCurrentRow();
 		$res->advanceRow();
-		$id =& $idManager->getId($row['id']);
-		$array[] =& $this->getScheduleItem($id);
+		$id =$idManager->getId($row['id']);
+		$array[] =$this->getScheduleItem($id);
 		}
 
 		//convert to an iterator
-		$ret =& new  HarmoniScheduleItemIterator($array);
+		$ret = new  HarmoniScheduleItemIterator($array);
 		return $ret;
 
 		*/
@@ -680,29 +680,29 @@ extends SchedulingManager
 	*
 	* @access public
 	*/
-	function &getScheduleItemsByMasterId ( $masterIdentifier ) {
+	function getScheduleItemsByMasterId ( $masterIdentifier ) {
 		;
 
 		//get all schedule item rows with the appropriate type
-		$dbHandler =& Services::getService("DBHandler");
-		$query=& new SelectQuery;
+		$dbHandler = Services::getService("DBHandler");
+		$query= new SelectQuery;
 		$query->addTable('sc_item');
 		$query->addColumn('id');
 		$query->addWhere("master_id='".addslashes($masterIdentifier)."'");
-		$res=& $dbHandler->query($query);
+		$res=$dbHandler->query($query);
 
 		//convert results to array of ScheduleItems
 		$array = array();
-		$idManager =& Services::getService("IdManager");
+		$idManager = Services::getService("IdManager");
 		while($res->hasMoreRows()){
 			$row = $res->getCurrentRow();
 			$res->advanceRow();
-			$id =& $idManager->getId($row['id']);
-			$array[] =& $this->getScheduleItem($id);
+			$id =$idManager->getId($row['id']);
+			$array[] =$this->getScheduleItem($id);
 		}
 
 		//convert to an iterator
-		$ret =& new  HarmoniScheduleItemIterator($array);
+		$ret = new  HarmoniScheduleItemIterator($array);
 		return $ret;
 	}
 
@@ -725,7 +725,7 @@ extends SchedulingManager
 	*
 	* @access public
 	*/
-	function &getItemStatusTypes () {
+	function getItemStatusTypes () {
 		return $this->_getTypes('item_stat');
 	}
 
@@ -749,7 +749,7 @@ extends SchedulingManager
 	*
 	* @access public
 	*/
-	function &getItemCommitmentStatusTypes () {
+	function getItemCommitmentStatusTypes () {
 		return $this->getCommitmentStatusTypes();
 	}
 
@@ -775,7 +775,7 @@ extends SchedulingManager
 	*
 	* @access public
 	*/
-	function &getCommitmentStatusTypes () {
+	function getCommitmentStatusTypes () {
 		return $this->_getTypes('commit_stat');
 	}
 
@@ -791,17 +791,17 @@ extends SchedulingManager
 	*
 	* @access private
 	*/
-	function &_getTypes($typename){
+	function _getTypes($typename){
 
 		//query
-		$dbHandler =& Services::getService("DBHandler");
-		$query=& new SelectQuery;
+		$dbHandler = Services::getService("DBHandler");
+		$query= new SelectQuery;
 		$query->addTable('sc_'.$typename."_type");
 		$query->addColumn('domain');
 		$query->addColumn('authority');
 		$query->addColumn('keyword');
 		$query->addColumn('description');
-		$res=& $dbHandler->query($query);
+		$res=$dbHandler->query($query);
 
 		//iterate through results and add to an array
 		$array=array();
@@ -809,15 +809,15 @@ extends SchedulingManager
 			$row = $res->getCurrentRow();
 			$res->advanceRow();
 			if(is_null($row['description'])){
-				$the_type =& new Type($row['domain'],$row['authority'],$row['keyword']);
+				$the_type = new Type($row['domain'],$row['authority'],$row['keyword']);
 			}else{
-				$the_type =& new Type($row['domain'],$row['authority'],$row['keyword'],$row['description']);
+				$the_type = new Type($row['domain'],$row['authority'],$row['keyword'],$row['description']);
 			}
 			$array[] = $the_type;
 		}
 
 		//convert to an iterator
-		$ret =& new HarmoniTypeIterator($array);
+		$ret = new HarmoniTypeIterator($array);
 		return $ret;
 	}
 
@@ -832,7 +832,7 @@ extends SchedulingManager
 	*
 	* @access private
 	*/
-	function &_getType(&$id, $table, $typename){
+	function _getType($id, $table, $typename){
 		//the appropriate table names and fields must be given names according to the pattern indicated below
 
 		//get the index for the type
@@ -854,19 +854,19 @@ extends SchedulingManager
 	*
 	* @access private
 	*/
-	function &_indexToType($index, $typename){
+	function _indexToType($index, $typename){
 		//the appropriate table names and fields must be given names according to the pattern indicated below
 
 		//query
-		$dbHandler =& Services::getService("DBHandler");
-		$query=& new SelectQuery;
+		$dbHandler = Services::getService("DBHandler");
+		$query= new SelectQuery;
 		$query->addTable('sc_'.$typename."_type");
 		$query->addWhere("id=".$index);
 		$query->addColumn('domain');
 		$query->addColumn('authority');
 		$query->addColumn('keyword');
 		$query->addColumn('description');
-		$res=& $dbHandler->query($query);
+		$res=$dbHandler->query($query);
 
 
 		if(!$res->hasMoreRows()){
@@ -877,9 +877,9 @@ extends SchedulingManager
 		//remember that the description is optional
 		$row = $res->getCurrentRow();
 		if(is_null($row['description'])){
-			$the_type =& new Type($row['domain'],$row['authority'],$row['keyword']);
+			$the_type = new Type($row['domain'],$row['authority'],$row['keyword']);
 		}else{
-			$the_type =& new Type($row['domain'],$row['authority'],$row['keyword'],$row['description']);
+			$the_type = new Type($row['domain'],$row['authority'],$row['keyword'],$row['description']);
 		}
 		return $the_type;
 
@@ -898,7 +898,7 @@ extends SchedulingManager
 	*
 	* @access private
 	*/
-	function _typeToIndex($typename, &$type){
+	function _typeToIndex($typename, $type){
 		//the appropriate table names and fields must be given names according to the pattern indicated below
 
 
@@ -908,20 +908,20 @@ extends SchedulingManager
 
 
 		//query to see if it exists
-		$dbHandler =& Services::getService("DBHandler");
-		$query=& new SelectQuery;
+		$dbHandler = Services::getService("DBHandler");
+		$query= new SelectQuery;
 		$query->addTable('sc_'.$typename."_type");
 		$query->addWhere("domain='".$type->getDomain()."'");
 		$query->addWhere("authority='".$type->getAuthority()."'");
 		$query->addWhere("keyword='".$type->getKeyword()."'");
 		$query->addColumn('id');
-		$res=& $dbHandler->query($query);
+		$res=$dbHandler->query($query);
 
 
 
 		if($res->getNumberOfRows()==0){
 			//if not query to create it
-			$query=& new InsertQuery;
+			$query= new InsertQuery;
 			$query->setTable('sc_'.$typename.'_type');
 			$values[]="'".addslashes($type->getDomain())."'";
 			$values[]="'".addslashes($type->getAuthority())."'";
@@ -937,7 +937,7 @@ extends SchedulingManager
 			$query->setAutoIncrementColumn('id','id_sequence');
 
 
-			$result =& $dbHandler->query($query);
+			$result =$dbHandler->query($query);
 
 			return $result->getLastAutoIncrementValue();
 		}elseif($res->getNumberOfRows()==1){
@@ -971,11 +971,11 @@ extends SchedulingManager
 	*
 	* @access private
 	*/
-	function _setField(&$id, $table, $key, $value)
+	function _setField($id, $table, $key, $value)
 	{
 		//just an update query
-		$dbHandler =& Services::getService("DBHandler");
-		$query=& new UpdateQuery;
+		$dbHandler = Services::getService("DBHandler");
+		$query= new UpdateQuery;
 		$query->setTable($table);
 		$query->addWhere("id='".addslashes($id->getIdString())."'");
 		$query->setColumns(array(addslashes($key)));
@@ -996,16 +996,16 @@ extends SchedulingManager
 	*
 	* @access private
 	*/
-	function _getField(&$id, $table, $key)
+	function _getField($id, $table, $key)
 	{
 
 		//just a select query
-		$dbHandler =& Services::getService("DBHandler");
-		$query=& new SelectQuery;
+		$dbHandler = Services::getService("DBHandler");
+		$query= new SelectQuery;
 		$query->addTable($table);
 		$query->addWhere("id='".addslashes($id->getIdString())."'");
 		$query->addColumn(addslashes($key));
-		$res=& $dbHandler->query($query);
+		$res=$dbHandler->query($query);
 		$row = $res->getCurrentRow();
 		$ret=$row[$key];
 		return $ret;

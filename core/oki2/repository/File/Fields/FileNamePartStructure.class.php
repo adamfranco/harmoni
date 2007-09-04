@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileNamePartStructure.class.php,v 1.7 2007/04/12 15:37:32 adamfranco Exp $ 
+ * @version $Id: FileNamePartStructure.class.php,v 1.8 2007/09/04 20:25:44 adamfranco Exp $ 
  */
 class FileNamePartStructure extends PartStructure
 //	extends java.io.Serializable
@@ -27,8 +27,8 @@ class FileNamePartStructure extends PartStructure
 
 	var $_partStructure;
 	
-	function FileNamePartStructure(&$recordStructure) {
-		$this->_recordStructure =& $recordStructure;
+	function FileNamePartStructure($recordStructure) {
+		$this->_recordStructure =$recordStructure;
 	}
 	
 	/**
@@ -96,9 +96,9 @@ class FileNamePartStructure extends PartStructure
 	 * 
 	 * @access public
 	 */
-	function &getType() {
+	function getType() {
 		if (!isset($this->_type)) {
-			$this->_type =& new HarmoniType("Repository", "edu.middlebury.harmoni", "string");
+			$this->_type = new HarmoniType("Repository", "edu.middlebury.harmoni", "string");
 		}
 		
 		return $this->_type;
@@ -123,8 +123,8 @@ class FileNamePartStructure extends PartStructure
 	 * 
 	 * @access public
 	 */
-	function &getId() {
-		$idManager =& Services::getService("Id");
+	function getId() {
+		$idManager = Services::getService("Id");
 		return $idManager->getId("FILE_NAME");
 	}
 
@@ -148,9 +148,9 @@ class FileNamePartStructure extends PartStructure
 	 * 
 	 * @access public
 	 */
-	function &getPartStructures() {
+	function getPartStructures() {
 		$array = array();
-		$obj =& new HarmoniNodeIterator($array);
+		$obj = new HarmoniNodeIterator($array);
 		return $obj; // @todo replace with HarmoniPartStructureIterator
 	}
 
@@ -245,7 +245,7 @@ class FileNamePartStructure extends PartStructure
 	 * 
 	 * @access public
 	 */
-	function &getRecordStructure() {
+	function getRecordStructure() {
 		return $this->_recordStructure;
 	}
 
@@ -276,7 +276,7 @@ class FileNamePartStructure extends PartStructure
 	 * 
 	 * @access public
 	 */
-	function validatePart(& $part) {
+	function validatePart($part) {
 		// we can check if the Part (ie, ValueVersions) has values of the right type.
 		// @todo
 		
@@ -302,9 +302,9 @@ class FileNamePartStructure extends PartStructure
 	 * @access public
 	 * @since 4/25/06
 	 */
-	function &getAuthoritativeValues () {
+	function getAuthoritativeValues () {
 		$array = array();
-		$iterator =& new HarmoniIterator($array);
+		$iterator = new HarmoniIterator($array);
 		return $iterator;
 	}
 	
@@ -318,7 +318,7 @@ class FileNamePartStructure extends PartStructure
 	 * @access public
 	 * @since 4/25/06
 	 */
-	function isAuthoritativeValue ( &$value ) {
+	function isAuthoritativeValue ( $value ) {
 		return false;	
 	}
 	
@@ -332,7 +332,7 @@ class FileNamePartStructure extends PartStructure
 	 * @access public
 	 * @since 4/25/06
 	 */
-	function removeAuthoritativeValue ( &$value ) {
+	function removeAuthoritativeValue ( $value ) {
 	}
 	
 	/**
@@ -345,7 +345,7 @@ class FileNamePartStructure extends PartStructure
 	 * @access public
 	 * @since 4/25/06
 	 */
-	function addAuthoritativeValue ( &$value ) {
+	function addAuthoritativeValue ( $value ) {
 		$false = false;
 		return $false;
 	}
@@ -372,7 +372,7 @@ class FileNamePartStructure extends PartStructure
 	 * @access public
 	 * @since 4/27/06
 	 */
-	function &createValueObjectFromString ( $valueString ) {
+	function createValueObjectFromString ( $valueString ) {
 		$false = false;
 		return $false;
 	}

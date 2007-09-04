@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StylePropertiesTestCase.class.php,v 1.11 2006/08/02 23:50:28 sporktim Exp $
+ * @version $Id: StylePropertiesTestCase.class.php,v 1.12 2007/09/04 20:25:24 adamfranco Exp $
  */
  
 require_once(HARMONI."GUIManager/StyleProperty.class.php");
@@ -70,7 +70,7 @@ require_once(HARMONI."GUIManager/StyleProperties/BackgroundSP.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StylePropertiesTestCase.class.php,v 1.11 2006/08/02 23:50:28 sporktim Exp $
+ * @version $Id: StylePropertiesTestCase.class.php,v 1.12 2007/09/04 20:25:24 adamfranco Exp $
  */
 
     class StylePropertiesTestCase extends UnitTestCase {
@@ -97,7 +97,7 @@ require_once(HARMONI."GUIManager/StyleProperties/BackgroundSP.class.php");
 		}
 	
 		function test_generic_sp() {
-			$sp =& new StyleProperty("border", "border", "The border");
+			$sp = new StyleProperty("border", "border", "The border");
 			$sp->addSC(new BorderStyleSC("solid"));
 			$sp->addSC(new LineHeightSC("1px"));
 			$sp->addSC(new ColorSC("#000"));
@@ -108,191 +108,191 @@ require_once(HARMONI."GUIManager/StyleProperties/BackgroundSP.class.php");
 		}
 		
 		function test_color_sps() {
-			$sp =& new ColorSP("#23FF12");
+			$sp = new ColorSP("#23FF12");
 			$this->assertIdentical($sp->getDisplayName(), "Color");
 			$this->assertIdentical($sp->getDescription(), "This property specifies the foreground color.");
 			$this->assertIdentical($sp->getCSS(), "color: #23FF12;");
 
-			$sp =& new BackgroundColorSP("#23FF12");
+			$sp = new BackgroundColorSP("#23FF12");
 			$this->assertIdentical($sp->getCSS(), "background-color: #23FF12;");
 		}
 		
 		function test_border_sps() {
-			$sp =& new BorderSP("23in", "ridge","#23FF12");
+			$sp = new BorderSP("23in", "ridge","#23FF12");
 			$this->assertIdentical($sp->getCSS(), "border: 23in ridge #23FF12;");
 
-			$sp =& new BorderTopSP("23in", "ridge","#23FF12");
+			$sp = new BorderTopSP("23in", "ridge","#23FF12");
 			$this->assertIdentical($sp->getCSS(), "border-top: 23in ridge #23FF12;");
-			$sp =& new BorderRightSP("23in", "ridge","#23FF12");
+			$sp = new BorderRightSP("23in", "ridge","#23FF12");
 			$this->assertIdentical($sp->getCSS(), "border-right: 23in ridge #23FF12;");
-			$sp =& new BorderBottomSP("23in", "ridge","#23FF12");
+			$sp = new BorderBottomSP("23in", "ridge","#23FF12");
 			$this->assertIdentical($sp->getCSS(), "border-bottom: 23in ridge #23FF12;");
-			$sp =& new BorderLeftSP("23in", "ridge","#23FF12");
+			$sp = new BorderLeftSP("23in", "ridge","#23FF12");
 			$this->assertIdentical($sp->getCSS(), "border-left: 23in ridge #23FF12;");
 		}
 		
 		function test_margin_sps() {
-			$sp =& new MarginSP("23in");
+			$sp = new MarginSP("23in");
 			$this->assertIdentical($sp->getCSS(), "margin: 23in;");
-			$sp =& new MarginTopSP("23in");
+			$sp = new MarginTopSP("23in");
 			$this->assertIdentical($sp->getCSS(), "margin-top: 23in;");
-			$sp =& new MarginRightSP("23in");
+			$sp = new MarginRightSP("23in");
 			$this->assertIdentical($sp->getCSS(), "margin-right: 23in;");
-			$sp =& new MarginBottomSP("23in");
+			$sp = new MarginBottomSP("23in");
 			$this->assertIdentical($sp->getCSS(), "margin-bottom: 23in;");
-			$sp =& new MarginLeftSP("23in");
+			$sp = new MarginLeftSP("23in");
 			$this->assertIdentical($sp->getCSS(), "margin-left: 23in;");
 		}		
 
 		function test_padding_sps() {
-			$sp =& new PaddingSP("23in");
+			$sp = new PaddingSP("23in");
 			$this->assertIdentical($sp->getCSS(), "padding: 23in;");
-			$sp =& new PaddingTopSP("23in");
+			$sp = new PaddingTopSP("23in");
 			$this->assertIdentical($sp->getCSS(), "padding-top: 23in;");
-			$sp =& new PaddingRightSP("23in");
+			$sp = new PaddingRightSP("23in");
 			$this->assertIdentical($sp->getCSS(), "padding-right: 23in;");
-			$sp =& new PaddingBottomSP("23in");
+			$sp = new PaddingBottomSP("23in");
 			$this->assertIdentical($sp->getCSS(), "padding-bottom: 23in;");
-			$sp =& new PaddingLeftSP("23in");
+			$sp = new PaddingLeftSP("23in");
 			$this->assertIdentical($sp->getCSS(), "padding-left: 23in;");
 		}
 		
 		function test_font_sp() {
-			$sp =& new FontSP("'Verdana'", "x-large");
+			$sp = new FontSP("'Verdana'", "x-large");
 			$this->assertIdentical($sp->getCSS(), "font: x-large 'Verdana';");
 
-			$sp =& new FontSP("'Verdana'", "x-large", "oblique");
+			$sp = new FontSP("'Verdana'", "x-large", "oblique");
 			$this->assertIdentical($sp->getCSS(), "font: oblique x-large 'Verdana';");
 
-			$sp =& new FontSP("'Verdana'", "x-large", null, 600, "small-caps");
+			$sp = new FontSP("'Verdana'", "x-large", null, 600, "small-caps");
 			$this->assertIdentical($sp->getCSS(), "font: small-caps 600 x-large 'Verdana';");
 		}
 		
 		function test_line_height_sp() {
-			$sp =& new LineHeightSP("3.54");
+			$sp = new LineHeightSP("3.54");
 			$this->assertIdentical($sp->getCSS(), "line-height: 3.54;");
 		}
 		
 		function test_cursor_sp() {
-			$sp =& new CursorSP("hand");
+			$sp = new CursorSP("hand");
 			$this->assertIdentical($sp->getCSS(), "cursor: hand;");
 		}
 		
 		function test_direction_sp() {
-			$sp =& new DirectionSP("ltr");
+			$sp = new DirectionSP("ltr");
 			$this->assertIdentical($sp->getCSS(), "direction: ltr;");
 		}
 		
 		function test_display_sp() {
-			$sp =& new DisplaySP("inline");
+			$sp = new DisplaySP("inline");
 			$this->assertIdentical($sp->getCSS(), "display: inline;");
 			
-			$sp =& new DisplaySP("block");
+			$sp = new DisplaySP("block");
 			$this->assertIdentical($sp->getCSS(), "display: block;");
 		}
 				
 		function test_position_sp() {
-			$sp =& new PositionSP("absolute");
+			$sp = new PositionSP("absolute");
 			$this->assertIdentical($sp->getCSS(), "position: absolute;");
 		}
 		
 		function test_text_transform_sp() {
-			$sp =& new TextTransformSP("capitalize");
+			$sp = new TextTransformSP("capitalize");
 			$this->assertIdentical($sp->getCSS(), "text-transform: capitalize;");
 		}
 		
 		function test_visibility_sp() {
-			$sp =& new VisibilitySP("hidden");
+			$sp = new VisibilitySP("hidden");
 			$this->assertIdentical($sp->getCSS(), "visibility: hidden;");
 		}
 		
 		function test_z_index_sp() {
-			$sp =& new ZIndexSP("3");
+			$sp = new ZIndexSP("3");
 			$this->assertIdentical($sp->getCSS(), "z-index: 3;");
 		}
 		
 		function test_max_width_sp() {
-			$sp =& new MaxWidthSP("none");
+			$sp = new MaxWidthSP("none");
 			$this->assertIdentical($sp->getCSS(), "max-width: none;");
 		}
 
 		function test_max_height_sp() {
-			$sp =& new MaxHeightSP("12px");
+			$sp = new MaxHeightSP("12px");
 			$this->assertIdentical($sp->getCSS(), "max-height: 12px;");
 		}
 
 		function test_word_spacing_sp() {
-			$sp =& new WordSpacingSP("12px");
+			$sp = new WordSpacingSP("12px");
 			$this->assertIdentical($sp->getCSS(), "word-spacing: 12px;");
 		}
 		
 		function test_letter_spacing_sp() {
-			$sp =& new LetterSpacingSP("normal");
+			$sp = new LetterSpacingSP("normal");
 			$this->assertIdentical($sp->getCSS(), "letter-spacing: normal;");
 		}
 		
 		function test_white_space_sp() {
-			$sp =& new WhiteSpaceSP("normal");
+			$sp = new WhiteSpaceSP("normal");
 			$this->assertIdentical($sp->getCSS(), "white-space: normal;");
 		}
 		
 		function test_clear_sp() {
-			$sp =& new ClearSP("both");
+			$sp = new ClearSP("both");
 			$this->assertIdentical($sp->getCSS(), "clear: both;");
 		}
 		
 		function test_float_sp() {
-			$sp =& new FloatSP("left");
+			$sp = new FloatSP("left");
 			$this->assertIdentical($sp->getCSS(), "float: left;");
 		}
 		
 		function test_top_sp() {
-			$sp =& new TopSP("auto");
+			$sp = new TopSP("auto");
 			$this->assertIdentical($sp->getCSS(), "top: auto;");
 		}
 		
 		function test_left_sp() {
-			$sp =& new LeftSP("2%");
+			$sp = new LeftSP("2%");
 			$this->assertIdentical($sp->getCSS(), "left: 2%;");
 		}
 		
 		function test_right_sp() {
-			$sp =& new RightSP("auto");
+			$sp = new RightSP("auto");
 			$this->assertIdentical($sp->getCSS(), "right: auto;");
 		}
 		
 		function test_bottom_sp() {
-			$sp =& new BottomSP("13cm");
+			$sp = new BottomSP("13cm");
 			$this->assertIdentical($sp->getCSS(), "bottom: 13cm;");
 		}
 		
 		function test_vertical_align_sp() {
-			$sp =& new VerticalAlignSP("middle");
+			$sp = new VerticalAlignSP("middle");
 			$this->assertIdentical($sp->getCSS(), "vertical-align: middle;");
 		}
 		
 		function test_overflow_sp() {
-			$sp =& new OverflowSP("scroll");
+			$sp = new OverflowSP("scroll");
 			$this->assertIdentical($sp->getCSS(), "overflow: scroll;");
 		}
 		
 		function test_font_size_sp() {
-			$sp =& new FontSizeSP("200%");
+			$sp = new FontSizeSP("200%");
 			$this->assertIdentical($sp->getCSS(), "font-size: 200%;");
 		}
 		
 		function test_font_family_sp() {
-			$sp =& new FontFamilySP("arial");
+			$sp = new FontFamilySP("arial");
 			$this->assertIdentical($sp->getCSS(), "font-family: arial;");
 		}
 		
 		function test_font_weight_sp() {
-			$sp =& new FontWeightSP("bolder");
+			$sp = new FontWeightSP("bolder");
 			$this->assertIdentical($sp->getCSS(), "font-weight: bolder;");
 		}
 		
 		function test_background_sp() {
-			$sp =& new BackgroundSP("#231", "url('http://nowhere.gif')", "repeat-x", "scroll");
+			$sp = new BackgroundSP("#231", "url('http://nowhere.gif')", "repeat-x", "scroll");
 			$this->assertIdentical($sp->getCSS(), "background: #231 url('http://nowhere.gif') repeat-x scroll;");
 		}
 	}

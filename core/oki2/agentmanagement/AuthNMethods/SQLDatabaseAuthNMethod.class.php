@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SQLDatabaseAuthNMethod.class.php,v 1.12 2006/02/10 21:06:11 cws-midd Exp $
+ * @version $Id: SQLDatabaseAuthNMethod.class.php,v 1.13 2007/09/04 20:25:37 adamfranco Exp $
  */ 
  
 require_once(dirname(__FILE__)."/AuthNMethod.abstract.php");
@@ -18,7 +18,7 @@ require_once(dirname(__FILE__)."/AuthNMethod.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SQLDatabaseAuthNMethod.class.php,v 1.12 2006/02/10 21:06:11 cws-midd Exp $
+ * @version $Id: SQLDatabaseAuthNMethod.class.php,v 1.13 2007/09/04 20:25:37 adamfranco Exp $
  */
 class SQLDatabaseAuthNMethod
 	extends AuthNMethod
@@ -32,7 +32,7 @@ class SQLDatabaseAuthNMethod
 	 * @access public
 	 * @since 3/24/05
 	 */
-	function assignConfiguration ( &$configuration ) {
+	function assignConfiguration ( $configuration ) {
 	
 		parent::assignConfiguration($configuration);
 		
@@ -83,9 +83,9 @@ class SQLDatabaseAuthNMethod
 	 * @access public
 	 * @since 3/1/05
 	 */
-	function &createTokensObject () {
+	function createTokensObject () {
 		$tokensClass = $this->_configuration->getProperty('tokens_class');
-		$newTokens =& new $tokensClass($this->_configuration);
+		$newTokens = new $tokensClass($this->_configuration);
 		
 		$validatorRule = ExtendsValidatorRule::getRule('UsernamePasswordAuthNTokens');
 		if ($validatorRule->check($newTokens))
@@ -104,23 +104,23 @@ class SQLDatabaseAuthNMethod
 	 * @access public
 	 * @since 3/1/05
 	 */
-	function authenticateTokens ( &$authNTokens ) {
+	function authenticateTokens ( $authNTokens ) {
 		ArgumentValidator::validate($authNTokens, ExtendsValidatorRule::getRule("AuthNTokens"));
 		
-		$dbc =& Services::getService("DatabaseManager");
+		$dbc = Services::getService("DatabaseManager");
 		$dbId = $this->_configuration->getProperty('database_id');
 		$authenticationTable = $this->_configuration->getProperty('authentication_table');
 		$usernameField = $this->_configuration->getProperty('username_field');
 		$passwordField = $this->_configuration->getProperty('password_field');
 		
-		$query = & new SelectQuery;
+		$query =  new SelectQuery;
 		$query->addTable($authenticationTable);
 		$query->addColumn("COUNT(*)", "count");
 		$query->addWhere(
 			$usernameField."='".addslashes($authNTokens->getUsername())."'");
 		$query->addWhere(
 			$passwordField."='".addslashes($authNTokens->getPassword())."'", _AND);
-		$result = & $dbc->query($query, $dbId);
+		$result =  $dbc->query($query, $dbId);
 		
 		if ($result->field("count") == 1) {
 			$result->free();
@@ -146,20 +146,20 @@ class SQLDatabaseAuthNMethod
 	 * @access public
 	 * @since 3/1/05
 	 */
-	function tokensExist ( &$authNTokens ) {
+	function tokensExist ( $authNTokens ) {
 		ArgumentValidator::validate($authNTokens, ExtendsValidatorRule::getRule("AuthNTokens"));
 		
-		$dbc =& Services::getService("DatabaseManager");
+		$dbc = Services::getService("DatabaseManager");
 		$dbId = $this->_configuration->getProperty('database_id');
 		$authenticationTable = $this->_configuration->getProperty('authentication_table');
 		$usernameField = $this->_configuration->getProperty('username_field');
 		
-		$query = & new SelectQuery;
+		$query =  new SelectQuery;
 		$query->addTable($authenticationTable);
 		$query->addColumn("COUNT(*)", "count");
 		$query->addWhere(
 			$usernameField."='".addslashes($authNTokens->getUsername())."'");
-		$result = & $dbc->query($query, $dbId);
+		$result =  $dbc->query($query, $dbId);
 		
 		if ($result->field("count") == 1) {
 			$result->free();
@@ -187,22 +187,22 @@ class SQLDatabaseAuthNMethod
 	 * @access private
 	 * @since 3/1/05
 	 */
-	function _populateProperties ( &$authNTokens, &$properties ) {
+	function _populateProperties ( $authNTokens, $properties ) {
 		ArgumentValidator::validate($authNTokens, ExtendsValidatorRule::getRule("AuthNTokens"));
 		ArgumentValidator::validate($properties, ExtendsValidatorRule::getRule("Properties"));
 		
-		$dbc =& Services::getService("DatabaseManager");
+		$dbc = Services::getService("DatabaseManager");
 		$dbId = $this->_configuration->getProperty('database_id');
 		$authenticationTable = $this->_configuration->getProperty('authentication_table');
 		$usernameField = $this->_configuration->getProperty('username_field');
-		$propertiesFields =& $this->_configuration->getProperty('properties_fields');
+		$propertiesFields =$this->_configuration->getProperty('properties_fields');
 		
 		// if we aren't looking for any properties from the database, don't 
 		// bother running a query.
 		if (!is_array($propertiesFields) || !count($propertiesFields))
 			return;
 		
-		$query = & new SelectQuery;
+		$query =  new SelectQuery;
 		$query->addTable($authenticationTable);
 		
 		foreach ($propertiesFields as $propertyKey => $fieldName) {
@@ -211,7 +211,7 @@ class SQLDatabaseAuthNMethod
 		
 		$query->addWhere(
 			$usernameField."='".addslashes($authNTokens->getUsername())."'");
-		$result =& $dbc->query($query, $dbId);
+		$result =$dbc->query($query, $dbId);
 		
 		if ($result->getNumberOfRows() == 1) {
 			foreach ($propertiesFields as $propertyKey => $fieldName) {
@@ -251,16 +251,16 @@ class SQLDatabaseAuthNMethod
 	 * @access public
 	 * @since 3/3/05
 	 */
-	function &getTokensBySearch ( $searchString ) {
-		$dbc =& Services::getService("DatabaseManager");
+	function getTokensBySearch ( $searchString ) {
+		$dbc = Services::getService("DatabaseManager");
 		$dbId = $this->_configuration->getProperty('database_id');
 		$authenticationTable = $this->_configuration->getProperty('authentication_table');
 		$usernameField = $this->_configuration->getProperty('username_field');
-		$propertiesFields =& $this->_configuration->getProperty('properties_fields');
+		$propertiesFields =$this->_configuration->getProperty('properties_fields');
 		
 		$searchString = str_replace('*', '%', $searchString);
 		
-		$query = & new SelectQuery;
+		$query =  new SelectQuery;
 		$query->addTable($authenticationTable);
 		$query->addColumn($usernameField);
 		$query->addWhere(
@@ -273,17 +273,17 @@ class SQLDatabaseAuthNMethod
 			}
 		}
 		
-		$result =& $dbc->query($query, $dbId);
+		$result =$dbc->query($query, $dbId);
 		
 		$tokens = array();
 		while ($result->hasMoreRows()) {
-			$tokens[] =& $this->createTokensForIdentifier($result->field($usernameField));
+			$tokens[] =$this->createTokensForIdentifier($result->field($usernameField));
 			$result->advanceRow();
 		}
 		
 		$result->free();
 		
-		$obj =& new HarmoniObjectIterator($tokens);
+		$obj = new HarmoniObjectIterator($tokens);
 		
 		return $obj;
 	}
@@ -310,7 +310,7 @@ class SQLDatabaseAuthNMethod
 	 * @access public
 	 * @since 3/1/05
 	 */
-	function addTokens ( &$authNTokens ) {
+	function addTokens ( $authNTokens ) {
 		ArgumentValidator::validate($authNTokens, ExtendsValidatorRule::getRule("AuthNTokens"));
 		
 		if ($this->tokensExist($authNTokens)) {
@@ -318,13 +318,13 @@ class SQLDatabaseAuthNMethod
 							"'".$authNTokens->getUsername()."' already exists.",
 									 "SQLDatabaseAuthNMethod", true));
 		} else {
-			$dbc =& Services::getService("DatabaseManager");
+			$dbc = Services::getService("DatabaseManager");
 			$dbId = $this->_configuration->getProperty('database_id');
 			$authenticationTable = $this->_configuration->getProperty('authentication_table');
 			$usernameField = $this->_configuration->getProperty('username_field');
 			$passwordField = $this->_configuration->getProperty('password_field');
 			
-			$query = & new InsertQuery;
+			$query =  new InsertQuery;
 			$query->setTable($authenticationTable);
 			$query->setColumns(array(
 				$usernameField,
@@ -334,7 +334,7 @@ class SQLDatabaseAuthNMethod
 				"'".addslashes($authNTokens->getUsername())."'",
 				"'".addslashes($authNTokens->getPassword())."'"
 			));
-			$result = & $dbc->query($query, $dbId);
+			$result =  $dbc->query($query, $dbId);
 		}
 	}
 	
@@ -360,7 +360,7 @@ class SQLDatabaseAuthNMethod
 	 * @access public
 	 * @since 3/1/05
 	 */
-	function deleteTokens ( &$authNTokens ) {
+	function deleteTokens ( $authNTokens ) {
 		ArgumentValidator::validate($authNTokens, ExtendsValidatorRule::getRule("AuthNTokens"));
 		
 		if (!$this->tokensExist($authNTokens)) {
@@ -368,17 +368,17 @@ class SQLDatabaseAuthNMethod
 							."'".$authNTokens->getUsername()."' does not exist.",
 									 "SQLDatabaseAuthNMethod", true));
 		} else {
-			$dbc =& Services::getService("DatabaseManager");
+			$dbc = Services::getService("DatabaseManager");
 			$dbId = $this->_configuration->getProperty('database_id');
 			$authenticationTable = $this->_configuration->getProperty('authentication_table');
 			$usernameField = $this->_configuration->getProperty('username_field');
 			$passwordField = $this->_configuration->getProperty('password_field');
 			
-			$query = & new DeleteQuery;
+			$query =  new DeleteQuery;
 			$query->setTable($authenticationTable);
 			$query->addWhere(
 				$usernameField."='".addslashes($authNTokens->getUsername())."'");
-			$result = & $dbc->query($query, $dbId);
+			$result =  $dbc->query($query, $dbId);
 		}
 	}
 	
@@ -405,7 +405,7 @@ class SQLDatabaseAuthNMethod
 	 * @access public
 	 * @since 3/1/05
 	 */
-	function updateTokens ( &$oldAuthNTokens, &$newAuthNTokens ) {
+	function updateTokens ( $oldAuthNTokens, $newAuthNTokens ) {
 		ArgumentValidator::validate($oldAuthNTokens, ExtendsValidatorRule::getRule("AuthNTokens"));
 		ArgumentValidator::validate($newAuthNTokens, ExtendsValidatorRule::getRule("AuthNTokens"));
 		
@@ -414,13 +414,13 @@ class SQLDatabaseAuthNMethod
 							."'".$oldAuthNTokens->getUsername()."' does not exist.",
 									 "SQLDatabaseAuthNMethod", true));
 		} else {
-			$dbc =& Services::getService("DatabaseManager");
+			$dbc = Services::getService("DatabaseManager");
 			$dbId = $this->_configuration->getProperty('database_id');
 			$authenticationTable = $this->_configuration->getProperty('authentication_table');
 			$usernameField = $this->_configuration->getProperty('username_field');
 			$passwordField = $this->_configuration->getProperty('password_field');
 			
-			$query = & new UpdateQuery;
+			$query =  new UpdateQuery;
 			$query->setTable($authenticationTable);
 			$query->setColumns(array(
 				$usernameField,
@@ -432,7 +432,7 @@ class SQLDatabaseAuthNMethod
 			));
 			$query->addWhere(
 				$usernameField."='".addslashes($oldAuthNTokens->getUsername())."'");
-			$result = & $dbc->query($query, $dbId);
+			$result =  $dbc->query($query, $dbId);
 		}
 	}
 	
@@ -459,7 +459,7 @@ class SQLDatabaseAuthNMethod
 	 * @access public
 	 * @since 3/1/05
 	 */
-	function updatePropertiesForTokens ( &$authNTokens, &$newProperties ) {
+	function updatePropertiesForTokens ( $authNTokens, $newProperties ) {
 		ArgumentValidator::validate($authNTokens, ExtendsValidatorRule::getRule("AuthNTokens"));
 		ArgumentValidator::validate($newProperties, ExtendsValidatorRule::getRule("Properties"));
 		
@@ -468,17 +468,17 @@ class SQLDatabaseAuthNMethod
 							."'".$authNTokens->getUsername()."' does not exist.",
 									 "SQLDatabaseAuthNMethod", true));
 		} else {
-			$dbc =& Services::getService("DatabaseManager");
+			$dbc = Services::getService("DatabaseManager");
 			$dbId = $this->_configuration->getProperty('database_id');
 			$authenticationTable = $this->_configuration->getProperty('authentication_table');
 			$usernameField = $this->_configuration->getProperty('username_field');
 			$passwordField = $this->_configuration->getProperty('password_field');
-			$propertiesFields =& $this->_configuration->getProperty('properties_fields');
+			$propertiesFields =$this->_configuration->getProperty('properties_fields');
 			
 			if (!is_array($propertiesFields) || !count($propertiesFields))
 				return;
 			
-			$query = & new UpdateQuery;
+			$query =  new UpdateQuery;
 			$query->setTable($authenticationTable);
 			$columns = array();
 			$values = array();
@@ -500,7 +500,7 @@ class SQLDatabaseAuthNMethod
 			
 			$query->addWhere(
 				$usernameField."='".addslashes($authNTokens->getUsername())."'");
-			$result = & $dbc->query($query, $dbId);
+			$result =  $dbc->query($query, $dbId);
 		}
 	}
 }

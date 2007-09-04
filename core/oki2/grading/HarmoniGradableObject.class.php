@@ -42,9 +42,9 @@ extends GradableObject
 	 * @access public
 	 * @return void
 	 */
-	function HarmoniGradableObject(&$id)
+	function HarmoniGradableObject($id)
 	{
-		$this->_id =& $id;
+		$this->_id =$id;
 		$this->_table = 'gr_gradable';
 		
 	}
@@ -162,7 +162,7 @@ extends GradableObject
      * 
      * @access public
      */
-    function &getId () { 
+    function getId () { 
        return $this->_id;
     } 
 
@@ -185,8 +185,8 @@ extends GradableObject
      * 
      * @access public
      */
-    function &getCourseSection () { 
-    	$idManager =& Services::getService("Id");
+    function getCourseSection () { 
+    	$idManager = Services::getService("Id");
     	$idString = $this->_getField("fk_cm_section");	
     	return $idManager->getId($idString); 	
     } 
@@ -210,12 +210,12 @@ extends GradableObject
      * 
      * @access public
      */
-    function &getExternalReference () { 
+    function getExternalReference () { 
     	$externalId = $this->_getField("fk_reference_id");
     	if(is_null($externalId)){
     		return null;	
     	}   	 
-    	$idManager =& Services::getService("Id"); 
+    	$idManager = Services::getService("Id"); 
     	return $idManager->getId($externalId);   	 
     } 
 
@@ -237,7 +237,7 @@ extends GradableObject
      * 
      * @access public
      */
-    function &getGradeType () { 
+    function getGradeType () { 
         return  $this->_getType("grade");
     } 
 
@@ -259,7 +259,7 @@ extends GradableObject
      * 
      * @access public
      */
-    function &getScoringDefinition () { 
+    function getScoringDefinition () { 
        return  $this->_getType("scoring");
     } 
 
@@ -281,7 +281,7 @@ extends GradableObject
      * 
      * @access public
      */
-    function &getGradeScale () { 
+    function getGradeScale () { 
        return  $this->_getType("gradescale"); 
     } 
 
@@ -330,9 +330,9 @@ extends GradableObject
      * 
      * @access public
      */
-    function &getPropertiesByType ( &$propertiesType ) { 
-        $type =& $this->getGradeType();
-		$propType =& new Type("PropertiesType", $type->getAuthority(), "properties"); 		
+    function getPropertiesByType ( $propertiesType ) { 
+        $type =$this->getGradeType();
+		$propType = new Type("PropertiesType", $type->getAuthority(), "properties"); 		
 		if($propertiesType->isEqualTo($propType)){
 			return $this->_getProperties();
 		}
@@ -357,11 +357,11 @@ extends GradableObject
      * 
      * @access public
      */
-    function &getPropertyTypes () { 
-        $type =& $this->getGradeType();
-		$propertiesType =& new Type("PropertiesType", $type->getAuthority(), "properties"); 
+    function getPropertyTypes () { 
+        $type =$this->getGradeType();
+		$propertiesType = new Type("PropertiesType", $type->getAuthority(), "properties"); 
 		$array = array($propertiesType);
-		$typeIterator =& new HarmoniTypeIterator($array);
+		$typeIterator = new HarmoniTypeIterator($array);
 		return $typeIterator;
     } 
 
@@ -383,7 +383,7 @@ extends GradableObject
      * 
      * @access public
      */
-    function &getProperties () { 
+    function getProperties () { 
         $array = array($this->_getProperties());
 		$ret = new HarmoniPropertiesIterator($array);		
 		return $ret;//return the iterator
@@ -407,12 +407,12 @@ extends GradableObject
      * 
      * @access public
      */
-    function &getModifiedBy () { 
-        $agentId =& $this->_getField("fk_modified_by_agent");
+    function getModifiedBy () { 
+        $agentId =$this->_getField("fk_modified_by_agent");
     	if(""==$agentId){
     		return null;	
     	}   	 
-    	$idManager =& Services::getService("Id"); 
+    	$idManager = Services::getService("Id"); 
     	return $idManager->getId($agentId);  
     } 
 
@@ -446,17 +446,17 @@ extends GradableObject
 	*
 	* @access private
 	*/
-	function &_getProperties(){
+	function _getProperties(){
 		
 		
 		
 		//get the record
-		$dbManager =& Services::getService("DatabaseManager");
-		$query =& new SelectQuery();
+		$dbManager = Services::getService("DatabaseManager");
+		$query = new SelectQuery();
 		$query->addTable('gr_gradable');
 		$query->addColumn("*");
 		$query->addWhere("id='".addslashes($this->_id->getIdString())."'");				
-		$res=& $dbManager->query($query);
+		$res=$dbManager->query($query);
 		
 		
 
@@ -469,20 +469,20 @@ extends GradableObject
 		$row = $res->getCurrentRow();//grab (hopefully) the only row		
 		
 		//make a type
-		$type =& $this->getGradeType();
-		$propertiesType =& new Type("PropertiesType", $type->getAuthority(), "properties"); 
+		$type =$this->getGradeType();
+		$propertiesType = new Type("PropertiesType", $type->getAuthority(), "properties"); 
 		
 	
 		
 		//create a custom Properties object		
-		$idManager =& Services::getService("Id");
-		$property =& new HarmoniProperties($propertiesType);
+		$idManager = Services::getService("Id");
+		$property = new HarmoniProperties($propertiesType);
 		$property->addProperty('id', $idManager->getId($row['id']));
-		$scoringType =& $this->getScoringDefinition();
+		$scoringType =$this->getScoringDefinition();
 		$property->addProperty('scoring_type', $scoringType);
-		$gradeType =& $this->getGradeType();
+		$gradeType =$this->getGradeType();
 		$property->addProperty('grade_type', $gradeType);
-		$gradeScale =& $this->getGradeScale();
+		$gradeScale =$this->getGradeScale();
 		$property->addProperty('grade_scale', $gradeScale);		
 		$property->addProperty('description', $row['description']);
 		$property->addProperty('display_name', $row['name']);
@@ -503,12 +503,12 @@ extends GradableObject
 		//@TODO use the timestamp feature in SQL?
 		
 		//try to get the creator of this ScheduleItem
-		$authN =& Services::getService("AuthN");
-		$authNTypesIterator =& $authN->getAuthenticationTypes();
+		$authN = Services::getService("AuthN");
+		$authNTypesIterator =$authN->getAuthenticationTypes();
 		if($authNTypesIterator->hasNext()){
-			$authNType1 =& $authNTypesIterator->next();
+			$authNType1 =$authNTypesIterator->next();
 			//hopefully the first one is the right one to choose.
-			$creatorId =& $authN->getUserId($authNType1);
+			$creatorId =$authN->getUserId($authNType1);
 			$creatorIdString = $creatorId->getIdString();
 		}else{
 			$creatorIdString = "";
@@ -518,13 +518,13 @@ extends GradableObject
 		
 	}
     
-    function _typeToIndex($typename, &$type)
+    function _typeToIndex($typename, $type)
 	{	
 		$gm=Services::getService("Grading");
 		return $gm->_typeToIndex($typename, $type);
 	}
 	
-	function &_getTypes($typename)
+	function _getTypes($typename)
 	{	
 		$gm=Services::getService("Grading");
 		return $gm->_getTypes($typename);
@@ -537,7 +537,7 @@ extends GradableObject
 	}
 	
 	
-	function &_getType($typename){
+	function _getType($typename){
 		$gm=Services::getService("Grading");
 		return $gm->_getType($this->_id,$this->_table,$typename);
 	}

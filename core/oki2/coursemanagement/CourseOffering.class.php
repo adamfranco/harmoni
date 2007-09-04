@@ -24,7 +24,7 @@ require_once(OKI2."/osid/coursemanagement/CourseOffering.php");
 * @copyright Copyright &copy; 2005, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseOffering.class.php,v 1.26 2006/07/26 05:09:53 sporktim Exp $
+* @version $Id: CourseOffering.class.php,v 1.27 2007/09/04 20:25:39 adamfranco Exp $
 */
 class HarmoniCourseOffering
 extends CourseOffering
@@ -61,13 +61,13 @@ extends CourseOffering
 	* @access public
 	* @return void
 	*/
-	function HarmoniCourseOffering(&$id, &$node)
+	function HarmoniCourseOffering($id, $node)
 	{
-		$this->_id =& $id;
-		$this->_node =& $node;
+		$this->_id =$id;
+		$this->_node =$node;
 		$this->_table = 'cm_offer';
-		$cm =& Services::getService("CourseManagement");
-		$this->_hierarchy =& $cm->_hierarchy;
+		$cm = Services::getService("CourseManagement");
+		$this->_hierarchy =$cm->_hierarchy;
 
 	}
 
@@ -294,7 +294,7 @@ extends CourseOffering
 	*
 	* @access public
 	*/
-	function &getId () {
+	function getId () {
 		return $this->_id;
 	}
 
@@ -320,7 +320,7 @@ extends CourseOffering
 	*
 	* @access public
 	*/
-	function &getOfferingType () {
+	function getOfferingType () {
 		return $this->_getType('offer');
 	}
 
@@ -346,8 +346,8 @@ extends CourseOffering
 	*
 	* @access public
 	*/
-	function &getCourseGradeType () {
-		$gm =& Services::getService('Grading');
+	function getCourseGradeType () {
+		$gm = Services::getService('Grading');
 		return $gm->_getType($this->_id,$this->_table,'grade');
 	}
 
@@ -371,9 +371,9 @@ extends CourseOffering
 	*
 	* @access public
 	*/
-	function &getTerm () {
-		$cm =& Services::getService("CourseManagement");
-		$idManager =& Services::getService("Id");
+	function getTerm () {
+		$cm = Services::getService("CourseManagement");
+		$idManager = Services::getService("Id");
 
 
 
@@ -406,7 +406,7 @@ extends CourseOffering
 	*
 	* @access public
 	*/
-	function &getStatus () {
+	function getStatus () {
 		return $this->_getType('offer_stat');
 	}
 
@@ -430,11 +430,11 @@ extends CourseOffering
 	*
 	* @access public
 	*/
-	function &getPropertyTypes () {
-		$courseType =& $this->getOfferingType();
-		$propertiesType =& new Type("PropertiesType", $courseType->getAuthority(), "properties");
+	function getPropertyTypes () {
+		$courseType =$this->getOfferingType();
+		$propertiesType = new Type("PropertiesType", $courseType->getAuthority(), "properties");
 		$array = array($propertiesType);
-		$typeIterator =& new HarmoniTypeIterator($array);
+		$typeIterator = new HarmoniTypeIterator($array);
 		return $typeIterator;
 	}
 
@@ -458,7 +458,7 @@ extends CourseOffering
 	*
 	* @access public
 	*/
-	function &getProperties () {
+	function getProperties () {
 		$array = array($this->_getProperties());
 		$ret = new HarmoniPropertiesIterator($array);		
 		return $ret;//return the iterator
@@ -484,13 +484,13 @@ extends CourseOffering
 	*
 	* @access public
 	*/
-	function &getCanonicalCourse () {
-		$nodeIterator =& $this->_node->getParents();
+	function getCanonicalCourse () {
+		$nodeIterator =$this->_node->getParents();
 		if(!$nodeIterator->hasNextNode()){
 			print "<b>Warning!</b> Course Offering ".$this->getDisplayName()." has no Canonical Parent.";
 			return null;
 		}
-		$parentNode =& $nodeIterator->nextNode();
+		$parentNode =$nodeIterator->nextNode();
 		$cm = Services::getService("CourseManagement");
 		return $cm -> getCanonicalCourse($parentNode->getID());
 	}
@@ -530,7 +530,7 @@ extends CourseOffering
 	*
 	* @access public
 	*/
-	function &createCourseSection ( $title, $number, $description, &$sectionType, &$sectionStatusType, &$location ) {
+	function createCourseSection ( $title, $number, $description, $sectionType, $sectionStatusType, $location ) {
 		
 		//set any defaults
 		if(is_null($title)){
@@ -545,16 +545,16 @@ extends CourseOffering
 		
 		
 		//prepare
-		$idManager =& Services::getService("IdManager");
+		$idManager = Services::getService("IdManager");
 		$id=$idManager->createId();
-		$type =& new Type("CourseManagement","edu.middlebury", "CourseSection");
-		$dbManager=& Services::getService("DatabaseManager");
+		$type = new Type("CourseManagement","edu.middlebury", "CourseSection");
+		$dbManager= Services::getService("DatabaseManager");
 		
 		//make node		
-		$node=&$this->_hierarchy->createNode($id,$this->_id,$type,$title,$description);
+		$node=$this->_hierarchy->createNode($id,$this->_id,$type,$title,$description);
 		
 		//query
-		$query=& new InsertQuery;
+		$query= new InsertQuery;
 		$query->setTable('cm_section');
 		$query->setColumns(array('id','location','schedule','fk_cm_section_type','fk_cm_section_stat_type','title','number'));
 		$values[]="'".addslashes($id->getIdString())."'";
@@ -569,7 +569,7 @@ extends CourseOffering
 
 		
 		//create object
-		$ret =& new HarmoniCourseSection($id, $node);
+		$ret = new HarmoniCourseSection($id, $node);
 		return $ret;
 	}
 
@@ -597,15 +597,15 @@ extends CourseOffering
 	*
 	* @access public
 	*/
-	function deleteCourseSection ( &$courseSectionId ) {	  	
+	function deleteCourseSection ( $courseSectionId ) {	  	
 		$this->_hierarchy->deleteNode($courseSectionId);
-		$dbManager =& Services::getService("DatabaseManager");
-		$query=& new DeleteQuery;
+		$dbManager = Services::getService("DatabaseManager");
+		$query= new DeleteQuery;
 		$query->setTable('cm_section');
 		$query->addWhere("id=".addslashes($courseSectionId->getIdString()));
 		$dbManager->query($query);
 		
-		$query=& new DeleteQuery;
+		$query= new DeleteQuery;
 		$query->setTable('cm_schedule');
 		$query->addWhere("fk_id=".addslashes($courseSectionId->getIdString()));
 		$dbManager->query($query);
@@ -631,40 +631,40 @@ extends CourseOffering
 	*
 	* @access public
 	*/
-	function &getCourseSections () {
+	function getCourseSections () {
 
-		$nodeIterator =& $this->_node->getChildren();
+		$nodeIterator =$this->_node->getChildren();
 
 		$array = array();
-		$idManager= & Services::getService("IdManager");
-		$cm= & Services::getService("CourseManagement");
+		$idManager=  Services::getService("IdManager");
+		$cm=  Services::getService("CourseManagement");
 		while($nodeIterator->hasNextNode()){
-			$childNode =& $nodeIterator->nextNode();
-			$array[] =& $cm->getCourseSection($childNode->getId());
+			$childNode =$nodeIterator->nextNode();
+			$array[] =$cm->getCourseSection($childNode->getId());
 		}
-		$ret =& new  HarmoniCourseSectionIterator($array);
+		$ret = new  HarmoniCourseSectionIterator($array);
 		return $ret;
 
-		/*$dbManager =& Services::getService("DatabaseManager");
-		$query=& new SelectQuery;
+		/*$dbManager = Services::getService("DatabaseManager");
+		$query= new SelectQuery;
 
 
 		$query->addTable('cm_section');
 		$query->addColumn('id');
-		$res=& $dbManager->query($query);
+		$res=$dbManager->query($query);
 
 		$array = array();
-		$idManager= & Services::getService("IdManager");
-		$cm= & Services::getService("CourseManagement");
+		$idManager=  Services::getService("IdManager");
+		$cm=  Services::getService("CourseManagement");
 		while($res->hasMoreRows()){
 
 		$row = $res->getCurrentRow();
 		$res->advanceRow();
-		$id =& $idManager->getId($row['id']);
-		$array[] =& $cm->getCourseSection($id);
+		$id =$idManager->getId($row['id']);
+		$array[] =$cm->getCourseSection($id);
 
 		}
-		$ret =& new  HarmoniCourseSectionIterator($array);
+		$ret = new  HarmoniCourseSectionIterator($array);
 		return $ret;*/
 	}
 
@@ -694,52 +694,52 @@ extends CourseOffering
 	*
 	* @access public
 	*/
-	function &getCourseSectionsByType ( &$sectionType ) {
+	function getCourseSectionsByType ( $sectionType ) {
 
 
-		$nodeIterator =& $this->_node->getChildren();
+		$nodeIterator =$this->_node->getChildren();
 
 		$array = array();
-		$idManager= & Services::getService("IdManager");
-		$cm= & Services::getService("CourseManagement");
+		$idManager=  Services::getService("IdManager");
+		$cm=  Services::getService("CourseManagement");
 		$typeIndex=$cm->_typeToIndex('section',$sectionType);
 
 	
 		while($nodeIterator->hasNextNode()){
 			$childNode = $nodeIterator->nextNode();
-			$courseSection =& $cm->getCourseSection($childNode->getId());	
+			$courseSection =$cm->getCourseSection($childNode->getId());	
 			if($typeIndex == $courseSection->_getField('fk_cm_section_type')){
-				$array[] =& $courseSection;
+				$array[] =$courseSection;
 			}
 		}
-		$ret =& new  HarmoniCourseSectionIterator($array);
+		$ret = new  HarmoniCourseSectionIterator($array);
 		return $ret;
 
 		/*
-		$cm= & Services::getService("CourseManagement");
+		$cm=  Services::getService("CourseManagement");
 		$typeIndex=$cm->_typeToIndex('section',$sectionType);
 
-		$dbManager =& Services::getService("DatabaseManager");
-		$query=& new SelectQuery;
+		$dbManager = Services::getService("DatabaseManager");
+		$query= new SelectQuery;
 
 
 		$query->addTable('cm_sectopn');
 		$query->addColumn('id');
 		$query->addWhere("fk_cm_section_type='".addslashes($typeIndex)."'");
-		$res=& $dbManager->query($query);
+		$res=$dbManager->query($query);
 
 		$array = array();
-		$idManager= & Services::getService("IdManager");
+		$idManager=  Services::getService("IdManager");
 
 		while($res->hasMoreRows()){
 
 		$row = $res->getCurrentRow();
 		$res->advanceRow();
-		$id =& $idManager->getId($row['id']);
-		$array[] =& $cm->getCourseSection($id);
+		$id =$idManager->getId($row['id']);
+		$array[] =$cm->getCourseSection($id);
 
 		}
-		$ret =& new  HarmoniCourseSectionIterator($array);
+		$ret = new  HarmoniCourseSectionIterator($array);
 		return $ret;*/
 
 	}
@@ -768,26 +768,26 @@ extends CourseOffering
 	*
 	* @access public
 	*/
-	function addAsset ( &$assetId ) {
+	function addAsset ( $assetId ) {
 		
-	$dbManager =& Services::getService("DatabaseManager");
-		$query=& new SelectQuery;
+	$dbManager = Services::getService("DatabaseManager");
+		$query= new SelectQuery;
 		$query->addTable('cm_assets');
 		$query->addWhere("fk_course_id='".$this->_id->getIdString()."'");
 		$query->addWhere("fk_asset_id='".addslashes($assetId->getIdString())."'");
 		$query->addColumn('fk_course_id');
-		$res=& $dbManager->query($query);
+		$res=$dbManager->query($query);
 
 
 
 		if($res->getNumberOfRows()==0){
-			$query=& new InsertQuery;
+			$query= new InsertQuery;
 			$query->setTable('cm_assets');
 			$values[]="'".addslashes($this->_id->getIdString())."'";
 			$values[]="'".addslashes($assetId->getIdString())."'";	
 			$query->setColumns(array('fk_course_id','fk_asset_id'));			
 			$query->addRowOfValues($values);			
-			$result =& $dbManager->query($query);
+			$result =$dbManager->query($query);
 		}elseif($res->getNumberOfRows()==1){
 			//do nothing
 		}else{
@@ -821,9 +821,9 @@ extends CourseOffering
 	*
 	* @access public
 	*/
-	function removeAsset ( &$assetId ) {
-		$dbManager =& Services::getService("DatabaseManager");
-		$query=& new DeleteQuery;
+	function removeAsset ( $assetId ) {
+		$dbManager = Services::getService("DatabaseManager");
+		$query= new DeleteQuery;
 		$query->setTable('cm_assets');
 		$query->addWhere("fk_course_id='".$this->_id->getIdString()."'");
 		$query->addWhere("fk_asset_id='".addslashes($assetId->getIdString())."'");
@@ -850,24 +850,24 @@ extends CourseOffering
 	*
 	* @access public
 	*/
-	function &getAssets () {
+	function getAssets () {
 		
 		
-		$dbManager =& Services::getService("DatabaseManager");
-		$query=& new SelectQuery;
+		$dbManager = Services::getService("DatabaseManager");
+		$query= new SelectQuery;
 		$query->addTable('cm_assets');
 		$query->addWhere("fk_course_id='".$this->_id->getIdString()."'");
 		$query->addColumn('fk_asset_id');
-		$res=& $dbManager->query($query);
+		$res=$dbManager->query($query);
 		$array=array();
-		$idManager =& Services::getService("Id");
+		$idManager = Services::getService("Id");
 		while($res->hasMoreRows()){
 			$row = $res->getCurrentRow();
 			$res->advanceRow();
 			
 			$array[]=$idManager->getId($row['fk_asset_id']);
 		}
-		$ret =& new HarmoniIdIterator($array);
+		$ret = new HarmoniIdIterator($array);
 		return $ret;
 	}
 
@@ -897,8 +897,8 @@ extends CourseOffering
 	*
 	* @access public
 	*/
-	function updateCourseGradeType ( &$courseGradeType ) {		
-		$gm =& Services::getService('Grading');
+	function updateCourseGradeType ( $courseGradeType ) {		
+		$gm = Services::getService('Grading');
 		$typeIndex = $gm->_typeToIndex('grade',$courseGradeType);
 		$this->_setField('fk_gr_grade_type',$typeIndex);
 	}
@@ -927,7 +927,7 @@ extends CourseOffering
 	*
 	* @access public
 	*/
-	function updateStatus ( &$statusType ) {
+	function updateStatus ( $statusType ) {
 		$this->_setField('fk_cm_offer_stat_type',$this->_typeToIndex('offer_stat',$statusType));
 	}
 
@@ -962,7 +962,7 @@ extends CourseOffering
 	*
 	* @access public
 	*/
-	function addStudent ( &$agentId, &$enrollmentStatusType ) {
+	function addStudent ( $agentId, $enrollmentStatusType ) {
 		throwError(new Error("addStudent() is not implemented for CourseOffering--it makes little sense", "CourseOffering", true));
 	}
 
@@ -994,7 +994,7 @@ extends CourseOffering
 	*
 	* @access public
 	*/
-	function changeStudent ( &$agentId, &$enrollmentStatusType ) {
+	function changeStudent ( $agentId, $enrollmentStatusType ) {
 		throwError(new Error("changeStudent() is not implemented for CourseOffering--it makes little sense", "CourseOffering", true));
 	}
 
@@ -1022,10 +1022,10 @@ extends CourseOffering
 	*
 	* @access public
 	*/
-	function removeStudent ( &$agentId ) {
-		$courseSections =& $this->getCourseSections();
+	function removeStudent ( $agentId ) {
+		$courseSections =$this->getCourseSections();
 		while ($courseSections->hasNextCourseSection()) {
-			$courseSection =& $courseSections->nextCourseSection();
+			$courseSection =$courseSections->nextCourseSection();
 			$courseSection->removeStudent($agentId);			
 		}
 	}
@@ -1052,11 +1052,11 @@ extends CourseOffering
 	*
 	* @access public
 	*/
-	function &getRoster () {
+	function getRoster () {
 
 
-		$idManager =& Services::getService('IdManager');
-		$dbManager =& Services::getService("DatabaseManager");
+		$idManager = Services::getService('IdManager');
+		$dbManager = Services::getService("DatabaseManager");
 
 		
 
@@ -1065,14 +1065,14 @@ extends CourseOffering
 		//quit out if there is not any CourseSection
 		$array=array();
 		if(!$courseSectionIterator->hasNextCourseSection()){
-			$ret =& new HarmoniEnrollmentRecordIterator($array);
+			$ret = new HarmoniEnrollmentRecordIterator($array);
 			return $ret;
 		}
 		
 		
 		
 		//set up a query
-		$query=& new SelectQuery;
+		$query= new SelectQuery;
 		$query->addTable('cm_enroll');
 		$query->addColumn('id');
 		
@@ -1094,7 +1094,7 @@ extends CourseOffering
 		//finish query
 		$query->addWhere($where);	
 		$query->addOrderBy('id');		
-		$res=& $dbManager->query($query);
+		$res=$dbManager->query($query);
 		
 		
 		//add all EnrollmentRecords to an array
@@ -1102,11 +1102,11 @@ extends CourseOffering
 				$row = $res->getCurrentRow();
 				$res->advanceRow();
 				
-				$array[] =& new HarmoniEnrollmentRecord($idManager->getId($row['id']));
+				$array[] = new HarmoniEnrollmentRecord($idManager->getId($row['id']));
 			}
 			
 			//return them as an iterator
-		$ret =& new HarmoniEnrollmentRecordIterator($array);
+		$ret = new HarmoniEnrollmentRecordIterator($array);
 		return $ret;
 	}
 
@@ -1139,10 +1139,10 @@ extends CourseOffering
 	*
 	* @access public
 	*/
-	function &getRosterByType ( &$enrollmentStatusType ) {
+	function getRosterByType ( $enrollmentStatusType ) {
 		
-		$idManager =& Services::getService('IdManager');
-		$dbManager =& Services::getService("DatabaseManager");
+		$idManager = Services::getService('IdManager');
+		$dbManager = Services::getService("DatabaseManager");
 
 		
 
@@ -1151,14 +1151,14 @@ extends CourseOffering
 		//quit out if there is not any CourseSection
 		$array=array();
 		if(!$courseSectionIterator->hasNextCourseSection()){
-			$ret =& new HarmoniEnrollmentRecordIterator($array);
+			$ret = new HarmoniEnrollmentRecordIterator($array);
 			return $ret;
 		}
 		
 		
 		
 		//set up a query
-		$query=& new SelectQuery;
+		$query= new SelectQuery;
 		$query->addTable('cm_enroll');
 		$query->addColumn('id');
 		
@@ -1181,7 +1181,7 @@ extends CourseOffering
 		$typeIndex = $this->_typeToIndex('enroll_stat',$enrollmentStatusType);
 		$query->addWhere($where.") AND fk_cm_enroll_stat_type='".addslashes($typeIndex)."'");	
 		$query->addOrderBy('id');		
-		$res=& $dbManager->query($query);
+		$res=$dbManager->query($query);
 		
 		
 		//add all EnrollmentRecords to an array
@@ -1189,11 +1189,11 @@ extends CourseOffering
 				$row = $res->getCurrentRow();
 				$res->advanceRow();
 				
-				$array[] =& new HarmoniEnrollmentRecord($idManager->getId($row['id']));
+				$array[] = new HarmoniEnrollmentRecord($idManager->getId($row['id']));
 			}
 			
 			//return them as an iterator
-		$ret =& new HarmoniEnrollmentRecordIterator($array);
+		$ret = new HarmoniEnrollmentRecordIterator($array);
 		return $ret;
 		
 		//oldcode
@@ -1203,10 +1203,10 @@ extends CourseOffering
 		
 		
 		
-		$idManager =& Services::getService('IdManager');
-		$dbManager =& Services::getService("DatabaseManager");
+		$idManager = Services::getService('IdManager');
+		$dbManager = Services::getService("DatabaseManager");
 
-		$query=& new SelectQuery;
+		$query= new SelectQuery;
 		$query->addTable('cm_enroll');
 		$query->addColumn('id');
 		$typeIndex = $this->_typeToIndex('enroll_stat',$enrollmentStatusType);
@@ -1220,7 +1220,7 @@ extends CourseOffering
 		}
 		$query->addOrderBy('id');
 		
-		$res=& $dbManager->query($query);
+		$res=$dbManager->query($query);
 		
 		
 		$array=array();
@@ -1228,9 +1228,9 @@ extends CourseOffering
 				$row = $res->getCurrentRow();
 				$res->advanceRow();
 				
-				$array[] =& new HarmoniEnrollmentRecord($idManager->getId($row['id']));
+				$array[] = new HarmoniEnrollmentRecord($idManager->getId($row['id']));
 			}
-		$ret =& new HarmoniEnrollmentRecordIterator($array);
+		$ret = new HarmoniEnrollmentRecordIterator($array);
 		return $ret;
 		
 		*/
@@ -1239,7 +1239,7 @@ extends CourseOffering
 		
 		
 		
-		$dbManager =& Services::getService("DatabaseManager");
+		$dbManager = Services::getService("DatabaseManager");
 
 		$array=array();
 
@@ -1251,23 +1251,23 @@ extends CourseOffering
 			$section = $courseSectionIterator->nextCourseSection();
 			$sectionId = $section->getId();
 
-			$query=& new SelectQuery;
+			$query= new SelectQuery;
 			$query->addTable('cm_enroll');
 			//$query->addColumn('fk_student_id');
 			$query->addColumn('id');			
 			$query->addWhere("fk_cm_section='".addslashes($sectionId->getIdString())."' AND fk_cm_enroll_stat_type='".addslashes($typeIndex)."'");
 
 
-			$res=& $dbManager->query($query);
-			$idManager =& Services::getService('IdManager');
+			$res=$dbManager->query($query);
+			$idManager = Services::getService('IdManager');
 			while($res->hasMoreRows()){
 				$row = $res->getCurrentRow();
 				$res->advanceRow();
 				
-				$array[] =& new HarmoniEnrollmentRecord($idManager->getId($row['id']));
+				$array[] = new HarmoniEnrollmentRecord($idManager->getId($row['id']));
 			}
 		}
-		$ret =& new HarmoniEnrollmentRecordIterator($array);
+		$ret = new HarmoniEnrollmentRecordIterator($array);
 		return $ret;
 		*/
 	}
@@ -1298,9 +1298,9 @@ extends CourseOffering
 	*
 	* @access public
 	*/
-	function &getPropertiesByType ( &$propertiesType ) {
-		$courseType =& $this->getOfferingType();
-		$propType =& new Type("PropertiesType", $courseType->getAuthority(), "properties"); 		
+	function getPropertiesByType ( $propertiesType ) {
+		$courseType =$this->getOfferingType();
+		$propType = new Type("PropertiesType", $courseType->getAuthority(), "properties"); 		
 		if($propertiesType->isEqualTo($propType)){
 			return $this->_getProperties();
 		}
@@ -1311,16 +1311,16 @@ extends CourseOffering
 	}
 
 	
-	function &_getProperties(){
+	function _getProperties(){
 		
-		$dbManager =& Services::getService("DatabaseManager");
+		$dbManager = Services::getService("DatabaseManager");
 		
 		//get the record
-		$query =& new SelectQuery;
+		$query = new SelectQuery;
 		$query->addTable('cm_offer');
 		$query->addColumn("*");
 		$query->addWhere("id='".addslashes($this->_id->getIdString())."'");				
-		$res=& $dbManager->query($query);
+		$res=$dbManager->query($query);
 		
 			
 		
@@ -1332,24 +1332,24 @@ extends CourseOffering
 		$row = $res->getCurrentRow();//grab (hopefully) the only row	
 		
 		//make a type
-		$courseType =& $this->getOfferingType();	
-		$propertiesType =& new Type("PropertiesType", $courseType->getAuthority(), "properties"); 	
+		$courseType =$this->getOfferingType();	
+		$propertiesType = new Type("PropertiesType", $courseType->getAuthority(), "properties"); 	
 
 				
 		//create a custom Properties object
-		$idManager =& Services::getService("Id");
-		$property =& new HarmoniProperties($propertiesType);
+		$idManager = Services::getService("Id");
+		$property = new HarmoniProperties($propertiesType);
 		$property->addProperty('display_name', $this->_node->getDisplayName());
 		$property->addProperty('title', $row['title']);
 		$property->addProperty('description', $this->_node->getDescription());	
 		$property->addProperty('id',  $idManager->getId($row['id']));
 		$property->addProperty('number', $row['number']);
-		$gradeType =& $this->getCourseGradeType();
+		$gradeType =$this->getCourseGradeType();
 		$property->addProperty('grade_type', $gradeType);
-		$term =& $this->getTerm();
+		$term =$this->getTerm();
 		$property->addProperty('term', $term);
 		$property->addProperty('type', $courseType);
-		$statusType =& $this->getStatus();
+		$statusType =$this->getStatus();
 		$property->addProperty('status_type', $statusType);
 
 		
@@ -1359,13 +1359,13 @@ extends CourseOffering
 
 
 
-	function _typeToIndex($typename, &$type)
+	function _typeToIndex($typename, $type)
 	{
 		$cm=Services::getService("CourseManagement");
 		return $cm->_typeToIndex($typename, $type);
 	}
 
-	function &_getTypes($typename)
+	function _getTypes($typename)
 	{
 		$cm=Services::getService("CourseManagement");
 		return $cm->_getTypes($typename);
@@ -1378,7 +1378,7 @@ extends CourseOffering
 	}
 
 
-	function &_getType($typename){
+	function _getType($typename){
 		$cm=Services::getService("CourseManagement");
 		return $cm->_getType($this->_id,$this->_table,$typename);
 	}

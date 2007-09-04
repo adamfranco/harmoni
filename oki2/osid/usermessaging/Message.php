@@ -37,7 +37,7 @@ class Message
      * 
      * @access public
      */
-    function &getContent () { 
+    function getContent () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -61,7 +61,7 @@ class Message
      * 
      * @access public
      */
-    function &getMessageType () { 
+    function getMessageType () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -85,7 +85,7 @@ class Message
      * 
      * @access public
      */
-    function &getDeliveryType () { 
+    function getDeliveryType () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -160,7 +160,7 @@ class Message
      * 
      * @access public
      */
-    function &getSender () { 
+    function getSender () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 }

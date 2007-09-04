@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ByteSizeTestCase.class.php,v 1.3 2006/06/26 12:55:11 adamfranco Exp $
+ * @version $Id: ByteSizeTestCase.class.php,v 1.4 2007/09/04 20:25:28 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -26,7 +26,7 @@ require_once(dirname(__FILE__)."/../ByteSize.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ByteSizeTestCase.class.php,v 1.3 2006/06/26 12:55:11 adamfranco Exp $
+ * @version $Id: ByteSizeTestCase.class.php,v 1.4 2007/09/04 20:25:28 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -40,11 +40,11 @@ class ByteSizeTestCase extends UnitTestCase {
 	*	 @access public
 	*/
 	function setUp() {
-		$this->bNum =& ByteSize::withValue(280);
-		$this->kbNum =& ByteSize::withValue(2800);
-		$this->mbNum =& ByteSize::withValue(2808093);
-		$this->gbNum =& ByteSize::withValue(8808033932);
-		$this->reallyBigNum =& ByteSize::withValue(80000000000000000000000000);
+		$this->bNum = ByteSize::withValue(280);
+		$this->kbNum = ByteSize::withValue(2800);
+		$this->mbNum = ByteSize::withValue(2808093);
+		$this->gbNum = ByteSize::withValue(8808033932);
+		$this->reallyBigNum = ByteSize::withValue(80000000000000000000000000);
 	}
 	
 	/**
@@ -122,49 +122,49 @@ class ByteSizeTestCase extends UnitTestCase {
 	}
 	
 	function test_fromString() {
-		$num =& ByteSize::fromString('280 B');
+		$num = ByteSize::fromString('280 B');
 		$this->assertEqual($num->printableString(), '280 B');
 		$this->assertEqual(round($num->multipleOfPowerOf2(0), 2), 280);
 		
-		$num =& ByteSize::fromString('2800 B');
+		$num = ByteSize::fromString('2800 B');
 		$this->assertEqual($num->printableString(), '2.73 kB');
 		$this->assertEqual(round($num->multipleOfPowerOf2(0), 2), 2800);
 		
-		$num =& ByteSize::fromString('2.73 kB');
+		$num = ByteSize::fromString('2.73 kB');
 		$this->assertEqual($num->printableString(), '2.73 kB');
 		$this->assertEqual(round($num->multipleOfPowerOf2(0), 2), 2796);
 		
-		$num =& ByteSize::fromString('2.73kB');
+		$num = ByteSize::fromString('2.73kB');
 		$this->assertEqual($num->printableString(), '2.73 kB');
 		$this->assertEqual(round($num->multipleOfPowerOf2(0), 2), 2796);
 		
-		$num =& ByteSize::fromString('2.73kb');
+		$num = ByteSize::fromString('2.73kb');
 		$this->assertEqual($num->printableString(), '2.73 kB');
 		$this->assertEqual(round($num->multipleOfPowerOf2(0), 2), 2796);
 		
-		$num =& ByteSize::fromString('2.73 KB');
+		$num = ByteSize::fromString('2.73 KB');
 		$this->assertEqual($num->printableString(), '2.73 kB');
 		$this->assertEqual(round($num->multipleOfPowerOf2(0), 2), 2796);
 		
-		$num =& ByteSize::fromString('2.73KB');
+		$num = ByteSize::fromString('2.73KB');
 		$this->assertEqual($num->printableString(), '2.73 kB');
 		$this->assertEqual(round($num->multipleOfPowerOf2(0), 2), 2796);
 		
-		$num =& ByteSize::fromString('2.73		kB');
+		$num = ByteSize::fromString('2.73		kB');
 		$this->assertEqual($num->printableString(), '2.73 kB');
 		$this->assertEqual(round($num->multipleOfPowerOf2(0), 2), 2796);
 		
-		$num =& ByteSize::fromString('2.68 MB');
+		$num = ByteSize::fromString('2.68 MB');
 		$this->assertEqual($num->printableString(), '2.68 MB');
 		
-		$num =& ByteSize::fromString('8.20 GB');
+		$num = ByteSize::fromString('8.20 GB');
 		$this->assertEqual($num->printableString(), '8.20 GB');
 		
-		$num =& ByteSize::fromString('66.17 YB');
+		$num = ByteSize::fromString('66.17 YB');
 		$this->assertEqual($num->printableString(), '66.17 YB');
 		$this->assertEqual(round($this->reallyBigNum->multipleOfPowerOf2(0), 2), 80000000000000000000000000);
 		
-		$num =& ByteSize::fromString('80000000000000000000000000 B');
+		$num = ByteSize::fromString('80000000000000000000000000 B');
 		$this->assertEqual($num->printableString(), '66.17 YB');
 		$this->assertEqual(round($this->reallyBigNum->multipleOfPowerOf2(0), 2), 80000000000000000000000000);
 	}

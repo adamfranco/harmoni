@@ -10,7 +10,7 @@ require_once(HARMONI."dataManager/storablePrimitives/StorableString.abstract.php
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableString.class.php,v 1.8 2007/04/12 15:37:26 adamfranco Exp $
+ * @version $Id: StorableString.class.php,v 1.9 2007/09/04 20:25:33 adamfranco Exp $
  */
 class StorableString 
 	extends StorableStringAbstract 
@@ -40,8 +40,8 @@ class StorableString
 	 * @return object StorableString
 	 * @static
 	 */
-	function &createAndPopulate( $dbRow ) {
-		$string =& new StorableString;
+	function createAndPopulate( $dbRow ) {
+		$string = new StorableString;
 		$string->_setValue($dbRow["string_data"]);
 		return $string;
 	}
@@ -56,7 +56,7 @@ class StorableString
 	 * @return string or NULL if no searching is allowed.
 	 * @static
 	 */
-	function makeSearchString(&$value, $searchType = SEARCH_TYPE_EQUALS) {
+	function makeSearchString($value, $searchType = SEARCH_TYPE_EQUALS) {
 		switch ($searchType) {
 			case SEARCH_TYPE_EQUALS:
 				return "dm_string.data='".addslashes($value->asString())."'";
@@ -65,7 +65,7 @@ class StorableString
 			case SEARCH_TYPE_IN_LIST:
 				$string = "dm_string.data IN (";
 				while ($value->hasNext()) {
-					$valueObj =& $value->next();
+					$valueObj =$value->next();
 					$string .= "'".addslashes($valueObj->asString())."'";
 					if ($value->hasNext())
 						$string .= ", ";
@@ -75,7 +75,7 @@ class StorableString
 			case SEARCH_TYPE_NOT_IN_LIST:
 				$string = "dm_string.data NOT IN (";
 				while ($value->hasNext()) {
-					$valueObj =& $value->next();
+					$valueObj =$value->next();
 					$string .= "'".addslashes($valueObj->asString())."'";
 					if ($value->hasNext())
 						$string .= ", ";
@@ -114,7 +114,7 @@ class StorableString
 	 * @access public
 	 * @return void
 	 */
-	function alterQuery( &$query ) {
+	function alterQuery( $query ) {
 		$query->addTable("dm_string",LEFT_JOIN,"dm_string.id = fk_data");
 		$query->addColumn("data","string_data","dm_string");
 	}

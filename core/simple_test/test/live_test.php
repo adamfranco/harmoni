@@ -1,5 +1,5 @@
 <?php
-    // $Id: live_test.php,v 1.1 2003/08/14 19:26:31 gabeschine Exp $
+    // $Id: live_test.php,v 1.2 2007/09/04 20:25:51 adamfranco Exp $
     
     if (!defined("SIMPLE_TEST")) {
         define("SIMPLE_TEST", "../");
@@ -26,7 +26,7 @@
         function testHttp() {
             $http = new SimpleHttpRequest("www.lastcraft.com/test/network_confirm.php?gkey=gvalue");
             $http->setCookie(new SimpleCookie("ckey", "cvalue"));
-            $this->assertIsA($reponse = &$http->fetch(), "SimpleHttpResponse");
+            $this->assertIsA($reponse = $http->fetch(), "SimpleHttpResponse");
             $this->assertEqual($reponse->getResponseCode(), 200);
             $this->assertEqual($reponse->getMimeType(), "text/html");
             $this->assertWantedPattern(

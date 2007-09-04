@@ -26,7 +26,7 @@ require_once(HARMONI."GUIManager/StyleComponent.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LengthSC.class.php,v 1.10 2006/08/15 20:44:58 sporktim Exp $
+ * @version $Id: LengthSC.class.php,v 1.11 2007/09/04 20:25:22 adamfranco Exp $
  */
 class LengthSC extends StyleComponent {
 
@@ -39,7 +39,7 @@ class LengthSC extends StyleComponent {
 		$errDescription = "Could not validate the length StyleComponent value \"%s\". ";
 		$errDescription .= "Allowed units are: %, in, cm, mm, em, ex, pt, pc, px.";
 		
-		$rule =& CSSLengthValidatorRule::getRule();
+		$rule = CSSLengthValidatorRule::getRule();
 
 		
 		$displayName = "Length";
@@ -70,7 +70,7 @@ class CSSLengthValidatorRule extends RegexValidatorRule {
 	 * @static
 	 * @since 3/28/05
 	 */
-	function &getRule () {
+	function getRule () {
 		// Because there is no way in PHP to get the class name of the descendent
 		// class on which this method is called, this method must be implemented
 		// in each descendent class.
@@ -80,7 +80,7 @@ class CSSLengthValidatorRule extends RegexValidatorRule {
 		
 		$class = __CLASS__;
 		if (!isset($GLOBALS['validator_rules'][$class]))
-			$GLOBALS['validator_rules'][$class] =& new $class;
+			$GLOBALS['validator_rules'][$class] = new $class;
 		
 		return $GLOBALS['validator_rules'][$class];
 	}
@@ -113,7 +113,7 @@ class CSSLengthValidatorRuleWithOptions extends RegexValidatorRule {
 	 * @static
 	 * @since 3/28/05
 	 */
-	function &getRule (&$options) {
+	function getRule ($options) {
 		// Because there is no way in PHP to get the class name of the descendent
 		// class on which this method is called, this method must be implemented
 		// in each descendent class.
@@ -139,8 +139,8 @@ class CSSLengthValidatorRuleWithOptions extends RegexValidatorRule {
 		$ruleKey = $class."(".strtolower($regex).")";
 		
 		if (!isset($GLOBALS['validator_rules'][$ruleKey])){
-			eval('$newRule =& new '.$class.'($regex);');
-			$GLOBALS['validator_rules'][$ruleKey] =& $newRule;
+			eval('$newRule = new '.$class.'($regex);');
+			$GLOBALS['validator_rules'][$ruleKey] =$newRule;
 		}
 		return 	$GLOBALS['validator_rules'][$ruleKey];
 	}

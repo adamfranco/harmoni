@@ -11,7 +11,7 @@ require_once HARMONI."dataManager/record/Tag.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TagManager.class.php,v 1.14 2007/04/12 15:37:25 adamfranco Exp $
+ * @version $Id: TagManager.class.php,v 1.15 2007/09/04 20:25:32 adamfranco Exp $
 */
 class RecordTagManager {
 	
@@ -23,42 +23,42 @@ class RecordTagManager {
 	 * @return int The new tag's ID in the database.
 	 * @access public
 	 */
-	function tagRecord( &$record, $date=null ) {
+	function tagRecord( $record, $date=null ) {
 		// if the dataset is not versionControlled, there's no point in tagging
 		if (!$record->isVersionControlled()) return null;
 		
 		$id = $record->getID();
-		if (!$date) $date =& DateAndTime::now();
+		if (!$date) $date = DateAndTime::now();
 		
 		// spider through the record and get the IDs of the active versions.
 		$ids = array();
-		$schema =& $record->getSchema();
+		$schema =$record->getSchema();
 		foreach ($schema->getAllIDs() as $id) {
-			$values =& $record->getRecordFieldValues($id);
+			$values =$record->getRecordFieldValues($id);
 			foreach (array_keys($values) as $key) {
 				if ($values[$key]->hasActiveValue()) {
-					$actVer =& $values[$key]->getActiveVersion();
+					$actVer =$values[$key]->getActiveVersion();
 					$ids[] = $actVer->getID();
 				}
 			}
 		}
 		
 		// now let's dump it all to the DB
-		$query =& new InsertQuery;
+		$query = new InsertQuery;
 		
 		$query->setTable("dm_tag");
 		$query->setColumns(array("id","fk_record","date"));
 		
-		$idManager =& Services::getService("Id");
-		$dbHandler =& Services::getService("DBHandler");
+		$idManager = Services::getService("Id");
+		$dbHandler = Services::getService("DBHandler");
 		
-		$newID =& $idManager->createId();
+		$newID =$idManager->createId();
 		$query->addRowOfValues(array(
 				$newID->getIdString(),
 				$id,
 				$dbHandler->toDBDate($date,DATAMANAGER_DBID)));
 		
-		$query2 =& new InsertQuery;
+		$query2 = new InsertQuery;
 		$query2->setTable("dm_tag_map");
 		$query2->setColumns(array("fk_tag","fk_record_field"));
 		
@@ -66,8 +66,8 @@ class RecordTagManager {
 			$query2->addRowOfValues(array("'".addslashes($newID->getIdString())."'",$id));
 		}
 		
-		$result =& $dbHandler->query($query, DATAMANAGER_DBID);
-		$result2 =& $dbHandler->query($query2, DATAMANAGER_DBID);
+		$result =$dbHandler->query($query, DATAMANAGER_DBID);
+		$result2 =$dbHandler->query($query2, DATAMANAGER_DBID);
 		
 		if (!$result || !$result2) throwError ( new UnknownDBError("RecordTagManager"));
 		
@@ -80,18 +80,18 @@ class RecordTagManager {
 	 * @param ref object $record A {@link Record} object.
 	 * @return void
 	 */
-	function pruneTags(&$record) {
+	function pruneTags($record) {
 		$theID = $record->getID();
 		if (!$theID) return;
 		
-		$dbHandler =& Services::getService("DatabaseManager");
+		$dbHandler = Services::getService("DatabaseManager");
 		// first get a list of tags for this dataset
-		$query =& new SelectQuery;
+		$query = new SelectQuery;
 		$query->addTable("dm_tag");
 		$query->addColumn("id");
 		$query->setWhere("fk_record='".addslashes($theID)."'");
 		
-		$res =& $dbHandler->query($query, DATAMANAGER_DBID);
+		$res =$dbHandler->query($query, DATAMANAGER_DBID);
 		
 		$ids = array();
 		while ($res->hasMoreRows()) {
@@ -103,13 +103,13 @@ class RecordTagManager {
 		
 		if (!count($ids)) return;
 		
-		$query =& new DeleteQuery;
+		$query = new DeleteQuery;
 		$query->setTable("dm_tag");
 		$query->setWhere("fk_record='".addslashes($theID)."'");
 		
 		$dbHandler->query($query, DATAMANAGER_DBID);
 		
-		$query =& new DeleteQuery;
+		$query = new DeleteQuery;
 		$query->setTable("dm_tag_map");
 		foreach ($ids as $key => $id)
 			$ids[$key] = "'".addslashes($id)."'";
@@ -123,14 +123,14 @@ class RecordTagManager {
 	 * @param ref object $tag A {@link RecordTag} object.
 	 * @return void
 	 */
-	function pruneTag(&$tag) {
+	function pruneTag($tag) {
 		$id = $tag->getID();
 		if (!$id) return;
 		
-		$dbHandler=& Services::getService("DatabaseManager");
+		$dbHandler= Services::getService("DatabaseManager");
 		
 		// first get rid of all our mappings
-		$query =& new DeleteQuery;
+		$query = new DeleteQuery;
 		$query->setTable("dm_tag_map");
 		$query->setWhere("fk_tag='".addslashes($id)."'");
 		
@@ -138,7 +138,7 @@ class RecordTagManager {
 		
 		// now get rid of the tag
 		unset($query);
-		$query =& new DeleteQuery;
+		$query = new DeleteQuery;
 		$query->setTable("dm_tag");
 		$query->setWhere("id='".addslashes($id)."'");
 		
@@ -150,14 +150,14 @@ class RecordTagManager {
 	 * @param ref object $record The {@link Record} to check.
 	 * @return void
 	 */
-	function checkForEmptyTags(&$record) {
+	function checkForEmptyTags($record) {
 		// to do this, we are going to fetch the tag descriptors (from the "dm_tag" table)
 		// and then fetch the full tags (which inner joins onto the "dm_tag_map" table),
 		// find out if there are any descriptors not represented in full tags, and delete those.
 		if (!$record->getID()) return;
 		
-		$tagDescriptors =& $this->fetchTagDescriptors($record->getID());
-		$fullTags =& $this->fetchTags($record->getID());
+		$tagDescriptors =$this->fetchTagDescriptors($record->getID());
+		$fullTags =$this->fetchTags($record->getID());
 		
 		if (count($tagDescriptors) == count($fullTags)) return;
 		
@@ -167,13 +167,13 @@ class RecordTagManager {
 		}
 		
 		if (count($pruneIDs)) {
-			$query =& new DeleteQuery;
+			$query = new DeleteQuery;
 			$query->setTable("dm_tag");
 			foreach ($pruneIDs as $key => $id)
 				$pruneIDs[$key] = "'".addslashes($id)."'";
 			$query->setWhere(implode(" OR ",$pruneIDs));
 			
-			$dbHandler =& Services::getService("DatabaseManager");
+			$dbHandler = Services::getService("DatabaseManager");
 			$dbHandler->query($query, DATAMANAGER_DBID);
 		}
 	}
@@ -185,8 +185,8 @@ class RecordTagManager {
 	 * @return ref array
 	 * @access public
 	 */
-	function &fetchTagDescriptors($id) {
-		$query =& new SelectQuery;
+	function fetchTagDescriptors($id) {
+		$query = new SelectQuery;
 		
 		$query->addTable("dm_tag");
 		$query->addColumn("id");
@@ -194,9 +194,9 @@ class RecordTagManager {
 		
 		$query->setWhere("dm_tag.fk_record='".addslashes($id)."'");
 		
-		$dbHandler =& Services::getService("DatabaseManager");
+		$dbHandler = Services::getService("DatabaseManager");
 		
-		$result =& $dbHandler->query($query,DATAMANAGER_DBID);
+		$result =$dbHandler->query($query,DATAMANAGER_DBID);
 		
 		if (!$result) throwError( new UnknownDBError("RecordTagManager"));
 		
@@ -205,10 +205,10 @@ class RecordTagManager {
 			$a = $result->getCurrentRow();
 			$result->advanceRow();
 			
-			$newTag =& new RecordTag($id, 
+			$newTag = new RecordTag($id, 
 					$dbHandler->fromDBDate($a["date"], DATAMANAGER_DBID), $a["id"]);
 			
-			$tags[$a["id"]] =& $newTag;
+			$tags[$a["id"]] =$newTag;
 		}
 		
 		$result->free();
@@ -221,8 +221,8 @@ class RecordTagManager {
 	 * @return ref array
 	 * @access public
 	 */
-	function &fetchTags($id) {
-		$query =& new SelectQuery;
+	function fetchTags($id) {
+		$query = new SelectQuery;
 		
 		$query->addTable("dm_tag_map");
 		$query->addTable("dm_tag",INNER_JOIN,"dm_tag_map.fk_tag=dm_tag.id");
@@ -239,8 +239,8 @@ class RecordTagManager {
 		
 		$query->setWhere("dm_tag.fk_record='".addslashes($id)."'");
 		
-		$dbHandler =& Services::getService("DatabaseManager");
-		$result =& $dbHandler->query($query, DATAMANAGER_DBID);
+		$dbHandler = Services::getService("DatabaseManager");
+		$result =$dbHandler->query($query, DATAMANAGER_DBID);
 		
 		if (!$result) throwError( new UnknownDBError("RecordTagManager"));
 		
@@ -257,17 +257,17 @@ class RecordTagManager {
 			}
 			
 			$tagRows[$tagID][] = $a;
-			if (!isset($dates[$tagID])) $dates[$tagID] =& $dbHandler->fromDBDate($a["tag_date"], DATAMANAGER_DBID);
+			if (!isset($dates[$tagID])) $dates[$tagID] =$dbHandler->fromDBDate($a["tag_date"], DATAMANAGER_DBID);
 		}
 		
 		$result->free();
 		
 		$tags = array();
 		foreach (array_keys($tagRows) as $tagID) {
-			$newTag =& new RecordTag($id, $dates[$tagID], $tagID);
+			$newTag = new RecordTag($id, $dates[$tagID], $tagID);
 			$newTag->populate($tagRows[$tagID]);
 			
-			$tags[$tagID] =& $newTag;
+			$tags[$tagID] =$newTag;
 		}
 		
 		return $tags;
@@ -282,13 +282,13 @@ class RecordTagManager {
 	function deleteRecordTags($id) {
 		if (!$id) return;
 		// first get a list of RecordTag IDs for this dataset.
-		$query =& new SelectQuery;
+		$query = new SelectQuery;
 		$query->addTable("dm_tag");
 		$query->addColumn("id");
 		$query->setWhere("fk_record='".addslashes($id)."'");
 
-		$dbHandler =& Services::getService("DatabaseManager");
-		$res =& $dbHandler->query($query, DATAMANAGER_DBID);
+		$dbHandler = Services::getService("DatabaseManager");
+		$res =$dbHandler->query($query, DATAMANAGER_DBID);
 		
 		$ids = array();
 		while ($res->hasMoreRows()) {
@@ -299,7 +299,7 @@ class RecordTagManager {
 		$res->free();
 		
 		// now delete the datasets
-		$query =& new DeleteQuery;
+		$query = new DeleteQuery;
 		
 		$query->setTable("dm_tag");
 		$query->setWhere("fk_record='".addslashes($id)."'");

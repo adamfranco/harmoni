@@ -16,7 +16,7 @@ require_once(HARMONI."Primitives/Chronology/include.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthorization.class.php,v 1.17 2005/07/15 17:47:22 gabeschine Exp $
+ * @version $Id: HarmoniAuthorization.class.php,v 1.18 2007/09/04 20:25:38 adamfranco Exp $
  */
 class HarmoniAuthorization 
 	extends Authorization 
@@ -97,10 +97,10 @@ class HarmoniAuthorization
 	 * @param boolean explicit Specifies whether this Authorization is explicit or not.
 	 * @access public
 	 */
-	function HarmoniAuthorization($id, & $agentId, & $functionId, & $qualifierId, $explicit, & $cache, $effectiveDate = NULL, $expirationDate = NULL) {
+	function HarmoniAuthorization($id, $agentId, $functionId, $qualifierId, $explicit, $cache, $effectiveDate = NULL, $expirationDate = NULL) {
 
 		// ** parameter validation
-		$extendsRule =& ExtendsValidatorRule::getRule("Id");
+		$extendsRule = ExtendsValidatorRule::getRule("Id");
 		ArgumentValidator::validate($id, OptionalRule::getRule(StringValidatorRule::getRule()), true);
 		ArgumentValidator::validate($agentId, $extendsRule, true);
 		ArgumentValidator::validate($functionId, $extendsRule, true);
@@ -119,15 +119,15 @@ class HarmoniAuthorization
 			}
 
 		$this->_id = $id;
-		$this->_agentId =& $agentId;
-		$this->_functionId =& $functionId;
-		$this->_qualifierId =& $qualifierId;
+		$this->_agentId =$agentId;
+		$this->_functionId =$functionId;
+		$this->_qualifierId =$qualifierId;
 		if (isset($effectiveDate))
-			$this->_effectiveDate =& $effectiveDate;
+			$this->_effectiveDate =$effectiveDate;
 		if (isset($expirationDate))
-			$this->_expirationDate =& $expirationDate;
+			$this->_expirationDate =$expirationDate;
 		$this->_explicit = $explicit;
-		$this->_cache =& $cache;
+		$this->_cache =$cache;
 	}
 	
 	/**
@@ -198,7 +198,7 @@ class HarmoniAuthorization
 	 * 
 	 * @access public
 	 */
-	function &getModifiedBy () { 
+	function getModifiedBy () { 
 		throwError(new Error(AuthorizationExeption::UNIMPLEMENTED(), "Authorization", true));
 	} 
 
@@ -246,9 +246,9 @@ class HarmoniAuthorization
 	 * 
 	 * @access public
 	 */
-	function &getFunction () { 
+	function getFunction () { 
 		$idValue = $this->_functionId->getIdString();
-		$result =& $this->_cache->getFunction($idValue);
+		$result =$this->_cache->getFunction($idValue);
 		
 		return $result;
 	}
@@ -273,8 +273,8 @@ class HarmoniAuthorization
 	 * 
 	 * @access public
 	 */
-	function &getQualifier () { 
-		$result =& $this->_cache->getQualifier($this->_qualifierId);
+	function getQualifier () { 
+		$result =$this->_cache->getQualifier($this->_qualifierId);
 		
 		return $result;
 	}
@@ -299,7 +299,7 @@ class HarmoniAuthorization
 	 * 
 	 * @access public
 	 */
-	function &getAgentId () { 
+	function getAgentId () { 
 		return $this->_agentId;
 	}
 
@@ -387,7 +387,7 @@ class HarmoniAuthorization
 	 * 
 	 * @access public
 	 */
-	function updateExpirationDate ( &$expirationDate ) { 
+	function updateExpirationDate ( $expirationDate ) { 
 		if (!$this->isExplicit()) {
 			$str = "Cannot modify an implicit Authorization.";
 			throwError(new Error(AuthorizationException::OPERATION_FAILED(), 
@@ -412,10 +412,10 @@ class HarmoniAuthorization
 		$this->_expirationDate = $expirationDate;
 
 		// update the database
-		$dbHandler =& Services::getService("DatabaseManager");
+		$dbHandler = Services::getService("DatabaseManager");
 		$dbPrefix = $this->_cache->_authzDB.".az_authorization";
 		
-		$query =& new UpdateQuery();
+		$query = new UpdateQuery();
 		$query->setTable($dbPrefix);
 		$idValue = $this->_id;
 		$where = "{$dbPrefix}.authorization_id = '{$idValue}'";
@@ -424,7 +424,7 @@ class HarmoniAuthorization
 		$timestamp = $dbHandler->toDBDate($expirationDate, $this->_cache->_dbIndex);
 		$query->setValues(array($timestamp));
 		
-		$queryResult =& $dbHandler->query($query, $this->_cache->_dbIndex);
+		$queryResult =$dbHandler->query($query, $this->_cache->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0)
 			throwError(new Error(AuthorizationException::OPERATION_FAILED(),"Authorization",true));
 		if ($queryResult->getNumberOfRows() > 1)
@@ -454,7 +454,7 @@ class HarmoniAuthorization
 	 * 
 	 * @access public
 	 */
-	function updateEffectiveDate ( &$effectiveDate ) { 
+	function updateEffectiveDate ( $effectiveDate ) { 
 		if (!$this->isExplicit()) {
 			// "Cannot modify an implicit Authorization."
 			throwError(new Error(AuthorizationException::OPERATION_FAILED(), 
@@ -476,13 +476,13 @@ class HarmoniAuthorization
 			return; // nothing to update
 
 		// update the object
-		$this->_effectiveDate =& $effectiveDate;
+		$this->_effectiveDate =$effectiveDate;
 
 		// update the database
-		$dbHandler =& Services::getService("DatabaseManager");
+		$dbHandler = Services::getService("DatabaseManager");
 		$dbPrefix = $this->_cache->_authzDB.".az_authorization";
 		
-		$query =& new UpdateQuery();
+		$query = new UpdateQuery();
 		$query->setTable($dbPrefix);
 		$idValue = $this->_id;
 		$where = "{$dbPrefix}.authorization_id = '{$idValue}'";
@@ -491,7 +491,7 @@ class HarmoniAuthorization
 		$timestamp = $dbHandler->toDBDate($effectiveDate, $this->_cache->_dbIndex);
 		$query->setValues(array($timestamp));
 		
-		$queryResult =& $dbHandler->query($query, $this->_cache->_dbIndex);
+		$queryResult =$dbHandler->query($query, $this->_cache->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0)
 			throwError(new Error(AuthorizationException::OPERATION_FAILED(),"Authorization",true));
 		if ($queryResult->getNumberOfRows() > 1)

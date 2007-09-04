@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: sample_page1.php,v 1.9 2006/08/15 20:44:59 sporktim Exp $
+ * @version $Id: sample_page1.php,v 1.10 2007/09/04 20:25:24 adamfranco Exp $
  */
 
 // =============================================================================
@@ -24,7 +24,7 @@
 	    require_once("../../../harmoni.inc.php");
 	}
 	
-	$errorHandler =& Services::getService("ErrorHandler");
+	$errorHandler = Services::getService("ErrorHandler");
 
 // =============================================================================
 // Include all needed files.
@@ -53,26 +53,26 @@
 // =============================================================================
 
 	// initialize layouts and theme
-	$theme =& new SimpleTheme();
-	$xLayout =& new XLayout();
-	$yLayout =& new YLayout();
-	$flowLayout =& new FlowLayout();
+	$theme = new SimpleTheme();
+	$xLayout = new XLayout();
+	$yLayout = new YLayout();
+	$flowLayout = new FlowLayout();
 	
 	// now create all the containers and components
-	$block1 =& new Container($yLayout, BLOCK, 1);
+	$block1 = new Container($yLayout, BLOCK, 1);
 	
-		$row1 =& new Container($xLayout, OTHER, 1);
+		$row1 = new Container($xLayout, OTHER, 1);
 
-			$header1 =& new Heading("A Harmoni GUI example.<br />Level-1 heading.\n", 1);
+			$header1 = new Heading("A Harmoni GUI example.<br />Level-1 heading.\n", 1);
 
 		$row1->add($header1, null, null, CENTER, CENTER);
 		
-			$menu1 =& new Menu($xLayout, 1);
+			$menu1 = new Menu($xLayout, 1);
 			
-				$menu1_item1 =& new MenuItemHeading("Main Menu:\n", 1);
-				$menu1_item2 =& new MenuItemLink("Home", "http://www.google.com", true, 1);
-				$menu1_item3 =& new MenuItemLink("Theme Settings", "http://www.middlebury.edu", false, 1);
-				$menu1_item4 =& new MenuItemLink("Manage Themes", "http://www.cnn.com", false, 1);
+				$menu1_item1 = new MenuItemHeading("Main Menu:\n", 1);
+				$menu1_item2 = new MenuItemLink("Home", "http://www.google.com", true, 1);
+				$menu1_item3 = new MenuItemLink("Theme Settings", "http://www.middlebury.edu", false, 1);
+				$menu1_item4 = new MenuItemLink("Manage Themes", "http://www.cnn.com", false, 1);
 			
 			$menu1->add($menu1_item1, "25%", null, CENTER, CENTER);
 			$menu1->add($menu1_item2, "25%", null, CENTER, CENTER);
@@ -83,7 +83,7 @@
 		
 	$block1->add($row1, "100%", null, RIGHT, CENTER);
 
-		$row2 =& new Block("
+		$row2 = new Block("
 			This is some text in a Level-2 text block.
 			<p>Welcome to the <strong>Harmoni Architecture/Framework</strong> web site. The Harmoni Project is a joint effort
 			between PHP Web/Database programmers located at <a href=\"http://et.middlebury.edu/\">Middlebury College's
@@ -95,16 +95,16 @@
 		
 	$block1->add($row2, "100%", null, CENTER, CENTER);
 	
-		$row3 =& new Container($xLayout, OTHER, 1);
+		$row3 = new Container($xLayout, OTHER, 1);
 					
-			$menu2 =& new Menu($yLayout, 1);
+			$menu2 = new Menu($yLayout, 1);
 			
-				$menu2_item1 =& new MenuItemHeading("Sub-menu:\n", 1);
-				$menu2_item2 =& new MenuItemLink("The Architecture", "http://www.google.com", true, 1);
-				$menu2_item3 =& new MenuItemLink("The Framework", "http://www.middlebury.edu", false, 1);
-				$menu2_item4 =& new MenuItemLink("Google: Searching", "http://www.cnn.com", false, 1);
-				$menu2_item5 =& new MenuItemLink("Slashdot", "http://www.slashdot.org", false, 1);
-				$menu2_item6 =& new MenuItemLink("Background Ex", "http://www.depechemode.com", false, 1);
+				$menu2_item1 = new MenuItemHeading("Sub-menu:\n", 1);
+				$menu2_item2 = new MenuItemLink("The Architecture", "http://www.google.com", true, 1);
+				$menu2_item3 = new MenuItemLink("The Framework", "http://www.middlebury.edu", false, 1);
+				$menu2_item4 = new MenuItemLink("Google: Searching", "http://www.cnn.com", false, 1);
+				$menu2_item5 = new MenuItemLink("Slashdot", "http://www.slashdot.org", false, 1);
+				$menu2_item6 = new MenuItemLink("Background Ex", "http://www.depechemode.com", false, 1);
 			
 			$menu2->add($menu2_item1, "100%", null, LEFT, CENTER);
 			$menu2->add($menu2_item2, "100%", null, LEFT, CENTER);
@@ -115,13 +115,13 @@
 			
 		$row3->add($menu2, "150px", null, LEFT, TOP);
 		
-			$stories =& new Container($yLayout, OTHER, 1);
+			$stories = new Container($yLayout, OTHER, 1);
 			
-				$heading2_1 =& new Heading("The Architecture. Level-2 heading.", 2);
+				$heading2_1 = new Heading("The Architecture. Level-2 heading.", 2);
 				
 			$stories->add($heading2_1, "100%", null, CENTER, CENTER);
 			
-				$story1 =& new Block("	
+				$story1 = new Block("	
 	<p>
 		Harmoni's architecture is built on a popular <strong>module/action</strong> model, in which your PHP program
 		contains multiple <em>modules</em>, each of which contain multiple executable <em>actions</em>. All you,
@@ -132,11 +132,11 @@
 			
 			$stories->add($story1, "100%", null, CENTER, CENTER);
 			
-				$heading2_2 =& new Heading("The Framework. Level-2 heading.", 2);
+				$heading2_2 = new Heading("The Framework. Level-2 heading.", 2);
 				
 			$stories->add($heading2_2, "100%", null, CENTER, CENTER);
 			
-				$story2 =& new Block("	
+				$story2 = new Block("	
 					<p>
 						Alongside the architecture, Harmoni offers a number of <strong>Services</strong>. The services are built with two
 						goals: 1) to save you the time of writing the same code over and over again, and 2) to offer a uniform
@@ -190,7 +190,7 @@
 			
 		$row3->add($stories, null, null, CENTER, TOP);
 		
-			$contributors =& new Block("
+			$contributors = new Block("
 				<h2>
 					Contributors
 				</h2>
@@ -242,11 +242,11 @@
 				
 	$block1->add($row3, "100%", null, CENTER, CENTER);
 	
-		$row4 =& new Footer("Harmoni is Licenced under the GNU General Public License (GPL). Level-1 footer.", 1);
+		$row4 = new Footer("Harmoni is Licenced under the GNU General Public License (GPL). Level-1 footer.", 1);
 		
 	$block1->add($row4, "100%", null, CENTER, CENTER);
 	
-		$row5 =& new Component("
+		$row5 = new Component("
 	      	\n\n\t\t\t<a href=\"http://validator.w3.org/check/referer\"><img
 	       	\n\n\t\t\tsrc=\"http://www.w3.org/Icons/valid-xhtml11\"
 	        \n\n\t\t\talt=\"Valid XHTML 1.1!\" height=\"31\" width=\"88\" style=\"border: 0;\" /></a>

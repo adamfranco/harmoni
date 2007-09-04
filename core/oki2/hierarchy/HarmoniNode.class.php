@@ -20,7 +20,7 @@ require_once(HARMONI."oki2/hierarchy/DefaultNodeType.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniNode.class.php,v 1.18 2007/04/12 15:37:31 adamfranco Exp $
+ * @version $Id: HarmoniNode.class.php,v 1.19 2007/09/04 20:25:41 adamfranco Exp $
  */
 
 class HarmoniNode 
@@ -76,7 +76,7 @@ class HarmoniNode
 	 * @param ref object cache This is the HierarchyCache object. Must be the same
 	 * one that all other nodes in the Hierarchy are using.
 	 */
-	function HarmoniNode(& $id, & $type, $displayName, $description, & $cache) {
+	function HarmoniNode($id, $type, $displayName, $description, $cache) {
 		// ** parameter validation
 		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"), true);
 		ArgumentValidator::validate($type, ExtendsValidatorRule::getRule("Type"), true);
@@ -86,11 +86,11 @@ class HarmoniNode
 		// ** end of parameter validation
 		
 		// set the private variables
-		$this->_id =& $id;
-		$this->_type =& $type;
+		$this->_id =$id;
+		$this->_type =$type;
 		$this->_displayName = $displayName;
 		$this->_description = $description;
-		$this->_cache =& $cache;
+		$this->_cache =$cache;
 	}
 
 	/**
@@ -112,7 +112,7 @@ class HarmoniNode
 	 * 
 	 * @access public
 	 */
-	function &getId () {
+	function getId () {
 		return $this->_id;
 	}
 
@@ -181,7 +181,7 @@ class HarmoniNode
 	 * 
 	 * @access public
 	 */
-	function &getType () { 
+	function getType () { 
 		return $this->_type;
 	}
 
@@ -205,12 +205,12 @@ class HarmoniNode
 	 * 
 	 * @access public
 	 */
-	function &getParents () { 
+	function getParents () { 
 		$idValue = $this->_id->getIdString();
 	
 		// get the children (cache them if necessary)
-		$children =& $this->_cache->getParents($this);
-		$result =& new HarmoniNodeIterator($children);
+		$children =$this->_cache->getParents($this);
+		$result = new HarmoniNodeIterator($children);
 
 		return $result;
 	}
@@ -235,12 +235,12 @@ class HarmoniNode
 	 * 
 	 * @access public
 	 */
-	function &getChildren () { 
+	function getChildren () { 
 		$idValue = $this->_id->getIdString();
 	
 		// get the children (cache them if necessary)
-		$children =& $this->_cache->getChildren($this);
-		$result =& new HarmoniNodeIterator($children);
+		$children =$this->_cache->getChildren($this);
+		$result = new HarmoniNodeIterator($children);
 
 		return $result;
 	}
@@ -268,7 +268,7 @@ class HarmoniNode
 	 */
 	function updateDescription ( $description ) { 
 		// ** parameter validation
-		$stringRule =& StringValidatorRule::getRule();
+		$stringRule = StringValidatorRule::getRule();
 		ArgumentValidator::validate($description, $stringRule, true);
 		// ** end of parameter validation
 		
@@ -279,19 +279,19 @@ class HarmoniNode
 		$this->_description = $description;
 
 		// update the database
-		$dbHandler =& Services::getService("DatabaseManager");
+		$dbHandler = Services::getService("DatabaseManager");
 		$db = $this->_cache->_hyDB.".";
 		
-		$query =& new UpdateQuery();
+		$query = new UpdateQuery();
 		$query->setTable($db."node");
-		$id =& $this->getId();
+		$id =$this->getId();
 		$idValue = $id->getIdString();
 		$where = "{$db}node.node_id = '{$idValue}'";
 		$query->setWhere($where);
 		$query->setColumns(array("{$db}node.node_description"));
 		$query->setValues(array("'".addslashes($description)."'"));
 		
-		$queryResult =& $dbHandler->query($query, $this->_cache->_dbIndex);
+		$queryResult =$dbHandler->query($query, $this->_cache->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0)
 			throwError(new Error(HierarchyException::OPERATION_FAILED(),"Hierarchy",true));
 		if ($queryResult->getNumberOfRows() > 1)
@@ -322,7 +322,7 @@ class HarmoniNode
 	 */
 	function updateDisplayName ( $displayName ) { 
 		// ** parameter validation
-		$stringRule =& StringValidatorRule::getRule();
+		$stringRule = StringValidatorRule::getRule();
 		ArgumentValidator::validate($displayName, $stringRule, true);
 		// ** end of parameter validation
 		
@@ -333,19 +333,19 @@ class HarmoniNode
 		$this->_displayName = $displayName;
 
 		// update the database
-		$dbHandler =& Services::getService("DatabaseManager");
+		$dbHandler = Services::getService("DatabaseManager");
 		$db = $this->_cache->_hyDB.".";
 		
-		$query =& new UpdateQuery();
+		$query = new UpdateQuery();
 		$query->setTable($db."node");
-		$id =& $this->getId();
+		$id =$this->getId();
 		$idValue = $id->getIdString();
 		$where = "{$db}node.node_id = '{$idValue}'";
 		$query->setWhere($where);
 		$query->setColumns(array("{$db}node.node_display_name"));
 		$query->setValues(array("'".addslashes($displayName)."'"));
 		
-		$queryResult =& $dbHandler->query($query, $this->_cache->_dbIndex);
+		$queryResult =$dbHandler->query($query, $this->_cache->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0)
 			throwError(new Error(HierarchyException::OPERATION_FAILED(),"Hierarchy",true));
 		if ($queryResult->getNumberOfRows() > 1)
@@ -398,7 +398,7 @@ class HarmoniNode
 	function isRoot () { 
 		// leaf-check is done through getChildren(). A leaf would not have any children.
 		
-		$parents =& $this->getParents();
+		$parents =$this->getParents();
 		return (!$parents->hasNext());
 	}
 
@@ -431,7 +431,7 @@ class HarmoniNode
 	 * 
 	 * @access public
 	 */
-	function addParent ( &$nodeId ) { 
+	function addParent ( $nodeId ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($nodeId, ExtendsValidatorRule::getRule("Id"), true);
 		// ** end of parameter validation
@@ -468,7 +468,7 @@ class HarmoniNode
 	 * 
 	 * @access public
 	 */
-	function removeParent ( &$parentId ) { 
+	function removeParent ( $parentId ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($parentId, ExtendsValidatorRule::getRule("Id"), true);
 		// ** end of parameter validation
@@ -505,7 +505,7 @@ class HarmoniNode
 	 * 
 	 * @access public
 	 */
-	function changeParent ( &$oldParentId, &$newParentId ) { 
+	function changeParent ( $oldParentId, $newParentId ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($oldParentId, ExtendsValidatorRule::getRule("Id"), true);
 		ArgumentValidator::validate($newParentId, ExtendsValidatorRule::getRule("Id"), true);

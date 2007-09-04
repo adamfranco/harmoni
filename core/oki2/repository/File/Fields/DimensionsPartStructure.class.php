@@ -21,7 +21,7 @@ require_once(OKI2."/osid/repository/PartStructure.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: DimensionsPartStructure.class.php,v 1.6 2007/04/12 15:37:32 adamfranco Exp $ 
+ * @version $Id: DimensionsPartStructure.class.php,v 1.7 2007/09/04 20:25:44 adamfranco Exp $ 
  */
 class DimensionsPartStructure 
 	extends PartStructure
@@ -30,8 +30,8 @@ class DimensionsPartStructure
 	var $_partStructure;
 	var $_idString;
 	
-	function DimensionsPartStructure(&$partStructure, $idString) {
-		$this->_partStructure =& $partStructure;
+	function DimensionsPartStructure($partStructure, $idString) {
+		$this->_partStructure =$partStructure;
 		$this->_idString = $idString;
 	}
 	
@@ -100,9 +100,9 @@ class DimensionsPartStructure
 	 * 
 	 * @access public
 	 */
-	function &getType() {
+	function getType() {
 		if (!isset($this->_type)) {
-			$this->_type =& new HarmoniType("Repository", "edu.middlebury.harmoni", "array");
+			$this->_type = new HarmoniType("Repository", "edu.middlebury.harmoni", "array");
 		}
 		
 		return $this->_type;
@@ -127,8 +127,8 @@ class DimensionsPartStructure
 	 * 
 	 * @access public
 	 */
-	function &getId() {
-		$idManager =& Services::getService("Id");
+	function getId() {
+		$idManager = Services::getService("Id");
 		return $idManager->getId($this->_idString);
 	}
 
@@ -152,9 +152,9 @@ class DimensionsPartStructure
 	 * 
 	 * @access public
 	 */
-	function &getPartStructure() {
+	function getPartStructure() {
 		$array = array();
-		$obj =& new HarmoniNodeIterator($array);
+		$obj = new HarmoniNodeIterator($array);
 		return $obj; // @todo replace with HarmoniPartStructureIterator
 	}
 
@@ -249,7 +249,7 @@ class DimensionsPartStructure
 	 * 
 	 * @access public
 	 */
-	function &getRecordStructure() {
+	function getRecordStructure() {
 		return $this->_recordStructure;
 	}
 
@@ -280,7 +280,7 @@ class DimensionsPartStructure
 	 * 
 	 * @access public
 	 */
-	function validatePart(& $part) {
+	function validatePart($part) {
 		// we can check if the Part (ie, ValueVersions) has values of the right type.
 		// @todo
 		
@@ -306,9 +306,9 @@ class DimensionsPartStructure
 	 * @access public
 	 * @since 4/25/06
 	 */
-	function &getAuthoritativeValues () {
+	function getAuthoritativeValues () {
 		$array = array();
-		$iterator =& new HarmoniIterator($array);
+		$iterator = new HarmoniIterator($array);
 		return $iterator;
 	}
 	
@@ -322,7 +322,7 @@ class DimensionsPartStructure
 	 * @access public
 	 * @since 4/25/06
 	 */
-	function isAuthoritativeValue ( &$value ) {
+	function isAuthoritativeValue ( $value ) {
 		return false;	
 	}
 	
@@ -336,7 +336,7 @@ class DimensionsPartStructure
 	 * @access public
 	 * @since 4/25/06
 	 */
-	function removeAuthoritativeValue ( &$value ) {
+	function removeAuthoritativeValue ( $value ) {
 	}
 	
 	/**
@@ -349,7 +349,7 @@ class DimensionsPartStructure
 	 * @access public
 	 * @since 4/25/06
 	 */
-	function addAuthoritativeValue ( &$value ) {
+	function addAuthoritativeValue ( $value ) {
 		$false = false;
 		return $false;
 	}
@@ -376,7 +376,7 @@ class DimensionsPartStructure
 	 * @access public
 	 * @since 4/27/06
 	 */
-	function &createValueObjectFromString ( $valueString ) {
+	function createValueObjectFromString ( $valueString ) {
 		$false = false;
 		return $false;
 	}

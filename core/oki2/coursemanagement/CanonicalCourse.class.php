@@ -28,7 +28,7 @@ require_once(HARMONI."oki2/shared/HarmoniStringIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CanonicalCourse.class.php,v 1.28 2006/07/26 05:09:53 sporktim Exp $
+ * @version $Id: CanonicalCourse.class.php,v 1.29 2007/09/04 20:25:39 adamfranco Exp $
  */
 class HarmoniCanonicalCourse
 	extends CanonicalCourse
@@ -62,13 +62,13 @@ class HarmoniCanonicalCourse
 	 * @access public
 	 * @return void
 	 */
-	function HarmoniCanonicalCourse(&$id, &$node)
+	function HarmoniCanonicalCourse($id, $node)
 	{
-		$this->_id =& $id;
-		$this->_node =& $node;
+		$this->_id =$id;
+		$this->_node =$node;
 		$this->_table = 'cm_can';
-		$cm =& Services::getService("CourseManagement");
-		$this->_hierarchy =& $cm->_hierarchy;
+		$cm = Services::getService("CourseManagement");
+		$this->_hierarchy =$cm->_hierarchy;
 		
 	}
 	
@@ -308,7 +308,7 @@ class HarmoniCanonicalCourse
 	 */
 	 
 	 
-	function &getId () { 
+	function getId () { 
 		return $this->_id;
 	}
 
@@ -334,7 +334,7 @@ class HarmoniCanonicalCourse
 	 * 
 	 * @access public
 	 */
-	function &getCourseType () { 
+	function getCourseType () { 
 		return $this->_getType('can');
 	}
 
@@ -369,18 +369,18 @@ class HarmoniCanonicalCourse
 	 * 
 	 * @access public
 	 */
-	function &createCanonicalCourse ( $title, $number, $description, &$courseType, &$courseStatusType, $credits ) { 
+	function createCanonicalCourse ( $title, $number, $description, $courseType, $courseStatusType, $credits ) { 
 	
 		
-		$idManager =& Services::getService("IdManager");
+		$idManager = Services::getService("IdManager");
 		$id=$idManager->createId();
 
 
-		$type =& new Type("CourseManagement","edu.middlebury", "CanonicalCourse");
-		$node=&$this->_hierarchy->createNode($id,$this->_id,$type,$title,$description);
+		$type = new Type("CourseManagement","edu.middlebury", "CanonicalCourse");
+		$node=$this->_hierarchy->createNode($id,$this->_id,$type,$title,$description);
 
-		$dbManager=& Services::getService("DatabaseManager");
-		$query=& new InsertQuery;
+		$dbManager= Services::getService("DatabaseManager");
+		$query= new InsertQuery;
 
 		$query->setTable('cm_can');
 
@@ -399,7 +399,7 @@ class HarmoniCanonicalCourse
 
 		$dbManager->query($query);
 
-		$ret =& new HarmoniCanonicalCourse($id, $node);
+		$ret = new HarmoniCanonicalCourse($id, $node);
 		return $ret;
 	}
 
@@ -423,29 +423,29 @@ class HarmoniCanonicalCourse
 	 * 
 	 * @access public
 	 */
-	function &getCanonicalCourses () { 
+	function getCanonicalCourses () { 
 		$cm = Services::getService("CourseManagement");
 		
 		//get the children
-		$node =& $this->_node;
-		$nodeType =& $node->getType();
-		$children =& $node->getChildren();
+		$node =$this->_node;
+		$nodeType =$node->getType();
+		$children =$node->getChildren();
 		
 		//iterate throught the children
 		$array = array();
 		while($children->hasNextNode()){
-			$child =& $children->nextNode();
-			$currNodeType =& $child->getType();
+			$child =$children->nextNode();
+			$currNodeType =$child->getType();
 			
 			//If this node is also a CanonicalCourse
 			if($currNodeType->isEqual($nodeType)){
-				$id =& $child->getId();
-				$array[] =& $cm->getCanonicalCourse($id);
+				$id =$child->getId();
+				$array[] =$cm->getCanonicalCourse($id);
 			}		
 		}
 		
 		//convert to an iterator and return
-		$ret =& new HarmoniCanonicalCourseIterator($array);
+		$ret = new HarmoniCanonicalCourseIterator($array);
 		return $ret;
 		
 	}
@@ -476,32 +476,32 @@ class HarmoniCanonicalCourse
 	 * 
 	 * @access public
 	 */
-	function &getCanonicalCoursesByType ( &$courseType ) { 
+	function getCanonicalCoursesByType ( $courseType ) { 
 		$cm = Services::getService("CourseManagement");
 		
 		//get the children
-		$node =& $this->_node;
-		$nodeType =& $node->getType();
-		$children =& $node->getChildren();
+		$node =$this->_node;
+		$nodeType =$node->getType();
+		$children =$node->getChildren();
 		
 		//iterate throught the children
 		$array = array();
 		while($children->hasNextNode()){
-			$child =& $children->nextNode();
-			$currNodeType =& $child->getType();
+			$child =$children->nextNode();
+			$currNodeType =$child->getType();
 			
 			//If this node is also a CanonicalCourse
 			if($currNodeType->isEqual($nodeType)){
-				$id =& $child->getId();
-				$course =& $cm->getCanonicalCourse($id);
+				$id =$child->getId();
+				$course =$cm->getCanonicalCourse($id);
 				if($courseType->isEqual($course->getCourseType())){
-					$array[] =& $cm->getCanonicalCourse($id);				
+					$array[] =$cm->getCanonicalCourse($id);				
 				}	
 			}		
 		}
 		
 		//convert to an iterator and return
-		$ret =& new HarmoniCanonicalCourseIterator($array);
+		$ret = new HarmoniCanonicalCourseIterator($array);
 		return $ret;
 	} 
 
@@ -541,7 +541,7 @@ class HarmoniCanonicalCourse
 	 * 
 	 * @access public
 	 */
-	function &createCourseOffering ( $title, $number, $description, &$termId, &$offeringType, &$offeringStatusType, &$courseGradeType ) { 
+	function createCourseOffering ( $title, $number, $description, $termId, $offeringType, $offeringStatusType, $courseGradeType ) { 
 		
 		//set any defaults
 		if(is_null($title)){
@@ -555,7 +555,7 @@ class HarmoniCanonicalCourse
 		}
 		
 		
-		$idManager =& Services::getService("IdManager");
+		$idManager = Services::getService("IdManager");
 		$id=$idManager->createId();
 
 		
@@ -563,15 +563,15 @@ class HarmoniCanonicalCourse
 		
 		
 
-		$type =& new Type("CourseManagement","edu.middlebury", "CourseOffering");
-		$node=&$this->_hierarchy->createNode($id,$this->_id,$type,$title,$description);
+		$type = new Type("CourseManagement","edu.middlebury", "CourseOffering");
+		$node=$this->_hierarchy->createNode($id,$this->_id,$type,$title,$description);
 		
 		
 		
 		
 
-		$dbManager=& Services::getService("DatabaseManager");
-		$query=& new InsertQuery;
+		$dbManager= Services::getService("DatabaseManager");
+		$query= new InsertQuery;
 
 		$query->setTable('cm_offer');
 
@@ -579,7 +579,7 @@ class HarmoniCanonicalCourse
 								'fk_cm_offer_stat_type','fk_cm_offer_type','title','number'));
 		
 		$values[]="'".addslashes($id->getIdString())."'";
-		$gm =& Services::getService('Grading');
+		$gm = Services::getService('Grading');
 		$typeIndex = $gm->_typeToIndex('grade',$courseGradeType);
 		$values[]="'".addslashes($typeIndex)."'";
 		$values[]="'".addslashes($termId->getIdString())."'";
@@ -592,7 +592,7 @@ class HarmoniCanonicalCourse
 
 		$dbManager->query($query);
 
-		$ret =& new HarmoniCourseOffering($id, $node);
+		$ret = new HarmoniCourseOffering($id, $node);
 		return $ret;
 
 		
@@ -622,11 +622,11 @@ class HarmoniCanonicalCourse
 	 * 
 	 * @access public
 	 */
-	function deleteCourseOffering ( &$courseOfferingId ) { 
+	function deleteCourseOffering ( $courseOfferingId ) { 
 	  
-	  $node =& $this->_hierarchy->getNode($courseOfferingId);
+	  $node =$this->_hierarchy->getNode($courseOfferingId);
 
-	$iterator =& $node->getChildren();
+	$iterator =$node->getChildren();
 	
 	if($iterator->hasNextNode()){
 	  print "<b>Warning!</b> Can't delete CourseOfferings without deleting their CourseSections";
@@ -638,8 +638,8 @@ class HarmoniCanonicalCourse
 
 
 
-		$dbManager =& Services::getService("DatabaseManager");
-		$query=& new DeleteQuery;
+		$dbManager = Services::getService("DatabaseManager");
+		$query= new DeleteQuery;
 
 
 		$query->setTable('cm_offer');
@@ -668,26 +668,26 @@ class HarmoniCanonicalCourse
 	 * 
 	 * @access public
 	 */
-	function &getCourseOfferings () { 
+	function getCourseOfferings () { 
 		
 
 		
-		$nodeIterator =& $this->_node->getChildren();
+		$nodeIterator =$this->_node->getChildren();
 		
 		$array = array();
-		$idManager= & Services::getService("IdManager");
-		$cm= & Services::getService("CourseManagement");
+		$idManager=  Services::getService("IdManager");
+		$cm=  Services::getService("CourseManagement");
 		while($nodeIterator->hasNextNode()){
-			$childNode =& $nodeIterator->nextNode();
-			$nodeType =& $childNode->getType();
+			$childNode =$nodeIterator->nextNode();
+			$nodeType =$childNode->getType();
 			if($nodeType->getKeyWord()!="CourseOffering"){
 				continue;	
 			}	
-			$id =& $childNode->getId();
-			$courseOffering =& $cm->getCourseOffering($id);			
-			$array[] =& $courseOffering;
+			$id =$childNode->getId();
+			$courseOffering =$cm->getCourseOffering($id);			
+			$array[] =$courseOffering;
 		}
-		$ret =& new  HarmoniCourseOfferingIterator($array);
+		$ret = new  HarmoniCourseOfferingIterator($array);
 		return $ret;
 	} 
 
@@ -717,27 +717,27 @@ class HarmoniCanonicalCourse
 	 * 
 	 * @access public
 	 */
-	function &getCourseOfferingsByType ( &$offeringType ) { 
+	function getCourseOfferingsByType ( $offeringType ) { 
 	
-		$nodeIterator =& $this->_node->getChildren();
+		$nodeIterator =$this->_node->getChildren();
 		
 		$array = array();
-		$idManager= & Services::getService("IdManager");
-		$cm= & Services::getService("CourseManagement");
+		$idManager=  Services::getService("IdManager");
+		$cm=  Services::getService("CourseManagement");
 		$typeIndex=$cm->_typeToIndex('offer',$offeringType);
 		
 		while($nodeIterator->hasNextNode()){
-			$childNode =& $nodeIterator->nextNode();
-			$nodeType =& $childNode->getType();
+			$childNode =$nodeIterator->nextNode();
+			$nodeType =$childNode->getType();
 			if($nodeType->getKeyWord()!="CourseOffering"){
 				continue;	
 			}	
-			$courseOffering =& $cm->getCourseOffering($childNode->getId());
+			$courseOffering =$cm->getCourseOffering($childNode->getId());
 			if($typeIndex == $courseOffering->_getField('fk_cm_offer_type')){
-				$array[] =& $courseOffering;
+				$array[] =$courseOffering;
 			}
 		}
-		$ret =& new  HarmoniCourseOfferingIterator($array);
+		$ret = new  HarmoniCourseOfferingIterator($array);
 		return $ret;
 
 	} 
@@ -771,15 +771,15 @@ class HarmoniCanonicalCourse
 	 * 
 	 * @access public
 	 */
-	function addEquivalentCourse ( &$canonicalCourseId ) {
+	function addEquivalentCourse ( $canonicalCourseId ) {
 		//Courses are equivalent if they have the same id in the equivalent field
 		//The id chosen is the lowest of the ids
 		//getField()
 		
 
-		$cm =& Services::getService("CourseManagement");
+		$cm = Services::getService("CourseManagement");
 		
-		$course =& $cm->getCanonicalCourse($canonicalCourseId);
+		$course =$cm->getCanonicalCourse($canonicalCourseId);
 		$courseEquivalent = $course->_getField('equivalent');
 		$thisEquivalent = $this->_getField('equivalent');
 		$comp = strcasecmp($courseEquivalent,$thisEquivalent);
@@ -787,11 +787,11 @@ class HarmoniCanonicalCourse
 			return;	
 		} elseif ($comp > 0){
 			$min = $thisEquivalent;
-			$courseIterator =& $course->getEquivalentCourses();
+			$courseIterator =$course->getEquivalentCourses();
 			$course->_setField('equivalent',$min);
 		}else{
 			$min = $courseEquivalent;
-			$courseIterator =& $this->getEquivalentCourses();
+			$courseIterator =$this->getEquivalentCourses();
 			$this->_setField('equivalent',$min);
 			
 		}
@@ -829,10 +829,10 @@ class HarmoniCanonicalCourse
 	 * 
 	 * @access public
 	 */
-	function removeEquivalentCourse ( &$canonicalCourseId ) { 		
-		$cm =& Services::getService("CourseManagement");		
-		$course =& $cm->getCanonicalCourse($canonicalCourseId);		
-		$courseIterator =& $course->getEquivalentCourses();	
+	function removeEquivalentCourse ( $canonicalCourseId ) { 		
+		$cm = Services::getService("CourseManagement");		
+		$course =$cm->getCanonicalCourse($canonicalCourseId);		
+		$courseIterator =$course->getEquivalentCourses();	
 
 			
 		if(!$courseIterator->hasNextCanonicalCourse()){
@@ -853,8 +853,8 @@ class HarmoniCanonicalCourse
 		//Hahahahaa!  I crack myself up.
 		$first =true;
 		while($courseIterator->hasNextCanonicalCourse()){
-			$currCourse =& $courseIterator->nextCanonicalCourse();
-			$currId =& $currCourse->getId();
+			$currCourse =$courseIterator->nextCanonicalCourse();
+			$currId =$currCourse->getId();
 			
 			
 			
@@ -869,12 +869,12 @@ class HarmoniCanonicalCourse
 		
 		
 		
-		$courseIterator =& $course->getEquivalentCourses();
+		$courseIterator =$course->getEquivalentCourses();
 		
 		while($courseIterator->hasNextCanonicalCourse()){
 			
 			
-			$course =& $courseIterator->nextCanonicalCourse();
+			$course =$courseIterator->nextCanonicalCourse();
 			$course->_setField('equivalent',$minSoFar);		
 		}
 		
@@ -901,17 +901,17 @@ class HarmoniCanonicalCourse
 	 * 
 	 * @access public
 	 */
-	function &getEquivalentCourses () { 
+	function getEquivalentCourses () { 
 		
-		$dbManager =& Services::getService("DatabaseManager");
-		$cm =& Services::getService("CourseManagement");
-		$query=& new SelectQuery;
+		$dbManager = Services::getService("DatabaseManager");
+		$cm = Services::getService("CourseManagement");
+		$query= new SelectQuery;
 		$query->addTable($this->_table);
 		$query->addColumn('id');
 		$query->addWhere("equivalent ='".$this->_getField('equivalent')."'");
-		$res=& $dbManager->query($query);
+		$res=$dbManager->query($query);
 		$array=array();
-		$idManager=& Services::getService('IdManager');
+		$idManager= Services::getService('IdManager');
 		$myIdString = $this->_id->getIdString();
 		while($res->hasMoreRows()){
 			$row = $res->getCurrentRow();
@@ -921,7 +921,7 @@ class HarmoniCanonicalCourse
 			}
 			$array[] = $cm->getCanonicalCourse($idManager->getId($row['id']));
 		}
-		$ret =& new HarmoniCanonicalCourseIterator($array);
+		$ret = new HarmoniCanonicalCourseIterator($array);
 		return $ret;
 	} 
 
@@ -950,26 +950,26 @@ class HarmoniCanonicalCourse
 	 * @access public
 	 */
 	function addTopic ( $topic ) { 
-		$dbManager =& Services::getService("DatabaseManager");
-		$query=& new SelectQuery;
+		$dbManager = Services::getService("DatabaseManager");
+		$query= new SelectQuery;
 		$query->addTable('cm_topics');
 		$query->addWhere("fk_cm_can='".$this->_id->getIdString()."'");
 		$query->addWhere("topic='".addslashes($topic)."'");
 		//not really needed, but it keeps this from crashing.
 		$query->addColumn('topic');
-		$res=& $dbManager->query($query);
+		$res=$dbManager->query($query);
 
 
 
 		if($res->getNumberOfRows()==0){
-			$query=& new InsertQuery;
+			$query= new InsertQuery;
 			$query->setTable('cm_topics');
 			$values[]="'".addslashes($this->_id->getIdString())."'";
 			$values[]="'".addslashes($topic)."'";	
 			$query->setColumns(array('fk_cm_can','topic'));	
 					
 			$query->addRowOfValues($values);			
-			$result =& $dbManager->query($query);
+			$result =$dbManager->query($query);
 		}elseif($res->getNumberOfRows()==1){
 			//do nothing
 		}else{
@@ -1001,8 +1001,8 @@ class HarmoniCanonicalCourse
 	 * @access public
 	 */
 	function removeTopic ( $topic ) { 
-		$dbManager =& Services::getService("DatabaseManager");
-		$query=& new DeleteQuery;
+		$dbManager = Services::getService("DatabaseManager");
+		$query= new DeleteQuery;
 		$query->setTable('cm_topics');
 		$query->addWhere("fk_cm_can='".$this->_id->getIdString()."'");
 		$query->addWhere("topic='".addslashes($topic)."'");
@@ -1030,25 +1030,25 @@ class HarmoniCanonicalCourse
 	 * 
 	 * @access public
 	 */
-	function &getTopics () { 
+	function getTopics () { 
 		
 		
 		
 		
 		
-		$dbManager =& Services::getService("DatabaseManager");
-		$query=& new SelectQuery;
+		$dbManager = Services::getService("DatabaseManager");
+		$query= new SelectQuery;
 		$query->addTable('cm_topics');
 		$query->addWhere("fk_cm_can='".$this->_id->getIdString()."'");
 		$query->addColumn('topic');
-		$res=& $dbManager->query($query);
+		$res=$dbManager->query($query);
 		$array=array();
 		while($res->hasMoreRows()){
 			$row = $res->getCurrentRow();
 			$res->advanceRow();
 			$array[]=$row['topic'];
 		}
-		$ret =& new HarmoniStringIterator($array);
+		$ret = new HarmoniStringIterator($array);
 		return $ret;
 	} 
 
@@ -1124,7 +1124,7 @@ class HarmoniCanonicalCourse
 	 * 
 	 * @access public
 	 */
-	function &getStatus () { 
+	function getStatus () { 
 		return $this->_getType('can_stat');
 		
 	
@@ -1154,7 +1154,7 @@ class HarmoniCanonicalCourse
 	 * 
 	 * @access public
 	 */
-	function updateStatus ( &$statusType ) { 
+	function updateStatus ( $statusType ) { 
 
 		$index = $this->_typeToIndex('can_stat',$statusType);
 		$this->_setField('fk_cm_can_stat_type',$index);
@@ -1181,11 +1181,11 @@ class HarmoniCanonicalCourse
 	 * 
 	 * @access public
 	 */
-	function &getPropertyTypes () { 
-		$courseType =& $this->getCourseType();
-		$propertiesType =& new Type("PropertiesType", $courseType->getAuthority(), "properties");
+	function getPropertyTypes () { 
+		$courseType =$this->getCourseType();
+		$propertiesType = new Type("PropertiesType", $courseType->getAuthority(), "properties");
 		$array = array($propertiesType);
-		$typeIterator =& new HarmoniTypeIterator($array);
+		$typeIterator = new HarmoniTypeIterator($array);
 		return $typeIterator;
 	} 
 
@@ -1210,7 +1210,7 @@ class HarmoniCanonicalCourse
 	 * 
 	 * @access public
 	 */
-	function &getProperties () { 
+	function getProperties () { 
 		$array = array($this->_getProperties());
 		$ret = new HarmoniPropertiesIterator($array);		
 		return $ret;//return the iterator
@@ -1246,9 +1246,9 @@ class HarmoniCanonicalCourse
 	*
 	* @access public
 	*/
-	function &getPropertiesByType ( &$propertiesType ) {
-		$courseType =& $this->getCourseType();
-		$propType =& new Type("PropertiesType", $courseType->getAuthority(), "properties"); 		
+	function getPropertiesByType ( $propertiesType ) {
+		$courseType =$this->getCourseType();
+		$propType = new Type("PropertiesType", $courseType->getAuthority(), "properties"); 		
 		if($propertiesType->isEqualTo($propType)){
 			return $this->_getProperties();
 		}
@@ -1266,15 +1266,15 @@ class HarmoniCanonicalCourse
 	*
 	* @access private
 	*/
-	function &_getProperties(){
-		$dbManager =& Services::getService("DatabaseManager");
+	function _getProperties(){
+		$dbManager = Services::getService("DatabaseManager");
 		
 		//get the record
-		$query =& new SelectQuery();
+		$query = new SelectQuery();
 		$query->addTable('cm_can');
 		$query->addColumn("*");
 		$query->addWhere("id='".addslashes($this->_id->getIdString())."'");				
-		$res=& $dbManager->query($query);
+		$res=$dbManager->query($query);
 		
 		
 		
@@ -1286,12 +1286,12 @@ class HarmoniCanonicalCourse
 		$row = $res->getCurrentRow();//grab (hopefully) the only row		
 		
 		//make a type
-		$courseType =& $this->getCourseType();	
-		$propertiesType =& new Type("PropertiesType", $courseType->getAuthority(), "properties"); 
+		$courseType =$this->getCourseType();	
+		$propertiesType = new Type("PropertiesType", $courseType->getAuthority(), "properties"); 
 				
 		//create a custom Properties object
-		$idManager =& Services::getService("Id");
-		$property =& new HarmoniProperties($propertiesType);
+		$idManager = Services::getService("Id");
+		$property = new HarmoniProperties($propertiesType);
 		$property->addProperty('display_name', $this->_node->getDisplayName());
 		$property->addProperty('title', $row['title']);
 		$property->addProperty('description', $this->_node->getDescription());	
@@ -1301,7 +1301,7 @@ class HarmoniCanonicalCourse
 		$property->addProperty('equivalent_id', $idManager->getId($row['equivalent']));
 		$property->addProperty('type', $courseType);
 
-		$statusType =& $this->getStatus();
+		$statusType =$this->getStatus();
 		$property->addProperty('status_type', $statusType);
 
 		
@@ -1315,13 +1315,13 @@ class HarmoniCanonicalCourse
 	
 	
 	
-	function _typeToIndex($typename, &$type)
+	function _typeToIndex($typename, $type)
 	{	
 		$cm=Services::getService("CourseManagement");
 		return $cm->_typeToIndex($typename, $type);
 	}
 	
-	function &_getTypes($typename)
+	function _getTypes($typename)
 	{	
 		$cm=Services::getService("CourseManagement");
 		return $cm->_getTypes($typename);
@@ -1334,7 +1334,7 @@ class HarmoniCanonicalCourse
 	}
 	
 	
-	function &_getType($typename){
+	function _getType($typename){
 		$cm=Services::getService("CourseManagement");
 		return $cm->_getType($this->_id,$this->_table,$typename);
 	}

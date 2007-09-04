@@ -94,7 +94,7 @@ class GradingManager
      * 
      * @access public
      */
-    function &createGradableObject ( $displayName, $description, &$courseSectionId, &$externalReferenceId, &$gradeType, &$scoringDefinition, &$gradeScale, $gradeWeight ) { 
+    function createGradableObject ( $displayName, $description, $courseSectionId, $externalReferenceId, $gradeType, $scoringDefinition, $gradeScale, $gradeWeight ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -119,7 +119,7 @@ class GradingManager
      * 
      * @access public
      */
-    function deleteGradableObject ( &$gradableObjectId ) { 
+    function deleteGradableObject ( $gradableObjectId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -146,7 +146,7 @@ class GradingManager
      * 
      * @access public
      */
-    function &getGradableObject ( &$gradableObjectId ) { 
+    function getGradableObject ( $gradableObjectId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -177,7 +177,7 @@ class GradingManager
      * 
      * @access public
      */
-    function &getGradableObjects ( &$courseSectionId, &$externalReferenceId ) { 
+    function getGradableObjects ( $courseSectionId, $externalReferenceId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -215,7 +215,7 @@ class GradingManager
      * 
      * @access public
      */
-    function &createGradeRecord ( &$gradableObjectId, &$agentId, &$gradeValue, &$GradeRecordType ) { 
+    function createGradeRecord ( $gradableObjectId, $agentId, $gradeValue, $GradeRecordType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -242,7 +242,7 @@ class GradingManager
      * 
      * @access public
      */
-    function deleteGradeRecord ( &$gradableObjectId, &$agentId, &$GradeRecordType ) { 
+    function deleteGradeRecord ( $gradableObjectId, $agentId, $GradeRecordType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -283,7 +283,7 @@ class GradingManager
      * 
      * @access public
      */
-    function &getGradeRecords ( &$courseSectionId, &$externalReferenceId, &$gradableObjectId, &$agentId, &$GradeRecordType ) { 
+    function getGradeRecords ( $courseSectionId, $externalReferenceId, $gradableObjectId, $agentId, $GradeRecordType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -305,7 +305,7 @@ class GradingManager
      * 
      * @access public
      */
-    function &getGradeRecordTypes () { 
+    function getGradeRecordTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -327,7 +327,7 @@ class GradingManager
      * 
      * @access public
      */
-    function &getGradeTypes () { 
+    function getGradeTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -349,7 +349,7 @@ class GradingManager
      * 
      * @access public
      */
-    function &getScoringDefinitions () { 
+    function getScoringDefinitions () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -371,7 +371,7 @@ class GradingManager
      * 
      * @access public
      */
-    function &getGradeScales () { 
+    function getGradeScales () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 }

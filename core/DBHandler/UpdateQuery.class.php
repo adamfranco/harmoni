@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: UpdateQuery.class.php,v 1.7 2007/03/08 21:55:21 adamfranco Exp $
+ * @version $Id: UpdateQuery.class.php,v 1.8 2007/09/04 20:25:18 adamfranco Exp $
  */
  
 require_once(HARMONI."DBHandler/UpdateQuery.interface.php");
@@ -19,7 +19,7 @@ require_once(HARMONI."DBHandler/UpdateQuery.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: UpdateQuery.class.php,v 1.7 2007/03/08 21:55:21 adamfranco Exp $
+ * @version $Id: UpdateQuery.class.php,v 1.8 2007/09/04 20:25:18 adamfranco Exp $
  */
 
 class UpdateQuery extends UpdateQueryInterface {
@@ -69,7 +69,7 @@ class UpdateQuery extends UpdateQueryInterface {
 	 */
 	function setTable($table) {
 		// ** parameter validation
-		$stringRule =& StringValidatorRule::getRule();
+		$stringRule = StringValidatorRule::getRule();
 		ArgumentValidator::validate($table, $stringRule, true);
 		// ** end of parameter validation
 
@@ -83,7 +83,7 @@ class UpdateQuery extends UpdateQueryInterface {
 	 */
 	function setColumns($columns) {
 		// ** parameter validation
-		$arrayRule =& ArrayValidatorRule::getRule();
+		$arrayRule = ArrayValidatorRule::getRule();
 		ArgumentValidator::validate($columns, $arrayRule, true);
 		// ** end of parameter validation
 
@@ -99,7 +99,7 @@ class UpdateQuery extends UpdateQueryInterface {
 	 */
 	function setValues($values) {
 		// ** parameter validation
-		$arrayRule =& ArrayValidatorRule::getRule();
+		$arrayRule = ArrayValidatorRule::getRule();
 		ArgumentValidator::validate($values, $arrayRule, true);
 		// ** end of parameter validation
 
@@ -156,7 +156,7 @@ class UpdateQuery extends UpdateQueryInterface {
 	 */
 	function setWhere($condition) {
 		// ** parameter validation
-		$stringRule =& StringValidatorRule::getRule();
+		$stringRule = StringValidatorRule::getRule();
 		ArgumentValidator::validate($condition, $stringRule, true);
 		// ** end of parameter validation
 
@@ -183,9 +183,9 @@ class UpdateQuery extends UpdateQueryInterface {
 	 */
 	function addWhere($condition, $logicalOperation = _AND) {
 		// ** parameter validation
-		$stringRule =& StringValidatorRule::getRule();
-		$integerRule =& IntegerValidatorRule::getRule();
-		$optionalRule =& OptionalRule::getRule($integerRule);
+		$stringRule = StringValidatorRule::getRule();
+		$integerRule = IntegerValidatorRule::getRule();
+		$optionalRule = OptionalRule::getRule($integerRule);
 		ArgumentValidator::validate($condition, $stringRule, true);
 		ArgumentValidator::validate($logicalOperation, $optionalRule, true);
 		// ** end of parameter validation

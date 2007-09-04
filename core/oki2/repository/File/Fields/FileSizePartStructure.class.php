@@ -21,7 +21,7 @@ require_once(OKI2."/osid/repository/PartStructure.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileSizePartStructure.class.php,v 1.9 2007/04/12 15:37:32 adamfranco Exp $ 
+ * @version $Id: FileSizePartStructure.class.php,v 1.10 2007/09/04 20:25:46 adamfranco Exp $ 
  */
 class FileSizePartStructure 
 	extends PartStructure
@@ -29,8 +29,8 @@ class FileSizePartStructure
 
 	var $_partStructure;
 	
-	function FileSizePartStructure(&$partStructure) {
-		$this->_partStructure =& $partStructure;
+	function FileSizePartStructure($partStructure) {
+		$this->_partStructure =$partStructure;
 	}
 	
 	/**
@@ -98,9 +98,9 @@ class FileSizePartStructure
 	 * 
 	 * @access public
 	 */
-	function &getType() {
+	function getType() {
 		if (!isset($this->_type)) {
-			$this->_type =& new HarmoniType("Repository", "edu.middlebury.harmoni", "integer");
+			$this->_type = new HarmoniType("Repository", "edu.middlebury.harmoni", "integer");
 		}
 		
 		return $this->_type;
@@ -125,8 +125,8 @@ class FileSizePartStructure
 	 * 
 	 * @access public
 	 */
-	function &getId() {
-		$idManager =& Services::getService("Id");
+	function getId() {
+		$idManager = Services::getService("Id");
 		return $idManager->getId("FILE_SIZE");
 	}
 
@@ -150,9 +150,9 @@ class FileSizePartStructure
 	 * 
 	 * @access public
 	 */
-	function &getPartStructure() {
+	function getPartStructure() {
 		$array = array();
-		$obj =& new HarmoniNodeIterator($array);
+		$obj = new HarmoniNodeIterator($array);
 		return $obj; // @todo replace with HarmoniPartStructureIterator
 	}
 
@@ -247,7 +247,7 @@ class FileSizePartStructure
 	 * 
 	 * @access public
 	 */
-	function &getRecordStructure() {
+	function getRecordStructure() {
 		return $this->_recordStructure;
 	}
 
@@ -278,7 +278,7 @@ class FileSizePartStructure
 	 * 
 	 * @access public
 	 */
-	function validatePart(& $part) {
+	function validatePart($part) {
 		// we can check if the Part (ie, ValueVersions) has values of the right type.
 		// @todo
 		
@@ -304,9 +304,9 @@ class FileSizePartStructure
 	 * @access public
 	 * @since 4/25/06
 	 */
-	function &getAuthoritativeValues () {
+	function getAuthoritativeValues () {
 		$array = array();
-		$iterator =& new HarmoniIterator($array);
+		$iterator = new HarmoniIterator($array);
 		return $iterator;
 	}
 	
@@ -320,7 +320,7 @@ class FileSizePartStructure
 	 * @access public
 	 * @since 4/25/06
 	 */
-	function isAuthoritativeValue ( &$value ) {
+	function isAuthoritativeValue ( $value ) {
 		return false;	
 	}
 	
@@ -334,7 +334,7 @@ class FileSizePartStructure
 	 * @access public
 	 * @since 4/25/06
 	 */
-	function removeAuthoritativeValue ( &$value ) {
+	function removeAuthoritativeValue ( $value ) {
 	}
 	
 	/**
@@ -347,7 +347,7 @@ class FileSizePartStructure
 	 * @access public
 	 * @since 4/25/06
 	 */
-	function addAuthoritativeValue ( &$value ) {
+	function addAuthoritativeValue ( $value ) {
 		$false = false;
 		return $false;
 	}
@@ -374,7 +374,7 @@ class FileSizePartStructure
 	 * @access public
 	 * @since 4/27/06
 	 */
-	function &createValueObjectFromString ( $valueString ) {
+	function createValueObjectFromString ( $valueString ) {
 		$false = false;
 		return $false;
 	}

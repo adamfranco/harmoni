@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPAuthNMethod.class.php,v 1.16 2006/12/07 17:25:52 adamfranco Exp $
+ * @version $Id: LDAPAuthNMethod.class.php,v 1.17 2007/09/04 20:25:37 adamfranco Exp $
  */ 
  
 require_once(dirname(__FILE__)."/AuthNMethod.abstract.php");
@@ -20,7 +20,7 @@ require_once(dirname(__FILE__)."/LDAPGroup.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPAuthNMethod.class.php,v 1.16 2006/12/07 17:25:52 adamfranco Exp $
+ * @version $Id: LDAPAuthNMethod.class.php,v 1.17 2007/09/04 20:25:37 adamfranco Exp $
  */
 class LDAPAuthNMethod
 	extends AuthNMethod
@@ -35,10 +35,10 @@ class LDAPAuthNMethod
 	 * @access public
 	 * @since 3/24/05
 	 */
-	function assignConfiguration ( &$configuration ) {
+	function assignConfiguration ( $configuration ) {
 		parent::assignConfiguration($configuration);
 		
-		$this->_connector =& new LDAPConnector($configuration);
+		$this->_connector = new LDAPConnector($configuration);
 		$this->_configuration->addProperty('connector', $this->_connector);
 		
 		// Validate the configuration options we use:
@@ -54,9 +54,9 @@ class LDAPAuthNMethod
 	 * @access public
 	 * @since 3/1/05
 	 */
-	function &createTokensObject () {
+	function createTokensObject () {
 		$tokensClass = $this->_configuration->getProperty('tokens_class');
-		$newTokens =& new $tokensClass($this->_configuration);
+		$newTokens = new $tokensClass($this->_configuration);
 		
 		$validatorRule = ExtendsValidatorRule::getRule('LDAPAuthNTokens');
 		if ($validatorRule->check($newTokens))
@@ -75,7 +75,7 @@ class LDAPAuthNMethod
 	 * @access public
 	 * @since 3/1/05
 	 */
-	function authenticateTokens ( &$authNTokens ) {
+	function authenticateTokens ( $authNTokens ) {
 		ArgumentValidator::validate ($authNTokens, ExtendsValidatorRule::getRule("AuthNTokens"));
 		return $this->_connector->authenticateDN($authNTokens->getUsername(), 
 			$authNTokens->getPassword());
@@ -89,7 +89,7 @@ class LDAPAuthNMethod
 	 * @access public
 	 * @since 3/1/05
 	 */
-	function tokensExist ( &$authNTokens ) {
+	function tokensExist ( $authNTokens ) {
 		ArgumentValidator::validate ($authNTokens, ExtendsValidatorRule::getRule("AuthNTokens"));
 		return $this->_connector->userDNExists($authNTokens->getUsername());
 	}
@@ -104,11 +104,11 @@ class LDAPAuthNMethod
 	 * @access private
 	 * @since 3/1/05
 	 */
-	function _populateProperties ( &$authNTokens, &$properties ) {
+	function _populateProperties ( $authNTokens, $properties ) {
 		ArgumentValidator::validate ($authNTokens, ExtendsValidatorRule::getRule("AuthNTokens"));
 		ArgumentValidator::validate ($properties, ExtendsValidatorRule::getRule("Properties"));
 		
-		$propertiesFields =& $this->_configuration->getProperty('properties_fields');
+		$propertiesFields =$this->_configuration->getProperty('properties_fields');
 		
 		if (!is_array($propertiesFields) || !count($propertiesFields))
 			return;
@@ -149,9 +149,9 @@ class LDAPAuthNMethod
 	 * @access public
 	 * @since 3/3/05
 	 */
-	function &getTokensBySearch ( $searchString ) {
+	function getTokensBySearch ( $searchString ) {
 		ArgumentValidator::validate ($searchString, StringValidatorRule::getRule());
-		$propertiesFields =& $this->_configuration->getProperty('properties_fields');
+		$propertiesFields =$this->_configuration->getProperty('properties_fields');
 				
 		if (is_array($propertiesFields) && count($propertiesFields)) {
 					
@@ -167,10 +167,10 @@ class LDAPAuthNMethod
 
 		$tokens = array();
 		foreach ($dns as $dn) {
-			$tokens[] =& $this->createTokensForIdentifier($dn);
+			$tokens[] =$this->createTokensForIdentifier($dn);
 		}
 		
-		$obj =& new HarmoniObjectIterator($tokens);
+		$obj = new HarmoniObjectIterator($tokens);
 		
 		return $obj;
 	}
@@ -191,9 +191,9 @@ class LDAPAuthNMethod
 	 * @access public
 	 * @since 3/3/05
 	 */
-	function &getGroupTokensBySearch ( $searchString ) {
+	function getGroupTokensBySearch ( $searchString ) {
 		ArgumentValidator::validate ($searchString, StringValidatorRule::getRule());
-		$propertiesFields =& $this->_configuration->getProperty('properties_fields');
+		$propertiesFields =$this->_configuration->getProperty('properties_fields');
 				
 		if (is_array($propertiesFields) && count($propertiesFields)) {
 					
@@ -209,10 +209,10 @@ class LDAPAuthNMethod
 
 		$tokens = array();
 		foreach ($dns as $dn) {
-			$tokens[] =& $this->createTokensForIdentifier($dn);
+			$tokens[] =$this->createTokensForIdentifier($dn);
 		}
 		
-		$obj =& new HarmoniObjectIterator($tokens);
+		$obj = new HarmoniObjectIterator($tokens);
 		
 		return $obj;
 	}
@@ -233,9 +233,9 @@ class LDAPAuthNMethod
 	 * @access public
 	 * @since 3/3/05
 	 */
-	function &getClassTokensBySearch ( $searchString ) {
+	function getClassTokensBySearch ( $searchString ) {
 		ArgumentValidator::validate ($searchString, StringValidatorRule::getRule());
-		$propertiesFields =& $this->_configuration->getProperty('properties_fields');
+		$propertiesFields =$this->_configuration->getProperty('properties_fields');
 				
 		if (is_array($propertiesFields) && count($propertiesFields)) {
 					
@@ -251,10 +251,10 @@ class LDAPAuthNMethod
 
 		$tokens = array();
 		foreach ($dns as $dn) {
-			$tokens[] =& $this->createTokensForIdentifier($dn);
+			$tokens[] =$this->createTokensForIdentifier($dn);
 		}
 		
-		$obj =& new HarmoniObjectIterator($tokens);
+		$obj = new HarmoniObjectIterator($tokens);
 		
 		return $obj;
 	}
@@ -287,7 +287,7 @@ class LDAPAuthNMethod
 	 * @access public
 	 * @since 2/23/06
 	 */
-	function &getAllGroups () {
+	function getAllGroups () {
 		return $this->getRootGroups();
 	}
 	
@@ -300,9 +300,9 @@ class LDAPAuthNMethod
 	 * @access public
 	 * @since 2/23/06
 	 */
-	function &getRootGroups () {
+	function getRootGroups () {
 		if (!isset($this->_rootGroups)) {
-			$connector =& $this->_configuration->getProperty('connector');
+			$connector =$this->_configuration->getProperty('connector');
 			$groupDN = $this->_configuration->getProperty("GroupBaseDN");
 			
 			$filter = "(objectclass=*)";
@@ -311,12 +311,12 @@ class LDAPAuthNMethod
 			$this->_rootGroups = array();
 			foreach ($dns as $dn) {
 				if ($dn != $groupDN)
-					$this->_rootGroups[] =& new LDAPGroup($dn, $this->getType(), 
+					$this->_rootGroups[] = new LDAPGroup($dn, $this->getType(), 
 										$this->_configuration, 
 										$this);
 			}
 		}
-        $iterator =& new HarmoniIterator($this->_rootGroups);
+        $iterator = new HarmoniIterator($this->_rootGroups);
         return $iterator;
 	}
 	
@@ -328,8 +328,8 @@ class LDAPAuthNMethod
 	 * @access public
 	 * @since 2/23/06
 	 */
-	function &getGroup ( &$id ) {
-		$group =& new LDAPGroup($id->getIdString(), $this->getType(), 
+	function getGroup ( $id ) {
+		$group = new LDAPGroup($id->getIdString(), $this->getType(), 
 										$this->_configuration, 
 										$this);
 		return $group;					
@@ -345,7 +345,7 @@ class LDAPAuthNMethod
 	 * @access public
 	 * @since 2/23/06
 	 */
-	function isGroup ( &$id ) {
+	function isGroup ( $id ) {
 		$idString = str_replace(' ', '', $id->getIdString());
 		$baseDN = str_replace(' ', '', $this->_configuration->getProperty("GroupBaseDN"));
 		return preg_match('/.+'.$baseDN.'$/i', $idString);
@@ -361,8 +361,8 @@ class LDAPAuthNMethod
 	 * @access public
 	 * @since 2/23/06
 	 */
-	function &getGroupsContainingTokens ( $authNTokens, $includeSubgroups ) {
-		$connector =& $this->_configuration->getProperty('connector');
+	function getGroupsContainingTokens ( $authNTokens, $includeSubgroups ) {
+		$connector =$this->_configuration->getProperty('connector');
 		$groupDN = $this->_configuration->getProperty("GroupBaseDN");
 		
 		// Parent Groups of Agents
@@ -372,7 +372,7 @@ class LDAPAuthNMethod
 			$groups = array();
 			foreach ($dns as $dn) {
 				if ($dn != $groupDN && !isset($groups[$dn]))
-					$groups[$dn] =& new LDAPGroup($dn, $this->getType(), 
+					$groups[$dn] = new LDAPGroup($dn, $this->getType(), 
 										$this->_configuration, 
 										$this);
 			}
@@ -381,18 +381,18 @@ class LDAPAuthNMethod
 		if ($includeSubgroups && isset($dns)) {
 			foreach ($dns as $dn) {
 				if ($dn != $groupDN) {
-					$parentGroups =& $this->getGroupsContainingGroup($dn, true);
+					$parentGroups =$this->getGroupsContainingGroup($dn, true);
 					while ($parentGroups->hasNext()) {
-						$group =& $parentGroups->next();
-						$groupId =& $group->getId();
+						$group =$parentGroups->next();
+						$groupId =$group->getId();
 						if (!isset($groups[$groupId->getIdString()]))
-							$groups[$groupId->getIdString()] =& $group;
+							$groups[$groupId->getIdString()] =$group;
 					}
 				}
 			}
 		}
 		
-		$iterator =& new HarmoniIterator($groups);
+		$iterator = new HarmoniIterator($groups);
         return $iterator;
 	}
 	
@@ -406,7 +406,7 @@ class LDAPAuthNMethod
 	 * @access public
 	 * @since 2/23/06
 	 */
-	function &getGroupsContainingGroup ( &$id, $includeSubgroups ) {
+	function getGroupsContainingGroup ( $id, $includeSubgroups ) {
 		if (is_object($id))
 			$idString = $id->getIdString();
 		else
@@ -426,11 +426,11 @@ class LDAPAuthNMethod
 				break;
 			
 			if (!isset($groups[$idString]))
-				$groups[$idString] =& new LDAPGroup($idString, $this->getType(), 
+				$groups[$idString] = new LDAPGroup($idString, $this->getType(), 
 									$this->_configuration, 
 									$this);
 		}
-		$iterator =& new HarmoniIterator($groups);
+		$iterator = new HarmoniIterator($groups);
         return $iterator;
 	}
 }

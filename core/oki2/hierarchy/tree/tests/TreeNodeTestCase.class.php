@@ -12,7 +12,7 @@ require_once(dirname(__FILE__)."/../TreeNode.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TreeNodeTestCase.class.php,v 1.6 2005/04/13 20:17:40 adamfranco Exp $ 
+ * @version $Id: TreeNodeTestCase.class.php,v 1.7 2007/09/04 20:25:42 adamfranco Exp $ 
  */
 
 	class TreeNodeTestCase extends UnitTestCase {
@@ -44,7 +44,7 @@ require_once(dirname(__FILE__)."/../TreeNode.class.php");
 		 */ 
 		function test_everything() {
 			// create a few root nodes
-			$node1 =& new TreeNode('1');
+			$node1 = new TreeNode('1');
 			
 			$this->assertIdentical($node1->getId(), '1');
 
@@ -57,18 +57,18 @@ require_once(dirname(__FILE__)."/../TreeNode.class.php");
 			$this->assertIdentical($node1->getChildrenCount(), 0);
 			
 			// create some children
-			$node1_1 =& new TreeNode('2');
-			$node1_2 =& new TreeNode('3');
+			$node1_1 = new TreeNode('2');
+			$node1_2 = new TreeNode('3');
 			$node1->addChild($node1_1);
 			$node1->addChild($node1_2);
-			$node1_1_1 =& new TreeNode('4');
+			$node1_1_1 = new TreeNode('4');
 			$node1_1->addChild($node1_1_1);
 			
-			$parents =& $node1_1->getParents();
+			$parents =$node1_1->getParents();
 			$this->assertReference($node1, $parents['1']);
-			$parents =& $node1_2->getParents();
+			$parents =$node1_2->getParents();
 			$this->assertReference($node1, $parents['1']);
-			$parents =& $node1_1_1->getParents();
+			$parents =$node1_1_1->getParents();
 			$this->assertReference($node1_1, $parents['2']);
 			
 			$this->assertIdentical($node1_1->getId(), '2');
@@ -81,19 +81,19 @@ require_once(dirname(__FILE__)."/../TreeNode.class.php");
 
 			$this->assertIdentical($node1->getChildrenCount(), 2);
 			
-			$children =& $node1->getChildren();
+			$children =$node1->getChildren();
 			$this->assertReference($children['2'], $node1_1);
 			$this->assertReference($children['3'], $node1_2);
-			$children =& $node1_1->getChildren();
+			$children =$node1_1->getChildren();
 			$this->assertReference($children['4'], $node1_1_1);
 			
 			// create a new root
-			$node =& new TreeNode('100');
+			$node = new TreeNode('100');
 			$node->addChild($node1);
 			
-			$children =& $node->getChildren();
+			$children =$node->getChildren();
 			$this->assertReference($children['1'], $node1);
-			$parents =& $node1->getParents();
+			$parents =$node1->getParents();
 			$this->assertReference($node, $parents['100']);
 			
 			// try detaching a node now

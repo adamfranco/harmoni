@@ -10,7 +10,7 @@ require_once HARMONI."dataManager/search/SearchCriteria.interface.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SchemaSearch.class.php,v 1.7 2007/04/12 15:37:25 adamfranco Exp $
+ * @version $Id: SchemaSearch.class.php,v 1.8 2007/09/04 20:25:32 adamfranco Exp $
  */
 class SchemaSearch extends SearchCriteria {
 	
@@ -30,7 +30,7 @@ class SchemaSearch extends SearchCriteria {
 	}
 	
 	function returnSearchString() {
-		$mgr =& Services::getService("SchemaManager");
+		$mgr = Services::getService("SchemaManager");
 		$id = $mgr->getIDByType($this->_type);
 		
 		if (!$id) return null;

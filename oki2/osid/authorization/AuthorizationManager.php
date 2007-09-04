@@ -89,7 +89,7 @@ class AuthorizationManager
      * 
      * @access public
      */
-    function &createDatedAuthorization ( &$agentId, &$functionId, &$qualifierId, $effectiveDate, $expirationDate ) { 
+    function createDatedAuthorization ( $agentId, $functionId, $qualifierId, $effectiveDate, $expirationDate ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -123,7 +123,7 @@ class AuthorizationManager
      * 
      * @access public
      */
-    function &createAuthorization ( &$agentId, &$functionId, &$qualifierId ) { 
+    function createAuthorization ( $agentId, $functionId, $qualifierId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -158,7 +158,7 @@ class AuthorizationManager
      * 
      * @access public
      */
-    function &createFunction ( &$functionId, $displayName, $description, &$functionType, &$qualifierHierarchyId ) { 
+    function createFunction ( $functionId, $displayName, $description, $functionType, $qualifierHierarchyId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -197,7 +197,7 @@ class AuthorizationManager
      * 
      * @access public
      */
-    function &createRootQualifier ( &$qualifierId, $displayName, $description, &$qualifierType, &$qualifierHierarchyId ) { 
+    function createRootQualifier ( $qualifierId, $displayName, $description, $qualifierType, $qualifierHierarchyId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -237,7 +237,7 @@ class AuthorizationManager
      * 
      * @access public
      */
-    function &createQualifier ( &$qualifierId, $displayName, $description, &$qualifierType, &$parentId ) { 
+    function createQualifier ( $qualifierId, $displayName, $description, $qualifierType, $parentId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -265,7 +265,7 @@ class AuthorizationManager
      * 
      * @access public
      */
-    function deleteAuthorization ( &$authorization ) { 
+    function deleteAuthorization ( $authorization ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -293,7 +293,7 @@ class AuthorizationManager
      * 
      * @access public
      */
-    function deleteFunction ( &$functionId ) { 
+    function deleteFunction ( $functionId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -323,7 +323,7 @@ class AuthorizationManager
      * 
      * @access public
      */
-    function deleteQualifier ( &$qualifierId ) { 
+    function deleteQualifier ( $qualifierId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -356,7 +356,7 @@ class AuthorizationManager
      * 
      * @access public
      */
-    function isAuthorized ( &$agentId, &$functionId, &$qualifierId ) { 
+    function isAuthorized ( $agentId, $functionId, $qualifierId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -388,7 +388,7 @@ class AuthorizationManager
      * 
      * @access public
      */
-    function isUserAuthorized ( &$functionId, &$qualifierId ) { 
+    function isUserAuthorized ( $functionId, $qualifierId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -412,7 +412,7 @@ class AuthorizationManager
      * 
      * @access public
      */
-    function &getFunctionTypes () { 
+    function getFunctionTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -442,7 +442,7 @@ class AuthorizationManager
      * 
      * @access public
      */
-    function &getFunctions ( &$functionType ) { 
+    function getFunctions ( $functionType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -472,7 +472,7 @@ class AuthorizationManager
      * 
      * @access public
      */
-    function &getFunction ( &$functionId ) { 
+    function getFunction ( $functionId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -505,7 +505,7 @@ class AuthorizationManager
      * 
      * @access public
      */
-    function agentExists ( &$agentId ) { 
+    function agentExists ( $agentId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -530,7 +530,7 @@ class AuthorizationManager
      * 
      * @access public
      */
-    function &getQualifierTypes () { 
+    function getQualifierTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -561,7 +561,7 @@ class AuthorizationManager
      * 
      * @access public
      */
-    function &getRootQualifiers ( &$qualifierHierarchyId ) { 
+    function getRootQualifiers ( $qualifierHierarchyId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -591,7 +591,7 @@ class AuthorizationManager
      * 
      * @access public
      */
-    function &getQualifierChildren ( &$qualifierId ) { 
+    function getQualifierChildren ( $qualifierId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -622,7 +622,7 @@ class AuthorizationManager
      * 
      * @access public
      */
-    function &getQualifierDescendants ( &$qualifierId ) { 
+    function getQualifierDescendants ( $qualifierId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -652,7 +652,7 @@ class AuthorizationManager
      * 
      * @access public
      */
-    function &getQualifier ( &$qualifierId ) { 
+    function getQualifier ( $qualifierId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -685,7 +685,7 @@ class AuthorizationManager
      * 
      * @access public
      */
-    function &getWhoCanDo ( &$functionId, &$qualifierId ) { 
+    function getWhoCanDo ( $functionId, $qualifierId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -719,7 +719,7 @@ class AuthorizationManager
      * 
      * @access public
      */
-    function &getExplicitUserAZs ( &$functionId, &$qualifierId, $isActiveNowOnly ) { 
+    function getExplicitUserAZs ( $functionId, $qualifierId, $isActiveNowOnly ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -756,7 +756,7 @@ class AuthorizationManager
      * 
      * @access public
      */
-    function &getExplicitUserAZsByFuncType ( &$functionType, &$qualifierId, $isActiveNowOnly ) { 
+    function getExplicitUserAZsByFuncType ( $functionType, $qualifierId, $isActiveNowOnly ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -790,7 +790,7 @@ class AuthorizationManager
      * 
      * @access public
      */
-    function &getExplicitUserAZsForImplicitAZ ( &$implicitAuthorization ) { 
+    function getExplicitUserAZsForImplicitAZ ( $implicitAuthorization ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -827,7 +827,7 @@ class AuthorizationManager
      * 
      * @access public
      */
-    function &getAllUserAZs ( &$functionId, &$qualifierId, $isActiveNowOnly ) { 
+    function getAllUserAZs ( $functionId, $qualifierId, $isActiveNowOnly ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -866,7 +866,7 @@ class AuthorizationManager
      * 
      * @access public
      */
-    function &getAllUserAZsByFuncType ( &$functionType, &$qualifierId, $isActiveNowOnly ) { 
+    function getAllUserAZsByFuncType ( $functionType, $qualifierId, $isActiveNowOnly ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -902,7 +902,7 @@ class AuthorizationManager
      * 
      * @access public
      */
-    function &getExplicitAZs ( &$agentId, &$functionId, &$qualifierId, $isActiveNowOnly ) { 
+    function getExplicitAZs ( $agentId, $functionId, $qualifierId, $isActiveNowOnly ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -941,7 +941,7 @@ class AuthorizationManager
      * 
      * @access public
      */
-    function &getExplicitAZsByFuncType ( &$agentId, &$functionType, &$qualifierId, $isActiveNowOnly ) { 
+    function getExplicitAZsByFuncType ( $agentId, $functionType, $qualifierId, $isActiveNowOnly ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -979,7 +979,7 @@ class AuthorizationManager
      * 
      * @access public
      */
-    function &getAllAZs ( &$agentId, &$functionId, &$qualifierId, $isActiveNowOnly ) { 
+    function getAllAZs ( $agentId, $functionId, $qualifierId, $isActiveNowOnly ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -1019,7 +1019,7 @@ class AuthorizationManager
      * 
      * @access public
      */
-    function &getAllAZsByFuncType ( &$agentId, &$functionType, &$qualifierId, $isActiveNowOnly ) { 
+    function getAllAZsByFuncType ( $agentId, $functionType, $qualifierId, $isActiveNowOnly ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -1045,7 +1045,7 @@ class AuthorizationManager
      * 
      * @access public
      */
-    function &getQualifierHierarchies () { 
+    function getQualifierHierarchies () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 

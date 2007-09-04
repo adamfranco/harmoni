@@ -57,23 +57,23 @@
           	// Create canonical course
           	$this->write(7, "Term Test");
           	
-        	$cm =& Services::getService("CourseManagement");
-        	$sm =& Services::getService("Scheduling");
+        	$cm = Services::getService("CourseManagement");
+        	$sm = Services::getService("Scheduling");
 			
         
-          	$termType1 =& new Type("TermType", "edu.middlebury", "ItsTheFall");
-          	$termType2 =& new Type("TermType", "edu.middlebury", "ItsAlsoTheFall","contains Smarch and Febtober");               					$scheduleItemType =& new Type("ScheduleItemStatusType", "edu.middlebury", "default");
+          	$termType1 = new Type("TermType", "edu.middlebury", "ItsTheFall");
+          	$termType2 = new Type("TermType", "edu.middlebury", "ItsAlsoTheFall","contains Smarch and Febtober");               					$scheduleItemType = new Type("ScheduleItemStatusType", "edu.middlebury", "default");
           	        	
-			$scheduleItemA1 =& $sm->createScheduleItem("Fall 2006 range", "", $scheduleItemType, 300, 900, null);
-			$scheduleItemA2 =& $sm->createScheduleItem("Thanksgiving", "", $scheduleItemType, 350, 400, null);
-			$scheduleItemA3 =& $sm->createScheduleItem("Christmas", "ho ho ho", $scheduleItemType, 500, 600, null);
+			$scheduleItemA1 =$sm->createScheduleItem("Fall 2006 range", "", $scheduleItemType, 300, 900, null);
+			$scheduleItemA2 =$sm->createScheduleItem("Thanksgiving", "", $scheduleItemType, 350, 400, null);
+			$scheduleItemA3 =$sm->createScheduleItem("Christmas", "ho ho ho", $scheduleItemType, 500, 600, null);
 			
-			$scheduleItemB1 =& $sm->createScheduleItem("Fall 2006 range", "", $scheduleItemType, 1300, 1900, null);
-			$scheduleItemB2 =& $sm->createScheduleItem("Thanksgiving", "", $scheduleItemType, 1350, 1400, null);
-			$scheduleItemB3 =& $sm->createScheduleItem("Christmas", "ho ho ho", $scheduleItemType, 1500, 1600, null);				
+			$scheduleItemB1 =$sm->createScheduleItem("Fall 2006 range", "", $scheduleItemType, 1300, 1900, null);
+			$scheduleItemB2 =$sm->createScheduleItem("Thanksgiving", "", $scheduleItemType, 1350, 1400, null);
+			$scheduleItemB3 =$sm->createScheduleItem("Christmas", "ho ho ho", $scheduleItemType, 1500, 1600, null);				
 			
-			$scheduleItemC1 =& $sm->createScheduleItem("Funky time", "", $scheduleItemType, 100, 500, null);
-			$scheduleItemC2 =& $sm->createScheduleItem("Dance party", "", $scheduleItemType, 700, 1400, null);
+			$scheduleItemC1 =$sm->createScheduleItem("Funky time", "", $scheduleItemType, 100, 500, null);
+			$scheduleItemC2 =$sm->createScheduleItem("Dance party", "", $scheduleItemType, 700, 1400, null);
 	
 			
 			$scheduleA = array($scheduleItemA1,$scheduleItemA2,$scheduleItemA3);
@@ -82,10 +82,10 @@
 			$scheduleD = array($scheduleItemA1,$scheduleItemB1,$scheduleItemC1,$scheduleItemC2);
 			
 						
-			$term1 =& $cm->createTerm($termType1, $scheduleA);		
-			$term2 =& $cm->createTerm($termType2, $scheduleB,"The Fall of 2006");
-			$term3 =& $cm->createTerm($termType1, $scheduleC);
-			$term4 =& $cm->createTerm($termType1, $scheduleD);
+			$term1 =$cm->createTerm($termType1, $scheduleA);		
+			$term2 =$cm->createTerm($termType2, $scheduleB,"The Fall of 2006");
+			$term3 =$cm->createTerm($termType1, $scheduleC);
+			$term4 =$cm->createTerm($termType1, $scheduleD);
 	   	
         	
         	$this->write(4,"Test of basic get and update methods");   
@@ -111,7 +111,7 @@
           	
           	
           $this->write(4,"Test of getSchedule()");   
-        	$iter =& $term1->getSchedule();
+        	$iter =$term1->getSchedule();
 			$this->assertIteratorHasItemWithId($iter, $scheduleItemA1);
 			$this->assertIteratorHasItemWithId($iter, $scheduleItemA2);
 			$this->assertIteratorHasItemWithId($iter, $scheduleItemA3);
@@ -120,7 +120,7 @@
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemB2);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemB3);
 			
-			$iter =& $term2->getSchedule();
+			$iter =$term2->getSchedule();
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA1);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA2);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA3);
@@ -133,14 +133,14 @@
           	
         		$this->write(1,"Group A");
         	
-          	$term1a =& $cm->getTerm($term1->getID());     	
+          	$term1a =$cm->getTerm($term1->getID());     	
           	$this->assertHaveEqualIds($term1a,$term1);
           	$this->assertEqual($term1a->getDisplayName(), "The Fall of 2005");
           	$this->assertEqualTypes($term1a->getType(),$termType1);
         	
         		$this->write(1,"Group B");
           	
-          	$iter =& $cm->getTerms();
+          	$iter =$cm->getTerms();
 			$this->assertIteratorHasItemWithId($iter, $term1);
 			$this->assertIteratorHasItemWithId($iter, $term2);
 			$this->assertIteratorHasItemWithId($iter, $term3);
@@ -153,7 +153,7 @@
 				$this->write(4,"Test of getTermsByDate()");
 					
 			$this->write(1,"Group A");		
-			$iter =& $cm->getTermsByDate(50);
+			$iter =$cm->getTermsByDate(50);
 			$this->assertIteratorLacksItemWithId($iter, $term1);
 			$this->assertIteratorLacksItemWithId($iter, $term2);
 			$this->assertIteratorLacksItemWithId($iter, $term3);
@@ -161,7 +161,7 @@
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemB1);	
 					
 			$this->write(1,"Group B");		
-			$iter =& $cm->getTermsByDate(100);
+			$iter =$cm->getTermsByDate(100);
 			$this->assertIteratorLacksItemWithId($iter, $term1);
 			$this->assertIteratorLacksItemWithId($iter, $term2);
 			$this->assertIteratorHasItemWithId($iter, $term3);
@@ -169,7 +169,7 @@
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemB1);
 			
 			$this->write(1,"Group C");		
-			$iter =& $cm->getTermsByDate(325);
+			$iter =$cm->getTermsByDate(325);
 			$this->assertIteratorHasItemWithId($iter, $term1);
 			$this->assertIteratorLacksItemWithId($iter, $term2);
 			$this->assertIteratorHasItemWithId($iter, $term3);
@@ -178,7 +178,7 @@
 
 			
 			$this->write(1,"Group D");		
-			$iter =& $cm->getTermsByDate(375);
+			$iter =$cm->getTermsByDate(375);
 			$this->assertIteratorHasItemWithId($iter, $term1);
 			$this->assertIteratorLacksItemWithId($iter, $term2);
 			$this->assertIteratorHasItemWithId($iter, $term3);
@@ -186,7 +186,7 @@
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemB1);
 			
 			$this->write(1,"Group E");		
-			$iter =& $cm->getTermsByDate(500);
+			$iter =$cm->getTermsByDate(500);
 			$this->assertIteratorHasItemWithId($iter, $term1);
 			$this->assertIteratorLacksItemWithId($iter, $term2);
 			$this->assertIteratorHasItemWithId($iter, $term3);
@@ -194,7 +194,7 @@
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemB1);
 			
 			$this->write(1,"Group F");		
-			$iter =& $cm->getTermsByDate(600);
+			$iter =$cm->getTermsByDate(600);
 			$this->assertIteratorHasItemWithId($iter, $term1);
 			$this->assertIteratorLacksItemWithId($iter, $term2);
 			$this->assertIteratorLacksItemWithId($iter, $term3);
@@ -202,7 +202,7 @@
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemB1);
 			
 			$this->write(1,"Group G");		
-			$iter =& $cm->getTermsByDate(700);
+			$iter =$cm->getTermsByDate(700);
 			$this->assertIteratorHasItemWithId($iter, $term1);
 			$this->assertIteratorLacksItemWithId($iter, $term2);
 			$this->assertIteratorHasItemWithId($iter, $term3);
@@ -212,7 +212,7 @@
 			
 			
 			$this->write(1,"Group H");		
-			$iter =& $cm->getTermsByDate(1000);
+			$iter =$cm->getTermsByDate(1000);
 			$this->assertIteratorLacksItemWithId($iter, $term1);
 			$this->assertIteratorLacksItemWithId($iter, $term2);
 			$this->assertIteratorHasItemWithId($iter, $term3);
@@ -220,7 +220,7 @@
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemB1);
 			
 			$this->write(1,"Group I");		
-			$iter =& $cm->getTermsByDate(1300);
+			$iter =$cm->getTermsByDate(1300);
 			$this->assertIteratorLacksItemWithId($iter, $term1);
 			$this->assertIteratorHasItemWithId($iter, $term2);
 			$this->assertIteratorHasItemWithId($iter, $term3);
@@ -228,7 +228,7 @@
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemB1);
 			
 			$this->write(1,"Group J");		
-			$iter =& $cm->getTermsByDate(1500);
+			$iter =$cm->getTermsByDate(1500);
 			$this->assertIteratorLacksItemWithId($iter, $term1);
 			$this->assertIteratorHasItemWithId($iter, $term2);
 			$this->assertIteratorLacksItemWithId($iter, $term3);
@@ -236,7 +236,7 @@
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemB1);
 				
           	$this->write(1,"Group K");		
-			$iter =& $cm->getTermsByDate(1900);
+			$iter =$cm->getTermsByDate(1900);
 			$this->assertIteratorLacksItemWithId($iter, $term1);
 			$this->assertIteratorHasItemWithId($iter, $term2);
 			$this->assertIteratorLacksItemWithId($iter, $term3);
@@ -244,7 +244,7 @@
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemB1);
 			
 			$this->write(1,"Group L");		
-			$iter =& $cm->getTermsByDate(1901);
+			$iter =$cm->getTermsByDate(1901);
 			$this->assertIteratorLacksItemWithId($iter, $term1);
 			$this->assertIteratorLacksItemWithId($iter, $term2);
 			$this->assertIteratorLacksItemWithId($iter, $term3);
@@ -257,7 +257,7 @@
         	$this->write(4,"Test of getting Types");
 			
 					
-			$iter =& $cm->getTermTypes();
+			$iter =$cm->getTermTypes();
 			$this->assertTrue($this->typeIteratorHas($iter, $termType1));
 			$this->assertTrue($this->typeIteratorHas($iter, $termType2));
 			$this->assertTrue(!$this->typeIteratorHas($iter,new Type("sadfsz234dfwerwer","sadfszd23fwerwer","asdfwer123")));

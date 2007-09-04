@@ -24,7 +24,7 @@ require_once(HARMONI."GUIManager/StyleCollection.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Theme.class.php,v 1.26 2006/11/30 22:02:01 adamfranco Exp $
+ * @version $Id: Theme.class.php,v 1.27 2007/09/04 20:25:21 adamfranco Exp $
  */
 class Theme extends ThemeInterface {
 
@@ -139,7 +139,7 @@ class Theme extends ThemeInterface {
 	 **/
 	function Theme($displayName, $description) {
 		// ** parameter validation
-		$rule =& OptionalRule::getRule(StringValidatorRule::getRule());
+		$rule = OptionalRule::getRule(StringValidatorRule::getRule());
 		ArgumentValidator::validate($displayName, $rule, true);
 		ArgumentValidator::validate($description, $rule, true);
 		// ** end of parameter validation
@@ -163,12 +163,12 @@ class Theme extends ThemeInterface {
 	 * @access public
 	 * @since 4/26/06
 	 */
-	function setId (& $id) {
-// 		$idManager =& Services::getService("Id");
-// 		$this->_id =& $idManager->getId($id);
+	function setId ($id) {
+// 		$idManager = Services::getService("Id");
+// 		$this->_id =$idManager->getId($id);
 		if (!is_object($id))
 			throwError(new Error("GUIMANAGER", "STRING ID PASSED"));
-		$this->_id =& $id;
+		$this->_id =$id;
 	}
 	
 	/**
@@ -178,7 +178,7 @@ class Theme extends ThemeInterface {
 	 * @access public
 	 * @since 4/26/06
 	 */
-	function &getId () {
+	function getId () {
 		if (isset($this->_id)){
 			return $this->_id;
 		}else{
@@ -286,7 +286,7 @@ class Theme extends ThemeInterface {
 	 * @access public
 	 * @since 4/26/06
 	 */
-	function &getStyleCollections () {
+	function getStyleCollections () {
 		return $this->_styles;	
 		
 	}
@@ -298,7 +298,7 @@ class Theme extends ThemeInterface {
 	 * @access public
 	 * @return ref object StyleCollection
 	 **/
-	function &getStyleCollection($selector) {	
+	function getStyleCollection($selector) {	
 		if(array_key_exists($selector,$this->_styles)){
 			return $this->_styles[$selector];
 		}else{
@@ -337,19 +337,19 @@ class Theme extends ThemeInterface {
 	 * @access public
 	 * @since 5/16/06
 	 */
-	function removeStyleCollection (&$style, $removeFromDatabase=false) {
-		$guiManager =& Services::getService("GUI");
-		$dbHandler =& Services::getService('DBHandler');
+	function removeStyleCollection ($style, $removeFromDatabase=false) {
+		$guiManager = Services::getService("GUI");
+		$dbHandler = Services::getService('DBHandler');
 		
 		$guiManager->deletePropertiesForCollection($style);
 
 		if(is_object($style->_id)){
-			$id =& $style->getId();
+			$id =$style->getId();
 			$idValue = $id->getIdString();
-			$query =& new DeleteQuery();
+			$query = new DeleteQuery();
 			$query->setTable($guiManager->_dbName.".tm_style_collection");
 			$query->addWhere("FK_theme_id = $idValue");
-			$result =& $dbHandler->query($query, $guiManager->_dbIndex);
+			$result =$dbHandler->query($query, $guiManager->_dbIndex);
 		}
 		
 		unset($this->_styles[$style->getSelector()]);
@@ -362,18 +362,18 @@ class Theme extends ThemeInterface {
 	 * @access public
 	 * @param ref object styleCollection The style collection to attach.
 	 **/
-	function addGlobalStyle(& $styleCollection) {
+	function addGlobalStyle($styleCollection) {
 		// ** parameter validation
-		$rule =& ExtendsValidatorRule::getRule("StyleCollectionInterface");
+		$rule = ExtendsValidatorRule::getRule("StyleCollectionInterface");
 		ArgumentValidator::validate($styleCollection, $rule, true);
 		// ** end of parameter validation
 		
 		// check that this styleCollection hasn't been added already
 		if (!isset($this->_globalStyles[$styleCollection->getSelector()]))
-			$this->_globalStyles[$styleCollection->getSelector()] =& $styleCollection;
+			$this->_globalStyles[$styleCollection->getSelector()] =$styleCollection;
 			
 		if (!isset($this->_styles[$styleCollection->getSelector()]))
-			$this->_styles[$styleCollection->getSelector()] =& $styleCollection;
+			$this->_styles[$styleCollection->getSelector()] =$styleCollection;
 	}
 
 	/**
@@ -382,7 +382,7 @@ class Theme extends ThemeInterface {
 	 * @access public
 	 * @return ref array global styles array
 	 **/
-	function &getGlobalStyles() {
+	function getGlobalStyles() {
 		if (isset($this->_globalStyles))
 			return $this->_globalStyles;
 		$array = array();
@@ -419,9 +419,9 @@ class Theme extends ThemeInterface {
 	 * for the given component type, then the highest index availible will be used.
 	 * @return ref array An array of Style Collections.
 	 **/
-	function &getStylesForComponentType($type, $index = null) {
+	function getStylesForComponentType($type, $index = null) {
 		// ** parameter validation
-		$rule =& ChoiceValidatorRule::getRule(BLANK, HEADING, HEADER, FOOTER, BLOCK, MENU, 
+		$rule = ChoiceValidatorRule::getRule(BLANK, HEADING, HEADER, FOOTER, BLOCK, MENU, 
 										SUB_MENU, MENU_ITEM_LINK_UNSELECTED,
 										MENU_ITEM_LINK_SELECTED, MENU_ITEM_HEADING, OTHER);
 		ArgumentValidator::validate($type, $rule, true);
@@ -466,11 +466,11 @@ class Theme extends ThemeInterface {
 	 * For a description of the role of indices, see the documentation of
 	 * <code>getStylesForComponentType()</code>.
 	 **/
-	function addStyleForComponentType(& $styleCollection, $type, $index) {
+	function addStyleForComponentType($styleCollection, $type, $index) {
 		// ** parameter validation
-		$rule =& ExtendsValidatorRule::getRule("StyleCollectionInterface");
+		$rule = ExtendsValidatorRule::getRule("StyleCollectionInterface");
 		ArgumentValidator::validate($styleCollection, $rule, true);
-		$rule =& ChoiceValidatorRule::getRule(BLANK, HEADING, HEADER, FOOTER, BLOCK, MENU, 
+		$rule = ChoiceValidatorRule::getRule(BLANK, HEADING, HEADER, FOOTER, BLOCK, MENU, 
 										SUB_MENU, MENU_ITEM_LINK_UNSELECTED,
 										MENU_ITEM_LINK_SELECTED, MENU_ITEM_HEADING, OTHER);
 		ArgumentValidator::validate($type, $rule, true);
@@ -486,10 +486,10 @@ class Theme extends ThemeInterface {
 		
 		// check that this styleCollection hasn't been added already
 		if (!isset($this->_componentStyles[$type][$index][$styleCollection->getSelector()]))
-			$this->_componentStyles[$type][$index][$styleCollection->getSelector()] =& $styleCollection;
+			$this->_componentStyles[$type][$index][$styleCollection->getSelector()] =$styleCollection;
 			
 		if (!isset($this->_styles[$styleCollection->getSelector()])){
-			$this->_styles[$styleCollection->getSelector()] =& $styleCollection;
+			$this->_styles[$styleCollection->getSelector()] =$styleCollection;
 		}
 	}
 
@@ -509,7 +509,7 @@ class Theme extends ThemeInterface {
 	function setPreHTMLForComponentType($html, $type, $index) {
 		// ** parameter validation
 		ArgumentValidator::validate($html, StringValidatorRule::getRule(), true);
-		$rule =& ChoiceValidatorRule::getRule(BLANK, HEADING, HEADER, FOOTER, BLOCK, MENU, 
+		$rule = ChoiceValidatorRule::getRule(BLANK, HEADING, HEADER, FOOTER, BLOCK, MENU, 
 										SUB_MENU, MENU_ITEM_LINK_UNSELECTED,
 										MENU_ITEM_LINK_SELECTED, MENU_ITEM_HEADING, OTHER);
 		ArgumentValidator::validate($type, $rule, true);
@@ -534,7 +534,7 @@ class Theme extends ThemeInterface {
 	 **/
 	function getPreHTMLForComponentType($type, $index) {
 		// ** parameter validation
-		$rule =& ChoiceValidatorRule::getRule(BLANK, HEADING, HEADER, FOOTER, BLOCK, MENU, 
+		$rule = ChoiceValidatorRule::getRule(BLANK, HEADING, HEADER, FOOTER, BLOCK, MENU, 
 										SUB_MENU, MENU_ITEM_LINK_UNSELECTED,
 										MENU_ITEM_LINK_SELECTED, MENU_ITEM_HEADING, OTHER);
 		ArgumentValidator::validate($type, $rule, true);
@@ -580,7 +580,7 @@ class Theme extends ThemeInterface {
 	function setPostHTMLForComponentType($html, $type, $index) {
 		// ** parameter validation
 		ArgumentValidator::validate($html, StringValidatorRule::getRule(), true);
-		$rule =& ChoiceValidatorRule::getRule(BLANK, HEADING, HEADER, FOOTER, BLOCK, MENU, 
+		$rule = ChoiceValidatorRule::getRule(BLANK, HEADING, HEADER, FOOTER, BLOCK, MENU, 
 										 SUB_MENU, MENU_ITEM_LINK_UNSELECTED,
 										MENU_ITEM_LINK_SELECTED, MENU_ITEM_HEADING, OTHER);
 		ArgumentValidator::validate($type, $rule, true);
@@ -605,7 +605,7 @@ class Theme extends ThemeInterface {
 	 **/
 	function getPostHTMLForComponentType($type, $index) {
 		// ** parameter validation
-		$rule =& ChoiceValidatorRule::getRule(BLANK, HEADING, HEADER, FOOTER, BLOCK, MENU, 
+		$rule = ChoiceValidatorRule::getRule(BLANK, HEADING, HEADER, FOOTER, BLOCK, MENU, 
 										SUB_MENU, MENU_ITEM_LINK_UNSELECTED,
 										MENU_ITEM_LINK_SELECTED, MENU_ITEM_HEADING, OTHER);
 		ArgumentValidator::validate($type, $rule, true);
@@ -640,7 +640,7 @@ class Theme extends ThemeInterface {
 	 * @access public
 	 * @return ref object The component of this <code>Theme</code>.
 	 **/
-	function &getComponent() {
+	function getComponent() {
 		return $this->_component;
 	}
 	
@@ -649,13 +649,13 @@ class Theme extends ThemeInterface {
 	 * @access public
 	 * @param ref object A component.
 	 **/
-	function setComponent(& $component) {
+	function setComponent($component) {
 		// ** parameter validation
-		$rule =& ExtendsValidatorRule::getRule("ComponentInterface");
+		$rule = ExtendsValidatorRule::getRule("ComponentInterface");
 		ArgumentValidator::validate($component, $rule, true);
 		// ** end of parameter validation
 
-		$this->_component =& $component;
+		$this->_component =$component;
 	}
 
 	/**
@@ -703,13 +703,13 @@ class Theme extends ThemeInterface {
 	 * all the style collections.
 	 * @return string The CSS code.
 	 **/
-	function _getAllStyles(& $component, & $result) {
+	function _getAllStyles($component, $result) {
 		// get all style collections for current component and add them to $result
-		$styleCollections =& $component->getStyles();
+		$styleCollections =$component->getStyles();
 		foreach (array_keys($styleCollections) as $key)
 			// if not already in, then add it
 			if (!isset($result[$key]))
-				$result[$key] =& $styleCollections[$key];
+				$result[$key] =$styleCollections[$key];
 
 		// now, see if $component is a container, if yes then recurse to children,
 		// else return (base case)
@@ -717,11 +717,11 @@ class Theme extends ThemeInterface {
 			return; // base case
 		else {
 			// Get the styles for its layout
-			$layout =& $component->getLayout();
+			$layout =$component->getLayout();
 			$result[] = $layout->getCSS();
 			
 			// Get the styles for its children
-			$subcomponents =& $component->getComponents();
+			$subcomponents =$component->getComponents();
 			foreach (array_keys($subcomponents) as $key)
 				$this->_getAllStyles($subcomponents[$key], $result);				
 		}
@@ -761,15 +761,15 @@ class Theme extends ThemeInterface {
 	 * @return integer An integer id assigned to the given style property. The id 
 	 * only meaningful within the context of this Theme (i.e. this is not a system wide unique id).
 	 **/
-	function registerSP(& $sp, $postImportMethod=NULL) {
+	function registerSP($sp, $postImportMethod=NULL) {
 		// ** parameter validation
-		$rule =& ExtendsValidatorRule::getRule("StylePropertyInterface");
+		$rule = ExtendsValidatorRule::getRule("StylePropertyInterface");
 		ArgumentValidator::validate($sp, $rule, true);
-		$rule =& OptionalRule::getRule(StringValidatorRule::getRule());
+		$rule = OptionalRule::getRule(StringValidatorRule::getRule());
 		ArgumentValidator::validate($postImportMethod, $rule, true);
 		// ** end of parameter validation
 		
-		$this->_registeredSPs[] =& $sp;
+		$this->_registeredSPs[] =$sp;
 		$id = count($this->_registeredSPs) - 1;
 		
 		if (isset($postImportMethod)){
@@ -787,9 +787,9 @@ class Theme extends ThemeInterface {
 	 * by <code>registerSP()</code>.
 	 * @return ref object A <code>StylePorperty</code> object.
 	 **/
-	function &getRegisteredSP($id) {
+	function getRegisteredSP($id) {
 		// ** parameter validation
-		$rule =& IntegerRangeValidatorRule::getRule(0, count($this->_registeredSPs) - 1);
+		$rule = IntegerRangeValidatorRule::getRule(0, count($this->_registeredSPs) - 1);
 		ArgumentValidator::validate($sp, $rule, true);
 		// ** end of parameter validation
 			
@@ -810,7 +810,7 @@ class Theme extends ThemeInterface {
 	 **/
 	function exportRegisteredSP($id) {
 		// get the StylePorperty
-		$sp =& $this->getRegisteredSP($id);
+		$sp =$this->getRegisteredSP($id);
 		
 		// now get its StyleComponents
 		$scs = $sp->getSCs();
@@ -859,15 +859,15 @@ class Theme extends ThemeInterface {
 	 * <code>exportRegisteredSP()</code>.
 	 * @return ref object The updated <code>StyleProperty</code> object.
 	 **/
-	function &importRegisteredSP($id, $importData) {
+	function importRegisteredSP($id, $importData) {
 		// ** parameter validation
-		$rule =& ArrayValidatorRule::getRule();
+		$rule = ArrayValidatorRule::getRule();
 		ArgumentValidator::validate($importData, $rule, true);
 		// ** end of parameter validation
 		
 		// first, get the style property and its style components
-		$sp =& $this->getRegisteredSP($id);
-		$scs =& $sp->getSCs();
+		$sp =$this->getRegisteredSP($id);
+		$scs =$sp->getSCs();
 		
 		// if the number of style components is different from the number
 		// of elements in the importData array, then it's no good!
@@ -898,7 +898,7 @@ class Theme extends ThemeInterface {
 	 * @return ref array An array containing all registered mutable 
 	 * <code>StyleProperty</code> objects.
 	 **/
-	function &getAllRegisteredSPs() {
+	function getAllRegisteredSPs() {
 		return $this->_registeredSPs;
 	}
 	

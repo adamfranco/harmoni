@@ -11,7 +11,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/inc.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RuleSet.class.php,v 1.6 2005/03/29 19:44:47 adamfranco Exp $
+ * @version $Id: RuleSet.class.php,v 1.7 2007/09/04 20:25:55 adamfranco Exp $
  */
 class RuleSet {
 	/**
@@ -26,8 +26,8 @@ class RuleSet {
 	 * an associative array of keys and associated rules
 	 * 
 	 * the format of the array is this:
-	 * [key1]=>array( &$rule1, &$error1),
-	 *         array( &$rule2, &$error2),
+	 * [key1]=>array( $rule1, $error1),
+	 *         array( $rule2, $error2),
 	 *         ...
 	 * [key2]=>...
 	 * 
@@ -51,8 +51,8 @@ class RuleSet {
 	 * @access public
 	 * @return void 
 	 **/
-	function setErrorHandler(&$handler) {
-		$this->_errorHandler =& $handler;
+	function setErrorHandler($handler) {
+		$this->_errorHandler =$handler;
 	}
 		
 	/**
@@ -63,7 +63,7 @@ class RuleSet {
 	 * @access public
 	 * @return void 
 	 **/
-	function addRule( $key, & $rule, $error = null) {
+	function addRule( $key, $rule, $error = null) {
 		ArgumentValidator::validate($rule, ExtendsValidatorRule::getRule("ValidatorRuleInterface"));
 		ArgumentValidator::validate($key, StringValidatorRule::getRule());
 
@@ -71,7 +71,7 @@ class RuleSet {
 			ArgumentValidator::validate($error,ExtendsValidatorRule::getRule("ErrorInterface"),true);
 
 		if (!isset($this->_rules[$key])) $this->_rules[$key] = array();
-		$this->_rules[$key][] = array( &$rule, $error );
+		$this->_rules[$key][] = array( $rule, $error );
 	}
 	
 	/**
@@ -90,9 +90,9 @@ class RuleSet {
 		if (!is_array($this->_rules[$key])) return true;
 		
 		// now go through each rule and check if it's valid with $val
-		$rules = & $this->_rules[$key];
+		$rules =  $this->_rules[$key];
 		for ($i = 0; $i < count($rules); $i++) {
-			$rule = & $rules[$i];
+			$rule =  $rules[$i];
 			if (!$rule[0]->check( $val )) {
 				// throw an error
 				if ($throwErrors && $rule[1] !== null) {

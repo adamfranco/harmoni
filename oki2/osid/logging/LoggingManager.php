@@ -59,7 +59,7 @@ class LoggingManager
      * 
      * @access public
      */
-    function &getFormatTypes () { 
+    function getFormatTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -81,7 +81,7 @@ class LoggingManager
      * 
      * @access public
      */
-    function &getPriorityTypes () { 
+    function getPriorityTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -103,7 +103,7 @@ class LoggingManager
      * 
      * @access public
      */
-    function &getLogNamesForWriting () { 
+    function getLogNamesForWriting () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -128,7 +128,7 @@ class LoggingManager
      * 
      * @access public
      */
-    function &getLogForWriting ( $logName ) { 
+    function getLogForWriting ( $logName ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -150,7 +150,7 @@ class LoggingManager
      * 
      * @access public
      */
-    function &getLogNamesForReading () { 
+    function getLogNamesForReading () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -175,7 +175,7 @@ class LoggingManager
      * 
      * @access public
      */
-    function &getLogForReading ( $logName ) { 
+    function getLogForReading ( $logName ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -201,7 +201,7 @@ class LoggingManager
      * 
      * @access public
      */
-    function &createLog ( $logName ) { 
+    function createLog ( $logName ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 

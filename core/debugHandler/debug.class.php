@@ -12,7 +12,7 @@ require_once HARMONI . "debugHandler/NewWindowDebugHandlerPrinter.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: debug.class.php,v 1.18 2006/04/24 20:19:19 adamfranco Exp $
+ * @version $Id: debug.class.php,v 1.19 2007/09/04 20:25:33 adamfranco Exp $
  *
  * @static
  **/
@@ -28,7 +28,7 @@ class debug {
 		if (!Services::serviceAvailable("Debug")) 
 			return;
 		
-		$debugHandler =& Services::getService("Debug");
+		$debugHandler = Services::getService("Debug");
 		$outputLevel = $debugHandler->getOutputLevel();
 
 		if ($level <= $outputLevel)
@@ -49,7 +49,7 @@ class debug {
 			return;
 		}
 		
-		$debugHandler =& Services::getService("Debug");
+		$debugHandler = Services::getService("Debug");
 		if (is_int($level))
 			$debugHandler->setOutputLevel($level);
 		return $debugHandler->getOutputLevel();
@@ -62,7 +62,7 @@ class debug {
 	 */
 	function printAll($debugPrinter = null) {
 		// ** parameter validation
-		$extendsRule =& ExtendsValidatorRule::getRule("DebugHandlerPrinterInterface");
+		$extendsRule = ExtendsValidatorRule::getRule("DebugHandlerPrinterInterface");
 		ArgumentValidator::validate($debugPrinter, OptionalRule::getRule($extendsRule), true);
 		// ** end of parameter validation
 	
@@ -80,7 +80,7 @@ class debug {
 	 * @access public
 	 * @since 3/2/05
 	 */
-	function printQuery (&$query) {
+	function printQuery ($query) {
 		print "\n<pre>";
 		print_r(MySQL_SQLGenerator::generateSQLQuery($query));	
 		print "\n</pre>";

@@ -11,7 +11,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RequestContext.class.php,v 1.23 2007/05/24 15:02:10 adamfranco Exp $
+ * @version $Id: RequestContext.class.php,v 1.24 2007/09/04 20:25:31 adamfranco Exp $
  */
 
 define("REQUEST_HANDLER_CONTEXT_DELIMETER", "___");
@@ -37,7 +37,7 @@ class RequestContext {
 	 * @access public
 	 */
 	function name($key) {
-		$harmoni =& Harmoni::instance();
+		$harmoni = Harmoni::instance();
 		return $harmoni->request->getName($key);
 	}
 	
@@ -57,7 +57,7 @@ class RequestContext {
 	 * @access public
 	 */
 	function value($key) {
-		$harmoni =& Harmoni::instance();
+		$harmoni = Harmoni::instance();
 		return $harmoni->request->get($key);
 	}
 	
@@ -95,7 +95,7 @@ class RequestContext {
 			
 		// Use javascript
 		else {
-			$harmoni =& Harmoni::instance();
+			$harmoni = Harmoni::instance();
 			// get rid of all output buffers;
 			$harmoni->request->ob_jump();
 			
@@ -176,8 +176,8 @@ END;
 	 * @return void
 	 * @access public
 	 */
-	function assignRequestHandler(&$handler) {
-		$this->_requestHandler =& $handler;
+	function assignRequestHandler($handler) {
+		$this->_requestHandler =$handler;
 	}
 	
 	/**
@@ -247,18 +247,18 @@ END;
 	 * @return ref object URLWriter
 	 * @access public
 	 */
-	function &mkURL($module = null, $action = null, $variables = null ) {
+	function mkURL($module = null, $action = null, $variables = null ) {
 		
 		// create a new URLWriter from the RequestHandler
 		$this->_checkForHandler();
-		$url =& $this->_requestHandler->createURLWriter();
+		$url =$this->_requestHandler->createURLWriter();
 		
 		
 		// Set the Module and Action
 		if ($module != null && $action != null) {
 			$url->setModuleAction($module, $action);
 		} else {
-			$harmoni =& Harmoni::instance();
+			$harmoni = Harmoni::instance();
 			list($module, $action) = explode(".",$harmoni->getCurrentAction());
 			if (!$module) 
 				list($module, $action) = explode(".",$this->getRequestedModuleAction());
@@ -288,8 +288,8 @@ END;
 	 * @return ref object URLWriter
 	 * @since 6/7/05
 	 */
-	function &mkURLWithPassthrough ( $module = null, $action = null ) {
-		$url =& $this->mkURL($module, $action);
+	function mkURLWithPassthrough ( $module = null, $action = null ) {
+		$url =$this->mkURL($module, $action);
 		$url->batchSetValues($this->_requestData);
 		return $url;
 	}
@@ -314,7 +314,7 @@ END;
 		
 		// Special Case, only an array of variables is passed
 		if ($num == 1 && is_array($args[0])) {
-			$url =& $this->mkURL();
+			$url =$this->mkURL();
 			$url->setValues($args[0]);
 		} 
 		
@@ -329,7 +329,7 @@ END;
 			if (!isset($args[2]))
 				$args[2] = NULL;
 			
-			$url =& $this->mkURL($args[0], $args[1], $args[2]);
+			$url =$this->mkURL($args[0], $args[1], $args[2]);
 		}
 		
 		return $url->write();

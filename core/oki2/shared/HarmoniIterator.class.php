@@ -10,7 +10,7 @@ require_once(HARMONI."Primitives/Objects/SObject.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniIterator.class.php,v 1.11 2007/07/06 17:53:39 adamfranco Exp $
+ * @version $Id: HarmoniIterator.class.php,v 1.12 2007/09/04 20:25:48 adamfranco Exp $
  */
 class HarmoniIterator
 	extends SObject
@@ -31,13 +31,13 @@ class HarmoniIterator
 	/**
 	 * Constructor
 	 */
-	function HarmoniIterator (&$elementArray) {
+	function HarmoniIterator ($elementArray) {
 		if($elementArray===NULL){
 			$elementArray=array();
 		}
 		// load the elements into our private array
 		foreach (array_keys($elementArray) as $i => $key) {
-			$this->_elements[] =& $elementArray[$key];
+			$this->_elements[] =$elementArray[$key];
 		}
 	}
 	
@@ -51,8 +51,8 @@ class HarmoniIterator
 	 * @access public
 	 * @since 7/3/07
 	 */
-	function add ( &$element ) {
-		$this->_elements[] =& $element;
+	function add ( $element ) {
+		$this->_elements[] =$element;
 	}
 
 	// public boolean hasNext();
@@ -61,7 +61,7 @@ class HarmoniIterator
 	}
 
 	// public Type & next();
-	function &next() {
+	function next() {
 		if ($this->hasNext()) {
 			$this->_i++;
 			return $this->_elements[$this->_i];

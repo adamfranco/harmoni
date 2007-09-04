@@ -44,7 +44,7 @@ require_once(HARMONI.'/oki2/id/HarmoniIdManager.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniHierarchyManager.class.php,v 1.26 2007/04/12 15:37:31 adamfranco Exp $
+ * @version $Id: HarmoniHierarchyManager.class.php,v 1.27 2007/09/04 20:25:41 adamfranco Exp $
  */
 class HarmoniHierarchyManager 
 	extends HierarchyManager {
@@ -114,11 +114,11 @@ class HarmoniHierarchyManager
 	 * 
 	 * @access public
 	 */
-	function assignConfiguration ( &$configuration ) { 
-		$this->_configuration =& $configuration;
+	function assignConfiguration ( $configuration ) { 
+		$this->_configuration =$configuration;
 		
-		$dbIndex =& $configuration->getProperty('database_index');
-		$dbName =& $configuration->getProperty('database_name');
+		$dbIndex =$configuration->getProperty('database_index');
+		$dbName =$configuration->getProperty('database_name');
 		
 		// ** parameter validation
 		ArgumentValidator::validate($dbIndex, IntegerValidatorRule::getRule(), true);
@@ -138,7 +138,7 @@ class HarmoniHierarchyManager
 	 * 
 	 * @access public
 	 */
-	function &getOsidContext () { 
+	function getOsidContext () { 
 		return $this->_osidContext;
 	} 
 
@@ -153,8 +153,8 @@ class HarmoniHierarchyManager
 	 * 
 	 * @access public
 	 */
-	function assignOsidContext ( &$context ) { 
-		$this->_osidContext =& $context;
+	function assignOsidContext ( $context ) { 
+		$this->_osidContext =$context;
 	} 
 
 	/**
@@ -187,7 +187,7 @@ class HarmoniHierarchyManager
 	 * 
 	 * @access public
 	 */
-	function &createHierarchy ( $displayName, &$nodeTypes, $description, $allowsMultipleParents, $allowsRecursion, $id = NULL ) { 
+	function createHierarchy ( $displayName, $nodeTypes, $description, $allowsMultipleParents, $allowsRecursion, $id = NULL ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($description, StringValidatorRule::getRule(), true);
 		ArgumentValidator::validate($displayName, StringValidatorRule::getRule(), true);
@@ -202,18 +202,18 @@ class HarmoniHierarchyManager
 		if ($allowsRecursion)
 			throwError(new Error(HierarchyException::UNSUPPORTED_CREATION(), "HierarchyManager", 1));
 		
-		$dbHandler =& Services::getService("DatabaseManager");
+		$dbHandler = Services::getService("DatabaseManager");
 		$db = $this->_hyDB.".";
 
 		// Create an Id for the Hierarchy
 		if (!is_object($id)) {
-			$idManager =& Services::getService("Id");
-			$id =& $idManager->createId();
+			$idManager = Services::getService("Id");
+			$id =$idManager->createId();
 		}
 		$idValue = $id->getIdString();
 		
 
-		$query =& new InsertQuery();
+		$query = new InsertQuery();
 		$query->setTable($db."hierarchy");
 		$columns = array();
 		$columns[] = "hierarchy_id";
@@ -229,15 +229,15 @@ class HarmoniHierarchyManager
 		$values[] = "'".$multiparent."'";
 		$query->setValues($values);
 
-		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 		
 		// Create a new hierarchy and insert it into the database
-		$hierarchy =& new HarmoniHierarchy($id, $displayName, $description,
+		$hierarchy = new HarmoniHierarchy($id, $displayName, $description,
 			new HierarchyCache($idValue, $allowsMultipleParents, $this->_dbIndex, 
 		   		$this->_hyDB, DateAndTime::now()));
 		
 		// then cache it
-		$this->_hierarchies[$idValue] =& $hierarchy;
+		$this->_hierarchies[$idValue] =$hierarchy;
 		
 		return $hierarchy;
 	}
@@ -268,7 +268,7 @@ class HarmoniHierarchyManager
 	 * 
 	 * @access public
 	 */
-	function &getHierarchy ( &$hierarchyId ) { 
+	function getHierarchy ( $hierarchyId ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($hierarchyId, ExtendsValidatorRule::getRule("Id"), true);
 		// ** end of parameter validation
@@ -279,10 +279,10 @@ class HarmoniHierarchyManager
 		if (isset($this->_hierarchies[$idValue]))
 			return $this->_hierarchies[$idValue];
 
-		$dbHandler =& Services::getService("DatabaseManager");
+		$dbHandler = Services::getService("DatabaseManager");
 		$db = $this->_hyDB.".";
 		
-		$query =& new SelectQuery();
+		$query = new SelectQuery();
 		$query->addColumn("hierarchy_id", "id", $db."hierarchy");
 		$query->addColumn("hierarchy_display_name", "display_name", $db."hierarchy");
 		$query->addColumn("hierarchy_description", "description", $db."hierarchy");
@@ -290,7 +290,7 @@ class HarmoniHierarchyManager
 		$query->addTable($db."hierarchy");
 		$query->addWhere($db."hierarchy.hierarchy_id = '{$idValue}'");
 
-		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 		
 		if ($queryResult->getNumberOfRows() != 1) {
 			$queryResult->free();
@@ -299,17 +299,17 @@ class HarmoniHierarchyManager
 		$row = $queryResult->getCurrentrow();
 		$queryResult->free();
 
-		$idValue =& $row['id'];
-		$idManager =& Services::getService("Id");
+		$idValue =$row['id'];
+		$idManager = Services::getService("Id");
 		$id = $idManager->getId($idValue);
 		$allowsMultipleParents = ($row['multiparent'] == '1');
 		
-		$cache =& new HierarchyCache($idValue, $allowsMultipleParents, $this->_dbIndex, $this->_hyDB);
+		$cache = new HierarchyCache($idValue, $allowsMultipleParents, $this->_dbIndex, $this->_hyDB);
 		
-		$hierarchy =& new HarmoniHierarchy($id, $row['display_name'], $row['description'], $cache);
+		$hierarchy = new HarmoniHierarchy($id, $row['display_name'], $row['description'], $cache);
 
 		// cache it
-		$this->_hierarchies[$idValue] =& $hierarchy;
+		$this->_hierarchies[$idValue] =$hierarchy;
 
 		return $hierarchy;		
 	}
@@ -334,38 +334,38 @@ class HarmoniHierarchyManager
 	 * 
 	 * @access public
 	 */
-	function &getHierarchies () { 
+	function getHierarchies () { 
 		if(!$this->_allHierarchiesCached) {
-			$dbHandler =& Services::getService("DatabaseManager");
+			$dbHandler = Services::getService("DatabaseManager");
 			$db = $this->_hyDB.".";
 			
-			$query =& new SelectQuery();
+			$query = new SelectQuery();
 			$query->addColumn("hierarchy_id", "id", $db."hierarchy");
 			$query->addColumn("hierarchy_display_name", "display_name", $db."hierarchy");
 			$query->addColumn("hierarchy_description", "description", $db."hierarchy");
 			$query->addColumn("hierarchy_multiparent", "multiparent", $db."hierarchy");
 			$query->addTable($db."hierarchy");
 	
-			$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+			$queryResult =$dbHandler->query($query, $this->_dbIndex);
 			
 			$hierarchies = array();
 			
-			$idManager =& Services::getService("Id");
+			$idManager = Services::getService("Id");
 	
 			while ($queryResult->hasMoreRows()) {
 				$row = $queryResult->getCurrentrow();
 		
-				$idValue =& $row['id'];
+				$idValue =$row['id'];
 				
 				// check the cache
 				if (!isset($this->_hierarchies[$idValue])) {
-					$id =& $idManager->getId($idValue);
+					$id =$idManager->getId($idValue);
 					$allowsMultipleParents = ($row['multiparent'] == '1');
 			
-					$cache =& new HierarchyCache($idValue, $allowsMultipleParents, $this->_dbIndex, $this->_hyDB);
+					$cache = new HierarchyCache($idValue, $allowsMultipleParents, $this->_dbIndex, $this->_hyDB);
 							
-					$hierarchy =& new HarmoniHierarchy($id, $row['display_name'], $row['description'], $cache);
-					$this->_hierarchies[$idValue] =& $hierarchy;
+					$hierarchy = new HarmoniHierarchy($id, $row['display_name'], $row['description'], $cache);
+					$this->_hierarchies[$idValue] =$hierarchy;
 				}
 		
 				$queryResult->advanceRow();
@@ -374,7 +374,7 @@ class HarmoniHierarchyManager
 			$this->_allHierarchiesCached = true;
 		}		
 		
-		$obj =& new HarmoniHierarchyIterator($this->_hierarchies);
+		$obj = new HarmoniHierarchyIterator($this->_hierarchies);
 		
 		return $obj;
 	}
@@ -406,23 +406,23 @@ class HarmoniHierarchyManager
 	 * 
 	 * @access public
 	 */
-	function deleteHierarchy ( &$hierarchyId ) { 
+	function deleteHierarchy ( $hierarchyId ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($hierarchyId, ExtendsValidatorRule::getRule("Id"), true);
 		// ** end of parameter validation
 		
-		$dbHandler =& Services::getService("DatabaseManager");
+		$dbHandler = Services::getService("DatabaseManager");
 		$db = $this->_hyDB.".";
 		
 		$idValue = $hierarchyId->getIdString();
 		
 		// see if there are any nodes remaining that have to removed
-		$query =& new SelectQuery();
+		$query = new SelectQuery();
 		$query->addTable($db."node");
 		$query->addColumn("COUNT({$db}node.node_id)", "num");
 		$query->addWhere("{$db}node.fk_hierarchy = '{$idValue}'");
 
-		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 		$row = $queryResult->getCurrentRow();
 		$queryResult->free();
 
@@ -433,10 +433,10 @@ class HarmoniHierarchyManager
 		}
 		
 		// now delete it
-		$query =& new DeleteQuery();
+		$query = new DeleteQuery();
 		$query->setTable($db."hierarchy");
 		$query->addWhere("{$db}hierarchy.hierarchy_id = '{$idValue}'");
-		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 		if ($queryResult->getNumberOfRows() != 1) {
 			throwError(new Error(HierarchyException::OPERATION_FAILED(), "Hierarchy", true));
 		}
@@ -484,18 +484,18 @@ class HarmoniHierarchyManager
 	 * @param ref object id The Id object.
 	 * @return ref object The Node with the given Id.
 	 **/
-	function &getNode(& $id) {
+	function getNode($id) {
 		// ** parameter validation
 		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"), true);
 		// ** end of parameter validation
 
 		$idValue = $id->getIdString();
 		
-		$dbHandler =& Services::getService("DatabaseManager");
+		$dbHandler = Services::getService("DatabaseManager");
 
 		// find the hierarchy id for this node
 		$db = $this->_hyDB.".";
-		$query =& new SelectQuery();
+		$query = new SelectQuery();
 		$query->addColumn("fk_hierarchy", "hierarchy_id", $db."node");
 		$query->addTable($db."node");
 		$joinc = $db."node.fk_hierarchy = ".$db."hierarchy.hierarchy_id";
@@ -503,7 +503,7 @@ class HarmoniHierarchyManager
 		$where = $db."node.node_id = '".addslashes($idValue)."'";
 		$query->addWhere($where);
 		
-		$nodeQueryResult =& $dbHandler->query($query, $this->_dbIndex);
+		$nodeQueryResult =$dbHandler->query($query, $this->_dbIndex);
 		
 		if ($nodeQueryResult->getNumberOfRows() != 1) {
 			$nodeQueryResult->free();
@@ -514,14 +514,14 @@ class HarmoniHierarchyManager
 		$nodeRow = $nodeQueryResult->getCurrentRow();
 		$nodeQueryResult->free();
 
-		$idManager =& Services::getService("Id");
+		$idManager = Services::getService("Id");
 
 		$hierarchyId = $nodeRow['hierarchy_id'];
 
 		// get the hierarchy
-		$hierarchy =& $this->getHierarchy($idManager->getId($hierarchyId));
+		$hierarchy =$this->getHierarchy($idManager->getId($hierarchyId));
 		
-		$node =& $hierarchy->getNode($id);
+		$node =$hierarchy->getNode($id);
 
 		return $node;
 	}
@@ -537,14 +537,14 @@ class HarmoniHierarchyManager
 	 * 
 	 * @access public
 	 */
-	function nodeExists ( &$nodeId ) { 
+	function nodeExists ( $nodeId ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($nodeId, ExtendsValidatorRule::getRule("Id"), true);
 		// ** end of parameter validation
 		
-		$hierarchies =& $this->getHierarchies();
+		$hierarchies =$this->getHierarchies();
 		while ($hierarchies->hasNext()) {
-			$hierarchy =& $hierarchies->next();
+			$hierarchy =$hierarchies->next();
 			if ($hierarchy->nodeExists($nodeId))
 				return true;
 		}
@@ -563,10 +563,10 @@ class HarmoniHierarchyManager
 	 * @access public
 	 * @return ref object The Hierarchy to which the Node belongs.
 	 **/
-	function &getHierarchyForNode(& $node) {
-		$idManager =& Services::getService("Id");
-		$hierarchyId =& $idManager->getId($node->_cache->_hierarchyId);
-		$hierarchy =& $this->getHierarchy($hierarchyId);
+	function getHierarchyForNode($node) {
+		$idManager = Services::getService("Id");
+		$hierarchyId =$idManager->getId($node->_cache->_hierarchyId);
+		$hierarchy =$this->getHierarchy($hierarchyId);
 		
 		return $hierarchy;
 	}

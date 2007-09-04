@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: test.php,v 1.7 2005/08/17 23:17:13 adamfranco Exp $
+ * @version $Id: test.php,v 1.8 2007/09/04 20:25:21 adamfranco Exp $
  */
  
     if (!defined('HARMONI')) {
@@ -28,18 +28,18 @@
 	if (!Services::serviceAvailable("ErrorHandler")) {
 	   	Services::registerService("ErrorHandler","ErrorHandler");
 		require_once(OKI2."osid/OsidContext.php");
-		$context =& new OsidContext;
+		$context = new OsidContext;
 		$context->assignContext('harmoni', $harmoni);
 		require_once(HARMONI."oki2/shared/ConfigurationProperties.class.php");
-		$configuration =& new ConfigurationProperties;
+		$configuration = new ConfigurationProperties;
 		Services::startManagerAsService("ErrorHandler", $context, $configuration);
 	}
 	
-	$errorHandler =& Services::getService("ErrorHandler");
+	$errorHandler = Services::getService("ErrorHandler");
 	$errorHandler->setDebugMode(true);
 	
 	// connect to some database and set up our tables
-	$this->db =& new MySQLDatabase("localhost", "test", "test", "test");
+	$this->db = new MySQLDatabase("localhost", "test", "test", "test");
 	$this->db->connect();
 	
 	// Build our test database
@@ -56,7 +56,7 @@
 	$this->db->disconnect();
 	
 	// connect to some database and set up our tables
-	$this->db =& new MySQLDatabase("localhost", "testB", "test", "test");
+	$this->db = new MySQLDatabase("localhost", "testB", "test", "test");
 	$this->db->connect();
 	
 	// Build our test database
@@ -72,7 +72,7 @@
 	}
 	$this->db->disconnect();
 
-    $test =& new GroupTest('DBHandler tests');
+    $test = new GroupTest('DBHandler tests');
     $test->addTestFile(HARMONI.'DBHandler/tests/MySQLInsertQueryTestCase.class.php');
     $test->addTestFile(HARMONI.'DBHandler/tests/MySQLUpdateQueryTestCase.class.php');
     $test->addTestFile(HARMONI.'DBHandler/tests/MySQLDeleteQueryTestCase.class.php');

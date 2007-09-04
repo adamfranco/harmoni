@@ -84,14 +84,14 @@ class OsidContext
      * 
      * @access public
      */
-    function assignContext ( $key, &$context )
+    function assignContext ( $key, $context )
     {
     	
     	if (!is_array($this->contextInfo))
     		$this->contextInfo = array();
     	
         if ((null != $key) && (null != $context)) {
-            $this->contextInfo[serialize($key)] =& $context;
+            $this->contextInfo[serialize($key)] =$context;
         } else if ((null != $key) && (null == $context)) {
             if (isset($this->contextInfo[serialize($key)])) {
                 unset($this->contextInfo[serialize($key)]);
@@ -115,7 +115,7 @@ class OsidContext
      * 
      * @access public
      */
-    function &getContext ( $key )
+    function getContext ( $key )
     {
         if (null != $key) {
             if ($this->contextInfo[serialize($key)]) {

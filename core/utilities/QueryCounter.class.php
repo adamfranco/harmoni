@@ -8,19 +8,19 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: QueryCounter.class.php,v 1.4 2007/04/12 15:37:34 adamfranco Exp $
+ * @version $Id: QueryCounter.class.php,v 1.5 2007/09/04 20:25:54 adamfranco Exp $
  */
 class QueryCounter {
 	var $_start;
 	var $_end;
 	
 	function start() {
-		$db =& Services::getService("DatabaseManager");
+		$db = Services::getService("DatabaseManager");
 		$this->_start = $db->getTotalNumberOfQueries();
 	}
 	
 	function end() {
-		$db =& Services::getService("DatabaseManager");
+		$db = Services::getService("DatabaseManager");
 		$this->_end = $db->getTotalNumberOfQueries();
 	}
 	

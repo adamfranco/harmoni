@@ -47,7 +47,7 @@ require_once(HARMONI."GUIManager/Layouts/FlowLayout.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DobomodeTheme.class.php,v 1.1 2005/03/10 03:20:54 dobomode Exp $
+ * @version $Id: DobomodeTheme.class.php,v 1.2 2007/09/04 20:25:23 adamfranco Exp $
  **/
 class DobomodeTheme extends MenuThemeAbstract {
 
@@ -76,7 +76,7 @@ class DobomodeTheme extends MenuThemeAbstract {
 
 		// =====================================================================
 		// body
-		$style =& new StyleCollection("body", null, "Global Style", "Style settings affecting the overall look and feel.");
+		$style = new StyleCollection("body", null, "Global Style", "Style settings affecting the overall look and feel.");
 		$style->addSP(new FontFamilySP("'Arial', 'Helvetica', 'Verdana'"));
 		$style->addSP(new FontSizeSP("10pt"));
 		$style->addSP(new ColorSP("#262D34"));
@@ -86,30 +86,30 @@ class DobomodeTheme extends MenuThemeAbstract {
 		$style->addSP(new MarginSP("0px"));
 		// the following scrollbar style properties are not part of GUIManager
 		// create them manually
-		$sp =& new StyleProperty("scrollbar-face-color","Scrollbar Face Color","Scrollbar Face Color");
+		$sp = new StyleProperty("scrollbar-face-color","Scrollbar Face Color","Scrollbar Face Color");
 		$sp->addSC(new ColorSC("#A4B9CD")); $style->addSP($sp);
-		$sp =& new StyleProperty("scrollbar-shadow-color","Scrollbar Shadow Color","Scrollbar Shadow Color");
+		$sp = new StyleProperty("scrollbar-shadow-color","Scrollbar Shadow Color","Scrollbar Shadow Color");
 		$sp->addSC(new ColorSC("#A4B9CD")); $style->addSP($sp);
-		$sp =& new StyleProperty("scrollbar-highlight-color","Scrollbar Highlight Color","Scrollbar Highlight Color");
+		$sp = new StyleProperty("scrollbar-highlight-color","Scrollbar Highlight Color","Scrollbar Highlight Color");
 		$sp->addSC(new ColorSC("#FFFFFF")); $style->addSP($sp);
-		$sp =& new StyleProperty("scrollbar-darkshadow-color","Scrollbar Darkshadow Color","Scrollbar Darkshadow Color");
+		$sp = new StyleProperty("scrollbar-darkshadow-color","Scrollbar Darkshadow Color","Scrollbar Darkshadow Color");
 		$sp->addSC(new ColorSC("#262D34")); $style->addSP($sp);
-		$sp =& new StyleProperty("scrollbar-3dlight-color","Scrollbar 3D Light Color","Scrollbar 3D Light Color");
+		$sp = new StyleProperty("scrollbar-3dlight-color","Scrollbar 3D Light Color","Scrollbar 3D Light Color");
 		$sp->addSC(new ColorSC("#262D34")); $style->addSP($sp);
-		$sp =& new StyleProperty("scrollbar-track-color","Scrollbar Track Track","Scrollbar Track Color");
+		$sp = new StyleProperty("scrollbar-track-color","Scrollbar Track Track","Scrollbar Track Color");
 		$sp->addSC(new ColorSC("#4C5A68")); $style->addSP($sp);
-		$sp =& new StyleProperty("scrollbar-arrow-color","Scrollbar Arrow Color","Scrollbar Arrow Color");
+		$sp = new StyleProperty("scrollbar-arrow-color","Scrollbar Arrow Color","Scrollbar Arrow Color");
 		$sp->addSC(new ColorSC("#262D34")); $style->addSP($sp);
 		$this->addGlobalStyle($style);		
 		
 		// =====================================================================
 		// anchors
-		$style =& new StyleCollection("a", null, "Link Style", "Style settings affecting the look and feel of links.");
+		$style = new StyleCollection("a", null, "Link Style", "Style settings affecting the look and feel of links.");
 		$style->addSP(new TextDecorationSP("none"));
 		$style->addSP(new FontFamilySP("'Verdana', 'Arial', 'Helvetica'"));
 		$style->addSP(new ColorSP("#323B44"));
 		$this->addGlobalStyle($style);
-		$style =& new StyleCollection("a:hover", null, "Link Hover Style", "Style settings affecting the look and feel of links when the mouse pointer is over them.");
+		$style = new StyleCollection("a:hover", null, "Link Hover Style", "Style settings affecting the look and feel of links when the mouse pointer is over them.");
 		$style->addSP(new ColorSP("#FFFFFF"));
 		$this->addGlobalStyle($style);
 		
@@ -117,15 +117,15 @@ class DobomodeTheme extends MenuThemeAbstract {
 		
 		// =====================================================================
 		// initialize wrapper object
-		$style =& new StyleCollection("*.wrapper", "wrapper", "Wrapper Style", "Style settings for wrapper component.");
+		$style = new StyleCollection("*.wrapper", "wrapper", "Wrapper Style", "Style settings for wrapper component.");
 		$style->addSP(new WidthSP("700px"));
 		$style->addSP(new MarginSP("auto"));
 		$style->addSP(new TextAlignSP("left"));
-		$this->_wrapper =& new Container(new FlowLayout(), BLOCK, 0, $style);
+		$this->_wrapper = new Container(new FlowLayout(), BLOCK, 0, $style);
 		
 		// =====================================================================
 		// initialize main container object
-		$style =& new StyleCollection("*.main", "main", "Main Box Style", "Style settings for main content box.");
+		$style = new StyleCollection("*.main", "main", "Main Box Style", "Style settings for main content box.");
 		$style->addSP(new FloatSP("right"));
 		// total width with borders and padding = 500
 		$style->addSP(new WidthSP("468px"));
@@ -141,13 +141,13 @@ class DobomodeTheme extends MenuThemeAbstract {
 		$style->addSP(new PaddingBottomSP("20px"));
 		$style->addSP(new PaddingLeftSP("15px"));
 		$style->addSP(new PaddingRightSP("15px"));
-		$this->_main =& new Container(new FlowLayout(), BLOCK, 0, $style);
+		$this->_main = new Container(new FlowLayout(), BLOCK, 0, $style);
 		$this->_wrapper->add($this->_main);
 		
 		// =====================================================================
 		// initialize main menu
 		// styles for level 1 menu
-		$style =& new StyleCollection("*.menu_1", "menu_1", "Level 1 Menu Style", "Style settings for level 1 menus.");
+		$style = new StyleCollection("*.menu_1", "menu_1", "Level 1 Menu Style", "Style settings for level 1 menus.");
 		$style->addSP(new FloatSP("left"));
 		// total width with borders and padding = 160
 		$style->addSP(new WidthSP("138px"));
@@ -162,7 +162,7 @@ class DobomodeTheme extends MenuThemeAbstract {
 		$style->addSP(new PaddingRightSP("10px"));
 		$this->addStyleForComponentType($style, MENU, 1);
 		// styles for level 1 menu item links
-		$style =& new StyleCollection("*.menu_item_link_1 a", "menu_item_link_1", "Level 1 Menu Link Style", "Style settings for level 1 menu links.");
+		$style = new StyleCollection("*.menu_item_link_1 a", "menu_item_link_1", "Level 1 Menu Link Style", "Style settings for level 1 menu links.");
 		$style->addSP(new BackgroundColorSP("#A4B9CD"));
 		$style->addSP(new ColorSP("#262D34"));
 		$style->addSP(new BorderSP("1px", "solid", "#262D34"));
@@ -175,17 +175,17 @@ class DobomodeTheme extends MenuThemeAbstract {
 		$style->addSP(new DisplaySP("block"));
 		$this->addStyleForComponentType($style, MENU_ITEM_LINK_SELECTED, 1);
 		$this->addStyleForComponentType($style, MENU_ITEM_LINK_UNSELECTED, 1);
-		$style =& new StyleCollection("*.menu_item_link_1 a:hover", "menu_item_link_1", "Level 1 Menu Link Hover Style", "Hover style settings for level 1 menu links.");
+		$style = new StyleCollection("*.menu_item_link_1 a:hover", "menu_item_link_1", "Level 1 Menu Link Hover Style", "Hover style settings for level 1 menu links.");
 		$style->addSP(new BackgroundColorSP("#4C5A68"));
 		$style->addSP(new ColorSP("#FFFFFF"));
 		$this->addStyleForComponentType($style, MENU_ITEM_LINK_UNSELECTED, 1);
-		$style =& new StyleCollection("*.menu_item_link_selected_1 a", "menu_item_link_selected_1", "Level 1 Selected Menu Link Style", "Style settings for level 1 selected menu links.");
+		$style = new StyleCollection("*.menu_item_link_selected_1 a", "menu_item_link_selected_1", "Level 1 Selected Menu Link Style", "Style settings for level 1 selected menu links.");
 		$style->addSP(new BorderSP("2px", "solid", "#262D34"));
 		$style->addSP(new BackgroundColorSP("#4C5A68"));
 		$style->addSP(new ColorSP("#FFFFFF"));
 		$this->addStyleForComponentType($style, MENU_ITEM_LINK_SELECTED, 1);
 		// styles for level 1 menu item headings
-		$style =& new StyleCollection("*.menu_item_heading_1", "menu_item_heading_1", "Level 1 Menu Heading", "Style settings for level 1 menu heading.");
+		$style = new StyleCollection("*.menu_item_heading_1", "menu_item_heading_1", "Level 1 Menu Heading", "Style settings for level 1 menu heading.");
 		$style->addSP(new ColorSP("#000000"));
 		$style->addSP(new FontFamilySP("'Verdana', 'Arial', 'Helvetica'"));
 		$style->addSP(new FontWeightSP("bold"));
@@ -194,7 +194,7 @@ class DobomodeTheme extends MenuThemeAbstract {
 		$style->addSP(new DisplaySP("block"));
 		$this->addStyleForComponentType($style, MENU_ITEM_HEADING, 1);
 		// styles for level 2 menu
-		$style =& new StyleCollection("*.menu_2", "menu_2", "Level 2 Menu Style", "Style settings for level 2 menus.");
+		$style = new StyleCollection("*.menu_2", "menu_2", "Level 2 Menu Style", "Style settings for level 2 menus.");
 		$style->addSP(new FloatSP("left"));
 		$style->addSP(new FontSizeSP("8pt"));
 		// total width with borders and padding = 120
@@ -211,7 +211,7 @@ class DobomodeTheme extends MenuThemeAbstract {
 		$style->addSP(new PaddingRightSP("5px"));
 		$this->addStyleForComponentType($style, MENU, 2);
 		// styles for level 2 menu item links
-		$style =& new StyleCollection("*.menu_item_link_2 a", "menu_item_link_2", "Level 2 Menu Link Style", "Style settings for level 2 menu links.");
+		$style = new StyleCollection("*.menu_item_link_2 a", "menu_item_link_2", "Level 2 Menu Link Style", "Style settings for level 2 menu links.");
 		$style->addSP(new BackgroundColorSP("#A4B9CD"));
 		$style->addSP(new ColorSP("#262D34"));
 		$style->addSP(new BorderSP("1px", "solid", "#262D34"));
@@ -224,11 +224,11 @@ class DobomodeTheme extends MenuThemeAbstract {
 		$style->addSP(new DisplaySP("block"));
 		$this->addStyleForComponentType($style, MENU_ITEM_LINK_SELECTED, 2);
 		$this->addStyleForComponentType($style, MENU_ITEM_LINK_UNSELECTED, 2);
-		$style =& new StyleCollection("*.menu_item_link_2 a:hover", "menu_item_link_2", "Level 2 Menu Link Hover Style", "Hover style settings for level 2 menu links.");
+		$style = new StyleCollection("*.menu_item_link_2 a:hover", "menu_item_link_2", "Level 2 Menu Link Hover Style", "Hover style settings for level 2 menu links.");
 		$style->addSP(new BackgroundColorSP("#4C5A68"));
 		$style->addSP(new ColorSP("#FFFFFF"));
 		$this->addStyleForComponentType($style, MENU_ITEM_LINK_UNSELECTED, 2);
-		$style =& new StyleCollection("*.menu_item_link_selected_2 a", "menu_item_link_selected_2", "Level 2 Selected Menu Link Style", "Style settings for level 2 selected menu links.");
+		$style = new StyleCollection("*.menu_item_link_selected_2 a", "menu_item_link_selected_2", "Level 2 Selected Menu Link Style", "Style settings for level 2 selected menu links.");
 		$style->addSP(new BorderSP("2px", "solid", "#262D34"));
 		$style->addSP(new BackgroundColorSP("#4C5A68"));
 		$style->addSP(new ColorSP("#FFFFFF"));
@@ -243,7 +243,7 @@ class DobomodeTheme extends MenuThemeAbstract {
 	 * @access public
 	 * @param ref object A component.
 	 **/
-	function setComponent(& $component) {
+	function setComponent($component) {
 		parent::setComponent($this->_wrapper);
 		$this->_main->removeAll();
 		$this->_main->add($component);

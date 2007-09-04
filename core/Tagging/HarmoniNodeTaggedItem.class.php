@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniNodeTaggedItem.class.php,v 1.2 2006/11/30 22:02:11 adamfranco Exp $
+ * @version $Id: HarmoniNodeTaggedItem.class.php,v 1.3 2007/09/04 20:25:28 adamfranco Exp $
  */ 
 
 /**
@@ -18,7 +18,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniNodeTaggedItem.class.php,v 1.2 2006/11/30 22:02:11 adamfranco Exp $
+ * @version $Id: HarmoniNodeTaggedItem.class.php,v 1.3 2007/09/04 20:25:28 adamfranco Exp $
  */
 class HarmoniNodeTaggedItem
 	extends	TaggedItem
@@ -33,12 +33,12 @@ class HarmoniNodeTaggedItem
 	 * @access public
 	 * @since 11/2/06
 	 */
-	function &forId ( $id, $system, $class='HarmoniNodeTaggedItem' ) {
+	function forId ( $id, $system, $class='HarmoniNodeTaggedItem' ) {
 		if (is_string($id)) {
-			$idManager =& Services::getService("Id");
-			$id =& $idManager->getId($id);
+			$idManager = Services::getService("Id");
+			$id =$idManager->getId($id);
 		}
-		$item =& TaggedItem::forId($id, $system, $class);
+		$item = TaggedItem::forId($id, $system, $class);
 		return $item;
 	}
 	
@@ -66,7 +66,7 @@ class HarmoniNodeTaggedItem
 	 * @since 11/3/06
 	 */
 	function getDisplayName () {
-		$node =& $this->getNode();
+		$node =$this->getNode();
 		return $node->getDisplayName();
 	}
 	
@@ -78,7 +78,7 @@ class HarmoniNodeTaggedItem
 	 * @since 11/3/06
 	 */
 	function getDescription () {
-		$node =& $this->getNode();
+		$node =$this->getNode();
 		return $node->getDescription();
 	}
 	
@@ -109,7 +109,7 @@ class HarmoniNodeTaggedItem
 	 */
 	function _loadConfiguration () {
 		if (!isset($this->_config)) {
-			$taggingManager =& Services::getService("Tagging");
+			$taggingManager = Services::getService("Tagging");
 			$this->_config = $taggingManager->getConfigurationForSystem($this->getSystem());
 		
 			// check for our parameters.
@@ -127,15 +127,15 @@ class HarmoniNodeTaggedItem
 	 * @access public
 	 * @since 11/6/06
 	 */
-	function &getNode () {
+	function getNode () {
 		if (!isset($this->_node)) {
 			$this->_loadConfiguration();
-			$hierarchyManager =& Services::getService("Hierarchy");
-			$idManager =& Services::getService("Id");
-			$hierarchy =& $hierarchyManager->getHierarchy(
+			$hierarchyManager = Services::getService("Hierarchy");
+			$idManager = Services::getService("Id");
+			$hierarchy =$hierarchyManager->getHierarchy(
 								$idManager->getId($this->_config['HierarchyId']));
 			$id = $this->getId();
-			$this->_node =& $hierarchy->getNode($id);
+			$this->_node =$hierarchy->getNode($id);
 		}
 		
 		return $this->_node;

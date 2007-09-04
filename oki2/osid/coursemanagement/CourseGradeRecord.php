@@ -39,7 +39,7 @@ class CourseGradeRecord
      * 
      * @access public
      */
-    function updateCourseGrade ( &$courseGrade ) { 
+    function updateCourseGrade ( $courseGrade ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -89,7 +89,7 @@ class CourseGradeRecord
      * 
      * @access public
      */
-    function &getCourseGrade () { 
+    function getCourseGrade () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -137,7 +137,7 @@ class CourseGradeRecord
      * 
      * @access public
      */
-    function &getId () { 
+    function getId () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -161,7 +161,7 @@ class CourseGradeRecord
      * 
      * @access public
      */
-    function &getStudent () { 
+    function getStudent () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -187,7 +187,7 @@ class CourseGradeRecord
      * 
      * @access public
      */
-    function &getCourseGradeType () { 
+    function getCourseGradeType () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -211,7 +211,7 @@ class CourseGradeRecord
      * 
      * @access public
      */
-    function &getCourseOffering () { 
+    function getCourseOffering () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 }

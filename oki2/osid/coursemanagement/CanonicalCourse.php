@@ -273,7 +273,7 @@ class CanonicalCourse
      * 
      * @access public
      */
-    function &getId () { 
+    function getId () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -299,7 +299,7 @@ class CanonicalCourse
      * 
      * @access public
      */
-    function &getCourseType () { 
+    function getCourseType () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -347,7 +347,7 @@ class CanonicalCourse
      * 
      * @access public
      */
-    function &getStatus () { 
+    function getStatus () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -371,7 +371,7 @@ class CanonicalCourse
      * 
      * @access public
      */
-    function &getPropertyTypes () { 
+    function getPropertyTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -395,7 +395,7 @@ class CanonicalCourse
      * 
      * @access public
      */
-    function &getProperties () { 
+    function getProperties () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -430,7 +430,7 @@ class CanonicalCourse
      * 
      * @access public
      */
-    function &createCanonicalCourse ( $title, $number, $description, &$courseType, &$courseStatusType, $credits ) { 
+    function createCanonicalCourse ( $title, $number, $description, $courseType, $courseStatusType, $credits ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -454,7 +454,7 @@ class CanonicalCourse
      * 
      * @access public
      */
-    function &getCanonicalCourses () { 
+    function getCanonicalCourses () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -484,7 +484,7 @@ class CanonicalCourse
      * 
      * @access public
      */
-    function &getCanonicalCoursesByType ( &$courseType ) { 
+    function getCanonicalCoursesByType ( $courseType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -520,7 +520,7 @@ class CanonicalCourse
      * 
      * @access public
      */
-    function &createCourseOffering ( $title, $number, $description, &$termId, &$offeringType, &$offeringStatusType, &$courseGradeType ) { 
+    function createCourseOffering ( $title, $number, $description, $termId, $offeringType, $offeringStatusType, $courseGradeType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -548,7 +548,7 @@ class CanonicalCourse
      * 
      * @access public
      */
-    function deleteCourseOffering ( &$courseOfferingId ) { 
+    function deleteCourseOffering ( $courseOfferingId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -572,7 +572,7 @@ class CanonicalCourse
      * 
      * @access public
      */
-    function &getCourseOfferings () { 
+    function getCourseOfferings () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -602,7 +602,7 @@ class CanonicalCourse
      * 
      * @access public
      */
-    function &getCourseOfferingsByType ( &$offeringType ) { 
+    function getCourseOfferingsByType ( $offeringType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -635,7 +635,7 @@ class CanonicalCourse
      * 
      * @access public
      */
-    function addEquivalentCourse ( &$canonicalCourseId ) { 
+    function addEquivalentCourse ( $canonicalCourseId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -663,7 +663,7 @@ class CanonicalCourse
      * 
      * @access public
      */
-    function removeEquivalentCourse ( &$canonicalCourseId ) { 
+    function removeEquivalentCourse ( $canonicalCourseId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -687,7 +687,7 @@ class CanonicalCourse
      * 
      * @access public
      */
-    function &getEquivalentCourses () { 
+    function getEquivalentCourses () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -765,7 +765,7 @@ class CanonicalCourse
      * 
      * @access public
      */
-    function &getTopics () { 
+    function getTopics () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -793,7 +793,7 @@ class CanonicalCourse
      * 
      * @access public
      */
-    function updateStatus ( &$statusType ) { 
+    function updateStatus ( $statusType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -823,7 +823,7 @@ class CanonicalCourse
      * 
      * @access public
      */
-    function &getPropertiesByType ( &$propertiesType ) { 
+    function getPropertiesByType ( $propertiesType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 }

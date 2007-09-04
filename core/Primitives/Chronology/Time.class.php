@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Time.class.php,v 1.6 2007/01/08 21:02:55 adamfranco Exp $
+ * @version $Id: Time.class.php,v 1.7 2007/09/04 20:25:25 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -41,7 +41,7 @@ require_once(dirname(__FILE__)."/Year.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Time.class.php,v 1.6 2007/01/08 21:02:55 adamfranco Exp $
+ * @version $Id: Time.class.php,v 1.7 2007/09/04 20:25:25 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -76,8 +76,8 @@ class Time
 	 * @access public
 	 * @since 5/24/05
 	 */
-	function &fromString ( $aString, $class = 'Time' ) {
-		$parser =& StringParser::getParserFor($aString);
+	function fromString ( $aString, $class = 'Time' ) {
+		$parser = StringParser::getParserFor($aString);
 		
 		if (!is_string($aString) || !preg_match('/[^\W]/', $aString) || !$parser) {
  			$null = null;
@@ -85,7 +85,7 @@ class Time
 			// die("'".$aString."' is not in a valid format.");
 		}
 		
-		eval('$result =& '.$class.'::withHourMinuteSecond($parser->hour(),
+		eval('$result = '.$class.'::withHourMinuteSecond($parser->hour(),
 						$parser->minute(), $parser->second(), $class);');
 		return $result;
 	}
@@ -101,8 +101,8 @@ class Time
 	 * @access public
 	 * @since 5/25/05
 	 */
-	function &midnight ( $class = 'Time' ) {
-		eval('$result =& '.$class.'::withSeconds(0, $class);');
+	function midnight ( $class = 'Time' ) {
+		eval('$result = '.$class.'::withSeconds(0, $class);');
 		return $result;
 	}
 	
@@ -117,8 +117,8 @@ class Time
 	 * @access public
 	 * @since 5/25/05
 	 */
-	function &noon ( $class = 'Time' ) {
-		eval('$result =& '.$class.'::withHourMinuteSecond(12, 0, 0, $class);');
+	function noon ( $class = 'Time' ) {
+		eval('$result = '.$class.'::withHourMinuteSecond(12, 0, 0, $class);');
 		return $result;
 	}
 	
@@ -137,9 +137,9 @@ class Time
  	 * @static
 	 * @since 5/4/05
 	 */
-	function &withHourMinuteSecond ($anIntHour, $anIntMinute, $anIntSecond, $class = 'Time' ) 
+	function withHourMinuteSecond ($anIntHour, $anIntMinute, $anIntSecond, $class = 'Time' ) 
 	{
-		eval('$result =& '.$class.'::withSeconds(
+		eval('$result = '.$class.'::withSeconds(
 							  ($anIntHour * ChronologyConstants::SecondsInHour())
 							+ ($anIntMinute * ChronologyConstants::SecondsInMinute())
 							+ $anIntSecond, $class);');
@@ -158,9 +158,9 @@ class Time
 	 * @access public
 	 * @since 5/5/05
 	 */
-	function &withSeconds ( $anIntSeconds, $class = 'Time' ) {
+	function withSeconds ( $anIntSeconds, $class = 'Time' ) {
 		// Lop off any seconds beyond those in a day
-		$duration =& Duration::withSeconds($anIntSeconds);
+		$duration = Duration::withSeconds($anIntSeconds);
 		$ticks = $duration->ticks();
 		$seconds = $ticks[1];
 		
@@ -219,8 +219,8 @@ class Time
 	 * @access public
 	 * @since 5/5/05
 	 */
-	function &duration () {
-		$obj =& Duration::zero();
+	function duration () {
+		$obj = Duration::zero();
 		return $obj;
 	}
 	
@@ -258,7 +258,7 @@ class Time
 	 * @since 5/3/05
 	 */
 	function hour24 () {
-		$duration =& $this->asDuration();
+		$duration =$this->asDuration();
 		return $duration->hours();
 	}
 		
@@ -284,7 +284,7 @@ class Time
 	 * @since 5/3/05
 	 */
 	function minute () {
-		$asDuration =& $this->asDuration();
+		$asDuration =$this->asDuration();
 		return $asDuration->minutes();
 	}
 	
@@ -361,7 +361,7 @@ class Time
 	 * @since 5/3/05
 	 */
 	function second () {
-		$asDuration =& $this->asDuration();
+		$asDuration =$this->asDuration();
 		return $asDuration->seconds();
 	}
 	
@@ -377,7 +377,7 @@ class Time
 	 * @access public
 	 * @since 5/3/05
 	 */
-	function isEqualTo ( &$comparand ) {
+	function isEqualTo ( $comparand ) {
 		if ($this === $comparand)
 			return TRUE;
 
@@ -403,8 +403,8 @@ class Time
 	 * @access public
 	 * @since 5/3/05
 	 */
-	function isLessThan ( &$comparand ) {
-		$myDuration =& $this->asDuration();
+	function isLessThan ( $comparand ) {
+		$myDuration =$this->asDuration();
 		return $myDuration->isLessThan($comparand->asDuration());
 	}
 	
@@ -421,8 +421,8 @@ class Time
  	 * @access public
  	 * @since 5/25/05
  	 */
- 	function &addSeconds ( $anInteger ) {
- 		eval('$result =& '.get_class($this).'::withSeconds(
+ 	function addSeconds ( $anInteger ) {
+ 		eval('$result = '.get_class($this).'::withSeconds(
  				$this->asSeconds() + $anInteger);');
  		return $result;
  	}
@@ -436,8 +436,8 @@ class Time
  	 * @access public
  	 * @since 5/25/05
  	 */
- 	function &addTime ( $timeAmount ) {
- 		eval('$result =& '.get_class($this).'::withSeconds(
+ 	function addTime ( $timeAmount ) {
+ 		eval('$result = '.get_class($this).'::withSeconds(
  				$this->asSeconds() + $timeAmount->asSeconds());');
  		return $result;
  	}
@@ -451,8 +451,8 @@ class Time
  	 * @access public
  	 * @since 5/25/05
  	 */
- 	function &subtractTime ( $timeAmount ) {
- 		eval('$result =& '.get_class($this).'::withSeconds(
+ 	function subtractTime ( $timeAmount ) {
+ 		eval('$result = '.get_class($this).'::withSeconds(
  				$this->asSeconds() - $timeAmount->asSeconds());');
  		return $result;
  	}
@@ -469,8 +469,8 @@ class Time
 	 * @access public
 	 * @since 5/5/05
 	 */
-	function &asDate () {
-		$obj =& Date::today();
+	function asDate () {
+		$obj = Date::today();
 		return $obj;
 	}
 	
@@ -481,9 +481,9 @@ class Time
 	 * @access public
 	 * @since 5/4/05
 	 */
-	function &asDateAndTime () {
-		$dateAndTime =& DateAndTime::today();
-		$obj =& $dateAndTime->plus($this);
+	function asDateAndTime () {
+		$dateAndTime = DateAndTime::today();
+		$obj =$dateAndTime->plus($this);
 		return $obj;
 	}
 	
@@ -495,8 +495,8 @@ class Time
 	 * @access public
 	 * @since 5/4/05
 	 */
-	function &asDuration () {
-		$obj =& Duration::withSeconds($this->seconds);
+	function asDuration () {
+		$obj = Duration::withSeconds($this->seconds);
 		return $obj;
 	}
 	
@@ -507,9 +507,9 @@ class Time
 	 * @access public
 	 * @since 5/5/05
 	 */
-	function &asMonth () {
-		$asDateAndTime =& $this->asDateAndTime();
-		$obj =& $asDateAndTime->asMonth();
+	function asMonth () {
+		$asDateAndTime =$this->asDateAndTime();
+		$obj =$asDateAndTime->asMonth();
 		return $obj;
 	}
 	
@@ -531,7 +531,7 @@ class Time
 	 * @access public
 	 * @since 5/5/05
 	 */
-	function &asTime () {
+	function asTime () {
 		return $this;
 	}
 	
@@ -542,9 +542,9 @@ class Time
 	 * @access public
 	 * @since 5/5/05
 	 */
-	function &asTimeStamp () {
-		$asDateAndTime =& $this->asDateAndTime();
-		$obj =& $asDateAndTime->asTimeStamp();
+	function asTimeStamp () {
+		$asDateAndTime =$this->asDateAndTime();
+		$obj =$asDateAndTime->asTimeStamp();
 		return $obj;
 	}
 	
@@ -555,9 +555,9 @@ class Time
 	 * @access public
 	 * @since 5/5/05
 	 */
-	function &asWeek () {
-		$asDateAndTime =& $this->asDateAndTime();
-		$obj =& $asDateAndTime->asWeek();
+	function asWeek () {
+		$asDateAndTime =$this->asDateAndTime();
+		$obj =$asDateAndTime->asWeek();
 		return $obj;
 	}
 	
@@ -568,9 +568,9 @@ class Time
 	 * @access public
 	 * @since 5/5/05
 	 */
-	function &asYear () {
-		$asDateAndTime =& $this->asDateAndTime();
-		$obj =& $asDateAndTime->asYear();
+	function asYear () {
+		$asDateAndTime =$this->asDateAndTime();
+		$obj =$asDateAndTime->asYear();
 		return $obj;
 	}
 	
@@ -582,9 +582,9 @@ class Time
 	 * @access public
 	 * @since 5/25/05
 	 */
-	function &to ( &$anEnd ) {
-		$asDateAndTime =& $this->asDateAndTime();
-		$obj =& $asDateAndTime->to($anEnd);
+	function to ( $anEnd ) {
+		$asDateAndTime =$this->asDateAndTime();
+		$obj =$asDateAndTime->to($anEnd);
 		return $obj;
 	}
 }

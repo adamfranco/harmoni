@@ -10,7 +10,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/ValidatorRule.interface.
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ArrayValidatorRuleWithRule.class.php,v 1.4 2005/06/01 17:58:58 gabeschine Exp $
+ * @version $Id: ArrayValidatorRuleWithRule.class.php,v 1.5 2007/09/04 20:25:55 adamfranco Exp $
  */ 
 class ArrayValidatorRuleWithRule
 	extends ValidatorRuleInterface
@@ -30,8 +30,8 @@ class ArrayValidatorRuleWithRule
 	 * @access public
 	 * @return void 
 	 **/
-	function ArrayValidatorRuleWithRule( & $rule ) {
-		$this->_rule = & $rule;
+	function ArrayValidatorRuleWithRule( $rule ) {
+		$this->_rule =  $rule;
 	}
 	
 	
@@ -41,7 +41,7 @@ class ArrayValidatorRuleWithRule
 	 * @access public
 	 * @return boolean true if the check succeeds, false if it (guess...) fails.
 	 **/
-	function check( & $val ) {
+	function check( $val ) {
 		if (!is_array($val)) return false;
 		
 		// now apply the _rule to each value
@@ -65,7 +65,7 @@ class ArrayValidatorRuleWithRule
 	 * @static
 	 * @since 3/28/05
 	 */
-	function &getRule (&$rule) {		
+	function getRule ($rule) {		
 		// Because there is no way in PHP to get the class name of the descendent
 		// class on which this method is called, this method must be implemented
 		// in each descendent class.
@@ -77,7 +77,7 @@ class ArrayValidatorRuleWithRule
 		$ruleKey = $class."(".$rule->getRuleKey().")";
 		
 		if (!isset($GLOBALS['validator_rules'][$ruleKey]))
-			$GLOBALS['validator_rules'][$ruleKey] =& new $class($rule);
+			$GLOBALS['validator_rules'][$ruleKey] = new $class($rule);
 		
 		return $GLOBALS['validator_rules'][$ruleKey];
 	}

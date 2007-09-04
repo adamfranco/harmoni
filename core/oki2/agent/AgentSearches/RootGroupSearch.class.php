@@ -11,7 +11,7 @@ require_once(dirname(__FILE__)."/AgentSearch.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RootGroupSearch.class.php,v 1.2 2006/12/12 17:18:15 adamfranco Exp $
+ * @version $Id: RootGroupSearch.class.php,v 1.3 2007/09/04 20:25:36 adamfranco Exp $
  */
 
 class RootGroupSearch
@@ -31,8 +31,8 @@ class RootGroupSearch
 	 * @access public
 	 * @since 12/1/04
 	 */
-	function RootGroupSearch ( &$hierarchy) {
-		$this->_hierarchy =& $hierarchy;
+	function RootGroupSearch ( $hierarchy) {
+		$this->_hierarchy =$hierarchy;
 	}
 	
 	
@@ -48,10 +48,10 @@ class RootGroupSearch
 	 * @access public
 	 * @since 11/10/04
 	 */
-	function &getAgentsBySearch ( & $searchCriteria) {
+	function getAgentsBySearch ( $searchCriteria) {
 		$agents = array();
 		
-		$obj =& new HarmoniIterator($agents);
+		$obj = new HarmoniIterator($agents);
 		
 		return $obj;
 	}
@@ -67,65 +67,65 @@ class RootGroupSearch
 	 * @access public
 	 * @since 11/10/04
 	 */
-	function &getGroupsBySearch ( & $searchCriteria) {
+	function getGroupsBySearch ( $searchCriteria) {
 		ArgumentValidator::validate($searchCriteria, AlwaysTrueValidatorRule::getRule());
 		
-		$agentManager =& Services::getService("Agent");
-		$idManager =& Services::getService("Id");
-		$everyoneId =& $idManager->getId("edu.middlebury.agents.everyone");
-		$usersId =& $idManager->getId("edu.middlebury.agents.users");
-		$allGroupsId =& $idManager->getId("edu.middlebury.agents.all_groups");
+		$agentManager = Services::getService("Agent");
+		$idManager = Services::getService("Id");
+		$everyoneId =$idManager->getId("edu.middlebury.agents.everyone");
+		$usersId =$idManager->getId("edu.middlebury.agents.users");
+		$allGroupsId =$idManager->getId("edu.middlebury.agents.all_groups");
 
 		$groupIds = array();
-		$groupIds[$everyoneId->getIdString()] =& $everyoneId;
-		$groupIds[$usersId->getIdString()] =& $usersId;
+		$groupIds[$everyoneId->getIdString()] =$everyoneId;
+		$groupIds[$usersId->getIdString()] =$usersId;
 		
 	// :: Load Groups from the Hierarchy
-		$allGroups =& $this->_hierarchy->getNode($allGroupsId);
-		$allGroupNodes =& $allGroups->getChildren();
+		$allGroups =$this->_hierarchy->getNode($allGroupsId);
+		$allGroupNodes =$allGroups->getChildren();
 		$childGroups = array();
 		while ($allGroupNodes->hasNext()) {
-			$node =& $allGroupNodes->next();
-			$nodeId =& $node->getId();
+			$node =$allGroupNodes->next();
+			$nodeId =$node->getId();
 			
 			$isRoot = TRUE;
-			$parents =& $node->getParents();
+			$parents =$node->getParents();
 			while ($parents->hasNext()) {
-				$parent =& $parents->next();
+				$parent =$parents->next();
 				if (!$allGroupsId->isEqual($parent->getId())) {
 					$isRoot = FALSE;
 					break;
 				}
 			}
 			if ($isRoot)
-				$groupIds[$nodeId->getIdString()] =& $nodeId;
+				$groupIds[$nodeId->getIdString()] =$nodeId;
 		}
 			
 	// :: Build Group Objects
 	// now create an array of the group objects to add to the iterator.
 		$groups = array();
 		foreach ($groupIds as $groupId) {
-			$groups[] =& $agentManager->getGroup($groupId);
+			$groups[] =$agentManager->getGroup($groupId);
 		}
 		
 	
 	// :: Add External Groups
-		$authNMethodManager =& Services::getService("AuthNMethodManager");
-		$types =& $authNMethodManager->getAuthNTypes();
+		$authNMethodManager = Services::getService("AuthNMethodManager");
+		$types =$authNMethodManager->getAuthNTypes();
 		while ($types->hasNext()) {
-			$type =& $types->next();
-			$authNMethod =& $authNMethodManager->getAuthNMethodForType($type);
+			$type =$types->next();
+			$authNMethod =$authNMethodManager->getAuthNMethodForType($type);
 			
 			if ($authNMethod->supportsDirectory()) {
-				$groupIterator =& $authNMethod->getRootGroups();
+				$groupIterator =$authNMethod->getRootGroups();
 				while ($groupIterator->hasNext()) {
-					$groups[] =& $groupIterator->next();
+					$groups[] =$groupIterator->next();
 				}
 			}
 		}
 		
 	// :: Return our iterator
-		$iterator =& new HarmoniIterator($groups);
+		$iterator = new HarmoniIterator($groups);
 		return $iterator;
 	}
 }

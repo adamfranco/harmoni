@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreComprehensiveTestCase.class.php,v 1.6 2005/08/17 19:46:59 adamfranco Exp $
+ * @version $Id: PostGreComprehensiveTestCase.class.php,v 1.7 2007/09/04 20:25:21 adamfranco Exp $
  */
     require_once(HARMONI.'DBHandler/PostGre/PostGreDatabase.class.php');
 
@@ -19,7 +19,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreComprehensiveTestCase.class.php,v 1.6 2005/08/17 19:46:59 adamfranco Exp $
+ * @version $Id: PostGreComprehensiveTestCase.class.php,v 1.7 2007/09/04 20:25:21 adamfranco Exp $
  */
 
     class PostGreComprehensiveTestCase extends UnitTestCase {
@@ -37,7 +37,7 @@
          */
         function setUp() {
 			// perhaps, initialize $obj here
-			$this->db =& new PostGreDatabase("localhost", "harmoniTest", "test", "test");
+			$this->db = new PostGreDatabase("localhost", "harmoniTest", "test", "test");
 			$this->db->connect();
         }
 		
@@ -55,13 +55,13 @@
 		 */ 
         function test() {
 			// insert one row
-			$query =& new InsertQuery();
+			$query = new InsertQuery();
 			$query->setTable("test1");
 			$query->setColumns(array("value"));
 			$query->addRowOfValues(array("'Spaceboy'"));
 			$query->setAutoIncrementColumn("id", "test1_id_seq");
 
-			$result =& $this->db->query($query);
+			$result =$this->db->query($query);
 			
 			$this->assertIdentical($result->getNumberOfRows(), 1);
 
@@ -69,7 +69,7 @@
 			
 			// insert it again, the id must have increased by one
 
-			$result =& $this->db->query($query);
+			$result =$this->db->query($query);
 			
 			$this->assertIdentical($result->getNumberOfRows(), 1);
 			$this->assertIdentical($result->getLastAutoIncrementValue(), $lastId + 1);
@@ -77,12 +77,12 @@
 			// add several rows at the same time
 			$query->addRowOfValues(array("'Astrogirl'"));
 
-			$result =& $this->db->query($query);
+			$result =$this->db->query($query);
 			
 			$this->assertIdentical($result->getLastAutoIncrementValue(), $lastId + 3);
 			
 			// now insert in the other test table
-			$query =& new InsertQuery();
+			$query = new InsertQuery();
 			$query->setTable("test");
 			$query->setColumns(array("fk", "value"));
 			$query->addRowOfValues(array($lastId, "'Ziggy'"));
@@ -90,10 +90,10 @@
 			$query->addRowOfValues(array($lastId + 2, "'Headstar'"));
 			$query->addRowOfValues(array($lastId + 3, "'Stardust'"));
 			$query->setAutoIncrementColumn("id", "test1_id_seq");
-			$result =& $this->db->query($query);
+			$result =$this->db->query($query);
 			
 			// join the inserted rows
-			$query =& new SelectQuery();
+			$query = new SelectQuery();
 			$query->addTable("test1");
 			$query->addTable("test", INNER_JOIN, "test.fk = test1.id");
 			$query->addColumn("id", "dm86_id", "test");
@@ -102,7 +102,7 @@
 			$query->addColumn("id", "dm98_id", "test1");
 			$query->addColumn("value", "dm98_value", "test1");
 			$query->addWhere("test1.id >= ".$lastId);
-			$result =& $this->db->query($query);
+			$result =$this->db->query($query);
 			
 			$this->assertIdentical($result->getNumberOfRows(), 4);
 
@@ -131,37 +131,37 @@
 			
 			$result->free();
 			
-			$query =& new UpdateQuery();
+			$query = new UpdateQuery();
 			$query->setTable("test1");
 			$query->setColumns(array("value"));
 			$query->setValues(array("'I changed you MF!'"));
 			$query->addWhere("id = ".$lastId);
-			$result =& $this->db->query($query);
+			$result =$this->db->query($query);
 			
 			$this->assertIdentical($result->getNumberOfRows(), 1);
 			
-			$query =& new SelectQuery();
+			$query = new SelectQuery();
 			$query->addTable("test1");
 			$query->addColumn("value");
 			$query->addWhere("test1.id = ".$lastId);
-			$result =& $this->db->query($query);
+			$result =$this->db->query($query);
 			$this->assertIdentical($result->getNumberOfRows(), 1);
 			$this->assertIdentical($result->field("value"), "I changed you MF!");
 			
 			$result->free();
 			
-			$query =& new DeleteQuery();
+			$query = new DeleteQuery();
 			$query->setTable("test1");
 			$query->addWhere("id = ".$lastId);
-			$result =& $this->db->query($query);
+			$result =$this->db->query($query);
 			
 			$this->assertIdentical($result->getNumberOfRows(), 1);
 			
-			$query =& new SelectQuery();
+			$query = new SelectQuery();
 			$query->addTable("test1");
 			$query->addColumn("value");
 			$query->addWhere("test1.id = ".$lastId);
-			$result =& $this->db->query($query);
+			$result =$this->db->query($query);
 			$this->assertIdentical($result->getNumberOfRows(), 0);
 
 			$result->free();

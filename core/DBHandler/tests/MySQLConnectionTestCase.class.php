@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQLConnectionTestCase.class.php,v 1.1 2005/08/17 23:17:13 adamfranco Exp $
+ * @version $Id: MySQLConnectionTestCase.class.php,v 1.2 2007/09/04 20:25:20 adamfranco Exp $
  */
     require_once(HARMONI.'DBHandler/MySQL/MySQLDatabase.class.php');
 
@@ -19,7 +19,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQLConnectionTestCase.class.php,v 1.1 2005/08/17 23:17:13 adamfranco Exp $
+ * @version $Id: MySQLConnectionTestCase.class.php,v 1.2 2007/09/04 20:25:20 adamfranco Exp $
  */
 
 class MySQLConnectionTestCase extends UnitTestCase {
@@ -34,8 +34,8 @@ class MySQLConnectionTestCase extends UnitTestCase {
          */
         function setUp() {
 			// perhaps, initialize $obj here
-			$this->databaseA =& new MySQLDatabase("localhost", "test", "test", "test");
-			$this->databaseB =& new MySQLDatabase("localhost", "testB", "test", "test");
+			$this->databaseA = new MySQLDatabase("localhost", "test", "test", "test");
+			$this->databaseB = new MySQLDatabase("localhost", "testB", "test", "test");
 			
 			$this->tablesA = array (
 					'courses',

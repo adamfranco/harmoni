@@ -10,7 +10,7 @@ require_once(HARMONI."dataManager/record/RecordSet.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableRecordSet.class.php,v 1.11 2007/04/12 15:37:25 adamfranco Exp $
+ * @version $Id: StorableRecordSet.class.php,v 1.12 2007/09/04 20:25:32 adamfranco Exp $
  */
 class StorableRecordSet extends RecordSet {
 	
@@ -34,9 +34,9 @@ class StorableRecordSet extends RecordSet {
 	 * @param ref array $row
 	 * @return void
 	 */
-	 function takeRow(&$row) {
+	 function takeRow($row) {
 	 	if (in_array($row["fk_record"], $this->_fetchedIDs)) return;
-	 	$recordManager =& Services::getService("RecordManager");
+	 	$recordManager = Services::getService("RecordManager");
 	 	$this->_storedRecordIDs[] = $row["fk_record"];
 	 }
 
@@ -48,14 +48,14 @@ class StorableRecordSet extends RecordSet {
 	 * @return void
 	 */
 	function loadRecords($mode=RECORD_CURRENT, $limitResults = null) {
-	 	$recordManager =& Services::getService("RecordManager");
-	 	$records =& $recordManager->fetchRecords($this->getRecordIDs(), $mode, $limitResults);
+	 	$recordManager = Services::getService("RecordManager");
+	 	$records =$recordManager->fetchRecords($this->getRecordIDs(), $mode, $limitResults);
 	 	// Cycle through the resulting records to put them in an indexed array
 	 	if (!is_array($this->_records)) $this->_records = array();
 	 	foreach (array_keys($records) as $key) {
 	 		$id = $records[$key]->getID();
 //	 		if (in_array($id, $this->_fetchedIDs)) continue;
-	 		if ($this->getRecordByID($id)==null) $this->_records[] =& $records[$key];
+	 		if ($this->getRecordByID($id)==null) $this->_records[] =$records[$key];
 	 		if (!in_array($id, $this->_fetchedIDs)) $this->_fetchedIDs[] = $id;
 	 	}
 
@@ -86,7 +86,7 @@ class StorableRecordSet extends RecordSet {
 	 * @access public
 	 * @return void
 	 */
-	function removeRecord(&$record)
+	function removeRecord($record)
 	{
 		$id = $record->getID();
 		parent::removeRecord($record);
@@ -135,9 +135,9 @@ class StorableRecordSet extends RecordSet {
 			// Make sure that we only have one ID for each record.
 			$ids = array_unique($ids);
 
-			$dbHandler =& Services::getService("DatabaseManager");
+			$dbHandler = Services::getService("DatabaseManager");
 			// first delete all the old mappings
-			$query =& new DeleteQuery;
+			$query = new DeleteQuery;
 			$query->setTable("dm_record_set");
 			$query->setWhere("dm_record_set.id='".addslashes($this->_myID)."'");
 //			printpre(MySQL_SQLGenerator::generateSQLQuery($query));
@@ -145,7 +145,7 @@ class StorableRecordSet extends RecordSet {
 			
 			if (count($ids)) {
 				// next insert all our mappings back in.
-				$query =& new InsertQuery;
+				$query = new InsertQuery;
 				$query->setTable("dm_record_set");
 				$query->setColumns(array("id","fk_record"));
 				foreach ($ids as $id) {
@@ -169,8 +169,8 @@ class StorableRecordSet extends RecordSet {
 		ArgumentValidator::validate($id, IntegerValidatorRule::getRule());
 		$this->_dirty = true;
 		
-		$recordManager =& Services::getService("RecordManager");
-		$this->_records[] =& $recordManager->fetchRecord( $id );
+		$recordManager = Services::getService("RecordManager");
+		$this->_records[] =$recordManager->fetchRecord( $id );
 		$this->_storedRecordIDs[] = $id;
 	}
 	
@@ -182,7 +182,7 @@ class StorableRecordSet extends RecordSet {
 	 */
 	function removeRecordByID($id)
 	{
-		$record =& $this->getRecordByID($id);
+		$record =$this->getRecordByID($id);
 		if ($record) $this->removeRecord($record);
 	}
 	
@@ -192,17 +192,17 @@ class StorableRecordSet extends RecordSet {
 	 * @access public
 	 * @return ref object
 	 */
-	function &getRecordByID($id)
+	function getRecordByID($id)
 	{
 		for ($i = 0; $i < count($this->_records); $i++) {
 			if ($this->_records[$i]->getID() == $id) return $this->_records[$i];
 		}
 		
 		if (in_array($id, $this->_storedRecordIDs)) {
-			$mgr =& Services::getService("RecordManager");
-			$record =& $mgr->fetchRecord($id);
+			$mgr = Services::getService("RecordManager");
+			$record =$mgr->fetchRecord($id);
 			$this->_fetchedIDs[] = $id;
-			$this->_records[] =& $record;
+			$this->_records[] =$record;
 			return $record;
 		}
 		
@@ -215,7 +215,7 @@ class StorableRecordSet extends RecordSet {
 	 * @access public
 	 * @return boolean
 	 */
-	function revertToDate(&$date)
+	function revertToDate($date)
 	{
 		$this->loadRecords(RECORD_FULL);
 		

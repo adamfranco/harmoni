@@ -35,7 +35,7 @@ class Entry
      * 
      * @access public
      */
-    function &getItem () { 
+    function getItem () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -57,7 +57,7 @@ class Entry
      * 
      * @access public
      */
-    function &getFormatType () { 
+    function getFormatType () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -79,7 +79,7 @@ class Entry
      * 
      * @access public
      */
-    function &getPriorityType () { 
+    function getPriorityType () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 

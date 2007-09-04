@@ -37,7 +37,7 @@ class Node
      * 
      * @access public
      */
-    function &getId () { 
+    function getId () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -107,7 +107,7 @@ class Node
      * 
      * @access public
      */
-    function &getParents () { 
+    function getParents () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -131,7 +131,7 @@ class Node
      * 
      * @access public
      */
-    function &getChildren () { 
+    function getChildren () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -154,7 +154,7 @@ class Node
      * 
      * @access public
      */
-    function &getType () { 
+    function getType () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -285,7 +285,7 @@ class Node
      * 
      * @access public
      */
-    function addParent ( &$nodeId ) { 
+    function addParent ( $nodeId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -316,7 +316,7 @@ class Node
      * 
      * @access public
      */
-    function removeParent ( &$parentId ) { 
+    function removeParent ( $parentId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -347,7 +347,7 @@ class Node
      * 
      * @access public
      */
-    function changeParent ( &$oldParentId, &$newParentId ) { 
+    function changeParent ( $oldParentId, $newParentId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 }

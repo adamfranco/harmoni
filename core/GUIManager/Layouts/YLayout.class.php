@@ -17,7 +17,7 @@ require_once(HARMONI."GUIManager/StyleProperties/BorderSP.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: YLayout.class.php,v 1.11 2007/09/04 16:11:14 achapin Exp $
+ * @version $Id: YLayout.class.php,v 1.12 2007/09/04 20:25:22 adamfranco Exp $
  */
 class YLayout extends LayoutInterface {
 
@@ -73,17 +73,17 @@ class YLayout extends LayoutInterface {
 	 * prepended to each text line. This argument is optional but its usage is highly 
 	 * recommended in order to produce a nicely formatted HTML output.
 	 **/
-	function render(& $container, & $theme, $tabs = "") {
+	function render($container, $theme, $tabs = "") {
 		// Get the components
 		// render the component in separate table cell
-		$components =& $container->getComponents();
+		$components =$container->getComponents();
 		if (ereg('Bottom-Top', $this->_renderDirection))
 			$keys = array_reverse(array_keys($components));
 		else
 			$keys = array_keys($components);
 		
 		foreach ($keys as $key) {
-			$component =& $components[$key];
+			$component =$components[$key];
 			
 			if (!is_object($component)) {
 				throw new Exception("Invalid component");	

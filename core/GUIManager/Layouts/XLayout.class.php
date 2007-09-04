@@ -17,7 +17,7 @@ require_once(HARMONI."GUIManager/StyleProperties/BorderSP.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: XLayout.class.php,v 1.8 2006/11/30 22:02:02 adamfranco Exp $
+ * @version $Id: XLayout.class.php,v 1.9 2007/09/04 20:25:22 adamfranco Exp $
  */
 class XLayout extends LayoutInterface {
 
@@ -73,20 +73,20 @@ class XLayout extends LayoutInterface {
 	 * prepended to each text line. This argument is optional but its usage is highly 
 	 * recommended in order to produce a nicely formatted HTML output.
 	 **/
-	function render(& $container, & $theme, $tabs = "") {
+	function render($container, $theme, $tabs = "") {
 		// print html for container (a table)
 		echo $tabs."<table width=\"100%\" border=\"0\" cellpadding=\"0px\" cellspacing=\"0px\">\n";
 		echo $tabs."\t<tr>\n";
 		
 		// Get the components
-		$components =& $container->getComponents();
+		$components =$container->getComponents();
 		if (ereg('Right-Left', $this->_renderDirection))
 			$keys = array_reverse(array_keys($components));
 		else
 			$keys = array_keys($components);
 		
 		foreach ($keys as $key) {
-			$component =& $components[$key];
+			$component =$components[$key];
 			
 			// width and height of the component
 			$width = $height = "";

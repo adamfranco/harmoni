@@ -100,7 +100,7 @@ class Hierarchy
      * 
      * @access public
      */
-    function &getId () { 
+    function getId () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -228,7 +228,7 @@ class Hierarchy
      * 
      * @access public
      */
-    function &createRootNode ( &$nodeId, &$nodeType, $displayName, $description ) { 
+    function createRootNode ( $nodeId, $nodeType, $displayName, $description ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -264,7 +264,7 @@ class Hierarchy
      * 
      * @access public
      */
-    function &createNode ( &$nodeId, &$parentId, &$type, $displayName, $description ) { 
+    function createNode ( $nodeId, $parentId, $type, $displayName, $description ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -293,7 +293,7 @@ class Hierarchy
      * 
      * @access public
      */
-    function deleteNode ( &$nodeId ) { 
+    function deleteNode ( $nodeId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -320,7 +320,7 @@ class Hierarchy
      * 
      * @access public
      */
-    function addNodeType ( &$type ) { 
+    function addNodeType ( $type ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -350,7 +350,7 @@ class Hierarchy
      * 
      * @access public
      */
-    function removeNodeType ( &$type ) { 
+    function removeNodeType ( $type ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -373,7 +373,7 @@ class Hierarchy
      * 
      * @access public
      */
-    function &getAllNodes () { 
+    function getAllNodes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -396,7 +396,7 @@ class Hierarchy
      * 
      * @access public
      */
-    function &getRootNodes () { 
+    function getRootNodes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -425,7 +425,7 @@ class Hierarchy
      * 
      * @access public
      */
-    function &getNode ( &$nodeId ) { 
+    function getNode ( $nodeId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -448,7 +448,7 @@ class Hierarchy
      * 
      * @access public
      */
-    function &getNodeTypes () { 
+    function getNodeTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -528,7 +528,7 @@ class Hierarchy
      * 
      * @access public
      */
-    function &traverse ( &$startId, $mode, $direction, $levels ) { 
+    function traverse ( $startId, $mode, $direction, $levels ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 }

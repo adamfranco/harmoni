@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniWritableLog.class.php,v 1.3 2006/03/07 19:27:08 adamfranco Exp $
+ * @version $Id: HarmoniWritableLog.class.php,v 1.4 2007/09/04 20:25:43 adamfranco Exp $
  */
 
 require_once(OKI2."/osid/logging/WritableLog.php");
@@ -74,7 +74,7 @@ class HarmoniWritableLog
 	 * 
 	 * @access public
 	 */
-	function appendLog ( &$entryItem ) {
+	function appendLog ( $entryItem ) {
 		if (!$entryItem)
 			throwError(new Error(LoggingException::NULL_ARGUMENT(), "HarmoniWritableLog"));
 		if (!isset($this->_formatType))
@@ -108,7 +108,7 @@ class HarmoniWritableLog
 	 * 
 	 * @access public
 	 */
-	function appendLogWithTypes ( &$entryItem, &$formatType, &$priorityType ) { 
+	function appendLogWithTypes ( $entryItem, $formatType, $priorityType ) { 
 		ArgumentValidator::validate($entryItem, ExtendsValidatorRule::getRule("AgentNodeEntryItem"));
 		ArgumentValidator::validate($formatType, ExtendsValidatorRule::getRule("Type"));
 		ArgumentValidator::validate($priorityType, ExtendsValidatorRule::getRule("Type"));
@@ -116,10 +116,10 @@ class HarmoniWritableLog
 		$formatTypeId = $this->_getTypeId($formatType);
 		$priorityTypeId = $this->_getTypeId($priorityType);
 		
-		$dbc =& Services::getService("DatabaseManager");
+		$dbc = Services::getService("DatabaseManager");
 		
 		// Insert the entry
-		$query =& new InsertQuery;
+		$query = new InsertQuery;
 		$query->setTable("log_entry");
 		$query->setColumns(array(	"log_name",
 									"fk_format_type",
@@ -133,22 +133,22 @@ class HarmoniWritableLog
 									"'".addslashes($entryItem->getCategory())."'",
 									"'".addslashes($entryItem->getDescription())."'",
 									"'".addslashes($entryItem->getBacktrace())."'"));
-		$results =& $dbc->query($query, $this->_dbIndex);
+		$results =$dbc->query($query, $this->_dbIndex);
 		$entryId = $results->getLastAutoIncrementValue();
 		
 		// Add the agents
-		$agentIds =& $entryItem->getAgentIds();
+		$agentIds =$entryItem->getAgentIds();
 		if (!$agentIds->hasNext())
 			$entryItem->addUserIds();
 		
-		$agentIds =& $entryItem->getAgentIds();
+		$agentIds =$entryItem->getAgentIds();
 		if ($agentIds->hasNext()) {
-			$query =& new InsertQuery;
+			$query = new InsertQuery;
 			$query->setTable("log_agent");
 			$query->setColumns(array(	"fk_entry",
 										"fk_agent"));
 			while ($agentIds->hasNext()) {
-				$agentId =& $agentIds->next();
+				$agentId =$agentIds->next();
 				$query->addRowOfValues(array("'".addslashes($entryId)."'",
 										"'".addslashes($agentId->getIdString())."'"));
 			}
@@ -156,14 +156,14 @@ class HarmoniWritableLog
 		}
 		
 		// Add the nodes
-		$nodeIds =& $entryItem->getNodeIds();
+		$nodeIds =$entryItem->getNodeIds();
 		if ($nodeIds->hasNext()) {
-			$query =& new InsertQuery;
+			$query = new InsertQuery;
 			$query->setTable("log_node");
 			$query->setColumns(array(	"fk_entry",
 										"fk_node"));
 			while ($nodeIds->hasNext()) {
-				$nodeId =& $nodeIds->next();
+				$nodeId =$nodeIds->next();
 				$query->addRowOfValues(array("'".addslashes($entryId)."'",
 										"'".addslashes($nodeId->getIdString())."'"));
 			}
@@ -193,9 +193,9 @@ class HarmoniWritableLog
 	 * 
 	 * @access public
 	 */
-	function assignPriorityType ( &$priorityType ) {
+	function assignPriorityType ( $priorityType ) {
 		ArgumentValidator::validate($priorityType, ExtendsValidatorRule::getRule("Type"));
-		$this->_priorityType =& $priorityType;
+		$this->_priorityType =$priorityType;
 	} 
 
 	/**
@@ -220,9 +220,9 @@ class HarmoniWritableLog
 	 * 
 	 * @access public
 	 */
-	function assignFormatType ( &$formatType ) {
+	function assignFormatType ( $formatType ) {
 		ArgumentValidator::validate($formatType, ExtendsValidatorRule::getRule("Type"));
-		$this->_formatType =& $formatType;
+		$this->_formatType =$formatType;
 	}
 	
 	/**
@@ -233,26 +233,26 @@ class HarmoniWritableLog
 	 * @access public
 	 * @since 3/1/06
 	 */
-	function _getTypeId ( &$type ) {
+	function _getTypeId ( $type ) {
 		if (!isset($this->_typeIds))
 			$this->_typeIds = array();
 		
 		if (!isset($this->_typeIds[Type::typeToString($type)])) {
-			$dbc =& Services::getService("DatabaseManager");
-			$query =& new SelectQuery;
+			$dbc = Services::getService("DatabaseManager");
+			$query = new SelectQuery;
 			$query->addColumn("id");
 			$query->addTable("log_type");
 			$query->addWhere("domain = '".addslashes($type->getDomain())."'");
 			$query->addWhere("authority = '".addslashes($type->getAuthority())."'");
 			$query->addWhere("keyword = '".addslashes($type->getKeyword())."'");
-			$results =& $dbc->query($query, $this->_dbIndex);
+			$results =$dbc->query($query, $this->_dbIndex);
 			
 			if ($results->getNumberOfRows()) {
 				$this->_typeIds[Type::typeToString($type)] = $results->field("id");
 				$results->free();
 			} else {
 				$results->free();
-				$query =& new InsertQuery;
+				$query = new InsertQuery;
 				$query->setTable("log_type");
 				$query->setColumns(array(	"domain",
 											"authority",
@@ -262,7 +262,7 @@ class HarmoniWritableLog
 											"'".addslashes($type->getAuthority())."'",
 											"'".addslashes($type->getKeyword())."'",
 											"'".addslashes($type->getDescription())."'"));
-				$results =& $dbc->query($query, $this->_dbIndex);
+				$results =$dbc->query($query, $this->_dbIndex);
 				$this->_typeIds[Type::typeToString($type)] = $results->getLastAutoIncrementValue();
 			}
 		}

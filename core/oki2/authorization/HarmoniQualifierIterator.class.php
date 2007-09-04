@@ -15,7 +15,7 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniQualifierIterator.class.php,v 1.7 2006/05/25 17:23:28 adamfranco Exp $
+ * @version $Id: HarmoniQualifierIterator.class.php,v 1.8 2007/09/04 20:25:38 adamfranco Exp $
  */
 class HarmoniQualifierIterator
 	extends HarmoniIterator
@@ -65,7 +65,7 @@ class HarmoniQualifierIterator
 	 * 
 	 * @access public
 	 */
-	function &nextQualifier () { 
+	function nextQualifier () { 
 		return $this->next();
 	}
 	
@@ -90,12 +90,12 @@ class HarmoniQualifierIterator
 	 * 
 	 * @access public
 	 */
-	function &next () {
+	function next () {
 		// If this is the first element access, inform our AZ cache that we are 
 		// working with this set of nodes so that it can fetch AZs for all of 
 		// them at once.
 		if ($this->_i == -1) {
-			$isAuthorizedCache =& IsAuthorizedCache::instance();
+			$isAuthorizedCache = IsAuthorizedCache::instance();
 			$isAuthorizedCache->queueAssetArray($this->_elements);
 		}
 		

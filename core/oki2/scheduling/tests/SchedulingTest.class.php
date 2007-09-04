@@ -53,16 +53,16 @@
         	
         	
           	
-        	$cm =& Services::getService("CourseManagement");
-        	$sm =& Services::getService("Scheduling");
-        	$am =& Services::getService("Agent");
+        	$cm = Services::getService("CourseManagement");
+        	$sm = Services::getService("Scheduling");
+        	$am = Services::getService("Agent");
 			
         	
         	$this->write(6, "Test of Timespan");
         	
         	
-        	$ts1 =& new HarmoniTimespan(100,234);
-        	$ts2 =& new HarmoniTimespan(400,800);
+        	$ts1 = new HarmoniTimespan(100,234);
+        	$ts2 = new HarmoniTimespan(400,800);
         	$ts3 =&new  HarmoniTimespan(700,900);
         	
         	$this->assertEqual($ts1->getStart(), 100);
@@ -75,42 +75,42 @@
         	
         	
         
-          	$itemStat1 =& new Type("ScheduleItemStatusType", "edu.middlebury", "Required");
-          	$itemStat2 =& new Type("ScheduleItemStatusType", "edu.middlebury", "Optional");
-          	$defStat =& new Type("ScheduleItemStatusType", $sm->_defaultAuthority, "default"); 
-          	$defCommitStat =& new Type("AgentCommitmentStatusType", $sm->_defaultAuthority, "default");             	
-          	$propertiesType =& new Type("PropertiesType", "edu.middlebury", "properties");              	
-          	$agentType =& new Type("AgentType", "edu.middlebury", "student");              	
-          	$commitType1 =& new Type("AgentCommitmentStatusType", "edu.middlebury", "accepted");              	
-          	$commitType2 =& new Type("AgentCommitmentStatusType", "edu.middlebury", "rejected");             
+          	$itemStat1 = new Type("ScheduleItemStatusType", "edu.middlebury", "Required");
+          	$itemStat2 = new Type("ScheduleItemStatusType", "edu.middlebury", "Optional");
+          	$defStat = new Type("ScheduleItemStatusType", $sm->_defaultAuthority, "default"); 
+          	$defCommitStat = new Type("AgentCommitmentStatusType", $sm->_defaultAuthority, "default");             	
+          	$propertiesType = new Type("PropertiesType", "edu.middlebury", "properties");              	
+          	$agentType = new Type("AgentType", "edu.middlebury", "student");              	
+          	$commitType1 = new Type("AgentCommitmentStatusType", "edu.middlebury", "accepted");              	
+          	$commitType2 = new Type("AgentCommitmentStatusType", "edu.middlebury", "rejected");             
           	
           	
           	
 				
-			$properties =& new HarmoniProperties($propertiesType);
-			$agent1 =& $am->createAgent("Gladius", $agentType, $properties);
-			$properties =& new HarmoniProperties($propertiesType);
-			$agent2 =& $am->createAgent("MadgaTheAmazingFiancee", $agentType, $properties);
-			$properties =& new HarmoniProperties($propertiesType);			
-			$agent3 =& $am->createAgent("nood8?jood8", $agentType, $properties); 	
+			$properties = new HarmoniProperties($propertiesType);
+			$agent1 =$am->createAgent("Gladius", $agentType, $properties);
+			$properties = new HarmoniProperties($propertiesType);
+			$agent2 =$am->createAgent("MadgaTheAmazingFiancee", $agentType, $properties);
+			$properties = new HarmoniProperties($propertiesType);			
+			$agent3 =$am->createAgent("nood8?jood8", $agentType, $properties); 	
 			
-			$agents2[] =& $agent1->getId();
-			$agents2[] =& $agent2->getId();
+			$agents2[] =$agent1->getId();
+			$agents2[] =$agent2->getId();
                       	
           	        	
-			$scheduleItemA1 =& $sm->createScheduleItem("Fall 2006 range", "Fallin' leaves!", $itemStat2, 300, 900, null);
+			$scheduleItemA1 =$sm->createScheduleItem("Fall 2006 range", "Fallin' leaves!", $itemStat2, 300, 900, null);
 			$masterIdA = $scheduleItemA1->getMasterIdentifier();
-			$scheduleItemA2 =& $sm->createScheduleItem("Thanksgiving", "", $itemStat1, 350, 400, $masterIdA);
-			$scheduleItemA3 =& $sm->createScheduleItem("Christmas", "ho ho ho", $itemStat2, 500, 600, $masterIdA);
+			$scheduleItemA2 =$sm->createScheduleItem("Thanksgiving", "", $itemStat1, 350, 400, $masterIdA);
+			$scheduleItemA3 =$sm->createScheduleItem("Christmas", "ho ho ho", $itemStat2, 500, 600, $masterIdA);
 			
-			$scheduleItemB1 =& $sm->createScheduleItem("Fall 2006 range", "", $itemStat1, 1300, 1900, null);
+			$scheduleItemB1 =$sm->createScheduleItem("Fall 2006 range", "", $itemStat1, 1300, 1900, null);
 			$masterIdB = $scheduleItemB1->getMasterIdentifier();
-			$scheduleItemB2 =& $sm->createScheduleItem("Thanksgiving", "", $itemStat1, 1350, 1400, $masterIdB);
-			$scheduleItemB3 =& $sm->createScheduleItem("Christmas", "ho ho ho", $itemStat2, 1500, 1600, $masterIdB);				
+			$scheduleItemB2 =$sm->createScheduleItem("Thanksgiving", "", $itemStat1, 1350, 1400, $masterIdB);
+			$scheduleItemB3 =$sm->createScheduleItem("Christmas", "ho ho ho", $itemStat2, 1500, 1600, $masterIdB);				
 			
-			$scheduleItemC1 =& $sm->createScheduleItem("Funky time", "", $itemStat1, 100, 500, null);
+			$scheduleItemC1 =$sm->createScheduleItem("Funky time", "", $itemStat1, 100, 500, null);
 			$masterIdC = $scheduleItemC1->getMasterIdentifier();
-			$scheduleItemC2 =& $sm->createScheduleItem("Dance party", "", $itemStat2, 700, 1400, $masterIdC);
+			$scheduleItemC2 =$sm->createScheduleItem("Dance party", "", $itemStat2, 700, 1400, $masterIdC);
         	
         	
 			
@@ -144,7 +144,7 @@
           	
           	/*$this->write(4,"Test of getting passed in agents with default type");  
           	
-          	$iter =& $scheduleItemA3->getAgentCommitments();
+          	$iter =$scheduleItemA3->getAgentCommitments();
           	$this->assertTrue($this->iteratorHasAgentWithStatus($iter, $agent1,$defCommitStat));
 			$this->assertTrue($this->iteratorHasAgentWithStatus($iter, $agent2,$defCommitStat));
 			$this->assertTrue(!$this->iteratorHasAgentWithStatus($iter, $agent3,$defCommitStat));         	
@@ -160,7 +160,7 @@
           	
           	$this->write(4,"Test of getScheduleItem()");
           	
-          	$scheduleItemA1a =& $sm->getScheduleItem($scheduleItemA1->getID());
+          	$scheduleItemA1a =$sm->getScheduleItem($scheduleItemA1->getID());
           	
           	
           	$this->assertEqualIds($scheduleItemA1a->getID(),$scheduleItemA1->getID());
@@ -179,7 +179,7 @@
           	
           	
           	
-          	$courseStatusType2 =& new Type("CourseManagement", "edu.middlebury", "No longer offered", "You're out of luck");
+          	$courseStatusType2 = new Type("CourseManagement", "edu.middlebury", "No longer offered", "You're out of luck");
          	
           	
           	
@@ -203,7 +203,7 @@
       //assertIteratorHasItemWithId
           	
           	$this->write(1,"Group A:");										                                
-			$iter =& $sm->getScheduleItemsByMasterId($masterIdA);
+			$iter =$sm->getScheduleItemsByMasterId($masterIdA);
 			$this->assertIteratorHasItemWithId($iter, $scheduleItemA1);
 			$this->assertIteratorHasItemWithId($iter, $scheduleItemA2);
 			$this->assertIteratorHasItemWithId($iter, $scheduleItemA3);
@@ -214,7 +214,7 @@
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemC2);
 			
 			$this->write(1,"Group B:");										                                
-			$iter =& $sm->getScheduleItemsByMasterId($masterIdB);
+			$iter =$sm->getScheduleItemsByMasterId($masterIdB);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA1);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA2);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA3);
@@ -225,7 +225,7 @@
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemC2);
 			
 			$this->write(1,"Group C:");										                                
-			$iter =& $sm->getScheduleItemsByMasterId($masterIdC);
+			$iter =$sm->getScheduleItemsByMasterId($masterIdC);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA1);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA2);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA3);
@@ -236,7 +236,7 @@
 			$this->assertIteratorHasItemWithId($iter, $scheduleItemC2);
 			
 			$this->write(1,"Group D:");										                                
-			$iter =& $sm->getScheduleItemsByMasterId("bob2o34hj5kl234u5o2345lkj3h245");
+			$iter =$sm->getScheduleItemsByMasterId("bob2o34hj5kl234u5o2345lkj3h245");
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA1);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA2);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA3);
@@ -253,14 +253,14 @@
 			$scheduleItemA2->addAgentCommitment($agent2->getId(),$commitType2);
 			
 			$this->write(1,"Group A:");										                                
-			$iter =& $scheduleItemA1->getAgentCommitments();
+			$iter =$scheduleItemA1->getAgentCommitments();
 			$this->assertTrue($this->iteratorHasAgentWithStatus($iter, $agent1,$commitType1));
 			$this->assertTrue(!$this->iteratorHasAgentWithStatus($iter, $agent2,$commitType1));
 			$this->assertTrue(!$this->iteratorHasAgentWithStatus($iter, $agent3,$commitType1));
 			$this->assertTrue(!$this->iteratorHasAgentWithStatus($iter, $agent1,$commitType2));
 			$this->assertTrue(!$this->iteratorHasAgentWithStatus($iter, $agent2,$commitType2));
 			$this->assertTrue(!$this->iteratorHasAgentWithStatus($iter, $agent3,$commitType2));
-			$iter =& $scheduleItemA2->getAgentCommitments();
+			$iter =$scheduleItemA2->getAgentCommitments();
 			$this->assertTrue(!$this->iteratorHasAgentWithStatus($iter, $agent1,$commitType1));
 			$this->assertTrue(!$this->iteratorHasAgentWithStatus($iter, $agent2,$commitType1));
 			$this->assertTrue(!$this->iteratorHasAgentWithStatus($iter, $agent3,$commitType1));
@@ -273,14 +273,14 @@
 			$scheduleItemA2->addAgentCommitment($agent3->getId(),$commitType2);
 			
 			$this->write(1,"Group B:");										                                
-			$iter =& $scheduleItemA1->getAgentCommitments();
+			$iter =$scheduleItemA1->getAgentCommitments();
 			$this->assertTrue($this->iteratorHasAgentWithStatus($iter, $agent1,$commitType1));
 			$this->assertTrue(!$this->iteratorHasAgentWithStatus($iter, $agent2,$commitType1));
 			$this->assertTrue(!$this->iteratorHasAgentWithStatus($iter, $agent3,$commitType1));
 			$this->assertTrue(!$this->iteratorHasAgentWithStatus($iter, $agent1,$commitType2));
 			$this->assertTrue(!$this->iteratorHasAgentWithStatus($iter, $agent2,$commitType2));
 			$this->assertTrue($this->iteratorHasAgentWithStatus($iter, $agent3,$commitType2));
-			$iter =& $scheduleItemA2->getAgentCommitments();
+			$iter =$scheduleItemA2->getAgentCommitments();
 			$this->assertTrue($this->iteratorHasAgentWithStatus($iter, $agent1,$commitType1));
 			$this->assertTrue(!$this->iteratorHasAgentWithStatus($iter, $agent2,$commitType1));
 			$this->assertTrue(!$this->iteratorHasAgentWithStatus($iter, $agent3,$commitType1));
@@ -296,14 +296,14 @@
 			
 			
 			$scheduleItemA1->removeAgentCommitment($agent3->getId());
-			$iter =& $scheduleItemA1->getAgentCommitments();
+			$iter =$scheduleItemA1->getAgentCommitments();
 			$this->assertTrue($this->iteratorHasAgentWithStatus($iter, $agent1,$commitType1));
 			$this->assertTrue(!$this->iteratorHasAgentWithStatus($iter, $agent2,$commitType1));
 			$this->assertTrue(!$this->iteratorHasAgentWithStatus($iter, $agent3,$commitType1));
 			$this->assertTrue(!$this->iteratorHasAgentWithStatus($iter, $agent1,$commitType2));
 			$this->assertTrue(!$this->iteratorHasAgentWithStatus($iter, $agent2,$commitType2));
 			$this->assertTrue(!$this->iteratorHasAgentWithStatus($iter, $agent3,$commitType2));
-			$iter =& $scheduleItemA2->getAgentCommitments();
+			$iter =$scheduleItemA2->getAgentCommitments();
 			$this->assertTrue($this->iteratorHasAgentWithStatus($iter, $agent1,$commitType1));
 			$this->assertTrue(!$this->iteratorHasAgentWithStatus($iter, $agent2,$commitType1));
 			$this->assertTrue(!$this->iteratorHasAgentWithStatus($iter, $agent3,$commitType1));
@@ -316,14 +316,14 @@
 			
 			
 			$this->write(1,"Group B:");										                                
-			$iter =& $scheduleItemA1->getAgentCommitments();
+			$iter =$scheduleItemA1->getAgentCommitments();
 			$this->assertTrue($this->iteratorHasAgentWithStatus($iter, $agent1,$commitType1));
 			$this->assertTrue(!$this->iteratorHasAgentWithStatus($iter, $agent2,$commitType1));
 			$this->assertTrue(!$this->iteratorHasAgentWithStatus($iter, $agent3,$commitType1));
 			$this->assertTrue(!$this->iteratorHasAgentWithStatus($iter, $agent1,$commitType2));
 			$this->assertTrue(!$this->iteratorHasAgentWithStatus($iter, $agent2,$commitType2));
 			$this->assertTrue(!$this->iteratorHasAgentWithStatus($iter, $agent3,$commitType2));
-			$iter =& $scheduleItemA2->getAgentCommitments();
+			$iter =$scheduleItemA2->getAgentCommitments();
 			$this->assertTrue(!$this->iteratorHasAgentWithStatus($iter, $agent1,$commitType1));
 			$this->assertTrue(!$this->iteratorHasAgentWithStatus($iter, $agent2,$commitType1));
 			$this->assertTrue(!$this->iteratorHasAgentWithStatus($iter, $agent3,$commitType1));
@@ -338,14 +338,14 @@
 			
 			
 			$this->write(1,"Group A:");										                                
-			$iter =& $scheduleItemA1->getAgentCommitments();
+			$iter =$scheduleItemA1->getAgentCommitments();
 			$this->assertTrue(!$this->iteratorHasAgentWithStatus($iter, $agent1,$commitType1));
 			$this->assertTrue(!$this->iteratorHasAgentWithStatus($iter, $agent2,$commitType1));
 			$this->assertTrue(!$this->iteratorHasAgentWithStatus($iter, $agent3,$commitType1));
 			$this->assertTrue($this->iteratorHasAgentWithStatus($iter, $agent1,$commitType2));
 			$this->assertTrue(!$this->iteratorHasAgentWithStatus($iter, $agent2,$commitType2));
 			$this->assertTrue(!$this->iteratorHasAgentWithStatus($iter, $agent3,$commitType2));
-			$iter =& $scheduleItemA2->getAgentCommitments();
+			$iter =$scheduleItemA2->getAgentCommitments();
 			$this->assertTrue(!$this->iteratorHasAgentWithStatus($iter, $agent1,$commitType1));
 			$this->assertTrue(!$this->iteratorHasAgentWithStatus($iter, $agent2,$commitType1));
 			$this->assertTrue(!$this->iteratorHasAgentWithStatus($iter, $agent3,$commitType1));
@@ -358,14 +358,14 @@
 			$scheduleItemA2->changeAgentCommitment($agent3->getId(), $commitType2);
 			
 													                                
-			$iter =& $scheduleItemA1->getAgentCommitments();
+			$iter =$scheduleItemA1->getAgentCommitments();
 			$this->assertTrue(!$this->iteratorHasAgentWithStatus($iter, $agent1,$commitType1));
 			$this->assertTrue(!$this->iteratorHasAgentWithStatus($iter, $agent2,$commitType1));
 			$this->assertTrue(!$this->iteratorHasAgentWithStatus($iter, $agent3,$commitType1));
 			$this->assertTrue($this->iteratorHasAgentWithStatus($iter, $agent1,$commitType2));
 			$this->assertTrue(!$this->iteratorHasAgentWithStatus($iter, $agent2,$commitType2));
 			$this->assertTrue(!$this->iteratorHasAgentWithStatus($iter, $agent3,$commitType2));
-			$iter =& $scheduleItemA2->getAgentCommitments();
+			$iter =$scheduleItemA2->getAgentCommitments();
 			$this->assertTrue(!$this->iteratorHasAgentWithStatus($iter, $agent1,$commitType1));
 			$this->assertTrue($this->iteratorHasAgentWithStatus($iter, $agent2,$commitType1));
 			$this->assertTrue(!$this->iteratorHasAgentWithStatus($iter, $agent3,$commitType1));
@@ -408,14 +408,14 @@
           	$scheduleItemC2->addAgentCommitment($agent3->getId(), $commitType1);
 
           
-          	$groupA[] =& $agent1->getId();
-          	$groupA[] =& $agent2->getId();
-          	$groupA[] =& $agent3->getId();
+          	$groupA[] =$agent1->getId();
+          	$groupA[] =$agent2->getId();
+          	$groupA[] =$agent3->getId();
           	
-          	$groupB[] =& $agent1->getId();
-          	$groupB[] =& $agent2->getId();
+          	$groupB[] =$agent1->getId();
+          	$groupB[] =$agent2->getId();
           	
-          	$groupC[] =& $agent3->getId();
+          	$groupC[] =$agent3->getId();
           	
           	
           	
@@ -428,7 +428,7 @@
           			
           	$this->write(1,"Group A:");
       									                                
-			$iter =& $sm->getScheduleItems($start, $end, $null);
+			$iter =$sm->getScheduleItems($start, $end, $null);
 			$this->assertIteratorHasItemWithId($iter, $scheduleItemA1);
 			$this->assertIteratorHasItemWithId($iter, $scheduleItemA2);
 			$this->assertIteratorHasItemWithId($iter, $scheduleItemA3);
@@ -438,7 +438,7 @@
 			$this->assertIteratorHasItemWithId($iter, $scheduleItemC1);
 			$this->assertIteratorHasItemWithId($iter, $scheduleItemC2);
 			$this->write(1,"Group B:");
-			$iter =& $sm->getScheduleItems($start,$end, $itemStat2);
+			$iter =$sm->getScheduleItems($start,$end, $itemStat2);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA1);//
 			$this->assertIteratorHasItemWithId($iter, $scheduleItemA2);
 			$this->assertIteratorHasItemWithId($iter, $scheduleItemA3);
@@ -449,7 +449,7 @@
 			$this->assertIteratorHasItemWithId($iter, $scheduleItemC2);
 			
 			$this->write(1,"Group C:");
-			$iter =& $sm->getScheduleItemsForAgents($start,$end, $null, $groupA);
+			$iter =$sm->getScheduleItemsForAgents($start,$end, $null, $groupA);
 			$this->assertIteratorHasItemWithId($iter, $scheduleItemA1);
 			$this->assertIteratorHasItemWithId($iter, $scheduleItemA2);
 			$this->assertIteratorHasItemWithId($iter, $scheduleItemA3);
@@ -460,7 +460,7 @@
 			$this->assertIteratorHasItemWithId($iter, $scheduleItemC2);
 			
 			$this->write(1,"Group D:");
-			$iter =& $sm->getScheduleItemsForAgents($start,$end, $itemStat2, $groupA);
+			$iter =$sm->getScheduleItemsForAgents($start,$end, $itemStat2, $groupA);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA1);//
 			$this->assertIteratorHasItemWithId($iter, $scheduleItemA2);
 			$this->assertIteratorHasItemWithId($iter, $scheduleItemA3);
@@ -471,7 +471,7 @@
 			$this->assertIteratorHasItemWithId($iter, $scheduleItemC2);
 			
 			$this->write(1,"Group E:");
-			$iter =& $sm->getScheduleItemsForAgents($start,$end, $null, $groupB);
+			$iter =$sm->getScheduleItemsForAgents($start,$end, $null, $groupB);
 			$this->assertIteratorHasItemWithId($iter, $scheduleItemA1);
 			$this->assertIteratorHasItemWithId($iter, $scheduleItemA2);
 			$this->assertIteratorHasItemWithId($iter, $scheduleItemA3);
@@ -482,7 +482,7 @@
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemC2);//
 			
 			$this->write(1,"Group F:");
-			$iter =& $sm->getScheduleItemsForAgents($start,$end, $itemStat2, $groupB);
+			$iter =$sm->getScheduleItemsForAgents($start,$end, $itemStat2, $groupB);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA1);//
 			$this->assertIteratorHasItemWithId($iter, $scheduleItemA2);
 			$this->assertIteratorHasItemWithId($iter, $scheduleItemA3);
@@ -493,7 +493,7 @@
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemC2);//
 			
 			$this->write(1,"Group G:");
-			$iter =& $sm->getScheduleItemsForAgents($start,$end, $null, $groupC);
+			$iter =$sm->getScheduleItemsForAgents($start,$end, $null, $groupC);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA1);//
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA2);//
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA3);//
@@ -504,7 +504,7 @@
 			$this->assertIteratorHasItemWithId($iter, $scheduleItemC2);
 			
 			$this->write(1,"Group H:");
-			$iter =& $sm->getScheduleItemsForAgents($start,$end, $itemStat2, $groupC);
+			$iter =$sm->getScheduleItemsForAgents($start,$end, $itemStat2, $groupC);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA1);//
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA2);//
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA3);//
@@ -524,7 +524,7 @@
           			
           	$this->write(1,"Group A:");
       									                                
-			$iter =& $sm->getScheduleItems($start, $end, $null);
+			$iter =$sm->getScheduleItems($start, $end, $null);
 			$this->assertIteratorHasItemWithId($iter, $scheduleItemA1);
 			$this->assertIteratorHasItemWithId($iter, $scheduleItemA2);
 			$this->assertIteratorHasItemWithId($iter, $scheduleItemA3);
@@ -534,7 +534,7 @@
 			$this->assertIteratorHasItemWithId($iter, $scheduleItemC1);
 			$this->assertIteratorHasItemWithId($iter, $scheduleItemC2);
 			$this->write(1,"Group B:");
-			$iter =& $sm->getScheduleItems($start,$end, $itemStat2);
+			$iter =$sm->getScheduleItems($start,$end, $itemStat2);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA1);//
 			$this->assertIteratorHasItemWithId($iter, $scheduleItemA2);
 			$this->assertIteratorHasItemWithId($iter, $scheduleItemA3);
@@ -545,7 +545,7 @@
 			$this->assertIteratorHasItemWithId($iter, $scheduleItemC2);			
 			
 			$this->write(1,"Group C:");
-			$iter =& $sm->getScheduleItemsForAgents($start,$end, $null, $groupB);
+			$iter =$sm->getScheduleItemsForAgents($start,$end, $null, $groupB);
 			$this->assertIteratorHasItemWithId($iter, $scheduleItemA1);
 			$this->assertIteratorHasItemWithId($iter, $scheduleItemA2);
 			$this->assertIteratorHasItemWithId($iter, $scheduleItemA3);
@@ -556,7 +556,7 @@
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemC2);//
 			
 			$this->write(1,"Group D:");
-			$iter =& $sm->getScheduleItemsForAgents($start,$end, $itemStat2, $groupB);
+			$iter =$sm->getScheduleItemsForAgents($start,$end, $itemStat2, $groupB);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA1);//
 			$this->assertIteratorHasItemWithId($iter, $scheduleItemA2);
 			$this->assertIteratorHasItemWithId($iter, $scheduleItemA3);
@@ -572,7 +572,7 @@
           			
           	$this->write(1,"Group A:");
       									                                
-			$iter =& $sm->getScheduleItems($start, $end, $null);
+			$iter =$sm->getScheduleItems($start, $end, $null);
 			$this->assertIteratorHasItemWithId($iter, $scheduleItemA1);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA2);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA3);
@@ -582,7 +582,7 @@
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemC1);
 			$this->assertIteratorHasItemWithId($iter, $scheduleItemC2);
 			$this->write(1,"Group B:");
-			$iter =& $sm->getScheduleItems($start,$end, $itemStat2);
+			$iter =$sm->getScheduleItems($start,$end, $itemStat2);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA1);//
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA2);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA3);
@@ -593,7 +593,7 @@
 			$this->assertIteratorHasItemWithId($iter, $scheduleItemC2);
 			
 			$this->write(1,"Group C:");
-			$iter =& $sm->getScheduleItemsForAgents($start,$end, $null, $groupB);
+			$iter =$sm->getScheduleItemsForAgents($start,$end, $null, $groupB);
 			$this->assertIteratorHasItemWithId($iter, $scheduleItemA1);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA2);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA3);
@@ -604,7 +604,7 @@
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemC2);//
 			
 			$this->write(1,"Group D:");
-			$iter =& $sm->getScheduleItemsForAgents($start,$end, $itemStat2, $groupB);
+			$iter =$sm->getScheduleItemsForAgents($start,$end, $itemStat2, $groupB);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA1);//
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA2);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA3);
@@ -622,7 +622,7 @@
           			
         $this->write(1,"Group A:");
       									                                
-			$iter =& $sm->getScheduleItems($start, $end, $null);
+			$iter =$sm->getScheduleItems($start, $end, $null);
 			$this->assertIteratorHasItemWithId($iter, $scheduleItemA1);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA2);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA3);
@@ -632,7 +632,7 @@
 			$this->assertIteratorHasItemWithId($iter, $scheduleItemC1);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemC2);
 			$this->write(1,"Group B:");
-			$iter =& $sm->getScheduleItems($start,$end, $itemStat2);
+			$iter =$sm->getScheduleItems($start,$end, $itemStat2);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA1);//
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA2);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA3);
@@ -643,7 +643,7 @@
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemC2);
 			
 			$this->write(1,"Group C:");
-			$iter =& $sm->getScheduleItemsForAgents($start,$end, $null, $groupB);
+			$iter =$sm->getScheduleItemsForAgents($start,$end, $null, $groupB);
 			$this->assertIteratorHasItemWithId($iter, $scheduleItemA1);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA2);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA3);
@@ -654,7 +654,7 @@
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemC2);//
 			
 			$this->write(1,"Group D:");
-			$iter =& $sm->getScheduleItemsForAgents($start,$end, $itemStat2, $groupB);
+			$iter =$sm->getScheduleItemsForAgents($start,$end, $itemStat2, $groupB);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA1);//
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA2);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA3);
@@ -670,7 +670,7 @@
           			
           	$this->write(1,"Group A:");
       									                                
-			$iter =& $sm->getScheduleItems($start, $end, $null);
+			$iter =$sm->getScheduleItems($start, $end, $null);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA1);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA2);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA3);
@@ -680,7 +680,7 @@
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemC1);
 			$this->assertIteratorHasItemWithId($iter, $scheduleItemC2);
 			$this->write(1,"Group B:");
-			$iter =& $sm->getScheduleItems($start,$end, $itemStat2);
+			$iter =$sm->getScheduleItems($start,$end, $itemStat2);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA1);//
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA2);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA3);
@@ -691,7 +691,7 @@
 			$this->assertIteratorHasItemWithId($iter, $scheduleItemC2);
 			
 			$this->write(1,"Group C:");
-			$iter =& $sm->getScheduleItemsForAgents($start,$end, $null, $groupB);
+			$iter =$sm->getScheduleItemsForAgents($start,$end, $null, $groupB);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA1);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA2);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA3);
@@ -702,7 +702,7 @@
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemC2);//
 			
 			$this->write(1,"Group D:");
-			$iter =& $sm->getScheduleItemsForAgents($start,$end, $itemStat2, $groupB);
+			$iter =$sm->getScheduleItemsForAgents($start,$end, $itemStat2, $groupB);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA1);//
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA2);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA3);
@@ -719,7 +719,7 @@
           			
           	$this->write(1,"Group A:");
       									                                
-			$iter =& $sm->getScheduleItems($start, $end, $null);
+			$iter =$sm->getScheduleItems($start, $end, $null);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA1);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA2);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA3);
@@ -729,7 +729,7 @@
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemC1);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemC2);
 			$this->write(1,"Group B:");
-			$iter =& $sm->getScheduleItems($start,$end, $itemStat2);
+			$iter =$sm->getScheduleItems($start,$end, $itemStat2);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA1);//
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA2);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA3);
@@ -740,7 +740,7 @@
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemC2);
 			
 			$this->write(1,"Group C:");
-			$iter =& $sm->getScheduleItemsForAgents($start,$end, $null, $groupB);
+			$iter =$sm->getScheduleItemsForAgents($start,$end, $null, $groupB);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA1);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA2);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA3);
@@ -751,7 +751,7 @@
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemC2);//
 			
 			$this->write(1,"Group D:");
-			$iter =& $sm->getScheduleItemsForAgents($start,$end, $itemStat2, $groupB);
+			$iter =$sm->getScheduleItemsForAgents($start,$end, $itemStat2, $groupB);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA1);//
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA2);
 			$this->assertIteratorLacksItemWithId($iter, $scheduleItemA3);
@@ -787,12 +787,12 @@
 			
 			$agents = array();
 			
-			$si1 =& $sm->createScheduleItem("", "", $defStat, 100, 200, null);
-			$si2 =& $sm->createScheduleItem("", "", $defStat, 150, 300, null);
-			$si3 =& $sm->createScheduleItem("", "", $defStat, 250, 400, null);
-			$si4 =& $sm->createScheduleItem("", "", $defStat, 300, 350, null);
-			$si5 =& $sm->createScheduleItem("", "", $defStat, 351, 450, null);
-			$si6 =& $sm->createScheduleItem("", "", $defStat, 500, 650, null);
+			$si1 =$sm->createScheduleItem("", "", $defStat, 100, 200, null);
+			$si2 =$sm->createScheduleItem("", "", $defStat, 150, 300, null);
+			$si3 =$sm->createScheduleItem("", "", $defStat, 250, 400, null);
+			$si4 =$sm->createScheduleItem("", "", $defStat, 300, 350, null);
+			$si5 =$sm->createScheduleItem("", "", $defStat, 351, 450, null);
+			$si6 =$sm->createScheduleItem("", "", $defStat, 500, 650, null);
 			
 			$si1->addAgentCommitment($agent3->getId(),$defCommitStat);
 			$si2->addAgentCommitment($agent1->getId(),$defCommitStat);
@@ -808,7 +808,7 @@
 			$array[] = $agent1->getId();
 			$array[] = $agent2->getId();
 			$array[] = $agent3->getId();
-			$iter =& $sm->getAvailableTimes($array,0,700);	
+			$iter =$sm->getAvailableTimes($array,0,700);	
 			//$this->printTimespanIterator($iter);			
 			$this->assertNextTimespan($iter,0,100);
 			$this->assertNextTimespan($iter,450,500);
@@ -819,7 +819,7 @@
 			$array =array();
 			$array[] = $agent1->getId();
 			$array[] = $agent2->getId();
-			$iter =& $sm->getAvailableTimes($array,0,700);	
+			$iter =$sm->getAvailableTimes($array,0,700);	
 			//$this->printTimespanIterator($iter);			
 			$this->assertNextTimespan($iter,0,150);
 			$this->assertNextTimespan($iter,350,351);
@@ -831,7 +831,7 @@
 			$array =array();
 			$array[] = $agent1->getId();
 			$array[] = $agent3->getId();
-			$iter =& $sm->getAvailableTimes($array,0,700);	
+			$iter =$sm->getAvailableTimes($array,0,700);	
 			//$this->printTimespanIterator($iter);			
 			$this->assertNextTimespan($iter,0,100);
 			$this->assertNextTimespan($iter,400,500);
@@ -841,7 +841,7 @@
 			$this->write(1,"Group D:");
 			$array =array();
 			$array[] = $agent1->getId();
-			$iter =& $sm->getAvailableTimes($array,0,700);	
+			$iter =$sm->getAvailableTimes($array,0,700);	
 			//$this->printTimespanIterator($iter);			
 			$this->assertNextTimespan($iter,0,150);
 			$this->assertNextTimespan($iter,350,500);
@@ -852,7 +852,7 @@
 			$array =array();
 			$array[] = $agent2->getId();
 			$array[] = $agent3->getId();
-			$iter =& $sm->getAvailableTimes($array,0,700);	
+			$iter =$sm->getAvailableTimes($array,0,700);	
 			//$this->printTimespanIterator($iter);			
 			$this->assertNextTimespan($iter,0,100);
 			$this->assertNextTimespan($iter,200,250);
@@ -863,7 +863,7 @@
 			$this->write(1,"Group F:");
 			$array =array();
 			$array[] = $agent2->getId();
-			$iter =& $sm->getAvailableTimes($array,0,700);	
+			$iter =$sm->getAvailableTimes($array,0,700);	
 			//$this->printTimespanIterator($iter);			
 			$this->assertNextTimespan($iter,0,300);
 			$this->assertNextTimespan($iter,350,351);
@@ -873,7 +873,7 @@
 			$this->write(1,"Group G:");
 			$array =array();
 			$array[] = $agent3->getId();
-			$iter =& $sm->getAvailableTimes($array,0,700);	
+			$iter =$sm->getAvailableTimes($array,0,700);	
 			//$this->printTimespanIterator($iter);			
 			$this->assertNextTimespan($iter,0,100);
 			$this->assertNextTimespan($iter,200,250);
@@ -883,7 +883,7 @@
 			
 			$this->write(1,"Group H:");
 			$array =array();
-			$iter =& $sm->getAvailableTimes($array,0,700);	
+			$iter =$sm->getAvailableTimes($array,0,700);	
 			//$this->printTimespanIterator($iter);			
 			$this->assertNextTimespan($iter,0,700);
 			$this->assertTrue(!$iter->hasNextTimeSpan());
@@ -891,7 +891,7 @@
 			$this->write(1,"Group I:");
 			$array =array();
 			$array[] = $agent2->getId();
-			$iter =& $sm->getAvailableTimes($array,277,457);	
+			$iter =$sm->getAvailableTimes($array,277,457);	
 			//$this->printTimespanIterator($iter);			
 			$this->assertNextTimespan($iter,277,300);
 			$this->assertNextTimespan($iter,350,351);
@@ -901,7 +901,7 @@
 			$this->write(1,"Group J:");
 			$array =array();
 			$array[] = $agent3->getId();
-			$iter =& $sm->getAvailableTimes($array,233,478);	
+			$iter =$sm->getAvailableTimes($array,233,478);	
 			//$this->printTimespanIterator($iter);			
 			$this->assertNextTimespan($iter,233,250);
 			$this->assertNextTimespan($iter,400,478);
@@ -914,7 +914,7 @@
 			$array[] = $agent1->getId();
 			$array[] = $agent2->getId();
 			$array[] = $agent3->getId();
-			$iter =& $sm->getAvailableTimes($array);	
+			$iter =$sm->getAvailableTimes($array);	
 			$this->assertNextTimespan($iter,0,);
 			$this->assertNextTimespan($iter,,);
 			$this->assertNextTimespan($iter,,);
@@ -929,7 +929,7 @@
         	
         	$this->write(4,"Test of getting Types");
 			$this->write(1,"Group A");
-			$iter =& $sm->getItemStatusTypes();
+			$iter =$sm->getItemStatusTypes();
 			$this->assertTrue($this->typeIteratorHas($iter, $itemStat1));
 			$this->assertTrue($this->typeIteratorHas($iter, $itemStat2));
 			$this->assertTrue($this->typeIteratorHas($iter, $defStat));
@@ -938,7 +938,7 @@
 			$this->assertTrue(!$this->typeIteratorHas($iter, new Type("sadfsz234dfwerwer","sadfszd23fwerwer","asdfwer123")));
 			
 			$this->write(1,"Group B");
-			$iter =& $sm->getItemCommitmentStatusTypes();
+			$iter =$sm->getItemCommitmentStatusTypes();
 			$this->assertTrue($this->typeIteratorHas($iter, $commitType1));
 			$this->assertTrue($this->typeIteratorHas($iter, $commitType2));
 			$this->assertTrue(!$this->typeIteratorHas($iter, $itemStat1));
@@ -971,31 +971,31 @@
 		//This function's name can't start with test or it is called without parameters
 		function goTestPropertiesFunctions($itemToTest){
 			$this->write(1,"Group A");
-			$courseType =& $itemToTest->getStatus();
-			$correctType =& new Type("PropertiesType", $courseType->getAuthority(), "properties");  
-			$propertyType =& $itemToTest->getPropertyTypes();
+			$courseType =$itemToTest->getStatus();
+			$correctType = new Type("PropertiesType", $courseType->getAuthority(), "properties");  
+			$propertyType =$itemToTest->getPropertyTypes();
 			$this->assertTrue($propertyType->hasNext());
 			if($propertyType->hasNext()){
-				$type1 =&  $propertyType->next();		
+				$type1 =  $propertyType->next();		
 				$this->assertEqualTypes($type1, $correctType);
 				$this->assertFalse($propertyType->hasNext());		
 			}
 			$this->write(1,"Group B");
 			//multiple objects of type properties?  Propertiesies!
-			$propertiesies =& $itemToTest->getProperties();
+			$propertiesies =$itemToTest->getProperties();
 			$this->assertTrue($propertiesies->hasNextProperties());
 			if($propertiesies->hasNextProperties()){
-				$properties =&  $propertiesies->nextProperties();
-				$type1 =&  $properties->getType();		
+				$properties =  $propertiesies->nextProperties();
+				$type1 =  $properties->getType();		
 				$this->assertEqualTypes($type1, $correctType);
 				$this->goTestProperties($properties,$itemToTest);
 				$this->assertFalse($propertiesies->hasNextProperties());		
 			}
 			$this->write(1,"Group C");
-			$properties =& $itemToTest->getPropertiesByType($correctType);
+			$properties =$itemToTest->getPropertiesByType($correctType);
 			$this->assertNotEqual($properties,null);
 			if(!is_null($properties)){
-				$type1 =&  $properties->getType();		
+				$type1 =  $properties->getType();		
 				$this->assertEqualTypes($type1, $correctType);
 				$this->goTestProperties($properties,$itemToTest);
 			}	
@@ -1009,10 +1009,10 @@
 			
 			
 			
-			$idManager =& Services::getService("Id");
+			$idManager = Services::getService("Id");
 			
 			
-			$keys =& $prop->getKeys();
+			$keys =$prop->getKeys();
 			
 			$key = "display_name";			
 			$this->assertTrue($this->primitiveIteratorHas($keys,$key));
@@ -1062,9 +1062,9 @@
 		function iteratorHasAgentWithStatus($iter, $agent,$status){
 			//this relies on usage of the HarmoniIterator
 			$iter->_i=-1;
-			$id =& $agent->getId();		
+			$id =$agent->getId();		
 			while($iter->hasNextAgentCommitment()){
-				$currAgentCommitment =& $iter->nextAgentCommitment();
+				$currAgentCommitment =$iter->nextAgentCommitment();
 				if($id->isEqual($currAgentCommitment->getAgentId())){
 					if($status->isEqual($currAgentCommitment->getStatus())){
 						return true;
@@ -1074,21 +1074,21 @@
 			return false;
 		}
 		
-		function assertNextTimeSpan(&$iter, $start, $end){
+		function assertNextTimeSpan($iter, $start, $end){
 			if(!$iter->hasNextTimespan()){
 				$this->assertTrue(false);
 				return;
 			}
-			$time =& $iter->nextTimespan();
+			$time =$iter->nextTimespan();
 			$this->assertTrue($time->getStart()==$start&&$time->getEnd()==$end);	
 			
 		}
 		
-		function printTimespanIterator(&$iter){
+		function printTimespanIterator($iter){
 			$iter->_i =-1;
 			print "<font color=darkgreen> <p> { ";
 			while($iter->hasNextTimespan()){
-				$curr =& $iter->nextTimespan();
+				$curr =$iter->nextTimespan();
 				print "(".$curr->getStart().", ".$curr->getEnd()."); ";
 			}	
 			print " }</p></font>";

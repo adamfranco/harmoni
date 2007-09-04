@@ -67,7 +67,7 @@ class EvaluationIterator
      * 
      * @access public
      */
-    function &nextEvaluation () { 
+    function nextEvaluation () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 }

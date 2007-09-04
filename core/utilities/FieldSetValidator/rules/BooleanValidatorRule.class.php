@@ -10,7 +10,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/ValidatorRule.interface.
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: BooleanValidatorRule.class.php,v 1.4 2005/05/31 19:11:51 gabeschine Exp $
+ * @version $Id: BooleanValidatorRule.class.php,v 1.5 2007/09/04 20:25:55 adamfranco Exp $
  */ 
 class BooleanValidatorRule
 	extends ValidatorRuleInterface 
@@ -21,7 +21,7 @@ class BooleanValidatorRule
 	 * @access public
 	 * @return boolean true if the value is boolean, false if it is not
 	 **/
-	function check( & $val ) {
+	function check( $val ) {
 		if (is_bool($val)) return true;
 		return false;
 	}
@@ -39,7 +39,7 @@ class BooleanValidatorRule
 	 * @static
 	 * @since 3/28/05
 	 */
-	function &getRule () {
+	function getRule () {
 		// Because there is no way in PHP to get the class name of the descendent
 		// class on which this method is called, this method must be implemented
 		// in each descendent class.
@@ -49,7 +49,7 @@ class BooleanValidatorRule
 		
 		$class = __CLASS__;
 		if (!isset($GLOBALS['validator_rules'][$class]))
-			$GLOBALS['validator_rules'][$class] =& new $class;
+			$GLOBALS['validator_rules'][$class] = new $class;
 		
 		return $GLOBALS['validator_rules'][$class];
 	}

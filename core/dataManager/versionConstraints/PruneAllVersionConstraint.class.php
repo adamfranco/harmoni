@@ -10,13 +10,13 @@ require_once HARMONI."dataManager/versionConstraints/VersionConstraint.interface
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PruneAllVersionConstraint.class.php,v 1.5 2007/04/12 15:37:26 adamfranco Exp $
+ * @version $Id: PruneAllVersionConstraint.class.php,v 1.6 2007/09/04 20:25:33 adamfranco Exp $
  */
 class PruneAllVersionConstraint extends VersionConstraint {
 
-	function checkRecordFieldValue(&$value) {		
+	function checkRecordFieldValue($value) {		
 		foreach ($value->getVersionIDs() as $verID) {
-			$ver =& $value->getVersion($verID);
+			$ver =$value->getVersion($verID);
 			
 			// these are the conditions under which we will prune the version: (OR)
 			// 1) it is inactive
@@ -31,13 +31,13 @@ class PruneAllVersionConstraint extends VersionConstraint {
 		}
 	}
 	
-	function checkTags(&$record) {
-		$mgr =& Services::getService("RecordTagManager");
+	function checkTags($record) {
+		$mgr = Services::getService("RecordTagManager");
 		
 		$mgr->pruneTags($record);
 	}
 	
-	function checkRecord(&$record) {
+	function checkRecord($record) {
 		// FALSE if we are to be deleted
 		return ($record->isActive())?true:false;
 	}

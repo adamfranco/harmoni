@@ -13,7 +13,7 @@ require_once(HARMONI."services/Services.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Services.abstract.php,v 1.14 2005/04/04 19:57:44 adamfranco Exp $
+ * @version $Id: Services.abstract.php,v 1.15 2007/09/04 20:25:49 adamfranco Exp $
  */
 class ServicesAbstract
 	extends ServicesInterface {
@@ -37,7 +37,7 @@ class ServicesAbstract
 	 * @access public
 	 * @return void
 	 **/
-	function registerObjectAsService($name, &$object) {
+	function registerObjectAsService($name, $object) {
 		$GLOBALS[SERVICES_OBJECT]->registerObject($name,$object);
 	}
 	
@@ -60,7 +60,7 @@ class ServicesAbstract
 	 * @static
 	 * @return object Services The Services object.
 	 **/
-	function &getServices() {
+	function getServices() {
 		return $GLOBALS[SERVICES_OBJECT];
 	}
 	
@@ -71,7 +71,7 @@ class ServicesAbstract
 	 * @static
 	 * @return object Object The service object.
 	 **/
-	function &getService( $name ) {
+	function getService( $name ) {
 		return $GLOBALS[SERVICES_OBJECT]->get( $name );
 	}
 	
@@ -116,7 +116,7 @@ class ServicesAbstract
 	 * @access public
 	 * @since 3/24/05
 	 */
-	function startManagerAsService ( $name, &$context, &$configuration ) {
+	function startManagerAsService ( $name, $context, $configuration ) {
 		return $GLOBALS[SERVICES_OBJECT]->startManager($name, $context, $configuration);
 	}
 	
@@ -216,7 +216,7 @@ class ServicesAbstract
 	 * @return ref object The started service object. (if start=true)
 	 * @deprecated 2004/07/28 Use {@link startManagerAsService()} and {@link getService()} instead.
 	 **/
-	function &requireService( $service, $start=true ) {
+	function requireService( $service, $start=true ) {
 		$backtrace = debug_backtrace();
 		print "\n<br/><strong>Warning: Method call, Services::requireService(), is deprecated. Please use Services::startManagerAsService() and/or Services::getService() instead. ";
 		print $backtrace[0]['file']." (Line ".$backtrace[0]['line'].")";

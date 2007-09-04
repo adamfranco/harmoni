@@ -113,7 +113,7 @@ class PartStructure
      * 
      * @access public
      */
-    function &getId () { 
+    function getId () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -136,7 +136,7 @@ class PartStructure
      * 
      * @access public
      */
-    function &getType () { 
+    function getType () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -231,7 +231,7 @@ class PartStructure
      * 
      * @access public
      */
-    function &getRecordStructure () { 
+    function getRecordStructure () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -255,7 +255,7 @@ class PartStructure
      * 
      * @access public
      */
-    function &getPartStructures () { 
+    function getPartStructures () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -286,7 +286,7 @@ class PartStructure
      * 
      * @access public
      */
-    function validatePart ( &$part ) { 
+    function validatePart ( $part ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 }

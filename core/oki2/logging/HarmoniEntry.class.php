@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniEntry.class.php,v 1.3 2006/03/07 19:27:08 adamfranco Exp $
+ * @version $Id: HarmoniEntry.class.php,v 1.4 2007/09/04 20:25:43 adamfranco Exp $
  */
 
 require_once(OKI2."/osid/logging/Entry.php");
@@ -41,7 +41,7 @@ class HarmoniEntry
 	 * @access public
 	 * @since 3/1/06
 	 */
-	function HarmoniEntry ( &$timestamp, $category, $description, $backtrace, $agents, $nodes, &$formatType, &$priorityType ) {
+	function HarmoniEntry ( $timestamp, $category, $description, $backtrace, $agents, $nodes, $formatType, $priorityType ) {
 		ArgumentValidator::validate($timestamp, ExtendsValidatorRule::getRule("DateAndTime"));
 		ArgumentValidator::validate($category, StringValidatorRule::getRule());
 		ArgumentValidator::validate($description, StringValidatorRule::getRule());
@@ -51,15 +51,15 @@ class HarmoniEntry
 		ArgumentValidator::validate($formatType, ExtendsValidatorRule::getRule("Type"));
 		ArgumentValidator::validate($priorityType, ExtendsValidatorRule::getRule("type"));
 		
-		$this->_timestamp =& $timestamp;
-		$this->_formatType =& $formatType;
-		$this->_priorityType =& $priorityType;
+		$this->_timestamp =$timestamp;
+		$this->_formatType =$formatType;
+		$this->_priorityType =$priorityType;
 		
 		
-		$this->_entryItem =& new AgentNodeEntryItem($category, $description);
+		$this->_entryItem = new AgentNodeEntryItem($category, $description);
 		$this->_entryItem->setBacktrace($backtrace);
 		
-		$idManager =& Services::getService("Id");
+		$idManager = Services::getService("Id");
 		foreach ($agents as $idString) {	
 			if ($idString)
 				$this->_entryItem->addAgentId($idManager->getId($idString));
@@ -87,7 +87,7 @@ class HarmoniEntry
 	 * 
 	 * @access public
 	 */
-	function &getItem () { 
+	function getItem () { 
 		return $this->_entryItem;
 	} 
 
@@ -109,7 +109,7 @@ class HarmoniEntry
 	 * 
 	 * @access public
 	 */
-	function &getFormatType () { 
+	function getFormatType () { 
 		return $this->_formatType;
 	} 
 
@@ -131,7 +131,7 @@ class HarmoniEntry
 	 * 
 	 * @access public
 	 */
-	function &getPriorityType () { 
+	function getPriorityType () { 
 		return $this->_priorityType;
 	} 
 
@@ -154,7 +154,7 @@ class HarmoniEntry
 	 * 
 	 * @access public
 	 */
-	function &getTimestamp () { 
+	function getTimestamp () { 
 		return $this->_timestamp;
 	} 
 }

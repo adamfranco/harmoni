@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Duration.class.php,v 1.4 2006/11/30 22:02:03 adamfranco Exp $
+ * @version $Id: Duration.class.php,v 1.5 2007/09/04 20:25:25 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -41,7 +41,7 @@ require_once(dirname(__FILE__)."/../Magnitudes/Magnitude.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Duration.class.php,v 1.4 2006/11/30 22:02:03 adamfranco Exp $
+ * @version $Id: Duration.class.php,v 1.5 2007/09/04 20:25:25 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -63,8 +63,8 @@ class Duration
  	 * @since 5/13/05
  	 * @static
  	 */
- 	function &fromString ( $aString ) {
- 		$parser =& new ANSI58216StringParser ($aString);
+ 	function fromString ( $aString ) {
+ 		$parser = new ANSI58216StringParser ($aString);
  		
 		if (!is_string($aString) || !preg_match('/[^\W]/', $aString) || !$parser) {
  			$null = null;
@@ -72,7 +72,7 @@ class Duration
 			// die("'".$aString."' is not in a valid format.");
 		}
 		
-		$obj =& Duration::withDaysHoursMinutesSeconds(
+		$obj = Duration::withDaysHoursMinutesSeconds(
 					$parser->day(), $parser->hour(), $parser->minute(), $parser->second());
 		return $obj;
  	}
@@ -86,8 +86,8 @@ class Duration
 	 * @static
 	 * @since 5/3/05
 	 */
-	function &withDays ( $days ) {
-		$obj =& Duration::withDaysHoursMinutesSeconds ( $days, 0, 0, 0 );
+	function withDays ( $days ) {
+		$obj = Duration::withDaysHoursMinutesSeconds ( $days, 0, 0, 0 );
 		return $obj;
 	}
 	
@@ -103,8 +103,8 @@ class Duration
 	 * @static
 	 * @since 5/3/05
 	 */
-	function &withDaysHoursMinutesSeconds ( $days, $hours, $minutes, $seconds ) {
-		$obj =& new Duration (
+	function withDaysHoursMinutesSeconds ( $days, $hours, $minutes, $seconds ) {
+		$obj = new Duration (
 			  ($days * ChronologyConstants::SecondsInDay())
 			+ ($hours * ChronologyConstants::SecondsInHour())
 			+ ($minutes * ChronologyConstants::SecondsInMinute())
@@ -122,8 +122,8 @@ class Duration
 	 * @static
 	 * @since 5/3/05
 	 */
-	function &withHours ( $hours ) {
-		$obj =& Duration::withDaysHoursMinutesSeconds ( 0, $hours, 0, 0 );
+	function withHours ( $hours ) {
+		$obj = Duration::withDaysHoursMinutesSeconds ( 0, $hours, 0, 0 );
 		return $obj;
 	}
 	
@@ -136,8 +136,8 @@ class Duration
 	 * @static
 	 * @since 5/3/05
 	 */
-	function &withMinutes ( $minutes ) {
-		$obj =& Duration::withDaysHoursMinutesSeconds ( 0, 0, $minutes, 0 );
+	function withMinutes ( $minutes ) {
+		$obj = Duration::withDaysHoursMinutesSeconds ( 0, 0, $minutes, 0 );
 		return $obj;
 	}
 	
@@ -150,10 +150,10 @@ class Duration
 	 * @since 5/13/05
 	 * @static
 	 */
-	function &withMonth ( $anIntOrStrMonth ) {
-		$currentYear =& Year::current();
-		$month =& Month::withMonthYear($anIntOrStrMonth, $currentYear->startYear());
-		$obj =& $month->duration();
+	function withMonth ( $anIntOrStrMonth ) {
+		$currentYear = Year::current();
+		$month = Month::withMonthYear($anIntOrStrMonth, $currentYear->startYear());
+		$obj =$month->duration();
 		return $obj;
 	}
 	
@@ -166,8 +166,8 @@ class Duration
 	 * @static
 	 * @since 5/3/05
 	 */
-	function &withSeconds ( $seconds ) {
-		$obj =& Duration::withDaysHoursMinutesSeconds ( 0, 0, 0, $seconds );
+	function withSeconds ( $seconds ) {
+		$obj = Duration::withDaysHoursMinutesSeconds ( 0, 0, 0, $seconds );
 		return $obj;
 	}
 	
@@ -179,8 +179,8 @@ class Duration
 	 * @access public
 	 * @since 5/13/05
 	 */
-	function &withWeeks ( $aNumber ) {
-		$obj =& Duration::withDaysHoursMinutesSeconds(($aNumber * 7), 0, 0, 0);
+	function withWeeks ( $aNumber ) {
+		$obj = Duration::withDaysHoursMinutesSeconds(($aNumber * 7), 0, 0, 0);
 		return $obj;
 	}
 	
@@ -192,8 +192,8 @@ class Duration
  	 * @since 5/5/05
  	 * @static
  	 */
- 	function &zero () {
- 		$obj =& Duration::withDays(0);
+ 	function zero () {
+ 		$obj = Duration::withDays(0);
 		return $obj;
  	}
 	
@@ -263,7 +263,7 @@ class Duration
 		// the proper value of days up to the maximum duration tested, 50billion
 		// years.
 		if (abs($this->seconds) > pow(2, 31)) {
-			$remainderDuration =& $this->minus(Duration::withDays($this->days()));
+			$remainderDuration =$this->minus(Duration::withDays($this->days()));
 			return $remainderDuration->hours();
 		} else {
 			if (!$this->isNegative())
@@ -292,7 +292,7 @@ class Duration
 		// the proper value of days up to the maximum duration tested, 50billion
 		// years.
 		if (abs($this->seconds) > pow(2, 31)) {
-			$remainderDuration =& $this->minus(Duration::withDays($this->days()));
+			$remainderDuration =$this->minus(Duration::withDays($this->days()));
 			return $remainderDuration->minutes();
 		} else {
 			if (!$this->isNegative())
@@ -342,7 +342,7 @@ class Duration
 		// the proper value of days up to the maximum duration tested, 50billion
 		// years.
 		if (abs($this->seconds) > pow(2, 31)) {
-			$remainderDuration =& $this->minus(Duration::withDays($this->days()));
+			$remainderDuration =$this->minus(Duration::withDays($this->days()));
 			return $remainderDuration->seconds();
 		} else {
 			if ($this->isPositive())
@@ -387,7 +387,7 @@ class Duration
 	 * @access public
 	 * @since 5/3/05
 	 */
-	function isEqualTo ( &$aDuration ) {
+	function isEqualTo ( $aDuration ) {
 		return ($this->asSeconds() == $aDuration->asSeconds());
 	}
 	
@@ -399,7 +399,7 @@ class Duration
 	 * @access public
 	 * @since 5/3/05
 	 */
-	function isLessThan ( &$aDuration ) {
+	function isLessThan ( $aDuration ) {
 		return ($this->asSeconds() < $aDuration->asSeconds());
 	}
 	
@@ -414,8 +414,8 @@ class Duration
 	 * @access public
 	 * @since 5/3/05
 	 */
-	function &abs () {
-		$obj =& new Duration (abs($this->seconds));
+	function abs () {
+		$obj = new Duration (abs($this->seconds));
 		return $obj;
 	}
 	
@@ -427,13 +427,13 @@ class Duration
 	 * @access public
 	 * @since 5/12/05
 	 */
-	function &dividedBy ( $operand ) {
+	function dividedBy ( $operand ) {
 		if (is_numeric($operand)) {
-			$obj =& new Duration (intval($this->asSeconds() / $operand));
+			$obj = new Duration (intval($this->asSeconds() / $operand));
 			return $obj;
 		} else {
-			$denominator =& $operand->asDuration();
-			$obj =& new Duration (intval($this->asSeconds() / $denominator->asSeconds()));
+			$denominator =$operand->asDuration();
+			$obj = new Duration (intval($this->asSeconds() / $denominator->asSeconds()));
 			return $obj;
 		}
 	}
@@ -446,8 +446,8 @@ class Duration
 	 * @access public
 	 * @since 5/3/05
 	 */
-	function &minus ( &$aDuration ) {
-		$obj =& $this->plus($aDuration->negated());
+	function minus ( $aDuration ) {
+		$obj =$this->plus($aDuration->negated());
 		return $obj;
 	}
 	
@@ -459,13 +459,13 @@ class Duration
 	 * @access public
 	 * @since 5/12/05
 	 */
-	function &multipliedBy ( $operand ) {
+	function multipliedBy ( $operand ) {
 		if (is_numeric($operand)) {
-			$obj =& new Duration (intval($this->asSeconds() * $operand));
+			$obj = new Duration (intval($this->asSeconds() * $operand));
 			return $obj;
 		} else {
-			$duration =& $operand->asDuration();
-			$obj =& new Duration (intval($this->asSeconds() * $duration->asSeconds()));
+			$duration =$operand->asDuration();
+			$obj = new Duration (intval($this->asSeconds() * $duration->asSeconds()));
 			return $obj;
 		}
 	}
@@ -477,8 +477,8 @@ class Duration
 	 * @access public
 	 * @since 5/10/05
 	 */
-	function &negated () {
-		$obj =& new Duration(0 - $this->seconds);
+	function negated () {
+		$obj = new Duration(0 - $this->seconds);
 		return $obj;
 	}
 	
@@ -490,8 +490,8 @@ class Duration
 	 * @access public
 	 * @since 5/3/05
 	 */
-	function &plus ( &$aDuration ) {
-		$obj =& new Duration ($this->asSeconds() + $aDuration->asSeconds());
+	function plus ( $aDuration ) {
+		$obj = new Duration ($this->asSeconds() + $aDuration->asSeconds());
 		return $obj;
 	}
 	
@@ -503,8 +503,8 @@ class Duration
 	 * @access public
 	 * @since 5/3/05
 	 */
-	function &roundTo ( &$aDuration ) {
-		$obj =& new Duration (
+	function roundTo ( $aDuration ) {
+		$obj = new Duration (
 			intval(
 				round(
 					$this->asSeconds() / $aDuration->asSeconds())) 
@@ -522,8 +522,8 @@ class Duration
 	 * @access public
 	 * @since 5/13/05
 	 */
-	function &truncateTo ( &$aDuration ) {
-		$obj =& new Duration (
+	function truncateTo ( $aDuration ) {
+		$obj = new Duration (
 			intval($this->asSeconds() / $aDuration->asSeconds())
 			* $aDuration->asSeconds());
 		return $obj;
@@ -552,7 +552,7 @@ class Duration
 	 * @access public
 	 * @since 5/4/05
 	 */
-	function &asDuration () {
+	function asDuration () {
 		return $this;
 	}
 }

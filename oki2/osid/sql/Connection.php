@@ -38,7 +38,7 @@ class Connection
      * 
      * @access public
      */
-    function &executeQuery ( $sql ) { 
+    function executeQuery ( $sql ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -61,7 +61,7 @@ class Connection
      * 
      * @access public
      */
-    function &executeQueryWithArgs ( $sql, $args ) { 
+    function executeQueryWithArgs ( $sql, $args ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -127,7 +127,7 @@ class Connection
      * 
      * @access public
      */
-    function &getSqlTypes () { 
+    function getSqlTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 }

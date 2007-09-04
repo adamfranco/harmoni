@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordSet.class.php,v 1.11 2007/04/12 15:37:25 adamfranco Exp $
+ * @version $Id: RecordSet.class.php,v 1.12 2007/09/04 20:25:32 adamfranco Exp $
  */
 class RecordSet {
 	
@@ -28,11 +28,11 @@ class RecordSet {
 	 * @access public
 	 * @return void
 	 */
-	function addRecords(&$records)
+	function addRecords($records)
 	{
 		$this->_dirty = true;
 		for ($i = 0; $i < count($records); $i++) {
-			$this->_records[] =& $records[$i];
+			$this->_records[] =$records[$i];
 		}
 	}
 
@@ -51,7 +51,7 @@ class RecordSet {
 	 * @access public
 	 * @return ref array
 	 */
-	function &getRecords()
+	function getRecords()
 	{
 		return $this->_records;
 	}
@@ -62,7 +62,7 @@ class RecordSet {
 	 * @access public
 	 * @return boolean
 	 */
-	function contains(&$record)
+	function contains($record)
 	{
 		$id = $record->getID();
 		if (!$id) return false;
@@ -81,7 +81,7 @@ class RecordSet {
 	 * @access public
 	 * @return void
 	 */
-	function removeRecord(&$record)
+	function removeRecord($record)
 	{
 		$id = $record->getID();
 		if (!$id) {
@@ -91,11 +91,11 @@ class RecordSet {
 		
 		$newArr = array();
 		for ($i = 0; $i < count($this->_records); $i++) {
-			if ($this->_records[$i]->getID() != $id) $newArr[] =& $this->_records[$i];
+			if ($this->_records[$i]->getID() != $id) $newArr[] =$this->_records[$i];
 		}
 		
 		unset($this->_records);
-		$this->_records =& $newArr;
+		$this->_records =$newArr;
 		
 		$this->_dirty = true;
 	}
@@ -120,14 +120,14 @@ class RecordSet {
 	 * @access public
 	 * @return ref array
 	 */
-	function &getRecordsByType($id)
+	function getRecordsByType($id)
 	{
-		$records =& $this->getRecords();
+		$records =$this->getRecords();
 		
 		$return = array();
 		for ($i = 0; $i < count($records); $i++) {
 			if ($id == $records[$i]->getSchemaID()) {
-				$return[] =& $records[$i];
+				$return[] =$records[$i];
 			}
 		}
 		
@@ -140,7 +140,7 @@ class RecordSet {
 	 * @access public
 	 * @return ref array
 	 */
-	function &getRecordsByLabel($label)
+	function getRecordsByLabel($label)
 	{
 		// @todo decide if this is useful or if getRecordsByType is sufficient.
 	}
@@ -150,10 +150,10 @@ class RecordSet {
 	 * @param ref object $record
 	 * @return void
 	 */
-	function add(&$record) {
+	function add($record) {
 		$this->_dirty = true;
 		
-		$this->_records[] =& $record;
+		$this->_records[] =$record;
 	}
 	
 	/**
@@ -162,7 +162,7 @@ class RecordSet {
 	 * @access public
 	 * @return void
 	 */
-	function addRecord(&$record)
+	function addRecord($record)
 	{
 		$this->add($record);
 	}
@@ -172,20 +172,20 @@ class RecordSet {
 	 * @access public
 	 * @return array
 	 */
-	function &getMergedTagDates()
+	function getMergedTagDates()
 	{
 		// first get all the tags for each of our Records, then ask them for their dates. avoid duplicates
-		$tagManager =& Services::getService("RecordTagManager");
+		$tagManager = Services::getService("RecordTagManager");
 		$dates = array();
 		$dateStrings = array();
 		foreach ($this->getRecordIDs() as $id) {
-			$tags =& $tagManager->fetchTagDescriptors($id);
+			$tags =$tagManager->fetchTagDescriptors($id);
 			foreach (array_keys($tags) as $key) {
-				$date =& $tags[$key]->getDate();
+				$date =$tags[$key]->getDate();
 				$str = $date->asString();
 				if (!in_array($str, $dateStrings)) {
 					$dateStrings[] = $str;
-					$dates[] =& $date;
+					$dates[] =$date;
 				}
 			}
 		}
@@ -199,34 +199,34 @@ class RecordSet {
 	 * @access public
 	 * @return boolean
 	 */
-	function revertToDate(&$date)
+	function revertToDate($date)
 	{
 		// this function goes through each Record, gets all the tags, and finds the one that has the closest tag
 		// date to $date, as long as the tag date is *before* $date.
 		// then, we activate that tag on the Record and commit it to the database
-		$tagManager =& Services::getService("RecordTagManager");
+		$tagManager = Services::getService("RecordTagManager");
 		
 		for ($i = 0; $i < count($this->_records); $i++) {
 			$id = $this->_records[$i]->getID();
 			if (!$id) continue;
-			$tags =& $tagManager->fetchTags($id);
+			$tags =$tagManager->fetchTags($id);
 			
 			$closest = null;
 			$closestDate = null;
 			foreach (array_keys($tags) as $key) {
-				$tagDate =& $tags[$key]->getDate();
+				$tagDate =$tags[$key]->getDate();
 				if ($tagDate->isLessThanOrEqualTo($date) 
 					&& ($closestDate == null || $tagDate->isGreaterThan($closestDate))) 
 				{
 //					print "-> for record $id, new best is " . $tagDate->asString() . " with sep = $sep<br/>";
-					$closestDate =& $tagDate;
-					$closest =& $tags[$key];
+					$closestDate =$tagDate;
+					$closest =$tags[$key];
 				}
 			}
 			
 			if ($closest) {
 				// we're going to activate the tag, then commit the Record
-				$d =& $closest->getDate();
+				$d =$closest->getDate();
 				$this->_records[$i]->activateTag($closest);
 				$this->_records[$i]->commit();
 			}

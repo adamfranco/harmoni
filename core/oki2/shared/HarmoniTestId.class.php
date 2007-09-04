@@ -14,7 +14,7 @@ if (!isset($_SESSION['harmoniid'])) {
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniTestId.class.php,v 1.8 2007/04/12 15:37:33 adamfranco Exp $
+ * @version $Id: HarmoniTestId.class.php,v 1.9 2007/09/04 20:25:48 adamfranco Exp $
  */
 
 class HarmoniTestId
@@ -53,8 +53,8 @@ class HarmoniTestId
 		return $this->_id;
 	}
 
-	// public boolean isEqual(osid.shared.Id & $id);
-	function isEqual(& $id) {
+	// public boolean isEqual(osid.shared.Id $id);
+	function isEqual($id) {
 		return ($id->getIdString() == $this->_id)?true:false;
 	}
 

@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniStringId.class.php,v 1.5 2007/04/12 15:37:33 adamfranco Exp $
+ * @version $Id: HarmoniStringId.class.php,v 1.6 2007/09/04 20:25:48 adamfranco Exp $
  */
 
 class HarmoniStringId
@@ -44,8 +44,8 @@ class HarmoniStringId
 		return $this->_id;
 	}
 
-	// public boolean isEqual(osid.shared.Id & $id);
-	function isEqual(& $id) {
+	// public boolean isEqual(osid.shared.Id $id);
+	function isEqual($id) {
 		return ($id->getIdString() == $this->_id)?true:false;
 	}
 

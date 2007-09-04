@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GenericSQLQuery.class.php,v 1.7 2005/08/04 13:47:29 adamfranco Exp $
+ * @version $Id: GenericSQLQuery.class.php,v 1.8 2007/09/04 20:25:18 adamfranco Exp $
  */
 require_once("GenericSQLQuery.interface.php");
 
@@ -21,7 +21,7 @@ require_once("GenericSQLQuery.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GenericSQLQuery.class.php,v 1.7 2005/08/04 13:47:29 adamfranco Exp $
+ * @version $Id: GenericSQLQuery.class.php,v 1.8 2007/09/04 20:25:18 adamfranco Exp $
  */
 
 class GenericSQLQuery extends GenericSQLQueryInterface {
@@ -54,7 +54,7 @@ class GenericSQLQuery extends GenericSQLQueryInterface {
 	 */
 	function addSQLQuery($sql) {
 		// ** parameter validation
-		$stringRule =& StringValidatorRule::getRule();
+		$stringRule = StringValidatorRule::getRule();
 		ArgumentValidator::validate($sql, $stringRule, true);
 		// ** end of parameter validation
 

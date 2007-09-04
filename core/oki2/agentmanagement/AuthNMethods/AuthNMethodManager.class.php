@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthNMethodManager.class.php,v 1.7 2006/01/18 19:17:24 adamfranco Exp $
+ * @version $Id: AuthNMethodManager.class.php,v 1.8 2007/09/04 20:25:37 adamfranco Exp $
  */ 
 
 /**
@@ -19,7 +19,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthNMethodManager.class.php,v 1.7 2006/01/18 19:17:24 adamfranco Exp $
+ * @version $Id: AuthNMethodManager.class.php,v 1.8 2007/09/04 20:25:37 adamfranco Exp $
  */
 class AuthNMethodManager
 	extends OsidManager
@@ -53,7 +53,7 @@ class AuthNMethodManager
      * 
      * @access public
      */
-    function &getOsidContext () { 
+    function getOsidContext () { 
         return $this->_osidContext;
     } 
 
@@ -68,8 +68,8 @@ class AuthNMethodManager
      * 
      * @access public
      */
-    function assignOsidContext ( &$context ) { 
-        $this->_osidContext =& $context;
+    function assignOsidContext ( $context ) { 
+        $this->_osidContext =$context;
     } 
 
     /**
@@ -89,11 +89,11 @@ class AuthNMethodManager
      * 
      * @access public
      */
-    function assignConfiguration ( &$configuration ) { 
-        $this->_configuration =& $configuration;
-        $keys =& $configuration->getKeys();
+    function assignConfiguration ( $configuration ) { 
+        $this->_configuration =$configuration;
+        $keys =$configuration->getKeys();
         while($keys->hasNextObject()) {
-        	$authNType =& $keys->nextObject();
+        	$authNType =$keys->nextObject();
         	$this->addAuthNMethodWithType(
         		$configuration->getProperty($authNType),
         		$authNType);
@@ -109,7 +109,7 @@ class AuthNMethodManager
      * @access public
      * @since 3/2/05
      */
-    function &addAuthNMethodWithType ( &$authNMethod, &$authNType ) {
+    function addAuthNMethodWithType ( $authNMethod, $authNType ) {
     	ArgumentValidator::validate($authNMethod, ExtendsValidatorRule::getRule("AuthNMethod"));
     	ArgumentValidator::validate($authNType, ExtendsValidatorRule::getRule("Type"));
     	
@@ -118,8 +118,8 @@ class AuthNMethodManager
 						.$this->_typeToString($authNType)."' already added.",
 						"AuthNMethodManager", true));
 		
-		$this->_authNTypes[] =& $authNType;
-		$this->_authNMethods[] =& $authNMethod;
+		$this->_authNTypes[] =$authNType;
+		$this->_authNMethods[] =$authNMethod;
 		
 		$authNMethod->setType($authNType);
 		
@@ -133,8 +133,8 @@ class AuthNMethodManager
 	 * @access public
 	 * @since 3/2/05
 	 */
-	function &getAuthNTypes () {
-		$iterator =& new HarmoniTypeIterator($this->_authNTypes);
+	function getAuthNTypes () {
+		$iterator = new HarmoniTypeIterator($this->_authNTypes);
 		return $iterator;
 	}
 	
@@ -146,7 +146,7 @@ class AuthNMethodManager
 	 * @access public
 	 * @since 3/2/05
 	 */
-	function &getAuthNMethodForType ( &$authNType ) {
+	function getAuthNMethodForType ( $authNType ) {
 		$key = $this->_getKey($authNType);
 		if (!isset($this->_authNMethods[$key]))
 			throwError(new Error("Unknown AuthNMethod Type, '"
@@ -166,7 +166,7 @@ class AuthNMethodManager
 	 * @access public
 	 * @since 3/2/05
 	 */
-	function _getKey ( &$authNType ) {
+	function _getKey ( $authNType ) {
 		foreach(array_keys($this->_authNTypes) as $key) {
 			if ($authNType->isEqual($this->_authNTypes[$key]))
 				return $key;
@@ -184,7 +184,7 @@ class AuthNMethodManager
 	 * @access public
 	 * @since 3/2/05
 	 */
-	function _typeToString ( &$type ) {
+	function _typeToString ( $type ) {
 		return $type->getDomain()."::".$type->getAuthority()."::".$type->getKeyword();
 	}
 	

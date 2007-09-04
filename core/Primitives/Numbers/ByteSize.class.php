@@ -7,7 +7,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ByteSize.class.php,v 1.4 2007/04/12 15:37:22 adamfranco Exp $
+ * @version $Id: ByteSize.class.php,v 1.5 2007/09/04 20:25:28 adamfranco Exp $
  */ 
 
 require_once(dirname(__FILE__)."/Integer.class.php");
@@ -21,7 +21,7 @@ require_once(dirname(__FILE__)."/Integer.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ByteSize.class.php,v 1.4 2007/04/12 15:37:22 adamfranco Exp $
+ * @version $Id: ByteSize.class.php,v 1.5 2007/09/04 20:25:28 adamfranco Exp $
  */
 class ByteSize 
 	extends Integer
@@ -64,7 +64,7 @@ class ByteSize
 	 * @access public
 	 * @since 7/14/05
 	 */
-	function &fromString ( $stringValue, $class = 'ByteSize') {
+	function fromString ( $stringValue, $class = 'ByteSize') {
 		if (preg_match("/([0-9\.]+)\s*(B|kB|MB|GB|TB|PB|EB|ZB|YB)/i", 
 			$stringValue, $matches)) 
 		{
@@ -78,7 +78,7 @@ class ByteSize
 			$bytes = 0;
 		}
 		
-		eval('$result =& '.$class.'::withValue($bytes, $class);');
+		eval('$result = '.$class.'::withValue($bytes, $class);');
 		return $result;
 	}
 	
@@ -92,7 +92,7 @@ class ByteSize
 	 * @access public
 	 * @since 7/14/05
 	 */
-	function &withValue ( $value, $class = 'ByteSize') {
+	function withValue ( $value, $class = 'ByteSize') {
 		return parent::withValue($value, $class);
 	}
 	
@@ -105,7 +105,7 @@ class ByteSize
 	 * @access public
 	 * @since 7/14/05
 	 */
-	function &zero ( $class = 'ByteSize') {
+	function zero ( $class = 'ByteSize') {
 		return parent::zero($class);
 	}
 	

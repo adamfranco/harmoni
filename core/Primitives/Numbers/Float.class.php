@@ -7,7 +7,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Float.class.php,v 1.5 2007/04/12 15:37:22 adamfranco Exp $
+ * @version $Id: Float.class.php,v 1.6 2007/09/04 20:25:28 adamfranco Exp $
  */ 
 
 require_once(dirname(__FILE__)."/Number.class.php");
@@ -20,7 +20,7 @@ require_once(dirname(__FILE__)."/Number.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Float.class.php,v 1.5 2007/04/12 15:37:22 adamfranco Exp $
+ * @version $Id: Float.class.php,v 1.6 2007/09/04 20:25:28 adamfranco Exp $
  */
 class Float 
 	extends Number
@@ -40,7 +40,7 @@ class Float
 	 * @access public
 	 * @since 7/14/05
 	 */
-	function &withValue ( $value, $class = 'Float') {
+	function withValue ( $value, $class = 'Float') {
 		return parent::withValue($value, $class);
 	}
 
@@ -52,7 +52,7 @@ class Float
 	 * @access public
 	 * @since 3/14/06
 	 */
-	function &fromString ($string, $class = 'Float') {
+	function fromString ($string, $class = 'Float') {
 		return parent::fromString($string, $class);
 	}
 
@@ -66,7 +66,7 @@ class Float
 	 * @access public
 	 * @since 7/14/05
 	 */
-	function &zero ( $class = 'Float') {
+	function zero ( $class = 'Float') {
 		return parent::zero($class);
 	}
 		
@@ -82,9 +82,9 @@ class Float
 	 * @access public
 	 * @since 7/14/05
 	 */
-	function &plus ( &$aNumber ) {
+	function plus ( $aNumber ) {
 		$class = get_class($this);
-		eval('$obj =& '.$class.'::withValue($this->value() + $aNumber->value());');
+		eval('$obj = '.$class.'::withValue($this->value() + $aNumber->value());');
 		return $obj;
 	}
 	
@@ -96,9 +96,9 @@ class Float
 	 * @access public
 	 * @since 7/14/05
 	 */
-	function &multipliedBy ( &$aNumber ) {
+	function multipliedBy ( $aNumber ) {
 		$class = get_class($this);
-		eval('$obj =& '.$class.'::withValue($this->value() * $aNumber->value());');
+		eval('$obj = '.$class.'::withValue($this->value() * $aNumber->value());');
 		return $obj;
 	}
 	
@@ -110,9 +110,9 @@ class Float
 	 * @access public
 	 * @since 7/14/05
 	 */
-	function &dividedBy ( &$aNumber ) {
+	function dividedBy ( $aNumber ) {
 		$class = get_class($this);
-		eval('$obj =& '.$class.'::withValue($this->value() / $aNumber->value());');
+		eval('$obj = '.$class.'::withValue($this->value() / $aNumber->value());');
 		return $obj;
 	}
 	

@@ -94,7 +94,7 @@ class RecordInterface // Record
      * 
      * @access public
      */
-    function &getId () { 
+    function getId () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -125,7 +125,7 @@ class RecordInterface // Record
      * 
      * @access public
      */
-    function &createPart ( &$partStructureId, &$value ) { 
+    function createPart ( $partStructureId, $value ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -151,7 +151,7 @@ class RecordInterface // Record
      * 
      * @access public
      */
-    function deletePart ( &$partId ) { 
+    function deletePart ( $partId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -174,7 +174,7 @@ class RecordInterface // Record
      * 
      * @access public
      */
-    function &getParts () { 
+    function getParts () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -197,7 +197,7 @@ class RecordInterface // Record
      * 
      * @access public
      */
-    function &getRecordStructure () { 
+    function getRecordStructure () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 }

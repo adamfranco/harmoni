@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GenericQueryResult.interface.php,v 1.4 2005/04/07 16:33:23 adamfranco Exp $
+ * @version $Id: GenericQueryResult.interface.php,v 1.5 2007/09/04 20:25:18 adamfranco Exp $
  */
 require_once("QueryResult.interface.php");
 
@@ -21,7 +21,7 @@ require_once("QueryResult.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GenericQueryResult.interface.php,v 1.4 2005/04/07 16:33:23 adamfranco Exp $
+ * @version $Id: GenericQueryResult.interface.php,v 1.5 2007/09/04 20:25:18 adamfranco Exp $
  */
 
 class GenericQueryResultInterface extends QueryResultInterface {
@@ -42,7 +42,7 @@ class GenericQueryResultInterface extends QueryResultInterface {
 	 * @access public
 	 * @since 7/1/04
 	 */
-	function &returnAsSelectQueryResult () {
+	function returnAsSelectQueryResult () {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -53,7 +53,7 @@ class GenericQueryResultInterface extends QueryResultInterface {
 	 * @access public
 	 * @since 7/1/04
 	 */
-	function &returnAsInsertQueryResult () {
+	function returnAsInsertQueryResult () {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -64,7 +64,7 @@ class GenericQueryResultInterface extends QueryResultInterface {
 	 * @access public
 	 * @since 7/1/04
 	 */
-	function &returnAsUpdateQueryResult () {
+	function returnAsUpdateQueryResult () {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -75,7 +75,7 @@ class GenericQueryResultInterface extends QueryResultInterface {
 	 * @access public
 	 * @since 7/1/04
 	 */
-	function &returnAsDeleteQueryResult () {
+	function returnAsDeleteQueryResult () {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 }

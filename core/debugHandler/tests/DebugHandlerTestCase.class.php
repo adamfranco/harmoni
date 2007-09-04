@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DebugHandlerTestCase.class.php,v 1.3 2005/04/07 16:33:28 adamfranco Exp $
+ * @version $Id: DebugHandlerTestCase.class.php,v 1.4 2007/09/04 20:25:34 adamfranco Exp $
  */
     require_once(HARMONI.'debugHandler/DebugHandler.class.php');
 	require_once(HARMONI.'debugHandler/PlainTextDebugHandlerPrinter.class.php');
@@ -20,7 +20,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DebugHandlerTestCase.class.php,v 1.3 2005/04/07 16:33:28 adamfranco Exp $
+ * @version $Id: DebugHandlerTestCase.class.php,v 1.4 2007/09/04 20:25:34 adamfranco Exp $
  */
 
     class DebugHandlerTestCase extends UnitTestCase {
@@ -37,7 +37,7 @@
 		*    @access public
 		*/
 		function setUp() {
-			$this->testDebug = & new DebugHandler();
+			$this->testDebug =  new DebugHandler();
 			// perhaps, initialize $obj here
 		}
 		
@@ -61,9 +61,9 @@
 		}
 		
 		function test_add_object() {
-			$d = & new DebugItem("text--more! debug 2", 9, "user");
+			$d =  new DebugItem("text--more! debug 2", 9, "user");
 			$this->assertEqual($this->testDebug->getDebugItemCount(),0);
-			$this->testDebug->add(&$d);
+			$this->testDebug->add($d);
 			$this->assertEqual($this->testDebug->getDebugItemCount(),1);
 			$this->assertEqual($this->testDebug->_queue[0]->getText(),"text--more! debug 2");
 			$this->assertEqual($this->testDebug->_queue[0]->getCategory(),"user");
@@ -73,7 +73,7 @@
 		
 		function test_printer(){
 			$this->addABunch();
-			$p = & new PlainTextDebugHandlerPrinter();
+			$p =  new PlainTextDebugHandlerPrinter();
 			print "<pre>\nOnly 'general' <= 5\n";
 			$p->printDebugHandler($this->testDebug,5,"general");
 			print "\n</pre>";

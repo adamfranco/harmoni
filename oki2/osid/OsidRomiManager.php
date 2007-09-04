@@ -53,7 +53,7 @@ class OsidRomiManager
      * 
      * @access public
      */
-    function &invoke ( &$object, $methodname, $argTypes, $args ) { 
+    function invoke ( $object, $methodname, $argTypes, $args ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 }

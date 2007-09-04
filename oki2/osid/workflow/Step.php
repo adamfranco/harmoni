@@ -88,7 +88,7 @@ class Step
      * 
      * @access public
      */
-    function &getId () { 
+    function getId () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -134,7 +134,7 @@ class Step
      * 
      * @access public
      */
-    function &getRoleId () { 
+    function getRoleId () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -183,7 +183,7 @@ class Step
      * 
      * @access public
      */
-    function updateRoleId ( &$roleId ) { 
+    function updateRoleId ( $roleId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -254,7 +254,7 @@ class Step
      * 
      * @access public
      */
-    function &getPredecessors () { 
+    function getPredecessors () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -278,7 +278,7 @@ class Step
      * 
      * @access public
      */
-    function &getSuccessors () { 
+    function getSuccessors () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -301,7 +301,7 @@ class Step
      * 
      * @access public
      */
-    function &getInputConditions () { 
+    function getInputConditions () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -328,7 +328,7 @@ class Step
      * 
      * @access public
      */
-    function updateInputConditions ( &$inputConditions ) { 
+    function updateInputConditions ( $inputConditions ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -379,7 +379,7 @@ class Step
      * 
      * @access public
      */
-    function &getOutputStates () { 
+    function getOutputStates () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -408,7 +408,7 @@ class Step
      * 
      * @access public
      */
-    function addPredecessor ( &$stepId ) { 
+    function addPredecessor ( $stepId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -436,7 +436,7 @@ class Step
      * 
      * @access public
      */
-    function removePredecessor ( &$stepId ) { 
+    function removePredecessor ( $stepId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 }

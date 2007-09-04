@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ErrorHandler.interface.php,v 1.6 2005/04/04 18:01:38 adamfranco Exp $
+ * @version $Id: ErrorHandler.interface.php,v 1.7 2007/09/04 20:25:34 adamfranco Exp $
  */
 class ErrorHandlerInterface {
     
@@ -31,7 +31,7 @@ class ErrorHandlerInterface {
      * @param object Error An error object to be added to the queue.
      * @access public
      */
-	function addError(& $error){
+	function addError($error){
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
 	}
 
@@ -54,7 +54,7 @@ class ErrorHandlerInterface {
 	 * @return object
 	 * @access public
 	 */
-	function &getErrorQueue() { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	function getErrorQueue() { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 		
 	/**
      * Count the number of errors currently in the queue.

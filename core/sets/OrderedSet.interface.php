@@ -11,7 +11,7 @@ require_once(dirname(__FILE__)."/Set.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OrderedSet.interface.php,v 1.3 2005/01/19 21:10:13 adamfranco Exp $
+ * @version $Id: OrderedSet.interface.php,v 1.4 2007/09/04 20:25:49 adamfranco Exp $
  * @author Adam Franco
  */
  
@@ -24,7 +24,7 @@ class OrderedSetInterface
 	 * @access public
 	 * @return void
 	 */
-	function addItem ( & $id ) {
+	function addItem ( $id ) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -34,7 +34,7 @@ class OrderedSetInterface
 	 * @access public
 	 * @return void
 	 */
-	function moveUp ( & $id ) {
+	function moveUp ( $id ) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -44,7 +44,7 @@ class OrderedSetInterface
 	 * @access public
 	 * @return void
 	 */
-	function moveDown ( & $id ) {
+	function moveDown ( $id ) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -54,7 +54,7 @@ class OrderedSetInterface
 	 * @access public
 	 * @return integer
 	 */
-	function getPosition ( & $id ) {
+	function getPosition ( $id ) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
@@ -74,7 +74,7 @@ class OrderedSetInterface
 	 * @access public
 	 * @return void
 	 */
-	function moveToPosition ( & $id, $position ) {
+	function moveToPosition ( $id, $position ) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 }

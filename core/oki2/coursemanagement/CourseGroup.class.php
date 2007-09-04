@@ -16,7 +16,7 @@ require_once(OKI2."/osid/coursemanagement/CourseGroup.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CourseGroup.class.php,v 1.8 2006/07/20 19:37:56 sporktim Exp $
+ * @version $Id: CourseGroup.class.php,v 1.9 2007/09/04 20:25:39 adamfranco Exp $
  */
 class HarmoniCourseGroup
 	extends CourseGroup
@@ -35,9 +35,9 @@ class HarmoniCourseGroup
 	 * @param object Node $id
 	 * @return void
 	 */
-	function HarmoniCourseGroup(&$node)
+	function HarmoniCourseGroup($node)
 	{		
-		$this->_node =& $node;	
+		$this->_node =$node;	
 	}
 
 	
@@ -111,7 +111,7 @@ class HarmoniCourseGroup
 	 * 
 	 * @access public
 	 */
-	function &getId () { 
+	function getId () { 
 		return $this->_node->getId();
 	} 
 
@@ -135,7 +135,7 @@ class HarmoniCourseGroup
 	 * 
 	 * @access public
 	 */
-	function &getType () { 
+	function getType () { 
 		return $this->_node->getType();
 	} 
 
@@ -166,9 +166,9 @@ class HarmoniCourseGroup
 	 * 
 	 * @access public
 	 */
-	function addCourse ( &$canonicalCourseId ) {
+	function addCourse ( $canonicalCourseId ) {
 		$cm=Services::getService("CourseManagement");
-		$course =& $cm->getCanonicalCourse($canonicalCourseId);
+		$course =$cm->getCanonicalCourse($canonicalCourseId);
 		$course->_node->addParent($this->_node->getId());
 	} 
 
@@ -196,9 +196,9 @@ class HarmoniCourseGroup
 	 * 
 	 * @access public
 	 */
-	function removeCourse ( &$canonicalCourseId ) { 
+	function removeCourse ( $canonicalCourseId ) { 
 		$cm=Services::getService("CourseManagement");
-		$course =& $cm->getCanonicalCourse($canonicalCourseId);
+		$course =$cm->getCanonicalCourse($canonicalCourseId);
 		$course->_node->removeParent($this->_node->getId()); 
 	} 
 
@@ -225,15 +225,15 @@ class HarmoniCourseGroup
 	 * 
 	 * @access public
 	 */
-	function &getCourses () {
+	function getCourses () {
 		$cm=Services::getService("CourseManagement");
-		$nodeiterator =& $this->_node->getChildren();
+		$nodeiterator =$this->_node->getChildren();
 		$arrayOfCourses = array();
 		while($nodeiterator->hasNextNode()){
-			$node=&$nodeiterator->nextNode();
-			$arrayOfCourses[] =& $cm->getCanonicalCourse($node->getId());
+			$node=$nodeiterator->nextNode();
+			$arrayOfCourses[] =$cm->getCanonicalCourse($node->getId());
 		}
-		$ret =& new HarmoniCanonicalCourseIterator($arrayOfCourses);
+		$ret = new HarmoniCanonicalCourseIterator($arrayOfCourses);
 		return $ret;
 		 
 	} 

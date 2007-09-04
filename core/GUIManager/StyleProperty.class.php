@@ -32,7 +32,7 @@ require_once(HARMONI."GUIManager/StyleProperty.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StyleProperty.class.php,v 1.12 2006/08/19 21:14:17 sporktim Exp $
+ * @version $Id: StyleProperty.class.php,v 1.13 2007/09/04 20:25:21 adamfranco Exp $
  */
 class StyleProperty extends StylePropertyInterface {
 
@@ -89,10 +89,10 @@ class StyleProperty extends StylePropertyInterface {
 	 * @access public
 	 * @since 4/26/06
 	 */
-	function setId (&$id) {
+	function setId ($id) {
 		if (!is_object($id))
 			throwError(new Error("GUIMANAGER", "STRING ID PASSED"));
-		$this->_id =& $id;
+		$this->_id =$id;
 	}
 	
 	/**
@@ -102,11 +102,11 @@ class StyleProperty extends StylePropertyInterface {
 	 * @access public
 	 * @since 4/26/06
 	 */
-	function &getId () {
+	function getId () {
 		if (isset($this->_id)){
 			return $this->_id;
 		}else{
-			$im =& Services::getService("Id");		
+			$im = Services::getService("Id");		
 			$this->_id = 	$im->createId();
 			return $this->_id;
 		}
@@ -165,11 +165,11 @@ class StyleProperty extends StylePropertyInterface {
 	 * @access public
 	 * @param ref object A StyleComponent object.
 	 **/
-	function addSC(& $sc) {
+	function addSC($sc) {
 		ArgumentValidator::validate($sc, ExtendsValidatorRule::getRule("StyleComponentInterface"), true);
-//		$this->_SCs[] =& $sc;
-//		print "_SCs[".get_class($sc)."] =& ".$sc->getDisplayName().";<br/>";
-		$this->_SCs[get_class($sc)] =& $sc;
+//		$this->_SCs[] =$sc;
+//		print "_SCs[".get_class($sc)."] = ".$sc->getDisplayName().";<br/>";
+		$this->_SCs[get_class($sc)] =$sc;
 	}
 
 	/**
@@ -178,7 +178,7 @@ class StyleProperty extends StylePropertyInterface {
 	 * @access public$this->_SCs
 	 * @return array An array of the StyleComponents of this StyleProperty.
 	 **/
-	function &getSCs() {
+	function getSCs() {
 		return $this->_SCs;
 	}
 	
@@ -189,7 +189,7 @@ class StyleProperty extends StylePropertyInterface {
 	 * @access public
 	 * @return ref object StyleComponent
 	 **/
-	function &getStyleComponent($class) {
+	function getStyleComponent($class) {
 		$class = strtolower($class);
 		if(isset($this->_SCs[$class])){
 			return $this->_SCs[$class];

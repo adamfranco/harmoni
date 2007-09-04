@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.153 2007/08/22 20:13:53 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.154 2007/09/04 20:25:57 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -12,6 +12,31 @@
 		<important author='adam'>
 			As of this version, Harmoni no longer supports PHP4. Please use PHP5 or later.
 		</important>
+		<change author='adam'>
+			GUI: Y-Layout now uses div tags instead of tables to allow the setting
+			of child widths.
+		</change>
+		<change author='adam'>
+			Removing ampersands for compatability with other PHP5 code.
+			The BBEdit-grep string used for the find and replace was:
+					(function )&amp;|(=\s?)&amp;([^a-z#])|([^&amp;])&amp;\s?(\$)
+			replaced with
+					\1\2\3\4\5
+			
+			Special Changes were made to the following files to fix problems introduced 
+			in the search and repace for ampersands:
+					- polyphony/main/library/ResultPrinter/ArrayResultPrinter.class.php - getLayout()
+							< $item = $this->_array[key($this->_array)];
+							======
+							> $item = current($this->_array);
+					
+					- harmoni/core/oki2/repository/HarmoniRecord.class.php - getParts()
+							Moved the following line out of the if-statement:
+							$activeValue = $allRecordFieldValues[$key]->getActiveVersion();
+					
+					- harmoni/core/oki2/hierarchy/tree/Tree.class.php - _traverse()
+							Kept the first parameter being passed by reference. Needed in this case.
+		</change>
 		<change author='adam'>
 			GUI: Now can include an xmlns namespace in the &lt;html&gt; tag.
 		</change>

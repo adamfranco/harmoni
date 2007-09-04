@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableString.abstract.php,v 1.11 2007/04/12 15:37:26 adamfranco Exp $
+ * @version $Id: StorableString.abstract.php,v 1.12 2007/09/04 20:25:33 adamfranco Exp $
  */
 class StorableStringAbstract extends String /* implements StorablePrimitive */ {
 
@@ -25,17 +25,17 @@ class StorableStringAbstract extends String /* implements StorablePrimitive */ {
 	 * @return integer Returns the new ID of the data stored.
 	 */
 	function insert($dbID) {
-		$idManager =& Services::getService("Id");
-		$newID =& $idManager->createId();
+		$idManager = Services::getService("Id");
+		$newID =$idManager->createId();
 		
-		$query =& new InsertQuery();
+		$query = new InsertQuery();
 		$query->setTable($this->_table);
 		$query->setColumns(array("id","data"));
 		
 		$query->addRowOfValues(array("'".addslashes($newID->getIdString())."'", "'".addslashes($this->asString())."'"));
 		
-		$dbHandler =& Services::getService("DatabaseManager");
-		$result =& $dbHandler->query($query, $dbID);
+		$dbHandler = Services::getService("DatabaseManager");
+		$result =$dbHandler->query($query, $dbID);
 		if (!$result || $result->getNumberOfRows() != 1) {
 			throwError( new UnknownDBError("StorableString") );
 			return false;
@@ -54,15 +54,15 @@ class StorableStringAbstract extends String /* implements StorablePrimitive */ {
 	function update($dbID, $dataID) {
 		if (!$dataID) return false;
 		
-		$query =& new UpdateQuery();
+		$query = new UpdateQuery();
 		$query->setTable($this->_table);
 		$query->setColumns(array("data"));
 		$query->setWhere("id='".addslashes($dataID)."'");
 		
 		$query->setValues(array("'".addslashes($this->asString())."'"));
 		
-		$dbHandler =& Services::getService("DatabaseManager");
-		$result =& $dbHandler->query($query, $dbID);
+		$dbHandler = Services::getService("DatabaseManager");
+		$result =$dbHandler->query($query, $dbID);
 		
 		if (!$result) {
 			throwError( new UnknownDBError("StorableString") );
@@ -83,12 +83,12 @@ class StorableStringAbstract extends String /* implements StorablePrimitive */ {
 		// delete ourselves from our data table
 		$table = $this->_table;
 		
-		$query =& new DeleteQuery;
+		$query = new DeleteQuery;
 		$query->setTable($table);
 		$query->setWhere("id='".addslashes($dataID)."'");
 		
-		$dbHandler =& Services::getService("DatabaseManager");
-		$res =& $dbHandler->query($query, $dbID);
+		$dbHandler = Services::getService("DatabaseManager");
+		$res =$dbHandler->query($query, $dbID);
 		
 		if (!$res) throwError( new UnknownDBError("StorablePrimitive"));
 	}
@@ -104,7 +104,7 @@ class StorableStringAbstract extends String /* implements StorablePrimitive */ {
 	 * @access public
 	 * @since 6/9/06
 	 */
-	function &asABlob () {
+	function asABlob () {
 		return Blob::fromString($this->asString());
 	}
 	
@@ -115,7 +115,7 @@ class StorableStringAbstract extends String /* implements StorablePrimitive */ {
 	 * @access public
 	 * @since 6/9/06
 	 */
-	function &asAString () {
+	function asAString () {
 		return String::fromString($this->asString());
 	}
 	
@@ -126,7 +126,7 @@ class StorableStringAbstract extends String /* implements StorablePrimitive */ {
 	 * @access public
 	 * @since 6/9/06
 	 */
-	function &asAShortString () {
+	function asAShortString () {
 		return String::fromString($this->asString());
 	}
 	
@@ -137,7 +137,7 @@ class StorableStringAbstract extends String /* implements StorablePrimitive */ {
 	 * @access public
 	 * @since 6/9/06
 	 */
-	function &asADateTime () {
+	function asADateTime () {
 		return DateAndTime::fromString($this->asString());
 	}
 	
@@ -149,7 +149,7 @@ class StorableStringAbstract extends String /* implements StorablePrimitive */ {
 	 * @access public
 	 * @since 6/9/06
 	 */
-	function &asAnOKIType () {
+	function asAnOKIType () {
 		return Type::stringToType($this->asString());
 	}
 	
@@ -160,7 +160,7 @@ class StorableStringAbstract extends String /* implements StorablePrimitive */ {
 	 * @access public
 	 * @since 6/9/06
 	 */
-	function &asABoolean() {
+	function asABoolean() {
 		return Boolean::withValue((strlen($this->asString()) > 0)?true:false);
 	}
 	
@@ -171,7 +171,7 @@ class StorableStringAbstract extends String /* implements StorablePrimitive */ {
 	 * @access public
 	 * @since 6/9/06
 	 */
-	function &asAInteger() {
+	function asAInteger() {
 		return Integer::fromString($this->asString());
 	}
 	
@@ -182,7 +182,7 @@ class StorableStringAbstract extends String /* implements StorablePrimitive */ {
 	 * @access public
 	 * @since 6/9/06
 	 */
-	function &asAFloat () {
+	function asAFloat () {
 		return Float::fromString($this->asString());
 	}
 	

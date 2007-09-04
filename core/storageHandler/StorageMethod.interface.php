@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorageMethod.interface.php,v 1.4 2005/01/19 21:10:13 adamfranco Exp $
+ * @version $Id: StorageMethod.interface.php,v 1.5 2007/09/04 20:25:51 adamfranco Exp $
  */
 
 class StorageMethodInterface {
@@ -24,7 +24,7 @@ class StorageMethodInterface {
      * @access public
      */
 
-    function store(&$storable,$path,$name) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+    function store($storable,$path,$name) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 
     /**
      * Returns a storable with a given name and path.
@@ -33,7 +33,7 @@ class StorageMethodInterface {
 	 * @return object Storable The storable, which can be used to retreive the data. False if no such storable exists.
      * @access public
      */
-    function &retrieve($path,$name) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+    function retrieve($path,$name) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 
     /**
      * Deletes the storable with a given name and path.

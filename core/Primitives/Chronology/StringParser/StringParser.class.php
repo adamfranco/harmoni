@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StringParser.class.php,v 1.6 2006/11/30 22:02:04 adamfranco Exp $
+ * @version $Id: StringParser.class.php,v 1.7 2007/09/04 20:25:25 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -25,24 +25,24 @@ require_once(dirname(__FILE__)."/../Month.class.php");
  * {@link getParserFor getParserFor($aString)} method to iterate through the
  * parsers until one is found that can handle the input:
  * <code>
- * 	$parser =& StringParser::getParserFor($aString);
+ * 	$parser = StringParser::getParserFor($aString);
  *		
  *	if (!$parser)
  *		die("'".$aString."' is not in a valid format.");
  *	
- * 	$result =& Date::withYearMonthDay($parser->year(), $parser->month(), $parser->day());
+ * 	$result = Date::withYearMonthDay($parser->year(), $parser->month(), $parser->day());
  * </code>
  *
  * To use StringParsers individually, use the canHandle($aString) method to find out if it is
  * appropriate to use this parse for a given string. If it is appropriate, create
  * a new StringParser with the given string and access its elements for the results:
  * <code>
- * 	$parser =& new ANSI58216StringParser($aString);
+ * 	$parser = new ANSI58216StringParser($aString);
  *		
  *	if (!$parser)
  *		die("'".$aString."' is not in a valid format.");
  *	
- * 	$result =& Duration::withDaysHoursMinutesSeconds($parser->day(), $parser->hour(),
+ * 	$result = Duration::withDaysHoursMinutesSeconds($parser->day(), $parser->hour(),
  *					$parser->minute(), $parser->second());
  * </code>
  *
@@ -54,7 +54,7 @@ require_once(dirname(__FILE__)."/../Month.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StringParser.class.php,v 1.6 2006/11/30 22:02:04 adamfranco Exp $
+ * @version $Id: StringParser.class.php,v 1.7 2007/09/04 20:25:25 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -76,7 +76,7 @@ class StringParser
 	 * @since 5/24/05
 	 * @static
 	 */
-	function &getParserFor ( $aString ) {
+	function getParserFor ( $aString ) {
 		// Go through our parsers and try to find one that understands the format.
 		$parserClasses = array(	
 			'ISO8601StringParser',
@@ -92,7 +92,7 @@ class StringParser
 		$handled = FALSE;
 		while (!$handled && current($parserClasses)) {
 			$parserClass = current($parserClasses);
-			$parser =& new $parserClass($aString);
+			$parser = new $parserClass($aString);
 			
 			if ($parser->canHandle()) {
 				$handled = TRUE;

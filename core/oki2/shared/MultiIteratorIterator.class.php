@@ -10,7 +10,7 @@ require_once(dirname(__FILE__)."/HarmoniIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MultiIteratorIterator.class.php,v 1.3 2007/04/12 15:37:33 adamfranco Exp $
+ * @version $Id: MultiIteratorIterator.class.php,v 1.4 2007/09/04 20:25:48 adamfranco Exp $
  */
 class MultiIteratorIterator
 	extends HarmoniIterator
@@ -35,8 +35,8 @@ class MultiIteratorIterator
 	 * @access public
 	 * @since 5/9/06
 	 */
-	function addIterator ( &$iterator ) {
-		$this->_elements[] =& $iterator;
+	function addIterator ( $iterator ) {
+		$this->_elements[] =$iterator;
 		unset($this->_count);
 	}
 
@@ -50,7 +50,7 @@ class MultiIteratorIterator
 	}
 
 	// public Type & next();
-	function &next() {
+	function next() {
 		for ($i = max(0, $this->_i); $i < count($this->_elements); $i++) {
 			if ($this->_elements[$i]->hasNext())
 				return $this->_elements[$i]->next();

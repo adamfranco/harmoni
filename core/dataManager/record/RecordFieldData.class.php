@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordFieldData.class.php,v 1.25 2007/04/12 15:37:25 adamfranco Exp $
+ * @version $Id: RecordFieldData.class.php,v 1.26 2007/09/04 20:25:31 adamfranco Exp $
  * @author Gabe Schine
  */
 class RecordFieldData {
@@ -27,11 +27,11 @@ class RecordFieldData {
 	var $_prune = false;
 	var $_recast = false;
 	
-	function RecordFieldData(&$parent, $active=false) {
-		$this->_date =& DateAndTime::now();
+	function RecordFieldData($parent, $active=false) {
+		$this->_date = DateAndTime::now();
 		$this->_active = $active;
 		
-		$this->_parent =& $parent;
+		$this->_parent =$parent;
 	}
 	
 	/**
@@ -40,8 +40,8 @@ class RecordFieldData {
 	 * @return ref object
 	 * @access public
 	 */
-	function &replicate(&$parent) {
-		$newObj =& new RecordFieldData($parent, $this->_active);
+	function replicate($parent) {
+		$newObj = new RecordFieldData($parent, $this->_active);
 		
 		$date = $this->_date; // in PHP4 this will replicate the DateAndTime
 		$newObj->setDate($date);
@@ -98,28 +98,28 @@ class RecordFieldData {
 	 * @return void
 	 * @access public
 	 */
-	function populate( &$row ) {
-		$dbHandler =& Services::getService("DatabaseManager");
-//		$recordField =& $this->_parent->getRecordField();
-//		$record =& $recordField->getRecord();
+	function populate( $row ) {
+		$dbHandler = Services::getService("DatabaseManager");
+//		$recordField =$this->_parent->getRecordField();
+//		$record =$recordField->getRecord();
 //		$dbID = $dataSet->getDatabaseId();
 		
 		$this->_myID = $row['record_field_id'];
-		$this->_date =& $dbHandler->fromDBDate($row['record_field_modified'],DATAMANAGER_DBID);
+		$this->_date =$dbHandler->fromDBDate($row['record_field_modified'],DATAMANAGER_DBID);
 		// $this->_active was set by parent on construction
 		
 		// now we need to create the valueObj
-		$recordField =& $this->_parent->getRecordField();
-		$schemaField =& $recordField->getSchemaField();
+		$recordField =$this->_parent->getRecordField();
+		$schemaField =$recordField->getSchemaField();
 		$type = $schemaField->getType();
 		
-		$dataTypeManager =& Services::getService("DataTypeManager");
+		$dataTypeManager = Services::getService("DataTypeManager");
 		$class = $dataTypeManager->storablePrimitiveClassForType($type);
 		
-		eval('$valueObj =& '.$class.'::createAndPopulate($row);');
+		eval('$valueObj = '.$class.'::createAndPopulate($row);');
 		$this->_dataID = $row['fk_data'];
 		
-		$this->_primitive =& $valueObj;
+		$this->_primitive =$valueObj;
 		
 	}
 	
@@ -152,13 +152,13 @@ class RecordFieldData {
 	function recastAsStorable()
 	{
 		if ($this->_recast) return;
-		$dataTypeManager =& Services::getService("DataTypeManager");
-		$recordField =& $this->_parent->getRecordField();
-		$schemaField =& $recordField->getSchemaField();
+		$dataTypeManager = Services::getService("DataTypeManager");
+		$recordField =$this->_parent->getRecordField();
+		$schemaField =$recordField->getSchemaField();
 		$type = $schemaField->getType();
-		$newObj =& $dataTypeManager->recastAsStorablePrimitive($this->_primitive, $type);
+		$newObj =$dataTypeManager->recastAsStorablePrimitive($this->_primitive, $type);
 		if ($newObj) {
-			$this->_primitive =& $newObj;
+			$this->_primitive =$newObj;
 			$this->_recast = true;
 		}
 	}
@@ -171,7 +171,7 @@ class RecordFieldData {
 	 */
 	function commit() {
 		
-		$dbHandler =& Services::getService("DatabaseManager");
+		$dbHandler = Services::getService("DatabaseManager");
 		
 		if ($this->_update) {
 			// let's re-cast our primitive to a storablePrimitive
@@ -183,11 +183,11 @@ class RecordFieldData {
 			else
 				$this->_primitive->update(DATAMANAGER_DBID,$this->_dataID);
 						
-			$this->_date =& DateAndTime::now();
+			$this->_date = DateAndTime::now();
 			
 			if ($this->_myID) {
 				// we're already in the DB. just update the entry
-				$query =& new UpdateQuery();
+				$query = new UpdateQuery();
 				
 				$query->setWhere("id='".addslashes($this->_myID)."'");
 				$query->setColumns(array("value_index","active", "modified"));
@@ -195,11 +195,11 @@ class RecordFieldData {
 										$dbHandler->toDBDate($this->_date,DATAMANAGER_DBID)));
 			} else {
 				// we have to insert a new one
-				$query =& new InsertQuery();
+				$query = new InsertQuery();
 				
-				$idManager =& Services::getService("Id");
+				$idManager = Services::getService("Id");
 				
-				$newID =& $idManager->createId();
+				$newID =$idManager->createId();
 				
 				$this->_myID = $newID->getIdString();
 				$query->setColumns(array(
@@ -212,8 +212,8 @@ class RecordFieldData {
 				"modified"
 				));
 				
-				$schema =& $this->_parent->_parent->_parent->getSchema();
-				$schemaField =& $this->_parent->_parent->getSchemaField();
+				$schema =$this->_parent->_parent->_parent->getSchema();
+				$schemaField =$this->_parent->_parent->getSchemaField();
 				
 				$query->addRowOfValues(array(
 				"'".addslashes($this->_myID)."'",
@@ -228,7 +228,7 @@ class RecordFieldData {
 			
 			$query->setTable("dm_record_field");
 
-			$result =& $dbHandler->query($query, DATAMANAGER_DBID);
+			$result =$dbHandler->query($query, DATAMANAGER_DBID);
 			
 			if (!$result) {
 				throwError( new UnknownDBError("Record") );
@@ -239,11 +239,11 @@ class RecordFieldData {
 		if ($this->_prune && $this->_dataID) {
 			if ($id = $this->getID()) {
 				// ok, let's get rid of ourselves... completely!
-				$query =& new DeleteQuery;
+				$query = new DeleteQuery;
 				$query->setTable("dm_record_field");
 				$query->setWhere("id='".addslashes($id)."'");
 
-				$res =& $dbHandler->query($query, DATAMANAGER_DBID);
+				$res =$dbHandler->query($query, DATAMANAGER_DBID);
 				if (!$res) throwError( new UnknownDBError("Record"));
 				
 				// now tell the data object to prune itself
@@ -251,11 +251,11 @@ class RecordFieldData {
 				$this->_primitive->prune(DATAMANAGER_DBID, $this->_dataID);
 				
 				// and we have to get rid of any tag mappings where we are included.
-				$query =& new DeleteQuery;
+				$query = new DeleteQuery;
 				$query->setTable("dm_tag_map");
 				$query->setWhere("fk_record_field='".addslashes($id)."'");
 				
-				$res =& $dbHandler->query($query, DATAMANAGER_DBID);
+				$res =$dbHandler->query($query, DATAMANAGER_DBID);
 				if (!$res) throwError( new UnknownDBError("Record"));
 			}
 		}
@@ -286,7 +286,7 @@ class RecordFieldData {
 	 * @return void
 	 * @access public
 	 */
-	function takeValueFromPrimitive(&$object) {
+	function takeValueFromPrimitive($object) {
 		$this->setValueFromPrimitive($object);
 	}
 	
@@ -296,8 +296,8 @@ class RecordFieldData {
 	 * @return void
 	 * @access public
 	 */
-	function setValueFromPrimitive(&$object) {
-		$this->_primitive =& $object;
+	function setValueFromPrimitive($object) {
+		$this->_primitive =$object;
 		$this->_recast = false;
 	}
 	
@@ -306,7 +306,7 @@ class RecordFieldData {
 	 * @return ref object A {@link Primitive}.
 	 * @access public
 	 */
-	function &getPrimitive() {
+	function getPrimitive() {
 		return $this->_primitive;
 	}
 	
@@ -315,7 +315,7 @@ class RecordFieldData {
 	 * @return ref object A {@link DateAndTime} object.
 	 * @access public
 	 */
-	function &getDate() {
+	function getDate() {
 		return $this->_date;
 	}
 	
@@ -325,10 +325,10 @@ class RecordFieldData {
 	 * @return void
 	 * @access public
 	 */
-	function setDate(&$date) {
+	function setDate($date) {
 		ArgumentValidator::validate($date,
 			HasMethodsValidatorRule::getRule("asDateAndTime"));
-		$this->_date =& $date->asDateAndTime();
+		$this->_date =$date->asDateAndTime();
 	}
 	
 	/**

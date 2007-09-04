@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ScheduleTestCase.class.php,v 1.2 2006/06/26 12:55:09 adamfranco Exp $
+ * @version $Id: ScheduleTestCase.class.php,v 1.3 2007/09/04 20:25:26 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -26,7 +26,7 @@ require_once(dirname(__FILE__)."/../Schedule.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ScheduleTestCase.class.php,v 1.2 2006/06/26 12:55:09 adamfranco Exp $
+ * @version $Id: ScheduleTestCase.class.php,v 1.3 2007/09/04 20:25:26 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -56,7 +56,7 @@ class ScheduleTestCase extends UnitTestCase {
 	 * Test the enumeration methods.
 	 */ 
 	function test_singleduration_enumeration() {
-		$schedule =& Schedule::startingDuration(
+		$schedule = Schedule::startingDuration(
 			DateAndTime::withYearMonthDay(2005, 5, 15),
 			Duration::withDays(7));
 		$durations = array();
@@ -66,24 +66,24 @@ class ScheduleTestCase extends UnitTestCase {
 		$this->assertEqual($schedule->getSchedule(), $durations);
 		
 		$datesAndTimes = array();
-		$datesAndTimes[] =& DateAndTime::withYearMonthDay(2005, 5, 15);
-		$datesAndTimes[] =& DateAndTime::withYearMonthDay(2005, 5, 16);
-		$datesAndTimes[] =& DateAndTime::withYearMonthDay(2005, 5, 17);
-		$datesAndTimes[] =& DateAndTime::withYearMonthDay(2005, 5, 18);
-		$datesAndTimes[] =& DateAndTime::withYearMonthDay(2005, 5, 19);
-		$datesAndTimes[] =& DateAndTime::withYearMonthDay(2005, 5, 20);
-		$datesAndTimes[] =& DateAndTime::withYearMonthDay(2005, 5, 21);
+		$datesAndTimes[] = DateAndTime::withYearMonthDay(2005, 5, 15);
+		$datesAndTimes[] = DateAndTime::withYearMonthDay(2005, 5, 16);
+		$datesAndTimes[] = DateAndTime::withYearMonthDay(2005, 5, 17);
+		$datesAndTimes[] = DateAndTime::withYearMonthDay(2005, 5, 18);
+		$datesAndTimes[] = DateAndTime::withYearMonthDay(2005, 5, 19);
+		$datesAndTimes[] = DateAndTime::withYearMonthDay(2005, 5, 20);
+		$datesAndTimes[] = DateAndTime::withYearMonthDay(2005, 5, 21);
 		
 		$this->assertEqual($schedule->dateAndTimes(), $datesAndTimes);
 		
-		$datesAndTimes[] =& DateAndTime::withYearMonthDay(2005, 5, 22);
+		$datesAndTimes[] = DateAndTime::withYearMonthDay(2005, 5, 22);
 		$this->assertNotEqual($schedule->dateAndTimes(), $datesAndTimes);
 		
 		
 		$datesAndTimes = array();
-		$datesAndTimes[] =& DateAndTime::withYearMonthDay(2005, 5, 17);
-		$datesAndTimes[] =& DateAndTime::withYearMonthDay(2005, 5, 18);
-		$datesAndTimes[] =& DateAndTime::withYearMonthDay(2005, 5, 19);
+		$datesAndTimes[] = DateAndTime::withYearMonthDay(2005, 5, 17);
+		$datesAndTimes[] = DateAndTime::withYearMonthDay(2005, 5, 18);
+		$datesAndTimes[] = DateAndTime::withYearMonthDay(2005, 5, 19);
 		
 		$this->assertEqual($schedule->between(
 				DateAndTime::withYearMonthDay(2005, 5, 17),
@@ -95,7 +95,7 @@ class ScheduleTestCase extends UnitTestCase {
 	 * Test the enumeration methods.
 	 */ 
 	function test_multipleduration_enumeration() {
-		$schedule =& Schedule::startingDuration(
+		$schedule = Schedule::startingDuration(
 			DateAndTime::withYearMonthDay(2005, 5, 15),
 			Duration::withDays(7));
 		$durations = array();
@@ -106,30 +106,30 @@ class ScheduleTestCase extends UnitTestCase {
 		$this->assertEqual($schedule->getSchedule(), $durations);
 		
 		$datesAndTimes = array();
-		$datesAndTimes[] =& DateAndTime::withYearMonthDayHourMinuteSecond(2005, 5, 15, 0, 0, 0);
-		$datesAndTimes[] =& DateAndTime::withYearMonthDayHourMinuteSecond(2005, 5, 16, 0, 0, 0);
-		$datesAndTimes[] =& DateAndTime::withYearMonthDayHourMinuteSecond(2005, 5, 16, 1, 0, 0);
-		$datesAndTimes[] =& DateAndTime::withYearMonthDayHourMinuteSecond(2005, 5, 17, 1, 0, 0);
-		$datesAndTimes[] =& DateAndTime::withYearMonthDayHourMinuteSecond(2005, 5, 17, 2, 0, 0);
-		$datesAndTimes[] =& DateAndTime::withYearMonthDayHourMinuteSecond(2005, 5, 18, 2, 0, 0);
-		$datesAndTimes[] =& DateAndTime::withYearMonthDayHourMinuteSecond(2005, 5, 18, 3, 0, 0);
-		$datesAndTimes[] =& DateAndTime::withYearMonthDayHourMinuteSecond(2005, 5, 19, 3, 0, 0);
-		$datesAndTimes[] =& DateAndTime::withYearMonthDayHourMinuteSecond(2005, 5, 19, 4, 0, 0);
-		$datesAndTimes[] =& DateAndTime::withYearMonthDayHourMinuteSecond(2005, 5, 20, 4, 0, 0);
-		$datesAndTimes[] =& DateAndTime::withYearMonthDayHourMinuteSecond(2005, 5, 20, 5, 0, 0);
-		$datesAndTimes[] =& DateAndTime::withYearMonthDayHourMinuteSecond(2005, 5, 21, 5, 0, 0);
-		$datesAndTimes[] =& DateAndTime::withYearMonthDayHourMinuteSecond(2005, 5, 21, 6, 0, 0);
+		$datesAndTimes[] = DateAndTime::withYearMonthDayHourMinuteSecond(2005, 5, 15, 0, 0, 0);
+		$datesAndTimes[] = DateAndTime::withYearMonthDayHourMinuteSecond(2005, 5, 16, 0, 0, 0);
+		$datesAndTimes[] = DateAndTime::withYearMonthDayHourMinuteSecond(2005, 5, 16, 1, 0, 0);
+		$datesAndTimes[] = DateAndTime::withYearMonthDayHourMinuteSecond(2005, 5, 17, 1, 0, 0);
+		$datesAndTimes[] = DateAndTime::withYearMonthDayHourMinuteSecond(2005, 5, 17, 2, 0, 0);
+		$datesAndTimes[] = DateAndTime::withYearMonthDayHourMinuteSecond(2005, 5, 18, 2, 0, 0);
+		$datesAndTimes[] = DateAndTime::withYearMonthDayHourMinuteSecond(2005, 5, 18, 3, 0, 0);
+		$datesAndTimes[] = DateAndTime::withYearMonthDayHourMinuteSecond(2005, 5, 19, 3, 0, 0);
+		$datesAndTimes[] = DateAndTime::withYearMonthDayHourMinuteSecond(2005, 5, 19, 4, 0, 0);
+		$datesAndTimes[] = DateAndTime::withYearMonthDayHourMinuteSecond(2005, 5, 20, 4, 0, 0);
+		$datesAndTimes[] = DateAndTime::withYearMonthDayHourMinuteSecond(2005, 5, 20, 5, 0, 0);
+		$datesAndTimes[] = DateAndTime::withYearMonthDayHourMinuteSecond(2005, 5, 21, 5, 0, 0);
+		$datesAndTimes[] = DateAndTime::withYearMonthDayHourMinuteSecond(2005, 5, 21, 6, 0, 0);
 		
 		$this->assertEqual($schedule->dateAndTimes(), $datesAndTimes);
 		
-		$datesAndTimes[] =& DateAndTime::withYearMonthDayHourMinuteSecond(2005, 5, 21, 5, 0, 0);
+		$datesAndTimes[] = DateAndTime::withYearMonthDayHourMinuteSecond(2005, 5, 21, 5, 0, 0);
 		$this->assertNotEqual($schedule->dateAndTimes(), $datesAndTimes);
 		
 		
 		$datesAndTimes = array();
-		$datesAndTimes[] =& DateAndTime::withYearMonthDayHourMinuteSecond(2005, 5, 17, 1, 0, 0);
-		$datesAndTimes[] =& DateAndTime::withYearMonthDayHourMinuteSecond(2005, 5, 18, 1, 0, 0);
-		$datesAndTimes[] =& DateAndTime::withYearMonthDayHourMinuteSecond(2005, 5, 18, 2, 0, 0);
+		$datesAndTimes[] = DateAndTime::withYearMonthDayHourMinuteSecond(2005, 5, 17, 1, 0, 0);
+		$datesAndTimes[] = DateAndTime::withYearMonthDayHourMinuteSecond(2005, 5, 18, 1, 0, 0);
+		$datesAndTimes[] = DateAndTime::withYearMonthDayHourMinuteSecond(2005, 5, 18, 2, 0, 0);
 		
 		$this->assertEqual($schedule->between(
 				DateAndTime::withYearMonthDay(2005, 5, 17),
@@ -148,19 +148,19 @@ class ScheduleTestCase extends UnitTestCase {
 		// startingDuration()
 		// startingEnding()
 
-		$timespan =& Schedule::current();
+		$timespan = Schedule::current();
 		$this->assertEqual($timespan->startYear(), intval(date('Y')));
 		$this->assertEqual($timespan->startMonth(), intval(date('n')));
 		$this->assertEqual($timespan->dayOfMonth(), intval(date('j')));
-		$duration =& $timespan->duration();
+		$duration =$timespan->duration();
 		$this->assertTrue($duration->isEqualTo(Duration::zero()));
 		$this->assertEqual(strtolower(get_class($timespan)), 'schedule');
 		
-		$timespan =& Schedule::epoch();
+		$timespan = Schedule::epoch();
 		$this->assertEqual($timespan->startYear(), 1901);
 		$this->assertEqual($timespan->startMonth(), 1);
 		$this->assertEqual($timespan->dayOfMonth(), 1);
-		$duration =& $timespan->duration();
+		$duration =$timespan->duration();
 		$this->assertTrue($duration->isEqualTo(Duration::zero()));
 		$this->assertEqual(strtolower(get_class($timespan)), 'schedule');
 	}
@@ -170,19 +170,19 @@ class ScheduleTestCase extends UnitTestCase {
 	 * 
 	 */
 	function test_end() {
-		$datA =& DateAndTime::withYearDay(2005, 125);
-		$datB =& DateAndTime::withYearDay(2006, 125);
+		$datA = DateAndTime::withYearDay(2005, 125);
+		$datB = DateAndTime::withYearDay(2006, 125);
 		
-		$timespan =& Schedule::startingDuration(
+		$timespan = Schedule::startingDuration(
 				DateAndTime::withYearDay(2005, 125),
 				Duration::withDays(365)
 			);
 		
 		$this->assertEqual($timespan->startYear(), 2005);
 		$this->assertEqual($timespan->dayOfYear(), 125);
-		$duration =& $timespan->duration();
+		$duration =$timespan->duration();
 		$this->assertTrue($duration->isEqualTo(Duration::withDays(365)));
-		$end =& $timespan->end();
+		$end =$timespan->end();
 		$this->assertEqual($end->julianDayNumber(), 2453860);
 		$this->assertEqual(($end->julianDayNumber() - $datA->julianDayNumber()), 364);
 		$this->assertEqual($end->year(), 2006);

@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SchemaField.class.php,v 1.15 2006/06/13 21:18:38 adamfranco Exp $
+ * @version $Id: SchemaField.class.php,v 1.16 2007/09/04 20:25:32 adamfranco Exp $
  * @author Gabe Schine
  */
 class SchemaField {
@@ -62,12 +62,12 @@ class SchemaField {
 		
 		$this->_schema = null;
 		
-		$this->_idManager =& Services::getService("Id");
+		$this->_idManager = Services::getService("Id");
 		
 //		print "first time name: ".$this->_displayName."<br>";
 		
 		// let's do a quick check and make sure that this type is registered
-//		$typeMgr =& Services::getService("DataTypeManager");
+//		$typeMgr = Services::getService("DataTypeManager");
 //		if (!$typeMgr->typeRegistered($type)) {
 //			// throw an error
 //			throwError( new Error("Could not create new SchemaField for type '$type' because it doesn't
@@ -83,7 +83,7 @@ class SchemaField {
 	 * @return void
 	 * @access public
 	 */
-	function associate( &$schema ) {
+	function associate( $schema ) {
 		
 		// first check if we're already attached to a Schema.
 		// if so, we're gonna dump
@@ -93,7 +93,7 @@ class SchemaField {
 		}
 		
 		$this->_associated = true;
-		$this->_schema =& $schema;
+		$this->_schema =$schema;
 		
 		$this->_id = $schema->getID() . "." . $this->_label;
 	}
@@ -195,7 +195,7 @@ class SchemaField {
 			return null;
 		}
 		
-		$dbHandler =& Services::getService("DatabaseManager");
+		$dbHandler = Services::getService("DatabaseManager");
 		
 		if ($this->_addToDB) {
 			$query = new InsertQuery();
@@ -215,7 +215,7 @@ class SchemaField {
 			
 			$this->_addToDB = false;
 			
-			$result =& $dbHandler->query($query,DATAMANAGER_DBID);
+			$result =$dbHandler->query($query,DATAMANAGER_DBID);
 			if (!$result || $result->getNumberOfRows() != 1) {
 				throwError( new UnknownDBError("DataManager") );
 				return false;
@@ -241,7 +241,7 @@ class SchemaField {
 			
 			$this->_update = false;
 			
-			$result =& $dbHandler->query($query,DATAMANAGER_DBID);
+			$result =$dbHandler->query($query,DATAMANAGER_DBID);
 			if (!$result || $result->getNumberOfRows() != 1) {
 				throwError( new UnknownDBError("DataManager") );
 				return null;
@@ -252,7 +252,7 @@ class SchemaField {
 		
 		if ($this->_delete) {
 			// let's get rid of this bad-boy
-			$query =& new UpdateQuery();
+			$query = new UpdateQuery();
 			$query->setTable("dm_schema_field");
 			$query->setWhere("id='".addslashes($id)."'");
 			$query->setColumns(array("active"));
@@ -260,7 +260,7 @@ class SchemaField {
 
 			$this->_delete = false;
 			
-			$result =& $dbHandler->query($query,DATAMANAGER_DBID);
+			$result =$dbHandler->query($query,DATAMANAGER_DBID);
 // 			if (!$result || $result->getNumberOfRows() != 1) {
 // 				throwError( new UnknownDBError("DataManager") );
 // 				return false;
@@ -308,8 +308,8 @@ class SchemaField {
 	 * @return ref object A new {@link SchemaField} object.
 	 * @access public
 	 */
-	function &replicate() {
-		$newField =& new SchemaField($this->_label, $this->_displayName,  $this->_type, $this->_description, $this->_mult, $this->_required );
+	function replicate() {
+		$newField = new SchemaField($this->_label, $this->_displayName,  $this->_type, $this->_description, $this->_mult, $this->_required );
 		return $newField;
 	}
 	

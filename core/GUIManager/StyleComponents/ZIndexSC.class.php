@@ -19,7 +19,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/IntegerValidatorRule.cla
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ZIndexSC.class.php,v 1.8 2006/08/15 20:44:58 sporktim Exp $
+ * @version $Id: ZIndexSC.class.php,v 1.9 2007/09/04 20:25:23 adamfranco Exp $
  */
 class ZIndexSC extends StyleComponent {
 
@@ -35,7 +35,7 @@ class ZIndexSC extends StyleComponent {
 		$errDescription .= "Allowed values are ".implode(", ", $options)." or a 
 							specific integer value.";
 		
-		$rule=& RegexValidatorRule::getRule("^(auto|-?[0-9]+)$");
+		$rule= RegexValidatorRule::getRule("^(auto|-?[0-9]+)$");
 		
 		$displayName = "Z-Index";
 		$description = "Specifies the z-index. Allowed values are: ".implode(", ", $options).".

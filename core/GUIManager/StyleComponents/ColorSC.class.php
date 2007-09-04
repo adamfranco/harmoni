@@ -22,7 +22,7 @@ require_once(HARMONI."GUIManager/StyleComponent.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ColorSC.class.php,v 1.10 2006/08/15 20:44:58 sporktim Exp $
+ * @version $Id: ColorSC.class.php,v 1.11 2007/09/04 20:25:22 adamfranco Exp $
  */
 class ColorSC extends StyleComponent {
 
@@ -35,7 +35,7 @@ class ColorSC extends StyleComponent {
 		$errDescription = "Could not validate the color StyleComponent value \"%s\". ";
 		$errDescription .= "Allowed formats are: #RGB, #RRGGBB, rgb(R,G,B), and rgb(R%%,G%%,B%%).";
 		
-		$rule =& CSSColorValidatorRule::getRule();
+		$rule = CSSColorValidatorRule::getRule();
 		
 		$displayName = "Color";
 		$description = "Specifies the color using one of the following formats
@@ -136,7 +136,7 @@ class CSSColorValidatorRule extends RegexValidatorRule {
 	
 	/*
 	
-	function check(& $val) {
+	function check($val) {
 		$regs = array();
 		// check for #RGB and #RRGGBB format
 		if (ereg("^#[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$", $val))
@@ -178,7 +178,7 @@ class CSSColorValidatorRule extends RegexValidatorRule {
 	 * @static
 	 * @since 3/28/05
 	 */
-	function &getRule () {
+	function getRule () {
 		// Because there is no way in PHP to get the class name of the descendent
 		// class on which this method is called, this method must be implemented
 		// in each descendent class.
@@ -188,7 +188,7 @@ class CSSColorValidatorRule extends RegexValidatorRule {
 		
 		$class = __CLASS__;
 		if (!isset($GLOBALS['validator_rules'][$class]))
-			$GLOBALS['validator_rules'][$class] =& new $class;
+			$GLOBALS['validator_rules'][$class] = new $class;
 		
 		return $GLOBALS['validator_rules'][$class];
 	}

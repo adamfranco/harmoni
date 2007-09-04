@@ -16,7 +16,7 @@ require_once(OKI2."/osid/authorization/Function.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniFunction.class.php,v 1.11 2005/04/04 18:23:46 adamfranco Exp $
+ * @version $Id: HarmoniFunction.class.php,v 1.12 2007/09/04 20:25:38 adamfranco Exp $
  */
 class HarmoniFunction
 	extends FunctionInterface 
@@ -96,27 +96,27 @@ class HarmoniFunction
 	 * @param  string authzDB The name of the Authorization database.
 	 * @access public
 	 */
-	function HarmoniFunction(& $id, $referenceName, $description, & $functionType, 
-							 & $qualifierHierarchyId, $dbIndex, $authzDB) {
+	function HarmoniFunction($id, $referenceName, $description, $functionType, 
+							 $qualifierHierarchyId, $dbIndex, $authzDB) {
 		// ** parameter validation
-		$stringRule =& StringValidatorRule::getRule();
+		$stringRule = StringValidatorRule::getRule();
 		ArgumentValidator::validate($referenceName, $stringRule, true);
 		ArgumentValidator::validate($description, $stringRule, true);
-		$extendsRule =& ExtendsValidatorRule::getRule("Id");
+		$extendsRule = ExtendsValidatorRule::getRule("Id");
 		ArgumentValidator::validate($id, $extendsRule, true);
 		ArgumentValidator::validate($qualifierHierarchyId, $extendsRule, true);
-		$extendsRule =& ExtendsValidatorRule::getRule("Type");
+		$extendsRule = ExtendsValidatorRule::getRule("Type");
 		ArgumentValidator::validate($functionType, $extendsRule, true);
-		$integerRule =& IntegerValidatorRule::getRule();
+		$integerRule = IntegerValidatorRule::getRule();
 		ArgumentValidator::validate($dbIndex, $integerRule, true);
 		ArgumentValidator::validate($authzDB, $stringRule, true);
 		// ** end of parameter validation
 		
-		$this->_id =& $id;
+		$this->_id =$id;
 		$this->_referenceName = $referenceName;
 		$this->_description = $description;
-		$this->_functionType =& $functionType;
-		$this->_qualifierHierarchyId =& $qualifierHierarchyId;
+		$this->_functionType =$functionType;
+		$this->_qualifierHierarchyId =$qualifierHierarchyId;
 		$this->_dbIndex = $dbIndex;
 		$this->_authzDB = $authzDB;
 	}
@@ -141,7 +141,7 @@ class HarmoniFunction
 	 * 
 	 * @access public
 	 */
-	function &getId () { 
+	function getId () { 
 		return $this->_id;
 	}
 	
@@ -213,7 +213,7 @@ class HarmoniFunction
 	 * 
 	 * @access public
 	 */
-	function &getFunctionType () { 
+	function getFunctionType () { 
 		return $this->_functionType;
 	}
 
@@ -237,7 +237,7 @@ class HarmoniFunction
 	 * 
 	 * @access public
 	 */
-	function &getQualifierHierarchyId () { 
+	function getQualifierHierarchyId () { 
 		return $this->_qualifierHierarchyId;	
 	}
 	
@@ -265,7 +265,7 @@ class HarmoniFunction
 	 */
 	function updateDescription ( $description ) { 
 		// ** parameter validation
-		$stringRule =& StringValidatorRule::getRule();
+		$stringRule = StringValidatorRule::getRule();
 		ArgumentValidator::validate($description, $stringRule, true);
 		// ** end of parameter validation
 		
@@ -276,19 +276,19 @@ class HarmoniFunction
 		$this->_description = $description;
 
 		// update the database
-		$dbHandler =& Services::getService("DatabaseManager");
+		$dbHandler = Services::getService("DatabaseManager");
 		$dbPrefix = $this->_authzDB.".az_function";
 		
-		$query =& new UpdateQuery();
+		$query = new UpdateQuery();
 		$query->setTable($dbPrefix);
-		$id =& $this->getId();
+		$id =$this->getId();
 		$idValue = $id->getIdString();
 		$where = "{$dbPrefix}.function_id = '{$idValue}'";
 		$query->setWhere($where);
 		$query->setColumns(array("{$dbPrefix}.function_description"));
 		$query->setValues(array("'".addslashes($description)."'"));
 		
-		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0)
 			throwError(new Error(AuthorizationExeption::OPERATION_FAILED(),"AuthorizationFunction",true));
 		if ($queryResult->getNumberOfRows() > 1)
@@ -321,7 +321,7 @@ class HarmoniFunction
 	 */
 	function updateReferenceName ( $referenceName ) {
 		// ** parameter validation
-		$stringRule =& StringValidatorRule::getRule();
+		$stringRule = StringValidatorRule::getRule();
 		ArgumentValidator::validate($referenceName, $stringRule, true);
 		// ** end of parameter validation
 
@@ -332,19 +332,19 @@ class HarmoniFunction
 		$this->_referenceName = $referenceName;
 		
 		// update the database
-		$dbHandler =& Services::getService("DatabaseManager");
+		$dbHandler = Services::getService("DatabaseManager");
 		$dbPrefix = $this->_authzDB.".az_function";
 		
-		$query =& new UpdateQuery();
+		$query = new UpdateQuery();
 		$query->setTable($dbPrefix);
-		$id =& $this->getId();
+		$id =$this->getId();
 		$idValue = $id->getIdString();
 		$where = "{$dbPrefix}.function_id = '{$idValue}'";
 		$query->setWhere($where);
 		$query->setColumns(array("{$dbPrefix}.function_reference_name"));
 		$query->setValues(array("'".addslashes($referenceName)."'"));
 		
-		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0)
 			throwError(new Error(AuthorizationExeption::OPERATION_FAILED(),"AuthorizationFunction",true));
 		if ($queryResult->getNumberOfRows() > 1)

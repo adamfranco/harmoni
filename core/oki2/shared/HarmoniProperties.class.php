@@ -19,7 +19,7 @@ require_once(HARMONI."oki2/shared/HarmoniObjectIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniProperties.class.php,v 1.16 2007/04/12 15:37:33 adamfranco Exp $
+ * @version $Id: HarmoniProperties.class.php,v 1.17 2007/09/04 20:25:48 adamfranco Exp $
  */
 class HarmoniProperties
 	extends Properties
@@ -33,7 +33,7 @@ class HarmoniProperties
 	 * @access public
 	 * @since 11/18/04
 	 */
-	function HarmoniProperties (& $type) {
+	function HarmoniProperties ($type) {
 		ArgumentValidator::validate($type, ExtendsValidatorRule::getRule("Type"), true);
 		$this->_type = $type;
 		$this->_properties = array();
@@ -56,7 +56,7 @@ class HarmoniProperties
 	 * 
 	 * @access public
 	 */
-	function &getType () { 
+	function getType () { 
 		return $this->_type;
 	}
 
@@ -80,7 +80,9 @@ class HarmoniProperties
 	 * 
 	 * @access public
 	 */
-	function &getProperty ( $key ) { 
+	function getProperty ( $key ) { 
+		if (!isset($this->_properties[serialize($key)]))
+			return null;
 		return $this->_properties[serialize($key)];
 	}
 	
@@ -101,13 +103,13 @@ class HarmoniProperties
 	 * 
 	 * @access public
 	 */
-	function &getKeys () { 
+	function getKeys () { 
 		$keys = array();
 		foreach (array_keys($this->_properties) as $key) {
 			$keys[] = unserialize($key);
 		}
 		
-		$i =& new HarmoniObjectIterator($keys);
+		$i = new HarmoniObjectIterator($keys);
 		return $i;
 	}
 	
@@ -125,7 +127,7 @@ class HarmoniProperties
 	 * pass strings or other primatives you must set the primatives to variables
 	 * first as in the following example:
 	 *
-	 * $configuration =& new HarmoniProperties(new ConfigurationPropertiesType);
+	 * $configuration = new HarmoniProperties(new ConfigurationPropertiesType);
 	 * $configuration->addProperty('database_id', $arg1 = 0);
 	 * $configuration->addProperty('authentication_table', $arg2 = 'auth_db_user');
 	 * $configuration->addProperty('username_field', $arg3 = 'username');
@@ -138,8 +140,8 @@ class HarmoniProperties
 	 * @access public
 	 * @since 11/18/04
 	 */
-	function addProperty ( $key, &$value ) {
-		$this->_properties[serialize($key)] =& $value;
+	function addProperty ( $key, $value ) {
+		$this->_properties[serialize($key)] =$value;
 	}
 	
 	/**

@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OrderedListTestCase.class.php,v 1.5 2005/04/07 16:33:31 adamfranco Exp $
+ * @version $Id: OrderedListTestCase.class.php,v 1.6 2007/09/04 20:25:56 adamfranco Exp $
  */
 
     require_once(HARMONI.'utilities/OrderedList.class.php');
@@ -21,7 +21,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OrderedListTestCase.class.php,v 1.5 2005/04/07 16:33:31 adamfranco Exp $
+ * @version $Id: OrderedListTestCase.class.php,v 1.6 2007/09/04 20:25:56 adamfranco Exp $
  **/
 
     class QueueTestCase extends UnitTestCase {
@@ -44,8 +44,8 @@
 			$this->testQueue = new Queue();
 			$this->testQueue2 = new Queue();
 
-			$this->testList->add(&$this->testQueue,"pervyj");
-			$this->testList->add(&$this->testQueue2,"vtoroj");
+			$this->testList->add($this->testQueue,"pervyj");
+			$this->testList->add($this->testQueue2,"vtoroj");
 			
 			// perhaps, initialize $obj here
 		}
@@ -68,9 +68,9 @@
 		function testReference() {
 			$this->assertReference($this->testList->_list["pervyj"],$this->testQueue);
 
-			$pervyj =& $this->testList->retrieve("pervyj");
-			$vtoroj =& $this->testList->retrieve("vtoroj");
-			$tretij =& $this->testList->retrieve("vtoroj");
+			$pervyj =$this->testList->retrieve("pervyj");
+			$vtoroj =$this->testList->retrieve("vtoroj");
+			$tretij =$this->testList->retrieve("vtoroj");
 
 			$this->assertReference($this->testQueue,$pervyj);
 			$this->assertReference($this->testQueue2,$vtoroj);
@@ -92,7 +92,7 @@
 		}
 
 		function testMovement() {
-			$testQueue3 =& new Queue();
+			$testQueue3 = new Queue();
 
 			$this->testList->add($testQueue3,"tretij");
 
@@ -101,9 +101,9 @@
 			$this->testList->swap("tretij","pervyj");
 			
 
- 			$pervyj =& $this->testList->retrieve("pervyj");
-			$vtoroj =& $this->testList->retrieve("vtoroj");
-			$tretij =& $this->testList->retrieve("tretij");
+ 			$pervyj =$this->testList->retrieve("pervyj");
+			$vtoroj =$this->testList->retrieve("vtoroj");
+			$tretij =$this->testList->retrieve("tretij");
 
 			$this->assertReference($this->testQueue,$pervyj);
 			$this->assertReference($this->testQueue2,$vtoroj);
@@ -115,9 +115,9 @@
 
 			$this->testList->moveUp("vtoroj");
 
- 			$pervyj =& $this->testList->retrieve("pervyj");
-			$vtoroj =& $this->testList->retrieve("vtoroj");
-			$tretij =& $this->testList->retrieve("tretij");
+ 			$pervyj =$this->testList->retrieve("pervyj");
+			$vtoroj =$this->testList->retrieve("vtoroj");
+			$tretij =$this->testList->retrieve("tretij");
 
 			$this->assertReference($this->testQueue,$pervyj);
 			$this->assertReference($this->testQueue2,$vtoroj);
@@ -131,9 +131,9 @@
 
 			$this->assertTrue($this->testList->moveDown("vtoroj"));
 
- 			$pervyj =& $this->testList->retrieve("pervyj");
-			$vtoroj =& $this->testList->retrieve("vtoroj");
-			$tretij =& $this->testList->retrieve("tretij");
+ 			$pervyj =$this->testList->retrieve("pervyj");
+			$vtoroj =$this->testList->retrieve("vtoroj");
+			$tretij =$this->testList->retrieve("tretij");
 
 			$this->assertReference($this->testQueue,$pervyj);
 			$this->assertReference($this->testQueue2,$vtoroj);
@@ -144,9 +144,9 @@
 			}
 			$this->assertTrue($this->testList->moveDown("vtoroj"));
 
- 			$pervyj =& $this->testList->retrieve("pervyj");
-			$vtoroj =& $this->testList->retrieve("vtoroj");
-			$tretij =& $this->testList->retrieve("tretij");
+ 			$pervyj =$this->testList->retrieve("pervyj");
+			$vtoroj =$this->testList->retrieve("vtoroj");
+			$tretij =$this->testList->retrieve("tretij");
 
 			$this->assertReference($this->testQueue,$pervyj);
 			$this->assertReference($this->testQueue2,$vtoroj);
@@ -158,9 +158,9 @@
 			
 			$this->testList->putBefore("tretij","list_end");
 
- 			$pervyj =& $this->testList->retrieve("pervyj");
-			$vtoroj =& $this->testList->retrieve("vtoroj");
-			$tretij =& $this->testList->retrieve("tretij");
+ 			$pervyj =$this->testList->retrieve("pervyj");
+			$vtoroj =$this->testList->retrieve("vtoroj");
+			$tretij =$this->testList->retrieve("tretij");
 
 			$this->assertReference($this->testQueue,$pervyj);
 			$this->assertReference($this->testQueue2,$vtoroj);
@@ -172,9 +172,9 @@
 
 			$this->testList->putBefore("vtoroj","pervyj");
 
- 			$pervyj =& $this->testList->retrieve("pervyj");
-			$vtoroj =& $this->testList->retrieve("vtoroj");
-			$tretij =& $this->testList->retrieve("tretij");
+ 			$pervyj =$this->testList->retrieve("pervyj");
+			$vtoroj =$this->testList->retrieve("vtoroj");
+			$tretij =$this->testList->retrieve("tretij");
 
 			$this->assertReference($this->testQueue,$pervyj);
 			$this->assertReference($this->testQueue2,$vtoroj);
@@ -186,9 +186,9 @@
 
 			$this->testList->putBefore("tretij","vtoroj");
 
- 			$pervyj =& $this->testList->retrieve("pervyj");
-			$vtoroj =& $this->testList->retrieve("vtoroj");
-			$tretij =& $this->testList->retrieve("tretij");
+ 			$pervyj =$this->testList->retrieve("pervyj");
+			$vtoroj =$this->testList->retrieve("vtoroj");
+			$tretij =$this->testList->retrieve("tretij");
 
  			$this->assertReference($this->testQueue,$pervyj);
 			$this->assertReference($this->testQueue2,$vtoroj);
@@ -200,7 +200,7 @@
 		}
 
 		function testNext() {
-			$testQueue3 =& new Queue();
+			$testQueue3 = new Queue();
 
 			$this->testList->add($testQueue3,"tretij");
 
@@ -211,7 +211,7 @@
 			$i=0;
 			while($this->testList->hasNext()){
 				$i++;
-				$current =& $this->testList->next();
+				$current =$this->testList->next();
 				switch($i){
 				case 1: $this->assertReference($current,$testQueue3); echo "adyn"; break;
 				case 2: $this->assertReference($current,$this->testQueue2); break;

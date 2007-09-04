@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQLDeleteQueryResult.class.php,v 1.4 2005/04/07 16:33:24 adamfranco Exp $
+ * @version $Id: MySQLDeleteQueryResult.class.php,v 1.5 2007/09/04 20:25:19 adamfranco Exp $
  */
  
 require_once(HARMONI."DBHandler/DeleteQueryResult.interface.php");
@@ -20,7 +20,7 @@ require_once(HARMONI."DBHandler/DeleteQueryResult.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQLDeleteQueryResult.class.php,v 1.4 2005/04/07 16:33:24 adamfranco Exp $
+ * @version $Id: MySQLDeleteQueryResult.class.php,v 1.5 2007/09/04 20:25:19 adamfranco Exp $
  */
 
 class MySQLDeleteQueryResult extends DeleteQueryResultInterface {
@@ -54,7 +54,7 @@ class MySQLDeleteQueryResult extends DeleteQueryResultInterface {
 	 */
 	function MySQLDeleteQueryResult($linkId) {
 		// ** parameter validation
-		$resourceRule =& ResourceValidatorRule::getRule();
+		$resourceRule = ResourceValidatorRule::getRule();
 		ArgumentValidator::validate($linkId, $resourceRule, true);
 		// ** end of parameter validation
 

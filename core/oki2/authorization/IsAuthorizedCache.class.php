@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: IsAuthorizedCache.class.php,v 1.7 2007/04/10 18:00:41 adamfranco Exp $
+ * @version $Id: IsAuthorizedCache.class.php,v 1.8 2007/09/04 20:25:38 adamfranco Exp $
  */ 
 
 /**
@@ -69,7 +69,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: IsAuthorizedCache.class.php,v 1.7 2007/04/10 18:00:41 adamfranco Exp $
+ * @version $Id: IsAuthorizedCache.class.php,v 1.8 2007/09/04 20:25:38 adamfranco Exp $
  */
 class IsAuthorizedCache {
 		
@@ -88,9 +88,9 @@ class IsAuthorizedCache {
 	 * @since 5/26/05
 	 * @static
 	 */
-	function &instance () {
+	function instance () {
 		if (!defined("IsAuthorizedCache_INSTANTIATED")) {
-			$GLOBALS['__isAuthorizedCacheInstance'] =& new IsAuthorizedCache();
+			$GLOBALS['__isAuthorizedCacheInstance'] = new IsAuthorizedCache();
 			define("IsAuthorizedCache_INSTANTIATED", true);
 		}
 		
@@ -175,9 +175,9 @@ class IsAuthorizedCache {
 		$this->_agentIdStrings = array();
 		
 		// get our configuration
-		$azManager =& Services::getService("AuthZ");
-		$this->_configuration =& $azManager->_configuration;
-		$this->_authorizationManagerObjectCache =& $azManager->_cache;
+		$azManager = Services::getService("AuthZ");
+		$this->_configuration =$azManager->_configuration;
+		$this->_authorizationManagerObjectCache =$azManager->_cache;
 		
 		
 		
@@ -193,7 +193,7 @@ class IsAuthorizedCache {
 		{
 			$_SESSION['__isAuthorizedCacheAgents']['USER'] = implode(", ", $this->getAgentIdStringArray('USER'));
 			$_SESSION['__isAuthorizedCache']['USER'] = array();
-			$_SESSION['__isAuthorizedCacheTime']['USER'] =& DateAndTime::now();
+			$_SESSION['__isAuthorizedCacheTime']['USER'] = DateAndTime::now();
 		}
 		
 		// Unload any expired Node AZs
@@ -232,7 +232,7 @@ class IsAuthorizedCache {
 	 * 
 	 * @access public
 	 */
-	function isUserAuthorized ( &$functionId, &$qualifierId ) {
+	function isUserAuthorized ( $functionId, $qualifierId ) {
 		// Cache Misses will be determined in the queing methods
 		$this->queueId($qualifierId);
 		$this->_loadQueue('USER');
@@ -282,7 +282,7 @@ class IsAuthorizedCache {
 	 * 
 	 * @access public
 	 */
-	function isAuthorized (&$agentId, &$functionId, &$qualifierId ) {
+	function isAuthorized ($agentId, $functionId, $qualifierId ) {
 		if (!isset($_SESSION['__isAuthorizedCache'][$agentId->getIdString()]))
 			$_SESSION['__isAuthorizedCache'][$agentId->getIdString()] = array();
 			
@@ -314,7 +314,7 @@ class IsAuthorizedCache {
 	 * @access public
 	 * @since 12/20/05
 	 */
-	function queueId ( &$id ) {
+	function queueId ( $id ) {
 		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"));
 		$this->queueIdString($id->getIdString());
 	}
@@ -352,7 +352,7 @@ class IsAuthorizedCache {
 	 * @access public
 	 * @since 12/20/05
 	 */
-	function queueIdArray ( &$idArray ) {
+	function queueIdArray ( $idArray ) {
 		foreach (array_keys($idArray) as $key) {
 			$this->queueId($idArray[$key]);
 		}
@@ -380,7 +380,7 @@ class IsAuthorizedCache {
 	 * @access public
 	 * @since 12/20/05
 	 */
-	function queueAssetArray ( &$assetArray ) {
+	function queueAssetArray ( $assetArray ) {
 		foreach (array_keys($assetArray) as $key) {
 			$this->queueId($assetArray[$key]->getId());
 		}
@@ -400,23 +400,23 @@ class IsAuthorizedCache {
  	 */
  	function getAgentIdStringArray ($agentKey) {
  		if (!isset($this->_agentIdStrings[$agentKey])) {
- 			$azManager =& Services::getService("AuthZ");
- 			$idManager =& Services::getService("Id");
+ 			$azManager = Services::getService("AuthZ");
+ 			$idManager = Services::getService("Id");
  			
 			$this->_agentIdStrings[$agentKey] = array();
 			
  			if ($agentKey == 'USER') {
  				// Store our current users
-				$userIds =& $azManager->_getUserIds();
+				$userIds =$azManager->_getUserIds();
 				foreach (array_keys($userIds) as $key) {
-					$userId =& $userIds[$key];
+					$userId =$userIds[$key];
 					$this->_agentIdStrings['USER'][] =	$userId->getIdString();
 					$this->_agentIdStrings['USER'] = array_merge(
 						$this->_agentIdStrings['USER'],	
 						$azManager->_getContainingGroupIdStrings($userId));
 				}
  			} else {
-				$agentId =& $idManager->getId($agentKey);
+				$agentId =$idManager->getId($agentKey);
 				$this->_agentIdStrings[$agentKey][] = $agentKey;
 				$this->_agentIdStrings[$agentKey] = array_merge(
 					$this->_agentIdStrings[$agentKey],	
@@ -437,19 +437,19 @@ class IsAuthorizedCache {
 		if (!count($this->_queue[$agentIdString]))
 			return;
 		
-		$dbHandler =& Services::getService("DatabaseManager");
+		$dbHandler = Services::getService("DatabaseManager");
 		$dbIndex = $this->_configuration->getProperty('database_index');
-		$idManager =& Services::getService("Id");
+		$idManager = Services::getService("Id");
 		
 		$functions = array();	//used by Algorithm A
 		
-// 		$timer =& new Timer;
+// 		$timer = new Timer;
 // 		$timer->start();
 // 		$startingQueries = $dbHandler->getTotalNumberOfQueries();
 		
 	// Explicit AZs
 		// Select and create all of the explicit AZs
-		$query =& new SelectQuery();
+		$query = new SelectQuery();
 		$query->addColumn("*");
 		$query->addTable("az_authorization");
 		$agentIdStrings = $this->getAgentIdStringArray($agentIdString);
@@ -460,13 +460,13 @@ class IsAuthorizedCache {
 		$query->addWhere("(authorization_expiration_date IS NULL OR authorization_expiration_date > NOW())");
 		
 // 		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
-		$result =& $dbHandler->query(
+		$result =$dbHandler->query(
 						$query, 
 						$dbIndex);
 		
 		// Create the explicit AZs
 		while ($result->hasMoreRows()) {
-			$az =& new HarmoniAuthorization(
+			$az = new HarmoniAuthorization(
 						$result->field("authorization_id"),
 						$idManager->getId($result->field("fk_agent")),
 						$idManager->getId($result->field("fk_function")),
@@ -481,7 +481,7 @@ class IsAuthorizedCache {
 								$dbIndex));
 			
 			// cache in our explictAZ cache for referencing by implicit AZs
-			$explicitAZs[$result->field("authorization_id")] =& $az;
+			$explicitAZs[$result->field("authorization_id")] =$az;
 			
 			// Build a list of functions for AlogrithmA to use when setting implicitAZs
 			$functions[] = $result->field("fk_function");
@@ -508,20 +508,20 @@ class IsAuthorizedCache {
 		// For this algorithm we will do a single traversal of the hierarchy
 		// and set implicit authorization bits on the way down as we pass
 		// explicit AZs.
-// 		$hierarchyManager =& Services::getService("Hierarchy");
-// 		$hierarchies =& $hierarchyManager->getHierarchies();
+// 		$hierarchyManager = Services::getService("Hierarchy");
+// 		$hierarchies =$hierarchyManager->getHierarchies();
 // 		while ($hierarchies->hasNext()) {
-// 			$hierarchy =& $hierarchies->next();
-// 			$rootNodes =& $hierarchy->getRootNodes();
+// 			$hierarchy =$hierarchies->next();
+// 			$rootNodes =$hierarchy->getRootNodes();
 // 			while ($rootNodes->hasNext()) {
-// 				$rootNode =& $rootNodes->next();
+// 				$rootNode =$rootNodes->next();
 // 				
-// 				$rootNodeId =& $rootNode->getId();
+// 				$rootNodeId =$rootNode->getId();
 // // 				print "\n<h1>Traversing from RootNode: ".$rootNodeId->getIdString()."</h1>";
 // 				
-// 				$timer2 =& new Timer;
+// 				$timer2 = new Timer;
 // 				$timer2->start();
-// 				$traversal =& $hierarchy->traverse(
+// 				$traversal =$hierarchy->traverse(
 // 					$rootNode->getId(),
 // 					Hierarchy::TRAVERSE_MODE_DEPTH_FIRST(),
 // 					Hierarchy::TRAVERSE_DIRECTION_DOWN(),
@@ -532,8 +532,8 @@ class IsAuthorizedCache {
 // 				$explicitAZLevels = array();
 // 				
 // 				while ($traversal->hasNext()) {
-// 					$info =& $traversal->next();
-// 					$id =& $info->getNodeId();
+// 					$info =$traversal->next();
+// 					$id =$info->getNodeId();
 // 					$idString = $id->getIdString();
 // 					$level = $info->getLevel();
 // // 					printpre("<strong>$level\t$idString</strong>");
@@ -562,7 +562,7 @@ class IsAuthorizedCache {
 		// Algorithm B:
 		// For this algorithm we want to join all of the explicit AZs to all 
 		// nodes who have the qulifier as an ancestor. These will be the implicit AZs
-		$query =& new SelectQuery();
+		$query = new SelectQuery();
 		$query->addColumn("authorization_id");
 		$query->addColumn("fk_node");
 		$query->addTable("az_authorization");
@@ -579,14 +579,14 @@ class IsAuthorizedCache {
 		$query->addWhere("(authorization_expiration_date IS NULL OR authorization_expiration_date > NOW())");
 		
 // 		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
-		$result =& $dbHandler->query(
+		$result =$dbHandler->query(
 						$query, 
 						$this->_configuration->getProperty('database_index'));
 		
 		while ($result->hasMoreRows()) {			
-			$explicitAZ =& $explicitAZs[$result->field("authorization_id")];
-			$explicitFunction =& $explicitAZ->getFunction();
-			$explicitFunctionId =& $explicitFunction->getId();
+			$explicitAZ =$explicitAZs[$result->field("authorization_id")];
+			$explicitFunction =$explicitAZ->getFunction();
+			$explicitFunctionId =$explicitFunction->getId();
 			
 			// cache in our user AZ cache
 			if(!isset($_SESSION['__isAuthorizedCache'][$agentIdString][$result->field("fk_node")]))
@@ -632,12 +632,12 @@ class IsAuthorizedCache {
 	 * @since 12/20/05
 	 */
 	function _synchronizeCache () {
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler = Services::getService("DBHandler");
 		
 		foreach (array_keys($_SESSION['__isAuthorizedCacheAgents']) as $agentIdString) {
 			// Select the nodeIds who's authorization situation may have changed
 			// since the cache was last synchronized. Clear these Ids from the cache.
-			$query =& new SelectQuery();
+			$query = new SelectQuery();
 			$query->addTable("node");
 			$query->setColumns(array("node_id"));
 			$dbDate = $dbHandler->toDBDate(
@@ -647,7 +647,7 @@ class IsAuthorizedCache {
 			
 	// 		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
 			
-			$result =& $dbHandler->query($query, $this->_configuration->getProperty('database_index'));
+			$result =$dbHandler->query($query, $this->_configuration->getProperty('database_index'));
 			
 			while ($result->hasMoreRows()) {			
 				unset($_SESSION['__isAuthorizedCache'][$agentIdString][$result->field("node_id")]);
@@ -655,7 +655,7 @@ class IsAuthorizedCache {
 			}
 			$result->free();
 			
-			$_SESSION['__isAuthorizedCacheTime'][$agentIdString] =& DateAndTime::now();
+			$_SESSION['__isAuthorizedCacheTime'][$agentIdString] = DateAndTime::now();
 		}
 	}
 	
@@ -668,21 +668,21 @@ class IsAuthorizedCache {
 	 * @access public
 	 * @since 12/20/05
 	 */
-	function dirtyNode ( &$nodeId ) {			
+	function dirtyNode ( $nodeId ) {			
 		ArgumentValidator::validate($nodeId, ExtendsValidatorRule::getRule("Id"), true);
 		
-		$hierarchyManager =& Services::getService("Hierarchy");
-		$node =& $hierarchyManager->getNode($nodeId);
-		$hierarchy =& $hierarchyManager->getHierarchyForNode($node);
+		$hierarchyManager = Services::getService("Hierarchy");
+		$node =$hierarchyManager->getNode($nodeId);
+		$hierarchy =$hierarchyManager->getHierarchyForNode($node);
 		
-		$dbHandler =& Services::getService("DBHandler");
+		$dbHandler = Services::getService("DBHandler");
 			
 		if (isset($this->_configuration))
 			$dbIndex = $this->_configuration->getProperty('database_index');
 		else
 			$dbIndex = $hierarchyManager->_configuration->getProperty('database_index');
 		
-		$traversalInfo =& $hierarchy->traverse(
+		$traversalInfo =$hierarchy->traverse(
     		$nodeId,
     		Hierarchy::TRAVERSE_MODE_DEPTH_FIRST(),
     		Hierarchy::TRAVERSE_DIRECTION_DOWN(),
@@ -691,8 +691,8 @@ class IsAuthorizedCache {
     	$nodesToDirty = array();	
     		
 		while ($traversalInfo->hasNext()) {
-			$info =& $traversalInfo->next();
-			$nodeId =& $info->getNodeId();
+			$info =$traversalInfo->next();
+			$nodeId =$info->getNodeId();
 			
 			$idString = $nodeId->getIdString();
 			if (isset($_SESSION['__isAuthorizedCache'])) {
@@ -708,7 +708,7 @@ class IsAuthorizedCache {
 		// Update the node's az_changed time
 		// so that it can be removed from the caches of other users during
 		// their synchronization.
-		$query =& new UpdateQuery();
+		$query = new UpdateQuery();
 		$query->setTable("node");
 		$query->setColumns(array("az_node_changed"));
 		$query->setValues(array("NOW()"));
@@ -716,7 +716,7 @@ class IsAuthorizedCache {
 		
 // 		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
 					
-		$queryResult =& $dbHandler->query($query, $dbIndex);
+		$queryResult =$dbHandler->query($query, $dbIndex);
 	}
 	
 	/**

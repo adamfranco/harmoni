@@ -91,7 +91,7 @@ class AssessmentPublished
      * 
      * @access public
      */
-    function updateGradingAssignmentId ( &$gradingAssignmentId ) { 
+    function updateGradingAssignmentId ( $gradingAssignmentId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -119,7 +119,7 @@ class AssessmentPublished
      * 
      * @access public
      */
-    function updateCourseSectionId ( &$courseSectionId ) { 
+    function updateCourseSectionId ( $courseSectionId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -145,7 +145,7 @@ class AssessmentPublished
      * 
      * @access public
      */
-    function updateData ( &$data ) { 
+    function updateData ( $data ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -214,7 +214,7 @@ class AssessmentPublished
      * 
      * @access public
      */
-    function &getId () { 
+    function getId () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -260,7 +260,7 @@ class AssessmentPublished
      * 
      * @access public
      */
-    function &getAssessment () { 
+    function getAssessment () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -285,7 +285,7 @@ class AssessmentPublished
      * 
      * @access public
      */
-    function &getGradingAssignmentId () { 
+    function getGradingAssignmentId () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -310,7 +310,7 @@ class AssessmentPublished
      * 
      * @access public
      */
-    function &getCourseSectionId () { 
+    function getCourseSectionId () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -334,7 +334,7 @@ class AssessmentPublished
      * 
      * @access public
      */
-    function &getData () { 
+    function getData () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -362,7 +362,7 @@ class AssessmentPublished
      * 
      * @access public
      */
-    function &createAssessmentTaken ( &$agentId ) { 
+    function createAssessmentTaken ( $agentId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -388,7 +388,7 @@ class AssessmentPublished
      * 
      * @access public
      */
-    function deleteAssessmentTaken ( &$assessmentTakenId ) { 
+    function deleteAssessmentTaken ( $assessmentTakenId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -411,7 +411,7 @@ class AssessmentPublished
      * 
      * @access public
      */
-    function &getAssessmentsTaken () { 
+    function getAssessmentsTaken () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -436,7 +436,7 @@ class AssessmentPublished
      * 
      * @access public
      */
-    function &getAssessmentsTakenBy ( &$agentId ) { 
+    function getAssessmentsTakenBy ( $agentId ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -459,7 +459,7 @@ class AssessmentPublished
      * 
      * @access public
      */
-    function &getEvaluations () { 
+    function getEvaluations () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -488,7 +488,7 @@ class AssessmentPublished
      * 
      * @access public
      */
-    function &getEvaluationsByType ( &$evaluationType ) { 
+    function getEvaluationsByType ( $evaluationType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 }

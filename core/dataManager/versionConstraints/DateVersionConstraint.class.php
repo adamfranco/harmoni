@@ -12,7 +12,7 @@ require_once HARMONI."dataManager/versionConstraints/VersionConstraint.interface
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateVersionConstraint.class.php,v 1.5 2007/04/12 15:37:26 adamfranco Exp $
+ * @version $Id: DateVersionConstraint.class.php,v 1.6 2007/09/04 20:25:33 adamfranco Exp $
  */
 class DateVersionConstraint extends VersionConstraint {
 	
@@ -33,11 +33,11 @@ class DateVersionConstraint extends VersionConstraint {
 		$this->_cutoffDate = $relative;
 	}
 	
-	function checkRecordFieldValue(&$value) {
+	function checkRecordFieldValue($value) {
 		foreach ($value->getVersionIDs() as $verID) {
-			$ver =& $value->getVersion($verID);
+			$ver =$value->getVersion($verID);
 			if ($ver->isActive()) continue;
-			$date =& $ver->getDate();
+			$date =$ver->getDate();
 			$timestamp = $date->toTimestamp();
 			
 			if ($timestamp < $this->_cutoffDate) {
@@ -46,14 +46,14 @@ class DateVersionConstraint extends VersionConstraint {
 		}
 	}
 	
-	function checkTags(&$record) {
-		$mgr =& Services::getService("RecordTagManager");
+	function checkTags($record) {
+		$mgr = Services::getService("RecordTagManager");
 		
-		$tags =& $mgr->fetchTagDescriptors($record->getID());
+		$tags =$mgr->fetchTagDescriptors($record->getID());
 		
 		if ($tags && is_array($tags)) {
 			foreach (array_keys($tags) as $id) {
-				$date =& $tags[$id]->getDate();
+				$date =$tags[$id]->getDate();
 				$timestamp = $date->toTimestamp();
 				
 				if ($timestamp < $this->_cutoffDate) {
@@ -63,7 +63,7 @@ class DateVersionConstraint extends VersionConstraint {
 		}
 	}
 	
-	function checkRecord(&$record) {
+	function checkRecord($record) {
 		// do nothing
 		return true;
 	}

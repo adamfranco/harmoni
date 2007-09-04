@@ -21,7 +21,7 @@ require_once(HARMONI."GUIManager/Component.class.php");
 * @copyright Copyright &copy; 2005, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: GUIManager.class.php,v 1.28 2006/12/12 17:18:15 adamfranco Exp $
+* @version $Id: GUIManager.class.php,v 1.29 2007/09/04 20:25:21 adamfranco Exp $
 */
 class GUIManager
 extends GUIManagerAbstract
@@ -83,14 +83,14 @@ extends GUIManagerAbstract
 	*
 	* @access public
 	*/
-	function assignConfiguration ( &$configuration ) {
-		$this->_configuration =& $configuration;
+	function assignConfiguration ( $configuration ) {
+		$this->_configuration =$configuration;
 
-		$dbIndex =& $configuration->getProperty('database_index');
-		$dbName =& $configuration->getProperty('database_name');
-		$theme =& $configuration->getProperty('default_theme');
-		$id =& $configuration->getProperty('default_state_id');
-		$arrayOfDefaultThemes =& $configuration->getProperty('array_of_default_themes');
+		$dbIndex =$configuration->getProperty('database_index');
+		$dbName =$configuration->getProperty('database_name');
+		$theme =$configuration->getProperty('default_theme');
+		$id =$configuration->getProperty('default_state_id');
+		$arrayOfDefaultThemes =$configuration->getProperty('array_of_default_themes');
 
 
 		// ** parameter validation
@@ -120,7 +120,7 @@ extends GUIManagerAbstract
 	*
 	* @access public
 	*/
-	function &getOsidContext () {
+	function getOsidContext () {
 		return $this->_osidContext;
 	}
 
@@ -135,11 +135,11 @@ extends GUIManagerAbstract
 	*
 	* @access public
 	*/
-	function assignOsidContext ( &$context ) {
+	function assignOsidContext ( $context ) {
 		ArgumentValidator::validate($context->getContext('harmoni'),
 		ExtendsValidatorRule::getRule('Harmoni'));
 
-		$this->_osidContext =& $context;
+		$this->_osidContext =$context;
 
 		$this->attachToHarmoni();
 	}
@@ -356,24 +356,24 @@ extends GUIManagerAbstract
 	* @param ref object HarmoniId $themeId The id of the theme that will be loaded.
 	* @return ref object Theme
 	**/
-	function &getThemeById(& $themeId) {
+	function getThemeById($themeId) {
 		// ** parameter validation
 		ArgumentValidator::validate($themeId, ExtendsValidatorRule::getRule("HarmoniId"), true);
 		// ** end of parameter validation
 
 		// get the theme state from the database
-		$dbHandler =& Services::getService("DatabaseManager");
+		$dbHandler = Services::getService("DatabaseManager");
 		$idValue = $themeId->getIdString();
-		$query =& new SelectQuery();
+		$query = new SelectQuery();
 		$query->addTable($this->_dbName.".tm_theme");
 		$query->addWhere("theme_id = $idValue");
 		$query->addColumn("*");
-		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 
 		// build a new theme object for the results returned and set it as the theme
 		if ($queryResult->getNumberOfRows() == 1) {
-			$row =& $queryResult->next();
-			$theme =& new Theme( $row['theme_display_name'],
+			$row =$queryResult->next();
+			$theme = new Theme( $row['theme_display_name'],
 			$row['theme_description']);
 			$theme->setTemplate($row['theme_template']);
 			$theme->setCustom($row['theme_custom_lev']);
@@ -395,7 +395,7 @@ extends GUIManagerAbstract
 	* @access public
 	* @since 4/26/06
 	*/
-	function loadTheme (&$themeId) {
+	function loadTheme ($themeId) {
 		$this->setTheme($this->getTheme($themeId));
 	}
 
@@ -406,11 +406,11 @@ extends GUIManagerAbstract
 	* @param string $description
 	* @return ref object Theme
 	**/
-	function &createTheme($displayName, $description) {
-		$idManager =& Services::getService("Id");
-		$theme =& new Theme($displayName, $description);
+	function createTheme($displayName, $description) {
+		$idManager = Services::getService("Id");
+		$theme = new Theme($displayName, $description);
 
-		$theme->_id =& $idManager->createId();
+		$theme->_id =$idManager->createId();
 
 		return $theme;
 	}
@@ -424,25 +424,25 @@ extends GUIManagerAbstract
 	* @access public
 	* @since 4/25/06
 	*/
-	function loadStyleCollectionsForTheme (&$theme) {
-		$dbHandler =& Services::getService("DBHandler");
-		$themeId =& $theme->getId();
-		$idValue =& $themeId->getIdString();
-		$idManager =& Services::getService("Id");
+	function loadStyleCollectionsForTheme ($theme) {
+		$dbHandler = Services::getService("DBHandler");
+		$themeId =$theme->getId();
+		$idValue =$themeId->getIdString();
+		$idManager = Services::getService("Id");
 
-		$query =& new SelectQuery();
+		$query = new SelectQuery();
 		$query->addTable($this->_dbName.".tm_style_collection");
 		$query->addWhere("FK_theme_id = $idValue");
 		$query->addColumn("*");
-		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 
 		// build a new theme object for the results returned and set it as the theme
 		while ($queryResult->hasMoreRows()) {
-			$row =& $queryResult->next();
+			$row =$queryResult->next();
 
 			// this is where we decide on style collection class for image borders
 			if ($row['collection_class'] == '') {
-				$styleCollection =& new StyleCollection(
+				$styleCollection = new StyleCollection(
 				$row['collection_selector'],
 				$row['collection_class_selector'],
 				$row['collection_display_name'],
@@ -451,7 +451,7 @@ extends GUIManagerAbstract
 			$row['collection_class']."StyleCollection",
 			$this->getSupportedStyleCollections())) {
 				$class = $row['collection_class']."StyleCollection";
-				$styleCollection =& new $class(
+				$styleCollection = new $class(
 				$row['collection_selector'],
 				$row['collection_class_selector'],
 				$row['collection_display_name'],
@@ -486,24 +486,24 @@ extends GUIManagerAbstract
 	* @access public
 	* @since 4/25/06
 	*/
-	function loadStylePropertiesForCollection(&$collection) {
-		$dbHandler =& Services::getService("DBHandler");
-		$collectionId =& $collection->getId();
-		$idValue =& $collectionId->getIdString();
+	function loadStylePropertiesForCollection($collection) {
+		$dbHandler = Services::getService("DBHandler");
+		$collectionId =$collection->getId();
+		$idValue =$collectionId->getIdString();
 
-		$query =& new SelectQuery();
+		$query = new SelectQuery();
 		$query->addTable($this->_dbName.".tm_style_property");
 		$query->addWhere("FK_collection_id = $idValue");
 		$query->addColumn("*");
-		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 
 		// build a new theme object for the results returned and set it as the theme
 		while ($queryResult->hasMoreRows()) {
-			$row =& $queryResult->next();
+			$row =$queryResult->next();
 
 			$class = $row['property_name']."SP";
 
-			$styleProperty =& new $class();
+			$styleProperty = new $class();
 
 			// passes execution to component loading from DB
 			$this->loadStyleComponentsForProperty($row['property_id'], $styleProperty);
@@ -525,24 +525,24 @@ extends GUIManagerAbstract
 	* @access public
 	* @since 4/25/06
 	*/
-	function loadStyleComponentsForProperty (&$property) {
-		$dbHandler =& Services::getService("DBHandler");
-		$propertyId =& $property->getId();
-		$idValue =& $propertyId->getIdString();
+	function loadStyleComponentsForProperty ($property) {
+		$dbHandler = Services::getService("DBHandler");
+		$propertyId =$property->getId();
+		$idValue =$propertyId->getIdString();
 
-		$query =& new SelectQuery();
+		$query = new SelectQuery();
 		$query->addTable($this->_dbName.".tm_style_component");
 		$query->addWhere("FK_property_id = $idValue");
 		$query->addColumn("*");
-		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 
 		// build a new theme object for the results returned and set it as the theme
 		while ($queryResult->hasMoreRows()) {
-			$row =& $queryResult->next();
+			$row =$queryResult->next();
 
 			$class = $row['component_class_name']."SC";
 
-			$styleComponent =& new $class($row['component_value']);
+			$styleComponent = new $class($row['component_value']);
 
 			$property->addSC($styleComponent);
 		}
@@ -560,22 +560,22 @@ extends GUIManagerAbstract
 	* @access public
 	* @since 5/3/06
 	*/
-	function &getThemeTemplates () {
-		$guiManager =& Services::getService("GUI");
-		$dbHandler =& Services::getService("DBHandler");
-		$idManager =& Services::getService("Id");
+	function getThemeTemplates () {
+		$guiManager = Services::getService("GUI");
+		$dbHandler = Services::getService("DBHandler");
+		$idManager = Services::getService("Id");
 		$templates = array();
 
-		$query =& new SelectQuery();
+		$query = new SelectQuery();
 		$query->addTable($this->_dbName.".tm_theme");
 		$query->addWhere("theme_template = 1");
 		$query->addColumn("theme_id");
-		$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 
 		while ($queryResult->hasMoreRows()) {
 			$row = $queryResult->next();
 
-			$templates[] =& $this->getTheme($idManager->getId($row['theme_id']));
+			$templates[] =$this->getTheme($idManager->getId($row['theme_id']));
 		}
 
 		return $templates;
@@ -594,38 +594,38 @@ extends GUIManagerAbstract
 	*/
 	function saveTheme () {
 		// get the theme from the database (if it exists)
-		$dbHandler =& Services::getService("DatabaseManager");
-		$id =& $this->_theme->getId();
+		$dbHandler = Services::getService("DatabaseManager");
+		$id =$this->_theme->getId();
 		if(is_null($id)){
-			$im =& Services::getService("Id");
-			$id =& $im->createId();
+			$im = Services::getService("Id");
+			$id =$im->createId();
 			$idValue = $id->getIdString();
 			$this->_theme->setId($id);
-			$query =& new InsertQuery();
+			$query = new InsertQuery();
 		}else{
 			$idValue = $id->getIdString();
-			$query =& new SelectQuery();
+			$query = new SelectQuery();
 			$query->addTable($this->_dbName.".tm_theme");
 			$query->addWhere("theme_id = $idValue");
 			$query->addColumn("theme_id");
-			$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+			$queryResult =$dbHandler->query($query, $this->_dbIndex);
 			if ($queryResult->getNumberOfRows() > 1) {
 				throwError( new Error("GUIManager", "Theme id multiplicity"));
 			} else if ($queryResult->getNumberOfRows() == 1) {
 				$queryResult->free();
-				$query =& new UpdateQuery();
+				$query = new UpdateQuery();
 				$query->setWhere("theme_id = $idValue");
 			} else {
 				$queryResult->free();
-				$query =& new InsertQuery();
+				$query = new InsertQuery();
 			}
 		}
-		$authN =& Services::getService("AuthN");
-		$authNTypesIterator =& $authN->getAuthenticationTypes();
+		$authN = Services::getService("AuthN");
+		$authNTypesIterator =$authN->getAuthenticationTypes();
 		if($authNTypesIterator->hasNext()){
-			$authNType1 =& $authNTypesIterator->next();
+			$authNType1 =$authNTypesIterator->next();
 			//hopefully the first one is the right one to choose.
-			$creatorId =& $authN->getUserId($authNType1);
+			$creatorId =$authN->getUserId($authNType1);
 			$creatorIdString = $creatorId->getIdString();
 		}else{
 			$creatorIdString = "";
@@ -653,30 +653,30 @@ extends GUIManagerAbstract
 	*/
 	function saveStyleCollections () {
 		// get the style collections for the theme and make sure they're in the DB
-		$dbHandler =& Services::getService("DatabaseManager");
+		$dbHandler = Services::getService("DatabaseManager");
 
-		$styleCollections =& $this->_theme->getStyleCollections();
+		$styleCollections =$this->_theme->getStyleCollections();
 		if(is_null($styleCollections)){
 			throwError(new Error("its null","poo",true));
 		}
 		
 		foreach ($styleCollections as $styleCollection) {
-			$id =& $styleCollection->getId();
+			$id =$styleCollection->getId();
 			$idValue = $id->getIdString();
-			$query =& new SelectQuery();
+			$query = new SelectQuery();
 			$query->addTable($this->_dbName.".tm_style_collection");
 			$query->addWhere('collection_id = '.$idValue);
 			$query->addColumn("collection_id");
-			$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+			$queryResult =$dbHandler->query($query, $this->_dbIndex);
 			if ($queryResult->getNumberOfRows() > 1)
 			throwError( new Error("GUIManager", "collection id multiplicity"));
 			else if ($queryResult->getNumberOfRows() == 1) {
 				$queryResult->free();
-				$query =& new UpdateQuery();
+				$query = new UpdateQuery();
 				$query->setWhere("collection_id = $idValue");
 			} else {
 				$queryResult->free();
-				$query =& new InsertQuery();
+				$query = new InsertQuery();
 			}
 			$query->setTable($this->_dbName.".tm_style_collection");
 			$query->setColumns(array('collection_id', 'collection_display_name',
@@ -705,28 +705,28 @@ extends GUIManagerAbstract
 	* @access public
 	* @since 4/26/06
 	*/
-	function saveStylePropertiesForCollection (&$collection) {
+	function saveStylePropertiesForCollection ($collection) {
 		// get the style properties for the collection
-		$dbHandler =& Services::getService("DatabaseManager");
+		$dbHandler = Services::getService("DatabaseManager");
 
-		$styleProperties =& $collection->getSPs();
+		$styleProperties =$collection->getSPs();
 		foreach ($styleProperties as $styleProperty) {
-			$id =& $styleProperty->getId();
+			$id =$styleProperty->getId();
 			$idValue = $id->getIdString();
-			$query =& new SelectQuery();
+			$query = new SelectQuery();
 			$query->addTable($this->_dbName.".tm_style_property");
 			$query->addWhere('property_id = '.$idValue);
 			$query->addColumn("property_id");
-			$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+			$queryResult =$dbHandler->query($query, $this->_dbIndex);
 			if ($queryResult->getNumberOfRows() > 1)
 			throwError( new Error("GUIManager", "property id multiplicity"));
 			else if ($queryResult->getNumberOfRows() == 1) {
 				$queryResult->free();
-				$query =& new UpdateQuery();
+				$query = new UpdateQuery();
 				$query->setWhere("property_id = $idValue");
 			} else {
 				$queryResult->free();
-				$query =& new InsertQuery();
+				$query = new InsertQuery();
 			}
 			$query->setTable($this->_dbName.".tm_style_property");
 			$query->setColumns(array('property_id', 'property_display_name',
@@ -749,28 +749,28 @@ extends GUIManagerAbstract
 	* @access public
 	* @since 4/26/06
 	*/
-	function saveStyleComponentsForProperty (&$property) {
+	function saveStyleComponentsForProperty ($property) {
 		// get the style components for the property
-		$dbHandler =& Services::getService("DatabaseManager");
+		$dbHandler = Services::getService("DatabaseManager");
 
-		$styleComponents =& $property->getSCs();
+		$styleComponents =$property->getSCs();
 		foreach ($styleComponents as $styleComponent) {
-			$id =& $styleComponent->getId();
+			$id =$styleComponent->getId();
 			$idValue = $id->getIdString();
-			$query =& new SelectQuery();
+			$query = new SelectQuery();
 			$query->addTable($this->_dbName.".tm_style_component");
 			$query->addWhere('component_id = '.$idValue);
 			$query->addColumn("component_id");
-			$queryResult =& $dbHandler->query($query, $this->_dbIndex);
+			$queryResult =$dbHandler->query($query, $this->_dbIndex);
 			if ($queryResult->getNumberOfRows() > 1)
 			throwError( new Error("GUIManager", "component id multiplicity"));
 			else if ($queryResult->getNumberOfRows() == 1) {
 				$queryResult->free();
-				$query =& new UpdateQuery();
+				$query = new UpdateQuery();
 				$query->setWhere("component_id = $idValue");
 			} else {
 				$queryResult->free();
-				$query =& new InsertQuery();
+				$query = new InsertQuery();
 			}
 			$query->setTable($this->_dbName.".tm_style_component");
 			$query->setColumns(array('component_id', 'component_class_name',
@@ -795,16 +795,16 @@ extends GUIManagerAbstract
 	* @access public
 	* @since 4/26/06
 	*/
-	function deleteTheme (&$id) {
-		$dbHandler =& Services::getService("DatabaseManager");
+	function deleteTheme ($id) {
+		$dbHandler = Services::getService("DatabaseManager");
 
 		$this->deleteCollectionsForTheme($this->getTheme($id));
 
 		$idValue = $id->getIdString();
-		$query =& new DeleteQuery();
+		$query = new DeleteQuery();
 		$query->setTable($this->_dbName.".tm_theme");
 		$query->addWhere("theme_id = $idValue");
-		$result =& $dbHandler->query($query, $this->_dbIndex);
+		$result =$dbHandler->query($query, $this->_dbIndex);
 
 		if ($result->getNumberOfRows() != 1){
 			throwError( new Error("Theme Deletion Error--instead of one row being deleted, ".$result->getNumberOfRows()." rows were deleted.","GUIManager",true));
@@ -820,20 +820,20 @@ extends GUIManagerAbstract
 	* @access public
 	* @since 4/26/06
 	*/
-	function deleteCollectionsForTheme (&$theme) {
-		$dbHandler =& Services::getService("DatabaseManager");
+	function deleteCollectionsForTheme ($theme) {
+		$dbHandler = Services::getService("DatabaseManager");
 
-		$styleCollections =& $theme->getStyleCollections();
+		$styleCollections =$theme->getStyleCollections();
 		foreach ($styleCollections as $styleCollection) {
 			$this->deletePropertiesForCollection($styleCollection);
 		}
 
-		$themeId =& $theme->getId();
+		$themeId =$theme->getId();
 		$idValue = $themeId->getIdString();
-		$query =& new DeleteQuery();
+		$query = new DeleteQuery();
 		$query->setTable($this->_dbName.".tm_style_collection");
 		$query->addWhere("FK_theme_id = $idValue");
-		$result =& $dbHandler->query($query, $this->_dbIndex);
+		$result =$dbHandler->query($query, $this->_dbIndex);
 
 
 	}
@@ -846,19 +846,19 @@ extends GUIManagerAbstract
 	* @access public
 	* @since 4/26/06
 	*/
-	function deletePropertiesForCollection (&$styleCollection) {
-		$dbHandler =& Services::getService("DatabaseManager");
+	function deletePropertiesForCollection ($styleCollection) {
+		$dbHandler = Services::getService("DatabaseManager");
 
-		$sps =& $styleCollection->getSPs();
+		$sps =$styleCollection->getSPs();
 		foreach ($sps as $sp) {
 			$this->deleteComponentsForProperty($sp);
 		}
-		$id =& $styleCollection->getId();
+		$id =$styleCollection->getId();
 		$idValue = $id->getIdString();
-		$query =& new DeleteQuery();
+		$query = new DeleteQuery();
 		$query->setTable($this->_dbName.".tm_style_property");
 		$query->addWhere("FK_collection_id = $idValue");
-		$result =& $dbHandler->query($query, $this->_dbIndex);
+		$result =$dbHandler->query($query, $this->_dbIndex);
 
 
 	}
@@ -872,14 +872,14 @@ extends GUIManagerAbstract
 	* @since 4/26/06
 	*/
 	function deleteComponentsForProperty ($sp) {
-		$dbHandler =& Services::getService("DatabaseManager");
+		$dbHandler = Services::getService("DatabaseManager");
 
-		$id =& $sp->getId();
+		$id =$sp->getId();
 		$idValue = $id->getIdString();
-		$query =& new DeleteQuery();
+		$query = new DeleteQuery();
 		$query->setTable($this->_dbName.".tm_style_component");
 		$query->addWhere("FK_property_id = $idValue");
-		$result =& $dbHandler->query($query, $this->_dbIndex);
+		$result =$dbHandler->query($query, $this->_dbIndex);
 
 
 	}
@@ -901,18 +901,18 @@ extends GUIManagerAbstract
 			$returnArray[$theme[1]] = $theme[0];
 		}
 		
-		$authN =& Services::getService("AuthN");
-		$authTypes =& $authN->getAuthenticationTypes();
+		$authN = Services::getService("AuthN");
+		$authTypes =$authN->getAuthenticationTypes();
 		$users = array();
 		while ($authTypes->hasNext()) {
-			$authType =& $authTypes->next();
-			$id =& $authN->getUserId($authType);
+			$authType =$authTypes->next();
+			$id =$authN->getUserId($authType);
 			$users[] = $id->getIdString();
 		}
 
-		$db =& Services::getService('DatabaseManager');
+		$db = Services::getService('DatabaseManager');
 
-		$query =& new SelectQuery();
+		$query = new SelectQuery();
 		$query->addTable($this->_dbName.".tm_theme");
 		$query->addColumn("theme_id");
 		$query->addColumn("theme_display_name");
@@ -922,7 +922,7 @@ extends GUIManagerAbstract
 		}
 		$query->addWhere("theme_template = '1'", _OR);
 
-		$result =& $db->query($query, $this->_dbIndex);
+		$result =$db->query($query, $this->_dbIndex);
 
 		
 		while ($result->hasMoreRows()) {
@@ -943,19 +943,19 @@ extends GUIManagerAbstract
 	* @access public
 	* @since 5/30/06
 	*/
-	function &getGlobalBGColor () {
-		$globalStyles =& $this->_theme->getGlobalStyles();
+	function getGlobalBGColor () {
+		$globalStyles =$this->_theme->getGlobalStyles();
 
 		// empty SP for returning if SP is 'background'
-		$return =& new BackgroundColorSP();
+		$return = new BackgroundColorSP();
 
 		if (isset($globalStyles['body'])) {
-			$body =& $globalStyles['body'];
-			$SPs =& $body->getSPs();
+			$body =$globalStyles['body'];
+			$SPs =$body->getSPs();
 			if (isset($SPs['background-color']))
 			return $SPs['background-color'];
 			else if (isset($SPs['background'])) {
-				$SCs =& $SPs['background']->getSCs();
+				$SCs =$SPs['background']->getSCs();
 				if (isset($SCs['colorsc']))
 				$return->addSC($SCs['colorsc']);
 			}
@@ -970,15 +970,15 @@ extends GUIManagerAbstract
 	* @access public
 	* @since 5/30/06
 	*/
-	function &getGlobalFont () {
-		$globalStyles =& $this->_theme->getGlobalStyles();
+	function getGlobalFont () {
+		$globalStyles =$this->_theme->getGlobalStyles();
 
 		// empty SP for returning if SP is not set
-		$return =& new FontSP();
+		$return = new FontSP();
 
 		if (isset($globalStyles['body'])) {
-			$body =& $globalStyles['body'];
-			$SPs =& $body->getSPs();
+			$body =$globalStyles['body'];
+			$SPs =$body->getSPs();
 			if (isset($SPs['font']))
 			return $SPs['font'];
 		}

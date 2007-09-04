@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: BasicOutputHandler.class.php,v 1.5 2006/05/30 20:36:40 adamfranco Exp $
+ * @version $Id: BasicOutputHandler.class.php,v 1.6 2007/09/04 20:25:30 adamfranco Exp $
  */ 
 
 require_once(HARMONI."/architecture/output/OutputHandler.abstract.php");
@@ -20,7 +20,7 @@ require_once(HARMONI."/architecture/output/OutputHandler.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: BasicOutputHandler.class.php,v 1.5 2006/05/30 20:36:40 adamfranco Exp $
+ * @version $Id: BasicOutputHandler.class.php,v 1.6 2007/09/04 20:25:30 adamfranco Exp $
  */
 class BasicOutputHandler
 	extends OutputHandler 
@@ -37,9 +37,9 @@ class BasicOutputHandler
 	 * @access public
 	 * @since 4/4/05
 	 */
-	function output ( &$returnedContent, $printedContent ) {		
-		$osidContext =& $this->getOsidContext();
-		$harmoni =& $osidContext->getContext('harmoni');
+	function output ( $returnedContent, $printedContent ) {		
+		$osidContext =$this->getOsidContext();
+		$harmoni =$osidContext->getContext('harmoni');
 		
 		$doctypeDef = $this->_configuration->getProperty('document_type_definition');
 		$doctype =  $this->_configuration->getProperty('document_type');

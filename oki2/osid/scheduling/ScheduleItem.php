@@ -140,7 +140,7 @@ class ScheduleItem
      * 
      * @access public
      */
-    function updateStatus ( &$status ) { 
+    function updateStatus ( $status ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -164,7 +164,7 @@ class ScheduleItem
      * 
      * @access public
      */
-    function &getId () { 
+    function getId () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -233,7 +233,7 @@ class ScheduleItem
      * 
      * @access public
      */
-    function &getCreator () { 
+    function getCreator () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -302,7 +302,7 @@ class ScheduleItem
      * 
      * @access public
      */
-    function &getStatus () { 
+    function getStatus () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -351,7 +351,7 @@ class ScheduleItem
      * 
      * @access public
      */
-    function &getPropertyTypes () { 
+    function getPropertyTypes () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -374,7 +374,7 @@ class ScheduleItem
      * 
      * @access public
      */
-    function &getAgentCommitments () { 
+    function getAgentCommitments () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -401,7 +401,7 @@ class ScheduleItem
      * 
      * @access public
      */
-    function changeAgentCommitment ( &$agentId, &$agentStatus ) { 
+    function changeAgentCommitment ( $agentId, $agentStatus ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -429,7 +429,7 @@ class ScheduleItem
      * 
      * @access public
      */
-    function addAgentCommitment ( &$agentId, &$agentStatus ) { 
+    function addAgentCommitment ( $agentId, $agentStatus ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -458,7 +458,7 @@ class ScheduleItem
      * 
      * @access public
      */
-    function &getPropertiesByType ( &$propertiesType ) { 
+    function getPropertiesByType ( $propertiesType ) { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 
@@ -481,7 +481,7 @@ class ScheduleItem
      * 
      * @access public
      */
-    function &getProperties () { 
+    function getProperties () { 
         die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
     } 
 }

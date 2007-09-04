@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: BrowseHistoryManager.class.php,v 1.6 2006/11/30 22:00:31 adamfranco Exp $
+ * @version $Id: BrowseHistoryManager.class.php,v 1.7 2007/09/04 20:25:30 adamfranco Exp $
  **/
 
 class BrowseHistoryManager {
@@ -33,8 +33,8 @@ class BrowseHistoryManager {
 	function markReturnURL($operation, $arg = null) {
 		$url = '';
 		if ($arg == null) {
-			$harmoni =& Harmoni::instance();
-			$urlObj =& $harmoni->request->mkURLWithPassthrough();
+			$harmoni = Harmoni::instance();
+			$urlObj =$harmoni->request->mkURLWithPassthrough();
 			$url = $urlObj->write();
 		} else if (is_string($arg))
 			$url = $arg;
@@ -71,7 +71,7 @@ class BrowseHistoryManager {
 		if (isset($_SESSION['__returnURL'][$operation])) {
 			$url = $_SESSION['__returnURL'][$operation];
 		} else {
-			$harmoni =& Harmoni::instance();
+			$harmoni = Harmoni::instance();
 			$url = $harmoni->request->quickURL(
 				$harmoni->config->get("defaultModule"),
 				$harmoni->config->get("defaultAction")
