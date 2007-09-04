@@ -17,7 +17,7 @@ require_once(HARMONI."GUIManager/StyleProperties/BorderSP.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: YLayout.class.php,v 1.10 2007/08/31 18:11:28 achapin Exp $
+ * @version $Id: YLayout.class.php,v 1.11 2007/09/04 16:11:14 achapin Exp $
  */
 class YLayout extends LayoutInterface {
 
@@ -74,15 +74,6 @@ class YLayout extends LayoutInterface {
 	 * recommended in order to produce a nicely formatted HTML output.
 	 **/
 	function render(& $container, & $theme, $tabs = "") {
-// 		$width = $container->getComponentWidth($key + 1);
-// 		$height = $container->getComponentHeight($key + 1);
-// 		if (isset($width)) $width = " width=\"$width\"";
-// 		if (isset($height)) $height = " height=\"$height\"";
-		$width = " width=\"100%\"";
-		$height = " style='height: 100%'";
-		
-		echo $tabs."<table border=\"0\" cellpadding=\"0px\" cellspacing=\"0px\"$width$height>\n";
-		
 		// Get the components
 		// render the component in separate table cell
 		$components =& $container->getComponents();
@@ -98,33 +89,34 @@ class YLayout extends LayoutInterface {
 				throw new Exception("Invalid component");	
 			}
 			
+			$styles = array();
 			// width and height of the component
-			$width = $height = "";
 			$width = $container->getComponentWidth($key + 1);
 			$height = $container->getComponentHeight($key + 1);
-			if (isset($width)) $width = " width=\"$width\"";
-			if (isset($height)) $height = " height=\"$height\"";
+			if (!is_null($width))
+				$styles[] = "width: $width;";
+			
+			if (!is_null($height)) 
+				$styles[] = "height: $height;";
 
 			// include halign and valign
 			$halign = $valign = "";
 			switch ($container->getComponentAlignmentX($key + 1)) {
-				case LEFT: $halign = " align=\"left\""; break;
-				case CENTER: $halign = " align=\"center\""; break;
-				case RIGHT: $halign = " align=\"right\""; break;
+				case LEFT: $styles[] = "margin-left: 0px; margin-right: auto;"; break;
+				case CENTER: $styles[] = "margin-left: auto; margin-right: auto;"; break;
+				case RIGHT: $styles[] = "margin-left: auto; margin-right: 0px;"; break;
 			}
 			switch ($container->getComponentAlignmentY($key + 1)) {
-				case TOP: $valign = " valign=\"top\""; break;
-				case CENTER: $valign = " valign=\"middle\""; break;
-				case BOTTOM: $valign =  " valign=\"bottom\""; break;
+				case TOP: $styles[] = "valign: top;"; break;
+				case CENTER: $styles[] = "valign: middle;"; break;
+				case BOTTOM: $styles[] = "valign: bottom"; break;
 			}
 			
 			
-			echo $tabs."\t<tr><td$halign$valign>\n";
+			echo $tabs."\t<div style=\"".implode(" ", $styles)."\">\n";
 			$component->render($theme, $tabs."\t\t");
-			echo "\n".$tabs."\t</td></tr>\n";
+			echo "\n".$tabs."\t</div>\n";
 		}
-		
-		echo $tabs."</table>\n";
 	}
 	
 	/**
