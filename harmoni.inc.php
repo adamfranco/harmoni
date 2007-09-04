@@ -10,7 +10,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: harmoni.inc.php,v 1.45 2007/09/04 20:25:17 adamfranco Exp $
+ * @version $Id: harmoni.inc.php,v 1.46 2007/09/04 21:02:19 adamfranco Exp $
  */
 
  /* :: start the output buffer, if it's not already :: */
@@ -80,12 +80,12 @@ if (get_magic_quotes_gpc()) {
 			<DIV>
 				PHP\'s config directive <b>magic_quotes_gpc</b> is set to <b>On</b> and should be <b>Off</b>.
 			</DIV>
-			<p>To have Harmoni run in compatability mode (stripping slashes from the GET, POST, COOKIE, and REQUEST arrays, comment out lines 48-86 of harmoni.inc.php (this file/message).
+			<p>To have Harmoni run in compatability mode (stripping slashes from the GET, POST, COOKIE, and REQUEST arrays, comment out lines 49-86 of harmoni.inc.php (this file/message).
 		</BODY>
 	</HTML>';
 	exit(1);
 	
-	function array_walk_stripslashes($val, $key) {
+	function array_walk_stripslashes(&$val, $key) {
 		if (is_array($val)) array_walk($val, 'array_walk_stripslashes');
 		else $val = stripslashes($val);
 	}
@@ -93,6 +93,50 @@ if (get_magic_quotes_gpc()) {
    array_walk($_POST, 'array_walk_stripslashes');
    array_walk($_REQUEST, 'array_walk_stripslashes');
    array_walk($_COOKIE, 'array_walk_stripslashes');
+}
+
+/*********************************************************
+ * Check that the PHP version is at least 5
+ *********************************************************/
+$minPhpVersion = "5.2.0";
+if (version_compare(phpversion(), $minPhpVersion, "<")) {
+	// but really throw an error
+	print '
+	<HTML>
+		<HEAD>
+			<TITLE>ERROR</TITLE>
+			<STYLE TYPE="text/css">
+				body {
+					background-color: #eee;
+					margin: 50px 150px 50px 150px;
+					padding: 30px;
+					color: #333;
+					font-family: Verdana;
+
+					border: 1px dotted #555;
+				}
+
+				body p {
+					font-size: 12px;
+					text-align: center;
+					color: #955;
+				}
+
+				body div {
+					font-size: 18px;
+					font-weight: normal;
+				}
+			</STYLE>
+		</HEAD>
+
+		<BODY>
+			<P>Harmoni could not be initialized for the following reason:</P>
+			<DIV>
+				PHP version <b>'.$minPhpVersion.'</b> or greater required. This host is using <b>'.phpversion().'</b>.
+			</DIV>
+		</BODY>
+	</HTML>';
+	exit(1);
 }
 
 
