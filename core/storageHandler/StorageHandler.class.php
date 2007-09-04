@@ -46,7 +46,7 @@ define("STORAGE_PRIMARY", 3);
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorageHandler.class.php,v 1.8 2005/04/04 19:57:45 adamfranco Exp $
+ * @version $Id: StorageHandler.class.php,v 1.9 2007/09/04 18:32:53 adamfranco Exp $
 */
 class StorageHandler {
 	/**
@@ -507,7 +507,7 @@ class StorageHandler {
 				$name);
 		} 
 		// return false if both are not TRUE (no error)
-		return $backupError & $primaryError;
+		return ($backupError && $primaryError);
 	}
 
 	/**
