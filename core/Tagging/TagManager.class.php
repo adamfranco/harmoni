@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TagManager.class.php,v 1.4 2007/09/04 20:25:29 adamfranco Exp $
+ * @version $Id: TagManager.class.php,v 1.5 2007/09/04 20:53:12 adamfranco Exp $
  */ 
 
 /**
@@ -36,7 +36,7 @@ require_once(dirname(__FILE__)."/StructuredMetaDataTagGenerator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TagManager.class.php,v 1.4 2007/09/04 20:25:29 adamfranco Exp $
+ * @version $Id: TagManager.class.php,v 1.5 2007/09/04 20:53:12 adamfranco Exp $
  */
 class TagManager
 	extends OsidManager	
@@ -547,7 +547,11 @@ class TagManager
 				}
 			}
 		}
-		return $this->_currentUserId;
+		
+		if (isset($this->_currentUserId))
+			return $this->_currentUserId;
+		else
+			return null;
     }
     
     /**
