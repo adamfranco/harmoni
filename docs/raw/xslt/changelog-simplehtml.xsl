@@ -5,7 +5,7 @@
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  
- @version $Id: changelog-simplehtml.xsl,v 1.5 2007/05/04 20:57:42 adamfranco Exp $
+ @version $Id: changelog-simplehtml.xsl,v 1.6 2007/09/05 16:29:51 adamfranco Exp $
  -->
  
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
@@ -120,6 +120,9 @@
 	<xsl:if test="@author">
 		<xsl:text> (</xsl:text>
 		<em>
+			
+			<xsl:if test="@date!=''"><xsl:value-of select="@date" /> - </xsl:if>
+			
 			<xsl:call-template name="authors">
 				<xsl:with-param name="str" select="@author"/>
 			</xsl:call-template>
