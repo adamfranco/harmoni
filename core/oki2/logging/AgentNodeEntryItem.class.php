@@ -6,10 +6,8 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AgentNodeEntryItem.class.php,v 1.7 2007/09/04 20:25:43 adamfranco Exp $
+ * @version $Id: AgentNodeEntryItem.class.php,v 1.8 2007/09/05 19:55:21 adamfranco Exp $
  */ 
-
-require_once(HARMONI."errorHandler/SimpleHTMLErrorPrinter.class.php");
 
 /**
  * The AgentNodeEntryItem encapsulates data about a log entry
@@ -20,7 +18,7 @@ require_once(HARMONI."errorHandler/SimpleHTMLErrorPrinter.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AgentNodeEntryItem.class.php,v 1.7 2007/09/04 20:25:43 adamfranco Exp $
+ * @version $Id: AgentNodeEntryItem.class.php,v 1.8 2007/09/05 19:55:21 adamfranco Exp $
  */
 class AgentNodeEntryItem {
 		

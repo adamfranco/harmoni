@@ -11,7 +11,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: services.cfg.php,v 1.59 2007/09/04 20:25:18 adamfranco Exp $
+ * @version $Id: services.cfg.php,v 1.60 2007/09/05 19:55:19 adamfranco Exp $
  */
 
 /* :: what services should we load? you can disable some to save on startup time :: */
@@ -197,22 +197,24 @@ $context->assignContext('harmoni', $harmoni);
 /**
  * load error handler
  */
-require_once(HARMONI."errorHandler/ErrorHandler.class.php");
+require_once(HARMONI."errorHandler/HarmoniException.class.php");
+require_once(HARMONI."errorHandler/Error.class.php");
 require_once(HARMONI."errorHandler/throw.inc.php");
-Services::registerService("ErrorHandler","ErrorHandler");
-
-require_once(HARMONI."oki2/shared/ConfigurationProperties.class.php");
-$configuration = new ConfigurationProperties;
-Services::startManagerAsService("ErrorHandler", $context, $configuration);
-
-
-/**
- * load user error handler
- */
-Services::registerService("UserError","ErrorHandler");
-require_once(HARMONI."oki2/shared/ConfigurationProperties.class.php");
-$configuration = new ConfigurationProperties;
-Services::startManagerAsService("UserError", $context, $configuration);
+// require_once(HARMONI."errorHandler/ErrorHandler.class.php");
+// Services::registerService("ErrorHandler","ErrorHandler");
+// 
+// require_once(HARMONI."oki2/shared/ConfigurationProperties.class.php");
+// $configuration = new ConfigurationProperties;
+// Services::startManagerAsService("ErrorHandler", $context, $configuration);
+// 
+// 
+// /**
+//  * load user error handler
+//  */
+// Services::registerService("UserError","ErrorHandler");
+// require_once(HARMONI."oki2/shared/ConfigurationProperties.class.php");
+// $configuration = new ConfigurationProperties;
+// Services::startManagerAsService("UserError", $context, $configuration);
 /**
  * load DBHandler
  */

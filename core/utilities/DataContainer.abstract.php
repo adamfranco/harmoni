@@ -14,7 +14,7 @@ require_once(HARMONI."utilities/FieldSetValidator/RuleSet.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DataContainer.abstract.php,v 1.7 2007/09/04 20:25:54 adamfranco Exp $
+ * @version $Id: DataContainer.abstract.php,v 1.8 2007/09/05 19:55:22 adamfranco Exp $
  *
  * @abstract
  */
@@ -54,18 +54,18 @@ class DataContainer
 	 * @see FieldSetValidator
 	 * @return void 
 	 **/
-	function add( $field, $rule, $error = null ) {
+	function add( $field, $rule, $message = null, $type = '' ) {
 		// add the $field to the ruleset with the rule & error
-		if ($error == null) {
+		if ($message == null) {
 			// add the default error for a DataContainer
-			$description = "";
-			$description .= "The field '$field' in the DataContainer '".get_class($this);
-			$description .= "' could not be validated using the rule: ";
-			$description .= get_class($rule);
-			$description .= ".";
-			$error = new Error($description,"System",true);
+			$message = "";
+			$message .= "The field '$field' in the DataContainer '".get_class($this);
+			$message .= "' could not be validated using the rule: ";
+			$message .= get_class($rule);
+			$message .= ".";
+			$type = "System";
 		}
-		$this->_ruleSet->addRule( $field, $rule, $error );
+		$this->_ruleSet->addRule( $field, $rule, $message, $type );
 		// done;
 	}
 	

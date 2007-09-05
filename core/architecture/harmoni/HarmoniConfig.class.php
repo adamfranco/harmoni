@@ -13,7 +13,7 @@ require_once(HARMONI . "errorHandler/throw.inc.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniConfig.class.php,v 1.13 2007/09/04 20:25:30 adamfranco Exp $
+ * @version $Id: HarmoniConfig.class.php,v 1.14 2007/09/05 19:55:20 adamfranco Exp $
  */
 
 class HarmoniConfig extends DataContainer {
@@ -29,14 +29,16 @@ class HarmoniConfig extends DataContainer {
         // initialize the data container
         $this -> init(); 
         // add the fields we want to allow
-    	$e = new Error("HarmoniConfig - the option 'defaultAction' must be set to a string value!","Harmoni",true);
-		$this -> add("defaultAction", StringValidatorRule::getRule(),$e);
-		$this -> add("defaultAction", FieldRequiredValidatorRule::getRule(),$e);
-		unset($e);
-    	$e = new Error("HarmoniConfig - the option 'defaultModule' must be set to a string value!","Harmoni",true);
-		$this -> add("defaultModule", StringValidatorRule::getRule(),$e);
-		$this -> add("defaultModule", FieldRequiredValidatorRule::getRule(),$e);
-		$this -> add("programTitle", StringValidatorRule::getRule(),$e);
+    	$message = "HarmoniConfig - the option 'defaultAction' must be set to a string value!";
+    	$type = "Harmoni";
+		$this -> add("defaultAction", StringValidatorRule::getRule(), $message, $type);
+		$this -> add("defaultAction", FieldRequiredValidatorRule::getRule(), $message, $type);
+		unset( $message, $type);
+    	$message ="HarmoniConfig - the option 'defaultModule' must be set to a string value!";
+    	$type = "Harmoni";
+		$this -> add("defaultModule", StringValidatorRule::getRule(), $message, $type);
+		$this -> add("defaultModule", FieldRequiredValidatorRule::getRule(), $message, $type);
+		$this -> add("programTitle", StringValidatorRule::getRule(), $message, $type);
 		
 		$this -> add("sessionName", FieldRequiredValidatorRule::getRule());
 		$this -> set("sessionName","Harmoni");
@@ -46,7 +48,7 @@ class HarmoniConfig extends DataContainer {
 		$this -> set("sessionUseOnlyCookies",true);
 		$this -> add("sessionCookiePath", FieldRequiredValidatorRule::getRule());
 		$this -> set("sessionCookiePath","/");
-		$this -> add("sessionCookieDomain", StringValidatorRule::getRule(), new Error("HarmoniConfig - You must set the 'sessionDomain' to the DNS domain you would like your session cookie sent to! (eg, '.mydomain.com')","Harmoni",true));
+		$this -> add("sessionCookieDomain", StringValidatorRule::getRule(), "HarmoniConfig - You must set the 'sessionDomain' to the DNS domain you would like your session cookie sent to! (eg, '.mydomain.com')", "Harmoni");
 		$this -> set("sessionCookieDomain", ""); // default
 	} 
 } 

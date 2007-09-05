@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: throw.inc.php,v 1.12 2007/09/04 20:25:35 adamfranco Exp $
+ * @version $Id: throw.inc.php,v 1.13 2007/09/05 19:55:20 adamfranco Exp $
  */
 
 /**
@@ -16,65 +16,8 @@
  * @param object Error The error object to throw.
  */
 function throwError($error) {
-	$errorHandler = Services::getService("ErrorHandler");
-
-	// throw the error
-	$errorHandler->addError($error);
-}
-
-/**
- * Throws an error using the UserErrorHandler.
- * @param object Error The error object to throw.
- */
-function userError($error) {
-	$errorHandler = Services::getService("UserError");
-
-	// throw the error
-	$errorHandler->addError($error);
-}
-
-/**
- * Prints out all of the errors from the ErrorHandler using the specified printer and returns the output in a string.
- * @param ref object $printer The {@link ErrorPrinter} to use.
- * @return void
- */
-function printErrors($printer)
-{
-	$handler = Services::getService("ErrorHandler");
-	
-	if (haveErrors())
-		return $handler->printErrorsWithErrorPrinter($printer);
-}
-
-/**
- * Returns if we have errors in the ErrorHandler service.
- * @return boolean
- */
-function haveErrors()
-{
-	$handler = Services::getService("ErrorHandler");
-	
-	if ($handler->getNumberOfErrors()) {
-		return true;
-	}
-	return false;
-}
-
-/**
- * Prints all of the errors in the "UserError" service with a pretty error printer.
- * @access public
- * @return string A string containing the output of the error printer. 
- */
-function printUserErrors() {
-	// get it
-	$errorHandler = Services::getService("UserError");
-	
-	// check if we have any
-	if ($errorHandler->getNumberOfErrors()) {
-		$printer = new SimpleHTMLErrorPrinter;
-		return $errorHandler->printErrorsWithErrorPrinter($printer);
-	}
-		
+	// new implementation for PHP 5
+	throw $error;
 }
 
 /**
@@ -88,10 +31,20 @@ function printUserErrors() {
  {
  	$traceArray = is_array($trace)?$trace:debug_backtrace();
 
- 	$result='';
- 	
+ 	if ($return) ob_start();
+ 	 	
+ 	print "\n\n<table border='1'>";
+ 	print "\n\t<thead>";
+ 	print "\n\t\t<tr>";
+ 	print "\n\t\t\t<th>#</th>";
+ 	print "\n\t\t\t<th>File</th>";
+ 	print "\n\t\t\t<th>Line</th>";
+ 	print "\n\t\t\t<th>Call</th>";
+ 	print "\n\t\t</tr>";
+ 	print "\n\t</thead>";
+ 	print "\n\t<tbody>";
  	if (is_array($traceArray)) {
- 		foreach($traceArray as $trace) {
+ 		foreach($traceArray as $i => $trace) {
  			/* each $traceArray element represents a step in the call hiearchy. Print them from bottom up. */
  			$file = basename($trace['file']);
  			$line = $trace['line'];
@@ -99,14 +52,19 @@ function printUserErrors() {
  			$class = isset($trace['class'])?$trace['class']:'';
  			$type = isset($trace['type'])?$trace['type']:'';
  			$args = ArgumentRenderer::renderManyArguments($trace['args'], false, false);
-
- 			$result .= "in <b>$file:$line</b> $class$type$function($args)<br />\n";
+			
+			print "\n\t\t<tr>";
+			print "\n\t\t\t<td>$i</td>";
+			print "\n\t\t\t<td title=\"".$trace['file']."\">$file</td>";
+			print "\n\t\t\t<td>$line</td>";
+			print "\n\t\t\t<td style='font-family: monospace; white-space: nowrap'>$class$type$function($args);</td>";
+			print "\n\t\t</tr>";
  		}
  	}
- 	$result .= "<br />";
+ 	print "\n\t</tbody>";
+ 	print "\n<table>";
  	
- 	if ($return) return $result;
- 	print $result;
+ 	if ($return) return ob_get_clean();
  }
 
 ?>

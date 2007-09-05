@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: UserDataContainer.abstract.php,v 1.5 2007/09/04 20:25:54 adamfranco Exp $
+ * @version $Id: UserDataContainer.abstract.php,v 1.6 2007/09/05 19:55:22 adamfranco Exp $
  */
 class UserDataContainer extends DataContainer {
 	/**
@@ -17,17 +17,6 @@ class UserDataContainer extends DataContainer {
 	 * @var array $_setFields An array of fields that have been set.
 	 **/
 	var $_setFields;
-
-	/**
-	 * The init function -- sets up the private variables.
-	 * @access protected
-	 * @return void 
-	 **/
-	function init() {
-		parent::init();
-		$handler = Services::getService("UserError");
-		$this->_ruleSet->setErrorHandler($handler);
-	}
 	
 	/**
 	 * The set method sets the value for a field while checking constrictions.

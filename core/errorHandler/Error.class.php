@@ -1,27 +1,23 @@
 <?php
 
-require_once(HARMONI."errorHandler/Error.interface.php");
+require_once(HARMONI."errorHandler/HarmoniException.class.php");
 
 /**
- * An error class interface provides functionality to create Error objects 
- * to be used by the ErrorHandler
+ * This class is a hold-over from Harmoni's old error Handler, which tried to
+ * do some exception-like things in PHP4. The new implementation, just extends
+ * the default exception for compatability purposes
  *
  * @package harmoni.errorhandler
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Error.class.php,v 1.6 2005/08/11 21:51:21 adamfranco Exp $
+ * @version $Id: Error.class.php,v 1.7 2007/09/05 19:55:20 adamfranco Exp $
  */
 
-class Error extends ErrorInterface {
-    
-    var $_description;
-    var $_type;
-    var $_isFatal;
-
-	// the backtrace information (call hierarchy) of the error.
-	var $_debugBacktrace;
+class Error 
+	extends HarmoniException
+{
 
 	/**
 	 * The constructor. Create a new error.
@@ -31,56 +27,14 @@ class Error extends ErrorInterface {
 	 * @access public
 	 */
 
-    function Error($description,$type = "",$isFatal = true) {
-		$this->_description = $description;
-		$this->_type = $type;
-		$this->_isFatal = $isFatal;
-		$this->_debugBacktrace = debug_backtrace();
-//		array_shift($this->_debugBacktrace);
+    function __construct ($description,$type = "",$isFatal = true) {
+		parent::__construct($description, 0, $type, $isFatal);
     }
-    
-    /**
-     * Gets a string description of the error.
-     * @return string Description of the error.
-     * @access public
-     */
-
-	function getDescription() {
-		return $this->_description;
-    }
-
-    /**
-     * Gets the type of the error.
-     * @return string Type of the error.
-     * @access public
-     */
-    function getType() {
-		return $this->_type;	
-	}	
-
-    /**
-     * Whether the execution of the scirpt should be halted after this error has occured.
-     * @return boolean True if the execution should be halted.
-     * @access public
-     */
-	function isFatal() {
-		return $this->_isFatal;
-	}
-
-    /**
-     * Gets the debug backtrace information for the error.
-     * @return The debug backtrace information the way it is stored by the debug_backtrace() function.
-     * @access public
-     */
-    function getDebugBacktrace() { 
-		return $this->_debugBacktrace;
-	}    
-
 }
 
 class UnknownDBError extends Error {
-	function UnknownDBError($type) {
-		parent::Error("An unkonwn Database error occured.",$type,true);
+	function __construct($type) {
+		parent::Error("An unkonwn Database error occured.", $type, true);
 	}
 }
 

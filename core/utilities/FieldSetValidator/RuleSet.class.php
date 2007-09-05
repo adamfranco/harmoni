@@ -11,16 +11,9 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/inc.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RuleSet.class.php,v 1.7 2007/09/04 20:25:55 adamfranco Exp $
+ * @version $Id: RuleSet.class.php,v 1.8 2007/09/05 19:55:22 adamfranco Exp $
  */
 class RuleSet {
-	/**
-	 * The error handler we should use for throwing errors.
-	 * 
-	 * @access private
-	 * @var object $_errorHandler The ErrorHandler
-	 */ 
-	var $_errorHandler;
 	
 	/**
 	 * an associative array of keys and associated rules
@@ -45,33 +38,24 @@ class RuleSet {
 	function RuleSet() {
 		$this->_rules = array();
 	}
-	/**
-	 * Sets the {@link ErrorHandler} to use if validation fails on a certain field.
-	 * @param ref object $handler The {@link ErrorHandler}.
-	 * @access public
-	 * @return void 
-	 **/
-	function setErrorHandler($handler) {
-		$this->_errorHandler =$handler;
-	}
 		
 	/**
 	 * adds a new $rule to $key, which if fails when validated throws $error
 	 * @param string $key the key to associate the rule with
 	 * @param ref object ValidatorRule $rule the ValidatorRule object to be added
-	 * @param optional object Error $error the error to throw if the validation fails
+	 * @param optional string $message the error to throw if the validation fails
 	 * @access public
 	 * @return void 
 	 **/
-	function addRule( $key, $rule, $error = null) {
+	function addRule( $key, $rule, $message = null, $type = '') {
 		ArgumentValidator::validate($rule, ExtendsValidatorRule::getRule("ValidatorRuleInterface"));
 		ArgumentValidator::validate($key, StringValidatorRule::getRule());
 
-		if ($error !== null)
-			ArgumentValidator::validate($error,ExtendsValidatorRule::getRule("ErrorInterface"),true);
+		if ($message !== null)
+			ArgumentValidator::validate($message, StringValidatorRule::getRule(),true);
 
 		if (!isset($this->_rules[$key])) $this->_rules[$key] = array();
-		$this->_rules[$key][] = array( $rule, $error );
+		$this->_rules[$key][] = array( $rule, $message, $type );
 	}
 	
 	/**
@@ -96,8 +80,7 @@ class RuleSet {
 			if (!$rule[0]->check( $val )) {
 				// throw an error
 				if ($throwErrors && $rule[1] !== null) {
-    				if (isset($this->_errorHandler)) $this->_errorHandler->addError($rule[1]);
-					else throwError($rule[1]);
+					throw new Error($rule[1], $rule[2]);
 				}
 				
 				// set $error to true;
