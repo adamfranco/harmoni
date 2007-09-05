@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OracleInsertQueryResult.class.php,v 1.7 2007/09/04 20:25:19 adamfranco Exp $
+ * @version $Id: OracleInsertQueryResult.class.php,v 1.8 2007/09/05 21:39:00 adamfranco Exp $
  */
  
 require_once(HARMONI."DBHandler/InsertQueryResult.interface.php");
@@ -19,10 +19,12 @@ require_once(HARMONI."DBHandler/InsertQueryResult.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OracleInsertQueryResult.class.php,v 1.7 2007/09/04 20:25:19 adamfranco Exp $
+ * @version $Id: OracleInsertQueryResult.class.php,v 1.8 2007/09/05 21:39:00 adamfranco Exp $
  */
 
-class OracleInsertQueryResult extends InsertQueryResultInterface  {
+class OracleInsertQueryResult 
+	implements InsertQueryResultInterface  
+{
 
 
 	/**
@@ -83,7 +85,7 @@ class OracleInsertQueryResult extends InsertQueryResultInterface  {
 		if (is_null($this->_lastAutoIncrementValue)) {
 			$str = "Cannot get last autoincrement value, because the autoincrement ";
 			$str .= "column has not been set with setAutoIncrementColumn().";
-			throwError(new Error($str, "DBHandler", true));
+			throw new DatabaseException($str);
 		}
 	
 		return $this->_lastAutoIncrementValue;

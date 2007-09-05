@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Query.abstract.php,v 1.5 2007/07/30 18:18:55 adamfranco Exp $
+ * @version $Id: Query.abstract.php,v 1.6 2007/09/05 21:38:59 adamfranco Exp $
  */
 require_once(HARMONI."DBHandler/Query.interface.php");
 
@@ -18,10 +18,13 @@ require_once(HARMONI."DBHandler/Query.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Query.abstract.php,v 1.5 2007/07/30 18:18:55 adamfranco Exp $
+ * @version $Id: Query.abstract.php,v 1.6 2007/09/05 21:38:59 adamfranco Exp $
  */
 
-class Query extends QueryInterface { 
+abstract class QueryAbstract 
+	extends SObject
+	implements Query
+{ 
 
 	/**
 	 * The type of the query.
@@ -60,7 +63,7 @@ class Query extends QueryInterface {
 	 */
 	function cleanColumn ( $column ) {
 		if (!preg_match('/^[a-z0-9_\.]+$/i', $column))
-			throwError(new Error("Invalid SQL column, '".$column."'"));
+			throw new DatabaseException("Invalid SQL column, '".$column."'");
 		return $column;
 	}
 	
@@ -76,7 +79,7 @@ class Query extends QueryInterface {
 	 */
 	function addWhereRawComparison ( $column, $value, $comparison, $logicalOperation = _AND ) {
 		if (!preg_match('/[!=><]{1,3}/', $comparison))
-			throwError(new Error("Invalid SQL comparison, '".$comparison."'"));
+			throw new DatabaseException("Invalid SQL comparison, '".$comparison."'");
 		
 		$this->addWhere(
 			$this->cleanColumn($column)

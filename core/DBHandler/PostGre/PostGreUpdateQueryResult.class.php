@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreUpdateQueryResult.class.php,v 1.6 2007/09/04 20:25:20 adamfranco Exp $
+ * @version $Id: PostGreUpdateQueryResult.class.php,v 1.7 2007/09/05 21:39:01 adamfranco Exp $
  */
  
 require_once(HARMONI."DBHandler/UpdateQueryResult.interface.php");
@@ -19,10 +19,10 @@ require_once(HARMONI."DBHandler/UpdateQueryResult.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreUpdateQueryResult.class.php,v 1.6 2007/09/04 20:25:20 adamfranco Exp $
+ * @version $Id: PostGreUpdateQueryResult.class.php,v 1.7 2007/09/05 21:39:01 adamfranco Exp $
  */
 class PostGreUpdateQueryResult 
-	extends UpdateQueryResultInterface 
+	implements UpdateQueryResultInterface 
 {
 
 

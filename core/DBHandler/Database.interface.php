@@ -9,10 +9,10 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Database.interface.php,v 1.10 2007/09/04 20:25:18 adamfranco Exp $
+ * @version $Id: Database.interface.php,v 1.11 2007/09/05 21:38:59 adamfranco Exp $
  */
  
-class DatabaseInterface {
+interface Database {
 
 	/**
 	 * Connects to the database.
@@ -20,7 +20,7 @@ class DatabaseInterface {
 	 * @access public
 	 * @return mixed The connection's link identifier, if successful; False, otherwise.
 	 */
-	function connect() { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	function connect();
 
 	
 	/**
@@ -29,7 +29,7 @@ class DatabaseInterface {
 	 * @access public
 	 * @return mixed The connection's link identifier, if successful; False, otherwise.
 	 */
-	function pConnect() { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	function pConnect();
 
 
 	/**
@@ -42,7 +42,7 @@ class DatabaseInterface {
 	 * @return mixed The appropriate QueryResult object. If the query failed, it would
 	 * return NULL.
 	 */
-	function query($query) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	function query(Query $query);
 
 
 	/**
@@ -51,7 +51,7 @@ class DatabaseInterface {
 	 * @access public
 	 * @return boolean True, if successful; False, otherwise.
 	 */
-	function disconnect() { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	function disconnect();
 	
 	/**
 	 * Indicates whether there is an open connection to the database.
@@ -59,14 +59,14 @@ class DatabaseInterface {
 	 * @access public
 	 * @return boolean True, if there is an open connection to the database; False, otherwise.
 	 */
-	function isConnected() { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	function isConnected();
 
 	/**
 	 * Returns a list of the tables that exist in the currently connected database.
 	 * @return array
 	 * @access public
 	 */
-	function getTableList() { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	function getTableList();
 	
 	/**
 	 * Returns the total number of successful queries executed since the last call to connect().
@@ -74,7 +74,7 @@ class DatabaseInterface {
 	 * @access public
 	 * @return integer The total number of successful queries executed since the last call to connect().
 	 **/
-	function getNumberSuccessfulQueries() { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	function getNumberSuccessfulQueries();
 	
 	
 	
@@ -84,7 +84,7 @@ class DatabaseInterface {
 	 * @access public
 	 * @return integer The total number of failed queries executed since the last call to connect().
 	 **/
-	function getNumberFailedQueries() { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	function getNumberFailedQueries();
 	
 	
 	/**
@@ -93,11 +93,7 @@ class DatabaseInterface {
 	 * @param string database The name of the default database.
 	 * @return boolean True, if successful; False, otherwise.
 	 */
-	function selectDatabase($database) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-	
-	
+	function selectDatabase($database);
 	
 	/**
 	 * Converts a DateAndTime object to a proper datetime/timestamp/time representation 
@@ -107,10 +103,7 @@ class DatabaseInterface {
 	 * @param ref object DateAndTime The DateAndTime object to convert.
 	 * @return mixed A proper datetime/timestamp/time representation for this Database.
 	 */
-	function toDBDate($dateAndTime) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-	
+	function toDBDate(DateAndTime $dateAndTime);
 	
 	/**
 	 * Converts a database datetime/timestamp/time value (that has been fetched
@@ -120,9 +113,7 @@ class DatabaseInterface {
 	 * from the db).
 	 * @return ref object The DateAndTime object.
 	 */
-	function fromDBDate($value) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
+	function fromDBDate($value);
 	
 	/**
 	 * Return TRUE if this database supports transactions.
@@ -131,9 +122,7 @@ class DatabaseInterface {
 	 * @access public
 	 * @since 3/9/05
 	 */
-	function supportsTransactions () {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
+	function supportsTransactions ();
 	
 	/**
 	 * Begin a transaction.
@@ -142,9 +131,7 @@ class DatabaseInterface {
 	 * @access public
 	 * @since 3/9/05
 	 */
-	function beginTransaction () {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
+	function beginTransaction ();
 	
 	/**
 	 * Commit a transaction. This will roll-back changes if errors occured in the
@@ -154,9 +141,7 @@ class DatabaseInterface {
 	 * @access public
 	 * @since 3/9/05
 	 */
-	function commitTransaction () {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
+	function commitTransaction ();
 	
 	/**
 	 * Roll-back a transaction manually instead of committing
@@ -165,18 +150,14 @@ class DatabaseInterface {
 	 * @access public
 	 * @since 3/9/05
 	 */
-	function rollbackTransaction () {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
+	function rollbackTransaction ();
 	
 	/**
 	 * Returns a short string name for this database type. Example: 'MySQL'
 	 * @access public
 	 * @return string
 	 */
-	function getStringName() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
+	function getStringName();
 	
 	/**
 	 * Answer the info to display to users on a connection error.
@@ -185,15 +166,112 @@ class DatabaseInterface {
 	 * @access public
 	 * @since 6/1/06
 	 */
-	function getConnectionErrorInfo () {
-		$dbManager = Services::getService("DatabaseManager");
-		$configuration =$dbManager->_configuration;
-		if ($configuration->getProperty('connectionInfo')) {
-			return '<div style="border: 1px dotted; background-color: #FAA; margin: 10px; padding: 10px;">'.$configuration->getProperty('connectionInfo').'</div>';
-		} else {
-			return '';
-		}
-	}
+	function getConnectionErrorInfo ();
+}
+
+
+/**
+ * This is the root exception for all database exceptions.
+ * 
+ * @since 9/5/07
+ * @package harmoni.dbc
+ * 
+ * @copyright Copyright &copy; 2007, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: Database.interface.php,v 1.11 2007/09/05 21:38:59 adamfranco Exp $
+ */
+class DatabaseException
+	extends HarmoniException
+{
+}
+
+/**
+ * This is an exception thrown for connection problems.
+ * 
+ * @since 9/5/07
+ * @package harmoni.dbc
+ * 
+ * @copyright Copyright &copy; 2007, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: Database.interface.php,v 1.11 2007/09/05 21:38:59 adamfranco Exp $
+ */
+class ConnectionDatabaseException
+	extends DatabaseException
+{
+
+}
+
+/**
+ * This is an exception thrown in response to errors in transaction usage.
+ * 
+ * @since 9/5/07
+ * @package harmoni.dbc
+ * 
+ * @copyright Copyright &copy; 2007, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: Database.interface.php,v 1.11 2007/09/05 21:38:59 adamfranco Exp $
+ */
+class TransactionDatabaseException
+	extends DatabaseException
+{
+
+}
+
+/**
+ * This is an exception thrown in response to an error that occurs in query execution.
+ * 
+ * @since 9/5/07
+ * @package harmoni.dbc
+ * 
+ * @copyright Copyright &copy; 2007, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: Database.interface.php,v 1.11 2007/09/05 21:38:59 adamfranco Exp $
+ */
+class QueryDatabaseException
+	extends DatabaseException
+{
+
+}
+
+/**
+ * This is an exception thrown when the query size exceeds the maximum that 
+ * can be sent to the server.
+ * 
+ * @since 9/5/07
+ * @package harmoni.dbc
+ * 
+ * @copyright Copyright &copy; 2007, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: Database.interface.php,v 1.11 2007/09/05 21:38:59 adamfranco Exp $
+ */
+class QuerySizeDatabaseException
+	extends QueryDatabaseException
+{
+
+}
+
+/**
+ * This exception is thrown when an insert or update query causes a duplicate-key
+ * error. As these often to not cause data inconsistancies, they can often be
+ * caught and ignored.
+ * 
+ * @since 9/5/07
+ * @package harmoni.dbc
+ * 
+ * @copyright Copyright &copy; 2007, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: Database.interface.php,v 1.11 2007/09/05 21:38:59 adamfranco Exp $
+ */
+class DuplucateKeyDatabaseException
+	extends DatabaseException
+{
+
 }
 
 ?>

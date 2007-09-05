@@ -5,9 +5,9 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: InsertQuery.interface.php,v 1.4 2005/04/07 16:33:23 adamfranco Exp $
+ * @version $Id: InsertQuery.interface.php,v 1.5 2007/09/05 21:38:59 adamfranco Exp $
  */
-require_once("Query.abstract.php");
+require_once("Query.interface.php");
 
 /**
  * An InsertQuery interface provides the tools to build an SQL INSERT query.
@@ -18,28 +18,26 @@ require_once("Query.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: InsertQuery.interface.php,v 1.4 2005/04/07 16:33:23 adamfranco Exp $
+ * @version $Id: InsertQuery.interface.php,v 1.5 2007/09/05 21:38:59 adamfranco Exp $
  */
 
-class InsertQueryInterface extends Query {
+interface InsertQueryInterface 
+	extends Query 
+{
 
 	/**
 	 * Sets the table to insert into.
 	 * @param string $table The table to insert into.
 	 * @access public
 	 */
-	function setTable($table) { 
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
-	}
+	function setTable($table) ;
 
 	/**
 	 * Sets the columns to insert into the table.
 	 * @param array $table The columns to insert into the table.
 	 * @access public
 	 */
-	function setColumns($columns) { 
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
-	}
+	function setColumns($columns) ;
 
 	/**
 	 * Adds one row of values to insert into the table.
@@ -50,9 +48,7 @@ class InsertQueryInterface extends Query {
 	 * match the order of columns specified with the setColumns() method.
 	 * @access public
 	 */
-	function addRowOfValues($values) { 
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
-	}
+	function addRowOfValues($values) ;
 	
 	/**
 	 * This is an alias for addRowOfValues for compatability with the UpdateQuery class.
@@ -64,9 +60,7 @@ class InsertQueryInterface extends Query {
 	 * match the order of columns specified with the setColumns() method.
 	 * @access public
 	 */
-	function setValues($values) { 
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
-	}
+	function setValues($values) ;
 
 	/**
 	 * Sets the autoincrement column.
@@ -77,9 +71,7 @@ class InsertQueryInterface extends Query {
 	 * @param string $sequence The sequence to use for generating new ids.
 	 * @access public
 	 */ 
-	function setAutoIncrementColumn($column, $sequence) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
-	}
+	function setAutoIncrementColumn($column, $sequence) ;
 
 }
 ?>

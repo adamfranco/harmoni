@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQLUpdateQueryResult.class.php,v 1.5 2007/09/04 20:25:19 adamfranco Exp $
+ * @version $Id: MySQLUpdateQueryResult.class.php,v 1.6 2007/09/05 21:39:00 adamfranco Exp $
  */
  
 require_once(HARMONI."DBHandler/UpdateQueryResult.interface.php");
@@ -20,10 +20,12 @@ require_once(HARMONI."DBHandler/UpdateQueryResult.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQLUpdateQueryResult.class.php,v 1.5 2007/09/04 20:25:19 adamfranco Exp $
+ * @version $Id: MySQLUpdateQueryResult.class.php,v 1.6 2007/09/05 21:39:00 adamfranco Exp $
  */
 
-class MySQLUpdateQueryResult extends UpdateQueryResultInterface {
+class MySQLUpdateQueryResult 
+	implements UpdateQueryResultInterface 
+{
 
 
 	/**

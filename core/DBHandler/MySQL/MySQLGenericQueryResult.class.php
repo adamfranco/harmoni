@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQLGenericQueryResult.class.php,v 1.9 2007/09/04 20:25:19 adamfranco Exp $
+ * @version $Id: MySQLGenericQueryResult.class.php,v 1.10 2007/09/05 21:39:00 adamfranco Exp $
  */
  
 require_once(HARMONI."DBHandler/GenericQueryResult.interface.php");
@@ -21,10 +21,10 @@ require_once(HARMONI."DBHandler/GenericQueryResult.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQLGenericQueryResult.class.php,v 1.9 2007/09/04 20:25:19 adamfranco Exp $
+ * @version $Id: MySQLGenericQueryResult.class.php,v 1.10 2007/09/05 21:39:00 adamfranco Exp $
  */
 class MySQLGenericQueryResult 
-	extends GenericQueryResultInterface 
+	implements GenericQueryResultInterface 
 {
 	
 	/**
@@ -65,7 +65,16 @@ class MySQLGenericQueryResult
 		$this->_linkId = $linkId;
 	}
 	
-	
+	/**
+	 * Returns the number of rows that the query processed.
+	 * Returns the number of rows that the query processed. For a SELECT query,
+	 * this would be the total number of rows selected. For a DELETE, UPDATE, or
+	 * INSERT query, this would be the number of rows that were affected.
+	 * @return integer Number of rows that were processed by the query.
+	 */ 
+	function getNumberOfRows() {
+		return mysql_num_rows($this->_resourceId);
+	}
 
 	/**
 	 * Returns the resource id for this SELECT query.

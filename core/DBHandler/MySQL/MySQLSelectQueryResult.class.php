@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQLSelectQueryResult.class.php,v 1.11 2007/09/04 20:25:19 adamfranco Exp $
+ * @version $Id: MySQLSelectQueryResult.class.php,v 1.12 2007/09/05 21:39:00 adamfranco Exp $
  */
  
 require_once(HARMONI."DBHandler/SelectQueryResult.interface.php");
@@ -20,9 +20,11 @@ require_once(HARMONI."DBHandler/SelectQueryResult.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQLSelectQueryResult.class.php,v 1.11 2007/09/04 20:25:19 adamfranco Exp $
+ * @version $Id: MySQLSelectQueryResult.class.php,v 1.12 2007/09/05 21:39:00 adamfranco Exp $
  */
-class MySQLSelectQueryResult extends SelectQueryResultInterface {
+class MySQLSelectQueryResult 
+	implements SelectQueryResultInterface 
+{
 
 
 	/**
@@ -199,7 +201,7 @@ class MySQLSelectQueryResult extends SelectQueryResultInterface {
 		// ** parameter validation
 		if (!array_key_exists($field, $this->_currentRow[BOTH])) {
 			$str = "Invalid field to return from a SELECT query result.";
-			throwError(new Error($str, "DBHandler", true));
+			throw new DatabaseException($str);
 		}
 		// ** end of parameter validation
 
@@ -280,7 +282,7 @@ class MySQLSelectQueryResult extends SelectQueryResultInterface {
 		
 		if (($rowNumber < 0) || ($rowNumber > $this->getNumberOfRows() - 1)) {
 			$str = "\$rowNumber must be in the range 0..(getNumberOfRows()-1)";
-			throwError(new Error($str, "DBHandler", true));
+			throw new DatabaseException($str);
 		}
 		    
 		$result = mysql_data_seek($this->_resourceId, $rowNumber);

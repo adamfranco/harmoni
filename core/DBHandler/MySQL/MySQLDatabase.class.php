@@ -5,10 +5,10 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQLDatabase.class.php,v 1.36 2007/09/04 20:25:19 adamfranco Exp $
+ * @version $Id: MySQLDatabase.class.php,v 1.37 2007/09/05 21:39:00 adamfranco Exp $
  */
  
-require_once(HARMONI."DBHandler/Database.interface.php");
+require_once(HARMONI."DBHandler/Database.abstract.php");
 require_once(HARMONI."DBHandler/MySQL/MySQLSelectQueryResult.class.php");
 require_once(HARMONI."DBHandler/MySQL/MySQLInsertQueryResult.class.php");
 require_once(HARMONI."DBHandler/MySQL/MySQLUpdateQueryResult.class.php");
@@ -31,10 +31,12 @@ require_once(HARMONI."DBHandler/MySQL/MySQL_SQLGenerator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQLDatabase.class.php,v 1.36 2007/09/04 20:25:19 adamfranco Exp $
+ * @version $Id: MySQLDatabase.class.php,v 1.37 2007/09/05 21:39:00 adamfranco Exp $
  */
  
-class MySQLDatabase extends DatabaseInterface {
+class MySQLDatabase 
+	extends DatabaseAbstract 
+{
 
 	/**
 	 * The hostname of the database, i.e. myserver.mydomain.edu.
@@ -201,14 +203,17 @@ class MySQLDatabase extends DatabaseInterface {
 		
 			// attempt to select the default database;
 			// if failure, not a big deal, because at this point we are connected
-			mysql_select_db($this->_dbName, $linkId)  || throwError(new Error($this->getConnectionErrorInfo()."Cannot select database, ".$this->_dbName." : ".mysql_error($linkId), "DBHandler", true));
+			if (!mysql_select_db($this->_dbName, $linkId))
+				throw new ConnectionDatabaseException($this->getConnectionErrorInfo()."Cannot select database, ".$this->_dbName." : ".mysql_error($linkId));
 
 		    $this->_linkId = $linkId;
 			return $linkId;
 		}
 		else {
-			throwError(new Error($this->getConnectionErrorInfo()."Cannot connect to database.", "DBHandler", true));
-		    $this->_linkId = false;
+			$this->_linkId = false;
+			
+			throw new ConnectionDatabaseException($this->getConnectionErrorInfo()."Cannot connect to database.");
+
 			return false;						
 		}
 	}
@@ -236,14 +241,17 @@ class MySQLDatabase extends DatabaseInterface {
 
 			// attempt to select the default database;
 			// if failure, not a big deal, because at this point we are connected
-			mysql_select_db($this->_dbName, $linkId) || throwError(new Error($this->getConnectionErrorInfo()."Cannot select database, ".$this->_dbName." : ".mysql_error($linkId), "DBHandler", true));
+			if (!mysql_select_db($this->_dbName, $linkId))
+				throw new ConnectionDatabaseException($this->getConnectionErrorInfo()."Cannot select database, ".$this->_dbName." : ".mysql_error($linkId));
 
 		    $this->_linkId = $linkId;
 			return $linkId;
 		}
 		else {
-			throwError(new Error($this->getConnectionErrorInfo()."Cannot connect to database: ".mysql_error(), "DBHandler", true));
-		    $this->_linkId = false;
+			$this->_linkId = false;
+			
+			throw new ConnectionDatabaseException($this->getConnectionErrorInfo()."Cannot connect to database: ".mysql_error());
+		    
 			return false;						
 		}
 	}
@@ -259,12 +267,12 @@ class MySQLDatabase extends DatabaseInterface {
 	 * @return mixed The appropriate QueryResult object. If the query failed, it would
 	 * return NULL.
 	 */
-	function query($query) {
+	function query(Query $query) {
 //		static $time = 0;
 	
 		// do not attempt, to query, if not connected
 		if (!$this->isConnected()) {
-			throwError(new Error("Attempted to query but there was no database connection.", "DBHandler", true));
+			throw new ConnectionDatabaseException("Attempted to query but there was no database connection.");
 			return false;
 		}
 			
@@ -302,7 +310,7 @@ class MySQLDatabase extends DatabaseInterface {
 				$result = new MySQLGenericQueryResult($resourceId, $this->_linkId);
 				break;
 			default:
-				throwError(new Error("Unsupported query type.", "DBHandler", true));
+				throw new DatabaseException("Unsupported query type.");
 		} // switch
 
 		return $result;
@@ -332,7 +340,7 @@ class MySQLDatabase extends DatabaseInterface {
 	function _query($query) {
 		// do not attempt to query, if not connected
 		if (!$this->isConnected()) {
-			throwError(new Error("Attempted to query but there was no database connection.", "DBHandler", true));
+			throw new ConnectionDatabaseException("Attempted to query but there was no database connection.");
 			return false;
 		}
 		
@@ -344,7 +352,8 @@ class MySQLDatabase extends DatabaseInterface {
 		// If we have a persistant connection, it might be shared with other
 		// databases, so make sure our database is selected.
 		if ($this->_isConnectionPersistant == true) {
-			mysql_select_db($this->_dbName, $this->_linkId)  || throwError(new Error("Cannot select database, ".$this->_dbName." : ".mysql_error($this->_linkId), "DBHandler", true));
+			if (!mysql_select_db($this->_dbName, $this->_linkId))
+				throw new ConnectionDatabaseException("Cannot select database, ".$this->_dbName." : ".mysql_error($this->_linkId));
 		}
 		
 		foreach ($queries as $q) {
@@ -356,14 +365,22 @@ class MySQLDatabase extends DatabaseInterface {
 			if ($resourceId === false) {
 				$this->_failedQueries++;
 				
-				$error = mysql_error($this->_linkId);
-				// Add a helpful message if we run into max_allowed_packet errors.
-				if (ereg('max_allowed_packet', $error)) {
-					$size = ByteSize::withValue(strlen($query));
-					$error .= ' (Query Size: '.$size->asString().")";
+				switch (mysql_errno($this->_linkId)) {
+					// Duplicate Key
+					case 1022:
+						throw new DuplucateKeyDatabaseException("MySQL Error: ".mysql_error($this->_linkId), mysql_errno($this->_linkId));
+					
+					// max_allowed_packet
+					case 1153: // Got a packet bigger than 'max_allowed_packet' bytes
+					case 1162: // Result string is longer than 'max_allowed_packet' bytes
+					case 1301: // Result of %s() was larger than max_allowed_packet (%ld) - truncated
+						$size = ByteSize::withValue(strlen($query));
+						throw new QuerySizeDatabaseException("MySQL Error: ".mysql_error($this->_linkId)." (Query Size: ".$size->asString().")", mysql_errno($this->_linkId));
+					
+					
+					default:
+						throw new QueryDatabaseException("MySQL Error: ".mysql_error($this->_linkId), mysql_errno($this->_linkId));	
 				}
-				
-				throwError(new Error("MySQL Error: ".$error, "DBHandler", true));
 			}
 			else
 			    $this->_successfulQueries++;
@@ -469,7 +486,7 @@ class MySQLDatabase extends DatabaseInterface {
 	 * @param ref object DateAndTime The DateAndTime object to convert.
 	 * @return mixed A proper datetime/timestamp/time representation for this Database.
 	 */
-	function toDBDate($dateAndTime) {
+	function toDBDate(DateAndTime $dateAndTime) {
 		$dt =$dateAndTime->asDateAndTime();
 		$string = sprintf("%s%02d%02d%02d%02d%02d", $dt->year(),
 							$dt->month(), $dt->dayOfMonth(),
@@ -558,7 +575,7 @@ class MySQLDatabase extends DatabaseInterface {
 	 */
 	function beginTransaction () {
 		if ($this->_startedTransactions < 0 )
-			throwError(new Error("Error: Negative number of BEGIN statements.", "DBHandler", true));
+			throw new TransactionException("Error: Negative number of BEGIN statements.");
 
 		if ($this->supportsTransactions()
 			&& $this->_startedTransactions == 0) 
@@ -579,7 +596,7 @@ class MySQLDatabase extends DatabaseInterface {
 	 */
 	function commitTransaction () {
 		if ($this->_startedTransactions < 1 )
-			throwError(new Error("Error: More COMMIT/ROLLBACK statements than BEGIN statements.", "DBHandler", true));
+			throw new TransactionException("Error: More COMMIT/ROLLBACK statements than BEGIN statements.");
 		
 		if ($this->supportsTransactions()
 			&& $this->_startedTransactions == 1) 
@@ -599,7 +616,7 @@ class MySQLDatabase extends DatabaseInterface {
 	 */
 	function rollbackTransaction () {
 		if ($this->_startedTransactions < 1 )
-			throwError(new Error("Error: More COMMIT/ROLLBACK statements than BEGIN statements.", "DBHandler", true));
+			throw new TransactionException("Error: More COMMIT/ROLLBACK statements than BEGIN statements.");
 		
 		if ($this->supportsTransactions()) {
 		
@@ -609,7 +626,7 @@ class MySQLDatabase extends DatabaseInterface {
 			// If rollback is called inside a nested set of transactions, then the
 			// resulting state of the the database is undefined. 
 			if ($this->_startedTransactions > 1) {
-				throwError(new Error("Error: Unsuported attempt to roll-back a nested transaction. Nested transaction support for MySQL removes all but the outside begin/commit/rollback statements. Rolling-back from an interior transaction would leave the database in an undefined state.", "DBHandler", true));
+				throw new TransactionException("Error: Unsuported attempt to roll-back a nested transaction. Nested transaction support for MySQL removes all but the outside begin/commit/rollback statements. Rolling-back from an interior transaction would leave the database in an undefined state.");
 			}
 		}
 		

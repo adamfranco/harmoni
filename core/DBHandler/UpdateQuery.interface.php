@@ -5,10 +5,11 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: UpdateQuery.interface.php,v 1.6 2005/04/07 16:33:23 adamfranco Exp $
+ * @version $Id: UpdateQuery.interface.php,v 1.7 2007/09/05 21:38:59 adamfranco Exp $
  */
  
-require_once("Query.abstract.php");	
+require_once("Query.interface.php");	
+
 
 /**
  * An UpdateQuery interface provides the tools to build an SQL UPDATE query.
@@ -19,24 +20,26 @@ require_once("Query.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: UpdateQuery.interface.php,v 1.6 2005/04/07 16:33:23 adamfranco Exp $
+ * @version $Id: UpdateQuery.interface.php,v 1.7 2007/09/05 21:38:59 adamfranco Exp $
  */
 
-class UpdateQueryInterface extends Query {
+interface UpdateQueryInterface 
+	extends Query 
+{
 
 	/**
 	 * Sets the table to update.
 	 * @param string $table The table to update.
 	 * @access public
 	 */
-	function setTable($table) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	function setTable($table);
 
 	/**
 	 * Sets the columns to update in the table.
 	 * @param array $table The columns to update in the table.
 	 * @access public
 	 */
-	function setColumns($columns) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	function setColumns($columns) ;
 
 	/**
 	 * Specifies the values that the will be assigned to the columns specified with setColumns().
@@ -44,7 +47,7 @@ class UpdateQueryInterface extends Query {
 	 * @param array The values that the will be assigned to the columns specified with setColumns().
 	 * @access public
 	 */
-	function setValues($values) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	function setValues($values) ;
 
 	/**
 	 * *Deprecated* Specifies the condition in the WHERE clause.
@@ -55,7 +58,7 @@ class UpdateQueryInterface extends Query {
 	 * @access public
 	 * @deprecated July 09, 2003 - Use addWhere() instead.
 	 */
-	function setWhere($condition) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	function setWhere($condition) ;
 
 	/**
 	 * Adds a new condition in the WHERE clause.
@@ -69,9 +72,7 @@ class UpdateQueryInterface extends Query {
 	 * @access public
 	 * @return void 
 	 */
-	function addWhere($condition, $logicalOperation = _AND) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
-	}
+	function addWhere($condition, $logicalOperation = _AND) ;
 
 }
 ?>

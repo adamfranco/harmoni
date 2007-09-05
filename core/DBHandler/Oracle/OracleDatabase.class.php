@@ -5,10 +5,10 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OracleDatabase.class.php,v 1.14 2007/09/04 20:25:19 adamfranco Exp $
+ * @version $Id: OracleDatabase.class.php,v 1.15 2007/09/05 21:39:00 adamfranco Exp $
  */
  
-require_once(HARMONI."DBHandler/Database.interface.php");
+require_once(HARMONI."DBHandler/Database.abstract.php");
 require_once(HARMONI."DBHandler/Oracle/OracleSelectQueryResult.class.php");
 require_once(HARMONI."DBHandler/Oracle/OracleInsertQueryResult.class.php");
 require_once(HARMONI."DBHandler/Oracle/OracleUpdateQueryResult.class.php");
@@ -23,10 +23,10 @@ require_once(HARMONI."DBHandler/Oracle/Oracle_SQLGenerator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OracleDatabase.class.php,v 1.14 2007/09/04 20:25:19 adamfranco Exp $
+ * @version $Id: OracleDatabase.class.php,v 1.15 2007/09/05 21:39:00 adamfranco Exp $
  */
 class OracleDatabase 
-	extends DatabaseInterface 
+	extends DatabaseAbstract
 {
 
 	/**
@@ -170,7 +170,7 @@ class OracleDatabase
 			return $linkId;
 		}
 		else {
-			throwError(new Error($this->getConnectionErrorInfo()."Cannot connect to database.", "DBHandler", false));
+			throw new ConnectionDatabaseException($this->getConnectionErrorInfo()."Cannot connect to database.");
 		    $this->_linkId = false;
 			return false;						
 		}
@@ -201,7 +201,7 @@ class OracleDatabase
 			return $linkId;
 		}
 		else {
-			throwError(new Error($this->getConnectionErrorInfo()."Cannot connect to database.", "DBHandler", false));
+			throw new ConnectionDatabaseException($this->getConnectionErrorInfo()."Cannot connect to database.");
 		    $this->_linkId = false;
 			return false;						
 		}
@@ -219,10 +219,10 @@ class OracleDatabase
 	 * @return mixed The appropriate QueryResult object. If the query failed, it would
 	 * return NULL.
 	 */
-	function query($query) {
+	function query(Query $query) {
 		// do not attempt, to query, if not connected
 		if (!$this->isConnected()) {
-			throwError(new Error("Attempted to query but there was no database connection.", "DBHandler", true));
+			throw new ConnectionDatabaseException("Attempted to query but there was no database connection.");
 			return false;
 		}
 			
@@ -273,7 +273,7 @@ class OracleDatabase
 				$result = new OracleGenericQueryResult($resourceId, $this->_linkId);
 				break;
 			default:
-				throwError(new Error("Unsupported query type.", "DBHandler", true));
+				throw new DatabaseException("Unsupported query type.");
 		} // switch
 		
 		return $result;
@@ -305,7 +305,7 @@ class OracleDatabase
 	function _query($query) {
 		// do not attempt to query, if not connected
 		if (!$this->isConnected()) {
-			throwError(new Error("Attempted to query but there was no database connection.", "DBHandler", true));
+			throw new ConnectionDatabaseException("Attempted to query but there was no database connection.");
 			return false;
 		}
 		
@@ -326,7 +326,7 @@ class OracleDatabase
 		
 			if ($resourceId === false) {
 			    $this->_failedQueries++;
-				throwError(new Error(pg_last_error($this->_linkId), "DBHandler", false));
+				throw new QueryDatabaseException(pg_last_error($this->_linkId));
 			}
 			else {
 			    $this->_successfulQueries++;
@@ -409,8 +409,7 @@ class OracleDatabase
 	 */
 	function selectDatabase($database) {
 		// ** parameter validation
-		throwError(
-			new Error("Oracle database connections cannot change the database once connected!", "Oracle", false));
+		throw new ConnectionDatabaseException("Oracle database connections cannot change the database once connected!");
 			
 		return false;
 	}
@@ -425,7 +424,7 @@ class OracleDatabase
 	 * @param ref object dateAndTime The DateAndTime object to convert.
 	 * @return mixed A proper datetime/timestamp/time representation for this Database.
 	 */
-	function toDBDate($dateAndTime) {
+	function toDBDate(DateAndTime $dateAndTime) {
 		$dt =$dateAndTime->asDateAndTime();
 		$string = sprintf("%s/%02d/%02d %02d:%02d:%02d", $dt->year(),
 							$dt->month(), $dt->dayOfMonth(),

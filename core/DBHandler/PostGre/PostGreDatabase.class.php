@@ -5,9 +5,9 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreDatabase.class.php,v 1.15 2007/09/04 20:25:20 adamfranco Exp $
+ * @version $Id: PostGreDatabase.class.php,v 1.16 2007/09/05 21:39:01 adamfranco Exp $
  */
-require_once(HARMONI."DBHandler/Database.interface.php");
+require_once(HARMONI."DBHandler/Database.abstract.php");
 require_once(HARMONI."DBHandler/PostGre/PostGreSelectQueryResult.class.php");
 require_once(HARMONI."DBHandler/PostGre/PostGreInsertQueryResult.class.php");
 require_once(HARMONI."DBHandler/PostGre/PostGreUpdateQueryResult.class.php");
@@ -23,10 +23,12 @@ require_once(HARMONI."DBHandler/PostGre/PostGre_SQLGenerator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreDatabase.class.php,v 1.15 2007/09/04 20:25:20 adamfranco Exp $
+ * @version $Id: PostGreDatabase.class.php,v 1.16 2007/09/05 21:39:01 adamfranco Exp $
  **/
  
-class PostGreDatabase extends DatabaseInterface {
+class PostGreDatabase 
+	extends DatabaseAbstract
+{
 
 	/**
 	 * The hostname of the database, i.e. myserver.mydomain.edu.
@@ -177,7 +179,7 @@ class PostGreDatabase extends DatabaseInterface {
 			return $linkId;
 		}
 		else {
-			throwError(new Error($this->getConnectionErrorInfo()."Cannot connect to database.", "DBHandler", false));
+			throw new ConnectionDatabaseException($this->getConnectionErrorInfo()."Cannot connect to database.");
 		    $this->_linkId = false;
 			return false;						
 		}
@@ -215,7 +217,7 @@ class PostGreDatabase extends DatabaseInterface {
 			return $linkId;
 		}
 		else {
-			throwError(new Error($this->getConnectionErrorInfo()."Cannot connect to database. pg_pconnect($conStr)", "DBHandler", false));
+			throw new ConnectionDatabaseException($this->getConnectionErrorInfo()."Cannot connect to database. pg_pconnect($conStr)");
 		    $this->_linkId = false;
 			return false;						
 		}
@@ -233,10 +235,10 @@ class PostGreDatabase extends DatabaseInterface {
 	 * @return mixed The appropriate QueryResult object. If the query failed, it would
 	 * return NULL.
 	 */
-	function query($query) {
+	function query(Query $query) {
 		// do not attempt, to query, if not connected
 		if (!$this->isConnected()) {
-			throwError(new Error("Attempted to query but there was no database connection.", "DBHandler", true));
+			throw new ConnectionDatabaseException("Attempted to query but there was no database connection.");
 			return false;
 		}
 			
@@ -287,7 +289,7 @@ class PostGreDatabase extends DatabaseInterface {
 				$result = new PostGreGenericQueryResult($resourceId, $this->_linkId);
 				break;
 			default:
-				throwError(new Error("Unsupported query type.", "DBHandler", true));
+				throw new DatabaseException("Unsupported query type.");
 		} // switch
 		
 		return $result;
@@ -319,7 +321,7 @@ class PostGreDatabase extends DatabaseInterface {
 	function _query($query) {
 		// do not attempt to query, if not connected
 		if (!$this->isConnected()) {
-			throwError(new Error("Attempted to query but there was no database connection.", "DBHandler", true));
+			throw new ConnectionDatabaseException("Attempted to query but there was no database connection.");
 			return false;
 		}
 		
@@ -340,7 +342,7 @@ class PostGreDatabase extends DatabaseInterface {
 		
 			if ($resourceId === false) {
 			    $this->_failedQueries++;
-				throwError(new Error(pg_last_error($this->_linkId), "DBHandler", false));
+				throw new QueryDatabaseException(pg_last_error($this->_linkId));
 			}
 			else
 			    $this->_successfulQueries++;
@@ -442,7 +444,7 @@ class PostGreDatabase extends DatabaseInterface {
 			return true;
 		}
 		else {
-			throwError(new Error("Cannot connect to database.", "DBHandler", false));
+			throw new ConnectionDatabaseException("Cannot connect to database.");
 		    $this->_linkId = false;
 			return false;						
 		}
@@ -464,7 +466,7 @@ class PostGreDatabase extends DatabaseInterface {
 	 * @param ref object DateAndTime The DateAndTime object to convert.
 	 * @return mixed A proper datetime/timestamp/time representation for this Database.
 	 */
-	function toDBDate($dateAndTime) {
+	function toDBDate(DateAndTime $dateAndTime) {
 		$dateAndTime =$dateAndTime->asDateAndTime();
 		$string = sprintf("%s-%02d-%02d %02d:%02d:%02d", $dateAndTime->year(),
 							$dateAndTime->month(), $dateAndTime->dayOfMonth(),

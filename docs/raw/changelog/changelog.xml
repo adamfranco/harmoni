@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.156 2007/09/05 19:55:23 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.157 2007/09/05 21:39:02 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -38,7 +38,10 @@
 							Kept the first parameter being passed by reference. Needed in this case.
 		</change>
 		
-		
+		<change author='adam' date='2007-09-05'>
+			DBC: Updating the Database Handler to throw from an exception hierarchy
+			as well as use PHP5 interfaces.
+		</change>
 		<change author='adam' date='2007-09-05'>
 			Errors: Expunging the old harmoni error handler now that we have exceptions.
 		</change>

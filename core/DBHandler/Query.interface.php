@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Query.interface.php,v 1.7 2007/03/08 16:19:07 adamfranco Exp $
+ * @version $Id: Query.interface.php,v 1.8 2007/09/05 21:38:59 adamfranco Exp $
  */
  
 	/**
@@ -74,18 +74,16 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Query.interface.php,v 1.7 2007/03/08 16:19:07 adamfranco Exp $
+ * @version $Id: Query.interface.php,v 1.8 2007/09/05 21:38:59 adamfranco Exp $
  */
 
-class QueryInterface 
-	extends SObject
-{ 
+interface Query { 
 
 	/**
 	 * Resets the query.
 	 * @access public
 	 */
-	function reset() { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	public function reset() ;
 	
 	/**
 	 * Returns the type of this query.
@@ -94,8 +92,7 @@ class QueryInterface
 	 * @access public
 	 * @return integer The type of this query: SELECT, INSERT, DELETE, or UPDATE.
 	 */
-	function getType() {
-	}
+	public function getType() ;
 	
 }
 

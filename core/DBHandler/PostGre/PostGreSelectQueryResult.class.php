@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreSelectQueryResult.class.php,v 1.9 2007/09/04 20:25:20 adamfranco Exp $
+ * @version $Id: PostGreSelectQueryResult.class.php,v 1.10 2007/09/05 21:39:01 adamfranco Exp $
  */
  
 require_once(HARMONI."DBHandler/SelectQueryResult.interface.php");
@@ -19,10 +19,10 @@ require_once(HARMONI."DBHandler/SelectQueryResult.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreSelectQueryResult.class.php,v 1.9 2007/09/04 20:25:20 adamfranco Exp $
+ * @version $Id: PostGreSelectQueryResult.class.php,v 1.10 2007/09/05 21:39:01 adamfranco Exp $
  */
 class PostGreSelectQueryResult 
-	extends SelectQueryResultInterface 
+	implements SelectQueryResultInterface 
 {
 
 
@@ -183,7 +183,7 @@ class PostGreSelectQueryResult
 		// ** parameter validation
 		if (!array_key_exists($field, $this->_currentRow[BOTH])) {
 			$str = "Invalid field to return from a SELECT query result.";
-			throwError(new Error($str, "DBHandler", true));
+			throw new DatabaseException($str);
 		}
 		// ** end of parameter validation
 
@@ -264,7 +264,7 @@ class PostGreSelectQueryResult
 		
 		if (($rowNumber < 0) || ($rowNumber > $this->getNumberOfRows() - 1)) {
 			$str = "\$rowNumber must be in the range 0..(getNumberOfRows()-1)";
-			throwError(new Error($str, "DBHandler", true));
+			throw new DatabaseException($str);
 		}
 		    
 		$result = pg_result_seek($this->_resourceId, $rowNumber);
@@ -274,7 +274,37 @@ class PostGreSelectQueryResult
 		    
 		return $result;
 	}
-
+	
+	/**
+	 * Binds the field specified by the first argument to the variable given as
+	 * the second argument. The method stores a reference to the variable represented
+	 * by the second argument; whenever a new row is fetched, the value of the field
+	 * in the new row will be updated in the referenced variable. This enables the
+	 * user to avoid unnecessary calls to <code>getCurrentRow()</code> or
+	 * <code>field()</code>.
+	 * @access public
+	 * @param string field The field to bind. This could be either
+	 * a string value that would correspond to the field as returned by 
+	 * <code>getFieldNames()</code>, or an integer (less than <code>getNumberOfFields()</code>)
+	 * corresponding to the index of the field.
+	 * @param ref mixed var The variable to be bound to the value of the field in
+	 * the current row.
+	 **/
+	function bindField($field, $var) {
+		throw new Exception ('Unimplemented');
+	}
+	
+	/**
+	 * Unbinds the field that has been bound by <code>bindField()</code>.
+	 * @access public
+	 * @param string field The field to unbind. This could be either
+	 * a string value that would correspond to the field as returned by 
+	 * <code>getFieldNames()</code>, or an integer (less than <code>getNumberOfFields()</code>)
+	 * corresponding to the index of the field.
+	 **/
+	function unbindField($field) {
+		throw new Exception ('Unimplemented');
+	}
 	
 	/**
 	 * Frees the memory for this result.

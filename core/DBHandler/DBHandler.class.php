@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DBHandler.class.php,v 1.22 2007/09/04 20:25:18 adamfranco Exp $
+ * @version $Id: DBHandler.class.php,v 1.23 2007/09/05 21:38:59 adamfranco Exp $
  */
  
 /**
@@ -68,7 +68,7 @@ require_once(HARMONI."Primitives/Chronology/include.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DBHandler.class.php,v 1.22 2007/09/04 20:25:18 adamfranco Exp $
+ * @version $Id: DBHandler.class.php,v 1.23 2007/09/05 21:38:59 adamfranco Exp $
  */
 
 class DBHandler { 
@@ -149,11 +149,7 @@ class DBHandler {
 	 * @param ref object database
 	 * @return mixed $dbIndex The index of the new database, if it was created successfully; False, otherwise.
 	 */
-	function addDatabase($database) {
-		// ** parameter validation
-		$extendsRule = ExtendsValidatorRule::getRule("DatabaseInterface");
-		ArgumentValidator::validate($database, $extendsRule, true);
-		// ** end of parameter validation
+	function addDatabase(Database $database) {
 
 		$this->_databases[] =$database;
 		
@@ -205,7 +201,7 @@ class DBHandler {
 				break;
 			default : {
 			    // unsupported database type
-				throwError(new Error("Unknown database type.", "DBHandler", true));
+				throw new ConnectionDatabaseException("Unknown database type.");
 				return false;
 			}
 		}
@@ -229,17 +225,12 @@ class DBHandler {
 
 	/**
 	 * Run a database query based on the Query object and return a QueryResult object.
-	 * @param object QueryInterface A query object which holds the query to run.
+	 * @param object Query A query object which holds the query to run.
 	 * @param integer $dbIndex The index of the database on which to run the query. Default is 0, the database created on handler instantiation.
 	 * @return object QueryResultInterface Returns a QueryResult object that impliments QueryResultInterface and corresponds to the DB configuration.
 	 * @access public
 	 */
-	function query($query, $dbIndex=0) {
-		// ** parameter validation
-		$queryRule = ExtendsValidatorRule::getRule("QueryInterface");
-		ArgumentValidator::validate($query, $queryRule, true);
-		$this->_validateDBIndex($dbIndex);
-		// ** end of parameter validation
+	function query(Query $query, $dbIndex=0) {
 		
 		// run the query on the appropriate database.
 		$result =$this->_databases[$dbIndex]->query($query);
@@ -255,10 +246,8 @@ class DBHandler {
 	 * @return object QueInterface Returns a Queue of QueryResults.
 	 * @access public
 	 */
-	function queryQueue($queue, $dbIndex=0) {
+	function queryQueue(Queue $queue, $dbIndex=0) {
 		// ** parameter validation
-		$queueRule = ExtendsValidatorRule::getRule("Queue");
-		ArgumentValidator::validate($queue, $queueRule, true);
 		$this->_validateDBIndex($dbIndex);
 		// ** end of parameter validation
 
@@ -414,7 +403,7 @@ class DBHandler {
 	 * @param integer dbIndex The index of the database to use (0 by default).
 	 * @return mixed A proper datetime/timestamp/time representation for this Database.
 	 */
-	function toDBDate($dateAndTime, $dbIndex = 0) {
+	function toDBDate(DateAndTime $dateAndTime, $dbIndex = 0) {
 		// ** parameter validation
 		ArgumentValidator::validate($dateAndTime, 
 			HasMethodsValidatorRule::getRule("asDateAndTime"), true);
@@ -520,7 +509,7 @@ class DBHandler {
 		
 		// check that the index is valid
 		if (!is_object($this->_databases[$dbIndex])) {
-			throwError(new Error("Invalid database index.", "DBHandler", true));
+			throw new DatabaseException("Invalid database index.");
 			return false;
 		}
 	}
@@ -534,7 +523,7 @@ class DBHandler {
 	 * @access public
 	 * @since 11/14/06
 	 */
-	function generateSQL ($query, $dbIndex = 0) {
+	function generateSQL (Query $query, $dbIndex = 0) {
 		return $this->_databases[$dbIndex]->generateSQL($query);
 	}
 }

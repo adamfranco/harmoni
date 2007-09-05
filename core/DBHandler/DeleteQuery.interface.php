@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DeleteQuery.interface.php,v 1.6 2005/04/07 16:33:23 adamfranco Exp $
+ * @version $Id: DeleteQuery.interface.php,v 1.7 2007/09/05 21:38:59 adamfranco Exp $
  */
 require_once("Query.abstract.php");
 
@@ -19,17 +19,19 @@ require_once("Query.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DeleteQuery.interface.php,v 1.6 2005/04/07 16:33:23 adamfranco Exp $
+ * @version $Id: DeleteQuery.interface.php,v 1.7 2007/09/05 21:38:59 adamfranco Exp $
  */
 
-class DeleteQueryInterface extends Query {
+interface DeleteQueryInterface 
+	extends Query 
+{
 
 	/**
 	 * Sets the table to delete from.
 	 * @param string $table The table to delete from.
 	 * @access public
 	 */
-	function setTable($table) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	function setTable($table) ;
 
 	/**
 	 * *Deprecated* Specifies the condition in the WHERE clause.
@@ -40,7 +42,7 @@ class DeleteQueryInterface extends Query {
 	 * @access public
 	 * @deprecated July 09, 2003 - Use addWhere() instead.
 	 */
-	function setWhere($condition) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	function setWhere($condition) ;
 
 	
 	/**
@@ -55,10 +57,6 @@ class DeleteQueryInterface extends Query {
 	 * @access public
 	 * @return void 
 	 */
-	function addWhere($condition, $logicalOperation = _AND) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
-	}
-
-
+	function addWhere($condition, $logicalOperation = _AND) ;
 }
 ?>

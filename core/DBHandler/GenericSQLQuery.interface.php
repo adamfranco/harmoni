@@ -5,9 +5,9 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GenericSQLQuery.interface.php,v 1.4 2005/04/07 16:33:23 adamfranco Exp $
+ * @version $Id: GenericSQLQuery.interface.php,v 1.5 2007/09/05 21:38:59 adamfranco Exp $
  */
-require_once("Query.abstract.php");
+require_once("Query.interface.php");
 
 
 /**
@@ -21,10 +21,12 @@ require_once("Query.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GenericSQLQuery.interface.php,v 1.4 2005/04/07 16:33:23 adamfranco Exp $
+ * @version $Id: GenericSQLQuery.interface.php,v 1.5 2007/09/05 21:38:59 adamfranco Exp $
  */
 
-class GenericSQLQueryInterface extends Query {
+interface GenericSQLQueryInterface 
+	extends Query 
+{
 
 
 	/**
@@ -33,10 +35,6 @@ class GenericSQLQueryInterface extends Query {
 	 * @param string sql One SQL string,
 	 * @return void 
 	 */
-	function addSQLQuery($sql) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-
-	
+	function addSQLQuery($sql) ;	
 }
 ?>

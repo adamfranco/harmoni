@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Oracle_SQLGenerator.class.php,v 1.10 2007/09/04 20:25:19 adamfranco Exp $
+ * @version $Id: Oracle_SQLGenerator.class.php,v 1.11 2007/09/05 21:39:00 adamfranco Exp $
  */
  
 require_once(HARMONI."DBHandler/SQLGenerator.interface.php");
@@ -19,7 +19,7 @@ require_once(HARMONI."DBHandler/SQLGenerator.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Oracle_SQLGenerator.class.php,v 1.10 2007/09/04 20:25:19 adamfranco Exp $
+ * @version $Id: Oracle_SQLGenerator.class.php,v 1.11 2007/09/05 21:39:00 adamfranco Exp $
  */
 class Oracle_SQLGenerator 
 	extends SQLGeneratorInterface 
@@ -33,11 +33,7 @@ class Oracle_SQLGenerator
 	 * @static
 	 * @access public
 	 */
-	function generateSQLQuery($query) {
-		// ** parameter validation
-		$queryRule = ExtendsValidatorRule::getRule("QueryInterface");
-		ArgumentValidator::validate($query, $queryRule, true);
-		// ** end of parameter validation
+	function generateSQLQuery( Query $query) {
 
 		switch($query->getType()) {
 			case INSERT : 
@@ -56,7 +52,7 @@ class Oracle_SQLGenerator
 				return MySQL_SQLGenerator::generateGenericSQLQuery($query);
 				break;
 			default:
-				throwError(new Error("Unsupported query type.", "DBHandler", true));
+				throw new DatabaseException("Unsupported query type.");
 		} // switch
 	}
 
@@ -69,17 +65,13 @@ class Oracle_SQLGenerator
 	 * @access public
 	 * @static
 	 */
-	function generateGenericSQLQuery($query) {
-		// ** parameter validation
-		$queryRule = ExtendsValidatorRule::getRule("GenericSQLQueryInterface");
-		ArgumentValidator::validate($query, $queryRule, true);
-		// ** end of parameter validation
+	function generateGenericSQLQuery(GenericSQLQueryInterface $query) {
 
 		$queries = $query->_sql;
 
 		if (!is_array($queries) || count($queries) == 0) {
 			$description = "Cannot generate SQL string for this Query object due to invalid query setup.";
-			throwError(new Error($description, "DBHandler", false));
+			throw new DatabaseException($description);
 			return null;
 		}
 		else if (count($queries) == 1)
@@ -97,15 +89,11 @@ class Oracle_SQLGenerator
 	 * @access public
 	 * @static
 	 */
-	function generateInsertSQLQuery($query) {
-		// ** parameter validation
-		$queryRule = ExtendsValidatorRule::getRule("InsertQueryInterface");
-		ArgumentValidator::validate($query, $queryRule, true);
-		// ** end of parameter validation
+	function generateInsertSQLQuery(InsertQueryInterface $query) {
 
 		if (!$query->_table || count($query->_values) == 0) {
 			$description = "Cannot generate SQL string for this Query object due to invalid query setup.";
-			throwError(new Error($description, "DBHandler", false));
+			throw new DatabaseException($description);
 			return null;
 		}
 		
@@ -136,7 +124,7 @@ class Oracle_SQLGenerator
 			// make sure that the number of fields matches the number of columns
 			if (count($rowOfValues) != count($query->_columns)) {
 				$description = "Cannot generate SQL string for this Query object due to invalid query setup - the number of columns to add does not match the number of values given.";
-				throwError(new Error($description, "DBHandler", false));
+				throw new DatabaseException($description);
 				return null;
 			}
 			
@@ -166,17 +154,13 @@ class Oracle_SQLGenerator
 	 * @static
 	 * @access public
 	 */
-	function generateUpdateSQLQuery($query) {
-		// ** parameter validation
-		$queryRule = ExtendsValidatorRule::getRule("UpdateQueryInterface");
-		ArgumentValidator::validate($query, $queryRule, true);
-		// ** end of parameter validation
+	function generateUpdateSQLQuery(UpdateQueryInterface $query) {
 
 		$sql = "";
 	
 		if (!$query->_table || count($query->_columns) == 0 || count($query->_values) == 0) {
 			$description = "Cannot generate SQL string for this Query object due to invalid query setup.";
-			throwError(new Error($description, "DBHandler", false));
+			throw new DatabaseException($description);
 			return null;
 		}
 			
@@ -187,7 +171,7 @@ class Oracle_SQLGenerator
 		// make sure that the number of fields matches the number of columns
 		if (count($query->_values) != count($query->_columns)) {
 			$description = "Cannot generate SQL string for this Query object due to invalid query setup.";
-			throwError(new Error($description, "DBHandler", false));
+			throw new DatabaseException($description);
 			return null;
 		}
 
@@ -238,17 +222,13 @@ class Oracle_SQLGenerator
 	 * @static
 	 * @access public
 	 */
-	function generateDeleteSQLQuery($query) {
-		// ** parameter validation
-		$queryRule = ExtendsValidatorRule::getRule("DeleteQueryInterface");
-		ArgumentValidator::validate($query, $queryRule, true);
-		// ** end of parameter validation
+	function generateDeleteSQLQuery(DeleteQueryInterface $query) {
 
 		$sql = "";
 	
 		if (!$query->_table) {
 			$description = "Cannot generate SQL string for this Query object due to invalid query setup.";
-			throwError(new Error($description, "DBHandler", false));
+			throw new DatabaseException($description);
 			return null;
 		}
 			
@@ -292,17 +272,13 @@ class Oracle_SQLGenerator
 	 * @return string A string representing the SELECT SQL query corresonding to the Query object.
 	 * @access public
 	 */
-	function generateSelectSQLQuery($query) {
-		// ** parameter validation
-		$queryRule = ExtendsValidatorRule::getRule("SelectQueryInterface");
-		ArgumentValidator::validate($query, $queryRule, true);
-		// ** end of parameter validation
+	function generateSelectSQLQuery(SelectQueryInterface $query) {
 
 		$sql = "";
 		
 		if (count($query->_columns) == 0) {
 			$description = "Cannot generate SQL string for this Query object due to invalid query setup.";
-			throwError(new Error($description, "DBHandler", false));
+			throw new DatabaseException($description);
 			return null;
 		}
 			
@@ -360,7 +336,7 @@ class Oracle_SQLGenerator
 							$sql .= "\n\t\tRIGHT JOIN";
 							break;
 						default:
-							throwError(new Error("Unsupported JOIN type!", "DBHandler", true));				;
+							throw new DatabaseException("Unsupported JOIN type!");				;
 					} // switch
 				}
 
@@ -397,7 +373,7 @@ class Oracle_SQLGenerator
 							$sql .= "\n\t\tOR";
 							break;
 						default:
-							throwError(new Error("Unsupported logical operator!", "DBHandler", true));				;
+							throw new DatabaseException("Unsupported logical operator!");				;
 					} // switch
 				}
 				

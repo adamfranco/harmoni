@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: InsertQuery.class.php,v 1.8 2007/09/04 20:25:18 adamfranco Exp $
+ * @version $Id: InsertQuery.class.php,v 1.9 2007/09/05 21:38:59 adamfranco Exp $
  */
 require_once(HARMONI."DBHandler/InsertQuery.interface.php");
 
@@ -22,10 +22,13 @@ require_once(HARMONI."DBHandler/InsertQuery.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: InsertQuery.class.php,v 1.8 2007/09/04 20:25:18 adamfranco Exp $ 
+ * @version $Id: InsertQuery.class.php,v 1.9 2007/09/05 21:38:59 adamfranco Exp $ 
  */
 
-class InsertQuery extends InsertQueryInterface {
+class InsertQuery 
+	extends QueryAbstract
+	implements InsertQueryInterface 
+{
 
 	/**
 	 * @var string $_table The name of the table to insert into.

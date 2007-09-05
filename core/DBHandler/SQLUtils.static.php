@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SQLUtils.static.php,v 1.7 2007/09/04 20:25:18 adamfranco Exp $
+ * @version $Id: SQLUtils.static.php,v 1.8 2007/09/05 21:38:59 adamfranco Exp $
  */
 
 /**
@@ -18,7 +18,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SQLUtils.static.php,v 1.7 2007/09/04 20:25:18 adamfranco Exp $
+ * @version $Id: SQLUtils.static.php,v 1.8 2007/09/05 21:38:59 adamfranco Exp $
  * @static
  */
 
@@ -38,7 +38,7 @@ class SQLUtils {
 		if ($queryString)
 			return SQLUtils::parseSQLString($queryString);
 		else
-			throwError(new Error("The file, '".$file."' was empty or doesn't exist.","DBHandler::SQLUtils",true));
+			throw new DatabaseException("The file, '".$file."' was empty or doesn't exist.");
 	}
 	
 	/**

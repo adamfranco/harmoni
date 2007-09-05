@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGre_SQLGenerator.class.php,v 1.9 2007/09/04 20:25:20 adamfranco Exp $
+ * @version $Id: PostGre_SQLGenerator.class.php,v 1.10 2007/09/05 21:39:01 adamfranco Exp $
  */
  
 require_once(HARMONI."DBHandler/SQLGenerator.interface.php");
@@ -19,7 +19,7 @@ require_once(HARMONI."DBHandler/SQLGenerator.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGre_SQLGenerator.class.php,v 1.9 2007/09/04 20:25:20 adamfranco Exp $
+ * @version $Id: PostGre_SQLGenerator.class.php,v 1.10 2007/09/05 21:39:01 adamfranco Exp $
  */
 
 class PostGre_SQLGenerator extends SQLGeneratorInterface {
@@ -32,12 +32,7 @@ class PostGre_SQLGenerator extends SQLGeneratorInterface {
 	 * @static
 	 * @access public
 	 */
-	function generateSQLQuery($query) {
-		// ** parameter validation
-		$queryRule = ExtendsValidatorRule::getRule("QueryInterface");
-		ArgumentValidator::validate($query, $queryRule, true);
-		// ** end of parameter validation
-
+	function generateSQLQuery(Query $query) {
 		switch($query->getType()) {
 			case INSERT : 
 				return PostGre_SQLGenerator::generateInsertSQLQuery($query);
@@ -55,7 +50,7 @@ class PostGre_SQLGenerator extends SQLGeneratorInterface {
 				return MySQL_SQLGenerator::generateGenericSQLQuery($query);
 				break;
 			default:
-				throwError(new Error("Unsupported query type.", "DBHandler", true));
+				throw new DatabaseException("Unsupported query type.");
 		} // switch
 	}
 
@@ -68,17 +63,13 @@ class PostGre_SQLGenerator extends SQLGeneratorInterface {
 	 * @access public
 	 * @static
 	 */
-	function generateGenericSQLQuery($query) {
-		// ** parameter validation
-		$queryRule = ExtendsValidatorRule::getRule("GenericSQLQueryInterface");
-		ArgumentValidator::validate($query, $queryRule, true);
-		// ** end of parameter validation
+	function generateGenericSQLQuery(GenericSQLQueryInterface $query) {
 
 		$queries = $query->_sql;
 
 		if (!is_array($queries) || count($queries) == 0) {
 			$description = "Cannot generate SQL string for this Query object due to invalid query setup.";
-			throwError(new Error($description, "DBHandler", false));
+			throw new DatabaseException($description);
 			return null;
 		}
 		else if (count($queries) == 1)
@@ -96,15 +87,10 @@ class PostGre_SQLGenerator extends SQLGeneratorInterface {
 	 * @access public
 	 * @static
 	 */
-	function generateInsertSQLQuery($query) {
-		// ** parameter validation
-		$queryRule = ExtendsValidatorRule::getRule("InsertQueryInterface");
-		ArgumentValidator::validate($query, $queryRule, true);
-		// ** end of parameter validation
-
+	function generateInsertSQLQuery(InsertQueryInterface $query) {
 		if (!$query->_table || count($query->_values) == 0) {
 			$description = "Cannot generate SQL string for this Query object due to invalid query setup.";
-			throwError(new Error($description, "DBHandler", false));
+			throw new DatabaseException($description);
 			return null;
 		}
 		
@@ -135,7 +121,7 @@ class PostGre_SQLGenerator extends SQLGeneratorInterface {
 			// make sure that the number of fields matches the number of columns
 			if (count($rowOfValues) != count($query->_columns)) {
 				$description = "Cannot generate SQL string for this Query object due to invalid query setup.";
-				throwError(new Error($description, "DBHandler", false));
+				throw new DatabaseException($description);
 				return null;
 			}
 			
@@ -165,17 +151,12 @@ class PostGre_SQLGenerator extends SQLGeneratorInterface {
 	 * @static
 	 * @access public
 	 */
-	function generateUpdateSQLQuery($query) {
-		// ** parameter validation
-		$queryRule = ExtendsValidatorRule::getRule("UpdateQueryInterface");
-		ArgumentValidator::validate($query, $queryRule, true);
-		// ** end of parameter validation
-
+	function generateUpdateSQLQuery(UpdateQueryInterface $query) {
 		$sql = "";
 	
 		if (!$query->_table || count($query->_columns) == 0 || count($query->_values) == 0) {
 			$description = "Cannot generate SQL string for this Query object due to invalid query setup.";
-			throwError(new Error($description, "DBHandler", false));
+			throw new DatabaseException($description);
 			return null;
 		}
 			
@@ -186,7 +167,7 @@ class PostGre_SQLGenerator extends SQLGeneratorInterface {
 		// make sure that the number of fields matches the number of columns
 		if (count($query->_values) != count($query->_columns)) {
 			$description = "Cannot generate SQL string for this Query object due to invalid query setup.";
-			throwError(new Error($description, "DBHandler", false));
+			throw new DatabaseException($description);
 			return null;
 		}
 
@@ -237,17 +218,13 @@ class PostGre_SQLGenerator extends SQLGeneratorInterface {
 	 * @static
 	 * @access public
 	 */
-	function generateDeleteSQLQuery($query) {
-		// ** parameter validation
-		$queryRule = ExtendsValidatorRule::getRule("DeleteQueryInterface");
-		ArgumentValidator::validate($query, $queryRule, true);
-		// ** end of parameter validation
+	function generateDeleteSQLQuery(DeleteQueryInterface $query) {
 
 		$sql = "";
 	
 		if (!$query->_table) {
 			$description = "Cannot generate SQL string for this Query object due to invalid query setup.";
-			throwError(new Error($description, "DBHandler", false));
+			throw new DatabaseException($description);
 			return null;
 		}
 			
@@ -291,17 +268,13 @@ class PostGre_SQLGenerator extends SQLGeneratorInterface {
 	 * @return string A string representing the SELECT SQL query corresonding to the Query object.
 	 * @access public
 	 */
-	function generateSelectSQLQuery($query) {
-		// ** parameter validation
-		$queryRule = ExtendsValidatorRule::getRule("SelectQueryInterface");
-		ArgumentValidator::validate($query, $queryRule, true);
-		// ** end of parameter validation
+	function generateSelectSQLQuery(SelectQueryInterface $query) {
 
 		$sql = "";
 		
 		if (count($query->_columns) == 0) {
 			$description = "Cannot generate SQL string for this Query object due to invalid query setup; No columns added";
-			throwError(new Error($description, "DBHandler", false));
+			throw new DatabaseException($description);
 			return null;
 		}
 			
@@ -358,7 +331,7 @@ class PostGre_SQLGenerator extends SQLGeneratorInterface {
 							$sql .= "\n\t\tRIGHT JOIN";
 							break;
 						default:
-							throwError(new Error("Unsupported JOIN type!", "DBHandler", true));				;
+							throw new DatabaseException("Unsupported JOIN type!");				;
 					} // switch
 				}
 
@@ -395,7 +368,7 @@ class PostGre_SQLGenerator extends SQLGeneratorInterface {
 							$sql .= "\n\t\tOR";
 							break;
 						default:
-							throwError(new Error("Unsupported logical operator!", "DBHandler", true));				;
+							throw new DatabaseException("Unsupported logical operator!");				;
 					} // switch
 				}
 				

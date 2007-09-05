@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: QueryResult.interface.php,v 1.3 2005/04/07 16:33:23 adamfranco Exp $
+ * @version $Id: QueryResult.interface.php,v 1.4 2007/09/05 21:38:59 adamfranco Exp $
  */
 
 /**
@@ -18,10 +18,10 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: QueryResult.interface.php,v 1.3 2005/04/07 16:33:23 adamfranco Exp $
+ * @version $Id: QueryResult.interface.php,v 1.4 2007/09/05 21:38:59 adamfranco Exp $
  */
 
-class QueryResultInterface {
+interface QueryResultInterface {
 
 	/**
 	 * Returns the number of rows that the query processed.
@@ -31,7 +31,7 @@ class QueryResultInterface {
 	 * @return integer Number of rows that were processed by the query.
 	 * @access public
 	 */ 
-	function getNumberOfRows() { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	function getNumberOfRows() ;
 
 }
 

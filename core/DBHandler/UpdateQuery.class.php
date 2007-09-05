@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: UpdateQuery.class.php,v 1.8 2007/09/04 20:25:18 adamfranco Exp $
+ * @version $Id: UpdateQuery.class.php,v 1.9 2007/09/05 21:38:59 adamfranco Exp $
  */
  
 require_once(HARMONI."DBHandler/UpdateQuery.interface.php");
@@ -19,10 +19,13 @@ require_once(HARMONI."DBHandler/UpdateQuery.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: UpdateQuery.class.php,v 1.8 2007/09/04 20:25:18 adamfranco Exp $
+ * @version $Id: UpdateQuery.class.php,v 1.9 2007/09/05 21:38:59 adamfranco Exp $
  */
 
-class UpdateQuery extends UpdateQueryInterface {
+class UpdateQuery 
+	extends QueryAbstract
+	implements UpdateQueryInterface
+{
 
 	/**
 	 * @var string $_table The name of the table to update.

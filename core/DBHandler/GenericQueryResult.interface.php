@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GenericQueryResult.interface.php,v 1.5 2007/09/04 20:25:18 adamfranco Exp $
+ * @version $Id: GenericQueryResult.interface.php,v 1.6 2007/09/05 21:38:59 adamfranco Exp $
  */
 require_once("QueryResult.interface.php");
 
@@ -21,10 +21,12 @@ require_once("QueryResult.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GenericQueryResult.interface.php,v 1.5 2007/09/04 20:25:18 adamfranco Exp $
+ * @version $Id: GenericQueryResult.interface.php,v 1.6 2007/09/05 21:38:59 adamfranco Exp $
  */
 
-class GenericQueryResultInterface extends QueryResultInterface {
+interface GenericQueryResultInterface 
+	extends QueryResultInterface 
+{
 
 	/**
 	 * Returns the resource id for this SELECT query.
@@ -33,7 +35,7 @@ class GenericQueryResultInterface extends QueryResultInterface {
 	 * @access public
 	 * @return integer The resource id for this SELECT query.
 	 **/
-	function getResourceId() { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	function getResourceId();
 	
 	/**
 	 * Returns the result of the query as a SelectQueryResult.
@@ -42,9 +44,7 @@ class GenericQueryResultInterface extends QueryResultInterface {
 	 * @access public
 	 * @since 7/1/04
 	 */
-	function returnAsSelectQueryResult () {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
+	function returnAsSelectQueryResult ();
 	
 	/**
 	 * Returns the result of the query as an InsertQueryResult.
@@ -53,9 +53,7 @@ class GenericQueryResultInterface extends QueryResultInterface {
 	 * @access public
 	 * @since 7/1/04
 	 */
-	function returnAsInsertQueryResult () {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
+	function returnAsInsertQueryResult ();
 	
 	/**
 	 * Returns the result of the query as a UpdateQueryResult.
@@ -64,9 +62,7 @@ class GenericQueryResultInterface extends QueryResultInterface {
 	 * @access public
 	 * @since 7/1/04
 	 */
-	function returnAsUpdateQueryResult () {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
+	function returnAsUpdateQueryResult ();
 	
 	/**
 	 * Returns the result of the query as a DeleteQueryResult.
@@ -75,9 +71,7 @@ class GenericQueryResultInterface extends QueryResultInterface {
 	 * @access public
 	 * @since 7/1/04
 	 */
-	function returnAsDeleteQueryResult () {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
+	function returnAsDeleteQueryResult ();
 }
 
 ?>

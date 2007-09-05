@@ -35,13 +35,15 @@ define("BOTH", 3);
  *
  * The SelectQueryResult interface provides the functionality common to a SELECT query result.
  * For example, you can fetch associative arrays, advance the current row position, etc.
- * @version $Id: SelectQueryResult.interface.php,v 1.7 2007/09/04 20:25:18 adamfranco Exp $
+ * @version $Id: SelectQueryResult.interface.php,v 1.8 2007/09/05 21:38:59 adamfranco Exp $
  * @package harmoni.dbc
  * @access public
  * @copyright 2003 
  */
 
-class SelectQueryResultInterface extends QueryResultInterface {
+interface SelectQueryResultInterface 
+	extends QueryResultInterface 
+{
 
 	/**
 	 * Returns the resource id for this SELECT query.
@@ -50,7 +52,7 @@ class SelectQueryResultInterface extends QueryResultInterface {
 	 * @access public
 	 * @return integer The resource id for this SELECT query.
 	 **/
-	function getResourceId() { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	function getResourceId() ;
 	
 	/**
 	 * Indicates if there are any remaining rows returned by the SELECT query.
@@ -59,7 +61,7 @@ class SelectQueryResultInterface extends QueryResultInterface {
 	 * @access public
 	 * @return boolean True, if there are some rows left; False, otherwise.
 	 **/
-	function hasNext() { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	function hasNext() ;
 
 	/**
 	 * Returns an array that stores the current row in the result and advances
@@ -70,7 +72,7 @@ class SelectQueryResultInterface extends QueryResultInterface {
 	 * Allowed values are: ASSOC, NUMERIC, and BOTH.
 	 * @return array An associative array of the current row.
 	 **/
-	function next() { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	function next();
 	
 	/**
 	 * Advances the current row position.
@@ -79,7 +81,7 @@ class SelectQueryResultInterface extends QueryResultInterface {
 	 * @access public
 	 * @return boolean True, if successful; False, otherwise.
 	 */ 
-	function advanceRow() { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	function advanceRow();
 	
 
 	/**
@@ -89,7 +91,7 @@ class SelectQueryResultInterface extends QueryResultInterface {
 	 * @access public
 	 * @return boolean True, if there are some rows left; False, otherwise.
 	 **/
-	function hasMoreRows() { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	function hasMoreRows();
 
 			
 	/**
@@ -99,7 +101,7 @@ class SelectQueryResultInterface extends QueryResultInterface {
 	 * @access public
 	 * @return mixed The value that was requested.
 	 **/
-	function field($field) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	function field($field);
 	
 	
 	/**
@@ -108,7 +110,7 @@ class SelectQueryResultInterface extends QueryResultInterface {
 	 * @access public
 	 * @return integer The number of fields.
 	 **/
-	function getNumberOfFields() { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	function getNumberOfFields();
 	
 
 	/**
@@ -117,7 +119,7 @@ class SelectQueryResultInterface extends QueryResultInterface {
 	 * @access public
 	 * @return array An array of all field names that were selected.
 	 **/
-	function getFieldNames() { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	function getFieldNames();
 	
 	
 	/**
@@ -128,18 +130,7 @@ class SelectQueryResultInterface extends QueryResultInterface {
 	 * Allowed values are: ASSOC, NUMERIC, and BOTH.
 	 * @return array An associative array of the current row.
 	 **/
-	function getCurrentRow($arrayType = BOTH) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
-
-
-	/**
-	 * Returns the number of rows that the query processed.
-	 * Returns the number of rows that the query processed. For a SELECT query,
-	 * this would be the total number of rows selected. For a DELETE, UPDATE, or
-	 * INSERT query, this would be the number of rows that were affected.
-	 * @access public
-	 * @return integer Number of rows that were processed by the query.
-	 */ 
-	function getNumberOfRows() { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	function getCurrentRow($arrayType = BOTH);
 	
 	
 	
@@ -150,9 +141,7 @@ class SelectQueryResultInterface extends QueryResultInterface {
 	 * @access public
 	 * @return boolean <code>true</code>, if operation was successful; <code>false</code>, otherwise.
 	 */
-	function moveToRow($rowNumber) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
+	function moveToRow($rowNumber);
 	
 	
 	/**
@@ -170,9 +159,7 @@ class SelectQueryResultInterface extends QueryResultInterface {
 	 * @param ref mixed var The variable to be bound to the value of the field in
 	 * the current row.
 	 **/
-	function bindField($field, $var) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
+	function bindField($field, $var);
 	
 	/**
 	 * Unbinds the field that has been bound by <code>bindField()</code>.
@@ -182,18 +169,14 @@ class SelectQueryResultInterface extends QueryResultInterface {
 	 * <code>getFieldNames()</code>, or an integer (less than <code>getNumberOfFields()</code>)
 	 * corresponding to the index of the field.
 	 **/
-	function unbindField($field) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
+	function unbindField($field);
 	
 	/**
 	 * Frees the memory for this result.
 	 * @access public
 	 * @return void
 	 */
-	function free() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
+	function free();
 
 }
 

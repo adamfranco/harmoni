@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SelectQuery.interface.php,v 1.8 2005/04/07 16:33:23 adamfranco Exp $
+ * @version $Id: SelectQuery.interface.php,v 1.9 2007/09/05 21:38:59 adamfranco Exp $
  */
 
 require_once("Query.abstract.php");
@@ -56,10 +56,12 @@ define("DESCENDING", 6);
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SelectQuery.interface.php,v 1.8 2005/04/07 16:33:23 adamfranco Exp $
+ * @version $Id: SelectQuery.interface.php,v 1.9 2007/09/05 21:38:59 adamfranco Exp $
  */
 
-class SelectQueryInterface extends Query {
+interface SelectQueryInterface 
+	extends Query 
+{
 
 	/**
 	 * Adds a table to the FROM clause of the SELECT query.
@@ -80,7 +82,7 @@ class SelectQueryInterface extends Query {
 	 * @use RIGHT_JOIN
 	 * @access public
 	 */
-	function addTable($table, $joinType = NO_JOIN, $joinCondition = "", $alias = "") { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	function addTable($table, $joinType = NO_JOIN, $joinCondition = "", $alias = "") ;
 
 	/**
 	 * *Deprecated* Sets the columns to select.
@@ -95,7 +97,7 @@ class SelectQueryInterface extends Query {
 	 * @deprecated June 24, 2003 - Use addColumn() instead.
 	 * @see SelectQueryInterface::addColumn()
 	 */
-	function setColumns($columns) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	function setColumns($columns) ;
 	
 	
 	
@@ -114,9 +116,7 @@ class SelectQueryInterface extends Query {
 	 * @access public
 	 * @see SelectQueryInterface::setColumns()
 	 */ 
-	function addColumn($column, $alias = "", $table = "") {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");	
-	}
+	function addColumn($column, $alias = "", $table = "") ;
 
 	
 
@@ -129,7 +129,7 @@ class SelectQueryInterface extends Query {
 	 * @deprecated July 07, 2003 - Use addWhere() instead.
 	 * @access public
 	 */
-	function setWhere($condition) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	function setWhere($condition) ;
 	
 	
 	/**
@@ -144,18 +144,14 @@ class SelectQueryInterface extends Query {
 	 * @access public
 	 * @return void 
 	 */
-	function addWhere($condition, $logicalOperation = _AND) {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
+	function addWhere($condition, $logicalOperation = _AND) ;
 	
 	
 	/**
 	 * Resets the WHERE clause.
 	 * @access public
 	 **/
-	function resetWhere() {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
+	function resetWhere() ;
 	
 
 	/**
@@ -170,7 +166,7 @@ class SelectQueryInterface extends Query {
 	 * HAVING clause.
 	 * @access public
 	 */
-	function setGroupBy($columns, $condition = "") { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	function setGroupBy($columns, $condition = "") ;
 
 	/**
 	 * Add a column to the ORDER BY clause.
@@ -185,7 +181,7 @@ class SelectQueryInterface extends Query {
 	 * @use DESCENDING
 	 * @access public
 	 */
-	function addOrderBy($column, $direction) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	function addOrderBy($column, $direction = ASCENDING) ;
 	
 	/**
 	 * Specifies whether distinct rows will be returned.
@@ -196,7 +192,7 @@ class SelectQueryInterface extends Query {
 	 * @param boolean $distinct If true, then only unique rows will be returned.
 	 * @access public
 	 */
-	function setDistinct($distinct) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	function setDistinct($distinct) ;
 	
 	
 	/**
@@ -207,7 +203,7 @@ class SelectQueryInterface extends Query {
 	 * @param integer $numberOfRows The number of rows to return
 	 * @access public
 	 */
-	function limitNumberOfRows($numberOfRows) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	function limitNumberOfRows($numberOfRows) ;
 	
 	
 	
@@ -219,7 +215,7 @@ class SelectQueryInterface extends Query {
 	 * start with 1 for the first row, 2 for the second row, and so forth.
 	 * @access public
 	 */
-	function startFromRow($startFromRow) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	function startFromRow($startFromRow) ;
 	
 }
 ?>
