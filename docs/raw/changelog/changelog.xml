@@ -3,11 +3,16 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.159 2007/09/07 17:25:06 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.160 2007/09/07 20:42:02 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
+	<version number="0.11.1" date="The Future">
+		<fix author='adam' date='2007-09-07'>
+			Repository: Now properly escapes values in modification date-storing query.
+		</fix>
+	</version>
 	<version number="0.11.0" date="2007-09-07">
 		<important author='adam'>
 			As of this version, Harmoni no longer supports PHP4. Please use PHP5 or later.

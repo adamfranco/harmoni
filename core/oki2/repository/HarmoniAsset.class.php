@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAsset.class.php,v 1.46 2007/09/04 20:25:43 adamfranco Exp $
+ * @version $Id: HarmoniAsset.class.php,v 1.47 2007/09/07 20:42:01 adamfranco Exp $
  */
 
 require_once(HARMONI."oki2/repository/HarmoniAsset.interface.php");
@@ -26,7 +26,7 @@ require_once(dirname(__FILE__)."/FromNodesAssetIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniAsset.class.php,v 1.46 2007/09/04 20:25:43 adamfranco Exp $ 
+ * @version $Id: HarmoniAsset.class.php,v 1.47 2007/09/07 20:42:01 adamfranco Exp $ 
  */
 
 class HarmoniAsset
@@ -1625,7 +1625,7 @@ class HarmoniAsset
 		// If we have stored dates for this asset set them
 		if ($this->_datesInDB) {
 			$query = new UpdateQuery;
-			$query->setWhere("asset_id='".addslashes($id->getIdString())."'");
+			$query->addWhereEqual("asset_id", $id->getIdString());
 		} 
 		
 		// Otherwise, insert Them
@@ -1633,38 +1633,32 @@ class HarmoniAsset
 			$query = new InsertQuery;
 		}
 		
-		$columns = array("asset_id", "effective_date", "expiration_date", "create_timestamp", "modify_timestamp");
-
-		$values = array();
-		$values[] = "'".addslashes($id->getIdString())."'";
+		$query->addValue("asset_id", $id->getIdString());
 		
 		if (is_object($this->_effectiveDate))
-			$values[] = $dbHandler->toDBDate($this->_effectiveDate, $this->_dbIndex);
+			$query->addValue("effective_date", $dbHandler->toDBDate($this->_effectiveDate, $this->_dbIndex));
 		else
-			$values[] = 'NULL';
+			$query->addRawValue("effective_date", "NULL");
 			
 		if (is_object($this->_expirationDate))
-			$values[] = $dbHandler->toDBDate($this->_expirationDate, $this->_dbIndex);
+			$query->addValue("expiration_date", $dbHandler->toDBDate($this->_expirationDate, $this->_dbIndex));
 		else
-			$values[] = 'NULL';
+			$query->addRawValue("expiration_date", "NULL");
 			
 		if (is_object($this->_createDate) && $this->_createDate->isNotEqualTo(DateAndTime::epoch())) {
-			$values[] = $dbHandler->toDBDate($this->_createDate, $this->_dbIndex);
-			$values[] = 'NOW()';
+			$query->addValue("create_timestamp", $dbHandler->toDBDate($this->_createDate, $this->_dbIndex));
+			$query->addRawValue("modify_timestamp", "NOW()");
 		} 
 		// We are creating the asset.
 		else {
-			$values[] = 'NOW()';
-			$values[] = 'NOW()';
+			$query->addRawValue("create_timestamp", "NOW()");
+			$query->addRawValue("modify_timestamp", "NOW()");
 			
 			// Add the creator
-			$columns[] = "creator";
-			$agentId =$this->_getCurrentAgent();
-			$values[] = $agentId->getIdString();
+			$agentId = $this->_getCurrentAgent();
+			$query->addValue("creator", $agentId->getIdString());
 		}
 		
-		$query->setColumns($columns);
-		$query->setValues($values);
 		$query->setTable("dr_asset_info");
 		
 		$result =$dbHandler->query($query, $this->_dbIndex);
