@@ -22,12 +22,84 @@
 </head>
 <body>
 <h1>Harmoni ChangeLog</h1>
-<h2>Version 0.10.2</h2>
-<h3>The Future</h3>
+<h2>Version 0.11.0</h2>
+<h3>2007-09-07</h3>
 <ul>
+		<li>
+<span style="color: red">*** IMPORTANT ***</span> Change:  
+			As of this version, Harmoni no longer supports PHP4. Please use PHP5 or later.
+		 (<em>Adam Franco</em>)</li>
+		<li> Change:  
+			GUI: Y-Layout now uses div tags instead of tables to allow the setting
+			of child widths.
+		 (<em>Adam Franco</em>)</li>
+		<li> Change:  
+			Removing ampersands for compatability with other PHP5 code.
+			The BBEdit-grep string used for the find and replace was:
+					(function )&amp;|(=\s?)&amp;([^a-z#])|([^&amp;])&amp;\s?(\$)
+			replaced with
+					\1\2\3\4\5
+			
+			Special Changes were made to the following files to fix problems introduced 
+			in the search and repace for ampersands:
+					- polyphony/main/library/ResultPrinter/ArrayResultPrinter.class.php - getLayout()
+							- $item = $this-&gt;_array[key($this-&gt;_array)];
+							======
+							+ $item = current($this-&gt;_array);
+					
+					- harmoni/core/oki2/repository/HarmoniRecord.class.php - getParts()
+							Moved the following line out of the if-statement:
+							$activeValue = $allRecordFieldValues[$key]-&gt;getActiveVersion();
+					
+					- harmoni/core/oki2/hierarchy/tree/Tree.class.php - _traverse()
+							Kept the first parameter being passed by reference. Needed in this case.
+		 (<em>Adam Franco</em>)</li>
+		
+		<li> Change:  
+			DBC: Updating the Database Handler to throw from an exception hierarchy
+			as well as use PHP5 interfaces.
+		 (<em>2007-09-05 - Adam Franco</em>)</li>
+		<li> Change:  
+			Errors: Expunging the old harmoni error handler now that we have exceptions.
+		 (<em>2007-09-05 - Adam Franco</em>)</li>
+		<li> Bug Fix:  
+			Hierarchy: Now properly clones the query object in PHP5.
+		 (<em>Adam Franco</em>)</li>
+		<li> Change:  
+			GUI: Now can include an xmlns namespace in the &lt;html&gt; tag.
+		 (<em>Adam Franco</em>)</li>
+		<li> Change:  
+			Id: Id can now be transparently cast as a string.
+		 (<em>Adam Franco</em>)</li>
+		<li> Change:  
+			Updating the Agent Package to use PHP5 interfaces to allow for type-checking.
+		 (<em>Adam Franco</em>)</li>
+		<li> New feature:  
+			Authentication: Adding methods to access a single current Agent. 
+			OSID v3 will specify a single agent authenticated at each time, rather
+			than our current multiple case. The methods added are to enable working
+			in that sort of paradigm, though they do not map directly to the v3 methods.
+		 (<em>Adam Franco</em>)</li>
+		<li> Bug Fix:  	
+			DBHandler: Adding Support for table.column column-syntax.
+		 (<em>Adam Franco</em>)</li>
+		<li> Bug Fix:  	
+			Repository: Creation date is now added properly when Assets are created,
+			instead of on the first modification.
+		 (<em>Adam Franco</em>)</li>
+		<li> New feature:  
+			Repository: Assets can now store and retrieve the id of their creator.
+		 (<em>Adam Franco</em>)</li>
+		<li> New feature:  
+			HarmoniIterator now supports the add($item) method to allow incremental
+			addition of items to the iterator.
+		 (<em>Adam Franco</em>)</li>
 		<li> Bug Fix:  	
 			Converting all short tags (&lt;?) to the full tags (&lt;?php) for 
 			compatibility with more PHP configurations.
+		 (<em>Adam Franco</em>)</li>
+		<li> Bug Fix:  	
+			Request: Added methods to ease access to the current module and action.
 		 (<em>Adam Franco</em>)</li>
 	</ul>
 <br><h2>Version 0.10.1</h2>

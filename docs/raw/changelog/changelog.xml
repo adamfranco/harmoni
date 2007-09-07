@@ -3,12 +3,12 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.157 2007/09/05 21:39:02 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.158 2007/09/07 17:01:24 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni ChangeLog">
-	<version number="0.11.0" date="The Future">
+	<version number="0.11.0" date="2007-09-07">
 		<important author='adam'>
 			As of this version, Harmoni no longer supports PHP4. Please use PHP5 or later.
 		</important>
@@ -26,9 +26,9 @@
 			Special Changes were made to the following files to fix problems introduced 
 			in the search and repace for ampersands:
 					- polyphony/main/library/ResultPrinter/ArrayResultPrinter.class.php - getLayout()
-							< $item = $this->_array[key($this->_array)];
+							- $item = $this->_array[key($this->_array)];
 							======
-							> $item = current($this->_array);
+							+ $item = current($this->_array);
 					
 					- harmoni/core/oki2/repository/HarmoniRecord.class.php - getParts()
 							Moved the following line out of the if-statement:
