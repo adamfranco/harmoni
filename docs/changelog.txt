@@ -33,6 +33,11 @@ v. 0.11.0 (2007-09-07)
 		(Adam Franco)
 		
 		
+	* Bug Fix: 
+		
+		OutputHandler: fixing notices.
+		(2007-09-07 - Adam Franco)
+		
 	* Change: 
 		DBC: Updating the Database Handler to throw from an exception hierarchy as
 		well as use PHP5 interfaces.
