@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DBHandler.class.php,v 1.23 2007/09/05 21:38:59 adamfranco Exp $
+ * @version $Id: DBHandler.class.php,v 1.24 2007/09/10 20:52:30 adamfranco Exp $
  */
  
 /**
@@ -23,7 +23,7 @@ define("MYSQL", 1);
  * @access public
  * @package harmoni.dbc
  */
-define("POSTGRE_SQL", 2);
+define("POSTGRESQL", 2);
 
 
 /**
@@ -68,7 +68,7 @@ require_once(HARMONI."Primitives/Chronology/include.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DBHandler.class.php,v 1.23 2007/09/05 21:38:59 adamfranco Exp $
+ * @version $Id: DBHandler.class.php,v 1.24 2007/09/10 20:52:30 adamfranco Exp $
  */
 
 class DBHandler { 
@@ -231,9 +231,11 @@ class DBHandler {
 	 * @access public
 	 */
 	function query(Query $query, $dbIndex=0) {
+		if (!isset($this->_databases[$dbIndex]))
+			throw new DatabaseException("Unknown database index '$dbIndex'.");
 		
 		// run the query on the appropriate database.
-		$result =$this->_databases[$dbIndex]->query($query);
+		$result = $this->_databases[$dbIndex]->query($query);
 		
 		return $result;
 	}

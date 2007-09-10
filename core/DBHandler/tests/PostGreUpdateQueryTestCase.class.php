@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreUpdateQueryTestCase.class.php,v 1.5 2007/09/04 20:25:21 adamfranco Exp $
+ * @version $Id: PostGreUpdateQueryTestCase.class.php,v 1.6 2007/09/10 20:52:31 adamfranco Exp $
  */
  
     require_once(HARMONI.'DBHandler/UpdateQuery.class.php');
@@ -21,7 +21,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreUpdateQueryTestCase.class.php,v 1.5 2007/09/04 20:25:21 adamfranco Exp $
+ * @version $Id: PostGreUpdateQueryTestCase.class.php,v 1.6 2007/09/10 20:52:31 adamfranco Exp $
  */
 
     class PostGreUpdateQueryTestCase extends UnitTestCase {
@@ -141,8 +141,10 @@
 			$this->query->setWhere($condition);
 			$this->query->reset();
 
-			$sqlFromObject = PostGre_SQLGenerator::generateSQLQuery($this->query);
-			$this->assertNull($sqlFromObject);
+			try {
+				$sqlFromObject = PostGre_SQLGenerator::generateSQLQuery($this->query);
+			} catch (DatabaseException $e) {}
+			if (isset($result)) {$this->assertTrue(false, "\$sqlFromObject should be null."); }
 			
 			// ----- test exception when # fields does not match # columns
 			$table = "person";
@@ -156,8 +158,10 @@
 			$this->query->setValues($values);
 			$this->query->setWhere($condition);
 
-			$sqlFromObject = PostGre_SQLGenerator::generateSQLQuery($this->query);
-			$this->assertNull($sqlFromObject);
+			try {
+				$sqlFromObject = PostGre_SQLGenerator::generateSQLQuery($this->query);
+			} catch (DatabaseException $e) {}
+			if (isset($result)) {$this->assertTrue(false, "\$sqlFromObject should be null."); }
 			
 		}
 

@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreComprehensiveTestCase.class.php,v 1.7 2007/09/04 20:25:21 adamfranco Exp $
+ * @version $Id: PostGreComprehensiveTestCase.class.php,v 1.8 2007/09/10 20:52:31 adamfranco Exp $
  */
     require_once(HARMONI.'DBHandler/PostGre/PostGreDatabase.class.php');
 
@@ -19,7 +19,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreComprehensiveTestCase.class.php,v 1.7 2007/09/04 20:25:21 adamfranco Exp $
+ * @version $Id: PostGreComprehensiveTestCase.class.php,v 1.8 2007/09/10 20:52:31 adamfranco Exp $
  */
 
     class PostGreComprehensiveTestCase extends UnitTestCase {
@@ -84,7 +84,7 @@
 			// now insert in the other test table
 			$query = new InsertQuery();
 			$query->setTable("test");
-			$query->setColumns(array("fk", "value"));
+			$query->setColumns(array("FK", "value"));
 			$query->addRowOfValues(array($lastId, "'Ziggy'"));
 			$query->addRowOfValues(array($lastId + 1, "'Lost in the Stars'"));
 			$query->addRowOfValues(array($lastId + 2, "'Headstar'"));
@@ -95,13 +95,14 @@
 			// join the inserted rows
 			$query = new SelectQuery();
 			$query->addTable("test1");
-			$query->addTable("test", INNER_JOIN, "test.fk = test1.id");
+			$query->addTable("test", INNER_JOIN, "test.FK = test1.id");
 			$query->addColumn("id", "dm86_id", "test");
-			$query->addColumn("fk", "dm86_fk", "test");
+			$query->addColumn("FK", "dm86_fk", "test");
 			$query->addColumn("value", "dm86_value", "test");
 			$query->addColumn("id", "dm98_id", "test1");
 			$query->addColumn("value", "dm98_value", "test1");
 			$query->addWhere("test1.id >= ".$lastId);
+			printpre($query->asString());
 			$result =$this->db->query($query);
 			
 			$this->assertIdentical($result->getNumberOfRows(), 4);

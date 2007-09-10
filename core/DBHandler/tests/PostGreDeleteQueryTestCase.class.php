@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreDeleteQueryTestCase.class.php,v 1.5 2007/09/04 20:25:21 adamfranco Exp $
+ * @version $Id: PostGreDeleteQueryTestCase.class.php,v 1.6 2007/09/10 20:52:31 adamfranco Exp $
  */
     require_once(HARMONI.'DBHandler/DeleteQuery.class.php');
     require_once(HARMONI.'DBHandler/PostGre/PostGre_SQLGenerator.class.php');
@@ -20,7 +20,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreDeleteQueryTestCase.class.php,v 1.5 2007/09/04 20:25:21 adamfranco Exp $
+ * @version $Id: PostGreDeleteQueryTestCase.class.php,v 1.6 2007/09/10 20:52:31 adamfranco Exp $
  */
 
     class PostGreDeleteQueryTestCase extends UnitTestCase {
@@ -106,9 +106,10 @@
 			$this->query->setTable($table);
 			$this->query->setWhere($condition);
 			$this->query->reset();
-
-			$sqlFromObject = PostGre_SQLGenerator::generateSQLQuery($this->query);
-			$this->assertNull($sqlFromObject);
+			try {
+				$sqlFromObject = PostGre_SQLGenerator::generateSQLQuery($this->query);
+			} catch (DatabaseException $e) {}
+			if (isset($result)) {$this->assertTrue(false, "\$sqlFromObject should be null."); }
 		}
 
     }

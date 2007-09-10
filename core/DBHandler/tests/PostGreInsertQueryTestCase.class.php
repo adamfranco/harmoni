@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreInsertQueryTestCase.class.php,v 1.4 2007/09/04 20:25:21 adamfranco Exp $
+ * @version $Id: PostGreInsertQueryTestCase.class.php,v 1.5 2007/09/10 20:52:31 adamfranco Exp $
  */
     require_once(HARMONI.'DBHandler/InsertQuery.class.php');
 	require_once(HARMONI.'DBHandler/PostGre/PostGre_SQLGenerator.class.php');
@@ -20,7 +20,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreInsertQueryTestCase.class.php,v 1.4 2007/09/04 20:25:21 adamfranco Exp $
+ * @version $Id: PostGreInsertQueryTestCase.class.php,v 1.5 2007/09/10 20:52:31 adamfranco Exp $
  */
 
     class PostGreInsertQueryTestCase extends UnitTestCase {
@@ -127,8 +127,10 @@
 			$this->query->addRowOfValues($values);
 			$this->query->reset();
 
-			$sqlFromObject = PostGre_SQLGenerator::generateSQLQuery($this->query);
-			$this->assertNull($sqlFromObject);
+			try {
+				$sqlFromObject = PostGre_SQLGenerator::generateSQLQuery($this->query);
+			} catch (DatabaseException $e) {}
+			if (isset($result)) {$this->assertTrue(false, "\$sqlFromObject should be null."); }
 			
 			// ------- now test reset with many insert rows
 			
@@ -150,8 +152,10 @@
 
 			$this->query->reset();
 
-			$sqlFromObject = PostGre_SQLGenerator::generateSQLQuery($this->query);
-			$this->assertNull($sqlFromObject);
+			try {
+				$sqlFromObject = PostGre_SQLGenerator::generateSQLQuery($this->query);
+			} catch (DatabaseException $e) {}
+			if (isset($result)) {$this->assertTrue(false, "\$sqlFromObject should be null."); }
 			
 			// ----- test exception when # fields does not match # columns
 			$table = "user";
@@ -163,8 +167,10 @@
 			$this->query->setColumns($columns);
 			$this->query->addRowOfValues($values);
 
-			$sqlFromObject = PostGre_SQLGenerator::generateSQLQuery($this->query);
-			$this->assertNull($sqlFromObject);
+			try {
+				$sqlFromObject = PostGre_SQLGenerator::generateSQLQuery($this->query);
+			} catch (DatabaseException $e) {}
+			if (isset($result)) {$this->assertTrue(false, "\$sqlFromObject should be null."); }
 			
 		}
 	

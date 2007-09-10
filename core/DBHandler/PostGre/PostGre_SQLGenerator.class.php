@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGre_SQLGenerator.class.php,v 1.10 2007/09/05 21:39:01 adamfranco Exp $
+ * @version $Id: PostGre_SQLGenerator.class.php,v 1.11 2007/09/10 20:52:31 adamfranco Exp $
  */
  
 require_once(HARMONI."DBHandler/SQLGenerator.interface.php");
@@ -19,7 +19,7 @@ require_once(HARMONI."DBHandler/SQLGenerator.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGre_SQLGenerator.class.php,v 1.10 2007/09/05 21:39:01 adamfranco Exp $
+ * @version $Id: PostGre_SQLGenerator.class.php,v 1.11 2007/09/10 20:52:31 adamfranco Exp $
  */
 
 class PostGre_SQLGenerator extends SQLGeneratorInterface {
@@ -104,7 +104,9 @@ class PostGre_SQLGenerator extends SQLGeneratorInterface {
 			if ($query->_columns || $query->_autoIncrementColumn) {
 				$sql .= "\n\t(";
 				
-				$columns = $query->_columns;
+				$columns = array();
+				foreach ($query->_columns as $column)
+					$columns[] = '"'.$column.'"';
 				
 				// include autoincrement column if necessary
 				if ($query->_autoIncrementColumn)
@@ -177,7 +179,7 @@ class PostGre_SQLGenerator extends SQLGeneratorInterface {
 		
 		// this loop sticks together _columns and _values
 		foreach ($query->_columns as $key => $column)
-			$updateExpressions[] = $column." = ".$query->_values[$key];
+			$updateExpressions[] = '"'.$column."\" = ".$query->_values[$key];
 		
 		$sql .= implode(",\n\t", $updateExpressions);
 		
@@ -290,10 +292,10 @@ class PostGre_SQLGenerator extends SQLGeneratorInterface {
 		// process any aliases
 		$columns = array();
 		foreach ($query->_columns AS $column) {
-			$str = "";
+			$str = "\"";
 			if ($column[2])
 			    $str .= $column[2].".";
-			$str .= $column[0];
+			$str .= $column[0]."\"";
 			if ($column[1]) {
 				$str .= " AS ";
 			    $str .= $column[1];

@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreSelectQueryResultTestCase.class.php,v 1.7 2007/09/04 20:25:21 adamfranco Exp $
+ * @version $Id: PostGreSelectQueryResultTestCase.class.php,v 1.8 2007/09/10 20:52:31 adamfranco Exp $
  */
  
 require_once(HARMONI . 'DBHandler/PostGre/PostGreDatabase.class.php');
@@ -20,7 +20,7 @@ require_once(HARMONI . 'DBHandler/PostGre/PostGreDatabase.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreSelectQueryResultTestCase.class.php,v 1.7 2007/09/04 20:25:21 adamfranco Exp $
+ * @version $Id: PostGreSelectQueryResultTestCase.class.php,v 1.8 2007/09/10 20:52:31 adamfranco Exp $
  */
 
 class PostGreSelectQueryResultTestCase extends UnitTestCase {
@@ -62,6 +62,7 @@ class PostGreSelectQueryResultTestCase extends UnitTestCase {
 	{ 
 			// perhaps, unset $obj here
 			unset($this->queryResult);
+			$this->db->disconnect();
 	} 
 	
 	/**
@@ -88,13 +89,13 @@ class PostGreSelectQueryResultTestCase extends UnitTestCase {
 		// see if field names are correct
 		$fieldNames = $this->queryResult->getFieldNames();
 		
-		$this->assertEqual($fieldNames, array("id", "fk", "value"));
+		$this->assertEqual($fieldNames, array("id", "FK", "value"));
 	
 		$id = $this->queryResult->field("id");
-		$fk = $this->queryResult->field("fk");
+		$fk = $this->queryResult->field("FK");
 		$value = $this->queryResult->field("value");
 		$row["id"] = $id;
-		$row["fk"] = $fk;
+		$row["FK"] = $fk;
 		$row["value"] = $value;
 		$this->assertEqual($id, "101");
 		$this->assertEqual($fk, "5");

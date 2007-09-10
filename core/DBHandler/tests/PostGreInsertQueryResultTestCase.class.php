@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreInsertQueryResultTestCase.class.php,v 1.6 2007/09/04 20:25:21 adamfranco Exp $
+ * @version $Id: PostGreInsertQueryResultTestCase.class.php,v 1.7 2007/09/10 20:52:31 adamfranco Exp $
  */
     require_once(HARMONI.'DBHandler/PostGre/PostGreDatabase.class.php');
 
@@ -19,7 +19,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreInsertQueryResultTestCase.class.php,v 1.6 2007/09/04 20:25:21 adamfranco Exp $
+ * @version $Id: PostGreInsertQueryResultTestCase.class.php,v 1.7 2007/09/10 20:52:31 adamfranco Exp $
  */
 
     class PostGreInsertQueryResultTestCase extends UnitTestCase {
@@ -58,8 +58,12 @@
 		 */ 
         function test_Constructor() {
 			// get the query result
-			$rid = $this->db->_query("INSERT INTO test1 (value) VALUES('depeche')");
-			$queryResult = new PostGreInsertQueryResult($rid);
+			$rid = $this->db->_query("INSERT INTO test1 (id, value) VALUES(NEXTVAL('test1_id_seq'), 'depeche')");
+			$lastIdQuery = "SELECT CURRVAL('test1_id_seq')";
+			$lastIdResourceId = $this->db->_query($lastIdQuery);
+			$arr = pg_fetch_row($lastIdResourceId, 0);
+			$lastId = intval($arr[0]);
+			$queryResult = new PostGreInsertQueryResult($rid, $lastId);
 			
 			$this->assertEqual($rid, $queryResult->_resourceId);
 		}
@@ -69,7 +73,7 @@
 		 */ 
         function test_One_Insert() {
 			// get the query result
-			$rid = $this->db->_query("INSERT INTO test1 (value) VALUES('depeche')");
+			$rid = $this->db->_query("INSERT INTO test1 (id, value) VALUES(NEXTVAL('test1_id_seq'), 'depeche')");
 			$lastIdQuery = "SELECT CURRVAL('test1_id_seq')";
 			$lastIdResourceId = $this->db->_query($lastIdQuery);
 			$arr = pg_fetch_row($lastIdResourceId, 0);
@@ -87,9 +91,9 @@
 		 */ 
         function test_Many_Inserts() {
 			// get the query result
-			$sql = "INSERT INTO test1 (value) VALUES('depeche1');\n";
-			$sql .= "INSERT INTO test1 (value) VALUES('depeche2');\n";
-			$sql .= "INSERT INTO test1 (value) VALUES('depeche3')";
+			$sql = "INSERT INTO test1 (id, value) VALUES(NEXTVAL('test1_id_seq'), 'depeche1');\n";
+			$sql .= "INSERT INTO test1 (id, value) VALUES(NEXTVAL('test1_id_seq'), 'depeche2');\n";
+			$sql .= "INSERT INTO test1 (id, value) VALUES(NEXTVAL('test1_id_seq'), 'depeche3')";
 
 			$rid = $this->db->_query($sql);
 			$lastIdQuery = "SELECT CURRVAL('test1_id_seq')";

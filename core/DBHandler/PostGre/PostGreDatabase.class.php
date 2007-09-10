@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreDatabase.class.php,v 1.16 2007/09/05 21:39:01 adamfranco Exp $
+ * @version $Id: PostGreDatabase.class.php,v 1.17 2007/09/10 20:52:31 adamfranco Exp $
  */
 require_once(HARMONI."DBHandler/Database.abstract.php");
 require_once(HARMONI."DBHandler/PostGre/PostGreSelectQueryResult.class.php");
@@ -23,7 +23,7 @@ require_once(HARMONI."DBHandler/PostGre/PostGre_SQLGenerator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreDatabase.class.php,v 1.16 2007/09/05 21:39:01 adamfranco Exp $
+ * @version $Id: PostGreDatabase.class.php,v 1.17 2007/09/10 20:52:31 adamfranco Exp $
  **/
  
 class PostGreDatabase 
@@ -338,7 +338,7 @@ class PostGreDatabase
 		
 		foreach ($queries as $q) {
 			// attempt to execute the query
-			$resourceId = pg_query($this->_linkId, $q);
+			$resourceId = @pg_query($this->_linkId, $q);
 		
 			if ($resourceId === false) {
 			    $this->_failedQueries++;

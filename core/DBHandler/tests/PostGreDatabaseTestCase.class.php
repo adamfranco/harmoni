@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreDatabaseTestCase.class.php,v 1.6 2007/09/04 20:25:21 adamfranco Exp $
+ * @version $Id: PostGreDatabaseTestCase.class.php,v 1.7 2007/09/10 20:52:31 adamfranco Exp $
  */
     require_once(HARMONI.'DBHandler/PostGre/PostGreDatabase.class.php');
 
@@ -19,7 +19,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreDatabaseTestCase.class.php,v 1.6 2007/09/04 20:25:21 adamfranco Exp $
+ * @version $Id: PostGreDatabaseTestCase.class.php,v 1.7 2007/09/10 20:52:31 adamfranco Exp $
  */
 
     class PostGreDatabaseTestCase extends UnitTestCase {
@@ -121,15 +121,25 @@
 			$this->assertTrue($this->database->isConnected());
 
 			// test bad query
+			unset($result);
 			$query = "BAD QUERY";
-			$result = $this->database->_query($query);
-			$this->assertFalse($result);
+			try {
+				$result = $this->database->_query($query);
+			} catch (Exception $e) {}
+			
+			// Ensure that $result isn't set
+			if (isset($result)) {$this->assertTrue(false, "\$result should be null."); }
 			$this->assertEqual($this->database->getNumberFailedQueries(), 1);
 			$this->assertEqual($this->database->getNumberSuccessfulQueries(), 0);
 			
+			
 			// test good query
-			$query = "SELECT * FROM test";
-			$result = $this->database->_query($query);
+			try {
+				$query = "SELECT * FROM test";
+				$result = $this->database->_query($query);
+			} catch (Exception $e) {
+				$this->assertTrue(false, $e->getMessage());
+			}
 			$this->assertTrue($result !== false);
 			$this->assertEqual($this->database->getNumberFailedQueries(), 1);
 			$this->assertEqual($this->database->getNumberSuccessfulQueries(), 1);

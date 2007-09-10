@@ -5,14 +5,14 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/inc.php");
 
 /**
  * The Services class handles starting, stopping, registering, etc of any available services.
- * @version $Id: Services.class.php,v 1.23 2007/09/04 20:25:49 adamfranco Exp $
+ * @version $Id: Services.class.php,v 1.24 2007/09/10 20:52:31 adamfranco Exp $
  *
  * @package harmoni.services
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Services.class.php,v 1.23 2007/09/04 20:25:49 adamfranco Exp $
+ * @version $Id: Services.class.php,v 1.24 2007/09/10 20:52:31 adamfranco Exp $
  */
 class Services extends ServicesAbstract {
 	/**
@@ -62,27 +62,17 @@ class Services extends ServicesAbstract {
 		if ($this->running($name)) {
 			// if we have the error Handler, throw a pretty error with that,
 			// otherwise, use the die() function.
-			if ($this->_registeredServices['ErrorHandler']) {
-				throwError(new Error("Services::registerService('$name') - can not 
+			throwError(new Error("Services::registerService('$name') - can not 
 					register service '$name' because it is already registered AND 
 					running.", "Services", 1));
-			} else {
-				die($this->_getBacktrace()."Services::registerService('$name') - can not 
-					register service '$name' because it is already registered AND running.");
-			}
 			return false;
 		}
 		if (!class_exists($class)) {
 			// if we have the error Handler, throw a pretty error with that,
 			// otherwise, use the die() function.
-			if ($this->_registeredServices['ErrorHandler']) {
-				throwError(new Error("Services::registerService('$name') - can not 
+			throwError(new Error("Services::registerService('$name') - can not 
 				register service '$name' because the class '$class' does not exist!"
 				, "Services", 1));
-			} else {
-				die($this->_getBacktrace()."Services::registerService('$name') - can not 
-				register service '$name' because the class '$class' does not exist!");
-			}
 			return false;
 		}
 
@@ -118,23 +108,15 @@ class Services extends ServicesAbstract {
 		if (!$this->_registeredServices[$registeredName]) {
 			// if we have the error Handler, throw a pretty error with that,
 			// otherwise, use the die() function.
-			if ($this->_registeredServices['ErrorHandler']) {
-				throwError(new Error("Services::createAlias('$registeredName', '$aliasName') - failed because an '$registeredName' wasn't registered yet."
+			throwError(new Error("Services::createAlias('$registeredName', '$aliasName') - failed because an '$registeredName' wasn't registered yet."
 				, "Services", 1));
-			} else {
-				die($this->_getBacktrace()."Services::createAlias('$registeredName', '$aliasName') - failed because an '$registeredName' wasn't registered yet.");
-			}
 		}
 		
 		if (isset($this->_aliases[$aliasName]) || isset($this->_registeredServices[$aliasName])) {
 			// if we have the error Handler, throw a pretty error with that,
 			// otherwise, use the die() function.
-			if ($this->_registeredServices['ErrorHandler']) {
-				throwError(new Error("Services::createAlias('$registeredName', '$aliasName') - failed because an '$aliasName' is already in use."
+			throwError(new Error("Services::createAlias('$registeredName', '$aliasName') - failed because an '$aliasName' is already in use."
 				, "Services", 1));
-			} else {
-				die($this->_getBacktrace()."Services::createAlias('$registeredName', '$aliasName') - failed because an '$aliasName' is already in use.");
-			}
 		}
 		
 		$this->_aliases[$aliasName] = $registeredName;
@@ -163,13 +145,8 @@ class Services extends ServicesAbstract {
 		if (!$this->running($name)) {
 			// if we have the error Handler, throw a pretty error with that,
 			// otherwise, use the die() function.
-			if ($this->_registeredServices['ErrorHandler']) {
-				throwError(new Error("Services::getService('$name') - can not get service
+			throwError(new Error("Services::getService('$name') - can not get service
 					'$name' because it is not yet started.", "Services", 1));
-			} else {
-				die($this->_getBacktrace()."Services::getService('$name') - can not get
-					service '$name' because it is not yet started.");
-			}
 			return false;
 		}
 		return $this->_services[$name];
@@ -220,15 +197,9 @@ class Services extends ServicesAbstract {
 		{
 			// if we have the error Handler, throw a pretty error with that,
 			// otherwise, use the die() function.
-			if ($this->_registeredServices['ErrorHandler']) {
-				throwError(new Error("Services::startService('$name') - could not 
+			throwError(new Error("Services::startService('$name') - could not 
 				start service - the object of class $classname was not instantiated 
 				correctly", "Services", 1));
-			} else {
-				die($this->_getBacktrace()."Services::startService('$name') - could not 
-				start service - the object of class $classname was not instantiated 
-				correctly");
-			}
 			return false;
 		}
 		
@@ -270,15 +241,9 @@ class Services extends ServicesAbstract {
 		{
 			// if we have the error Handler, throw a pretty error with that,
 			// otherwise, use the die() function.
-			if ($this->_registeredServices['ErrorHandler']) {
-				throwError(new Error("Services::startService('$name') - could not 
+			throwError(new Error("Services::startService('$name') - could not 
 				start service - the object of class $classname was not instantiated 
 				correctly", "Services", 1));
-			} else {
-				die($this->_getBacktrace()."Services::startService('$name') - could not 
-				start service - the object of class $classname was not instantiated 
-				correctly");
-			}
 			return false;
 		}
 		

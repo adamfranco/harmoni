@@ -9,70 +9,63 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: test.php,v 1.8 2007/09/04 20:25:21 adamfranco Exp $
+ * @version $Id: test.php,v 1.9 2007/09/10 20:52:31 adamfranco Exp $
  */
  
-    if (!defined('HARMONI')) {
-        require_once("../../../harmoni.inc.php");
-    }
+ini_set('display_errors', true);
+ 
+if (!defined('HARMONI')) {
+	require_once("../../../harmoni.inc.php");
+}
 
-    if (!defined('SIMPLE_TEST')) {
-        define('SIMPLE_TEST', HARMONI.'simple_test/');
-    }
-    require_once(SIMPLE_TEST . 'simple_unit.php');
-    require_once(SIMPLE_TEST . 'dobo_simple_html_test.php');
+if (!defined('SIMPLE_TEST')) {
+	define('SIMPLE_TEST', HARMONI.'simple_test/');
+}
+require_once(SIMPLE_TEST . 'simple_unit.php');
+require_once(SIMPLE_TEST . 'dobo_simple_html_test.php');
 
-	require_once(HARMONI."errorHandler/ErrorHandler.class.php");
-	require_once(HARMONI."utilities/ArgumentValidator.class.php");
+$context = new OsidContext;
+$context->assignContext('harmoni', $harmoni);
+$configuration = new ConfigurationProperties;
+Services::startManagerAsService("DatabaseManager", $context, $configuration);
+$dbc = Services::getService("DBHandler");
 
-	if (!Services::serviceAvailable("ErrorHandler")) {
-	   	Services::registerService("ErrorHandler","ErrorHandler");
-		require_once(OKI2."osid/OsidContext.php");
-		$context = new OsidContext;
-		$context->assignContext('harmoni', $harmoni);
-		require_once(HARMONI."oki2/shared/ConfigurationProperties.class.php");
-		$configuration = new ConfigurationProperties;
-		Services::startManagerAsService("ErrorHandler", $context, $configuration);
-	}
-	
-	$errorHandler = Services::getService("ErrorHandler");
-	$errorHandler->setDebugMode(true);
+require_once(HARMONI."errorHandler/throw.inc.php");
+require_once(HARMONI."utilities/ArgumentValidator.class.php");
+
+// 	if (!Services::serviceAvailable("ErrorHandler")) {
+// 	   	Services::registerService("ErrorHandler","ErrorHandler");
+// 		require_once(OKI2."osid/OsidContext.php");
+// 		
+// 		require_once(HARMONI."oki2/shared/ConfigurationProperties.class.php");
+// 		$configuration = new ConfigurationProperties;
+// 		Services::startManagerAsService("ErrorHandler", $context, $configuration);
+// 	}
+// 	
+// 	$errorHandler = Services::getService("ErrorHandler");
+// 	$errorHandler->setDebugMode(true);
+
+ $test = new GroupTest('DBHandler tests');
+
+$dbSystem = 'postgresql';
+
+switch ($dbSystem) {
+// MYSQL
+case 'mysql':
+	// connect to some database and set up our tables
+	$db = new MySQLDatabase("localhost", "test", "test", "test");
+	$db->connect();
+	// Build our test database
+	SQLUtils::runSQLfile(dirname(__FILE__)."/test.sql");
+	$db->disconnect();
 	
 	// connect to some database and set up our tables
-	$this->db = new MySQLDatabase("localhost", "test", "test", "test");
-	$this->db->connect();
-	
+	$db = new MySQLDatabase("localhost", "testB", "test", "test");
+	$db->connect();
 	// Build our test database
-	$queryString = SQLUtils::parseSQLFile(dirname(__FILE__)."/test.sql");
-	// break up the query string.
-	$queryStrings = explode(";", $queryString);
-	// Run each query
-	foreach ($queryStrings as $string) {
-		$string = trim($string);
-		if ($string) {
-			$this->db->_query($string);
-		}
-	}
-	$this->db->disconnect();
-	
-	// connect to some database and set up our tables
-	$this->db = new MySQLDatabase("localhost", "testB", "test", "test");
-	$this->db->connect();
-	
-	// Build our test database
-	$queryString = SQLUtils::parseSQLFile(dirname(__FILE__)."/testB.sql");
-	// break up the query string.
-	$queryStrings = explode(";", $queryString);
-	// Run each query
-	foreach ($queryStrings as $string) {
-		$string = trim($string);
-		if ($string) {
-			$this->db->_query($string);
-		}
-	}
-	$this->db->disconnect();
+	SQLUtils::runSQLfile(dirname(__FILE__)."/testB.sql");
+	$db->disconnect();
 
-    $test = new GroupTest('DBHandler tests');
     $test->addTestFile(HARMONI.'DBHandler/tests/MySQLInsertQueryTestCase.class.php');
     $test->addTestFile(HARMONI.'DBHandler/tests/MySQLUpdateQueryTestCase.class.php');
     $test->addTestFile(HARMONI.'DBHandler/tests/MySQLDeleteQueryTestCase.class.php');
@@ -82,6 +75,35 @@
     $test->addTestFile(HARMONI.'DBHandler/tests/MySQLInsertQueryResultTestCase.class.php');
     $test->addTestFile(HARMONI.'DBHandler/tests/MySQLComprehensiveTestCase.class.php');
     $test->addTestFile(HARMONI.'DBHandler/tests/MySQLConnectionTestCase.class.php');
+    
+   	break;
+
+case 'postgresql':
+	$dbIndex = $dbc->createDatabase(POSTGRESQL, "localhost", "harmoniTest", "test", "test");
+	$dbc->connect($dbIndex);
+	// Build our test database
+	SQLUtils::runSQLfile(dirname(__FILE__)."/test_PostgreSQL.sql", $dbIndex);
+	$dbc->disconnect($dbIndex);
+	
+// 	// connect to some database and set up our tables
+// 	$dbIndexB = $dbc->createDatabase(POSTGRESQL, "localhost", "harmoniTestB", "test", "test");
+// 	$db->connect($dbIndexB);
+// 	// Build our test database
+// 	SQLUtils::runSQLfile(dirname(__FILE__)."/testB.sql", $dbIndexB);
+// 	$db->disconnect($dbIndexB);
+// 	
+    $test->addTestFile(HARMONI.'DBHandler/tests/PostGreDatabaseTestCase.class.php');
+
+	$test->addTestFile(HARMONI.'DBHandler/tests/PostGreDeleteQueryTestCase.class.php');
+    $test->addTestFile(HARMONI.'DBHandler/tests/PostGreUpdateQueryTestCase.class.php');
+    $test->addTestFile(HARMONI.'DBHandler/tests/PostGreInsertQueryTestCase.class.php');
+    $test->addTestFile(HARMONI.'DBHandler/tests/PostGreSelectQueryTestCase.class.php');
+    $test->addTestFile(HARMONI.'DBHandler/tests/PostGreInsertQueryResultTestCase.class.php');
+    $test->addTestFile(HARMONI.'DBHandler/tests/PostGreSelectQueryResultTestCase.class.php');
+    $test->addTestFile(HARMONI.'DBHandler/tests/PostGreComprehensiveTestCase.class.php');
+   
+   break;
+}
 /*	
     $test->addTestFile(HARMONI.'DBHandler/tests/OracleDeleteQueryTestCase.class.php');
     $test->addTestFile(HARMONI.'DBHandler/tests/OracleUpdateQueryTestCase.class.php');
@@ -92,14 +114,7 @@
     $test->addTestFile(HARMONI.'DBHandler/tests/OracleSelectQueryResultTestCase.class.php');
     $test->addTestFile(HARMONI.'DBHandler/tests/OracleComprehensiveTestCase.class.php');
 
-    $test->addTestFile(HARMONI.'DBHandler/tests/PostGreDeleteQueryTestCase.class.php');
-    $test->addTestFile(HARMONI.'DBHandler/tests/PostGreUpdateQueryTestCase.class.php');
-    $test->addTestFile(HARMONI.'DBHandler/tests/PostGreInsertQueryTestCase.class.php');
-    $test->addTestFile(HARMONI.'DBHandler/tests/PostGreSelectQueryTestCase.class.php');
-    $test->addTestFile(HARMONI.'DBHandler/tests/PostGreDatabaseTestCase.class.php');
-    $test->addTestFile(HARMONI.'DBHandler/tests/PostGreInsertQueryResultTestCase.class.php');
-    $test->addTestFile(HARMONI.'DBHandler/tests/PostGreSelectQueryResultTestCase.class.php');
-    $test->addTestFile(HARMONI.'DBHandler/tests/PostGreComprehensiveTestCase.class.php');
+    
 */
     $test->addTestFile(HARMONI.'DBHandler/tests/GenericSQLQueryTestCase.class.php');
 
