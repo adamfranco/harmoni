@@ -4,7 +4,7 @@
 -- @copyright Copyright &copy; 2005, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 --
--- @version $Id: MySQL_dataManager.sql,v 1.22 2006/06/07 17:22:33 adamfranco Exp $
+-- @version $Id: MySQL_dataManager.sql,v 1.1 2007/09/11 18:19:26 adamfranco Exp $
 -- */
 -- --------------------------------------------------------
 

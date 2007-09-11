@@ -4,7 +4,7 @@
 -- @copyright Copyright &copy; 2005, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 --
--- @version $Id: MySQL_Id.sql,v 1.3 2005/08/08 22:35:16 adamfranco Exp $
+-- @version $Id: MySQL_Id.sql,v 1.1 2007/09/11 18:19:24 adamfranco Exp $
 -- */
 -- --------------------------------------------------------
 

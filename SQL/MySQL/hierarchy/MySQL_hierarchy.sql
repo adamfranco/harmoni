@@ -4,7 +4,7 @@
 -- @copyright Copyright &copy; 2005, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 --
--- @version $Id: MySQL_hierarchy.sql,v 1.13 2005/12/20 21:26:19 adamfranco Exp $
+-- @version $Id: MySQL_hierarchy.sql,v 1.1 2007/09/11 18:19:26 adamfranco Exp $
 -- */
 -- --------------------------------------------------------
 

@@ -5,7 +5,7 @@
 -- @copyright Copyright &copy; 2006, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 -- 
--- @version $Id: MySQL_GUI.sql,v 1.1 2006/08/03 20:54:03 sporktim Exp $
+-- @version $Id: MySQL_GUI.sql,v 1.1 2007/09/11 18:19:24 adamfranco Exp $
 -- */
 -- --------------------------------------------------------
 

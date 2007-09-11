@@ -5,7 +5,7 @@
 -- @copyright Copyright &copy; 2006, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 -- 
--- @version $Id: MySQL_Grading.sql,v 1.3 2006/07/20 19:37:55 sporktim Exp $
+-- @version $Id: MySQL_Grading.sql,v 1.1 2007/09/11 18:19:24 adamfranco Exp $
 -- */
 -- --------------------------------------------------------
 
