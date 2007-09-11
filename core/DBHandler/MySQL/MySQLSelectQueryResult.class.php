@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQLSelectQueryResult.class.php,v 1.12 2007/09/05 21:39:00 adamfranco Exp $
+ * @version $Id: MySQLSelectQueryResult.class.php,v 1.13 2007/09/11 17:34:38 adamfranco Exp $
  */
  
 require_once(HARMONI."DBHandler/SelectQueryResult.interface.php");
@@ -20,7 +20,7 @@ require_once(HARMONI."DBHandler/SelectQueryResult.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQLSelectQueryResult.class.php,v 1.12 2007/09/05 21:39:00 adamfranco Exp $
+ * @version $Id: MySQLSelectQueryResult.class.php,v 1.13 2007/09/11 17:34:38 adamfranco Exp $
  */
 class MySQLSelectQueryResult 
 	implements SelectQueryResultInterface 
@@ -200,7 +200,7 @@ class MySQLSelectQueryResult
 	function field($field) {
 		// ** parameter validation
 		if (!array_key_exists($field, $this->_currentRow[BOTH])) {
-			$str = "Invalid field to return from a SELECT query result.";
+			$str = "Invalid field to return from the SELECT query result.";
 			throw new DatabaseException($str);
 		}
 		// ** end of parameter validation
