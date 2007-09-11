@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreSelectQueryResult.class.php,v 1.10 2007/09/05 21:39:01 adamfranco Exp $
+ * @version $Id: PostGreSelectQueryResult.class.php,v 1.11 2007/09/11 15:01:59 adamfranco Exp $
  */
  
 require_once(HARMONI."DBHandler/SelectQueryResult.interface.php");
@@ -19,7 +19,7 @@ require_once(HARMONI."DBHandler/SelectQueryResult.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreSelectQueryResult.class.php,v 1.10 2007/09/05 21:39:01 adamfranco Exp $
+ * @version $Id: PostGreSelectQueryResult.class.php,v 1.11 2007/09/11 15:01:59 adamfranco Exp $
  */
 class PostGreSelectQueryResult 
 	implements SelectQueryResultInterface 
@@ -182,7 +182,7 @@ class PostGreSelectQueryResult
 	function field($field) {
 		// ** parameter validation
 		if (!array_key_exists($field, $this->_currentRow[BOTH])) {
-			$str = "Invalid field to return from a SELECT query result.";
+			$str = "Invalid field, '".$field."' to return from the SELECT query result.";
 			throw new DatabaseException($str);
 		}
 		// ** end of parameter validation
