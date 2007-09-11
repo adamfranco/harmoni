@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SQLUtils.static.php,v 1.9 2007/09/11 18:44:46 adamfranco Exp $
+ * @version $Id: SQLUtils.static.php,v 1.10 2007/09/11 18:50:28 adamfranco Exp $
  */
 
 /**
@@ -18,7 +18,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SQLUtils.static.php,v 1.9 2007/09/11 18:44:46 adamfranco Exp $
+ * @version $Id: SQLUtils.static.php,v 1.10 2007/09/11 18:50:28 adamfranco Exp $
  * @static
  */
 
@@ -128,7 +128,7 @@ class SQLUtils {
 					if (is_dir($path))
 						self::runSQLdir($path, $dbIndex, $extn);
 					// Run any SQL files
-					else if (preg_match('/.+\.'.$extn.'$/i', $file)
+					else if (preg_match('/.+\.'.$extn.'$/i', $file))
 						self::runSQLfile($path, $dbIndex);
 					// Ignore any other files.
 				}

@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DBHandler.class.php,v 1.25 2007/09/11 18:44:46 adamfranco Exp $
+ * @version $Id: DBHandler.class.php,v 1.26 2007/09/11 18:53:12 adamfranco Exp $
  */
  
 /**
@@ -68,7 +68,7 @@ require_once(HARMONI."Primitives/Chronology/include.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DBHandler.class.php,v 1.25 2007/09/11 18:44:46 adamfranco Exp $
+ * @version $Id: DBHandler.class.php,v 1.26 2007/09/11 18:53:12 adamfranco Exp $
  */
 
 class DBHandler { 
@@ -235,16 +235,16 @@ class DBHandler {
 		if (!isset($this->_databases[$dbIndex]))
 			throw new DatabaseException("Unknown database index '$dbIndex'.");
 		
-		if (extends("MySQLDatabase", $this->_databases[$dbIndex]))
+		if ($this->_databases[$dbIndex] instanceof MySQLDatabase)
 			return MYSQL;
 		
-		if (extends("PostGreDatabase", $this->_databases[$dbIndex]))
+		if ($this->_databases[$dbIndex] instanceof PostGreDatabase)
 			return POSTGRESQL;
 		
-		if (extends("OracleDatabase", $this->_databases[$dbIndex]))
+		if ($this->_databases[$dbIndex] instanceof OracleDatabase)
 			return ORACLE;
 		
-		if (extends("SqlServerDatabase", $this->_databases[$dbIndex]))
+		if ($this->_databases[$dbIndex] instanceof SqlServerDatabase)
 			return SQLSERVER;
 		
 		throw new DatabaseException("Type unknow for database of class '".get_class($this->_databases[$dbIndex])."'.");

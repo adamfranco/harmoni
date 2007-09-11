@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.161 2007/09/11 17:53:38 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.162 2007/09/11 18:53:12 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -16,6 +16,9 @@
 			harmoni/core/DBHandler/db_updater.php
 		</important>
 		
+		<new author='adam' date='2007-09-11'>
+			DBHandler: Can now run an entire directory tree full of sql files.
+		</new>
 		<fix author='adam' date='2007-09-11'>
 			DBHandler: Some fixes to the PostgreSQL implementation and tests.
 		</fix>
