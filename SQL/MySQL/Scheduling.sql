@@ -5,7 +5,7 @@
 -- @copyright Copyright &copy; 2006, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 -- 
--- @version $Id: MySQL_Scheduling.sql,v 1.1 2007/09/11 18:19:25 adamfranco Exp $
+-- @version $Id: Scheduling.sql,v 1.1 2007/09/11 19:06:30 adamfranco Exp $
 -- */
 -- --------------------------------------------------------
 

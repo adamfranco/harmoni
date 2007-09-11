@@ -4,7 +4,7 @@
 -- @copyright Copyright &copy; 2005, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 --
--- @version $Id: MySQL_AuthZ.sql,v 1.1 2007/09/11 18:19:23 adamfranco Exp $
+-- @version $Id: AuthZ.sql,v 1.1 2007/09/11 19:06:27 adamfranco Exp $
 -- */
 -- --------------------------------------------------------
 

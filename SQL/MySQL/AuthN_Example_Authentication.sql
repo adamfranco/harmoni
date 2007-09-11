@@ -4,7 +4,7 @@
 -- @copyright Copyright &copy; 2005, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 --
--- @version $Id: MySQL_Example_Authentication.sql,v 1.1 2007/09/11 18:19:22 adamfranco Exp $
+-- @version $Id: AuthN_Example_Authentication.sql,v 1.1 2007/09/11 19:06:27 adamfranco Exp $
 -- */
 -- --------------------------------------------------------
 
