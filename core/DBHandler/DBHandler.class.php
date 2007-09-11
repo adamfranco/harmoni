@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DBHandler.class.php,v 1.24 2007/09/10 20:52:30 adamfranco Exp $
+ * @version $Id: DBHandler.class.php,v 1.25 2007/09/11 18:44:46 adamfranco Exp $
  */
  
 /**
@@ -68,7 +68,7 @@ require_once(HARMONI."Primitives/Chronology/include.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DBHandler.class.php,v 1.24 2007/09/10 20:52:30 adamfranco Exp $
+ * @version $Id: DBHandler.class.php,v 1.25 2007/09/11 18:44:46 adamfranco Exp $
  */
 
 class DBHandler { 
@@ -222,6 +222,33 @@ class DBHandler {
 		return $this->_databases[$index]->getTableList();
 	}
 	
+	/**
+	 * Answer the type of the database. Will be one of the constants defined above:
+	 * 		MYSQL, POSTGRESQL, ORACLE, or SQLSERVER
+	 * 
+	 * @param optional integer $dbIndex Default is 0.
+	 * @return integer
+	 * @access public
+	 * @since 9/11/07
+	 */
+	public function getDatabaseType ($dbIndex = 0) {
+		if (!isset($this->_databases[$dbIndex]))
+			throw new DatabaseException("Unknown database index '$dbIndex'.");
+		
+		if (extends("MySQLDatabase", $this->_databases[$dbIndex]))
+			return MYSQL;
+		
+		if (extends("PostGreDatabase", $this->_databases[$dbIndex]))
+			return POSTGRESQL;
+		
+		if (extends("OracleDatabase", $this->_databases[$dbIndex]))
+			return ORACLE;
+		
+		if (extends("SqlServerDatabase", $this->_databases[$dbIndex]))
+			return SQLSERVER;
+		
+		throw new DatabaseException("Type unknow for database of class '".get_class($this->_databases[$dbIndex])."'.");
+	}	
 
 	/**
 	 * Run a database query based on the Query object and return a QueryResult object.

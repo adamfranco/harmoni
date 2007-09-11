@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SQLUtils.static.php,v 1.8 2007/09/05 21:38:59 adamfranco Exp $
+ * @version $Id: SQLUtils.static.php,v 1.9 2007/09/11 18:44:46 adamfranco Exp $
  */
 
 /**
@@ -18,7 +18,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SQLUtils.static.php,v 1.8 2007/09/05 21:38:59 adamfranco Exp $
+ * @version $Id: SQLUtils.static.php,v 1.9 2007/09/11 18:44:46 adamfranco Exp $
  * @static
  */
 
@@ -33,10 +33,10 @@ class SQLUtils {
 	 * @since 7/2/04
 	 * @static
 	 */
-	function parseSQLFile ( $file ) {
+	public static function parseSQLFile ( $file ) {
 		$queryString = file_get_contents($file);
 		if ($queryString)
-			return SQLUtils::parseSQLString($queryString);
+			return self::parseSQLString($queryString);
 		else
 			throw new DatabaseException("The file, '".$file."' was empty or doesn't exist.");
 	}
@@ -50,7 +50,7 @@ class SQLUtils {
 	 * @since 7/2/04
 	 * @static
 	 */
-	function parseSQLString ( $queryString ) {
+	public static function parseSQLString ( $queryString ) {
 		// Remove the comments
 		$queryString = ereg_replace("(#|--)[^\n\r]*(\n|\r|\n\r)", "", $queryString);
 		
@@ -76,7 +76,7 @@ class SQLUtils {
 	 * @since 7/2/04
 	 * @static
 	 */
-	function multiQuery ( $queryString, $dbIndex ) {
+	public static function multiQuery ( $queryString, $dbIndex ) {
 		// break up the query string.
 		$queryStrings = explode(";", $queryString);
 	
@@ -104,9 +104,39 @@ class SQLUtils {
 	 * @since 7/2/04
 	 * @static
 	 */
-	function runSQLfile ($file, $dbIndex) {
-		$string = SQLUtils::parseSQLFile($file);
-		SQLUtils::multiQuery($string, $dbIndex);
+	public static function runSQLfile ($file, $dbIndex) {
+		$string = self::parseSQLFile($file);
+		self::multiQuery($string, $dbIndex);
+	}
+	
+	/**
+	 * Run all of the files with a given extention in a directory as SQL files.
+	 * 
+	 * @param string $dir
+	 * @param integer $dbIndex The index of the database to run the queries on.
+	 * @param optional string $extn The file extention to execute, default: 'sql'.
+	 * @return void
+	 * @access public
+	 * @since 9/11/07
+	 */
+	public static function runSQLdir ($dir, $dbIndex, $extn = 'sql') {
+		if ($handle = opendir($dir)) {
+			while (false !== ($file = readdir($handle))) {
+				if ($file != "." && $file != "..") {
+					$path = $dir."/".$file;
+					// Recurse into sub directories
+					if (is_dir($path))
+						self::runSQLdir($path, $dbIndex, $extn);
+					// Run any SQL files
+					else if (preg_match('/.+\.'.$extn.'$/i', $file)
+						self::runSQLfile($path, $dbIndex);
+					// Ignore any other files.
+				}
+			}
+			closedir($handle);
+		} else {
+			throw new Exception ("Could not open SQL directory, '$dir', for reading.");
+		}
 	}
 }
 ?>
