@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: throw.inc.php,v 1.13 2007/09/05 19:55:20 adamfranco Exp $
+ * @version $Id: throw.inc.php,v 1.14 2007/09/11 17:35:21 adamfranco Exp $
  */
 
 /**
@@ -62,7 +62,7 @@ function throwError($error) {
  		}
  	}
  	print "\n\t</tbody>";
- 	print "\n<table>";
+ 	print "\n</table>";
  	
  	if ($return) return ob_get_clean();
  }

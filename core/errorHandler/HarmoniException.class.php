@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniException.class.php,v 1.1 2007/09/05 19:55:40 adamfranco Exp $
+ * @version $Id: HarmoniException.class.php,v 1.2 2007/09/11 17:35:21 adamfranco Exp $
  */ 
 
 /**
@@ -18,7 +18,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniException.class.php,v 1.1 2007/09/05 19:55:40 adamfranco Exp $
+ * @version $Id: HarmoniException.class.php,v 1.2 2007/09/11 17:35:21 adamfranco Exp $
  */
 class HarmoniException
 	extends Exception
@@ -92,7 +92,7 @@ function printExceptionInHtml ( Exception $exception ) {
 	print "\n\tin";
 	print "\n\t<div style='padding-left: 20px;'>";
 	printDebugBacktrace($exception->getTrace());
-	print "</div>";
+	print "\n\t</div>";
 	print "\n</div>";
 	
 	logException($exception);
