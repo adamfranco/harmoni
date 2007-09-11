@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreSelectQueryResult.class.php,v 1.11 2007/09/11 15:01:59 adamfranco Exp $
+ * @version $Id: PostGreSelectQueryResult.class.php,v 1.12 2007/09/11 15:10:49 adamfranco Exp $
  */
  
 require_once(HARMONI."DBHandler/SelectQueryResult.interface.php");
@@ -19,7 +19,7 @@ require_once(HARMONI."DBHandler/SelectQueryResult.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreSelectQueryResult.class.php,v 1.11 2007/09/11 15:01:59 adamfranco Exp $
+ * @version $Id: PostGreSelectQueryResult.class.php,v 1.12 2007/09/11 15:10:49 adamfranco Exp $
  */
 class PostGreSelectQueryResult 
 	implements SelectQueryResultInterface 
@@ -180,14 +180,19 @@ class PostGreSelectQueryResult
 	 * @return mixed The value that was requested.
 	 **/
 	function field($field) {
-		// ** parameter validation
-		if (!array_key_exists($field, $this->_currentRow[BOTH])) {
+		if (array_key_exists($field, $this->_currentRow[BOTH])) {
+			return $this->_currentRow[BOTH][$field];
+		}
+		// PostgreSQL will fold unquoted column names to lowercase, this next statement
+		// will allow return values of a different case to be returned.
+		// This is a bit of a hack to help things along untill the Database handler
+		// supports explicit column naming.
+		else if (array_key_exists(strtolower($field), $this->_currentRow[BOTH])) {
+			return $this->_currentRow[BOTH][strtolower($field)];
+		} else {
 			$str = "Invalid field, '".$field."' to return from the SELECT query result.";
 			throw new DatabaseException($str);
 		}
-		// ** end of parameter validation
-
-		return $this->_currentRow[BOTH][$field];
 	}
 	
 	
