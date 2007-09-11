@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: ThumbnailDataPart.class.php,v 1.11 2007/09/04 20:25:47 adamfranco Exp $
+ * @version $Id: ThumbnailDataPart.class.php,v 1.12 2007/09/11 17:40:57 adamfranco Exp $
  */
 class ThumbnailDataPart extends Part
 //	extends java.io.Serializable
@@ -177,7 +177,7 @@ class ThumbnailDataPart extends Part
 			$query = new SelectQuery;
 			$query->addTable("dr_thumbnail");
 			$query->addColumn("data");
-			$query->addWhere("FK_file = '".$this->_recordId->getIdString()."'");
+			$query->addWhere("fk_file = '".$this->_recordId->getIdString()."'");
 			
 			$result =$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 			
@@ -229,7 +229,7 @@ class ThumbnailDataPart extends Part
 		$query = new SelectQuery;
 		$query->addTable("dr_thumbnail");
 		$query->addColumn("COUNT(*) as count");
-		$query->addWhere("FK_file = '".$this->_recordId->getIdString()."'");
+		$query->addWhere("fk_file = '".$this->_recordId->getIdString()."'");
 		$result =$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 		
 		// If it already exists, use an update query.
@@ -238,13 +238,13 @@ class ThumbnailDataPart extends Part
 			$query->setTable("dr_thumbnail");
 			$query->setColumns(array("data"));
 			$query->setValues(array("'".base64_encode($value)."'"));
-			$query->addWhere("FK_file = '".$this->_recordId->getIdString()."'");
+			$query->addWhere("fk_file = '".$this->_recordId->getIdString()."'");
 		}
 		// If it doesn't exist, use an insert query.
 		else {
 			$query = new InsertQuery;
 			$query->setTable("dr_thumbnail");
-			$query->setColumns(array("FK_file","data"));
+			$query->setColumns(array("fk_file","data"));
 			$query->setValues(array("'".$this->_recordId->getIdString()."'",
 									"'".base64_encode($value)."'"));
 		}

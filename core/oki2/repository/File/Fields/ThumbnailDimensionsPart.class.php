@@ -5,7 +5,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: ThumbnailDimensionsPart.class.php,v 1.6 2007/09/04 20:25:47 adamfranco Exp $
+ * @version $Id: ThumbnailDimensionsPart.class.php,v 1.7 2007/09/11 17:40:57 adamfranco Exp $
  */
  
 require_once(dirname(__FILE__)."/../getid3.getimagesize.php");
@@ -21,7 +21,7 @@ require_once(dirname(__FILE__)."/../getid3.getimagesize.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: ThumbnailDimensionsPart.class.php,v 1.6 2007/09/04 20:25:47 adamfranco Exp $
+ * @version $Id: ThumbnailDimensionsPart.class.php,v 1.7 2007/09/11 17:40:57 adamfranco Exp $
  */
 class ThumbnailDimensionsPart 
 	extends DimensionsPart
@@ -44,7 +44,7 @@ class ThumbnailDimensionsPart
 		$this->DimensionsPart($partStructure, $recordId, $configuration, $record, $asset);
 		
 		$this->_table = "dr_thumbnail";
-		$this->_idColumn = "FK_file";
+		$this->_idColumn = "fk_file";
 // 		$this->_widthColumn = 'thumb_width';
 // 		$this->_heightColumn = 'thumb_height';
 		$idManager = Services::getService("Id");

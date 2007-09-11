@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: MimeTypePart.class.php,v 1.11 2007/09/04 20:25:46 adamfranco Exp $
+ * @version $Id: MimeTypePart.class.php,v 1.12 2007/09/11 17:40:57 adamfranco Exp $
  */
 class MimeTypePart extends Part
 //	extends java.io.Serializable
@@ -254,7 +254,7 @@ class MimeTypePart extends Part
 		// add its id to the file.
 		$query = new UpdateQuery;
 		$query->setTable("dr_file");
-		$query->setColumns(array("FK_mime_type"));
+		$query->setColumns(array("fk_mime_type"));
 		$query->setValues(array($mimeId));
 		$query->addWhere("id = '".$this->_recordId->getIdString()."'");
 		

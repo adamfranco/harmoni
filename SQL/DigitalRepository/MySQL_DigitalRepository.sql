@@ -4,7 +4,7 @@
 -- @copyright Copyright &copy; 2005, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 --
--- @version $Id: MySQL_DigitalRepository.sql,v 1.19 2007/07/09 20:06:07 adamfranco Exp $
+-- @version $Id: MySQL_DigitalRepository.sql,v 1.20 2007/09/11 17:40:56 adamfranco Exp $
 -- */
 -- --------------------------------------------------------
 
@@ -29,10 +29,10 @@ CREATE TABLE dr_asset_info (
 -- 
 
 CREATE TABLE dr_asset_record (
-  FK_asset varchar(75) NOT NULL default '0',
-  FK_record varchar(75) NOT NULL default '0',
+  fk_asset varchar(75) NOT NULL default '0',
+  fk_record varchar(75) NOT NULL default '0',
   structure_id varchar(75) NOT NULL default '',
-  PRIMARY KEY  (structure_id,FK_asset,FK_record)
+  PRIMARY KEY  (structure_id,fk_asset,fk_record)
 ) 
 CHARACTER SET utf8
 TYPE=InnoDB;
@@ -46,7 +46,7 @@ TYPE=InnoDB;
 CREATE TABLE dr_file (
   id varchar(75) NOT NULL default '0',
   filename varchar(255) NOT NULL default '',
-  FK_mime_type int(10) unsigned default NULL,
+  fk_mime_type int(10) unsigned default NULL,
   size int(11) NOT NULL default '0',
   width int(11) default NULL,
   height int(11) default NULL,
@@ -61,9 +61,9 @@ CREATE TABLE dr_file (
 -- 
 
 CREATE TABLE dr_file_data (
-  FK_file varchar(75) NOT NULL default '0',
+  fk_file varchar(75) NOT NULL default '0',
   data longblob NOT NULL,
-  PRIMARY KEY  (FK_file)
+  PRIMARY KEY  (fk_file)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 MAX_ROWS=2000000000 AVG_ROW_LENGTH=500000;
 
 
@@ -103,12 +103,12 @@ TYPE=InnoDB;
 -- 
 
 CREATE TABLE dr_thumbnail (
-  FK_file varchar(75) NOT NULL default '0',
-  FK_mime_type int(10) unsigned default NULL,
+  fk_file varchar(75) NOT NULL default '0',
+  fk_mime_type int(10) unsigned default NULL,
   data mediumblob NOT NULL,
   width int(11) default NULL,
   height int(11) default NULL,
-  PRIMARY KEY  (FK_file)
+  PRIMARY KEY  (fk_file)
 ) 
 CHARACTER SET utf8
 TYPE=InnoDB;
@@ -139,13 +139,13 @@ TYPE=InnoDB;
 -- 
 
 CREATE TABLE dr_resized_cache (
-  FK_file varchar(75) NOT NULL default '0',
+  fk_file varchar(75) NOT NULL default '0',
   size int(11) NOT NULL default '0',
   websafe tinyint(1) NOT NULL default '0',
   cache_time timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
-  FK_mime_type int(10) unsigned default NULL,
+  fk_mime_type int(10) unsigned default NULL,
   `data` longblob NOT NULL,
-  PRIMARY KEY  (FK_file,size,websafe)
+  PRIMARY KEY  (fk_file,size,websafe)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table is use by polyphony.modules.repository';
 
 -- --------------------------------------------------------
@@ -168,7 +168,7 @@ CREATE TABLE dr_authoritative_values (
 -- 
 
 CREATE TABLE dr_file_url (
-  FK_file varchar(75) NOT NULL default '',
+  fk_file varchar(75) NOT NULL default '',
   url text NOT NULL,
-  PRIMARY KEY  (FK_file)
+  PRIMARY KEY  (fk_file)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

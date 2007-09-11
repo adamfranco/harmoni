@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileDataPart.class.php,v 1.12 2007/09/04 20:25:44 adamfranco Exp $
+ * @version $Id: FileDataPart.class.php,v 1.13 2007/09/11 17:40:57 adamfranco Exp $
  */
  
 class FileDataPart 
@@ -176,7 +176,7 @@ class FileDataPart
 			// Get the data from the database,
 			$query = new SelectQuery;
 			$query->addTable("dr_file");
-			$query->addTable("dr_file_data", LEFT_JOIN, "dr_file.id = dr_file_data.FK_file");
+			$query->addTable("dr_file_data", LEFT_JOIN, "dr_file.id = dr_file_data.fk_file");
 			$query->addColumn("data");
 			$query->addWhere("dr_file.id = '".$this->_recordId->getIdString()."'");
 			
@@ -229,7 +229,7 @@ class FileDataPart
 		$query = new SelectQuery;
 		$query->addTable("dr_file_data");
 		$query->addColumn("COUNT(*) as count");
-		$query->addWhere("FK_file = '".$this->_recordId->getIdString()."'");
+		$query->addWhere("fk_file = '".$this->_recordId->getIdString()."'");
 		$result =$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 		
 		// If it already exists, use an update query.
@@ -238,13 +238,13 @@ class FileDataPart
 			$query->setTable("dr_file_data");
 			$query->setColumns(array("data"));
 			$query->setValues(array("'".base64_encode($value)."'"));
-			$query->addWhere("FK_file = '".$this->_recordId->getIdString()."'");
+			$query->addWhere("fk_file = '".$this->_recordId->getIdString()."'");
 		}
 		// If it doesn't exist, use an insert query.
 		else {
 			$query = new InsertQuery;
 			$query->setTable("dr_file_data");
-			$query->setColumns(array("FK_file","data"));
+			$query->setColumns(array("fk_file","data"));
 			$query->setValues(array("'".$this->_recordId->getIdString()."'",
 									"'".base64_encode($value)."'"));
 		}

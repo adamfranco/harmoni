@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: ThumbnailMimeTypePart.class.php,v 1.12 2007/09/04 20:25:47 adamfranco Exp $
+ * @version $Id: ThumbnailMimeTypePart.class.php,v 1.13 2007/09/11 17:40:58 adamfranco Exp $
  */
 class ThumbnailMimeTypePart extends Part
 //	extends java.io.Serializable
@@ -178,8 +178,8 @@ class ThumbnailMimeTypePart extends Part
 			$query = new SelectQuery;
 			$query->addColumn("type");
 			$query->addTable("dr_thumbnail");
-			$query->addTable("dr_mime_type", INNER_JOIN, "FK_mime_type = dr_mime_type.id");
-			$query->addWhere("FK_file= '".$this->_recordId->getIdString()."'");
+			$query->addTable("dr_mime_type", INNER_JOIN, "fk_mime_type = dr_mime_type.id");
+			$query->addWhere("fk_file= '".$this->_recordId->getIdString()."'");
 			
 			$result =$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 			
@@ -254,9 +254,9 @@ class ThumbnailMimeTypePart extends Part
 		// add its id to the file.
 		$query = new UpdateQuery;
 		$query->setTable("dr_thumbnail");
-		$query->setColumns(array("FK_mime_type"));
+		$query->setColumns(array("fk_mime_type"));
 		$query->setValues(array($mimeId));
-		$query->addWhere("FK_file = '".$this->_recordId->getIdString()."'");
+		$query->addWhere("fk_file = '".$this->_recordId->getIdString()."'");
 		
 		// run the query
 		$dbHandler->query($query, $this->_configuration->getProperty("database_index"));

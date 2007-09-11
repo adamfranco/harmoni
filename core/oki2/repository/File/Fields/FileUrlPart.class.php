@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: FileUrlPart.class.php,v 1.2 2007/09/04 20:25:46 adamfranco Exp $
+ * @version $Id: FileUrlPart.class.php,v 1.3 2007/09/11 17:40:57 adamfranco Exp $
  */ 
 
 /**
@@ -18,7 +18,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: FileUrlPart.class.php,v 1.2 2007/09/04 20:25:46 adamfranco Exp $
+ * @version $Id: FileUrlPart.class.php,v 1.3 2007/09/11 17:40:57 adamfranco Exp $
  */
 class FileUrlPart
 	extends Part
@@ -174,7 +174,7 @@ class FileUrlPart
 			// Get the data from the database,
 			$query = new SelectQuery;
 			$query->addTable("dr_file");
-			$query->addTable("dr_file_url", LEFT_JOIN, "dr_file.id = dr_file_url.FK_file");
+			$query->addTable("dr_file_url", LEFT_JOIN, "dr_file.id = dr_file_url.fk_file");
 			$query->addColumn("url");
 			$query->addWhere("dr_file.id = '".$this->_recordId->getIdString()."'");
 			
@@ -226,7 +226,7 @@ class FileUrlPart
 		$query = new SelectQuery;
 		$query->addTable("dr_file_url");
 		$query->addColumn("COUNT(*) as count");
-		$query->addWhere("FK_file = '".$this->_recordId->getIdString()."'");
+		$query->addWhere("fk_file = '".$this->_recordId->getIdString()."'");
 		$result =$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 		
 		// If it already exists, use an update query.
@@ -235,13 +235,13 @@ class FileUrlPart
 			$query->setTable("dr_file_url");
 			$query->setColumns(array("url"));
 			$query->setValues(array("'".addslashes($value)."'"));
-			$query->addWhere("FK_file = '".$this->_recordId->getIdString()."'");
+			$query->addWhere("fk_file = '".$this->_recordId->getIdString()."'");
 		}
 		// If it doesn't exist, use an insert query.
 		else {
 			$query = new InsertQuery;
 			$query->setTable("dr_file_url");
-			$query->setColumns(array("FK_file","url"));
+			$query->setColumns(array("fk_file","url"));
 			$query->setValues(array("'".$this->_recordId->getIdString()."'",
 									"'".addslashes($value)."'"));
 		}

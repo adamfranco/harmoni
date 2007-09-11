@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAsset.class.php,v 1.47 2007/09/07 20:42:01 adamfranco Exp $
+ * @version $Id: HarmoniAsset.class.php,v 1.48 2007/09/11 17:40:56 adamfranco Exp $
  */
 
 require_once(HARMONI."oki2/repository/HarmoniAsset.interface.php");
@@ -26,7 +26,7 @@ require_once(dirname(__FILE__)."/FromNodesAssetIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniAsset.class.php,v 1.47 2007/09/07 20:42:01 adamfranco Exp $ 
+ * @version $Id: HarmoniAsset.class.php,v 1.48 2007/09/11 17:40:56 adamfranco Exp $ 
  */
 
 class HarmoniAsset
@@ -760,7 +760,7 @@ class HarmoniAsset
 			$dbHandler = Services::getService("DatabaseManager");
 			$query = new InsertQuery;
 			$query->setTable("dr_asset_record");
-			$query->setColumns(array("FK_asset", "FK_record", "structure_id"));
+			$query->setColumns(array("fk_asset", "fk_record", "structure_id"));
 			$myId =$this->getId();
 			$query->addRowOfValues(array(
 								"'".$myId->getIdString()."'",
@@ -870,8 +870,8 @@ class HarmoniAsset
 			// get the record ids that we want to inherit
 			$query = new SelectQuery();
 			$query->addTable("dr_asset_record");
-			$query->addColumn("FK_record");
-			$query->addWhere("FK_asset = '".$assetId->getIdString()."'");
+			$query->addColumn("fk_record");
+			$query->addWhere("fk_asset = '".$assetId->getIdString()."'");
 			$query->addWhere("structure_id = '".$recordStructureId->getIdString()."'", _AND);
 			
 			$result =$dbHandler->query($query, $this->_dbIndex);
@@ -880,14 +880,14 @@ class HarmoniAsset
 			$dbHandler = Services::getService("DatabaseManager");
 			$query = new InsertQuery;
 			$query->setTable("dr_asset_record");
-			$query->setColumns(array("FK_asset", "FK_record", "structure_id"));
+			$query->setColumns(array("fk_asset", "fk_record", "structure_id"));
 			
 			$myId =$this->getId();
 			
 			while ($result->hasMoreRows()) {
 				$query->addRowOfValues(array(
 									"'".$myId->getIdString()."'",
-									"'".$result->field("FK_record")."'",
+									"'".$result->field("fk_record")."'",
 									"'".$recordStructureId->getIdString()."'"));
 				$dbHandler->query($query, $this->_dbIndex);
 				$result->advanceRow();
@@ -1048,8 +1048,8 @@ class HarmoniAsset
 			$query = new DeleteQuery;
 			$query->setTable("dr_asset_record");
 			$myId =$this->getId();
-			$query->addWhere("FK_asset = '".$myId->getIdString()."'");
-			$query->addWhere("FK_record = '".$recordId->getIdString()."'");
+			$query->addWhere("fk_asset = '".$myId->getIdString()."'");
+			$query->addWhere("fk_record = '".$recordId->getIdString()."'");
 			
 			$result =$dbHandler->query($query, $this->_dbIndex);
 		}
@@ -1123,8 +1123,8 @@ class HarmoniAsset
 			$query = new SelectQuery();
 			$query->addTable("dr_asset_record");
 			$query->addColumn("structure_id");
-			$query->addWhere("FK_asset = '".$myId->getIdString()."'");
-			$query->addWhere("FK_record = '".$recordId->getIdString()."'", _AND);
+			$query->addWhere("fk_asset = '".$myId->getIdString()."'");
+			$query->addWhere("fk_record = '".$recordId->getIdString()."'", _AND);
 			
 			$result =$dbHandler->query($query, $this->_dbIndex);
 			
@@ -1227,13 +1227,13 @@ class HarmoniAsset
 		
 		$query = new SelectQuery();
 		$query->addTable("dr_asset_record");
-		$query->addColumn("FK_record");
-		$query->addWhere("FK_asset = '".$myId->getIdString()."'");
+		$query->addColumn("fk_record");
+		$query->addWhere("fk_asset = '".$myId->getIdString()."'");
 		
 		$result =$dbHandler->query($query, $this->_dbIndex);
 		
 		while ($result->hasMoreRows()) {
-			$recordId =$idManager->getId($result->field("FK_record"));
+			$recordId =$idManager->getId($result->field("fk_record"));
 			
 			$records[] =$this->getRecord($recordId);
 			
@@ -1288,14 +1288,14 @@ class HarmoniAsset
 			
 			$query = new SelectQuery();
 			$query->addTable("dr_asset_record");
-			$query->addColumn("FK_record");
-			$query->addWhere("FK_asset = '".$myId->getIdString()."'");
+			$query->addColumn("fk_record");
+			$query->addWhere("fk_asset = '".$myId->getIdString()."'");
 			$query->addWhere("structure_id = '".$recordStructureId->getIdString()."'", _AND);
 			
 			$result =$dbHandler->query($query, $this->_dbIndex);
 			
 			while ($result->hasMoreRows()) {
-				$recordId =$idManager->getId($result->field("FK_record"));
+				$recordId =$idManager->getId($result->field("fk_record"));
 				
 				$records[] =$this->getRecord($recordId);
 				

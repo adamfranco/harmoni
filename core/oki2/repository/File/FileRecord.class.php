@@ -29,7 +29,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileRecord.class.php,v 1.26 2007/09/04 20:25:44 adamfranco Exp $ 
+ * @version $Id: FileRecord.class.php,v 1.27 2007/09/11 17:40:57 adamfranco Exp $ 
  */
 class FileRecord 
 	extends RecordInterface
@@ -254,13 +254,13 @@ class FileRecord
 				// Delete the data
 				$query = new DeleteQuery();
 				$query->setTable("dr_file_data");
-				$query->setWhere("FK_file = '".$this->_id->getIdString()."'");
+				$query->setWhere("fk_file = '".$this->_id->getIdString()."'");
 				$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 				
 				// Delete the thumbnail
 				$query = new DeleteQuery();
 				$query->setTable("dr_thumbnail");
-				$query->setWhere("FK_file = '".$this->_id->getIdString()."'");
+				$query->setWhere("fk_file = '".$this->_id->getIdString()."'");
 				$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 				
 				// delete the file row.
@@ -384,10 +384,10 @@ class FileRecord
 		// Check to see if the data is in the database
 		$query = new SelectQuery;
 		$query->addTable("dr_file");
-		$query->addTable("dr_file_data", LEFT_JOIN, "dr_file.id = dr_file_data.FK_file");
-		$query->addTable("dr_thumbnail", LEFT_JOIN, "dr_file.id = dr_thumbnail.FK_file");
-		$query->addTable("dr_mime_type", LEFT_JOIN, "dr_file.FK_mime_type = file_mime_type.id", "file_mime_type");
-		$query->addTable("dr_mime_type", LEFT_JOIN, "dr_thumbnail.FK_mime_type = thumbnail_mime_type.id", "thumbnail_mime_type");
+		$query->addTable("dr_file_data", LEFT_JOIN, "dr_file.id = dr_file_data.fk_file");
+		$query->addTable("dr_thumbnail", LEFT_JOIN, "dr_file.id = dr_thumbnail.fk_file");
+		$query->addTable("dr_mime_type", LEFT_JOIN, "dr_file.fk_mime_type = file_mime_type.id", "file_mime_type");
+		$query->addTable("dr_mime_type", LEFT_JOIN, "dr_thumbnail.fk_mime_type = thumbnail_mime_type.id", "thumbnail_mime_type");
 		$query->addColumn("filename", "FILE_NAME");
 		$query->addColumn("size", "FILE_SIZE");
 		$query->addColumn("file_mime_type.type", "MIME_TYPE");
@@ -472,9 +472,9 @@ class FileRecord
     	
     	$query = new SelectQuery;
 		$query->addTable("dr_file");
-		$query->addTable("dr_thumbnail", LEFT_JOIN, "dr_file.id = dr_thumbnail.FK_file");
-		$query->addTable("dr_mime_type", LEFT_JOIN, "dr_file.FK_mime_type = file_mime_type.id", "file_mime_type");
-		$query->addTable("dr_mime_type", LEFT_JOIN, "dr_thumbnail.FK_mime_type = thumbnail_mime_type.id", "thumbnail_mime_type");
+		$query->addTable("dr_thumbnail", LEFT_JOIN, "dr_file.id = dr_thumbnail.fk_file");
+		$query->addTable("dr_mime_type", LEFT_JOIN, "dr_file.fk_mime_type = file_mime_type.id", "file_mime_type");
+		$query->addTable("dr_mime_type", LEFT_JOIN, "dr_thumbnail.fk_mime_type = thumbnail_mime_type.id", "thumbnail_mime_type");
 		$query->addColumn("filename");
 		$query->addColumn("size");
 		$query->addColumn("dr_file.width", "file_width");
