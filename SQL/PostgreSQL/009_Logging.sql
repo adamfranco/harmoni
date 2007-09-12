@@ -73,6 +73,7 @@ CREATE TABLE log_agent (
 ALTER TABLE ONLY log_agent
 	ADD CONSTRAINT log_agent_fk_entry_fkey FOREIGN KEY (fk_entry) REFERENCES "log_entry"(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
+CREATE INDEX log_agent_fk_agent_index ON log_agent (fk_agent);
 
 
 -- --------------------------------------------------------
@@ -89,3 +90,5 @@ CREATE TABLE log_node (
 
 ALTER TABLE ONLY log_node
 	ADD CONSTRAINT log_node_fk_entry_fkey FOREIGN KEY (fk_entry) REFERENCES "log_entry"(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+CREATE INDEX log_node_fk_node_index ON log_node (fk_node);
