@@ -66,15 +66,14 @@ ALTER TABLE ONLY log_entry
 -- 
 
 CREATE TABLE log_agent (
-  fk_entry varchar(70) NOT NULL default '',
+  fk_entry INTEGER NOT NULL,
   fk_agent varchar(70) NOT NULL default ''
 );
 
 ALTER TABLE ONLY log_agent
-	ADD CONSTRAINT log_agent_primary_key PRIMARY KEY (fk_entry, fk_agent);
-
-ALTER TABLE ONLY log_agent
 	ADD CONSTRAINT log_agent_fk_entry_fkey FOREIGN KEY (fk_entry) REFERENCES "log_entry"(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
 
 -- --------------------------------------------------------
 
@@ -83,13 +82,10 @@ ALTER TABLE ONLY log_agent
 -- 
 
 CREATE TABLE log_node (
-  fk_entry varchar(70) NOT NULL default '',
+  fk_entry INTEGER NOT NULL,
   fk_node varchar(70) NOT NULL default '',
   PRIMARY KEY  (fk_entry,fk_node)
 );
-
-ALTER TABLE ONLY log_node
-	ADD CONSTRAINT log_node_primary_key PRIMARY KEY (fk_entry, fk_node);
 
 ALTER TABLE ONLY log_node
 	ADD CONSTRAINT log_node_fk_entry_fkey FOREIGN KEY (fk_entry) REFERENCES "log_entry"(id) ON UPDATE CASCADE ON DELETE CASCADE;
