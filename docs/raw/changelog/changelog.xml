@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.162 2007/09/11 18:53:12 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.163 2007/09/13 16:12:20 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -16,6 +16,31 @@
 			harmoni/core/DBHandler/db_updater.php
 		</important>
 		
+		<important author='adam' date='2007-09-13'>
+			Hierarchy: The node relation and ancestory tables, j_node_node and node_ancestory
+			were both missing a reference to the hierarchy for which the node id was valid.
+			This could cause conflicts if node ids are repeated in separate hiearchies.
+			Existing Harmoni databases will need to have these columns added and the data
+			updated.
+		</important>
+		
+		<important author='adam' date='2007-09-13'>
+			Scheduling: Two sc_item columns "start" and "end" conflict with reserved
+			words in PostgreSQL. Existing Harmoni databases will need to have these columns added and the data
+			updated.
+		</important>
+		
+		<fix author='adam' date='2007-09-13'>
+			ErrorHandler: Fixed reliance on methods in the HarmoniException class
+			when printing.
+		</fix>
+		<fix author='adam' date='2007-09-13'>
+			Fixed numerous MySQL-specific SQL statements that didn't work with PostgreSQL.
+		</fix>
+		<fix author='adam' date='2007-09-13'>
+			Added auto-increment-column designators to appropriate Insert Queries
+			so that the sequence-values could be accessed when using PostgreSQL.
+		</fix>
 		<new author='adam' date='2007-09-11'>
 			DBHandler: Can now run an entire directory tree full of sql files.
 		</new>
