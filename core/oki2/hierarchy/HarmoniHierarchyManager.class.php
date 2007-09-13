@@ -44,7 +44,7 @@ require_once(HARMONI.'/oki2/id/HarmoniIdManager.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniHierarchyManager.class.php,v 1.27 2007/09/04 20:25:41 adamfranco Exp $
+ * @version $Id: HarmoniHierarchyManager.class.php,v 1.28 2007/09/13 16:04:20 adamfranco Exp $
  */
 class HarmoniHierarchyManager 
 	extends HierarchyManager {
@@ -56,14 +56,6 @@ class HarmoniHierarchyManager
 	 * @access protected
 	 */
 	var $_dbIndex;
-
-	
-	/**
-	 * The name of the hierarchy database.
-	 * @var string _hierarchyDB 
-	 * @access protected
-	 */
-	var $_hyDB;
 	
 	
 	/**
@@ -126,7 +118,6 @@ class HarmoniHierarchyManager
 		// ** end of parameter validation
 		
 		$this->_dbIndex = $dbIndex;
-		$this->_hyDB = $dbName;
 	}
 
 	/**
@@ -203,7 +194,6 @@ class HarmoniHierarchyManager
 			throwError(new Error(HierarchyException::UNSUPPORTED_CREATION(), "HierarchyManager", 1));
 		
 		$dbHandler = Services::getService("DatabaseManager");
-		$db = $this->_hyDB.".";
 
 		// Create an Id for the Hierarchy
 		if (!is_object($id)) {
@@ -214,7 +204,7 @@ class HarmoniHierarchyManager
 		
 
 		$query = new InsertQuery();
-		$query->setTable($db."hierarchy");
+		$query->setTable("hierarchy");
 		$columns = array();
 		$columns[] = "hierarchy_id";
 		$columns[] = "hierarchy_display_name";
@@ -234,7 +224,7 @@ class HarmoniHierarchyManager
 		// Create a new hierarchy and insert it into the database
 		$hierarchy = new HarmoniHierarchy($id, $displayName, $description,
 			new HierarchyCache($idValue, $allowsMultipleParents, $this->_dbIndex, 
-		   		$this->_hyDB, DateAndTime::now()));
+		   		DateAndTime::now()));
 		
 		// then cache it
 		$this->_hierarchies[$idValue] =$hierarchy;
@@ -280,15 +270,14 @@ class HarmoniHierarchyManager
 			return $this->_hierarchies[$idValue];
 
 		$dbHandler = Services::getService("DatabaseManager");
-		$db = $this->_hyDB.".";
 		
 		$query = new SelectQuery();
-		$query->addColumn("hierarchy_id", "id", $db."hierarchy");
-		$query->addColumn("hierarchy_display_name", "display_name", $db."hierarchy");
-		$query->addColumn("hierarchy_description", "description", $db."hierarchy");
-		$query->addColumn("hierarchy_multiparent", "multiparent", $db."hierarchy");
-		$query->addTable($db."hierarchy");
-		$query->addWhere($db."hierarchy.hierarchy_id = '{$idValue}'");
+		$query->addColumn("hierarchy_id", "id", "hierarchy");
+		$query->addColumn("hierarchy_display_name", "display_name", "hierarchy");
+		$query->addColumn("hierarchy_description", "description", "hierarchy");
+		$query->addColumn("hierarchy_multiparent", "multiparent", "hierarchy");
+		$query->addTable("hierarchy");
+		$query->addWhere("hierarchy.hierarchy_id = '{$idValue}'");
 
 		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 		
@@ -304,7 +293,7 @@ class HarmoniHierarchyManager
 		$id = $idManager->getId($idValue);
 		$allowsMultipleParents = ($row['multiparent'] == '1');
 		
-		$cache = new HierarchyCache($idValue, $allowsMultipleParents, $this->_dbIndex, $this->_hyDB);
+		$cache = new HierarchyCache($idValue, $allowsMultipleParents, $this->_dbIndex);
 		
 		$hierarchy = new HarmoniHierarchy($id, $row['display_name'], $row['description'], $cache);
 
@@ -337,14 +326,13 @@ class HarmoniHierarchyManager
 	function getHierarchies () { 
 		if(!$this->_allHierarchiesCached) {
 			$dbHandler = Services::getService("DatabaseManager");
-			$db = $this->_hyDB.".";
 			
 			$query = new SelectQuery();
-			$query->addColumn("hierarchy_id", "id", $db."hierarchy");
-			$query->addColumn("hierarchy_display_name", "display_name", $db."hierarchy");
-			$query->addColumn("hierarchy_description", "description", $db."hierarchy");
-			$query->addColumn("hierarchy_multiparent", "multiparent", $db."hierarchy");
-			$query->addTable($db."hierarchy");
+			$query->addColumn("hierarchy_id", "id", "hierarchy");
+			$query->addColumn("hierarchy_display_name", "display_name", "hierarchy");
+			$query->addColumn("hierarchy_description", "description", "hierarchy");
+			$query->addColumn("hierarchy_multiparent", "multiparent", "hierarchy");
+			$query->addTable("hierarchy");
 	
 			$queryResult =$dbHandler->query($query, $this->_dbIndex);
 			
@@ -362,7 +350,7 @@ class HarmoniHierarchyManager
 					$id =$idManager->getId($idValue);
 					$allowsMultipleParents = ($row['multiparent'] == '1');
 			
-					$cache = new HierarchyCache($idValue, $allowsMultipleParents, $this->_dbIndex, $this->_hyDB);
+					$cache = new HierarchyCache($idValue, $allowsMultipleParents, $this->_dbIndex);
 							
 					$hierarchy = new HarmoniHierarchy($id, $row['display_name'], $row['description'], $cache);
 					$this->_hierarchies[$idValue] =$hierarchy;
@@ -412,13 +400,12 @@ class HarmoniHierarchyManager
 		// ** end of parameter validation
 		
 		$dbHandler = Services::getService("DatabaseManager");
-		$db = $this->_hyDB.".";
 		
 		$idValue = $hierarchyId->getIdString();
 		
 		// see if there are any nodes remaining that have to removed
 		$query = new SelectQuery();
-		$query->addTable($db."node");
+		$query->addTable("node");
 		$query->addColumn("COUNT({$db}node.node_id)", "num");
 		$query->addWhere("{$db}node.fk_hierarchy = '{$idValue}'");
 
@@ -434,7 +421,7 @@ class HarmoniHierarchyManager
 		
 		// now delete it
 		$query = new DeleteQuery();
-		$query->setTable($db."hierarchy");
+		$query->setTable("hierarchy");
 		$query->addWhere("{$db}hierarchy.hierarchy_id = '{$idValue}'");
 		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 		if ($queryResult->getNumberOfRows() != 1) {
@@ -494,13 +481,12 @@ class HarmoniHierarchyManager
 		$dbHandler = Services::getService("DatabaseManager");
 
 		// find the hierarchy id for this node
-		$db = $this->_hyDB.".";
 		$query = new SelectQuery();
-		$query->addColumn("fk_hierarchy", "hierarchy_id", $db."node");
-		$query->addTable($db."node");
-		$joinc = $db."node.fk_hierarchy = ".$db."hierarchy.hierarchy_id";
-		$query->addTable($db."hierarchy", INNER_JOIN, $joinc);
-		$where = $db."node.node_id = '".addslashes($idValue)."'";
+		$query->addColumn("fk_hierarchy", "hierarchy_id", "node");
+		$query->addTable("node");
+		$joinc = "node.fk_hierarchy = "."hierarchy.hierarchy_id";
+		$query->addTable("hierarchy", INNER_JOIN, $joinc);
+		$where = "node.node_id = '".addslashes($idValue)."'";
 		$query->addWhere($where);
 		
 		$nodeQueryResult =$dbHandler->query($query, $this->_dbIndex);

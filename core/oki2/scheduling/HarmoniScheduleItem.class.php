@@ -129,7 +129,7 @@ extends ScheduleItem
      * @access public
      */
     function updateStart ( $start ) { 
-       $this->_setField('start', $start);
+       $this->_setField('start_date', $start);
     } 
 
     /**
@@ -154,7 +154,7 @@ extends ScheduleItem
      * @access public
      */
     function updateEnd ( $end ) { 
-        $this->_setField('end', $end);
+        $this->_setField('end_date', $end);
     } 
 
     /**
@@ -308,7 +308,7 @@ extends ScheduleItem
      * @access public
      */
     function getStart () { 
-        return $this->_getField('start');
+        return $this->_getField('start_date');
     } 
 
     /**
@@ -331,7 +331,7 @@ extends ScheduleItem
      * @access public
      */
     function getEnd () { 
-       return $this->_getField('end');
+       return $this->_getField('end_date');
     } 
 
     /**
@@ -692,8 +692,8 @@ extends ScheduleItem
 		$property->addProperty('display_name', $row['name']);
 		$property->addProperty('description', $row['description']);	
 		$property->addProperty('id', $idManager->getId( $row['id']));		
-		$property->addProperty('start', $row['start']);
-		$property->addProperty('end', $row['end']);		
+		$property->addProperty('start', $row['start_date']);
+		$property->addProperty('end', $row['end_date']);		
 		$property->addProperty('master_identifier', $row['master_id']);
 		$property->addProperty('status_type', $type);
 

@@ -4,7 +4,7 @@
 -- @copyright Copyright &copy; 2005, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 --
--- @version $Id: 010_DataManager.sql,v 1.1 2007/09/12 21:10:41 adamfranco Exp $
+-- @version $Id: 010_DataManager.sql,v 1.2 2007/09/13 16:04:16 adamfranco Exp $
 -- */
 -- --------------------------------------------------------
 
@@ -30,7 +30,7 @@ ALTER TABLE ONLY dm_blob
 
 CREATE TABLE dm_boolean (
   id varchar(75) NOT NULL,
-  data BOOLEAN NOT NULL
+  data smallint NOT NULL
 );
 
 ALTER TABLE ONLY dm_boolean
@@ -107,7 +107,7 @@ CREATE TABLE dm_schema (
   displayname varchar(100) NOT NULL,
   description text NOT NULL,
   revision int NOT NULL default '0',
-  active BOOLEAN NOT NULL default '1',
+  active smallint NOT NULL default '1',
   other_params text
 );
 
@@ -124,10 +124,10 @@ CREATE TABLE dm_schema_field (
   id varchar(255) NOT NULL,
   fk_schema varchar(255) NOT NULL,
   name varchar(255) NOT NULL default '',
-  mult BOOLEAN NOT NULL default '0',
+  mult smallint NOT NULL default '0',
   fieldtype varchar(255) NOT NULL default '',
-  active BOOLEAN NOT NULL default '0',
-  required BOOLEAN NOT NULL default '0',
+  active smallint NOT NULL default '0',
+  required smallint NOT NULL default '0',
   description text NOT NULL
 );
 
@@ -147,7 +147,7 @@ CREATE TABLE dm_record (
   id varchar(75) NOT NULL,
   fk_schema varchar(255) NOT NULL,
   created timestamp with time zone NOT NULL default CURRENT_TIMESTAMP,
-  ver_control BOOLEAN NOT NULL default '0'
+  ver_control smallint NOT NULL default '0'
 );
 
 
@@ -169,7 +169,7 @@ CREATE TABLE dm_record_field (
   fk_schema_field varchar(255) NOT NULL,
   value_index int NOT NULL default '0',
   fk_data varchar(75) NOT NULL,
-  active BOOLEAN NOT NULL default '0',
+  active smallint NOT NULL default '0',
   modified timestamp with time zone NOT NULL default CURRENT_TIMESTAMP
 );
 

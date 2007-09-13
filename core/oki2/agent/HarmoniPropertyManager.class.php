@@ -35,7 +35,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniPropertyManager.class.php,v 1.7 2007/09/04 20:25:36 adamfranco Exp $
+ * @version $Id: HarmoniPropertyManager.class.php,v 1.8 2007/09/13 16:04:17 adamfranco Exp $
  *
  * @author Ben Gore
  */
@@ -63,15 +63,12 @@ class HarmoniPropertyManager
 		$this->_configuration =$configuration;
 		
 		$dbIndex =$configuration->getProperty('database_index');
-		$dbName =$configuration->getProperty('database_name');
 		
 		// ** parameter validation
 		ArgumentValidator::validate($dbIndex, IntegerValidatorRule::getRule(), true);
-		ArgumentValidator::validate($dbName, StringValidatorRule::getRule(), true);
 		// ** end of parameter validation
 		
 		$this->_dbIndex = $dbIndex;
-		$this->_sharedDB = $dbName;
 	
 	}
 	
@@ -124,8 +121,8 @@ class HarmoniPropertyManager
 		
 		//select the properties associated with this object (usually an agent)
 		$query = new SelectQuery();
-		$query->addTable($this->_sharedDB.".agent_properties");
-		$query->addTable($this->_sharedDB.".type", LEFT_JOIN, "agent_properties.fk_type_id=type.type_id");
+		$query->addTable("agent_properties");
+		$query->addTable("type", LEFT_JOIN, "agent_properties.fk_type_id=type.type_id");
 		$query->addColumn("*");
 		$query->addWhere("fk_object_id='".addslashes($object_id_string)."'");
 		$query->addOrderBy("fk_type_id");
@@ -183,7 +180,7 @@ class HarmoniPropertyManager
 		
 		//If we don't delete them all every time we store then if we've deleted one off of the object it will remain in the DB
 		$query = new DeleteQuery();
-		$query->setTable($this->_sharedDB.".agent_properties");
+		$query->setTable("agent_properties");
 		$query->addWhere("fk_object_id='$object_id' AND fk_type_id='$typeIdString'");
 		
 		$dbHandler->query($query, $this->_dbIndex);
@@ -195,7 +192,7 @@ class HarmoniPropertyManager
 			$propertyValue =$properties->getProperty($key);//get the value of the property
 						
 			$query = new InsertQuery();
-			$query->setTable($this->_sharedDB.".agent_properties");
+			$query->setTable("agent_properties");
 			$query->setColumns(array("fk_object_id","fk_type_id", "property_key", "property_value"));
 			$query->addRowOfValues(array("'".addslashes($object_id)."'", $typeIdString, "'".addslashes($key)."'", "'".addslashes($propertyValue)."'"));
 		//	}
@@ -247,6 +244,7 @@ class HarmoniPropertyManager
 			$result->free();
 			$query = new InsertQuery;
 			$query->setTable("type");
+			$query->setAutoIncrementColumn("type_id", "type_type_id_seq");
 			$query->setColumns(array(
 								"type_domain",
 								"type_authority",
@@ -281,7 +279,7 @@ class HarmoniPropertyManager
 	 	
 	 	//create a query to remove all properties associated with $object_id_string
 	 	$query= new DeleteQuery();
-	 	$query->setTable($this->_sharedDB.".agent_properties");
+	 	$query->setTable("agent_properties");
 	 	$query->addWhere("fk_object_id='$object_id_string'");
 	 	
 	 	$result =$dbHandler->query($query, $this->_dbIndex);
@@ -327,11 +325,11 @@ class HarmoniPropertyManager
 		
 		//select the propertykeys
 		$query = new SelectQuery();
-		$query->addTable($this->_sharedDB.".agent_properties");
+		$query->addTable("agent_properties");
 		
 		$query->addColumn("DISTINCT property_key");
 		
-// 		$query->addTable($this->_sharedDB.".type", LEFT_JOIN, "agent_properties.fk_type_id=type.type_id");
+// 		$query->addTable("type", LEFT_JOIN, "agent_properties.fk_type_id=type.type_id");
 		
 // 		$query->addColumn("property_key");
 // 		$query->addColumn("type_domain");

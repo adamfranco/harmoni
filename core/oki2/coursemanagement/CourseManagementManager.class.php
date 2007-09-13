@@ -6,7 +6,7 @@
 * @copyright Copyright &copy; 2006, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.50 2007/09/04 20:25:39 adamfranco Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.51 2007/09/13 16:04:18 adamfranco Exp $
 */
 
 require_once(OKI2."/osid/coursemanagement/CourseManagementManager.php");
@@ -100,7 +100,7 @@ require_once(HARMONI."oki2/coursemanagement/TermIterator.class.php");
 * @copyright Copyright &copy; 2005, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseManagementManager.class.php,v 1.50 2007/09/04 20:25:39 adamfranco Exp $
+* @version $Id: CourseManagementManager.class.php,v 1.51 2007/09/13 16:04:18 adamfranco Exp $
 */
 class HarmoniCourseManagementManager
 extends CourseManagementManager
@@ -1218,7 +1218,7 @@ extends CourseManagementManager
 		$values[]="'".addslashes($courseGrade)."'";
 
 		$query->addRowOfValues($values);
-		$query->setAutoIncrementColumn('id','id_sequence');
+		$query->setAutoIncrementColumn('id','cm_grade_rec_id_seq');
 
 		$result =  $dbManager->query($query);
 		$id = $result->getLastAutoIncrementValue();
@@ -1777,7 +1777,7 @@ extends CourseManagementManager
 			}
 
 			$query->addRowOfValues($values);
-			$query->setAutoIncrementColumn('id','id_sequence');
+			$query->setAutoIncrementColumn('id','cm_'.$typename.'_type_id_seq');
 
 
 			$result =$dbHandler->query($query);

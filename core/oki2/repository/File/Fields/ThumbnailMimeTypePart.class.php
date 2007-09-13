@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: ThumbnailMimeTypePart.class.php,v 1.13 2007/09/11 17:40:58 adamfranco Exp $
+ * @version $Id: ThumbnailMimeTypePart.class.php,v 1.14 2007/09/13 16:04:21 adamfranco Exp $
  */
 class ThumbnailMimeTypePart extends Part
 //	extends java.io.Serializable
@@ -236,6 +236,7 @@ class ThumbnailMimeTypePart extends Part
 			if (!$result->getNumberOfRows()) {
 				$query = new InsertQuery;
 				$query->setTable("dr_mime_type");
+				$query->setAutoIncrementColumn("id", "dr_mime_type_id_seq");
 				$query->setColumns(array("type"));
 				$query->setValues(array("'".addslashes($this->_type)."'"));
 				

@@ -33,7 +33,7 @@ require_once(HARMONI."oki2/hierarchy/HarmoniTraversalInfoIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HierarchyCache.class.php,v 1.37 2007/09/04 21:38:17 adamfranco Exp $
+ * @version $Id: HierarchyCache.class.php,v 1.38 2007/09/13 16:04:20 adamfranco Exp $
  **/
 
 class HierarchyCache {
@@ -75,13 +75,6 @@ class HierarchyCache {
 	var $_dbIndex;
 
 	
-	/**
-	 * The name of the hierarchy database.
-	 * @var string _hierarchyDB 
-	 * @access protected
-	 */
-	var $_hyDB;
-	
 	
 	/**
 	 * The id of the hierarchy.
@@ -122,11 +115,10 @@ class HierarchyCache {
 	 * Constructor
 	 * @param mixed hierarchyId The id of the corresponding hierarchy.
 	 * @param integer dbIndex The database connection as returned by the DBHandler.
-	 * @param string hyDB The name of the hierarchy database.
 	 * @param object DateAndTime $lastStructureUpdate
 	 * @access protected
 	 */
-	function HierarchyCache($hierarchyId, $allowsMultipleParents, $dbIndex, $hyDB) {
+	function HierarchyCache($hierarchyId, $allowsMultipleParents, $dbIndex) {
 		// ** parameter validation
 		ArgumentValidator::validate($hierarchyId, 
 			OrValidatorRule::getRule(
@@ -135,31 +127,28 @@ class HierarchyCache {
 			true);
 		ArgumentValidator::validate($allowsMultipleParents, BooleanValidatorRule::getRule(), true);
 		ArgumentValidator::validate($dbIndex, IntegerValidatorRule::getRule(), true);
-		ArgumentValidator::validate($hyDB, StringValidatorRule::getRule(), true);
 		// ** end of parameter validation
 
 		$this->_tree = new Tree();
 		$this->_cache = array();
 		$this->_dbIndex = $dbIndex;
-		$this->_hyDB = $hyDB;
 		$this->_hierarchyId = $hierarchyId;
 		$this->_allowsMultipleParents = $allowsMultipleParents;
 
 		// initialize a generic SELECT query to fetch one node from the DB
-		$db = $this->_hyDB.".";
 		$this->_nodeQuery = new SelectQuery();
-		$this->_nodeQuery->addColumn("node_id", "id", $db."node");
-		$this->_nodeQuery->addColumn("node_display_name", "display_name", $db."node");
-		$this->_nodeQuery->addColumn("node_description", "description", $db."node");
-		$this->_nodeQuery->addColumn("fk_hierarchy", "hierarchy_id", $db."node");
-		$this->_nodeQuery->addColumn("type_domain", "domain", $db."type");
-		$this->_nodeQuery->addColumn("type_authority", "authority", $db."type");
-		$this->_nodeQuery->addColumn("type_keyword", "keyword", $db."type");
-		$this->_nodeQuery->addColumn("type_description", "type_description", $db."type");
-		$this->_nodeQuery->addTable($db."node");
-		$this->_nodeQuery->addOrderBy($db."node.node_id");
-		$joinc = $db."node.fk_type = ".$db."type.type_id";
-		$this->_nodeQuery->addTable($db."type", INNER_JOIN, $joinc);
+		$this->_nodeQuery->addColumn("node_id", "id", "node");
+		$this->_nodeQuery->addColumn("node_display_name", "display_name", "node");
+		$this->_nodeQuery->addColumn("node_description", "description", "node");
+		$this->_nodeQuery->addColumn("fk_hierarchy", "hierarchy_id", "node");
+		$this->_nodeQuery->addColumn("type_domain", "domain", "type");
+		$this->_nodeQuery->addColumn("type_authority", "authority", "type");
+		$this->_nodeQuery->addColumn("type_keyword", "keyword", "type");
+		$this->_nodeQuery->addColumn("type_description", "type_description", "type");
+		$this->_nodeQuery->addTable("node");
+		$this->_nodeQuery->addOrderBy("node_id");
+		$joinc = "fk_type = "."type_id";
+		$this->_nodeQuery->addTable("type", INNER_JOIN, $joinc);
 		
 		$this->_infoCache = array();
 	}
@@ -317,15 +306,16 @@ class HierarchyCache {
 		$this->_tree->addNode($childTreeNode, $parentTreeNode, true);
 
 		// 2) update the database
-		$db = $this->_hyDB.".";
 		$dbHandler = Services::getService("DatabaseManager");
 		$query = new InsertQuery();
-		$query->setTable($db."j_node_node");
+		$query->setTable("j_node_node");
 		$columns = array();
-		$columns[] = $db."j_node_node.fk_parent";
-		$columns[] = $db."j_node_node.fk_child";
+		$columns[] = "fk_hierarchy";
+		$columns[] = "fk_parent";
+		$columns[] = "fk_child";
 		$query->setColumns($columns);
 		$values = array();
+		$values[] = "'".addslashes($this->_hierarchyId)."'";
 		$values[] = "'".addslashes($parentIdValue)."'";
 		$values[] = "'".addslashes($childIdValue)."'";
 		$query->setValues($values);
@@ -384,12 +374,12 @@ class HierarchyCache {
 		$parentTreeNode->detachChild($childTreeNode);
 
 		// 2) update the database
-		$db = $this->_hyDB.".";
 		$dbHandler = Services::getService("DatabaseManager");
 		$query = new DeleteQuery();
-		$query->setTable($db."j_node_node");
-		$query->addWhere($db."j_node_node.fk_parent = '".addslashes($parentIdValue)."'");
-		$query->addWhere($db."j_node_node.fk_child = '".addslashes($childIdValue)."'");
+		$query->setTable("j_node_node");
+		$query->addWhere("fk_hierarchy= '".addslashes($this->_hierarchyId)."'");
+		$query->addWhere("fk_parent = '".addslashes($parentIdValue)."'");
+		$query->addWhere("fk_child = '".addslashes($childIdValue)."'");
 		
 //		echo "<pre>\n";
 //		echo MySQL_SQLGenerator::generateSQLQuery($query);
@@ -423,7 +413,7 @@ class HierarchyCache {
 
 		$this->_nodeQuery->resetWhere();
 		$this->_nodeQuery->addWhere($where);
-		$this->_nodeQuery->addWhere($this->_hyDB."."."node.fk_hierarchy = '".addslashes($this->_hierarchyId)."'");
+		$this->_nodeQuery->addWhere("fk_hierarchy = '".addslashes($this->_hierarchyId)."'");
 
 		$nodeQueryResult =$dbHandler->query($this->_nodeQuery, $this->_dbIndex);
 		
@@ -459,26 +449,25 @@ class HierarchyCache {
 		$dbHandler = Services::getService("DatabaseManager");
 		$idManager = Services::getService("Id");
 
-		$db = $this->_hyDB.".";
 		$query = new SelectQuery();
-		$query->addColumn("node_id", "id", $db."node");
-		$query->addColumn("node_display_name", "display_name", $db."node");
-		$query->addColumn("node_description", "description", $db."node");
-		$query->addColumn("type_domain", "domain", $db."type");
-		$query->addColumn("type_authority", "authority", $db."type");
-		$query->addColumn("type_keyword", "keyword", $db."type");
-		$query->addColumn("type_description", "type_description", $db."type");
-		$query->addColumn("fk_parent", "parent_id", $db."j_node_node");
+		$query->addColumn("node_id", "id", "node");
+		$query->addColumn("node_display_name", "display_name", "node");
+		$query->addColumn("node_description", "description", "node");
+		$query->addColumn("type_domain", "domain", "type");
+		$query->addColumn("type_authority", "authority", "type");
+		$query->addColumn("type_keyword", "keyword", "type");
+		$query->addColumn("type_description", "type_description", "type");
+		$query->addColumn("fk_parent", "parent_id", "j_node_node");
 
-		$query->addTable($db."node");
-		$joinc = $db."node.fk_type = ".$db."type.type_id";
-		$query->addTable($db."type", INNER_JOIN, $joinc);
-		$joinc = $db."node.node_id = ".$db."j_node_node.fk_child";
-		$query->addTable($db."j_node_node", LEFT_JOIN, $joinc);
+		$query->addTable("node");
+		$joinc = "fk_type = type_id";
+		$query->addTable("type", INNER_JOIN, $joinc);
+		$joinc = "node_id = fk_child AND node.fk_hierarchy = j_node_node.fk_hierarchy";
+		$query->addTable("j_node_node", LEFT_JOIN, $joinc);
 
-		$query->addWhere($db."node.fk_hierarchy = '".addslashes($this->_hierarchyId)."'");
+		$query->addWhere("node.fk_hierarchy = '".addslashes($this->_hierarchyId)."'");
 
-		$query->addOrderBy($db."node.node_id");
+		$query->addOrderBy("node_id");
 		
 		$nodeQueryResult =$dbHandler->query($query, $this->_dbIndex);
 		
@@ -545,16 +534,15 @@ class HierarchyCache {
 	function getRootNodes() {
 		$dbHandler = Services::getService("DatabaseManager");
 		$idManager = Services::getService("Id");
-		$db = $this->_hyDB.".";
 
 		// copy _nodeQuery into a new object
 		$query = clone $this->_nodeQuery;
 		$query->resetWhere();
-		$joinc = "{$db}node.node_id = {$db}j_node_node.fk_child";
-		$query->addTable("{$db}j_node_node", LEFT_JOIN, $joinc);
-		$query->addColumn("fk_child", "join_id", "{$db}j_node_node");
-		$query->addWhere($db."node.fk_hierarchy = '{$this->_hierarchyId}'");
-		$query->addWhere("ISNULL({$db}j_node_node.fk_child)");
+		$joinc = "node_id = fk_child and node.fk_hierarchy = j_node_node.fk_hierarchy";
+		$query->addTable("j_node_node", LEFT_JOIN, $joinc);
+		$query->addColumn("fk_child", "join_id", "j_node_node");
+		$query->addWhere("node.fk_hierarchy = '".addslashes($this->_hierarchyId)."'");
+		$query->addWhere("fk_child IS NULL");
 		$query->addOrderBy("fk_child");
 
 //		echo "<pre>\n";
@@ -614,8 +602,7 @@ class HierarchyCache {
 		// if the node has not been already cached, do it
 		if (!$this->_isCached($idValue)) {
 			// now fetch the node from the database
-			$db = $this->_hyDB.".";
-			$nodes =$this->getNodesFromDB($db."node.node_id = '".addslashes($idValue)."'");
+			$nodes =$this->getNodesFromDB("node_id = '".addslashes($idValue)."'");
 			
 			// must be only one node
 			if (count($nodes) != 1) {
@@ -661,8 +648,7 @@ class HierarchyCache {
 		// if the node has not been already cached, do it
 		if (!$this->_isCached($idValue)) {
 			// now fetch the node from the database
-			$db = $this->_hyDB.".";
-			$nodes =$this->getNodesFromDB($db."node.node_id = '".addslashes($idValue)."'");
+			$nodes =$this->getNodesFromDB("node_id = '".addslashes($idValue)."'");
 			
 			// if it isn't in the database, then it doesn't exist
 			if (count($nodes) < 1) {
@@ -720,28 +706,27 @@ class HierarchyCache {
 			$treeNode =$this->_tree->getNode($idValue);
 			$nodesToExclude = (isset($treeNode)) ? ($treeNode->getParents()) : array();
 	
-			$db = $this->_hyDB.".";
 			$dbHandler = Services::getService("DatabaseManager");
 			$idManager = Services::getService("Id");
 			$query = new SelectQuery();
 	
 			// set the columns to select
-			$query->addColumn("node_id", "id", $db."parents");
-			$query->addColumn("node_display_name", "display_name", $db."parents");
-			$query->addColumn("node_description", "description", $db."parents");
-			$query->addColumn("type_domain", "domain", $db."type");
-			$query->addColumn("type_authority", "authority", $db."type");
-			$query->addColumn("type_keyword", "keyword", $db."type");
-			$query->addColumn("type_description", "type_description", $db."type");
+			$query->addColumn("node_id", "id", "parents");
+			$query->addColumn("node_display_name", "display_name", "parents");
+			$query->addColumn("node_description", "description", "parents");
+			$query->addColumn("type_domain", "domain", "type");
+			$query->addColumn("type_authority", "authority", "type");
+			$query->addColumn("type_keyword", "keyword", "type");
+			$query->addColumn("type_description", "type_description", "type");
 	
 			// set the tables
-			$query->addTable($db."j_node_node", NO_JOIN, "", "child");
-			$joinc = $db."child.fk_parent = ".$db."parents.node_id";
-			$query->addTable($db."node", INNER_JOIN, $joinc, "parents");
-			$joinc = $db."parents.fk_type = ".$db."type.type_id";
-			$query->addTable($db."type", INNER_JOIN, $joinc);
+			$query->addTable("j_node_node", NO_JOIN, "", "child");
+			$joinc = "child.fk_parent = "."parents.node_id";
+			$query->addTable("node", INNER_JOIN, $joinc, "parents");
+			$joinc = "parents.fk_type = "."type_id";
+			$query->addTable("type", INNER_JOIN, $joinc);
 			
-			$where = $db."child.fk_child = '".addslashes($idValue)."'";
+			$where = "child.fk_hierarchy = '".$this->_hierarchyId."' AND child.fk_child = '".addslashes($idValue)."'";
 			$query->addWhere($where);
 			$query->addOrderBy("node_id");
 			
@@ -750,7 +735,7 @@ class HierarchyCache {
 				foreach ($idsToExclude as $key => $id)
 					$idsToExclude[$key] = "'".addslashes($id)."'";
 				$where = implode(", ",$idsToExclude);
-				$where = $db."parents.node_id NOT IN ({$where})";
+				$where = "parents.node_id NOT IN ({$where})";
 				$query->addWhere($where);
 			}
 			
@@ -838,28 +823,27 @@ class HierarchyCache {
 			$treeNode =$this->_tree->getNode($idValue);
 			$nodesToExclude = (isset($treeNode)) ? ($treeNode->getChildren()) : array();
 	
-			$db = $this->_hyDB.".";
 			$dbHandler = Services::getService("DatabaseManager");
 			$idManager = Services::getService("Id");
 			$query = new SelectQuery();
 	
 			// set the columns to select
-			$query->addColumn("node_id", "id", $db."children");
-			$query->addColumn("node_display_name", "display_name", $db."children");
-			$query->addColumn("node_description", "description", $db."children");
-			$query->addColumn("type_domain", "domain", $db."type");
-			$query->addColumn("type_authority", "authority", $db."type");
-			$query->addColumn("type_keyword", "keyword", $db."type");
-			$query->addColumn("type_description", "type_description", $db."type");
+			$query->addColumn("node_id", "id", "children");
+			$query->addColumn("node_display_name", "display_name", "children");
+			$query->addColumn("node_description", "description", "children");
+			$query->addColumn("type_domain", "domain", "type");
+			$query->addColumn("type_authority", "authority", "type");
+			$query->addColumn("type_keyword", "keyword", "type");
+			$query->addColumn("type_description", "type_description", "type");
 	
 			// set the tables
-			$query->addTable($db."j_node_node", NO_JOIN, "", "parent");
-			$joinc = $db."parent.fk_child = ".$db."children.node_id";
-			$query->addTable($db."node", INNER_JOIN, $joinc, "children");
-			$joinc = $db."children.fk_type = ".$db."type.type_id";
-			$query->addTable($db."type", INNER_JOIN, $joinc);
+			$query->addTable("j_node_node", NO_JOIN, "", "parent");
+			$joinc = "parent.fk_child = "."children.node_id";
+			$query->addTable("node", INNER_JOIN, $joinc, "children");
+			$joinc = "children.fk_type = "."type_id";
+			$query->addTable("type", INNER_JOIN, $joinc);
 			
-			$where = $db."parent.fk_parent = '".addslashes($idValue)."'";
+			$where = "parent.fk_hierarchy = '".$this->_hierarchyId."' AND parent.fk_parent = '".addslashes($idValue)."'";
 			$query->addWhere($where);
 			$query->addOrderBy("node_id");
 			
@@ -868,7 +852,7 @@ class HierarchyCache {
 				foreach ($idsToExclude as $key => $id)
 					$idsToExclude[$key] = "'".addslashes($id)."'";
 				$where = implode(", ",$idsToExclude);
-				$where = $db."children.node_id NOT IN ({$where})";
+				$where = "children.node_id NOT IN ({$where})";
 				$query->addWhere($where);
 			}
 			
@@ -954,7 +938,7 @@ class HierarchyCache {
 			// set the tables
 			$query->addTable("j_node_node");
 			
-			$where = "fk_parent = '".addslashes($idValue)."'";
+			$where = "j_node_node.fk_hierarchy = '".$this->_hierarchyId."' AND fk_parent = '".addslashes($idValue)."'";
 			$query->addWhere($where);
 			
 // 			echo "<pre>\n";
@@ -1062,7 +1046,6 @@ class HierarchyCache {
 		$dbHandler = Services::getService("DatabaseManager");
 		$query = new SelectQuery();
 		
-		$db = $this->_hyDB.".";
 		
 		// the original value of levels
 		$originalLevels = $levels;
@@ -1079,21 +1062,21 @@ class HierarchyCache {
 		// generate query
 		$query->addColumn("fk_parent", "level0_id", "level0");
 		$query->addColumn("fk_child",  "level1_id", "level0");
-		$query->addTable($db."j_node_node", NO_JOIN, "", "level0");
+		$query->addTable("j_node_node", NO_JOIN, "", "level0");
 		$query->addOrderBy("level0_id");
 		$query->addOrderBy("level1_id");
 		
 		// now left join with itself.
 		// maximum number of joins is 31, we've used 1 already, so there are 30 left
 		for ($level = 1; $level <= $levels-1; $level++) {
-			$joinc = "level".($level-1).".fk_child = level".($level).".fk_parent";
-			$query->addTable($db."j_node_node", LEFT_JOIN, $joinc, "level".($level));
+			$joinc = "level".($level-1).".fk_hierarchy = level".($level).".fk_hierarchy AND level".($level-1).".fk_child = level".($level).".fk_parent";
+			$query->addTable("j_node_node", LEFT_JOIN, $joinc, "level".($level));
 			$query->addColumn("fk_child", "level".($level+1)."_id", "level".($level));
 			$query->addOrderBy("level".($level+1)."_id");
 		}
 		
 		// this is the where clause
-		$where = "level0.fk_parent = '".addslashes($idValue)."'";
+		$where = "level0.fk_hierarchy = '".addslashes($this->_hierarchyId)."' AND level0.fk_parent = '".addslashes($idValue)."'";
 		$query->addWhere($where);
 		
 //		echo "<pre>\n";
@@ -1138,7 +1121,7 @@ class HierarchyCache {
 				// if the node has not been cached, then we must create it
 //				echo "<br />--- CACHE UPDATE: ";
 				if (!$this->_isCached($nodeId)) {
-					$nodes =$this->getNodesFromDB($db."node.node_id = '".addslashes($nodeId)."'");
+					$nodes =$this->getNodesFromDB("node_id = '".addslashes($nodeId)."'");
 					
 					// must be only one node
 					if (count($nodes) != 1) {
@@ -1228,17 +1211,16 @@ class HierarchyCache {
 	 **/
 	function _traverseUpAncestory($idValue, $levels) {
 		$dbHandler = Services::getService("DatabaseManager");		
-		$db = $this->_hyDB.".";
 		
 // 		echo "<br /><br /><br /><b>=== TraverseUpAncestory: Caching node # $idValue, $levels levels up</b><br />";
 		
 		$query = new SelectQuery();
 		$query->addColumn("*");
-		$query->addTable($db."node_ancestry");
-		$query->addTable($db."j_node_node", LEFT_JOIN, "fk_ancestor = fk_child");
+		$query->addTable("node_ancestry");
+		$query->addTable("j_node_node", LEFT_JOIN, "j_node_node.fk_hierarchy = node_ancestry.fk_hierarchy AND fk_ancestor = fk_child");
 // 		$query->setGroupBy(array("fk_ancestor"));
 		$query->addOrderBy("level", DESCENDING);
-		$query->addWhere("fk_node = '".addslashes($idValue)."'");
+		$query->addWhere("node_ancestry.fk_hierarchy = '".addslashes($this->_hierarchyId)."' AND fk_node = '".addslashes($idValue)."'");
 		
 // 		echo "<pre>\n";
 // 		echo MySQL_SQLGenerator::generateSQLQuery($query);
@@ -1276,7 +1258,7 @@ class HierarchyCache {
 			// if the node has not been cached, then we must create it
 // 			echo "<br />--- CACHE UPDATE: ";
 			if (!$this->_isCached($nodeId)) {
-				$nodes =$this->getNodesFromDB($db."node.node_id = '".addslashes($nodeId)."'");
+				$nodes =$this->getNodesFromDB("node_id = '".addslashes($nodeId)."'");
 				
 				// must be only one node
 				if (count($nodes) != 1) {
@@ -1376,7 +1358,6 @@ class HierarchyCache {
 		$dbHandler = Services::getService("DatabaseManager");
 		$query = new SelectQuery();
 		
-		$db = $this->_hyDB.".";
 		
 		// the original value of levels
 		$originalLevels = $levels;
@@ -1393,21 +1374,21 @@ class HierarchyCache {
 		// generate query
 		$query->addColumn("fk_child", "level0_id", "level0");
 		$query->addColumn("fk_parent",	"level1_id", "level0");
-		$query->addTable($db."j_node_node", NO_JOIN, "", "level0");
+		$query->addTable("j_node_node", NO_JOIN, "", "level0");
 		$query->addOrderBy("level0_id");
 		$query->addOrderBy("level1_id");
 		
 		// now left join with itself.
 		// maximum number of joins is 31, we've used 1 already, so there are 30 left
 		for ($level = 1; $level <= $levels-1; $level++) {
-			$joinc = "level".($level-1).".fk_parent = level".($level).".fk_child";
-			$query->addTable($db."j_node_node", LEFT_JOIN, $joinc, "level".($level));
+			$joinc = "level".($level-1).".fk_hierarchy = level".($level).".fk_hierarchy AND level".($level-1).".fk_parent = level".($level).".fk_child";
+			$query->addTable("j_node_node", LEFT_JOIN, $joinc, "level".($level));
 			$query->addColumn("fk_parent", "level".($level+1)."_id", "level".($level));
 			$query->addOrderBy("level".($level+1)."_id");
 		}
 		
 		// this is the where clause
-		$where = "level0.fk_child = '".addslashes($idValue)."'";
+		$where = "level0.fk_hierarchy = '".addslashes($this->_hierarchyId)."' AND level0.fk_child = '".addslashes($idValue)."'";
 		$query->addWhere($where);
 		
 //		echo "<pre>\n";
@@ -1445,7 +1426,7 @@ class HierarchyCache {
 				// if the node has not been cached, then we must create it
 // 				echo "<br />--- CACHE UPDATE: ";
 				if (!$this->_isCached($nodeId)) {
-					$nodes =$this->getNodesFromDB($db."node.node_id = '".addslashes($nodeId)."'");
+					$nodes =$this->getNodesFromDB("node_id = '".addslashes($nodeId)."'");
 					
 					// must be only one node
 					if (count($nodes) != 1) {
@@ -1553,7 +1534,6 @@ class HierarchyCache {
 		
 		// attempt to insert the node now
 		$dbHandler = Services::getService("DatabaseManager");
-		$db = $this->_hyDB.".";
 
 		// 1. Insert the type
 		
@@ -1564,12 +1544,12 @@ class HierarchyCache {
 
 		// check whether the type is already in the DB, if not insert it
 		$query = new SelectQuery();
-		$query->addTable($db."type");
-		$query->addColumn("type_id", "id", $db."type");
-		$where = $db."type.type_domain = '".addslashes($domain)."'";
-		$where .= " AND {$db}type.type_authority = '".addslashes($authority)."'";
-		$where .= " AND {$db}type.type_keyword = '".addslashes($keyword)."'";
-		$where .= " AND {$db}type.type_description = '".addslashes($typeDescription)."'";
+		$query->addTable("type");
+		$query->addColumn("type_id", "id", "type");
+		$where = "type_domain = '".addslashes($domain)."'";
+		$where .= " AND type_authority = '".addslashes($authority)."'";
+		$where .= " AND type_keyword = '".addslashes($keyword)."'";
+		$where .= " AND type_description = '".addslashes($typeDescription)."'";
 											  
 		$query->addWhere($where);
 
@@ -1581,7 +1561,8 @@ class HierarchyCache {
 			$queryResult->free();
 
 			$query = new InsertQuery();
-			$query->setTable($db."type");
+			$query->setTable("type");
+			$query->setAutoIncrementColumn("type_id", "type_type_id_seq");
 			$columns = array();
 			$columns[] = "type_domain";
 			$columns[] = "type_authority";
@@ -1601,7 +1582,7 @@ class HierarchyCache {
 		
 		// 2. Now that we know the id of the type, insert the node itself
 		$query = new InsertQuery();
-		$query->setTable($db."node");
+		$query->setTable("node");
 		$columns = array();
 		$columns[] = "node_id";
 		$columns[] = "node_display_name";
@@ -1708,10 +1689,9 @@ class HierarchyCache {
 		// 1. Get the id of the type associated with the node
 		$query = new SelectQuery();
 		
-		$db = $this->_hyDB.".";
-		$query->addTable($db."node");
-		$query->addColumn("fk_type", "type_id", $db."node");
-		$query->addWhere($db."node.node_id = '".addslashes($idValue)."'");
+		$query->addTable("node");
+		$query->addColumn("fk_type", "type_id", "node");
+		$query->addWhere("node_id = '".addslashes($idValue)."'");
 
 		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0) {
@@ -1727,26 +1707,25 @@ class HierarchyCache {
 		
 		// 2. Now delete the node
 		$query = new DeleteQuery();
-		$query->setTable($db."node");
-		$query->addWhere($db."node.node_id = '".addslashes($idValue)."'");
+		$query->setTable("node");
+		$query->addWhere("node_id = '".addslashes($idValue)."'");
 		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 		
 		// 3. Now see if any other nodes have the same type
 		$query = new SelectQuery();
 		
-		$db = $this->_hyDB.".";
-		$query->addTable($db."node");
+		$query->addTable("node");
 		// count the number of nodes using the same type
-		$query->addColumn("COUNT({$db}node.fk_type)", "num");
-		$query->addWhere($db."node.fk_type = '".addslashes($typeIdValue)."'");
+		$query->addColumn("COUNT(fk_type)", "num");
+		$query->addWhere("fk_type = '".addslashes($typeIdValue)."'");
 
 		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 		$num = $queryResult->field("num");
 		$queryResult->free();
 		if ($num == 0) { // if no other nodes use this type, then delete the type
 			$query = new DeleteQuery();
-			$query->setTable($db."type");
-			$query->addWhere($db."type.type_id = '".addslashes($typeIdValue)."'");
+			$query->setTable("type");
+			$query->addWhere("type_id = '".addslashes($typeIdValue)."'");
 			$queryResult =$dbHandler->query($query, $this->_dbIndex);
 		}
 		
@@ -1765,7 +1744,7 @@ class HierarchyCache {
 		unset($this->_tree);
 		unset($this->_cache);
 		$this->HierarchyCache($this->_hierarchyId, $this->_allowsMultipleParents,
-							  $this->_dbIndex, $this->_hyDB);
+							  $this->_dbIndex);
 	}
 	
 	/**
@@ -1780,7 +1759,6 @@ class HierarchyCache {
 // 		print "<hr/><hr/>";
 // 		print "<strong>"; printpre($id); print "</strong>";
 		$idString = $id->getIdString();
-		$db = $this->_hyDB.".";
 		$dbHandler = Services::getService("DatabaseManager");
 		
 		// Delete the old ancestory rows
@@ -1798,8 +1776,8 @@ class HierarchyCache {
 		// now that all nodes are cached, add their ids to the ancestor table for
 		// easy future searching.
 		$query = new InsertQuery;
-		$query->setTable($db."node_ancestry");
-		$query->setColumns(array("fk_node", "fk_ancestor", "level", "fk_ancestors_child"));
+		$query->setTable("node_ancestry");
+		$query->setColumns(array("fk_hierarchy", "fk_node", "fk_ancestor", "level", "fk_ancestors_child"));
 		
 		$treeNode =$this->_tree->getNode($idString);
 		$treeNodes =$this->_tree->traverse($treeNode, false, -1);
@@ -1818,6 +1796,7 @@ class HierarchyCache {
 				if (!$nodeId->isEqual($id)) {
 					foreach ($treeNodes[$key]['children'] as $ancestorChildId) {
 						$query->addRowOfValues(array(
+								"'".addslashes($this->_hierarchyId)."'",
 								"'".addslashes($idString)."'",
 								"'".addslashes($nodeId->getIdString())."'",
 								"'".addslashes($treeNodes[$key][1])."'",
@@ -1825,6 +1804,7 @@ class HierarchyCache {
 					}
 				} else {
 					$query->addRowOfValues(array(
+							"'".addslashes($this->_hierarchyId)."'",
 							"'".addslashes($idString)."'",
 							"NULL",
 							"'0'",
@@ -1875,13 +1855,13 @@ class HierarchyCache {
 	 * @since 11/4/05
 	 */
 	function clearNodeAncestory ( $idString ) {
-		$db = $this->_hyDB.".";
 		$dbHandler = Services::getService("DatabaseManager");
 		
 		// Delete the old ancestory
 		$query = new DeleteQuery;
-		$query->setTable($db."node_ancestry");
-		$query->addWhere($db."node_ancestry.fk_node = '".addslashes($idString)."'");
+		$query->setTable("node_ancestry");
+		$query->addWhere("node_ancestry.fk_hierarchy = '".addslashes($this->_hierarchyId)."'");
+		$query->addWhere("node_ancestry.fk_node = '".addslashes($idString)."'");
 		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 // 		$queryResult->free();
 	}

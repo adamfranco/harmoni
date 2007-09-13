@@ -14,7 +14,7 @@ require_once(dirname(__FILE__)."/HarmoniAgent.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AnonymousAgent.class.php,v 1.4 2007/09/04 20:25:35 adamfranco Exp $
+ * @version $Id: AnonymousAgent.class.php,v 1.5 2007/09/13 16:04:17 adamfranco Exp $
  */
 class AnonymousAgent 
 	extends HarmoniAgent
@@ -23,12 +23,11 @@ class AnonymousAgent
 	 * Constructor
 	 * 
 	 * @param integer dbIndex The database connection as returned by the DBHandler.
-	 * @param string sharedDB The name of the shared database.
 	 * @return object
 	 * @access public
 	 * @since 2/8/05
 	 */
-	function AnonymousAgent ($dbIndex, $sharedDB) {
+	function AnonymousAgent ($dbIndex) {
 		$idManager = Services::getService("Id");
 		$id =$idManager->getId("edu.middlebury.agents.anonymous");
 		
@@ -44,8 +43,7 @@ class AnonymousAgent
 								$id,
 								$type,
 								$propertiesArray,
-								$dbIndex,
-								$sharedDB);
+								$dbIndex);
 	}
 }
 

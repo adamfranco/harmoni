@@ -343,9 +343,6 @@ CREATE TABLE cm_schedule (
 ALTER TABLE ONLY cm_schedule
 	ADD CONSTRAINT cm_schedule_fk_sc_item_fkey FOREIGN KEY (fk_sc_item) REFERENCES "sc_item"(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
-ALTER TABLE ONLY cm_schedule
-	ADD CONSTRAINT cm_schedule_fk_id_fkey FOREIGN KEY (fk_id) REFERENCES "cm_section"(id) ON UPDATE CASCADE ON DELETE CASCADE;
-
 
 -- --------------------------------------------------------
 

@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniWritableLog.class.php,v 1.4 2007/09/04 20:25:43 adamfranco Exp $
+ * @version $Id: HarmoniWritableLog.class.php,v 1.5 2007/09/13 16:04:20 adamfranco Exp $
  */
 
 require_once(OKI2."/osid/logging/WritableLog.php");
@@ -121,6 +121,7 @@ class HarmoniWritableLog
 		// Insert the entry
 		$query = new InsertQuery;
 		$query->setTable("log_entry");
+		$query->setAutoIncrementColumn("id", "log_entry_id_seq");
 		$query->setColumns(array(	"log_name",
 									"fk_format_type",
 									"fk_priority_type",
@@ -254,6 +255,7 @@ class HarmoniWritableLog
 				$results->free();
 				$query = new InsertQuery;
 				$query->setTable("log_type");
+				$query->setAutoIncrementColumn("id", "log_type_id_seq");
 				$query->setColumns(array(	"domain",
 											"authority",
 											"keyword",

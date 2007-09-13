@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AgentTokenMappingManager.class.php,v 1.11 2007/09/04 20:25:37 adamfranco Exp $
+ * @version $Id: AgentTokenMappingManager.class.php,v 1.12 2007/09/13 16:04:18 adamfranco Exp $
  */ 
  
  require_once(dirname(__FILE__)."/AgentTokenMapping.class.php");
@@ -36,7 +36,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AgentTokenMappingManager.class.php,v 1.11 2007/09/04 20:25:37 adamfranco Exp $
+ * @version $Id: AgentTokenMappingManager.class.php,v 1.12 2007/09/13 16:04:18 adamfranco Exp $
  */
 class AgentTokenMappingManager
 	extends OsidManager
@@ -502,6 +502,7 @@ class AgentTokenMappingManager
 			$result->free();
 			$query = new InsertQuery;
 			$query->setTable($this->_typeTable);
+			$query->setAutoIncrementColumn("id", $this->_typeTable."_id_seq");
 			$query->setColumns(
 				array(
 					'domain',

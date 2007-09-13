@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TaggedItem.class.php,v 1.3 2007/09/04 20:25:29 adamfranco Exp $
+ * @version $Id: TaggedItem.class.php,v 1.4 2007/09/13 16:04:16 adamfranco Exp $
  */ 
 
 /**
@@ -18,7 +18,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TaggedItem.class.php,v 1.3 2007/09/04 20:25:29 adamfranco Exp $
+ * @version $Id: TaggedItem.class.php,v 1.4 2007/09/13 16:04:16 adamfranco Exp $
  */
 class TaggedItem {
 		
@@ -216,6 +216,7 @@ class TaggedItem {
 			else {
 				$query = new InsertQuery;
 				$query->setTable('tag_item');
+				$query->setAutoIncrementColumn("db_id", "tag_item_db_id_seq");
 				$query->setColumns(array('id', 'system'));
 				$query->setValues(array(
 					"'".addslashes($this->getIdString())."'",

@@ -17,7 +17,7 @@ require_once(dirname(__FILE__)."/HarmoniAgentIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: UsersGroup.class.php,v 1.10 2007/08/22 14:45:44 adamfranco Exp $
+ * @version $Id: UsersGroup.class.php,v 1.11 2007/09/13 16:04:17 adamfranco Exp $
  */
 class UsersGroup
 	extends HarmoniGroup
@@ -27,7 +27,6 @@ class UsersGroup
 	 * The constructor.
 	 *
 	 * @param integer dbIndex The database connection as returned by the DBHandler.
-	 * @param string sharedDB The name of the shared database.
 	 * @access public
 	 */
 	function UsersGroup() {
@@ -342,7 +341,7 @@ class UsersGroup
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: UsersGroup.class.php,v 1.10 2007/08/22 14:45:44 adamfranco Exp $
+ * @version $Id: UsersGroup.class.php,v 1.11 2007/09/13 16:04:17 adamfranco Exp $
  */
 
 class UsersGroupIterator extends HarmoniAgentIterator {

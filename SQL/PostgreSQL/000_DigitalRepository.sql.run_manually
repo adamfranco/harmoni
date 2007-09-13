@@ -1,0 +1,27 @@
+-- /**
+-- @package harmoni.osid_v2.repository
+--
+-- @copyright Copyright &copy; 2005, Middlebury College
+-- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+--
+-- @version $Id: 000_DigitalRepository.sql.run_manually,v 1.1 2007/09/13 16:04:15 adamfranco Exp $
+-- */
+-- --------------------------------------------------------
+CREATE LANGUAGE plpgsql;
+
+--
+-- dr_asset_info
+--
+create function update_modify_timestamp() returns trigger as $$begin new.modify_timestamp := now(); return new; end;$$ language plpgsql;
+
+
+--
+-- dr_file
+-- 
+create function update_mod_time() returns trigger as $$begin new.mod_time := now(); return new; end;$$ language plpgsql;
+
+
+-- 
+-- dr_resized_cache
+-- 
+create function update_cache_time() returns trigger as $$begin new.cache_time := now(); return new; end;$$ language plpgsql;

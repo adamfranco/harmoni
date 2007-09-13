@@ -780,7 +780,7 @@ class HarmoniGradingManager
 			}
 
 			$query->addRowOfValues($values);
-			$query->setAutoIncrementColumn('id','id_sequence');
+			$query->setAutoIncrementColumn('id', 'gr_'.$typename.'_type_id_sequence');
 
 
 			$result =$dbHandler->query($query);

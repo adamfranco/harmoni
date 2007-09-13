@@ -4,7 +4,7 @@
 -- @copyright Copyright &copy; 2005, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 --
--- @version $Id: 007_Hierarchy.sql,v 1.1 2007/09/12 13:02:12 adamfranco Exp $
+-- @version $Id: 007_Hierarchy.sql,v 1.2 2007/09/13 16:04:16 adamfranco Exp $
 -- */
 -- --------------------------------------------------------
 
@@ -16,7 +16,7 @@ CREATE TABLE hierarchy (
   hierarchy_id varchar(75) NOT NULL default '0',
   hierarchy_display_name varchar(255) NOT NULL default '',
   hierarchy_description text NOT NULL,
-  hierarchy_multiparent boolean NOT NULL default '1'
+  hierarchy_multiparent smallint NOT NULL default '1'
 );
 
 ALTER TABLE ONLY hierarchy

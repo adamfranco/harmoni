@@ -20,7 +20,7 @@ require_once(HARMONI."oki2/hierarchy/DefaultNodeType.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniNode.class.php,v 1.19 2007/09/04 20:25:41 adamfranco Exp $
+ * @version $Id: HarmoniNode.class.php,v 1.20 2007/09/13 16:04:20 adamfranco Exp $
  */
 
 class HarmoniNode 
@@ -280,15 +280,14 @@ class HarmoniNode
 
 		// update the database
 		$dbHandler = Services::getService("DatabaseManager");
-		$db = $this->_cache->_hyDB.".";
 		
 		$query = new UpdateQuery();
-		$query->setTable($db."node");
+		$query->setTable("node");
 		$id =$this->getId();
 		$idValue = $id->getIdString();
-		$where = "{$db}node.node_id = '{$idValue}'";
+		$where = "node_id = '".addslashes($idValue)."'";
 		$query->setWhere($where);
-		$query->setColumns(array("{$db}node.node_description"));
+		$query->setColumns(array("node_description"));
 		$query->setValues(array("'".addslashes($description)."'"));
 		
 		$queryResult =$dbHandler->query($query, $this->_cache->_dbIndex);
@@ -334,15 +333,14 @@ class HarmoniNode
 
 		// update the database
 		$dbHandler = Services::getService("DatabaseManager");
-		$db = $this->_cache->_hyDB.".";
 		
 		$query = new UpdateQuery();
-		$query->setTable($db."node");
+		$query->setTable("node");
 		$id =$this->getId();
 		$idValue = $id->getIdString();
-		$where = "{$db}node.node_id = '{$idValue}'";
+		$where = "node_id = '".addslashes($idValue)."'";
 		$query->setWhere($where);
-		$query->setColumns(array("{$db}node.node_display_name"));
+		$query->setColumns(array("node_display_name"));
 		$query->setValues(array("'".addslashes($displayName)."'"));
 		
 		$queryResult =$dbHandler->query($query, $this->_cache->_dbIndex);

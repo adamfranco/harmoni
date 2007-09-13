@@ -210,12 +210,12 @@ extends SchedulingManager
 		$dbManager= Services::getService("DBHandler");
 		$query= new InsertQuery;
 		$query->setTable('sc_item');
-		$query->setColumns(array('id','name','description','start','end','fk_sc_item_stat_type','master_id','fk_creator_id'));
+		$query->setColumns(array('id','name','description','start_date','end_date','fk_sc_item_stat_type','master_id','fk_creator_id'));
 		$values[]="'".addslashes($id->getIdString())."'";
 		$values[]="'".addslashes($displayName)."'";
 		$values[]="'".addslashes($description)."'";
-		$values[]="'".addslashes($start)."'";
-		$values[]="'".addslashes($end)."'";
+		$values[]="'".addslashes(intval($start))."'";
+		$values[]="'".addslashes(intval($end))."'";
 		$values[]="'".$this->_typeToIndex('item_stat',$scheduleItemStatusType)."'";
 		$values[]="'".addslashes($masterIdentifier)."'";
 		$values[]="'".addslashes($creatorIdString)."'";
@@ -308,8 +308,8 @@ extends SchedulingManager
 		$query->addTable('sc_commit', INNER_JOIN, "sc_item.id=sc_commit.fk_sc_item");
 		$query->addColumn('sc_item.id');
 
-		$where = "(end >= '".addslashes($start)."'";
-		$where .= " OR start <= '".addslashes($end)."') AND (";
+		$where = "(end_date >= '".addslashes($start)."'";
+		$where .= " OR start_date <= '".addslashes($end)."') AND (";
 		$firstElement =true;
 		foreach($agents as $agentId){
 			if(!$firstElement){
@@ -473,8 +473,8 @@ extends SchedulingManager
 		$query->addColumn('id');
 
 
-		$query->addWhere("end >= '".addslashes($start)."'");
-		$query->addWhere("start <= '".addslashes($end)."'");
+		$query->addWhere("end_date >= '".addslashes($start)."'");
+		$query->addWhere("start_date <= '".addslashes($end)."'");
 
 		if(!is_null($status)){
 			//get the index for the type
@@ -482,16 +482,16 @@ extends SchedulingManager
 			$query->addWhere("fk_sc_item_stat_type='".addslashes($typeIndex)."'");
 		}
 		/*
-		$where = "(end >= '".addslashes($start)."'";
-		$where .= " OR start <= '".addslashes($end)."')";
+		$where = "(end_date >= '".addslashes($start)."'";
+		$where .= " OR start_date <= '".addslashes($end)."')";
 		if(!is_null($status)){
 		//get the index for the type
 		$typeIndex = $this->_typeToIndex('item_stat',$status);
 		$where .= " AND fk_sc_item_stat_type='".addslashes($typeIndex)."'";
 		}
 		$query->addWhere($where);*/
-		//$query->addWhere("start <= ".addslashes($typeIndex)."'");
-		//$query->addWhere("end >= ".addslashes($typeIndex)."'");
+		//$query->addWhere("start_date <= ".addslashes($typeIndex)."'");
+		//$query->addWhere("end_date >= ".addslashes($typeIndex)."'");
 		$res=$dbHandler->query($query);
 
 		//convert results to array of ScheduleItems
@@ -607,8 +607,8 @@ extends SchedulingManager
 		$query->addTable('sc_item');
 		$query->addColumn('id');
 
-		$where = "(end >= '".addslashes($start)."'";
-		$where .= " OR start <= '".addslashes($end)."')";
+		$where = "(end_date >= '".addslashes($start)."'";
+		$where .= " OR start_date <= '".addslashes($end)."')";
 		if(!is_null($status)){
 		//get the index for the type
 		$typeIndex = $this->_typeToIndex('item_stat',$status);
@@ -616,8 +616,8 @@ extends SchedulingManager
 		}
 		$where .= " AND (";
 		//$where = "fk_sc_item_stat_type='".addslashes($typeIndex)."'";
-		//$where .= "AND (end >= ".addslashes($start)."'";
-		//$where .= "OR start <= ".addslashes($end)."') AND (";
+		//$where .= "AND (end_date >= ".addslashes($start)."'";
+		//$where .= "OR start_date <= ".addslashes($end)."') AND (";
 		$firstElement =true;
 		foreach($agents as $agent){
 		if(!$firstElement){
@@ -631,8 +631,8 @@ extends SchedulingManager
 
 		$where .= ")";
 		$query->addWhere($where);
-		//$query->addWhere("start <= ".addslashes($typeIndex)."'");
-		//$query->addWhere("end >= ".addslashes($typeIndex)."'");
+		//$query->addWhere("start_date <= ".addslashes($typeIndex)."'");
+		//$query->addWhere("end_date >= ".addslashes($typeIndex)."'");
 		$res=$dbHandler->query($query);
 
 		//convert results to array of ScheduleItems
@@ -934,7 +934,7 @@ extends SchedulingManager
 			}
 
 			$query->addRowOfValues($values);
-			$query->setAutoIncrementColumn('id','id_sequence');
+			$query->setAutoIncrementColumn('id','sc_'.$typename.'_type_id_seq');
 
 
 			$result =$dbHandler->query($query);

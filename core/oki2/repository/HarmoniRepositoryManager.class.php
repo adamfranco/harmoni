@@ -36,7 +36,7 @@ require_once(HARMONI."oki2/repository/HarmoniRepository.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepositoryManager.class.php,v 1.38 2007/09/04 20:25:43 adamfranco Exp $ 
+ * @version $Id: HarmoniRepositoryManager.class.php,v 1.39 2007/09/13 16:04:20 adamfranco Exp $ 
  */
 
 class HarmoniRepositoryManager
@@ -238,6 +238,7 @@ class HarmoniRepositoryManager
 			$result->free();
 			$query = new InsertQuery;
 			$query->setTable("dr_type");
+			$query->setAutoIncrementColumn("type_id", "dr_type_type_id_seq");
 			$query->setColumns(array(
 								"type_domain",
 								"type_authority",

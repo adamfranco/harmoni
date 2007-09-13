@@ -42,7 +42,7 @@ require_once(HARMONI."oki2/shared/HarmoniId.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniIdManager.class.php,v 1.25 2007/09/04 20:25:42 adamfranco Exp $
+ * @version $Id: HarmoniIdManager.class.php,v 1.26 2007/09/13 16:04:20 adamfranco Exp $
  */
 
 class HarmoniIdManager
@@ -68,7 +68,6 @@ class HarmoniIdManager
 	/**
 	 * Constructor. Set up any database connections needed.
 	 * @param integer dbIndex The database connection as returned by the DBHandler.
-	 * @param string sharedDB The name of the shared database.
 	 */
 	function HarmoniIdManager() {		
 		// initialize cache
@@ -100,18 +99,16 @@ class HarmoniIdManager
 		$this->_configuration =$configuration;
 		
 		$dbIndex = $configuration->getProperty('database_index');
-		$dbName = $configuration->getProperty('database_name');
 		$prefix = $configuration->getProperty('id_prefix');
 		
 		// ** parameter validation
 		ArgumentValidator::validate($dbIndex, IntegerValidatorRule::getRule(), true);
-		ArgumentValidator::validate($dbName, StringValidatorRule::getRule(), true);
 		ArgumentValidator::validate($prefix, OptionalRule::getRule(
 			StringValidatorRule::getRule(), true));
 		// ** end of parameter validation
 		
 		$this->_dbIndex = $dbIndex;
-		$this->_sharedDB = $dbName;
+		
 		if ($prefix)
 			$this->_prefix = $prefix;
 	}
@@ -165,8 +162,8 @@ class HarmoniIdManager
 		$dbHandler = Services::getService("DatabaseManager");
 		
 		$query = new InsertQuery();
-		$query->setAutoIncrementColumn("id_value", "id_sequence");
-		$query->setTable($this->_sharedDB.".id");
+		$query->setAutoIncrementColumn("id_value", "id_id_value_seq");
+		$query->setTable("id");
 		$query->addRowOfValues(array());
 		
 		$result =$dbHandler->query($query,$this->_dbIndex);
@@ -179,7 +176,7 @@ class HarmoniIdManager
 		// Clear out any values smaller than our last one to keep the table from 
 		// exploding size.
 		$query = new DeleteQuery();
-		$query->setTable($this->_sharedDB.".id");
+		$query->setTable("id");
 		$query->setWhere("id_value < '".$newID."'");
 		$result =$dbHandler->query($query,$this->_dbIndex);
 		

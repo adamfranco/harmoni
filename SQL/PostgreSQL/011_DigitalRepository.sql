@@ -4,10 +4,9 @@
 -- @copyright Copyright &copy; 2005, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 --
--- @version $Id: 011_DigitalRepository.sql,v 1.1 2007/09/12 21:10:41 adamfranco Exp $
+-- @version $Id: 011_DigitalRepository.sql,v 1.2 2007/09/13 16:04:16 adamfranco Exp $
 -- */
 -- --------------------------------------------------------
-CREATE LANGUAGE plpgsql;
 
 -- 
 -- Table structure for table dr_asset_info
@@ -25,8 +24,11 @@ CREATE TABLE dr_asset_info (
 ALTER TABLE ONLY dr_asset_info
 	ADD CONSTRAINT dr_asset_info_primary_key PRIMARY KEY (asset_id);
 
-create function update_modify_timestamp() returns trigger as $$begin new.modify_timestamp := now(); return new; end;$$ language plpgsql;
 create trigger dr_asset_info_update_modify  before update on dr_asset_info for each row execute procedure update_modify_timestamp();
+
+-- see 000_DigitalRepository.sql.run_manually for trigger function definition.
+
+
 
 -- --------------------------------------------------------
 
@@ -80,8 +82,10 @@ ALTER TABLE ONLY dr_file
 ALTER TABLE ONLY dr_file
 	ADD CONSTRAINT dr_file_fk_mime_type_fkey FOREIGN KEY (fk_mime_type) REFERENCES "dr_mime_type"(id) ON UPDATE CASCADE ON DELETE RESTRICT;
 
-create function update_mod_time() returns trigger as $$begin new.mod_time := now(); return new; end;$$ language plpgsql;
 create trigger dr_file_update_modify  before update on dr_file for each row execute procedure update_modify_timestamp();
+-- see 000_DigitalRepository.sql.run_manually for trigger function definition.
+
+
 
 -- --------------------------------------------------------
 
@@ -189,8 +193,9 @@ ALTER TABLE ONLY dr_resized_cache
 ALTER TABLE ONLY dr_resized_cache
 	ADD CONSTRAINT dr_resized_cache_fk_mime_type_fkey FOREIGN KEY (fk_mime_type) REFERENCES "dr_mime_type"(id) ON UPDATE CASCADE ON DELETE RESTRICT;
 
-create function update_cache_time() returns trigger as $$begin new.cache_time := now(); return new; end;$$ language plpgsql;
 create trigger dr_resized_cache  before update on dr_resized_cache for each row execute procedure update_cache_time();
+-- see 000_DigitalRepository.sql.run_manually for triggers.
+
 
 -- --------------------------------------------------------
 

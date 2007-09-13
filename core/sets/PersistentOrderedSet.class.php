@@ -13,7 +13,7 @@ require_once(dirname(__FILE__)."/OrderedSet.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PersistentOrderedSet.class.php,v 1.4 2007/09/04 20:25:49 adamfranco Exp $
+ * @version $Id: PersistentOrderedSet.class.php,v 1.5 2007/09/13 16:04:21 adamfranco Exp $
  * @author Adam Franco
  */
  
@@ -42,11 +42,11 @@ class PersistentOrderedSet
 		
 		// populate our array with any previously stored items.
 		$query = new SelectQuery;
-		$query->addColumn("sets.item_order", "item_order");
-		$query->addColumn("sets.item_id", "item_id");
+		$query->addColumn("item_order", "item_order");
+		$query->addColumn("item_id", "item_id");
 		$query->addTable("sets");
-		$query->addWhere("sets.id = '".addslashes($this->_setId->getIdString())."'");
-		$query->addOrderBy("sets.item_order");
+		$query->addWhere("id = '".addslashes($this->_setId->getIdString())."'");
+		$query->addOrderBy("item_order");
 		
 		$dbHandler = Services::getService("DatabaseManager");
 		$result =$dbHandler->query($query, $this->_dbIndex);
@@ -85,7 +85,7 @@ class PersistentOrderedSet
 		// Add the item to the database
 		$query = new InsertQuery;
 		$query->setTable("sets");
-		$columns = array("sets.id", "sets.item_id", "sets.item_order");
+		$columns = array("id", "item_id", "item_order");
 		$values = array("'".addslashes($this->_setId->getIdString())."'", "'".addslashes($id->getIdString())."'", "'".$position."'");
 		$query->setColumns($columns);
 		$query->setValues($values);
@@ -113,8 +113,8 @@ class PersistentOrderedSet
 		// Remove the item from the database
 		$query = new DeleteQuery;
 		$query->setTable("sets");
-		$query->addWhere("sets.id='".addslashes($this->_setId->getIdString())."'");
-		$query->addWhere("sets.item_id='".addslashes($id->getIdString())."'");
+		$query->addWhere("id='".addslashes($this->_setId->getIdString())."'");
+		$query->addWhere("item_id='".addslashes($id->getIdString())."'");
 		
 		$dbHandler = Services::getService("DatabaseManager");
 		$dbHandler->query($query, $this->_dbIndex);
@@ -131,7 +131,7 @@ class PersistentOrderedSet
 		// Remove the item from the database
 		$query = new DeleteQuery;
 		$query->setTable("sets");
-		$query->addWhere("sets.id='".addslashes(
+		$query->addWhere("id='".addslashes(
 			$this->_setId->getIdString())."'");
 				
 		$dbHandler = Services::getService("DatabaseManager");
@@ -206,12 +206,12 @@ class PersistentOrderedSet
 			if ($oldOrders[$key] != $val) {
 				$query = new UpdateQuery;
 				$query->setTable("sets");
-				$columns = array("sets.item_order");
+				$columns = array("item_order");
 				$query->setColumns($columns);
 				$values = array($key);
 				$query->setValues($values);
-				$query->addWhere("sets.id = '".addslashes($this->_setId->getIdString())."'");
-				$query->addWhere("sets.item_id = '".addslashes($val)."'");
+				$query->addWhere("id = '".addslashes($this->_setId->getIdString())."'");
+				$query->addWhere("item_id = '".addslashes($val)."'");
 				
 				$dbHandler->query($query);
 			}

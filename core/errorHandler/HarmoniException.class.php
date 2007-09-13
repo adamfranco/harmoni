@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniException.class.php,v 1.2 2007/09/11 17:35:21 adamfranco Exp $
+ * @version $Id: HarmoniException.class.php,v 1.3 2007/09/13 16:04:17 adamfranco Exp $
  */ 
 
 /**
@@ -18,7 +18,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniException.class.php,v 1.2 2007/09/11 17:35:21 adamfranco Exp $
+ * @version $Id: HarmoniException.class.php,v 1.3 2007/09/13 16:04:17 adamfranco Exp $
  */
 class HarmoniException
 	extends Exception
@@ -125,10 +125,10 @@ function logException ( Exception $exception ) {
 		$formatType = new Type("logging", "edu.middlebury", "AgentsAndNodes",
 						"A format in which the acting Agent[s] and the target nodes affected are specified.");
 		$priorityType = new Type("logging", "edu.middlebury",
-							(($exception->isFatal())?"Fatal_Error":"Error"),
+							((method_exists($exception, "isFatal") && !$exception->isFatal())?"Error":"Fatal_Error"),
 							"Events involving critical system errors.");
 		
-		$item = new AgentNodeEntryItem($exception->getType(), $exception->getMessage());
+		$item = new AgentNodeEntryItem(((method_exists($exception, "getType"))?$exception->getType():get_class($exception)), $exception->getMessage());
 		$item->setBacktrace($exception->getTrace());
 		$item->addTextToBactrace("\n<div><strong>REQUEST_URI: </strong>".$_SERVER['REQUEST_URI']."</div>");
 		if (isset($_SERVER['HTTP_REFERER']))

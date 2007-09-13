@@ -50,7 +50,7 @@ require_once(HARMONI."oki2/agent/EveryoneGroup.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgentManager.class.php,v 1.47 2007/09/04 20:25:36 adamfranco Exp $
+ * @version $Id: HarmoniAgentManager.class.php,v 1.48 2007/09/13 16:04:17 adamfranco Exp $
  *
  * @author Adam Franco
  * @author Dobromir Radichkov
@@ -71,8 +71,6 @@ class HarmoniAgentManager
 	
 	/**
 	 * Constructor. Set up any database connections needed.
-	 * @param integer dbIndex The database connection as returned by the DBHandler.
-	 * @param string sharedDB The name of the shared database.
 	 */
 	function HarmoniAgentManager() {
 		$idManager = Services::getService("Id");
