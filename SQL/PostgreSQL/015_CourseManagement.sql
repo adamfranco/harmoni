@@ -198,9 +198,9 @@ CREATE TABLE cm_can (
   number varchar(170) default NULL,
   credits float default NULL,
   equivalent varchar(170) default NULL,
-  fk_cm_can_type varchar(170) default NULL,
+  fk_cm_can_type int NOT NULL,
   title varchar(255) default NULL,
-  fk_cm_can_stat_type varchar(170) default NULL,
+  fk_cm_can_stat_type INT NOT NULL,
   PRIMARY KEY  (id)
 );
 
@@ -208,7 +208,7 @@ ALTER TABLE ONLY cm_can
 	ADD CONSTRAINT cm_can_fk_cm_can_type_fkey FOREIGN KEY (fk_cm_can_type) REFERENCES "cm_can_type"(id) ON UPDATE CASCADE ON DELETE RESTRICT;
 
 ALTER TABLE ONLY cm_can
-	ADD CONSTRAINT cm_can_fk_cm_stat_type_fkey FOREIGN KEY (fk_cm_stat_type) REFERENCES "cm_stat_type"(id) ON UPDATE CASCADE ON DELETE RESTRICT;
+	ADD CONSTRAINT cm_can_fk_cm_can_stat_type_fkey FOREIGN KEY (fk_cm_can_stat_type) REFERENCES "cm_can_stat_type"(id) ON UPDATE CASCADE ON DELETE RESTRICT;
 
 
 -- --------------------------------------------------------
@@ -241,8 +241,8 @@ CREATE TABLE cm_section (
   id varchar(170) NOT NULL,
   location varchar(255) default NULL,
   schedule varchar(170) default NULL,
-  fk_cm_section_type int default NULL,
-  fk_cm_section_stat_type int default NULL,
+  fk_cm_section_type int NOT NULL,
+  fk_cm_section_stat_type int NOT NULL,
   number varchar(170) default NULL,
   title varchar(255) default NULL,
   PRIMARY KEY  (id)
@@ -275,7 +275,7 @@ ALTER TABLE ONLY cm_enroll
 ALTER TABLE ONLY cm_enroll
 	ADD CONSTRAINT cm_enroll_fk_cm_enroll_stat_type_fkey FOREIGN KEY (fk_cm_enroll_stat_type) REFERENCES "cm_enroll_stat_type"(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
-CREATE INDEX cm_enroll_fk_course_id_index ON cm_enroll (fk_course_id);
+CREATE INDEX cm_enroll_fk_cm_section_index ON cm_enroll (fk_cm_section);
 CREATE INDEX cm_enroll_fk_student_id_index ON cm_enroll (fk_student_id);
 
 -- --------------------------------------------------------
@@ -287,16 +287,27 @@ CREATE INDEX cm_enroll_fk_student_id_index ON cm_enroll (fk_student_id);
 --
 
 CREATE TABLE cm_offer (
-  id varchar(170) NOT NULL default '',
-  fk_gr_grade_type varchar(170) default NULL,
-  fk_cm_term varchar(170) default NULL,
-  fk_cm_offer_stat_type varchar(255) default NULL,
-  fk_cm_offer_type varchar(170) default NULL,
+  id varchar(170) NOT NULL,
+  fk_gr_grade_type int NOT NULL,
+  fk_cm_term varchar(170) NOT NULL,
+  fk_cm_offer_stat_type int NOT NULL,
+  fk_cm_offer_type int NOT NULL,
   title varchar(255) default NULL,
   number varchar(255) default NULL,
-  PRIMARY KEY  (id),
-  KEY fk_offer_type (id)
+  PRIMARY KEY  (id)
 );
+
+ALTER TABLE ONLY cm_offer
+	ADD CONSTRAINT cm_offer_fk_gr_grade_type_fkey FOREIGN KEY (fk_gr_grade_type) REFERENCES "gr_grade_type"(id) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+ALTER TABLE ONLY cm_offer
+	ADD CONSTRAINT cm_offer_fk_cm_term_fkey FOREIGN KEY (fk_cm_term) REFERENCES "cm_term"(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+ALTER TABLE ONLY cm_offer
+	ADD CONSTRAINT cm_offer_fk_cm_offer_stat_type_fkey FOREIGN KEY (fk_cm_offer_stat_type) REFERENCES "cm_offer_stat_type"(id) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+ALTER TABLE ONLY cm_offer
+	ADD CONSTRAINT cm_offer_fk_cm_offer_type_fkey FOREIGN KEY (fk_cm_offer_type) REFERENCES "cm_offer_type"(id) ON UPDATE CASCADE ON DELETE RESTRICT;
 
 -- --------------------------------------------------------
 
@@ -307,15 +318,16 @@ CREATE TABLE cm_offer (
 --
 
 CREATE TABLE cm_grade_rec (
-  id int(170) NOT NULL auto_increment,
-  fk_student_id varchar(170) default NULL,
-  fk_cm_offer varchar(170) default NULL,
+  id SERIAL NOT NULL,
+  fk_student_id varchar(170) NOT NULL,
+  fk_cm_offer varchar(170) NOT NULL,
   name varchar(255) default NULL,
   grade varchar(255) default NULL,
   PRIMARY KEY  (id)
 );
 
-
+ALTER TABLE ONLY cm_grade_rec
+	ADD CONSTRAINT cm_grade_rec_fk_cm_offer_fkey FOREIGN KEY (fk_cm_offer) REFERENCES "cm_offer"(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 -- --------------------------------------------------------
 
@@ -324,11 +336,15 @@ CREATE TABLE cm_grade_rec (
 -- 
 
 CREATE TABLE cm_schedule (
-  fk_sc_item varchar(170) default NULL,
-  fk_id varchar(170) default NULL,
-  KEY fk_id (fk_id)
+  fk_sc_item varchar(170) NOT NULL,
+  fk_id varchar(170) NOT NULL
 );
 
+ALTER TABLE ONLY cm_schedule
+	ADD CONSTRAINT cm_schedule_fk_sc_item_fkey FOREIGN KEY (fk_sc_item) REFERENCES "sc_item"(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+ALTER TABLE ONLY cm_schedule
+	ADD CONSTRAINT cm_schedule_fk_id_fkey FOREIGN KEY (fk_id) REFERENCES "cm_section"(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 -- --------------------------------------------------------
@@ -338,10 +354,12 @@ CREATE TABLE cm_schedule (
 -- 
 
 CREATE TABLE cm_topics (
-  fk_cm_can varchar(170) default NULL,
-  topic varchar(255) NOT NULL default '',
-  PRIMARY KEY  (topic),
-  KEY fk_cm_can (fk_cm_can)
-);
+  fk_cm_can varchar(170) NOT NULL,
+  topic varchar(255) NOT NULL
+ );
+
+ALTER TABLE ONLY cm_topics
+	ADD CONSTRAINT cm_topics_fk_cm_can_fkey FOREIGN KEY (fk_cm_can) REFERENCES "cm_can"(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
 
 -- --------------------------------------------------------
