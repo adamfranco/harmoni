@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreDatabase.class.php,v 1.18 2007/09/13 02:43:52 adamfranco Exp $
+ * @version $Id: PostGreDatabase.class.php,v 1.19 2007/09/13 03:26:59 adamfranco Exp $
  */
 require_once(HARMONI."DBHandler/Database.abstract.php");
 require_once(HARMONI."DBHandler/PostGre/PostGreSelectQueryResult.class.php");
@@ -23,7 +23,7 @@ require_once(HARMONI."DBHandler/PostGre/PostGre_SQLGenerator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreDatabase.class.php,v 1.18 2007/09/13 02:43:52 adamfranco Exp $
+ * @version $Id: PostGreDatabase.class.php,v 1.19 2007/09/13 03:26:59 adamfranco Exp $
  **/
  
 class PostGreDatabase 
@@ -134,9 +134,9 @@ class PostGreDatabase
 	 */
 	function getTableList() {
 		$query = new SelectQuery();
-		$query->addTable("pg_class");
+		$query->addTable("pg_stat_user_tables");
 		$query->addColumn("relname");
-		$query->setWhere("relname NOT LIKE 'pg_%' AND relkind = 'r'");
+		$query->addOrderBy("relname", ASCENDING);
 		$res =$this->query($query);
 		
 		$list = array();
