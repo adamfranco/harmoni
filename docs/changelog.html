@@ -18,11 +18,66 @@
 				padding-bottom: 3px;
 			}
 		</style>
-<title>Harmoni ChangeLog</title>
+<title>Harmoni Change-Log</title>
 </head>
 <body>
-<h1>Harmoni ChangeLog</h1>
-<h2>Version 0.11.0</h2>
+<h1>Harmoni Change-Log</h1>
+<h2>Version 0.12.0</h2>
+<h3>2007-09-13</h3>
+<ul>
+		<li>
+<span style="color: red">*** IMPORTANT ***</span> Change:  
+			In order to support PostgreSQL without refactoring of the Database Handler,
+			column names have been all made lowercase. To update a currently populated
+			harmoni database to the new names, run the following updater script:
+			harmoni/core/DBHandler/db_updater.php
+		 (<em>2007-09-11 - Adam Franco</em>)</li>
+		
+		<li>
+<span style="color: red">*** IMPORTANT ***</span> Change:  
+			Hierarchy: The node relation and ancestory tables, j_node_node and node_ancestory
+			were both missing a reference to the hierarchy for which the node id was valid.
+			This could cause conflicts if node ids are repeated in separate hiearchies.
+			Existing Harmoni databases will need to have these columns added and the data
+			updated.
+		 (<em>2007-09-13 - Adam Franco</em>)</li>
+		
+		<li>
+<span style="color: red">*** IMPORTANT ***</span> Change:  
+			Scheduling: Two sc_item columns "start" and "end" conflict with reserved
+			words in PostgreSQL. Existing Harmoni databases will need to have these columns added and the data
+			updated.
+		 (<em>2007-09-13 - Adam Franco</em>)</li>
+		
+		<li> Bug Fix:  
+			ErrorHandler: Fixed reliance on methods in the HarmoniException class
+			when printing.
+		 (<em>2007-09-13 - Adam Franco</em>)</li>
+		<li> Bug Fix:  
+			Fixed numerous MySQL-specific SQL statements that didn't work with PostgreSQL.
+		 (<em>2007-09-13 - Adam Franco</em>)</li>
+		<li> Bug Fix:  
+			Added auto-increment-column designators to appropriate Insert Queries
+			so that the sequence-values could be accessed when using PostgreSQL.
+		 (<em>2007-09-13 - Adam Franco</em>)</li>
+		<li> New feature:  
+			DBHandler: Can now run an entire directory tree full of sql files.
+		 (<em>2007-09-11 - Adam Franco</em>)</li>
+		<li> Bug Fix:  
+			DBHandler: Some fixes to the PostgreSQL implementation and tests.
+		 (<em>2007-09-11 - Adam Franco</em>)</li>
+		<li> New feature:  
+			DBHandler: New database updater utility. The only function implemented currently
+			is to convert column names to lowercase.
+		 (<em>2007-09-11 - Adam Franco</em>)</li>
+		<li> Bug Fix:  
+			ErrorHandler: Fixed HTML syntax error in Exception printing.
+		 (<em>2007-09-11 - Adam Franco</em>)</li>
+		<li> Bug Fix:  
+			Repository: Now properly escapes values in modification date-storing query.
+		 (<em>2007-09-07 - Adam Franco</em>)</li>
+	</ul>
+<br><h2>Version 0.11.0</h2>
 <h3>2007-09-07</h3>
 <ul>
 		<li>
