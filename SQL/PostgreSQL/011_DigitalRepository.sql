@@ -4,7 +4,7 @@
 -- @copyright Copyright &copy; 2005, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 --
--- @version $Id: 011_DigitalRepository.sql,v 1.2 2007/09/13 16:04:16 adamfranco Exp $
+-- @version $Id: 011_DigitalRepository.sql,v 1.3 2007/09/13 19:08:43 adamfranco Exp $
 -- */
 -- --------------------------------------------------------
 
@@ -82,7 +82,7 @@ ALTER TABLE ONLY dr_file
 ALTER TABLE ONLY dr_file
 	ADD CONSTRAINT dr_file_fk_mime_type_fkey FOREIGN KEY (fk_mime_type) REFERENCES "dr_mime_type"(id) ON UPDATE CASCADE ON DELETE RESTRICT;
 
-create trigger dr_file_update_modify  before update on dr_file for each row execute procedure update_modify_timestamp();
+create trigger dr_file_update_mod_time  before update on dr_file for each row execute procedure update_mod_time();
 -- see 000_DigitalRepository.sql.run_manually for trigger function definition.
 
 
@@ -92,12 +92,13 @@ create trigger dr_file_update_modify  before update on dr_file for each row exec
 -- 
 -- Table structure for table dr_file_data
 -- 
+-- The current implementation base64-encodes the file data, so text should work.
 -- This should maybe be done using a Large Object (LOB), but I'm not sure.
 -- 
 
 CREATE TABLE dr_file_data (
   fk_file varchar(75) NOT NULL,
-  data bytea NOT NULL
+  data text NOT NULL
 );
 
 ALTER TABLE ONLY dr_file_data
@@ -149,11 +150,13 @@ ALTER TABLE ONLY dr_repository_type
 -- 
 -- Table structure for table dr_thumbnail
 -- 
+-- The current implementation base64-encodes the file data, so text should work.
+-- 
 
 CREATE TABLE dr_thumbnail (
   fk_file varchar(75) NOT NULL,
   fk_mime_type int default NULL,
-  data bytea NOT NULL,
+  data text NOT NULL,
   width int default NULL,
   height int default NULL
 );
@@ -174,6 +177,8 @@ ALTER TABLE ONLY dr_thumbnail
 --
 -- This table is use by polyphony.modules.repository
 -- 
+-- The current implementation base64-encodes the file data, so text should work.
+--
 
 CREATE TABLE dr_resized_cache (
   fk_file varchar(75) NOT NULL,
@@ -181,7 +186,7 @@ CREATE TABLE dr_resized_cache (
   websafe BOOLEAN NOT NULL default '0',
   cache_time timestamp with time zone NOT NULL default CURRENT_TIMESTAMP,
   fk_mime_type int default NULL,
-  data bytea NOT NULL
+  data text NOT NULL
 );
 
 ALTER TABLE ONLY dr_resized_cache

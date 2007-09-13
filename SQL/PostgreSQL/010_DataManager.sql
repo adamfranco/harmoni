@@ -4,19 +4,19 @@
 -- @copyright Copyright &copy; 2005, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 --
--- @version $Id: 010_DataManager.sql,v 1.2 2007/09/13 16:04:16 adamfranco Exp $
+-- @version $Id: 010_DataManager.sql,v 1.3 2007/09/13 19:08:43 adamfranco Exp $
 -- */
 -- --------------------------------------------------------
 
 -- 
 -- Table structure for table `dm_blob`
 -- 
--- Using 'bytea' data type since PostgreSQL doesn't support the BLOB type. Not sure if this will work or not.
+-- Using 'text' data type since PostgreSQL doesn't support the BLOB type. Not sure if this will work or not.
 -- 
 
 CREATE TABLE dm_blob (
   id varchar(75) NOT NULL,
-  data bytea NOT NULL
+  data text NOT NULL
 );
 
 ALTER TABLE ONLY dm_blob

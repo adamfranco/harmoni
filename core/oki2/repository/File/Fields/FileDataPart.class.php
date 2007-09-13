@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileDataPart.class.php,v 1.13 2007/09/11 17:40:57 adamfranco Exp $
+ * @version $Id: FileDataPart.class.php,v 1.14 2007/09/13 19:08:45 adamfranco Exp $
  */
  
 class FileDataPart 
@@ -217,13 +217,27 @@ class FileDataPart
 	 */
 	function updateValue($value) {
 //		ArgumentValidator::validate($value, StringValidatorRule::getRule());
+		$dbHandler = Services::getService("DatabaseManager");
+		
+		
 		
 		// Store the data in the object in case its asked for again.
 //		$this->_data = $value;
+
+		// Make sure that the dr_file row is inserted.
+		$query = new InsertQuery;
+		$query->setTable("dr_file");
+		$query->addValue("id", $this->_recordId->getIdString());
+		try {
+			$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
+		} catch (QueryDatabaseException $e) {
+			// If an error is thrown inserting (because the file already exists)
+			// ignore it.
+		}
 		
+		$dbHandler->beginTransaction($this->_configuration->getProperty("database_index"));
 	// Base64 encode the data to preserve it,
 	// then write it to the database.
-		$dbHandler = Services::getService("DatabaseManager");
 	
 		// Check to see if the data is in the database
 		$query = new SelectQuery;
@@ -255,32 +269,14 @@ class FileDataPart
 		// run the query
 		$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 		
-		// Check to see if the size is in the database
-		$query = new SelectQuery;
-		$query->addTable("dr_file");
-		$query->addColumn("COUNT(*) as count");
-		$query->addWhere("id = '".$this->_recordId->getIdString()."'");
-		$result =$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
-		
-		// If it already exists, use an update query.
-		if ($result->field("count") > 0) {
-			$query = new UpdateQuery;
-			$query->setTable("dr_file");
-			$query->setColumns(array("size"));
-			$query->setValues(array("'".strlen($value)."'"));
-			$query->addWhere("id = '".$this->_recordId->getIdString()."'");
-		}
-		// If it doesn't exist, use an insert query.
-		else {
-			$query = new InsertQuery;
-			$query->setTable("dr_file");
-			$query->setColumns(array("id","size"));
-			$query->setValues(array("'".$this->_recordId->getIdString()."'",
-									"'".strlen($value)."'"));
-		}
-		$result->free();
-		// run the query
+		// Update the size row.
+		$query = new UpdateQuery;
+		$query->setTable("dr_file");
+		$query->addValue("size", strval(strlen($value)));
+		$query->addWhereEqual("id", $this->_recordId->getIdString());
 		$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
+		
+		$dbHandler->commitTransaction($this->_configuration->getProperty("database_index"));
 		
 		$this->_asset->updateModificationDate();
 	}
