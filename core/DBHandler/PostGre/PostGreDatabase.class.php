@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreDatabase.class.php,v 1.17 2007/09/10 20:52:31 adamfranco Exp $
+ * @version $Id: PostGreDatabase.class.php,v 1.18 2007/09/13 02:43:52 adamfranco Exp $
  */
 require_once(HARMONI."DBHandler/Database.abstract.php");
 require_once(HARMONI."DBHandler/PostGre/PostGreSelectQueryResult.class.php");
@@ -23,7 +23,7 @@ require_once(HARMONI."DBHandler/PostGre/PostGre_SQLGenerator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreDatabase.class.php,v 1.17 2007/09/10 20:52:31 adamfranco Exp $
+ * @version $Id: PostGreDatabase.class.php,v 1.18 2007/09/13 02:43:52 adamfranco Exp $
  **/
  
 class PostGreDatabase 
@@ -167,7 +167,9 @@ class PostGreDatabase
 		$conStr .= " password = ".$this->_dbPass;
 		$conStr .= " dbname = ".$this->_dbName;
 		
+		ob_start();
 		$linkId = pg_connect($conStr);
+		$errorText = ob_get_clean();
 		
 		// see if successful
 		if ($linkId) {
@@ -179,8 +181,8 @@ class PostGreDatabase
 			return $linkId;
 		}
 		else {
-			throw new ConnectionDatabaseException($this->getConnectionErrorInfo()."Cannot connect to database.");
 		    $this->_linkId = false;
+			throw new ConnectionDatabaseException($this->getConnectionErrorInfo()."Cannot connect to database. ".$errorText);
 			return false;						
 		}
 	}
@@ -205,7 +207,9 @@ class PostGreDatabase
 		$conStr .= " password = ".$this->_dbPass;
 		$conStr .= " dbname = ".$this->_dbName;
 		
+		ob_start();
 		$linkId = pg_pconnect($conStr);
+		$errorText = ob_get_clean();
 		
 		// see if successful
 		if ($linkId) {
@@ -217,8 +221,9 @@ class PostGreDatabase
 			return $linkId;
 		}
 		else {
-			throw new ConnectionDatabaseException($this->getConnectionErrorInfo()."Cannot connect to database. pg_pconnect($conStr)");
-		    $this->_linkId = false;
+			$this->_linkId = false;
+			throw new ConnectionDatabaseException($this->getConnectionErrorInfo()."Cannot connect to database. ".$errorText);
+		    
 			return false;						
 		}
 
