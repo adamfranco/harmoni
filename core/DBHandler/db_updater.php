@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: db_updater.php,v 1.1 2007/09/11 17:34:34 adamfranco Exp $
+ * @version $Id: db_updater.php,v 1.2 2007/09/13 18:13:55 adamfranco Exp $
  */ 
 ini_set('display_errors', true);
 
@@ -21,7 +21,8 @@ $types = array(
 );
 
 $functions = array (
-	"columnNamesToLowercase" => "Make all column names lowercase."
+	"columnNamesToLowercase" => "Make all column names lowercase.",
+	"harmoni_0_12_0_update" => "Update the tables from Harmoni-0.11.0 to Harmoni-0.12.0."
 );
 
 function execute_update (array $types, array $functions) {
