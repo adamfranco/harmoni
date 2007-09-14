@@ -3,6 +3,14 @@
 Name: Harmoni Change-Log
 
 
+v. 0.12.1 (2007-09-14)
+----------------------------------------------------
+		
+	* Bug Fix: 
+		Updating the MySQL Hierarchy and Scheduling table definitions to work with
+		fixes in harmoni-0.12.0.
+		(2007-09-14 - Adam Franco)
+	
 v. 0.12.0 (2007-09-13)
 ----------------------------------------------------
 		

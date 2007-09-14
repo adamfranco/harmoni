@@ -4,7 +4,7 @@
 -- @copyright Copyright &copy; 2005, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 --
--- @version $Id: Hierarchy.sql,v 1.1 2007/09/11 19:06:29 adamfranco Exp $
+-- @version $Id: Hierarchy.sql,v 1.2 2007/09/14 19:53:37 adamfranco Exp $
 -- */
 -- --------------------------------------------------------
 
@@ -13,7 +13,7 @@
 -- 
 
 CREATE TABLE `hierarchy` (
-  `hierarchy_id` varchar(75) NOT NULL default '0',
+  `hierarchy_id` varchar(75) NOT NULL,
   `hierarchy_display_name` varchar(255) NOT NULL default '',
   `hierarchy_description` text NOT NULL,
   `hierarchy_multiparent` enum('0','1') NOT NULL default '1',
@@ -31,8 +31,9 @@ TYPE=InnoDB;
 -- 
 
 CREATE TABLE j_node_node (
-  fk_parent varchar(75) NOT NULL default '0',
-  fk_child varchar(75) NOT NULL default '0',
+  fk_hierarchy varchar(75) NOT NULL,
+  fk_parent varchar(75) NOT NULL,
+  fk_child varchar(75) NOT NULL,
   PRIMARY KEY  (fk_parent,fk_child),
   KEY fk_parent (fk_parent),
   KEY fk_child (fk_child)
@@ -47,10 +48,10 @@ TYPE=InnoDB;
 -- 
 
 CREATE TABLE node (
-  node_id varchar(75) NOT NULL default '0',
+  node_id varchar(75) NOT NULL,
   node_display_name varchar(255) NOT NULL default '',
   node_description text NOT NULL,
-  fk_hierarchy varchar(75) NOT NULL default '0',
+  fk_hierarchy varchar(75) NOT NULL,
   fk_type int(10) unsigned NOT NULL default '0',
   az_node_changed timestamp NULL default NULL,
   PRIMARY KEY  (fk_hierarchy,node_id),
@@ -68,6 +69,7 @@ CREATE TABLE node (
 -- 
 
 CREATE TABLE node_ancestry (
+  fk_hierarchy varchar(75) NOT NULL,
   fk_node varchar(255) NOT NULL default '',
   fk_ancestor varchar(255) default NULL,
   `level` smallint(6) NOT NULL default '0',

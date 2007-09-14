@@ -5,7 +5,7 @@
 -- @copyright Copyright &copy; 2006, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 -- 
--- @version $Id: Scheduling.sql,v 1.2 2007/09/14 19:53:37 adamfranco Exp $
+-- @version $Id: Scheduling.sql,v 1.3 2007/09/14 19:55:58 adamfranco Exp $
 -- */
 -- --------------------------------------------------------
 
@@ -24,7 +24,7 @@ CREATE TABLE `sc_item` (
   `master_id` varchar(170) character set latin1 collate latin1_general_ci default NULL,
   `fk_creator_id` varchar(170) default NULL,
   PRIMARY KEY  (`id`),
-  KEY `start` (`start`,`end`,`fk_sc_item_stat_type`,`master_id`)
+  KEY `start` (`start_date`,`end_date`,`fk_sc_item_stat_type`,`master_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table holds all of the ScheduleItems.';
 
 -- 

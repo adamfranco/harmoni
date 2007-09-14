@@ -3,11 +3,17 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.165 2007/09/14 13:58:33 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.166 2007/09/14 19:53:39 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni Change-Log">
+	<version number="0.12.1" date="2007-09-14">
+		<fix author='adam' date='2007-09-14'>
+			Updating the MySQL Hierarchy and Scheduling table definitions to work with
+			fixes in harmoni-0.12.0.
+		</fix>
+	</version>
 	<version number="0.12.0" date="2007-09-13">
 		<important author='adam' date='2007-09-11'>
 			In order to support PostgreSQL without refactoring of the Database Handler,
