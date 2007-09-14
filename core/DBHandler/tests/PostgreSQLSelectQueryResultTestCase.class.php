@@ -5,10 +5,10 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreSelectQueryResultTestCase.class.php,v 1.8 2007/09/10 20:52:31 adamfranco Exp $
+ * @version $Id: PostgreSQLSelectQueryResultTestCase.class.php,v 1.1 2007/09/14 13:57:10 adamfranco Exp $
  */
  
-require_once(HARMONI . 'DBHandler/PostGre/PostGreDatabase.class.php');
+require_once(HARMONI . 'DBHandler/PostgreSQL/PostgreSQLDatabase.class.php');
 
 /**
  * A single unit test case. This class is intended to test one particular
@@ -20,18 +20,18 @@ require_once(HARMONI . 'DBHandler/PostGre/PostGreDatabase.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreSelectQueryResultTestCase.class.php,v 1.8 2007/09/10 20:52:31 adamfranco Exp $
+ * @version $Id: PostgreSQLSelectQueryResultTestCase.class.php,v 1.1 2007/09/14 13:57:10 adamfranco Exp $
  */
 
-class PostGreSelectQueryResultTestCase extends UnitTestCase {
-	// PostGreSelectQueryResult object
+class PostgreSQLSelectQueryResultTestCase extends UnitTestCase {
+	// PostgreSQLSelectQueryResult object
 	var $queryResult; 
-	// PostGreDatabase object
+	// PostgreSQLDatabase object
 	var $db; 
 	// Resource id
 	var $rid;
 	
-	function PostGreSelectQueryResultTestCase()
+	function PostgreSQLSelectQueryResultTestCase()
 	{
 		$this->UnitTestCase();	
 	} 
@@ -46,11 +46,11 @@ class PostGreSelectQueryResultTestCase extends UnitTestCase {
 	{ 
 		// perhaps, initialize $obj here
 		// connect to some database and do a select query
-		$this->db = new PostGreDatabase("localhost", "harmoniTest", "test", "test");
+		$this->db = new PostgreSQLDatabase("localhost", "harmoniTest", "test", "test");
 		$this->db->connect();
 		$this->rid = $this->db->_query("SELECT * FROM test ORDER BY id LIMIT 4 OFFSET 100"); 
 		// create the query result
-		$this->queryResult = new PostGreSelectQueryResult($this->rid, $this->db->_linkId);
+		$this->queryResult = new PostgreSQLSelectQueryResult($this->rid, $this->db->_linkId);
 	} 
 	
 	/**

@@ -5,10 +5,10 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreInsertQueryTestCase.class.php,v 1.5 2007/09/10 20:52:31 adamfranco Exp $
+ * @version $Id: PostgreSQLInsertQueryTestCase.class.php,v 1.1 2007/09/14 13:57:10 adamfranco Exp $
  */
     require_once(HARMONI.'DBHandler/InsertQuery.class.php');
-	require_once(HARMONI.'DBHandler/PostGre/PostGre_SQLGenerator.class.php');
+	require_once(HARMONI.'DBHandler/PostgreSQL/PostgreSQL_SQLGenerator.class.php');
 
 /**
  * A single unit test case. This class is intended to test one particular
@@ -20,14 +20,14 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreInsertQueryTestCase.class.php,v 1.5 2007/09/10 20:52:31 adamfranco Exp $
+ * @version $Id: PostgreSQLInsertQueryTestCase.class.php,v 1.1 2007/09/14 13:57:10 adamfranco Exp $
  */
 
-    class PostGreInsertQueryTestCase extends UnitTestCase {
+    class PostgreSQLInsertQueryTestCase extends UnitTestCase {
 
 		var $query;
 
-		function PostGreInsertQueryTestCase() {
+		function PostgreSQLInsertQueryTestCase() {
 			$this->UnitTestCase();
 		}
 
@@ -79,7 +79,7 @@
 
 			$sql = "INSERT INTO user\n\t(user_id, user_uname, user_fname)\n\tVALUES(5, 'dradichk', 'Dobromir')\n";
 	
-			$sqlFromObject = PostGre_SQLGenerator::generateSQLQuery($this->query);
+			$sqlFromObject = PostgreSQL_SQLGenerator::generateSQLQuery($this->query);
 			$this->assertEqual($sql, $sqlFromObject);
 		}
 		
@@ -109,7 +109,7 @@
 			$sql[] = "INSERT INTO user\n\t(user_id, user_uname, user_fname, id)\n\tVALUES(6, 'afranco', 'Adam', NEXTVAL('seq'))\n";
 			$sql[] = "INSERT INTO user\n\t(user_id, user_uname, user_fname, id)\n\tVALUES(7, 'movsjani', 'Maks', NEXTVAL('seq'))\n";
 	
-			$sqlFromObject = PostGre_SQLGenerator::generateSQLQuery($this->query);
+			$sqlFromObject = PostgreSQL_SQLGenerator::generateSQLQuery($this->query);
 			$this->assertEqual($sql, $sqlFromObject);
 		}
 	
@@ -128,7 +128,7 @@
 			$this->query->reset();
 
 			try {
-				$sqlFromObject = PostGre_SQLGenerator::generateSQLQuery($this->query);
+				$sqlFromObject = PostgreSQL_SQLGenerator::generateSQLQuery($this->query);
 			} catch (DatabaseException $e) {}
 			if (isset($result)) {$this->assertTrue(false, "\$sqlFromObject should be null."); }
 			
@@ -153,7 +153,7 @@
 			$this->query->reset();
 
 			try {
-				$sqlFromObject = PostGre_SQLGenerator::generateSQLQuery($this->query);
+				$sqlFromObject = PostgreSQL_SQLGenerator::generateSQLQuery($this->query);
 			} catch (DatabaseException $e) {}
 			if (isset($result)) {$this->assertTrue(false, "\$sqlFromObject should be null."); }
 			
@@ -168,7 +168,7 @@
 			$this->query->addRowOfValues($values);
 
 			try {
-				$sqlFromObject = PostGre_SQLGenerator::generateSQLQuery($this->query);
+				$sqlFromObject = PostgreSQL_SQLGenerator::generateSQLQuery($this->query);
 			} catch (DatabaseException $e) {}
 			if (isset($result)) {$this->assertTrue(false, "\$sqlFromObject should be null."); }
 			

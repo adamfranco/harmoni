@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreInsertQueryResult.class.php,v 1.7 2007/09/05 21:39:01 adamfranco Exp $
+ * @version $Id: PostgreSQLInsertQueryResult.class.php,v 1.1 2007/09/14 13:57:08 adamfranco Exp $
  */
  
 require_once(HARMONI."DBHandler/InsertQueryResult.interface.php");
@@ -19,9 +19,9 @@ require_once(HARMONI."DBHandler/InsertQueryResult.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreInsertQueryResult.class.php,v 1.7 2007/09/05 21:39:01 adamfranco Exp $
+ * @version $Id: PostgreSQLInsertQueryResult.class.php,v 1.1 2007/09/14 13:57:08 adamfranco Exp $
  */
-class PostGreInsertQueryResult 
+class PostgreSQLInsertQueryResult 
 	implements InsertQueryResultInterface  
 {
 
@@ -51,13 +51,13 @@ class PostGreInsertQueryResult
 
 
 	/**
-	 * Creates a new PostGreINSERTQueryResult object.
+	 * Creates a new PostgreSQLINSERTQueryResult object.
 	 * @access public
 	 * @param integer $resourceId The resource id for this query.
 	 * @param integer $lastId The last id that was inserted
-	 * @return object A new PostGreINSERTQueryResult object.
+	 * @return object A new PostgreSQLINSERTQueryResult object.
 	 */
-	function PostGreInsertQueryResult($resourceId, $lastId) {
+	function PostgreSQLInsertQueryResult($resourceId, $lastId) {
 		// ** parameter validation
 		$resourceRule = ResourceValidatorRule::getRule();
 		$integerRule = OptionalRule::getRule(IntegerValidatorRule::getRule());

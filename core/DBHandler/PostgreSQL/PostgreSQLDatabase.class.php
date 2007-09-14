@@ -5,28 +5,28 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreDatabase.class.php,v 1.19 2007/09/13 03:26:59 adamfranco Exp $
+ * @version $Id: PostgreSQLDatabase.class.php,v 1.1 2007/09/14 13:57:08 adamfranco Exp $
  */
 require_once(HARMONI."DBHandler/Database.abstract.php");
-require_once(HARMONI."DBHandler/PostGre/PostGreSelectQueryResult.class.php");
-require_once(HARMONI."DBHandler/PostGre/PostGreInsertQueryResult.class.php");
-require_once(HARMONI."DBHandler/PostGre/PostGreUpdateQueryResult.class.php");
-require_once(HARMONI."DBHandler/PostGre/PostGreDeleteQueryResult.class.php");
-require_once(HARMONI."DBHandler/PostGre/PostGreGenericQueryResult.class.php");
-require_once(HARMONI."DBHandler/PostGre/PostGre_SQLGenerator.class.php");
+require_once(HARMONI."DBHandler/PostgreSQL/PostgreSQLSelectQueryResult.class.php");
+require_once(HARMONI."DBHandler/PostgreSQL/PostgreSQLInsertQueryResult.class.php");
+require_once(HARMONI."DBHandler/PostgreSQL/PostgreSQLUpdateQueryResult.class.php");
+require_once(HARMONI."DBHandler/PostgreSQL/PostgreSQLDeleteQueryResult.class.php");
+require_once(HARMONI."DBHandler/PostgreSQL/PostgreSQLGenericQueryResult.class.php");
+require_once(HARMONI."DBHandler/PostgreSQL/PostgreSQL_SQLGenerator.class.php");
 
 /**
- * A PostGreDatabase class provides the tools to connect, query, etc., a PostGre database.
+ * A PostgreSQLDatabase class provides the tools to connect, query, etc., a PostgreSQL database.
  *
  * @package harmoni.dbc.postgre
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreDatabase.class.php,v 1.19 2007/09/13 03:26:59 adamfranco Exp $
+ * @version $Id: PostgreSQLDatabase.class.php,v 1.1 2007/09/14 13:57:08 adamfranco Exp $
  **/
  
-class PostGreDatabase 
+class PostgreSQLDatabase 
 	extends DatabaseAbstract
 {
 
@@ -100,7 +100,7 @@ class PostGreDatabase
 	 * @return integer $dbIndex The index of the new database
 	 * @access public
 	 */
-	function PostGreDatabase($dbHost, $dbName, $dbUser, $dbPass) {
+	function PostgreSQLDatabase($dbHost, $dbName, $dbUser, $dbPass) {
 		// ** parameter validation
 		$stringRule = StringValidatorRule::getRule();
 		ArgumentValidator::validate($dbHost, $stringRule, true);
@@ -124,7 +124,7 @@ class PostGreDatabase
 	 * @return string
 	 */
 	function getStringName() {
-		return "PostGre";
+		return "PostgreSQL";
 	}
 
 	/**
@@ -248,7 +248,7 @@ class PostGreDatabase
 		}
 			
 		// generate the SQL query string
-		$queryString = PostGre_SQLGenerator::generateSQLQuery($query);
+		$queryString = PostgreSQL_SQLGenerator::generateSQLQuery($query);
 		
 		// if query is an insert, do it in a transaction (cause you will need
 		// to fetch the last inserted id)
@@ -278,20 +278,20 @@ class PostGreDatabase
 					$lastId = intval($arr[0]);
 				}
 				
-				$result = new PostGreInsertQueryResult($resourceId, $lastId);
+				$result = new PostgreSQLInsertQueryResult($resourceId, $lastId);
 				break;
 			}
 			case UPDATE : 
-				$result = new PostGreUpdateQueryResult($resourceId);
+				$result = new PostgreSQLUpdateQueryResult($resourceId);
 				break;
 			case DELETE : 
-				$result = new PostGreDeleteQueryResult($resourceId);
+				$result = new PostgreSQLDeleteQueryResult($resourceId);
 				break;
 			case SELECT : 
-				$result = new PostGreSelectQueryResult($resourceId, $this->_linkId);
+				$result = new PostgreSQLSelectQueryResult($resourceId, $this->_linkId);
 				break;
 			case GENERIC : 
-				$result = new PostGreGenericQueryResult($resourceId, $this->_linkId);
+				$result = new PostgreSQLGenericQueryResult($resourceId, $this->_linkId);
 				break;
 			default:
 				throw new DatabaseException("Unsupported query type.");
@@ -309,7 +309,7 @@ class PostGreDatabase
 	 * @since 11/14/06
 	 */
 	function generateSQL ($query) {
-		return PostGre_SQLGenerator::generateSQLQuery($query);
+		return PostgreSQL_SQLGenerator::generateSQLQuery($query);
 	}
 
 	/**
@@ -464,8 +464,8 @@ class PostGreDatabase
 	 * The easiest way to convert is to create a string in the following 
 	 * format: 
 	 * 'YYYY-MM-DD HH:MM:SS', i.e. 1999-01-08 04:05:06
-	 * You can pass this to a PostGre date or timestamp column types
-	 * and it gets parsed automatically by PostGre.
+	 * You can pass this to a PostgreSQL date or timestamp column types
+	 * and it gets parsed automatically by PostgreSQL.
 	 *
 	 * @access public
 	 * @param ref object DateAndTime The DateAndTime object to convert.
@@ -485,7 +485,7 @@ class PostGreDatabase
 	 * Converts a database datetime/timestamp/time value (that has been fetched
 	 * from the db) to a DateAndTime object.
 	 *
-	 * Depending on the server configuration PostGre retrieves date/time
+	 * Depending on the server configuration PostgreSQL retrieves date/time
 	 * types as 4 different formats. (format could be set with SET DateStyle
 	 * ). The default formatting is 'ISO'. Note that timestamp column types 
 	 * return the full string. Date column types only return the date (no time).

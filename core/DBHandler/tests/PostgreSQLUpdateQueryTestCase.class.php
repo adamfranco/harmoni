@@ -5,11 +5,11 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreUpdateQueryTestCase.class.php,v 1.6 2007/09/10 20:52:31 adamfranco Exp $
+ * @version $Id: PostgreSQLUpdateQueryTestCase.class.php,v 1.1 2007/09/14 13:57:10 adamfranco Exp $
  */
  
     require_once(HARMONI.'DBHandler/UpdateQuery.class.php');
-    require_once(HARMONI.'DBHandler/PostGre/PostGre_SQLGenerator.class.php');
+    require_once(HARMONI.'DBHandler/PostgreSQL/PostgreSQL_SQLGenerator.class.php');
 
 /**
  * A single unit test case. This class is intended to test one particular
@@ -21,14 +21,14 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreUpdateQueryTestCase.class.php,v 1.6 2007/09/10 20:52:31 adamfranco Exp $
+ * @version $Id: PostgreSQLUpdateQueryTestCase.class.php,v 1.1 2007/09/14 13:57:10 adamfranco Exp $
  */
 
-    class PostGreUpdateQueryTestCase extends UnitTestCase {
+    class PostgreSQLUpdateQueryTestCase extends UnitTestCase {
 	
 		var $query;
 
-		function PostGreUpdateQueryTestCase() {
+		function PostgreSQLUpdateQueryTestCase() {
 			$this->UnitTestCase();
 		}
 
@@ -75,7 +75,7 @@
 
 			$sql = "UPDATE person\nSET\n\tuser_uname = 'dradichk'\n";
 	
-			$sqlFromObject = PostGre_SQLGenerator::generateSQLQuery($this->query);
+			$sqlFromObject = PostgreSQL_SQLGenerator::generateSQLQuery($this->query);
 			$this->assertEqual($sql, $sqlFromObject);
 			
 		}
@@ -95,7 +95,7 @@
 
 			$sql = "UPDATE person\nSET\n\tuser_uname = 'dradichk',\n\tuser_fname = 'Dobo',\n\tuser_id = 5\n";
 	
-			$sqlFromObject = PostGre_SQLGenerator::generateSQLQuery($this->query);
+			$sqlFromObject = PostgreSQL_SQLGenerator::generateSQLQuery($this->query);
 			$this->assertEqual($sql, $sqlFromObject);
 		}
 		
@@ -119,7 +119,7 @@
 
 			$sql = "UPDATE person\nSET\n\tuser_uname = 'dradichk',\n\tuser_fname = 'Dobo',\n\tuser_id = 5\nWHERE\n\tuser_id = 3\n\t\tAND\n\tuser_id = 3\n";
 	
-			$sqlFromObject = PostGre_SQLGenerator::generateSQLQuery($this->query);
+			$sqlFromObject = PostgreSQL_SQLGenerator::generateSQLQuery($this->query);
 			$this->assertEqual($sql, $sqlFromObject);
 		}
 
@@ -142,7 +142,7 @@
 			$this->query->reset();
 
 			try {
-				$sqlFromObject = PostGre_SQLGenerator::generateSQLQuery($this->query);
+				$sqlFromObject = PostgreSQL_SQLGenerator::generateSQLQuery($this->query);
 			} catch (DatabaseException $e) {}
 			if (isset($result)) {$this->assertTrue(false, "\$sqlFromObject should be null."); }
 			
@@ -159,7 +159,7 @@
 			$this->query->setWhere($condition);
 
 			try {
-				$sqlFromObject = PostGre_SQLGenerator::generateSQLQuery($this->query);
+				$sqlFromObject = PostgreSQL_SQLGenerator::generateSQLQuery($this->query);
 			} catch (DatabaseException $e) {}
 			if (isset($result)) {$this->assertTrue(false, "\$sqlFromObject should be null."); }
 			

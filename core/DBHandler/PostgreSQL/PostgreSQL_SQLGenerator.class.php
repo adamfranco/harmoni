@@ -5,13 +5,13 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGre_SQLGenerator.class.php,v 1.12 2007/09/11 15:01:59 adamfranco Exp $
+ * @version $Id: PostgreSQL_SQLGenerator.class.php,v 1.1 2007/09/14 13:57:08 adamfranco Exp $
  */
  
 require_once(HARMONI."DBHandler/SQLGenerator.interface.php");
 
 /**
- * A PostGreQueryGenerator class provides the tools to build a PostGre query from a Query object.
+ * A PostgreSQLQueryGenerator class provides the tools to build a PostgreSQL query from a Query object.
  *
  *
  * @package harmoni.dbc.postgre
@@ -19,10 +19,10 @@ require_once(HARMONI."DBHandler/SQLGenerator.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGre_SQLGenerator.class.php,v 1.12 2007/09/11 15:01:59 adamfranco Exp $
+ * @version $Id: PostgreSQL_SQLGenerator.class.php,v 1.1 2007/09/14 13:57:08 adamfranco Exp $
  */
 
-class PostGre_SQLGenerator extends SQLGeneratorInterface {
+class PostgreSQL_SQLGenerator extends SQLGeneratorInterface {
 
 	/**
 	 * Returns a string representing the SQL query corresonding to the specified Query object.
@@ -35,16 +35,16 @@ class PostGre_SQLGenerator extends SQLGeneratorInterface {
 	function generateSQLQuery(Query $query) {
 		switch($query->getType()) {
 			case INSERT : 
-				return PostGre_SQLGenerator::generateInsertSQLQuery($query);
+				return PostgreSQL_SQLGenerator::generateInsertSQLQuery($query);
 				break;
 			case UPDATE : 
-				return PostGre_SQLGenerator::generateUpdateSQLQuery($query);
+				return PostgreSQL_SQLGenerator::generateUpdateSQLQuery($query);
 				break;
 			case DELETE : 
-				return PostGre_SQLGenerator::generateDeleteSQLQuery($query);
+				return PostgreSQL_SQLGenerator::generateDeleteSQLQuery($query);
 				break;
 			case SELECT : 
-				return PostGre_SQLGenerator::generateSelectSQLQuery($query);
+				return PostgreSQL_SQLGenerator::generateSelectSQLQuery($query);
 				break;
 			case GENERIC : 
 				return MySQL_SQLGenerator::generateGenericSQLQuery($query);

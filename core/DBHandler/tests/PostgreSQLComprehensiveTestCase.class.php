@@ -5,9 +5,9 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreComprehensiveTestCase.class.php,v 1.8 2007/09/10 20:52:31 adamfranco Exp $
+ * @version $Id: PostgreSQLComprehensiveTestCase.class.php,v 1.1 2007/09/14 13:57:09 adamfranco Exp $
  */
-    require_once(HARMONI.'DBHandler/PostGre/PostGreDatabase.class.php');
+    require_once(HARMONI.'DBHandler/PostgreSQL/PostgreSQLDatabase.class.php');
 
 /**
  * A single unit test case. This class is intended to test one particular
@@ -19,14 +19,14 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreComprehensiveTestCase.class.php,v 1.8 2007/09/10 20:52:31 adamfranco Exp $
+ * @version $Id: PostgreSQLComprehensiveTestCase.class.php,v 1.1 2007/09/14 13:57:09 adamfranco Exp $
  */
 
-    class PostGreComprehensiveTestCase extends UnitTestCase {
+    class PostgreSQLComprehensiveTestCase extends UnitTestCase {
 		
 		var $db;
 	
-		function PostGreComprehensiveTestCase() {
+		function PostgreSQLComprehensiveTestCase() {
 			$this->UnitTestCase();
 		}
 
@@ -37,7 +37,7 @@
          */
         function setUp() {
 			// perhaps, initialize $obj here
-			$this->db = new PostGreDatabase("localhost", "harmoniTest", "test", "test");
+			$this->db = new PostgreSQLDatabase("localhost", "harmoniTest", "test", "test");
 			$this->db->connect();
         }
 		

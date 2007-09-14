@@ -5,13 +5,13 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreSelectQueryResult.class.php,v 1.12 2007/09/11 15:10:49 adamfranco Exp $
+ * @version $Id: PostgreSQLSelectQueryResult.class.php,v 1.1 2007/09/14 13:57:08 adamfranco Exp $
  */
  
 require_once(HARMONI."DBHandler/SelectQueryResult.interface.php");
 
 /**
- * The PostGreSelectQueryResult interface provides the functionality common to a PostGre SELECT query result.
+ * The PostgreSQLSelectQueryResult interface provides the functionality common to a PostgreSQL SELECT query result.
  * For example, you can fetch associative arrays, advance the current row position, etc.
  *
  * @package harmoni.dbc.postgre
@@ -19,9 +19,9 @@ require_once(HARMONI."DBHandler/SelectQueryResult.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreSelectQueryResult.class.php,v 1.12 2007/09/11 15:10:49 adamfranco Exp $
+ * @version $Id: PostgreSQLSelectQueryResult.class.php,v 1.1 2007/09/14 13:57:08 adamfranco Exp $
  */
-class PostGreSelectQueryResult 
+class PostgreSQLSelectQueryResult 
 	implements SelectQueryResultInterface 
 {
 
@@ -60,14 +60,14 @@ class PostGreSelectQueryResult
 
 	
 	/**
-	 * Creates a new PostGreSelectQueryResult object.
-	 * Creates a new PostGreSelectQueryResult object.
+	 * Creates a new PostgreSQLSelectQueryResult object.
+	 * Creates a new PostgreSQLSelectQueryResult object.
 	 * @access public
 	 * @param integer $resourceId The resource id for this SELECT query.
 	 * @param integer $linkId The link identifier for the database connection.
-	 * @return object PostGreSelectQueryResult A new PostGreSelectQueryResult object.
+	 * @return object PostgreSQLSelectQueryResult A new PostgreSQLSelectQueryResult object.
 	 */
-	function PostGreSelectQueryResult($resourceId, $linkId) {
+	function PostgreSQLSelectQueryResult($resourceId, $linkId) {
 		// ** parameter validation
 		$resourceRule = ResourceValidatorRule::getRule();
 		ArgumentValidator::validate($resourceId, $resourceRule, true);
@@ -98,7 +98,7 @@ class PostGreSelectQueryResult
 	/**
 	 * Returns the resource id for this SELECT query.
 	 * Returns the resource id for this SELECT query. The resource id is returned
-	 * by the PostGre_query() function.
+	 * by the PostgreSQL_query() function.
 	 * @access public
 	 * @return integer The resource id for this SELECT query.
 	 **/

@@ -5,27 +5,25 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreUpdateQueryResult.class.php,v 1.7 2007/09/05 21:39:01 adamfranco Exp $
+ * @version $Id: PostgreSQLDeleteQueryResult.class.php,v 1.1 2007/09/14 13:57:08 adamfranco Exp $
  */
  
-require_once(HARMONI."DBHandler/UpdateQueryResult.interface.php");
+require_once(HARMONI."DBHandler/DeleteQueryResult.interface.php");
 
 /**
- * The UPDATEQueryResult interface provides the functionality common to all UPDATE query results.
- * For example, you can get the primary key for the last UPDATEion, get number of UPDATEed rows, etc.
+ * The DeleteQueryResult interface provides the functionality common to all Delete query results.
+ * For example, you can get the primary key for the last Deleteion, get number of Deleteed rows, etc.
  *
  * @package harmoni.dbc.postgre
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreUpdateQueryResult.class.php,v 1.7 2007/09/05 21:39:01 adamfranco Exp $
+ * @version $Id: PostgreSQLDeleteQueryResult.class.php,v 1.1 2007/09/14 13:57:08 adamfranco Exp $
  */
-class PostGreUpdateQueryResult 
-	implements UpdateQueryResultInterface 
+class PostgreSQLDeleteQueryResult 
+	implements DeleteQueryResultInterface 
 {
-
-
 
 	/**
 	 * The resource id for this query.
@@ -44,13 +42,12 @@ class PostGreUpdateQueryResult
 	var $_numberOfRows;
 
 
-
 	/**
 	 * The constructor.
 	 * @access public
 	 * @param integer $resourceId The resource id for this query.
 	 */
-	function PostGreUpdateQueryResult($resourceId) {
+	function PostgreSQLDeleteQueryResult($resourceId) {
 		// ** parameter validation
 		$resourceRule = ResourceValidatorRule::getRule();
 		ArgumentValidator::validate($resourceId, $resourceRule, true);
@@ -65,11 +62,11 @@ class PostGreUpdateQueryResult
 	/**
 	 * Returns the number of rows that the query processed.
 	 * Returns the number of rows that the query processed. For a SELECT query,
-	 * this would be the total number of rows selected. For a DELETE, INSERT, or
-	 * UPDATE query, this would be the number of rows that were affected.
+	 * this would be the total number of rows selected. For a UPDATE, INSERT, or
+	 * Delete query, this would be the number of rows that were affected.
 	 * @return integer Number of rows that were processed by the query.
 	 * @access public
-	 */ 
+	 */
 	function getNumberOfRows() {
 		return $this->_numberOfRows;
 	}

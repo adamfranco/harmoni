@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: test.php,v 1.9 2007/09/10 20:52:31 adamfranco Exp $
+ * @version $Id: test.php,v 1.10 2007/09/14 13:57:10 adamfranco Exp $
  */
  
 ini_set('display_errors', true);
@@ -92,15 +92,15 @@ case 'postgresql':
 // 	SQLUtils::runSQLfile(dirname(__FILE__)."/testB.sql", $dbIndexB);
 // 	$db->disconnect($dbIndexB);
 // 	
-    $test->addTestFile(HARMONI.'DBHandler/tests/PostGreDatabaseTestCase.class.php');
+    $test->addTestFile(HARMONI.'DBHandler/tests/PostgreSQLDatabaseTestCase.class.php');
 
-	$test->addTestFile(HARMONI.'DBHandler/tests/PostGreDeleteQueryTestCase.class.php');
-    $test->addTestFile(HARMONI.'DBHandler/tests/PostGreUpdateQueryTestCase.class.php');
-    $test->addTestFile(HARMONI.'DBHandler/tests/PostGreInsertQueryTestCase.class.php');
-    $test->addTestFile(HARMONI.'DBHandler/tests/PostGreSelectQueryTestCase.class.php');
-    $test->addTestFile(HARMONI.'DBHandler/tests/PostGreInsertQueryResultTestCase.class.php');
-    $test->addTestFile(HARMONI.'DBHandler/tests/PostGreSelectQueryResultTestCase.class.php');
-    $test->addTestFile(HARMONI.'DBHandler/tests/PostGreComprehensiveTestCase.class.php');
+	$test->addTestFile(HARMONI.'DBHandler/tests/PostgreSQLDeleteQueryTestCase.class.php');
+    $test->addTestFile(HARMONI.'DBHandler/tests/PostgreSQLUpdateQueryTestCase.class.php');
+    $test->addTestFile(HARMONI.'DBHandler/tests/PostgreSQLInsertQueryTestCase.class.php');
+    $test->addTestFile(HARMONI.'DBHandler/tests/PostgreSQLSelectQueryTestCase.class.php');
+    $test->addTestFile(HARMONI.'DBHandler/tests/PostgreSQLInsertQueryResultTestCase.class.php');
+    $test->addTestFile(HARMONI.'DBHandler/tests/PostgreSQLSelectQueryResultTestCase.class.php');
+    $test->addTestFile(HARMONI.'DBHandler/tests/PostgreSQLComprehensiveTestCase.class.php');
    
    break;
 }

@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreGenericQueryResult.class.php,v 1.10 2007/09/05 21:39:01 adamfranco Exp $
+ * @version $Id: PostgreSQLGenericQueryResult.class.php,v 1.1 2007/09/14 13:57:08 adamfranco Exp $
  */
  
 require_once(HARMONI."DBHandler/GenericQueryResult.interface.php");
@@ -21,9 +21,9 @@ require_once(HARMONI."DBHandler/GenericQueryResult.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreGenericQueryResult.class.php,v 1.10 2007/09/05 21:39:01 adamfranco Exp $
+ * @version $Id: PostgreSQLGenericQueryResult.class.php,v 1.1 2007/09/14 13:57:08 adamfranco Exp $
  */
-class PostGreGenericQueryResult 
+class PostgreSQLGenericQueryResult 
 	implements GenericQueryResultInterface 
 {
 	
@@ -52,7 +52,7 @@ class PostGreGenericQueryResult
 	 * @access public
 	 * @since 7/2/04
 	 */
-	function PostGreGenericQueryResult ($resourceId, $linkId) {
+	function PostgreSQLGenericQueryResult ($resourceId, $linkId) {
 		// ** parameter validation
 		$resourceRule = ResourceValidatorRule::getRule();
 		if (!is_bool($resourceId)) {
@@ -79,7 +79,7 @@ class PostGreGenericQueryResult
 	/**
 	 * Returns the resource id for this SELECT query.
 	 * Returns the resource id for this SELECT query. The resource id is returned
-	 * by the PostGre_query() function.
+	 * by the PostgreSQL_query() function.
 	 * @access public
 	 * @return integer The resource id for this SELECT query.
 	 **/
@@ -95,7 +95,7 @@ class PostGreGenericQueryResult
 	 * @since 7/1/04
 	 */
 	function returnAsSelectQueryResult () {
-		$obj = new PostGreSelectQueryResult($this->_resourceId, $this->_linkId);
+		$obj = new PostgreSQLSelectQueryResult($this->_resourceId, $this->_linkId);
 		return $obj;
 	}
 	
@@ -107,7 +107,7 @@ class PostGreGenericQueryResult
 	 * @since 7/1/04
 	 */
 	function returnAsInsertQueryResult () {
-		$obj = new PostGreInsertQueryResult($this->_linkId);
+		$obj = new PostgreSQLInsertQueryResult($this->_linkId);
 		return $obj;
 	}
 	
@@ -119,7 +119,7 @@ class PostGreGenericQueryResult
 	 * @since 7/1/04
 	 */
 	function returnAsUpdateQueryResult () {
-		$obj = new PostGreUpdateQueryResult($this->_linkId);
+		$obj = new PostgreSQLUpdateQueryResult($this->_linkId);
 		return $obj;
 	}
 	
@@ -131,7 +131,7 @@ class PostGreGenericQueryResult
 	 * @since 7/1/04
 	 */
 	function returnAsDeleteQueryResult () {
-		$obj = new PostGreDeleteQueryResult($this->_linkId);
+		$obj = new PostgreSQLDeleteQueryResult($this->_linkId);
 		return $obj;
 	}
 }

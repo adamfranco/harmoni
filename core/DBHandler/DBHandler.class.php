@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DBHandler.class.php,v 1.26 2007/09/11 18:53:12 adamfranco Exp $
+ * @version $Id: DBHandler.class.php,v 1.27 2007/09/14 13:57:06 adamfranco Exp $
  */
  
 /**
@@ -49,7 +49,7 @@ require_once(HARMONI."DBHandler/DeleteQuery.class.php");
 require_once(HARMONI."DBHandler/InsertQuery.class.php");
 require_once(HARMONI."DBHandler/GenericSQLQuery.class.php");
 require_once(HARMONI.'DBHandler/MySQL/MySQLDatabase.class.php');
-require_once(HARMONI.'DBHandler/PostGre/PostGreDatabase.class.php');
+require_once(HARMONI.'DBHandler/PostgreSQL/PostgreSQLDatabase.class.php');
 require_once(HARMONI.'DBHandler/Oracle/OracleDatabase.class.php');
 require_once(HARMONI.'DBHandler/SQLUtils.static.php');
 require_once(HARMONI.'utilities/Queue.class.php');
@@ -68,7 +68,7 @@ require_once(HARMONI."Primitives/Chronology/include.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DBHandler.class.php,v 1.26 2007/09/11 18:53:12 adamfranco Exp $
+ * @version $Id: DBHandler.class.php,v 1.27 2007/09/14 13:57:06 adamfranco Exp $
  */
 
 class DBHandler { 
@@ -191,7 +191,7 @@ class DBHandler {
 				;
 				break;
 			case POSTGRESQL :
-				$this->_databases[] = new PostGreDatabase($dbHost, $dbName, $dbUser, $dbPass);
+				$this->_databases[] = new PostgreSQLDatabase($dbHost, $dbName, $dbUser, $dbPass);
 				break;
 			case SQLSERVER :
 				;
@@ -238,7 +238,7 @@ class DBHandler {
 		if ($this->_databases[$dbIndex] instanceof MySQLDatabase)
 			return MYSQL;
 		
-		if ($this->_databases[$dbIndex] instanceof PostGreDatabase)
+		if ($this->_databases[$dbIndex] instanceof PostgreSQLDatabase)
 			return POSTGRESQL;
 		
 		if ($this->_databases[$dbIndex] instanceof OracleDatabase)

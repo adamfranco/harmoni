@@ -5,9 +5,9 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreInsertQueryResultTestCase.class.php,v 1.7 2007/09/10 20:52:31 adamfranco Exp $
+ * @version $Id: PostgreSQLInsertQueryResultTestCase.class.php,v 1.1 2007/09/14 13:57:10 adamfranco Exp $
  */
-    require_once(HARMONI.'DBHandler/PostGre/PostGreDatabase.class.php');
+    require_once(HARMONI.'DBHandler/PostgreSQL/PostgreSQLDatabase.class.php');
 
 /**
  * A single unit test case. This class is intended to test one particular
@@ -19,15 +19,15 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreInsertQueryResultTestCase.class.php,v 1.7 2007/09/10 20:52:31 adamfranco Exp $
+ * @version $Id: PostgreSQLInsertQueryResultTestCase.class.php,v 1.1 2007/09/14 13:57:10 adamfranco Exp $
  */
 
-    class PostGreInsertQueryResultTestCase extends UnitTestCase {
+    class PostgreSQLInsertQueryResultTestCase extends UnitTestCase {
 	
-		// PostGreDatabase object
+		// PostgreSQLDatabase object
 		var $db;
 	
-		function PostGreINSERTQueryResultTestCase() {
+		function PostgreSQLINSERTQueryResultTestCase() {
 			$this->UnitTestCase();
 		}
 
@@ -40,7 +40,7 @@
 			// perhaps, initialize $obj here
 
 			// connect to some database and do a INSERT query
-			$this->db = new PostGreDatabase("localhost", "harmoniTest", "test", "test");
+			$this->db = new PostgreSQLDatabase("localhost", "harmoniTest", "test", "test");
 			$this->db->connect();
         }
 		
@@ -63,7 +63,7 @@
 			$lastIdResourceId = $this->db->_query($lastIdQuery);
 			$arr = pg_fetch_row($lastIdResourceId, 0);
 			$lastId = intval($arr[0]);
-			$queryResult = new PostGreInsertQueryResult($rid, $lastId);
+			$queryResult = new PostgreSQLInsertQueryResult($rid, $lastId);
 			
 			$this->assertEqual($rid, $queryResult->_resourceId);
 		}
@@ -79,7 +79,7 @@
 			$arr = pg_fetch_row($lastIdResourceId, 0);
 			$lastId = intval($arr[0]);
 
-			$queryResult = new PostGreInsertQueryResult($rid, $lastId);
+			$queryResult = new PostgreSQLInsertQueryResult($rid, $lastId);
 
 			$this->assertNotNull($queryResult->getLastAutoIncrementValue());
 			$this->assertEqual($queryResult->getNumberOfRows(), 1);
@@ -101,7 +101,7 @@
 			$arr = pg_fetch_row($lastIdResourceId, 0);
 			$lastId = intval($arr[0]);
 
-			$queryResult = new PostGreInsertQueryResult($rid, $lastId);
+			$queryResult = new PostgreSQLInsertQueryResult($rid, $lastId);
 
 			$this->assertNotNull($queryResult->getLastAutoIncrementValue());
 			$this->assertEqual($queryResult->getNumberOfRows(), 1);

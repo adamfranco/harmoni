@@ -5,10 +5,10 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreSelectQueryTestCase.class.php,v 1.5 2007/09/04 20:25:21 adamfranco Exp $
+ * @version $Id: PostgreSQLSelectQueryTestCase.class.php,v 1.1 2007/09/14 13:57:10 adamfranco Exp $
  */
     require_once(HARMONI.'DBHandler/SelectQuery.class.php');
-	require_once(HARMONI.'DBHandler/PostGre/PostGre_SQLGenerator.class.php');
+	require_once(HARMONI.'DBHandler/PostgreSQL/PostgreSQL_SQLGenerator.class.php');
 
 /**
  * A single unit test case. This class is intended to test one particular
@@ -20,14 +20,14 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostGreSelectQueryTestCase.class.php,v 1.5 2007/09/04 20:25:21 adamfranco Exp $
+ * @version $Id: PostgreSQLSelectQueryTestCase.class.php,v 1.1 2007/09/14 13:57:10 adamfranco Exp $
  */
 
-    class PostGreSelectQueryTestCase extends UnitTestCase {
+    class PostgreSQLSelectQueryTestCase extends UnitTestCase {
 	
 		var $query;
 	
-		function PostGreSelectQueryTestCase() {
+		function PostgreSQLSelectQueryTestCase() {
 			$this->UnitTestCase();
 		}
 
@@ -71,7 +71,7 @@
 
 			$sql = "SELECT\n\tuser_id\nFROM\n\tperson\n";
 	
-			$sqlFromObject = PostGre_SQLGenerator::generateSQLQuery($this->query);
+			$sqlFromObject = PostgreSQL_SQLGenerator::generateSQLQuery($this->query);
 			$this->assertEqual($sql, $sqlFromObject);
 		}
 		
@@ -89,7 +89,7 @@
 
 			$sql = "SELECT\n\tuser_id,\n\tuser_uname as username,\n\tCOUNT(*)\nFROM\n\tuser,\n\tclass,\n\tperson\n";
 	
-			$sqlFromObject = PostGre_SQLGenerator::generateSQLQuery($this->query);
+			$sqlFromObject = PostgreSQL_SQLGenerator::generateSQLQuery($this->query);
 			$this->assertEqual($sql, $sqlFromObject);
 		}
 		
@@ -109,7 +109,7 @@
 			
 			$sql = "SELECT\n\tuser_id,\n\tuser_uname as username,\n\tCOUNT(*)\nFROM\n\tuser,\n\tclass,\n\tperson\nWHERE\n\tuser_id = 5\nGROUP BY\n\tuser_id,\n\tuser_sex\nHAVING\n\tuser_age = 38\nORDER BY\n\tuser_lname ASC,\n\tuser_fname DESC\n";
 	
-			$sqlFromObject = PostGre_SQLGenerator::generateSQLQuery($this->query);
+			$sqlFromObject = PostgreSQL_SQLGenerator::generateSQLQuery($this->query);
 			$this->assertEqual($sql, $sqlFromObject);
 		}
 		
@@ -141,7 +141,7 @@
 			$tables = "\n\tuser\n\t\tINNER JOIN\n\tclass\n\t\tON user.user_weight = class.class_id,\n\tperson AS PERSON\n\t\tLEFT JOIN\n\ttree\n\t\tON person.person_id = tree.tree_height - 10\n\t\tRIGHT JOIN\n\tbush AS BUSH\n\t\tON tree.tree_leaves = 3000,\n\tsand";
 			$sql = "SELECT DISTINCT\n\tuser_id AS 1,\n\tdb.user_uname AS username,\n\tCOUNT(*) AS c\nFROM{$tables}\nWHERE\n\tuser_id = 5\n\t\tAND\n\tuser_id = 8\n\t\tOR\n\tuser_id = 10\n\t\tOR\n\tuser_id = 12\nGROUP BY\n\tuser_id,\n\tuser_sex\nHAVING\n\tuser_age = 38\nORDER BY\n\tuser_lname ASC,\n\tuser_fname DESC\nLIMIT 100\nOFFSET 9\n";
 	
-			$sqlFromObject = PostGre_SQLGenerator::generateSQLQuery($this->query);
+			$sqlFromObject = PostgreSQL_SQLGenerator::generateSQLQuery($this->query);
 			$this->assertEqual($sql, $sqlFromObject);
 		}
 		
