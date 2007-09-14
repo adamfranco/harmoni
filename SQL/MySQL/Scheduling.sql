@@ -5,7 +5,7 @@
 -- @copyright Copyright &copy; 2006, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 -- 
--- @version $Id: Scheduling.sql,v 1.1 2007/09/11 19:06:30 adamfranco Exp $
+-- @version $Id: Scheduling.sql,v 1.2 2007/09/14 19:53:37 adamfranco Exp $
 -- */
 -- --------------------------------------------------------
 
@@ -18,8 +18,8 @@ CREATE TABLE `sc_item` (
   `id` varchar(170) character set latin1 collate latin1_general_ci NOT NULL default '',
   `name` varchar(255) character set latin1 collate latin1_general_ci default NULL,
   `description` text character set latin1 collate latin1_general_ci,
-  `start` bigint(20) default NULL,
-  `end` bigint(20) default NULL,
+  `start_date` bigint(20) default NULL,
+  `end_date` bigint(20) default NULL,
   `fk_sc_item_stat_type` varchar(170) character set latin1 collate latin1_general_ci default NULL,
   `master_id` varchar(170) character set latin1 collate latin1_general_ci default NULL,
   `fk_creator_id` varchar(170) default NULL,
