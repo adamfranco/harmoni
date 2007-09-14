@@ -30,6 +30,12 @@ v. 0.12.0 (2007-09-13)
 		(2007-09-13 - Adam Franco)
 		
 		
+	* Change: 
+		
+		DBHandler: The PostGre classes have all been renamed to PostgreSQL
+		(2007-09-14 - Adam Franco)
+		
+		
 	* Bug Fix: 
 		ErrorHandler: Fixed reliance on methods in the HarmoniException class when
 		printing. 

@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.164 2007/09/13 19:21:06 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.165 2007/09/14 13:58:33 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -29,6 +29,10 @@
 			words in PostgreSQL. Existing Harmoni databases will need to have these columns added and the data
 			updated.
 		</important>
+		
+		<change author='adam' date='2007-09-14'>
+			DBHandler: The PostGre classes have all been renamed to PostgreSQL
+		</change>
 		
 		<fix author='adam' date='2007-09-13'>
 			ErrorHandler: Fixed reliance on methods in the HarmoniException class
