@@ -3,11 +3,19 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.166 2007/09/14 19:53:39 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.167 2007/09/17 16:44:37 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni Change-Log">
+	<version number="0.12.2" date="The Future">
+		<fix author='adam' date='2007-09-14'>
+			Repository: Fixing PHP notices.
+		</fix>
+		<change author='adam' date='2007-09-14'>
+			Hierarchy: Adding some error-checking and Exceptions on errors.
+		</change>
+	</version>
 	<version number="0.12.1" date="2007-09-14">
 		<fix author='adam' date='2007-09-14'>
 			Updating the MySQL Hierarchy and Scheduling table definitions to work with

@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAsset.class.php,v 1.48 2007/09/11 17:40:56 adamfranco Exp $
+ * @version $Id: HarmoniAsset.class.php,v 1.49 2007/09/17 16:44:36 adamfranco Exp $
  */
 
 require_once(HARMONI."oki2/repository/HarmoniAsset.interface.php");
@@ -26,7 +26,7 @@ require_once(dirname(__FILE__)."/FromNodesAssetIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniAsset.class.php,v 1.48 2007/09/11 17:40:56 adamfranco Exp $ 
+ * @version $Id: HarmoniAsset.class.php,v 1.49 2007/09/17 16:44:36 adamfranco Exp $ 
  */
 
 class HarmoniAsset
@@ -256,14 +256,10 @@ class HarmoniAsset
  		$myRecordSet->loadRecords();
 		$contentRecords =$myRecordSet->getRecordsByType($contentType);
 		
-		$contentRecord =$contentRecords[0];
-		
- 		if (!$contentRecord) {
- 			$obj = new Blob();
- 			return $obj;
- 		} else {
- 			return $contentRecord->getValue("Content");
- 		}
+		if (isset($contentRecords[0]) && $contentRecords[0])
+			return $contentRecords[0]->getValue("Content");
+		else
+			return new Blob();
 	}
 
 	/**

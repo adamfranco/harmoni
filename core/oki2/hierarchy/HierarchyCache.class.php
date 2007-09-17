@@ -33,7 +33,7 @@ require_once(HARMONI."oki2/hierarchy/HarmoniTraversalInfoIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HierarchyCache.class.php,v 1.38 2007/09/13 16:04:20 adamfranco Exp $
+ * @version $Id: HierarchyCache.class.php,v 1.39 2007/09/17 16:44:35 adamfranco Exp $
  **/
 
 class HierarchyCache {
@@ -414,16 +414,19 @@ class HierarchyCache {
 		$this->_nodeQuery->resetWhere();
 		$this->_nodeQuery->addWhere($where);
 		$this->_nodeQuery->addWhere("fk_hierarchy = '".addslashes($this->_hierarchyId)."'");
-
-		$nodeQueryResult =$dbHandler->query($this->_nodeQuery, $this->_dbIndex);
+		
+		$nodeQueryResult = $dbHandler->query($this->_nodeQuery, $this->_dbIndex);
 		
 		$result = array();
 
 		$idManager = Services::getService("Id");
-
+		
+		if (!$nodeQueryResult->hasMoreRows()) {
+			throw new HarmoniException("No nodes found. \$query = ".printpre($this->_nodeQuery->asString(), true));
+		}
 		while ($nodeQueryResult->hasMoreRows()) {
 			$nodeRow = $nodeQueryResult->getCurrentRow();
-			$idValue =$nodeRow['id'];
+			$idValue = $nodeRow['id'];
 			
 			$id =$idManager->getId($idValue);
 			$type = new HarmoniType($nodeRow['domain'], $nodeRow['authority'], 
@@ -601,12 +604,13 @@ class HierarchyCache {
 
 		// if the node has not been already cached, do it
 		if (!$this->_isCached($idValue)) {
+		
 			// now fetch the node from the database
-			$nodes =$this->getNodesFromDB("node_id = '".addslashes($idValue)."'");
+			$nodes = $this->getNodesFromDB("node_id = '".addslashes($idValue)."'");
 			
 			// must be only one node
 			if (count($nodes) != 1) {
-				throwError(new Error(HierarchyException::OPERATION_FAILED(), "HierarchyCache", true));
+				throwError(new Error(HierarchyException::OPERATION_FAILED()." - ".count($nodes)." nodes found.", "HierarchyCache", true));
 			}
 			
 			$displayName = $nodes[0]->getDisplayName();
@@ -648,7 +652,7 @@ class HierarchyCache {
 		// if the node has not been already cached, do it
 		if (!$this->_isCached($idValue)) {
 			// now fetch the node from the database
-			$nodes =$this->getNodesFromDB("node_id = '".addslashes($idValue)."'");
+			$nodes = $this->getNodesFromDB("node_id = '".addslashes($idValue)."'");
 			
 			// if it isn't in the database, then it doesn't exist
 			if (count($nodes) < 1) {
