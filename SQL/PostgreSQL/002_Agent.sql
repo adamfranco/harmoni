@@ -5,7 +5,7 @@
 -- @copyright Copyright &copy; 2005, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 -- 
--- @version $Id: 002_Agent.sql,v 1.1 2007/09/12 13:02:10 adamfranco Exp $
+-- @version $Id: 002_Agent.sql,v 1.2 2007/09/17 13:54:24 adamfranco Exp $
 -- */
 -- --------------------------------------------------------
 
@@ -17,7 +17,7 @@
 CREATE TABLE agent_properties (
   property_id SERIAL NOT NULL,
   fk_object_id varchar(255) NOT NULL default '0',
-  fk_type_id varchar(255) NOT NULL default '',
+  fk_type_id INTEGER NOT NULL,
   property_key varchar(255) NOT NULL default '',
   property_value text NOT NULL
 );

@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SQLUtils.static.php,v 1.10 2007/09/11 18:50:28 adamfranco Exp $
+ * @version $Id: SQLUtils.static.php,v 1.11 2007/09/17 13:54:31 adamfranco Exp $
  */
 
 /**
@@ -18,7 +18,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SQLUtils.static.php,v 1.10 2007/09/11 18:50:28 adamfranco Exp $
+ * @version $Id: SQLUtils.static.php,v 1.11 2007/09/17 13:54:31 adamfranco Exp $
  * @static
  */
 
@@ -120,6 +120,7 @@ class SQLUtils {
 	 * @since 9/11/07
 	 */
 	public static function runSQLdir ($dir, $dbIndex, $extn = 'sql') {
+		$sqlFiles = array();
 		if ($handle = opendir($dir)) {
 			while (false !== ($file = readdir($handle))) {
 				if ($file != "." && $file != "..") {
@@ -129,7 +130,7 @@ class SQLUtils {
 						self::runSQLdir($path, $dbIndex, $extn);
 					// Run any SQL files
 					else if (preg_match('/.+\.'.$extn.'$/i', $file))
-						self::runSQLfile($path, $dbIndex);
+						$sqlFiles[] = $path;
 					// Ignore any other files.
 				}
 			}
@@ -137,6 +138,10 @@ class SQLUtils {
 		} else {
 			throw new Exception ("Could not open SQL directory, '$dir', for reading.");
 		}
+		
+		sort ($sqlFiles);
+		foreach ($sqlFiles as $path)
+			self::runSQLfile($path, $dbIndex);
 	}
 }
 ?>
