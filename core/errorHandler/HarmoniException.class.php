@@ -1,24 +1,24 @@
 <?php
 /**
  * @since 9/5/07
- * @package harmoni.errorHandler
+ * @package harmoni.error_handler
  * 
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniException.class.php,v 1.3 2007/09/13 16:04:17 adamfranco Exp $
+ * @version $Id: HarmoniException.class.php,v 1.4 2007/09/19 14:04:09 adamfranco Exp $
  */ 
 
 /**
  * The HarmoniException adds pretty HTML formatting to the built-in exception class.
  * 
  * @since 9/5/07
- * @package harmoni.errorHandler
+ * @package harmoni.error_handler
  * 
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniException.class.php,v 1.3 2007/09/13 16:04:17 adamfranco Exp $
+ * @version $Id: HarmoniException.class.php,v 1.4 2007/09/19 14:04:09 adamfranco Exp $
  */
 class HarmoniException
 	extends Exception

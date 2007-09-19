@@ -3,12 +3,12 @@
 /**
  * Defines the throw functions.
  *
- * @package harmoni.errorhandler
+ * @package harmoni.error_handler
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: throw.inc.php,v 1.14 2007/09/11 17:35:21 adamfranco Exp $
+ * @version $Id: throw.inc.php,v 1.15 2007/09/19 14:04:09 adamfranco Exp $
  */
 
 /**

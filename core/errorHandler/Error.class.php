@@ -7,12 +7,12 @@ require_once(HARMONI."errorHandler/HarmoniException.class.php");
  * do some exception-like things in PHP4. The new implementation, just extends
  * the default exception for compatability purposes
  *
- * @package harmoni.errorhandler
+ * @package harmoni.error_handler
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Error.class.php,v 1.7 2007/09/05 19:55:20 adamfranco Exp $
+ * @version $Id: Error.class.php,v 1.8 2007/09/19 14:04:09 adamfranco Exp $
  */
 
 class Error 
@@ -32,6 +32,18 @@ class Error
     }
 }
 
+/**
+ * This class is a hold-over from Harmoni's old error Handler, which tried to
+ * do some exception-like things in PHP4. The new implementation, just extends
+ * the default exception for compatability purposes
+ *
+ * @package harmoni.error_handler
+ * 
+ * @copyright Copyright &copy; 2005, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: Error.class.php,v 1.8 2007/09/19 14:04:09 adamfranco Exp $
+ */
 class UnknownDBError extends Error {
 	function __construct($type) {
 		parent::Error("An unkonwn Database error occured.", $type, true);

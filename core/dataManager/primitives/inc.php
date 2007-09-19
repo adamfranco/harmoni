@@ -1,6 +1,6 @@
 <?php
 /**
- * @package harmoni.datamanager.primitives
+ * @package harmoni.datamanager
  */
  
 require_once(HARMONI."Primitives/Objects/Boolean.class.php");
