@@ -3,12 +3,19 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.168 2007/09/17 16:50:13 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.169 2007/09/19 14:00:54 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni Change-Log">
 	<version number="0.12.2" date="The Future">
+		<change author='adam' date='2007-09-19'>
+			Removed the legacy StorageHandler. If this functionality is needed in the future,
+			the Filing OSID is more appropriate.
+		</change>
+		<fix author='adam' date='2007-09-19'>
+			Updated PhpDoc comments to generate properly.
+		</fix>
 		<fix author='adam' date='2007-09-17'>
 			Agent: Fixed column type-mismatch in Agent table definition.
 		</fix>

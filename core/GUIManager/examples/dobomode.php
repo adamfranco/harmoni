@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: dobomode.php,v 1.7 2007/09/04 20:25:24 adamfranco Exp $
+ * @version $Id: dobomode.php,v 1.8 2007/09/19 14:00:42 adamfranco Exp $
  */
 
 // =============================================================================
@@ -13,7 +13,6 @@
 // =============================================================================
 
 	define("LOAD_HIERARCHY", false);
-	define("LOAD_STORAGE",false);
 	define("LOAD_AUTHN",false);
 	define("LOAD_AGENTINFORMATION", false);
 	define("LOAD_DATAMANAGER", false);

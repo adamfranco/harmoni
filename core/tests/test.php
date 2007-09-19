@@ -10,7 +10,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: test.php,v 1.5 2007/09/04 20:25:53 adamfranco Exp $
+ * @version $Id: test.php,v 1.6 2007/09/19 14:00:53 adamfranco Exp $
  **/
 
 require_once("../harmoni.inc.php");
@@ -33,7 +33,6 @@ $errorHandler->setDebugMode(true);
     $test->addTestFile(HARMONI.'DBHandler/tests/test.php');
     $test->addTestFile(HARMONI.'debugHandler/tests/test.php');
     $test->addTestFile(HARMONI.'services/tests/test.php');
-    $test->addTestFile(HARMONI.'storageHandler/tests/test.php');
     $test->addTestFile(HARMONI.'utilities/tests/test.php');
 // DON'T ADD THE ERROR HANDLER TESTS! THEY HALT THE SYSTEM, BECAUSE THEY TEST A FATAL ERROR!
 //    $test->addTestFile(HARMONI.'errorHandler/tests/test.php');

@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: test.php,v 1.14 2007/09/04 20:25:24 adamfranco Exp $
+ * @version $Id: test.php,v 1.15 2007/09/19 14:00:43 adamfranco Exp $
  */
 
   require_once(dirname(__FILE__)."/../../../../concerto/index.php");
@@ -30,7 +30,6 @@ $harmonyLoadupTimer->end();
 /*
  
 	define("LOAD_HIERARCHY", false);
-	define("LOAD_STORAGE",false);	
 	define("LOAD_AGENTINFORMATION", false);
 	define("LOAD_DATAMANAGER", false);
 	if(!defined("LOAD_AUTHN")) define("LOAD_AUTHN", false);

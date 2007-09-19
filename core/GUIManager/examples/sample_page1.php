@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: sample_page1.php,v 1.10 2007/09/04 20:25:24 adamfranco Exp $
+ * @version $Id: sample_page1.php,v 1.11 2007/09/19 14:00:42 adamfranco Exp $
  */
 
 // =============================================================================
@@ -13,7 +13,6 @@
 // =============================================================================
 
 	define("LOAD_HIERARCHY", false);
-	define("LOAD_STORAGE",false);
 	define("LOAD_AGENTINFORMATION", false);
 	define("LOAD_DATAMANAGER", false);
 	define("LOAD_AUTHN", false);
@@ -141,11 +140,7 @@
 						Alongside the architecture, Harmoni offers a number of <strong>Services</strong>. The services are built with two
 						goals: 1) to save you the time of writing the same code over and over again, and 2) to offer a uniform
 						environment and abstraction layer between a specific function and the back-end implementation of that function.
-						In simpler words, the File StorageHandler, for example, is used by your program by calling methods like
-						<em>".'$storageHandler->store($thisFile, $here)'."</em>. Someone using your program can configure Harmoni
-						to store that file in a database, on a filesystem, to make backups transparently, or store on a 
-						mixture of databases and filesystems and other mediums. This allows your program, using the same 
-						code, to store files in a very flexible manner, extending your audience and making for easier installation.
+						
 					</p>
 					
 					<p>
@@ -159,8 +154,6 @@
 						<li><strong>Authentication</strong> - allows for user authentication across multiple back-ends, completely
 						transparent to your program. Back-ends include, but not limited to: <em>Local Database, LDAP, PAM</em>, planned
 						to include: <em>IMAP, Kerberos, RADIUS, flat file</em> and others.</li>
-						<li><strong>StorageHandler</strong> - allows for file storage across multiple mediums, with advances options including: 
-						transparent backups, unix-like \"mount points\" for extending storage space to new locations.</li>
 						<li><strong>DataManager</strong> - a combination of classes and database tables for efficient storage of meta data
 						sets using customizable (on the fly) schemas. <strong>Very</strong> useful for application upgrades so your end user
 						doesn't need to muck around with database tables, risking data corruption. Also includes optional version-controlled

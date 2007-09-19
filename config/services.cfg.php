@@ -11,17 +11,11 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: services.cfg.php,v 1.61 2007/09/05 19:57:37 adamfranco Exp $
+ * @version $Id: services.cfg.php,v 1.62 2007/09/19 14:00:41 adamfranco Exp $
  */
 
 /* :: what services should we load? you can disable some to save on startup time :: */
 
-
-
-/**
- * functionality affected: StorageHandler
- */
-if (!defined("LOAD_STORAGE")) 				define("LOAD_STORAGE", true);
 
 /**
  * functionality affected: Debug output
@@ -231,16 +225,6 @@ if(LOAD_GUI) {
 	Services::registerService("GUIManager","GUIManager");
 	Services::createServiceAlias("GUIManager", "GUI");
 
-}
-
-/**
- * load the Storage handler.
- */
-if (LOAD_STORAGE) {
-	require_once(HARMONI."storageHandler/StorageHandler.class.php");
-	Services::registerService("StorageManager","StorageHandler");
-	Services::createServiceAlias("StorageManager", "Storage");
-	require_once(HARMONI_BASE."config/storage.cfg.php");
 }
 
 /**
