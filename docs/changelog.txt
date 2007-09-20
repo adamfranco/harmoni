@@ -3,6 +3,39 @@
 Name: Harmoni Change-Log
 
 
+v. 0.12.2 (2007-09-20)
+----------------------------------------------------
+		
+	* Change: 
+		Removed the legacy StorageHandler. If this functionality is needed in the
+		future, the Filing OSID is more appropriate.
+		(2007-09-19 - Adam Franco)
+		
+	* Bug Fix: 
+		
+		Updated PhpDoc comments to generate properly.
+		(2007-09-19 - Adam Franco)
+		
+	* Bug Fix: 
+		
+		Agent: Fixed column type-mismatch in Agent table definition.
+		(2007-09-17 - Adam Franco)
+		
+	* Bug Fix: 
+		DBHandler: SQLUtils::runSQLdir() now explicitly sorts SQL files and runs
+		them in alphabetical order.
+		(2007-09-17 - Adam Franco)
+		
+	* Bug Fix: 
+		
+		Repository: Fixing PHP notices.
+		(2007-09-14 - Adam Franco)
+		
+	* Change: 
+		
+		Hierarchy: Adding some error-checking and Exceptions on errors.
+		(2007-09-14 - Adam Franco)
+	
 v. 0.12.1 (2007-09-14)
 ----------------------------------------------------
 		

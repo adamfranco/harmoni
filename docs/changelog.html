@@ -22,7 +22,31 @@
 </head>
 <body>
 <h1>Harmoni Change-Log</h1>
-<h2>Version 0.12.1</h2>
+<h2>Version 0.12.2</h2>
+<h3>2007-09-20</h3>
+<ul>
+		<li> Change:  
+			Removed the legacy StorageHandler. If this functionality is needed in the future,
+			the Filing OSID is more appropriate.
+		 (<em>2007-09-19 - Adam Franco</em>)</li>
+		<li> Bug Fix:  
+			Updated PhpDoc comments to generate properly.
+		 (<em>2007-09-19 - Adam Franco</em>)</li>
+		<li> Bug Fix:  
+			Agent: Fixed column type-mismatch in Agent table definition.
+		 (<em>2007-09-17 - Adam Franco</em>)</li>
+		<li> Bug Fix:  
+			DBHandler: SQLUtils::runSQLdir() now explicitly sorts SQL files 
+			and runs them in alphabetical order.
+		 (<em>2007-09-17 - Adam Franco</em>)</li>
+		<li> Bug Fix:  
+			Repository: Fixing PHP notices.
+		 (<em>2007-09-14 - Adam Franco</em>)</li>
+		<li> Change:  
+			Hierarchy: Adding some error-checking and Exceptions on errors.
+		 (<em>2007-09-14 - Adam Franco</em>)</li>
+	</ul>
+<br><h2>Version 0.12.1</h2>
 <h3>2007-09-14</h3>
 <ul>
 		<li> Bug Fix:  
