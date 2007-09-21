@@ -13,7 +13,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MenuItemLinkWithAdditionalHtml.class.php,v 1.2 2007/09/04 20:25:22 adamfranco Exp $
+ * @version $Id: MenuItemLinkWithAdditionalHtml.class.php,v 1.3 2007/09/21 20:40:40 adamfranco Exp $
  */
 class MenuItemLinkWithAdditionalHtml 
 	extends MenuItemLink 
@@ -65,11 +65,11 @@ class MenuItemLinkWithAdditionalHtml
 	 * @access public
 	 **/
 	function render($theme, $tabs = "") {
-		echo $tabs."<table width='100%'><tr><td valign='top'>\n";
-		
-		
 		// pre-html
 		echo $this->getPreHTML($theme, $tabs);
+		
+		echo $tabs."<table width='100%'><tr><td valign='top'>\n";
+		
 		
 		// the url
 		echo $tabs."\t<a href=\"$this->_url\"";
@@ -90,13 +90,13 @@ class MenuItemLinkWithAdditionalHtml
 		echo $this->_displayName;
 		echo "</a>\n";
 		
-		// post-html
-		echo $this->getPostHTML($theme, $tabs);
-		
 		
 		echo $tabs."</td><td valign='top'>\n";
 		echo $tabs."\t".$this->_additionalHtml."\n";
 		echo $tabs."</td></tr></table>\n";
+		
+		// post-html
+		echo $this->getPostHTML($theme, $tabs);
 	}
 }
 
