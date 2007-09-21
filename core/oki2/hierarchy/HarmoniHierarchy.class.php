@@ -24,7 +24,7 @@ require_once(HARMONI.'/oki2/hierarchy/DefaultNodeType.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniHierarchy.class.php,v 1.22 2007/09/17 16:44:35 adamfranco Exp $
+ * @version $Id: HarmoniHierarchy.class.php,v 1.23 2007/09/21 15:29:05 adamfranco Exp $
  */
 
 class HarmoniHierarchy 
@@ -615,11 +615,17 @@ class HarmoniHierarchy
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
 	function getNodesByType( $nodeType ) {
-		// if all the nodes haven't been cached then do it
-		$where = "type_domain = '".addslashes($nodeType->getDomain())."'";
-		$where .= " AND type_authority = '".addslashes($nodeType->getAuthority())."'";
-		$where .= " AND type_keyword = '".addslashes($nodeType->getKeyword())."'";
-		$nodes =$this->_cache->getNodesFromDB($where);
+		try {
+			// if all the nodes haven't been cached then do it
+			$where = "type_domain = '".addslashes($nodeType->getDomain())."'";
+			$where .= " AND type_authority = '".addslashes($nodeType->getAuthority())."'";
+			$where .= " AND type_keyword = '".addslashes($nodeType->getKeyword())."'";
+			$nodes =$this->_cache->getNodesFromDB($where);
+		}
+		// No Nodes found
+		catch (HarmoniException $e) {
+			$nodes = array();
+		}
 
 		// create the iterator and return them
 		$iterator = new HarmoniNodeIterator($nodes);

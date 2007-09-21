@@ -3,11 +3,17 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.170 2007/09/20 17:08:26 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.171 2007/09/21 15:29:10 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni Change-Log">
+	<version number="0.12.3" date="The Future">
+		<fix author='adam' date='2007-09-21'>
+			Hierarchy: Catching 'not found' Exceptions added in 0.12.2 in cases where no results
+			should exist.
+		</fix>
+	</version>
 	<version number="0.12.2" date="2007-09-20">
 		<change author='adam' date='2007-09-19'>
 			Removed the legacy StorageHandler. If this functionality is needed in the future,

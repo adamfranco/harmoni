@@ -33,7 +33,7 @@ require_once(HARMONI."oki2/hierarchy/HarmoniTraversalInfoIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HierarchyCache.class.php,v 1.39 2007/09/17 16:44:35 adamfranco Exp $
+ * @version $Id: HierarchyCache.class.php,v 1.40 2007/09/21 15:29:05 adamfranco Exp $
  **/
 
 class HierarchyCache {
@@ -652,7 +652,11 @@ class HierarchyCache {
 		// if the node has not been already cached, do it
 		if (!$this->_isCached($idValue)) {
 			// now fetch the node from the database
-			$nodes = $this->getNodesFromDB("node_id = '".addslashes($idValue)."'");
+			try {
+				$nodes = $this->getNodesFromDB("node_id = '".addslashes($idValue)."'");
+			} catch (HarmoniException $e) {
+				return false;
+			}
 			
 			// if it isn't in the database, then it doesn't exist
 			if (count($nodes) < 1) {
