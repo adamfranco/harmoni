@@ -6,7 +6,7 @@ Name: Harmoni Change-Log
 v. 0.12.3 (The Future)
 ----------------------------------------------------
 		
-	* Bug Fix: 
+	* New feature: 
 		
 		GUI: New 'UnstyledMenuItem' element.
 		(2007-09-25 - Adam Franco)
