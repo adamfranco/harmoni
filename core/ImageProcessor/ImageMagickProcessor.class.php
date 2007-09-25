@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ImageMagickProcessor.class.php,v 1.10 2007/09/04 20:25:24 adamfranco Exp $
+ * @version $Id: ImageMagickProcessor.class.php,v 1.11 2007/09/25 18:57:33 adamfranco Exp $
  */
 
 class ImageMagickProcessor {
@@ -334,13 +334,9 @@ class ImageMagickProcessor {
 			$text = exec($convertString, $output, $exitCode);
 			
 			if ($exitCode) {
-				print "Convert Failed: '$convertString'";
-				print "\n<br />".$text." ";
-				print "Exit Code: ".$exitCode;
-				exit;
 				unlink($sourcePath);
 				unlink($destPath);
-//				throwError(new Error("Convert Failed: '$convertString' $text ", "ImageProcessor", true));
+				throw new HarmoniException("Convert Failed: '$convertString' $text ErrorCode: ".$exitCode);
 				exit;
 			} else {			
 				// read the thumbnail data.
