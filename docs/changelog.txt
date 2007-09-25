@@ -6,6 +6,11 @@ Name: Harmoni Change-Log
 v. 0.12.3 (2007-09-25)
 ----------------------------------------------------
 		
+	* Change: 
+		
+		ImageProcessor: Now throws exceptions when ImageMagic fails.
+		(2007-09-25 - Adam Franco)
+		
 	* New feature: 
 		
 		GUI: New 'UnstyledMenuItem' element.
