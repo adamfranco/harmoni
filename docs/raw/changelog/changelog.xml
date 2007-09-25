@@ -3,12 +3,15 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.172 2007/09/21 20:40:40 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.173 2007/09/25 14:32:44 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni Change-Log">
 	<version number="0.12.3" date="The Future">
+		<fix author='adam' date='2007-09-25'>
+			GUI: New 'UnstyledMenuItem' element.
+		</fix>
 		<change author='adam' date='2007-09-21'>
 			GUI: MenuLinks with Additional HTML now put that additional HTML in the 
 			themed part of the element.
