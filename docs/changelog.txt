@@ -3,6 +3,24 @@
 Name: Harmoni Change-Log
 
 
+v. 0.12.3 (The Future)
+----------------------------------------------------
+		
+	* Bug Fix: 
+		
+		GUI: New 'UnstyledMenuItem' element.
+		(2007-09-25 - Adam Franco)
+		
+	* Change: 
+		GUI: MenuLinks with Additional HTML now put that additional HTML in the
+		themed part of the element.
+		(2007-09-21 - Adam Franco)
+		
+	* Bug Fix: 
+		Hierarchy: Catching 'not found' Exceptions added in 0.12.2 in cases where no
+		results should exist.
+		(2007-09-21 - Adam Franco)
+	
 v. 0.12.2 (2007-09-20)
 ----------------------------------------------------
 		
