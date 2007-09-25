@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ImageMagickProcessor.class.php,v 1.11 2007/09/25 18:57:33 adamfranco Exp $
+ * @version $Id: ImageMagickProcessor.class.php,v 1.12 2007/09/25 19:00:11 adamfranco Exp $
  */
 
 class ImageMagickProcessor {
@@ -335,7 +335,7 @@ class ImageMagickProcessor {
 			
 			if ($exitCode) {
 				unlink($sourcePath);
-				unlink($destPath);
+				@unlink($destPath);
 				throw new HarmoniException("Convert Failed: '$convertString' $text ErrorCode: ".$exitCode);
 				exit;
 			} else {			
