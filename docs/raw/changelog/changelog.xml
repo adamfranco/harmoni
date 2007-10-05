@@ -3,11 +3,26 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.176 2007/09/25 19:33:15 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.177 2007/10/05 14:13:02 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni Change-Log">
+	<version number="0.12.4" date="The Future">
+		<new author='adam' date='2007-10-05'>
+			A new repository implementation, SimpleTableRepository, exposes simple database
+			table rows as Assets.
+		</new>
+		<fix author='adam' date='2007-10-05'>
+			A new RepositoryManager implementation, FederationRepositoryManager, 
+			allows the usage of multiple Repository implementations.
+		</fix>
+		<change author='adam' date='2007-10-05'>
+			Many implementations are now throwing OsidExceptions such as the 
+			UnimplementedException, UnknownIdException, etcetera, to allow these
+			to be caught separately from generic errors.
+		</change>
+	</version>
 	<version number="0.12.3" date="2007-09-25">
 		<change author='adam' date='2007-09-25'>
 			ImageProcessor: Now throws exceptions when ImageMagic fails.
