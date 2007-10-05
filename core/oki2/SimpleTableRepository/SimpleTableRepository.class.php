@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SimpleTableRepository.class.php,v 1.2 2007/10/05 15:41:57 adamfranco Exp $
+ * @version $Id: SimpleTableRepository.class.php,v 1.3 2007/10/05 20:12:31 adamfranco Exp $
  */ 
 
 require_once(dirname(__FILE__)."/SimpleTableAssetIterator.class.php");
@@ -24,7 +24,7 @@ require_once(dirname(__FILE__)."/SimpleTablePartStructure.class.php");
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SimpleTableRepository.class.php,v 1.2 2007/10/05 15:41:57 adamfranco Exp $
+ * @version $Id: SimpleTableRepository.class.php,v 1.3 2007/10/05 20:12:31 adamfranco Exp $
  */
 class SimpleTableRepository
 	extends Repository
@@ -153,8 +153,8 @@ class SimpleTableRepository
 			'An entity responsible for making the resource available.',
 			false, false));
 		$this->dcRecordStructure->addPartStructure(new SimpleTablePartStructure(
-			$this->idMgr->getId('dc.contributer'),
-			'Contributer',
+			$this->idMgr->getId('dc.contributor'),
+			'Contributor',
 			'An entity responsible for making contributions to the content of the resource.',
 			false, true));
 		$this->dcRecordStructure->addPartStructure(new SimpleTablePartStructure(

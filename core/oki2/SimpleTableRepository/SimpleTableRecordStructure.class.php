@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SimpleTableRecordStructure.class.php,v 1.1 2007/10/05 14:02:57 adamfranco Exp $
+ * @version $Id: SimpleTableRecordStructure.class.php,v 1.2 2007/10/05 20:12:31 adamfranco Exp $
  */ 
 
 /**
@@ -18,7 +18,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SimpleTableRecordStructure.class.php,v 1.1 2007/10/05 14:02:57 adamfranco Exp $
+ * @version $Id: SimpleTableRecordStructure.class.php,v 1.2 2007/10/05 20:12:31 adamfranco Exp $
  */
 class SimpleTableRecordStructure
 	extends RecordStructure
@@ -290,7 +290,7 @@ class SimpleTableRecordStructure
 	 */
 	function getPartStructure($partStructureId) {
 		if (!isset($this->partStructures[$partStructureId->getIdString()]))
-			throw new UnknownIdException();
+			throw new UnknownIdException("<strong>".$partStructureId->getIdString()."</strong> was not found in <strong>".implode(", ", array_keys($this->partStructures))."</strong>.");
 		
 		return $this->partStructures[$partStructureId->getIdString()];
 	}
