@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPAuthNMethod.class.php,v 1.17 2007/09/04 20:25:37 adamfranco Exp $
+ * @version $Id: LDAPAuthNMethod.class.php,v 1.18 2007/10/05 19:10:31 adamfranco Exp $
  */ 
  
 require_once(dirname(__FILE__)."/AuthNMethod.abstract.php");
@@ -20,7 +20,7 @@ require_once(dirname(__FILE__)."/LDAPGroup.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPAuthNMethod.class.php,v 1.17 2007/09/04 20:25:37 adamfranco Exp $
+ * @version $Id: LDAPAuthNMethod.class.php,v 1.18 2007/10/05 19:10:31 adamfranco Exp $
  */
 class LDAPAuthNMethod
 	extends AuthNMethod
@@ -364,9 +364,10 @@ class LDAPAuthNMethod
 	function getGroupsContainingTokens ( $authNTokens, $includeSubgroups ) {
 		$connector =$this->_configuration->getProperty('connector');
 		$groupDN = $this->_configuration->getProperty("GroupBaseDN");
-		
+
 		// Parent Groups of Agents
 		$info = $this->_connector->getInfo($authNTokens->getUsername(), array('memberof'));
+		
 		if (isset($info['memberof'])) {
 			$dns = $info['memberof'];		
 			$groups = array();
@@ -381,7 +382,9 @@ class LDAPAuthNMethod
 		if ($includeSubgroups && isset($dns)) {
 			foreach ($dns as $dn) {
 				if ($dn != $groupDN) {
+					
 					$parentGroups =$this->getGroupsContainingGroup($dn, true);
+					
 					while ($parentGroups->hasNext()) {
 						$group =$parentGroups->next();
 						$groupId =$group->getId();
@@ -402,7 +405,7 @@ class LDAPAuthNMethod
 	 * the Id.
 	 * 
 	 * @param object Id $id
-	 * @return object AgentIterator
+	 * @return object AgentIteratorr
 	 * @access public
 	 * @since 2/23/06
 	 */
@@ -414,6 +417,7 @@ class LDAPAuthNMethod
 		$groups = array();
 		$baseDN = str_replace(' ', '', $this->_configuration->getProperty("GroupBaseDN"));
 		$levels = 0;
+				
 		while (strlen($idString) && ($includeSubgroups || $levels < 1)) {
 			$levels++;
 			for ($i = 0; $i < strlen($idString); $i++) {
@@ -425,10 +429,17 @@ class LDAPAuthNMethod
 			if (preg_match('/^'.$baseDN.'$/i', str_replace(' ', '', $idString)))
 				break;
 			
+			// Sometimes users end up being members of something outside of the
+			// Group Base DN. To prevent runnaway looping, exit if there are
+			// no more commas in the id.
+			if (!preg_match('/,/', $idString))
+				break;
+			
 			if (!isset($groups[$idString]))
 				$groups[$idString] = new LDAPGroup($idString, $this->getType(), 
 									$this->_configuration, 
 									$this);
+			
 		}
 		$iterator = new HarmoniIterator($groups);
         return $iterator;

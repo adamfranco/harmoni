@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: IsAuthorizedCache.class.php,v 1.9 2007/10/05 15:41:18 adamfranco Exp $
+ * @version $Id: IsAuthorizedCache.class.php,v 1.10 2007/10/05 19:10:31 adamfranco Exp $
  */ 
 
 /**
@@ -69,7 +69,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: IsAuthorizedCache.class.php,v 1.9 2007/10/05 15:41:18 adamfranco Exp $
+ * @version $Id: IsAuthorizedCache.class.php,v 1.10 2007/10/05 19:10:31 adamfranco Exp $
  */
 class IsAuthorizedCache {
 		
@@ -147,28 +147,7 @@ class IsAuthorizedCache {
 	 * @access public
 	 * @return void
 	 **/
-	function IsAuthorizedCache() {
-		// Verify that there is only one instance of Harmoni.
-		$backtrace = debug_backtrace();
-		if (false && $GLOBALS['__isAuthorizedCache'] 
-			|| !(
-				strtolower($backtrace[1]['class']) == 'isauthorizedcache'
-				&& $backtrace[1]['function'] == 'instance'
-// 				&& $backtrace[1]['type'] == '::'	// PHP 5.2.1 seems to get this wrong
-			))
-		{
-			die("\n<dl style='border: 1px solid #F00; padding: 10px;'>"
-			."\n\t<dt><strong>Invalid IsAuthorizedCache instantiation at...</strong></dt>"
-			."\n\t<dd> File: ".$backtrace[0]['file']
-			."\n\t\t<br/> Line: ".$backtrace[0]['line']
-			."\n\t</dd>"
-			."\n\t<dt><strong>Access IsAuthorizedCache with <em>IsAuthorizedCache::instance()</em></strong></dt>"
-			."\n\t<dt><strong>Backtrace:</strong></dt>"
-			."\n\t<dd>".printDebugBacktrace(debug_backtrace(), true)."</dd>"
-			."\n\t<dt><strong>PHP Version:</strong></dt>"
-			."\n\t<dd>".phpversion()."</dd>"
-			."\n</dl>");
-		}
+	private function __construct() {
 		
 		// Initialize our paremeters
 		$this->_queue = array();
@@ -176,8 +155,8 @@ class IsAuthorizedCache {
 		
 		// get our configuration
 		$azManager = Services::getService("AuthZ");
-		$this->_configuration =$azManager->_configuration;
-		$this->_authorizationManagerObjectCache =$azManager->_cache;
+		$this->_configuration = $azManager->_configuration;
+		$this->_authorizationManagerObjectCache = $azManager->_cache;
 		
 		
 		
@@ -188,7 +167,7 @@ class IsAuthorizedCache {
 		if(!isset($_SESSION['__isAuthorizedCacheUnknownIds']))
 			$_SESSION['__isAuthorizedCacheUnknownIds'] = array();
 		
-			
+		
 		if (!isset($_SESSION['__isAuthorizedCache']['USER'])
 			|| !isset($_SESSION['__isAuthorizedCacheAgents']['USER'])
 			|| !isset($_SESSION['__isAuthorizedCacheTime']['USER'])
@@ -409,7 +388,9 @@ class IsAuthorizedCache {
  	 * @since 5/25/06
  	 */
  	function getAgentIdStringArray ($agentKey) {
+ 		
  		if (!isset($this->_agentIdStrings[$agentKey])) {
+ 			
  			$azManager = Services::getService("AuthZ");
  			$idManager = Services::getService("Id");
  			
@@ -418,9 +399,9 @@ class IsAuthorizedCache {
  			if ($agentKey == 'USER') {
  				// Store our current users
 				$userIds =$azManager->_getUserIds();
-				foreach (array_keys($userIds) as $key) {
-					$userId =$userIds[$key];
+				foreach ($userIds as $userId) {
 					$this->_agentIdStrings['USER'][] =	$userId->getIdString();
+					
 					$this->_agentIdStrings['USER'] = array_merge(
 						$this->_agentIdStrings['USER'],	
 						$azManager->_getContainingGroupIdStrings($userId));
@@ -576,7 +557,6 @@ class IsAuthorizedCache {
 		$query->addColumn("DISTINCT node_id");
 		$query->addTable("node");
 		$query->addWhereIn("node_id", $this->_queue[$agentIdString]);
-// 		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
 		$result = $dbHandler->query(
 						$query, 
 						$this->_configuration->getProperty('database_index'));

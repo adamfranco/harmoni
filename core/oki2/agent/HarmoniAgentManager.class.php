@@ -50,7 +50,7 @@ require_once(HARMONI."oki2/agent/EveryoneGroup.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgentManager.class.php,v 1.48 2007/09/13 16:04:17 adamfranco Exp $
+ * @version $Id: HarmoniAgentManager.class.php,v 1.49 2007/10/05 19:10:30 adamfranco Exp $
  *
  * @author Adam Franco
  * @author Dobromir Radichkov
@@ -767,7 +767,7 @@ class HarmoniAgentManager
 						."::".$groupSearchType->getKeyword();
 		
 		// get the Group Search object
-		$groupSearch =$this->_groupSearches[$typeString];
+		$groupSearch = $this->_groupSearches[$typeString];
 		if (!is_object($groupSearch))
 			throwError(new Error(AgentException::UNKNOWN_TYPE().", ".Type::typeToString($groupSearchType),"GroupManager",true));
 		

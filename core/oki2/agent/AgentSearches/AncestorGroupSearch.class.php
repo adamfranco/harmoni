@@ -11,7 +11,7 @@ require_once(dirname(__FILE__)."/AgentSearch.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AncestorGroupSearch.class.php,v 1.17 2007/09/04 20:25:36 adamfranco Exp $
+ * @version $Id: AncestorGroupSearch.class.php,v 1.18 2007/10/05 19:10:31 adamfranco Exp $
  */
 
 class AncestorGroupSearch
@@ -72,8 +72,8 @@ class AncestorGroupSearch
 		
 		$agentManager = Services::getService("Agent");
 		$idManager = Services::getService("Id");
-		$everyoneId =$idManager->getId("edu.middlebury.agents.everyone");
-		$usersId =$idManager->getId("edu.middlebury.agents.users");
+		$everyoneId = $idManager->getId("edu.middlebury.agents.everyone");
+		$usersId = $idManager->getId("edu.middlebury.agents.users");
 		
 	// :: Special case for Users group, parents are:
 	//		Everyone
@@ -100,7 +100,7 @@ class AncestorGroupSearch
 			while ($traversalIterator->hasNext()) {
 				$traversalInfo =$traversalIterator->next();
 				$nodeId =$traversalInfo->getNodeId();
-				
+								
 				// if we are within the agent/groups tree...
 				if ($levelToReturnTo == null
 					|| $traversalInfo->getLevel() > $levelToReturnTo) 
@@ -132,7 +132,7 @@ class AncestorGroupSearch
 		{
 			$groupIds[$usersId->getIdString()] =$usersId;
 		}
-	
+		
 	// :: Build Group Objects
 	// now create an array of the group objects to add to the iterator.
 		$groups = array();
@@ -149,9 +149,10 @@ class AncestorGroupSearch
 		if ($isAgent) {
 			$mappings =$mappingManager->getMappingsForAgentId($searchCriteria);
 			while ($mappings->hasNext()) {
-				$mapping =$mappings->next();
+				$mapping = $mappings->next();
 				$authNMethod =$authNMethodManager->getAuthNMethodForType(
 										$mapping->getAuthenticationType());
+				
 				if ($authNMethod->supportsDirectory()) {
 					$groupIterator =$authNMethod->getGroupsContainingTokens(
 										$mapping->getTokens(), true);
@@ -159,6 +160,7 @@ class AncestorGroupSearch
 						$groups[] =$groupIterator->next();
 					}
 				}
+				
 			}
 			
 		}

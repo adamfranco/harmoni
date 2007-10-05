@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.179 2007/10/05 15:43:05 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.180 2007/10/05 19:10:32 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -30,6 +30,10 @@
 			rechecking authorizations for qualifiers it will never match, such as
 			those in non-HarmoniRepository Repository implementations.
 		</change>
+		<fix author='adam' date='2007-10-05'>
+			AuthN/LDAP: Previously, when users where members of objects that were not
+			under the baseDN, searching for parent groups fell into an infinite loop.
+		</fix>
 	</version>
 	<version number="0.12.3" date="2007-09-25">
 		<change author='adam' date='2007-09-25'>

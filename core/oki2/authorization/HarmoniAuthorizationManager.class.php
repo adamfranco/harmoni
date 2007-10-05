@@ -60,7 +60,7 @@ require_once(HARMONI.'oki2/shared/HarmoniIdIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthorizationManager.class.php,v 1.39 2007/09/04 20:25:38 adamfranco Exp $
+ * @version $Id: HarmoniAuthorizationManager.class.php,v 1.40 2007/10/05 19:10:31 adamfranco Exp $
  */
 class HarmoniAuthorizationManager 
 	extends AuthorizationManager 
@@ -502,6 +502,7 @@ class HarmoniAuthorizationManager
 // 		return ($authorizations->hasNext());
 				
 		$isAuthorizedCache = IsAuthorizedCache::instance();
+				
 		return $isAuthorizedCache->isUserAuthorized($functionId, $qualifierId);
 	}
 	
@@ -1647,7 +1648,7 @@ class HarmoniAuthorizationManager
 			$agentManager = Services::getService("Agent");
 			$ancestorSearchType = new HarmoniType("Agent & Group Search",
 													"edu.middlebury.harmoni","AncestorGroups");
-			$containingGroups =$agentManager->getGroupsBySearch(
+			$containingGroups = $agentManager->getGroupsBySearch(
 										$agentOrGroupId, $ancestorSearchType);
 			while ($containingGroups->hasNext()) {
 				$group =$containingGroups->next();
