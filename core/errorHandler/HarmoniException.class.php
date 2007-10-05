@@ -6,8 +6,10 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniException.class.php,v 1.4 2007/09/19 14:04:09 adamfranco Exp $
+ * @version $Id: HarmoniException.class.php,v 1.5 2007/10/05 14:01:04 adamfranco Exp $
  */ 
+
+require_once(dirname(__FILE__)."/OsidExceptions.php");
 
 /**
  * The HarmoniException adds pretty HTML formatting to the built-in exception class.
@@ -18,7 +20,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniException.class.php,v 1.4 2007/09/19 14:04:09 adamfranco Exp $
+ * @version $Id: HarmoniException.class.php,v 1.5 2007/10/05 14:01:04 adamfranco Exp $
  */
 class HarmoniException
 	extends Exception
