@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: IsAuthorizedCache.class.php,v 1.8 2007/09/04 20:25:38 adamfranco Exp $
+ * @version $Id: IsAuthorizedCache.class.php,v 1.9 2007/10/05 15:41:18 adamfranco Exp $
  */ 
 
 /**
@@ -69,7 +69,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: IsAuthorizedCache.class.php,v 1.8 2007/09/04 20:25:38 adamfranco Exp $
+ * @version $Id: IsAuthorizedCache.class.php,v 1.9 2007/10/05 15:41:18 adamfranco Exp $
  */
 class IsAuthorizedCache {
 		
@@ -185,6 +185,9 @@ class IsAuthorizedCache {
 		if(!isset($_SESSION['__isAuthorizedCache']))
 			$_SESSION['__isAuthorizedCache'] = array();
 		
+		if(!isset($_SESSION['__isAuthorizedCacheUnknownIds']))
+			$_SESSION['__isAuthorizedCacheUnknownIds'] = array();
+		
 			
 		if (!isset($_SESSION['__isAuthorizedCache']['USER'])
 			|| !isset($_SESSION['__isAuthorizedCacheAgents']['USER'])
@@ -236,6 +239,9 @@ class IsAuthorizedCache {
 		// Cache Misses will be determined in the queing methods
 		$this->queueId($qualifierId);
 		$this->_loadQueue('USER');
+		
+		if (in_array($qualifierId->getIdString(), $_SESSION['__isAuthorizedCacheUnknownIds']))
+			throw new UnknownIdException("The id, '".$qualifierId->getIdString()."', passed to the Authorization cache is unknown.");
 		
 		// Cache hit or newly loaded cache
 		if (isset($_SESSION['__isAuthorizedCache']
@@ -290,6 +296,9 @@ class IsAuthorizedCache {
 		$this->queueId($qualifierId);
 		$this->_loadQueue($agentId->getIdString());
 		
+		if (in_array($qualifierId->getIdString(), $_SESSION['__isAuthorizedCacheUnknownIds']))
+			throw new UnknownIdException("The id, '".$qualifierId->getIdString()."', passed to the Authorization cache is unknown.");
+		
 		// Cache hit or newly loaded cache
 		if (isset($_SESSION['__isAuthorizedCache']
 					[$agentId->getIdString()]
@@ -337,7 +346,8 @@ class IsAuthorizedCache {
 									[$agentKey]
 									[$idString]
 									['__IMPLICIT_CACHED']))
-				&& !in_array($idString, $this->_queue[$agentKey]))
+				&& !in_array($idString, $this->_queue[$agentKey])
+				&& !in_array($idString, $_SESSION['__isAuthorizedCacheUnknownIds']))
 			{
 				$this->_queue[$agentKey][] = $idString;
 			}
@@ -559,54 +569,77 @@ class IsAuthorizedCache {
 // 		}
 		
 		
-		// Algorithm B:
-		// For this algorithm we want to join all of the explicit AZs to all 
-		// nodes who have the qulifier as an ancestor. These will be the implicit AZs
+		// Before we do the big work to find the implicit AZs, first check that the
+		// node Ids we are looking for exist. If not, make note of this and do not search
+		// for them.
 		$query = new SelectQuery();
-		$query->addColumn("authorization_id");
-		$query->addColumn("fk_node");
-		$query->addTable("az_authorization");
-		$query->addTable("node_ancestry", LEFT_JOIN, "fk_qualifier = fk_ancestor");
-		$nodeIdStrings = $this->_queue[$agentIdString];
-		foreach($nodeIdStrings as $key => $val)
-			$nodeIdStrings[$key] = "'".addslashes($val)."'";
-		$query->addWhere("fk_node IN(".implode(", ", $nodeIdStrings).")");
-		$agentIdStrings = $this->getAgentIdStringArray($agentIdString);
-		foreach($agentIdStrings as $key => $val)
-			$agentIdStrings[$key] = "'".addslashes($val)."'";
-		$query->addWhere("fk_agent IN(".implode(", ", $agentIdStrings).")");
-		$query->addWhere("(authorization_effective_date IS NULL OR authorization_effective_date < NOW())");
-		$query->addWhere("(authorization_expiration_date IS NULL OR authorization_expiration_date > NOW())");
-		
+		$query->addColumn("DISTINCT node_id");
+		$query->addTable("node");
+		$query->addWhereIn("node_id", $this->_queue[$agentIdString]);
 // 		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
-		$result =$dbHandler->query(
+		$result = $dbHandler->query(
 						$query, 
 						$this->_configuration->getProperty('database_index'));
-		
-		while ($result->hasMoreRows()) {			
-			$explicitAZ =$explicitAZs[$result->field("authorization_id")];
-			$explicitFunction =$explicitAZ->getFunction();
-			$explicitFunctionId =$explicitFunction->getId();
-			
-			// cache in our user AZ cache
-			if(!isset($_SESSION['__isAuthorizedCache'][$agentIdString][$result->field("fk_node")]))
-				$_SESSION['__isAuthorizedCache'][$agentIdString][$result->field("fk_node")] = array();
-			
-			$_SESSION['__isAuthorizedCache']
-				[$agentIdString]
-				[$result->field("fk_node")]
-				[$explicitFunctionId->getIdString()] = true;
-			
+		$foundNodes = array();
+		while ($result->hasMoreRows()) {
+			$foundNodes[] = $result->field('node_id');
 			$result->advanceRow();
 		}
 		$result->free();
 		
-		// Set flags that each Qualifier in the queue has had its implicit AZs cached.
-		foreach ($this->_queue[$agentIdString] as $qualifierIdString) {
-			$_SESSION['__isAuthorizedCache']
-				[$agentIdString]
-				[$qualifierIdString]
-				['__IMPLICIT_CACHED'] = true;
+		// Get a list of missing nodes
+		$missing = array_diff($this->_queue[$agentIdString], $foundNodes);
+		foreach ($missing as $nodeId) {
+			$_SESSION['__isAuthorizedCacheUnknownIds'][] = $nodeId;
+		}
+		
+		// Algorithm B:
+		// For this algorithm we want to join all of the explicit AZs to all 
+		// nodes who have the qulifier as an ancestor. These will be the implicit AZs
+		if (count($foundNodes)) {
+			$query = new SelectQuery();
+			$query->addColumn("authorization_id");
+			$query->addColumn("fk_node");
+			$query->addTable("az_authorization");
+			$query->addTable("node_ancestry", LEFT_JOIN, "fk_qualifier = fk_ancestor");
+			$query->addWhereIn("fk_node", $foundNodes);
+			$agentIdStrings = $this->getAgentIdStringArray($agentIdString);
+			foreach($agentIdStrings as $key => $val)
+				$agentIdStrings[$key] = "'".addslashes($val)."'";
+			$query->addWhere("fk_agent IN(".implode(", ", $agentIdStrings).")");
+			$query->addWhere("(authorization_effective_date IS NULL OR authorization_effective_date < NOW())");
+			$query->addWhere("(authorization_expiration_date IS NULL OR authorization_expiration_date > NOW())");
+			
+	// 		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
+			$result =$dbHandler->query(
+							$query, 
+							$this->_configuration->getProperty('database_index'));
+			
+			while ($result->hasMoreRows()) {			
+				$explicitAZ =$explicitAZs[$result->field("authorization_id")];
+				$explicitFunction =$explicitAZ->getFunction();
+				$explicitFunctionId =$explicitFunction->getId();
+				
+				// cache in our user AZ cache
+				if(!isset($_SESSION['__isAuthorizedCache'][$agentIdString][$result->field("fk_node")]))
+					$_SESSION['__isAuthorizedCache'][$agentIdString][$result->field("fk_node")] = array();
+				
+				$_SESSION['__isAuthorizedCache']
+					[$agentIdString]
+					[$result->field("fk_node")]
+					[$explicitFunctionId->getIdString()] = true;
+				
+				$result->advanceRow();
+			}
+			$result->free();
+			
+			// Set flags that each Qualifier in the queue has had its implicit AZs cached.
+			foreach ($this->_queue[$agentIdString] as $qualifierIdString) {
+				$_SESSION['__isAuthorizedCache']
+					[$agentIdString]
+					[$qualifierIdString]
+					['__IMPLICIT_CACHED'] = true;
+			}
 		}
 		
 // 		$timer->end();
