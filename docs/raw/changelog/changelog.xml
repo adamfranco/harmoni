@@ -3,12 +3,20 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.177 2007/10/05 14:13:02 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.178 2007/10/05 15:41:18 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni Change-Log">
 	<version number="0.12.4" date="The Future">
+		<change author='adam' date='2007-10-05'>
+			AuthZ: The Authorization caching system now searches for and verifies
+			the existance of qualifier Ids passed to it. It caches a list of 
+			unknown ids and throws an UnknownId Exception when asked about that
+			qualifier. This change prevents the AuthorizationCache from continually
+			rechecking authorizations for qualifiers it will never match, such as
+			those in non-HarmoniRepository Repository implementations.
+		</change>
 		<new author='adam' date='2007-10-05'>
 			A new repository implementation, SimpleTableRepository, exposes simple database
 			table rows as Assets.
