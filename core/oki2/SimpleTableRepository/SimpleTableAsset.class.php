@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SimpleTableAsset.class.php,v 1.1 2007/10/05 14:02:55 adamfranco Exp $
+ * @version $Id: SimpleTableAsset.class.php,v 1.2 2007/10/05 15:41:57 adamfranco Exp $
  */ 
 
 require_once(dirname(__FILE__)."/SimpleTableRecord.class.php");
@@ -22,7 +22,7 @@ require_once(dirname(__FILE__)."/SimpleTablePart.class.php");
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SimpleTableAsset.class.php,v 1.1 2007/10/05 14:02:55 adamfranco Exp $
+ * @version $Id: SimpleTableAsset.class.php,v 1.2 2007/10/05 15:41:57 adamfranco Exp $
  */
 class SimpleTableAsset
 	extends Asset
@@ -84,7 +84,9 @@ class SimpleTableAsset
 		if (!strlen($row[$this->config['id_column']]))
 			throw new ConfigurationErrorException("Zero-length Id, in column '".$this->config['id_column']."'.");
 		
-		$this->id = $this->repository->idMgr->getId($row[$this->config['id_column']]);
+		$this->id = $this->repository->idMgr->getId(
+			$this->repository->getId()->getIdString().".".
+			$row[$this->config['id_column']]);
 		
 		
 		$this->createCustomRecord($row);

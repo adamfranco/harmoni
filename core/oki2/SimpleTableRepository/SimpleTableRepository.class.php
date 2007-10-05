@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SimpleTableRepository.class.php,v 1.1 2007/10/05 14:02:57 adamfranco Exp $
+ * @version $Id: SimpleTableRepository.class.php,v 1.2 2007/10/05 15:41:57 adamfranco Exp $
  */ 
 
 require_once(dirname(__FILE__)."/SimpleTableAssetIterator.class.php");
@@ -24,7 +24,7 @@ require_once(dirname(__FILE__)."/SimpleTablePartStructure.class.php");
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SimpleTableRepository.class.php,v 1.1 2007/10/05 14:02:57 adamfranco Exp $
+ * @version $Id: SimpleTableRepository.class.php,v 1.2 2007/10/05 15:41:57 adamfranco Exp $
  */
 class SimpleTableRepository
 	extends Repository
@@ -850,7 +850,8 @@ class SimpleTableRepository
 		foreach ($this->config['columns'] as $column)
 			$query->addColumn($column);
 		
-		$query->addWhereEqual($this->config['id_column'], $assetId->getIdString());
+		$query->addWhereEqual($this->config['id_column'], 
+			substr($assetId->getIdString(), strlen($this->getId()->getIdString().".")));
 		
 		$assets = new SimpleTableAssetIterator(
 			$this,
