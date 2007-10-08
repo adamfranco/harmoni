@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySqlUtils.class.php,v 1.2 2007/09/13 18:14:02 adamfranco Exp $
+ * @version $Id: MySqlUtils.class.php,v 1.3 2007/10/08 19:32:15 adamfranco Exp $
  */ 
 
 /**
@@ -18,7 +18,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySqlUtils.class.php,v 1.2 2007/09/13 18:14:02 adamfranco Exp $
+ * @version $Id: MySqlUtils.class.php,v 1.3 2007/10/08 19:32:15 adamfranco Exp $
  */
 class MySqlUtils {
 		
@@ -148,6 +148,36 @@ class MySqlUtils {
 				$dbc->query(new GenericSQLQuery("ALTER TABLE `sc_item` CHANGE `start` `start_date` BIGINT( 20 ) NULL DEFAULT NULL , CHANGE `end` `end_date` BIGINT( 20 ) NULL DEFAULT NULL "), $dbIndex);
 					printpre("Renaming columns start and end to start_date and end_date in the sc_item table.");
 			} catch (QueryDatabaseException $e) {}
+		}
+	}
+	
+	/**
+	 * Add the creator column to the dr_asset_info table.
+	 * 
+	 * @param int $dbIndex
+	 * @return void
+	 * @access public
+	 * @since 10/8/07
+	 */
+	public function harmoni_0_11_0_update ($dbIndex) {
+		$dbc = Services::getService("DBHandler");
+		
+		// Add the creator column to the dr_asset_info table
+		$hasCreator = false;
+		$result = $dbc->query(new GenericSQLQuery("DESCRIBE dr_asset_info"), $dbIndex);
+		$result = $result->returnAsSelectQueryResult();
+		while ($result->hasNext()) {
+			if ($result->field("Field") == 'creator') {
+				$hasCreator = true;
+				break;
+			}
+			$result->advanceRow();
+		}
+		
+		if (!$hasCreator) {
+			// Alter the table
+			printpre("Adding column creator to dr_asset_info");
+			$dbc->query(new GenericSQLQuery("ALTER TABLE `dr_asset_info` ADD `creator` VARCHAR( 75 ) AFTER `create_timestamp` ;"), $dbIndex);
 		}
 	}
 	
