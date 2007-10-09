@@ -3,16 +3,61 @@
 Name: Harmoni Change-Log
 
 
-v. 0.12.3 (2007-09-25)
+v. 0.12.4 (The Future)
 ----------------------------------------------------
+New in this relase include the addition of alternate repository implementations for
+reading from simple database tables and federating together several different
+repository implementations.
+
+Also, Be sure to point the database updater script
+(harmoni/core/DBHandler/db_updater.php) at your harmoni databases to add new columns
+that changed in harmoni-0.11.0 and harmoni-0.12.0.
+		
+		
+	* New feature: 
+		A new repository implementation, SimpleTableRepository, exposes simple
+		database table rows as Assets.
+		(2007-10-05 - Adam Franco)
+		
+	* Bug Fix: 
+		A new RepositoryManager implementation, FederationRepositoryManager, allows
+		the usage of multiple Repository implementations.
+		(2007-10-05 - Adam Franco)
 		
 	* Change: 
+		Many implementations are now throwing OsidExceptions such as the
+		UnimplementedException, UnknownIdException, etcetera, to allow these to be
+		caught separately from generic errors.
+		(2007-10-05 - Adam Franco)
 		
+	* Change: 
+		AuthZ: The Authorization caching system now searches for and verifies the
+		existance of qualifier Ids passed to it. It caches a list of unknown ids and
+		throws an UnknownId Exception when asked about that qualifier. This change
+		prevents the AuthorizationCache from continually rechecking authorizations
+		for qualifiers it will never match, such as those in non-HarmoniRepository
+		Repository implementations.
+		(2007-10-05 - Adam Franco)
+		
+	* Bug Fix: 
+		AuthN/LDAP: Previously, when users where members of objects that were not
+		under the baseDN, searching for parent groups fell into an infinite loop.
+		(2007-10-05 - Adam Franco)
+		
+	* Bug Fix: 
+		SQL: Adding a harmoni-0.11.0 database updator that will add the 'creator'
+		field to the dr_asset_info table.
+		(2007-10-08 - Adam Franco)
+	
+v. 0.12.3 (2007-09-25)
+----------------------------------------------------
+
+		
+	* Change: 
 		ImageProcessor: Now throws exceptions when ImageMagic fails.
 		(2007-09-25 - Adam Franco)
 		
 	* New feature: 
-		
 		GUI: New 'UnstyledMenuItem' element.
 		(2007-09-25 - Adam Franco)
 		
@@ -28,6 +73,7 @@ v. 0.12.3 (2007-09-25)
 	
 v. 0.12.2 (2007-09-20)
 ----------------------------------------------------
+
 		
 	* Change: 
 		Removed the legacy StorageHandler. If this functionality is needed in the
@@ -35,12 +81,10 @@ v. 0.12.2 (2007-09-20)
 		(2007-09-19 - Adam Franco)
 		
 	* Bug Fix: 
-		
 		Updated PhpDoc comments to generate properly.
 		(2007-09-19 - Adam Franco)
 		
 	* Bug Fix: 
-		
 		Agent: Fixed column type-mismatch in Agent table definition.
 		(2007-09-17 - Adam Franco)
 		
@@ -50,17 +94,16 @@ v. 0.12.2 (2007-09-20)
 		(2007-09-17 - Adam Franco)
 		
 	* Bug Fix: 
-		
 		Repository: Fixing PHP notices.
 		(2007-09-14 - Adam Franco)
 		
 	* Change: 
-		
 		Hierarchy: Adding some error-checking and Exceptions on errors.
 		(2007-09-14 - Adam Franco)
 	
 v. 0.12.1 (2007-09-14)
 ----------------------------------------------------
+
 		
 	* Bug Fix: 
 		Updating the MySQL Hierarchy and Scheduling table definitions to work with
@@ -69,6 +112,7 @@ v. 0.12.1 (2007-09-14)
 	
 v. 0.12.0 (2007-09-13)
 ----------------------------------------------------
+
 		
 	**** IMPORTANT *** Change: 
 		In order to support PostgreSQL without refactoring of the Database Handler,
@@ -95,7 +139,6 @@ v. 0.12.0 (2007-09-13)
 		
 		
 	* Change: 
-		
 		DBHandler: The PostGre classes have all been renamed to PostgreSQL
 		(2007-09-14 - Adam Franco)
 		
@@ -116,12 +159,10 @@ v. 0.12.0 (2007-09-13)
 		(2007-09-13 - Adam Franco)
 		
 	* New feature: 
-		
 		DBHandler: Can now run an entire directory tree full of sql files.
 		(2007-09-11 - Adam Franco)
 		
 	* Bug Fix: 
-		
 		DBHandler: Some fixes to the PostgreSQL implementation and tests.
 		(2007-09-11 - Adam Franco)
 		
@@ -131,17 +172,16 @@ v. 0.12.0 (2007-09-13)
 		(2007-09-11 - Adam Franco)
 		
 	* Bug Fix: 
-		
 		ErrorHandler: Fixed HTML syntax error in Exception printing.
 		(2007-09-11 - Adam Franco)
 		
 	* Bug Fix: 
-		
 		Repository: Now properly escapes values in modification date-storing query.
 		(2007-09-07 - Adam Franco)
 	
 v. 0.11.0 (2007-09-07)
 ----------------------------------------------------
+
 		
 	**** IMPORTANT *** Change: 
 		As of this version, Harmoni no longer supports PHP4. Please use PHP5 or
@@ -155,23 +195,41 @@ v. 0.11.0 (2007-09-07)
 		
 	* Change: 
 		Removing ampersands for compatability with other PHP5 code. The BBEdit-grep
-		string used for the find and replace was: (function
-		)&amp;|(=\s?)&amp;([^a-z#])|([^&amp;])&amp;\s?(\$) replaced with \1\2\3\4\5 Special Changes
-		were made to the following files to fix problems introduced in the search
-		and repace for ampersands: -
-		polyphony/main/library/ResultPrinter/ArrayResultPrinter.class.php -
-		getLayout() - $item = $this-&gt;_array[key($this-&gt;_array)]; ====== + $item =
-		current($this-&gt;_array); -
-		harmoni/core/oki2/repository/HarmoniRecord.class.php - getParts() Moved the
-		following line out of the if-statement: $activeValue =
-		$allRecordFieldValues[$key]-&gt;getActiveVersion(); -
-		harmoni/core/oki2/hierarchy/tree/Tree.class.php - _traverse() Kept the first
-		parameter being passed by reference. Needed in this case.
+		string used for the find and replace was:
+		
+		(function )&amp;|(=\s?)&amp;([^a-z#])|([^&amp;])&amp;\s?(\$)
+		
+		replaced with
+		
+		\1\2\3\4\5
+		
+		
+		
+		Special Changes were made to the following files to
+		fix problems introduced in the search and repace for ampersands:
+		
+		polyphony/main/library/ResultPrinter/ArrayResultPrinter.class.php - getLayout()
+		
+		- $item = $this-&gt;_array[key($this-&gt;_array)];
+		
+		======
+		
+		+ $item = current($this-&gt;_array);
+		
+		harmoni/core/oki2/repository/HarmoniRecord.class.php - getParts()
+		
+		- Moved the following line out of the if-statement:
+		
+		- $activeValue = $allRecordFieldValues[$key]-&gt;getActiveVersion();
+		
+		harmoni/core/oki2/hierarchy/tree/Tree.class.php - _traverse()
+		
+		- Kept the first parameter being passed by reference. Needed in this
+		case. 
 		(Adam Franco)
 		
 		
 	* Bug Fix: 
-		
 		OutputHandler: fixing notices.
 		(2007-09-07 - Adam Franco)
 		
@@ -181,22 +239,18 @@ v. 0.11.0 (2007-09-07)
 		(2007-09-05 - Adam Franco)
 		
 	* Change: 
-		
 		Errors:Expunging the old harmoni error handler now that we have exceptions.
 		(2007-09-05 - Adam Franco)
 		
 	* Bug Fix: 
-		
 		Hierarchy: Now properly clones the query object in PHP5.
 		(Adam Franco)
 		
 	* Change: 
-		
 		GUI: Now can include an xmlns namespace in the &lt;html&gt; tag.
 		(Adam Franco)
 		
 	* Change: 
-		
 		Id: Id can now be transparently cast as a string.
 		(Adam Franco)
 		
@@ -213,7 +267,6 @@ v. 0.11.0 (2007-09-07)
 		(Adam Franco)
 		
 	* Bug Fix: 
-		
 		DBHandler: Adding Support for table.column column-syntax.
 		(Adam Franco)
 		
@@ -223,7 +276,6 @@ v. 0.11.0 (2007-09-07)
 		(Adam Franco)
 		
 	* New feature: 
-		
 		Repository: Assets can now store and retrieve the id of their creator.
 		(Adam Franco)
 		
@@ -238,23 +290,22 @@ v. 0.11.0 (2007-09-07)
 		(Adam Franco)
 		
 	* Bug Fix: 
-		
 		Request: Added methods to ease access to the current module and action.
 		(Adam Franco)
 	
 v. 0.10.1 (2007-04-10)
 ----------------------------------------------------
+
 		
 	* Bug Fix: 
-		
 		Fixed a few bugs that prevented Harmoni from running in PHP 5.
 		(Adam Franco)
 	
 v. 0.10.0 (2007-04-05)
 ----------------------------------------------------
+
 		
 	* Bug Fix: 
-		
 		Architecture: Improved debug output on Harmoni instantiation errors.
 		(Adam Franco)
 		
@@ -264,7 +315,6 @@ v. 0.10.0 (2007-04-05)
 		(Adam Franco)
 		
 	* New feature: 
-		
 		Utilities: StatusStars can now be used from a CLI environment.
 		(Adam Franco)
 		
@@ -280,17 +330,14 @@ v. 0.10.0 (2007-04-05)
 		(Adam Franco)
 		
 	* New feature: 
-		
 		Repository: Added an assetExists() method.
 		(Adam Franco)
 		
 	* Bug Fix: 
-		
 		Chronology: Now gets AM/PM correct for 12AM and 12PM
 		(Adam Franco)
 		
 	* Change: 
-		
 		RequestContext: Now doesn't add cookie values to the request parameters.
 		(Adam Franco)
 		
@@ -300,30 +347,26 @@ v. 0.10.0 (2007-04-05)
 		(Adam Franco)
 		
 	* Bug Fix: 
-		
 		Agent: Removed debugging lines from Group implementation
 		(Adam Franco)
 	
 v. 0.9.0 (2006-12-13)
 ----------------------------------------------------
+
 		
 	* New feature: 
-		
 		AuthN: Added support for administrators to act as another user.
 		(Adam Franco)
 		
 	* Bug Fix: 
-		
 		AuthN: Fixed LDAP dnExists() method to work.
 		(Adam Franco)
 		
 	* New feature: 
-		
 		AuthN: Added support for LDAP Group searching.
 		(Adam Franco)
 		
 	* New feature: 
-		
 		Repository: Added support for files stored at remote locations.
 		(Adam Franco)
 		
@@ -333,7 +376,6 @@ v. 0.9.0 (2006-12-13)
 		(Adam Franco)
 		
 	* Bug Fix: 
-		
 		Tagging: Tags could be accidentally added with no value, now cannot.
 		(Adam Franco)
 		
@@ -343,17 +385,16 @@ v. 0.9.0 (2006-12-13)
 		(Adam Franco)
 		
 	* New feature: 
-		
 		Tagging: Now can fetch related tags.
 		(Adam Franco)
 		
 	* Bug Fix: 
-		
 		Primitives: ByteSize::fromString() now supports integers.
 		(Adam Franco)
 	
 v. 0.8.0 (2006-12-01)
 ----------------------------------------------------
+
 		
 	* Bug Fix: 
 		Chronology: Now handles parsing and display of am/pm-formated times between
@@ -368,40 +409,34 @@ v. 0.8.0 (2006-12-01)
 		(Adam Franco)
 		
 	* New feature: 
-		
 		Implementation of the CourseManagement OSID.
 		(Tim Bahls)
 		
 	* New feature: 
-		
 		Implementation of the Scheduling OSID.
 		(Tim Bahls)
 		
 	* New feature: 
-		
 		Implementation of the Grading OSID.
 		(Tim Bahls)
 		
 	* Change: 
-		
 		Changes to GUI system to support theme management.
 		(Tim Bahls)
 		
 	* Change: 
-		
 		AuthN: Additions to the authentication methods to support class searching.
 		(Tim Bahls)
 		
 	* Change: 
-		
 		ValidatorRules: Additions to support GUI theme managment needs.
 		(Tim Bahls)
 	
 v. 0.7.10 (2006-11-30)
 ----------------------------------------------------
+
 		
 	* Bug Fix: 
-		
 		AuthZ: getWhoCanDo() was only returning explicit AZs, in error.
 		(Adam Franco)
 		
@@ -412,6 +447,7 @@ v. 0.7.10 (2006-11-30)
 	
 v. 0.7.9 (2006-11-28)
 ----------------------------------------------------
+
 		
 	* New feature: 
 		Database: Can now generate the appropriate query string for use in building
@@ -419,12 +455,10 @@ v. 0.7.9 (2006-11-28)
 		(Adam Franco)
 		
 	* Change: 
-		
 		Actions: Removing need to pass the harmoni object from all actions.
 		(Adam Franco)
 		
 	* Change: 
-		
 		Chronology: Allowing colon date delimiters to support dates from EXIF.
 		(Adam Franco)
 		
@@ -434,15 +468,14 @@ v. 0.7.9 (2006-11-28)
 		(Adam Franco)
 		
 	* New feature: 
-		
 		Tagging back-end added.
 		(Adam Franco)
 	
 v. 0.7.8 (2006-10-25)
 ----------------------------------------------------
+
 		
 	* New feature: 
-		
 		GUI: New GUI component, SubMenu.
 		(Adam Franco)
 		
@@ -452,7 +485,6 @@ v. 0.7.8 (2006-10-25)
 		(Adam Franco)
 		
 	* Bug Fix: 
-		
 		Chronology: Fixed a number of PHP notices that were occuring in PHP 4.4.
 		(Adam Franco)
 		
@@ -464,6 +496,7 @@ v. 0.7.8 (2006-10-25)
 	
 v. 0.7.7 (2006-08-28)
 ----------------------------------------------------
+
 		
 	* Bug Fix: 
 		Chronology: Now parses dates of the form 'August 10th, 2006' and doesn't
@@ -471,7 +504,6 @@ v. 0.7.7 (2006-08-28)
 		(Adam Franco)
 		
 	* Bug Fix: 
-		
 		UnitTests: Removed depricated pass-by-reference call.
 		(Adam Franco)
 		
@@ -498,6 +530,7 @@ v. 0.7.7 (2006-08-28)
 	
 v. 0.7.6 (2006-08-15)
 ----------------------------------------------------
+
 		
 	* Bug Fix: 
 		Repository: RepositoryManager now returns false instead of an error if the
@@ -506,9 +539,9 @@ v. 0.7.6 (2006-08-15)
 	
 v. 0.7.5 (2006-08-11)
 ----------------------------------------------------
+
 		
 	* Bug Fix: 
-		
 		Fixed incomplete method in RegexValidator rule.
 		(Adam Franco)
 		
@@ -535,12 +568,12 @@ v. 0.7.5 (2006-08-11)
 		(Adam Franco)
 		
 	* Bug Fix: 
-		
 		ErrorHandler: Removed debugging line.
 		(Adam Franco)
 	
 v. 0.7.4 (2006-08-04)
 ----------------------------------------------------
+
 		
 	* Bug Fix: 
 		Chronology: fromString() methods now return null for invalid strings rather
@@ -554,6 +587,7 @@ v. 0.7.4 (2006-08-04)
 	
 v. 0.7.3 (2006-08-02)
 ----------------------------------------------------
+
 		
 	* Bug Fix: 
 		Chronology: Now does not die when fromString is called on an invalid date.
@@ -582,36 +616,49 @@ v. 0.7.3 (2006-08-02)
 	
 v. 0.7.2 (2006-07-21)
 ----------------------------------------------------
+
 		
 	* Bug Fix: 
-		
 		ImageProcessor: Now doesn't try to convert text files as images.
 		(Adam Franco)
 	
 v. 0.7.1 (2006-06-20)
 ----------------------------------------------------
+
 		
 	* Bug Fix: 
-		
 		AuthZ: Quotes in Group Ids were breaking queries.
 		(Adam Franco)
 	
 v. 0.7.0 (2006-06-16)
 ----------------------------------------------------
+
 		
 	**** IMPORTANT *** Change: 
 		The following 9 queries need to be run on a Harmoni 0.6.x database to
-		upgrade it to support the needs of Harmoni 0.7.0: ALTER TABLE `dm_schema`
-		ADD `active` TINYINT( 1 ) UNSIGNED DEFAULT '1' NOT NULL AFTER `revision` ;
-		ALTER TABLE `dr_authoritative_values` ADD `fk_repository` VARCHAR( 100 ) NOT
-		NULL AFTER `fk_partstructure` ; ALTER TABLE `dr_authoritative_values` DROP
-		PRIMARY KEY; ALTER TABLE `dr_authoritative_values` DROP INDEX
-		`fk_partstructure` , ADD INDEX `fk_partstructure` ( `fk_partstructure` ,
-		`fk_repository` ) ; ALTER TABLE `dr_authoritative_values` CHANGE `value`
-		`value` VARCHAR( 240 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ;
-		DROP TABLE `dr_authority_options` ; ALTER TABLE `log_agent` ADD PRIMARY KEY
-		( `fk_entry` , `fk_agent` ) ; ALTER TABLE `log_entry` ADD INDEX ( `log_name`
-		); ALTER TABLE `log_node` ADD PRIMARY KEY ( `fk_entry` , `fk_node` ) ;
+		upgrade it to support the needs of Harmoni 0.7.0:
+		
+		ALTER TABLE `dm_schema` ADD `active` TINYINT( 1 ) UNSIGNED DEFAULT '1'
+		NOT NULL AFTER `revision` ;
+		
+		ALTER TABLE `dr_authoritative_values` ADD `fk_repository` VARCHAR( 100 )
+		NOT NULL AFTER `fk_partstructure` ;
+		
+		ALTER TABLE `dr_authoritative_values` DROP PRIMARY KEY;
+		
+		ALTER TABLE `dr_authoritative_values` DROP INDEX `fk_partstructure` , ADD
+		INDEX `fk_partstructure` ( `fk_partstructure` , `fk_repository` ) ;
+		
+		ALTER TABLE `dr_authoritative_values` CHANGE `value` `value` VARCHAR( 240
+		) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ;
+		
+		DROP TABLE `dr_authority_options` ;
+		
+		ALTER TABLE `log_agent` ADD PRIMARY KEY ( `fk_entry` , `fk_agent` ) ;
+		
+		ALTER TABLE `log_entry` ADD INDEX ( `log_name` );
+		
+		ALTER TABLE `log_node` ADD PRIMARY KEY ( `fk_entry` , `fk_node` ) ;
 		(Adam Franco)
 		
 	* New feature: 
@@ -621,7 +668,6 @@ v. 0.7.0 (2006-06-16)
 		(Adam Franco)
 		
 	* Change: 
-		
 		Logging: Reworked db indexes to speed queries.
 		(Adam Franco)
 		
@@ -641,22 +687,18 @@ v. 0.7.0 (2006-06-16)
 		(Adam Franco)
 		
 	* Change: 
-		
 		DataManager/Repository: Adding support for schema/RecordStructure deleting.
 		(Adam Franco)
 		
 	* Change: 
-		
 		Repository: Added support for Record/RecordStructure duplication.
 		(Adam Franco)
 		
 	* Change: 
-		
 		Repository: AuthoritativeValues addition is now an AuthorizationFunction.
 		(Adam Franco)
 		
 	* Change: 
-		
 		Authoritative Values are now per Repository.
 		(Adam Franco)
 		
@@ -686,12 +728,12 @@ v. 0.7.0 (2006-06-16)
 		(Adam Franco)
 		
 	* Bug Fix: 
-		
 		ErrorManager: Making Errors more legible..
 		(Adam Franco)
 	
 v. 0.6.1 (2006-05-19)
 ----------------------------------------------------
+
 		
 	* New feature: 
 		Shared: New Multi-Iterator Iterator to ease the combining of results
@@ -699,7 +741,6 @@ v. 0.6.1 (2006-05-19)
 		(Adam Franco)
 		
 	* Change: 
-		
 		Repository: now caches AssetTypes loaded by getAssetTypes().
 		(Adam Franco)
 		
@@ -716,14 +757,13 @@ v. 0.6.1 (2006-05-19)
 	
 v. 0.6.0 (2006-05-05)
 ----------------------------------------------------
+
 		
 	* Bug Fix: 
-		
 		Now deletes the dr_asset_info record when deleting assets.
 		(Adam Franco)
 		
 	* New feature: 
-		
 		Assets and Asset-search-order now support modification and creation times.
 		(Adam Franco)
 		
@@ -741,7 +781,6 @@ v. 0.6.0 (2006-05-05)
 		(Adam Franco)
 		
 	* New feature: 
-		
 		Added added support for getting group information from LDAP.
 		(Adam Franco)
 		
@@ -751,17 +790,14 @@ v. 0.6.0 (2006-05-05)
 		(Christopher Shubert)
 		
 	* Bug Fix: 
-		
 		Now actually gets the qualifier Id when deleting an authorization.
 		(Adam Franco)
 		
 	* Change: 
-		
 		Added access to the 'Authenticatable Users' group.
 		(Adam Franco)
 		
 	* New feature: 
-		
 		Now caches resized versions of images.
 		(Adam Franco)
 		
@@ -776,40 +812,34 @@ v. 0.6.0 (2006-05-05)
 		(Adam Franco)
 		
 	* New feature: 
-		
 		Implemented an OSID Logging.
 		(Adam Franco)
 	
 v. 0.5.1 (2005-02-09)
 ----------------------------------------------------
+
 		
 	* Bug Fix: 
-		
 		Fixed table structure to support longer Id lengths.
 		(Adam Franco)
 		
 	* Bug Fix: 
-		
 		Fixed return by reference errors that throw notices in PHP 4.4.
 		(Adam Franco)
 		
 	* New feature: 
-		
 		Now can add HTML ids to GUI components.
 		(Adam Franco)
 		
 	* Bug Fix: 
-		
 		Fixed output HTML tabbing.
 		(Adam Franco)
 		
 	* New feature: 
-		
 		HtmlString now handles CDATA sections and HTML comments.
 		(Adam Franco)
 		
 	* Bug Fix: 
-		
 		Comparing Ids via object methods rather than string-values
 		(Adam Franco)
 		
@@ -819,12 +849,12 @@ v. 0.5.1 (2005-02-09)
 		(Christopher Shubert)
 		
 	* New feature: 
-		
 		New methods for manipulating OrderedSets.
 		(Adam Franco)
 	
 v. 0.5.0 (2005-01-10)
 ----------------------------------------------------
+
 		
 	* New feature: 
 		Authz: IsUserAuthorized caching system to dramatically speed authorization
@@ -839,7 +869,6 @@ v. 0.5.0 (2005-01-10)
 		(Adam Franco)
 		
 	* Change: 
-		
 		Repository: Cleaned up the caching that was taking place with filedata.
 		(Christopher Shubert)
 		
@@ -867,7 +896,6 @@ v. 0.5.0 (2005-01-10)
 		(Adam Franco)
 		
 	* New feature: 
-		
 		GUI: New basic theme.
 		(Adam Franco)
 		
@@ -882,17 +910,14 @@ v. 0.5.0 (2005-01-10)
 		(Adam Franco)
 		
 	* Change: 
-		
 		AuthN: Improved error handling of LDAP connection errors.
 		(Christopher Shubert)
 		
 	* New feature: 
-		
 		Repository: Keyword searching module in Repository.
 		(Adam Franco)
 		
 	* New feature: 
-		
 		Repository: Now supports Repository-specific RecordStructures.
 		(Adam Franco)
 		
@@ -907,12 +932,10 @@ v. 0.5.0 (2005-01-10)
 		(Adam Franco)
 		
 	* Change: 
-		
 		Argument validation can now be turned off for production.
 		(Adam Franco)
 		
 	* Change: 
-		
 		Many speed optimizations in Repository, Authorization, and Hierarchy.
 		(Adam Franco)
 		
@@ -924,6 +947,7 @@ v. 0.5.0 (2005-01-10)
 	
 v. 0.4.0 (2005-10-12)
 ----------------------------------------------------
+
 		
 	* Change: 
 		Groups and Agents are now stored in the hierarchy, allowing authorizations
@@ -932,7 +956,6 @@ v. 0.4.0 (2005-10-12)
 		(Adam Franco)
 		
 	* Change: 
-		
 		Added a check for magic_quotes_gpc being Off in harmoni.inc.php.
 		(Gabe Schine)
 		
@@ -942,7 +965,6 @@ v. 0.4.0 (2005-10-12)
 		(Gabe Schine)
 		
 	* New feature: 
-		
 		Addednew method getAllExplicitAZsForAgent() to HarmoniAuthorizationManager.
 		(Gabe Schine)
 		
@@ -952,7 +974,6 @@ v. 0.4.0 (2005-10-12)
 		(Adam Franco)
 		
 	* Change: 
-		
 		Changed OKI agent management to use new Everyone/Anonymous/Users IDs.
 		(Gabe Schine)
 		
@@ -968,7 +989,6 @@ v. 0.4.0 (2005-10-12)
 		(Gabe Schine)
 		
 	* New feature: #102459 
-		
 		Added task-manager linkability to the changelog.
 		(Gabe Schine)
 		
@@ -978,7 +998,6 @@ v. 0.4.0 (2005-10-12)
 		(Gabe Schine)
 		
 	* Change: 
-		
 		Updated DR module to use new DataManager.
 		(Gabe Schine)
 		
@@ -988,22 +1007,18 @@ v. 0.4.0 (2005-10-12)
 		(Gabe Schine)
 		
 	* Bug Fix: 
-		
 		Fixed a number of bugs in the Primitive and StorablePrimitive classes.
 		(Gabe Schine)
 		
 	* Bug Fix: 
-		
 		Fixed ISO date and time string parsers.
 		(Gabe Schine)
 		
 	* New feature: 
-		
 		DBHandler and Databases now implement a getTableList() function.
 		(Gabe Schine)
 		
 	* New feature: #102448 
-		
 		Implemented (but did not yet test) Oracle database connectivity.
 		(Gabe Schine)
 		
@@ -1020,7 +1035,6 @@ v. 0.4.0 (2005-10-12)
 		(Gabe Schine)
 		
 	* Change: #116890 
-		
 		All DataManager database queries now free() their results after processing.
 		(Gabe Schine)
 		
@@ -1031,17 +1045,14 @@ v. 0.4.0 (2005-10-12)
 		(Adam Franco)
 		
 	* Bug Fix: 
-		
 		Repaired many PHP notices.
 		(Adam Franco)
 		
 	* Bug Fix: 
-		
 		Repaired many PHP notices.
 		(Gabe Schine)
 		
 	* Bug Fix: 
-		
 		Repaired many PHP notices.
 		(Niraj Dhungel)
 		
@@ -1063,10 +1074,13 @@ v. 0.4.0 (2005-10-12)
 		(Adam Franco)
 		
 	* Change: 
-		DataManager: Records no longer have an active state. They either exist or
-		they don't. Fields that are deleted now are actually removed from the DB if
-		the Record is not version controlled. getIndices() now returns only the
-		active indices per default, including inactive ones only if requested.
+		DataManager: no longer have an active state. They either exist or they don't.
+		
+		Fields that are deleted now are actually removed from the DB if the
+		Record is not version controlled.
+		
+		getIndices() now returns only the active indices per default, including
+		inactive ones only if requested.
 		(Gabe Schine)
 		
 	* New feature: 
@@ -1078,24 +1092,28 @@ v. 0.4.0 (2005-10-12)
 		Added the chronology library, a PHP implemenation of the Squeak (Smalltalk)
 		Kernel-Chronology package and aims to serve as a general PHP class-library
 		for handling, comparing, and operating on chronological objects. The
-		original Smalltalk implementation is licensed under the Squeak License
-		http://squeak.org/download/license.html. This library includes classes that
-		represent instants in time (DateAndTime, TimeStamp), lengths of time
-		(Duration), spans of time anchored at certain instants (Timespan, Year,
-		Month, Week, Date), as well as recuring instants across a span of time
-		(Schedule). This library has been designed to support all possible dates,
-		times, and durations, not just those since the UNIX epoch (1970). dates can
-		have positive years (C.E./A.D.) or negative years (B.C.E./B.C.) and
-		Durations have been tested to support lengths of time up to +/- 4 billion
-		years with second-precision. Beyond 4 billion years to the limit of testing
-		(50 billion years) Durations have hour-precision.
+		original Smalltalk implementation is licensed under the Squeak License http://squeak.org/download/license.html.
+		
+		This library includes classes that represent instants in time
+		(DateAndTime, TimeStamp), lengths of time (Duration), spans of time anchored
+		at certain instants (Timespan, Year, Month, Week, Date), as well as recuring
+		instants across a span of time (Schedule).
+		
+		This library has been designed to support all possible dates, times, and
+		durations, not just those since the UNIX epoch (1970). dates can have
+		positive years (C.E./A.D.) or negative years (B.C.E./B.C.) and Durations
+		have been tested to support lengths of time up to +/- 4 billion years with
+		second-precision. Beyond 4 billion years to the limit of testing (50 billion
+		years) Durations have hour-precision.
 		(Adam Franco)
 		
 	* New feature: 
 		Added URL-writing functionality as well as centralized processing of
 		request-related variables from/to the browser into a family of classes
-		related to the RequestHandler. All 'communication' between the browser and
-		the program is now abstracted and can be subsequently changed transparently.
+		related to the RequestHandler. 
+		
+		All 'communication' between the browser and the program is now abstracted
+		and can be subsequently changed transparently.
 		(Gabe Schine)
 		
 	* Change: 
@@ -1121,14 +1139,15 @@ v. 0.4.0 (2005-10-12)
 	
 v. 0.3.3 (Never Released)
 ----------------------------------------------------
+
 		
 	* Bug Fix: 
-		
 		Fixed some more PHP warnings.
 		(Adam Franco)
 	
 v. 0.3.2 (2005-04-14)
 ----------------------------------------------------
+
 		
 	* Bug Fix: 
 		Existance of a try() function in the ErrorHandler was throwing parse errors
@@ -1156,12 +1175,10 @@ v. 0.3.2 (2005-04-14)
 		(Adam Franco)
 		
 	* Bug Fix: 
-		
 		Removed unused parameters from several methods that were throwing warnings.
 		(Adam Franco)
 		
 	* Bug Fix: 
-		
 		LanguageLocalizer now uses non-deprecated categories.
 		(Adam Franco)
 		
@@ -1177,6 +1194,7 @@ v. 0.3.2 (2005-04-14)
 	
 v. 0.3.1 (2005-04-11)
 ----------------------------------------------------
+
 		
 	* Change: 
 		Authentication now plays nicely with GET parameters and maintains them
@@ -1184,12 +1202,12 @@ v. 0.3.1 (2005-04-11)
 		(Adam Franco)
 		
 	* Change: 
-		
 		Agent searching works with new mapping system.
 		(Adam Franco)
 	
 v. 0.3.0 (2005-04-07)
 ----------------------------------------------------
+
 		
 	* Change: 
 		New Framework/Architecture-GUI/Theme interaction decouples the Harmoni
@@ -1232,12 +1250,10 @@ v. 0.3.0 (2005-04-07)
 		(Adam Franco)
 		
 	* New feature: 
-		
 		GUI Manager now complete. ThemeHandler and LayoutHandler have been removed.
 		(Dobo Radichkov)
 		
 	* New feature: 
-		
 		GUI Manager saving functionality.
 		(Nikitas Stamatopoulos)
 		
@@ -1247,7 +1263,6 @@ v. 0.3.0 (2005-04-07)
 		(Adam Franco)
 		
 	* New feature: 
-		
 		Service names can now have aliases.
 		(Adam Franco)
 		
@@ -1273,17 +1288,14 @@ v. 0.3.0 (2005-04-07)
 		(Adam Franco)
 		
 	* New feature: 
-		
 		Now includes implementations of v2.0 of the O.K.I OSIDs.
 		(Adam Franco)
 		
 	* New feature: 
-		
 		Now includes v2.0 of the O.K.I OSIDs.
 		(Adam Franco)
 		
 	* Bug Fix: 
-		
 		AuthorizationManager now handles group membership.
 		(Adam Franco)
 		
@@ -1315,9 +1327,9 @@ v. 0.3.0 (2005-04-07)
 	
 v. 0.2.0 (2004-10-26)
 ----------------------------------------------------
+
 		
 	* New feature: 
-		
 		Added a "MIME" service for sniffing mime types from file extensions.
 		(Adam Franco)
 		
@@ -1331,7 +1343,6 @@ v. 0.2.0 (2004-10-26)
 		(Adam Franco)
 		
 	* Bug Fix: 
-		
 		DBHandler: PostgreSQL now functions without throwing invalid errors.
 		(Adam Franco)
 		
@@ -1341,7 +1352,6 @@ v. 0.2.0 (2004-10-26)
 		(Adam Franco)
 		
 	* Change: 
-		
 		Digital Repository: Now stores Asset dates outside of the the data manager.
 		(Adam Franco)
 		
@@ -1361,7 +1371,6 @@ v. 0.2.0 (2004-10-26)
 		(Gabe Schine)
 		
 	* Change: 
-		
 		Migrated OKI DR implementation to use new DataManager.
 		(Gabe Schine)
 		
@@ -1387,17 +1396,14 @@ v. 0.2.0 (2004-10-26)
 		(Gabe Schine)
 		
 	* Bug Fix: #102455 
-		
 		AuthN queries now have slashes added to dbc query values.
 		(Adam Franco)
 		
 	* Bug Fix: #102455 
-		
 		Shared queries now have slashes added to query values.
 		(Adam Franco)
 		
 	* Bug Fix: #102455 
-		
 		Globally added addslashes() calls to quoted values in query strings.
 		(Adam Franco)
 		
@@ -1434,7 +1440,6 @@ v. 0.2.0 (2004-10-26)
 		(Dobo Radichkov)
 		
 	* New feature: 
-		
 		Implemented the Authorization OSID.
 		(Dobo Radichkov)
 		
@@ -1445,19 +1450,17 @@ v. 0.2.0 (2004-10-26)
 	
 v. 0.1.0 (2004-06-11)
 ----------------------------------------------------
+
 		
 	* New feature: 
-		
 		Added a new OKI-Hiearchy implementation (hierarchy2).
 		(Dobo Radichkov)
 		
 	* New feature: 
-		
 		DataManager: added a datatype to store OKI-style types.
 		(Gabe Schine)
 		
 	* Bug Fix: 
-		
 		Bugs in LoginHandler.
 		(Gabe Schine)
 		
@@ -1539,19 +1542,18 @@ v. 0.1.0 (2004-06-11)
 		(Gabe Schine)
 		
 	* Change: 
-		
 		DataManager: DataSet::prune() now removes all Tags associated with itself.
 		(Gabe Schine)
 	
 v. 0.0.5 (2004-01-09)
 ----------------------------------------------------
+
 		
 	* Change: 
 		Implementation of the OKI SharedManager (HarmoniSharedManager) now uses the
 		HarmoniDataManager's IDManager for ID creation.
 		
 	* Bug Fix: 
-		
 		DateTime::toString() now correctly displays minutes.
 		
 	* New feature: 
@@ -1560,7 +1562,6 @@ v. 0.0.5 (2004-01-09)
 		(Gabe Schine)
 		
 	* New feature: 
-		
 		Completed the HarmoniDataManager!
 		(Gabe Schine)
 		
@@ -1576,7 +1577,6 @@ v. 0.0.5 (2004-01-09)
 		(Gabe Schine)
 		
 	* New feature: 
-		
 		added BooleanDataType to DataManager.
 		(Gabe Schine)
 		
@@ -1591,7 +1591,6 @@ v. 0.0.5 (2004-01-09)
 		(Gabe Schine)
 		
 	* Bug Fix: 
-		
 		Typo in constructor for UnknownDBError class.
 		
 	* New feature: 
@@ -1654,6 +1653,7 @@ v. 0.0.5 (2004-01-09)
 	
 v. 0.0.4 (2003-12-06)
 ----------------------------------------------------
+
 		
 	* New feature: 
 		DateTime class has two new functions: toString() and toMDY() which display a
@@ -1661,7 +1661,6 @@ v. 0.0.4 (2003-12-06)
 		(Gabe Schine)
 		
 	* New feature: 
-		
 		Harmoni::pathInfoParts now contains an array of PATH_INFO elements.
 		(Gabe Schine)
 		
@@ -1715,6 +1714,7 @@ v. 0.0.4 (2003-12-06)
 	
 v. 0.0.3 (2003-11-26)
 ----------------------------------------------------
+
 		
 	* Change: 
 		Made ActionHandler check for class and method definitions before trying to
@@ -1727,7 +1727,6 @@ v. 0.0.3 (2003-11-26)
 		(Gabe Schine)
 		
 	* Bug Fix: 
-		
 		Numerous bug fixes in Harmoni, ActionHandler, LoginHandler
 		(Gabe Schine)
 		
@@ -1747,7 +1746,6 @@ v. 0.0.3 (2003-11-26)
 		(Gabe Schine)
 		
 	* New feature: 
-		
 		Services class now outputs a debug backtrace upon error.
 		
 	* Bug Fix: 
@@ -1768,7 +1766,7 @@ v. 0.0.3 (2003-11-26)
 		
 	* Change: 
 		Various fixes to the OSIDs. Added 'requires' for classes being extended.
-		Fixed syntax errors.
+		Fixedsyntax errors.
 		(Adam Franco)
 		
 	* New feature: 
@@ -1799,6 +1797,7 @@ v. 0.0.3 (2003-11-26)
 	
 v. 0.0.2 (2003-09-28)
 ----------------------------------------------------
+
 		
 	* New feature: 
 		ActionHandler::forward($action) can now be called from within an action to
@@ -1811,13 +1810,12 @@ v. 0.0.2 (2003-09-28)
 		(Gabe Schine)
 		
 	* Change: 
-		
 		Services::requireService() now returns the started service.
 		(Gabe Schine)
 		
 	* Change: 
 		LanguageLocalizer files can now have comments (designated by '#') and
-		keys/values are trimmed.
+		keys/valuesare trimmed.
 		(Gabe Schine)
 		
 	* Change: 
@@ -1831,7 +1829,6 @@ v. 0.0.2 (2003-09-28)
 		(Gabe Schine)
 		
 	* Change: 
-		
 		LoginState now keeps track of both an Active and Logged-in agent.
 		(Gabe Schine)
 		
@@ -1846,7 +1843,6 @@ v. 0.0.2 (2003-09-28)
 		(Gabe Schine)
 		
 	* Change: 
-		
 		Actions are now passed a reference to the Harmoni object.
 		(Gabe Schine)
 		
@@ -1856,23 +1852,21 @@ v. 0.0.2 (2003-09-28)
 		(Gabe Schine)
 		
 	* New feature: 
-		
 		Completed ActionHandler, LoginHandler and Harmoni classes and services.
 		(Gabe Schine)
 		
 	* Change: 
 		Deprecated the createDatabase() method in DBHandler. Use addDatabase(),
-		instead. This change was provoked by the fact that Oracle requires different
-		arguments to instantiate the DB object.
+		instead.This change was provoked by the fact that
+		
+		Oracle requires different arguments to instantiate the DB object.
 		(Dobo Radichkov)
 		
 	* New feature: 
-		
 		Added RGBcolor and HTMLcolor classes.
 		(Gabe Schine)
 		
 	* Change: 
-		
 		Finished Layout, Theme and Template.
 		(Gabe Schine)
 		
@@ -1887,7 +1881,6 @@ v. 0.0.2 (2003-09-28)
 		(Gabe Schine)
 		
 	* Change: 
-		
 		RuleSet can now accept an ErrorHandler to use via setErrorHandler().
 		(Gabe Schine)
 		
@@ -1897,12 +1890,10 @@ v. 0.0.2 (2003-09-28)
 		(Dobo Radichkov)
 		
 	* Change: 
-		
 		layoutHandler now works. Theme integration is to come.
 		(Gabe Schine)
 		
 	* New feature: 
-		
 		Database file storage method.
 		(Max Ovsjanikovs)
 		
@@ -1927,12 +1918,12 @@ v. 0.0.2 (2003-09-28)
 		(Gabe Schine)
 		
 	* New feature: 
-		
 		ChangeLog now held in an XML file and translated by XSL!
 		(Gabe Schine)
 	
 v. 0.0.1 (2003-07-10)
 ----------------------------------------------------
+
 		
 	* Change: 
 		Changed AuthenticationMethod to allow for
@@ -1941,7 +1932,6 @@ v. 0.0.1 (2003-07-10)
 		(Gabe Schine)
 		
 	* New feature: 
-		
 		Added StatisticsHandler.
 		(Max Ovsjanikovs)
 		

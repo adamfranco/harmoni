@@ -3,12 +3,21 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.180 2007/10/05 19:10:32 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.181 2007/10/09 16:16:50 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni Change-Log">
 	<version number="0.12.4" date="The Future">
+		<releaseNotes>
+			New in this relase include the addition of alternate repository
+			implementations for reading from simple database tables and federating
+			together several different repository implementations.
+			
+			Also, Be sure to point the database updater script (harmoni/core/DBHandler/db_updater.php)
+			at your harmoni databases to add new columns that changed in harmoni-0.11.0 
+			and harmoni-0.12.0.
+		</releaseNotes>
 		<new author='adam' date='2007-10-05'>
 			A new repository implementation, SimpleTableRepository, exposes simple database
 			table rows as Assets.
@@ -33,6 +42,10 @@
 		<fix author='adam' date='2007-10-05'>
 			AuthN/LDAP: Previously, when users where members of objects that were not
 			under the baseDN, searching for parent groups fell into an infinite loop.
+		</fix>
+		<fix author='adam' date='2007-10-08'>
+			SQL: Adding a harmoni-0.11.0 database updator that will add the 'creator'
+			field to the dr_asset_info table.
 		</fix>
 	</version>
 	<version number="0.12.3" date="2007-09-25">
@@ -144,23 +157,35 @@
 		<change author='adam'>
 			Removing ampersands for compatability with other PHP5 code.
 			The BBEdit-grep string used for the find and replace was:
+			
 					(function )&amp;|(=\s?)&amp;([^a-z#])|([^&amp;])&amp;\s?(\$)
+			
 			replaced with
-					\1\2\3\4\5
+			
+				\1\2\3\4\5
+			
+			
 			
 			Special Changes were made to the following files to fix problems introduced 
 			in the search and repace for ampersands:
-					- polyphony/main/library/ResultPrinter/ArrayResultPrinter.class.php - getLayout()
+			
+					polyphony/main/library/ResultPrinter/ArrayResultPrinter.class.php - getLayout()
+					
 							- $item = $this->_array[key($this->_array)];
+							
 							======
+							
 							+ $item = current($this->_array);
 					
-					- harmoni/core/oki2/repository/HarmoniRecord.class.php - getParts()
-							Moved the following line out of the if-statement:
-							$activeValue = $allRecordFieldValues[$key]->getActiveVersion();
+					harmoni/core/oki2/repository/HarmoniRecord.class.php - getParts()
+							
+							- Moved the following line out of the if-statement:
+							
+							- $activeValue = $allRecordFieldValues[$key]->getActiveVersion();
 					
-					- harmoni/core/oki2/hierarchy/tree/Tree.class.php - _traverse()
-							Kept the first parameter being passed by reference. Needed in this case.
+					harmoni/core/oki2/hierarchy/tree/Tree.class.php - _traverse()
+							
+							- Kept the first parameter being passed by reference. Needed in this case.
 		</change>
 		
 		<fix author='adam' date='2007-09-07'>
