@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAsset.class.php,v 1.49 2007/09/17 16:44:36 adamfranco Exp $
+ * @version $Id: HarmoniAsset.class.php,v 1.50 2007/10/09 20:57:22 adamfranco Exp $
  */
 
 require_once(HARMONI."oki2/repository/HarmoniAsset.interface.php");
@@ -26,7 +26,7 @@ require_once(dirname(__FILE__)."/FromNodesAssetIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniAsset.class.php,v 1.49 2007/09/17 16:44:36 adamfranco Exp $ 
+ * @version $Id: HarmoniAsset.class.php,v 1.50 2007/10/09 20:57:22 adamfranco Exp $ 
  */
 
 class HarmoniAsset
@@ -49,10 +49,18 @@ class HarmoniAsset
 	var $_datesInDB = FALSE;
 	
 	/**
+	 * @var object RepositoryManger $manager; 
+	 * @access private
+	 * @since 10/9/07
+	 */
+	private $manager;
+	
+	/**
 	 * Constructor
 	 */
-	function HarmoniAsset ($hierarchy, $repository, $id, $configuration) {
+	function HarmoniAsset (RepositoryManager $manager, Hierarchy $hierarchy, Repository $repository, Id $id, ConfigurationProperties $configuration) {
 	 	// Get the node coresponding to our id
+	 	$this->manager = $manager;
 		$this->_hierarchy =$hierarchy;
 		$this->_node =$this->_hierarchy->getNode($id);
 		$this->_repository =$repository;
@@ -594,8 +602,7 @@ class HarmoniAsset
     	$assets = array();
 		$parents =$this->_node->getParents();
 		
-		$manager = Services::getService("Repository");
-    	$repositoryKeyType =$manager->repositoryKeyType;
+		$repositoryKeyType = $this->manager->repositoryKeyType;
     	
 		while ($parents->hasNext()) {
 			$parent =$parents->next();
@@ -808,7 +815,7 @@ class HarmoniAsset
 			$myGroup->add($newRecord);
 			
 			// us the RecordStructure and the dataSet to create a new Record
-			$record = new HarmoniRecord($structure, $newRecord, $this);
+			$record = new HarmoniRecord($this->manager, $structure, $newRecord, $this);
 		}
 		
 		// Add the record to our createdRecords array, so we can pass out references to it.
@@ -1158,11 +1165,11 @@ class HarmoniAsset
 				$schema =$record->getSchema();
 				if (!isset($this->_createdRecordStructures[$schema->getID()])) {
 					$repository =$this->getRepository();
-					$this->_createdRecordStructures[$schema->getID()] = new HarmoniRecordStructure($schema, $repository->getId());
+					$this->_createdRecordStructures[$schema->getID()] = new HarmoniRecordStructure($this->manager, $schema, $repository->getId());
 				}
 				
 				// Create the Record in our cache.
-				$this->_createdRecords[$recordId->getIdString()] = new HarmoniRecord (
+				$this->_createdRecords[$recordId->getIdString()] = new HarmoniRecord ($this->manager,
 								$this->_createdRecordStructures[$schema->getID()], $record, $this);
 			}
 			$result->free();

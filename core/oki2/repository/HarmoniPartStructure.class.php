@@ -21,7 +21,7 @@ require(OKI2."osid/repository/PartStructure.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniPartStructure.class.php,v 1.20 2007/09/04 20:25:43 adamfranco Exp $  
+ * @version $Id: HarmoniPartStructure.class.php,v 1.21 2007/10/09 20:57:22 adamfranco Exp $  
  */
 class HarmoniPartStructure extends PartStructure
 //	extends java.io.Serializable
@@ -30,8 +30,15 @@ class HarmoniPartStructure extends PartStructure
 	var $_schemaField;
 	var $_recordStructure;
 	
-	function HarmoniPartStructure($recordStructure, $schemaField, $repositoryId) {
-		ArgumentValidator::validate($repositoryId, ExtendsValidatorRule::getRule("Id"));
+	/**
+	 * @var object RepositoryManger $manager; 
+	 * @access private
+	 * @since 10/9/07
+	 */
+	private $manager;
+	
+	function HarmoniPartStructure(RepositoryManager $manager, RecordStructure $recordStructure, SchemaField $schemaField, Id $repositoryId) {
+		$this->manager = $manager;
 		$this->_schemaField =$schemaField;
 		$this->_recordStructure =$recordStructure;
 		$this->_repositoryId =$repositoryId;
@@ -495,8 +502,7 @@ class HarmoniPartStructure extends PartStructure
 			$query->addWhere("value = '".addslashes($value->asString())."'");
 			
 			$dbc = Services::getService("DBHandler");
-			$repositoryManager = Services::getService("Repository");
-			$configuration =$repositoryManager->_configuration;
+			$configuration =$this->manager->_configuration;
 			$dbc->query($query, $configuration->getProperty('database_index'));
 		}
 	}
@@ -530,8 +536,7 @@ class HarmoniPartStructure extends PartStructure
 				"'".addslashes($value->asString())."'"));
 			
 			$dbc = Services::getService("DBHandler");
-			$repositoryManager = Services::getService("Repository");
-			$configuration =$repositoryManager->_configuration;
+			$configuration =$this->manager->_configuration;
 			$dbc->query($query, $configuration->getProperty('database_index'));
 		}
 	}
@@ -604,8 +609,7 @@ class HarmoniPartStructure extends PartStructure
 			$query->addOrderBy("value", ASCENDING);
 			
 			$dbc = Services::getService("DBHandler");
-			$repositoryManager = Services::getService("Repository");
-			$configuration =$repositoryManager->_configuration;
+			$configuration =$this->manager->_configuration;
 			$result =$dbc->query($query, $configuration->getProperty('database_index'));
 			
 			while ($result->hasMoreRows()) {

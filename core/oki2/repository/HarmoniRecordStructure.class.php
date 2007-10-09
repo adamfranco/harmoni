@@ -23,7 +23,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRecordStructure.class.php,v 1.36 2007/09/04 20:25:43 adamfranco Exp $ 
+ * @version $Id: HarmoniRecordStructure.class.php,v 1.37 2007/10/09 20:57:22 adamfranco Exp $ 
  */
 
 class HarmoniRecordStructure 
@@ -32,10 +32,17 @@ class HarmoniRecordStructure
 	
 	var $_schema;
 	var $_createdParts;
+	/**
+	 * @var object RepositoryManger $manager; 
+	 * @access private
+	 * @since 10/9/07
+	 */
+	private $manager;
 	
-	function HarmoniRecordStructure( $schema, $repositoryId ) {
+	function HarmoniRecordStructure(RepositoryManager $manager, $schema, Id $repositoryId ) {
 		ArgumentValidator::validate($repositoryId, ExtendsValidatorRule::getRule("Id"));
 		
+		$this->manager = $manager;
 		$this->_schema =$schema;
 		$this->_repositoryId =$repositoryId;
 		
@@ -189,7 +196,7 @@ class HarmoniRecordStructure
 					"Unknown [Inactive] PartStructure ID: ".$partId->getIdString(), 
 					"Repository", true));
 			
-			$this->_createdParts[$partId->getIdString()] = new HarmoniPartStructure(
+			$this->_createdParts[$partId->getIdString()] = new HarmoniPartStructure($this->manager, 
 				$this, $schemaField, $this->_repositoryId);
 		}
 		
@@ -222,7 +229,7 @@ class HarmoniRecordStructure
 		foreach ($this->_schema->getAllIDs() as $id) {
 			$fieldDef =$this->_schema->getField($id);
 			if (!isset($this->_createdParts[$id]))
-				 $this->_createdParts[$id] = new HarmoniPartStructure($this, $fieldDef, $this->_repositoryId);
+				 $this->_createdParts[$id] = new HarmoniPartStructure($this->manager, $this, $fieldDef, $this->_repositoryId);
 		}
 		
 		$obj = new HarmoniRecordStructureIterator($this->_createdParts);
@@ -439,7 +446,7 @@ class HarmoniRecordStructure
 
 		$idString = $this->_schema->getFieldIDFromLabel($label);
 		
-		$this->_createdParts[$idString] = new HarmoniPartStructure($this,
+		$this->_createdParts[$idString] = new HarmoniPartStructure($this->manager, $this,
 																$fieldDef, $this->_repositoryId);
 		return $this->_createdParts[$idString];
 	}
@@ -486,9 +493,8 @@ class HarmoniRecordStructure
 								$oldPartStructure->isPopulatedByRepository());
 		
 		// Convert the Data
-		$repositoryManager = Services::getService("Repository");
-		$myRecordStructureId =$this->getId();
-		$repositories =$repositoryManager->getRepositories();
+		$myRecordStructureId = $this->getId();
+		$repositories = $this->manager->getRepositories();
 		while($repositories->hasNext()) {
 			$repository =$repositories->next();
 			$recordStructures =$repository->getRecordStructures();

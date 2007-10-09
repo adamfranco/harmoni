@@ -24,7 +24,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRecord.class.php,v 1.24 2007/09/04 20:25:43 adamfranco Exp $ 
+ * @version $Id: HarmoniRecord.class.php,v 1.25 2007/10/09 20:57:22 adamfranco Exp $ 
  */
 
 class HarmoniRecord 
@@ -36,7 +36,15 @@ class HarmoniRecord
 	
 	var $_createdParts;
 	
-	function HarmoniRecord( $recordStructure, $record, $asset ) {
+	/**
+	 * @var object RepositoryManger $manager; 
+	 * @access private
+	 * @since 10/9/07
+	 */
+	private $manager;
+	
+	function HarmoniRecord(RepositoryManager $manager, RecordStructure $recordStructure, Record $record, Asset $asset ) {
+		$this->manager = $manager;
 		$this->_record=$record;
 		$this->_recordStructure =$recordStructure;
 		
@@ -138,7 +146,7 @@ class HarmoniRecord
 		$this->_record->commit(TRUE);
 		
 		$repository =$this->_asset->getRepository();
-		$part = new HarmoniPart(new HarmoniPartStructure($this->_recordStructure, $part, $repository->getId()),
+		$part = new HarmoniPart(new HarmoniPartStructure($this->manager, $this->_recordStructure, $part, $repository->getId()),
 			$this->_record->getRecordFieldValue($id, $this->_record->numValues($label)-1),
 			$this->_asset);
 		

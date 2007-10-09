@@ -36,7 +36,7 @@ require_once(HARMONI."oki2/repository/HarmoniRepository.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepositoryManager.class.php,v 1.39 2007/09/13 16:04:20 adamfranco Exp $ 
+ * @version $Id: HarmoniRepositoryManager.class.php,v 1.40 2007/10/09 20:57:22 adamfranco Exp $ 
  */
 
 class HarmoniRepositoryManager
@@ -83,7 +83,7 @@ class HarmoniRepositoryManager
 			debug::output("RecordStructure is being created from Schema with Id: '".$schema->getID()."'");
 			
 			$nullRepositoryId =$ids->getId('null');
-			$this->_createdRecordStructures[$schema->getID()] = new HarmoniRecordStructure(
+			$this->_createdRecordStructures[$schema->getID()] = new HarmoniRecordStructure($this,
 																	$schema, 
 																	$nullRepositoryId);
 			// Add the parts to the schema
@@ -285,7 +285,7 @@ class HarmoniRepositoryManager
 						$this->repositoryKeyType, $displayName, $description);
 		}
 		
-		$this->_createdRepositories[$id->getIdString()] = new HarmoniRepository ($this->_hierarchy, $id, $this->_configuration);
+		$this->_createdRepositories[$id->getIdString()] = new HarmoniRepository($this, $this->_hierarchy, $id, $this->_configuration);
 		return  $this->_createdRepositories[$id->getIdString()];
 	}
 
@@ -516,7 +516,7 @@ class HarmoniRepositoryManager
 				throwError(new Error(RepositoryException::UNKNOWN_ID(), "RepositoryManager", 1));
 			
 			// create the repository and add it to the cache
-			$this->_createdRepositories[$repositoryId->getIdString()] = new HarmoniRepository($this->_hierarchy, $repositoryId, $this->_configuration);
+			$this->_createdRepositories[$repositoryId->getIdString()] = new HarmoniRepository($this, $this->_hierarchy, $repositoryId, $this->_configuration);
 			$this->_repositoryValidFlags[$repositoryId->getIdString()] = true;
 		}
 		

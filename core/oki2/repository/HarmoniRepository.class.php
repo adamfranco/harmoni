@@ -48,7 +48,7 @@ require_once(dirname(__FILE__)."/SearchModules/AuthoritativeValuesSearch.class.p
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepository.class.php,v 1.62 2007/09/04 20:25:43 adamfranco Exp $ 
+ * @version $Id: HarmoniRepository.class.php,v 1.63 2007/10/09 20:57:22 adamfranco Exp $ 
  */
 
 class HarmoniRepository
@@ -66,9 +66,17 @@ class HarmoniRepository
 	var $_assetValidFlags;
 	
 	/**
+	 * @var object RepositoryManger $manager; 
+	 * @access private
+	 * @since 10/9/07
+	 */
+	private $manager;
+	
+	/**
 	 * Constructor
 	 */
-	function HarmoniRepository ($hierarchy, $id, $configuration) {
+	function HarmoniRepository (RepositoryManager $manager, Hierarchy $hierarchy, Id $id, ConfigurationProperties $configuration) {
+		$this->manager = $manager;
 		// Get the node coresponding to our id
 		$this->_hierarchy =$hierarchy;
 		$this->_node =$this->_hierarchy->getNode($id);
@@ -335,7 +343,7 @@ class HarmoniRepository
 		$node =$this->_hierarchy->createNode($id, $repositoryId, $assetType, $displayName, $description);
 		
 		// Create the asset with its new ID and cache it.
-		$this->_createdAssets[$id->getIdString()] = new HarmoniAsset($this->_hierarchy, $this, $id, $this->_configuration);
+		$this->_createdAssets[$id->getIdString()] = new HarmoniAsset($this->manager, $this->_hierarchy, $this, $id, $this->_configuration);
 		
 		$this->_createdAssets[$id->getIdString()]->updateModificationDate();
 		
@@ -741,7 +749,7 @@ class HarmoniRepository
 			// If not, create the infoStructure
 			$schemaMgr = Services::getService("SchemaManager");
 			$schema =$schemaMgr->getSchemaByID($infoStructureId->getIdString());
-			$this->_createdRecordStructures[$infoStructureId->getIdString()] = new HarmoniRecordStructure(
+			$this->_createdRecordStructures[$infoStructureId->getIdString()] = new HarmoniRecordStructure($this->manager,
 															$schema, $this->getId());
 		}
 		
@@ -785,7 +793,7 @@ class HarmoniRepository
 			{
 					// If not, create the RecordStructure
 					$schema =$schemaMgr->getSchemaByID($id);
-					$this->_createdRecordStructures[$id] = new HarmoniRecordStructure(
+					$this->_createdRecordStructures[$id] = new HarmoniRecordStructure($this->manager, 
 																$schema, $this->getId());
 			}
 		}
@@ -926,8 +934,7 @@ class HarmoniRepository
 					throwError(new Error(RepositoryException::UNKNOWN_ID(), "Repository", 1));
 				
 				// Verify that the requested Asset is in this DR.
-				$repositoryMan = Services::getService("Repository");
-				$repositoryId = $repositoryMan->_getAssetRepository($assetId);
+				$repositoryId = $this->manager->_getAssetRepository($assetId);
 				if (!$repositoryId
 					|| !$repositoryId->isEqual($this->getId()))
 				{
@@ -936,7 +943,7 @@ class HarmoniRepository
 			}
 			
 			// create the asset and add it to the cache
-			$this->_createdAssets[$assetId->getIdString()] = new HarmoniAsset($this->_hierarchy, $this, $assetId, $this->_configuration);
+			$this->_createdAssets[$assetId->getIdString()] = new HarmoniAsset($this->manager, $this->_hierarchy, $this, $assetId, $this->_configuration);
 			$this->_assetValidFlags[$assetId->getIdString()] = true;
 		}
 		
@@ -1318,7 +1325,7 @@ class HarmoniRepository
 		// The SchemaManager only allows you to use Schemas created by it for use with Records.
 		$schema =$schemaMgr->getSchemaByID($idString);
 		//debug::output("RecordStructure is being created from Schema with Id: '".$schema->getID()."'");
-		$this->_createdRecordStructures[$schema->getID()] = new HarmoniRecordStructure(
+		$this->_createdRecordStructures[$schema->getID()] = new HarmoniRecordStructure($this->manager, 
 																$schema, $this->getId());
 		return $this->_createdRecordStructures[$schema->getID()];
 	}
