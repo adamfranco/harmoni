@@ -11,7 +11,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/ValidatorRule.interface.
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OptionalRule.class.php,v 1.7 2007/09/04 20:25:55 adamfranco Exp $
+ * @version $Id: OptionalRule.class.php,v 1.8 2007/10/09 21:12:01 adamfranco Exp $
  */ 
 class OptionalRule
 	extends ValidatorRuleInterface
@@ -69,7 +69,7 @@ class OptionalRule
 	 * @static
 	 * @since 3/28/05
 	 */
-	function getRule ($rule) {		
+	static function getRule ($rule) {		
 		// Because there is no way in PHP to get the class name of the descendent
 		// class on which this method is called, this method must be implemented
 		// in each descendent class.

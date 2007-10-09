@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.182 2007/10/09 18:39:02 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.183 2007/10/09 21:12:02 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -47,6 +47,15 @@
 			SQL: Adding a harmoni-0.11.0 database updator that will add the 'creator'
 			field to the dr_asset_info table.
 		</fix>
+		<new author='adam' date='2007-10-09'>
+			Custom error_handling function.
+		</new>
+		<change author='adam' date='2007-10-09' ref='1810364' reftype='bug'>
+			The HarmoniRepositoryManager object is now passed to the objects it 
+			creates rather than being accessed globally from within its implementation
+			peventing conflicts when multiple RepositoryManager implementations
+			exist.
+		</change>
 	</version>
 	<version number="0.12.3" date="2007-09-25">
 		<change author='adam' date='2007-09-25'>

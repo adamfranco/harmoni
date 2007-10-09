@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ValidatorRule.interface.php,v 1.6 2007/09/04 20:25:55 adamfranco Exp $
+ * @version $Id: ValidatorRule.interface.php,v 1.7 2007/10/09 21:12:02 adamfranco Exp $
  */ 
 class ValidatorRuleInterface{
 	/**
@@ -34,7 +34,7 @@ class ValidatorRuleInterface{
 	 * @static
 	 * @since 3/28/05
 	 */
-	function getRule () {
+	static function getRule () {
 		// Because there is no way in PHP to get the class name of the descendent
 		// class on which this method is called, this method must be implemented
 		// in each descendent class.

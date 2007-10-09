@@ -11,7 +11,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ArgumentRenderer.class.php,v 1.6 2006/01/13 16:11:05 adamfranco Exp $
+ * @version $Id: ArgumentRenderer.class.php,v 1.7 2007/10/09 21:11:59 adamfranco Exp $
  */
 class ArgumentRenderer {
 
@@ -29,7 +29,7 @@ class ArgumentRenderer {
 	 * if $shouldPrint is set to TRUE.
 	 * @access public
 	 **/
-	function renderOneArgument($argument, $isDetailed = false, $shouldPrint = false, $trim = 0) {
+	static function renderOneArgument($argument, $isDetailed = false, $shouldPrint = false, $trim = 0) {
 		$result = "Unknown";
 		
 		// NULL type
@@ -113,7 +113,7 @@ class ArgumentRenderer {
 	 * @access public
 	 **/
 	
-	function renderManyArguments($arguments, $isDetailed = false, $shouldPrint = false, $trim = 0) {
+	static function renderManyArguments($arguments, $isDetailed = false, $shouldPrint = false, $trim = 0) {
 		// see if $arguments is an array
 		if (!is_array($arguments))
 			return false;

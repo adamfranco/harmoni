@@ -10,7 +10,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/ValidatorRule.interface.
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ExtendsValidatorRule.class.php,v 1.5 2007/09/04 20:25:55 adamfranco Exp $
+ * @version $Id: ExtendsValidatorRule.class.php,v 1.6 2007/10/09 21:12:00 adamfranco Exp $
  */ 
 class ExtendsValidatorRule
 	extends ValidatorRuleInterface 
@@ -45,7 +45,7 @@ class ExtendsValidatorRule
 	 * @return boolean TRUE, if the object extends the class; FALSE if it is not.
 	 **/
 	function check( $val ) {
-		return is_a($val, $this->_parentClassName);
+		return ($val instanceof $this->_parentClassName);
 	}
 	
 	/**
@@ -63,7 +63,7 @@ class ExtendsValidatorRule
 	 * @static
 	 * @since 3/28/05
 	 */
-	function getRule ($parentClassName) {
+	static function getRule ($parentClassName) {
 		if (!isset($GLOBALS['validator_rules']) || !is_array($GLOBALS['validator_rules']))
 			$GLOBALS['validator_rules'] = array();
 		

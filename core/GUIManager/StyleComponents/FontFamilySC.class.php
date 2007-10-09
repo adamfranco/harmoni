@@ -27,7 +27,7 @@ require_once(HARMONI."GUIManager/StyleComponent.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: FontFamilySC.class.php,v 1.11 2007/09/04 20:25:22 adamfranco Exp $
+ * @version $Id: FontFamilySC.class.php,v 1.12 2007/10/09 21:11:56 adamfranco Exp $
  */
 class FontFamilySC extends StyleComponent {
 
@@ -113,7 +113,7 @@ class CSSFontFamilyValidatorRule extends RegexValidatorRule {
 	 * @static
 	 * @since 3/28/05
 	 */
-	function getRule () {
+	static function getRule () {
 		// Because there is no way in PHP to get the class name of the descendent
 		// class on which this method is called, this method must be implemented
 		// in each descendent class.

@@ -13,7 +13,7 @@ require_once(HARMONI."services/Services.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Services.abstract.php,v 1.15 2007/09/04 20:25:49 adamfranco Exp $
+ * @version $Id: Services.abstract.php,v 1.16 2007/10/09 21:11:58 adamfranco Exp $
  */
 class ServicesAbstract
 	extends ServicesInterface {
@@ -26,7 +26,7 @@ class ServicesAbstract
 	 * @static
 	 * @return boolean True on success. False if service is registered and running or an error occurs.
 	 **/
-	function registerService( $name, $class ) {
+	static function registerService( $name, $class ) {
 		return $GLOBALS[SERVICES_OBJECT]->register( $name, $class );
 	}
 	
@@ -37,7 +37,7 @@ class ServicesAbstract
 	 * @access public
 	 * @return void
 	 **/
-	function registerObjectAsService($name, $object) {
+	static function registerObjectAsService($name, $object) {
 		$GLOBALS[SERVICES_OBJECT]->registerObject($name,$object);
 	}
 	
@@ -50,7 +50,7 @@ class ServicesAbstract
 	 * @access public
 	 * @since 3/24/05
 	 */
-	function createServiceAlias ($name1, $name2) {
+	static function createServiceAlias ($name1, $name2) {
 		$GLOBALS[SERVICES_OBJECT]->createAlias($name1, $name2);
 	}
 	
@@ -60,7 +60,7 @@ class ServicesAbstract
 	 * @static
 	 * @return object Services The Services object.
 	 **/
-	function getServices() {
+	static function getServices() {
 		return $GLOBALS[SERVICES_OBJECT];
 	}
 	
@@ -71,7 +71,7 @@ class ServicesAbstract
 	 * @static
 	 * @return object Object The service object.
 	 **/
-	function getService( $name ) {
+	static function getService( $name ) {
 		return $GLOBALS[SERVICES_OBJECT]->get( $name );
 	}
 	
@@ -84,7 +84,7 @@ class ServicesAbstract
 	 * @return boolean True on success.
 	 * @deprecated 2005/04/04 Use {@link startManagerAsService()} and {@link getService()} instead.
 	 **/
-	function startService( $name, $args=null ) {
+	static function startService( $name, $args=null ) {
 		$backtrace = debug_backtrace();
 		print "\n<br/><strong>Warning: Method call, Services::startService(), is deprecated. Please use Services::startManagerAsService() and/or Services::getService() instead. ";
 		print $backtrace[0]['file']." (Line ".$backtrace[0]['line'].")";
@@ -116,7 +116,7 @@ class ServicesAbstract
 	 * @access public
 	 * @since 3/24/05
 	 */
-	function startManagerAsService ( $name, $context, $configuration ) {
+	static function startManagerAsService ( $name, $context, $configuration ) {
 		return $GLOBALS[SERVICES_OBJECT]->startManager($name, $context, $configuration);
 	}
 	
@@ -127,7 +127,7 @@ class ServicesAbstract
 	 * @return void
 	 * @deprecated 2005/04/04 Use {@link startManagerAsService()} and {@link getService()} instead.
 	 **/
-	function startAllServices() {
+	static function startAllServices() {
 		$backtrace = debug_backtrace();
 		print "\n<br/><strong>Warning: Method call, Services::startAllServices(), is deprecated. Please use Services::startManagerAsService() and/or Services::getService() instead. ";
 		print $backtrace[0]['file']." (Line ".$backtrace[0]['line'].")";
@@ -144,7 +144,7 @@ class ServicesAbstract
 	 * @return boolean True on success.
 	 * @deprecated 2005/04/04 Use {@link startManagerAsService()} and {@link getService()} instead.
 	 **/
-	function stopService( $name ) {
+	static function stopService( $name ) {
 		$backtrace = debug_backtrace();
 		print "\n<br/><strong>Warning: Method call, Services::stopService(), is deprecated. Please use Services::startManagerAsService() and/or Services::getService() instead. ";
 		print $backtrace[0]['file']." (Line ".$backtrace[0]['line'].")";
@@ -157,7 +157,7 @@ class ServicesAbstract
 	 * @return void
 	 * @deprecated 2005/04/04 Use {@link startManagerAsService()} and {@link getService()} instead.
 	 **/
-	function stopAllServices() {
+	static function stopAllServices() {
 		$backtrace = debug_backtrace();
 		print "\n<br/><strong>Warning: Method call, Services::stopAllServices(), is deprecated. Please use Services::startManagerAsService() and/or Services::getService() instead. ";
 		print $backtrace[0]['file']." (Line ".$backtrace[0]['line'].")";
@@ -172,7 +172,7 @@ class ServicesAbstract
 	 * @return boolean True on success.
 	 * @deprecated 2005/04/04 Use {@link startManagerAsService()} and {@link getService()} instead.
 	 **/
-	function restartService( $name ) {
+	static function restartService( $name ) {
 		$backtrace = debug_backtrace();
 		print "\n<br/><strong>Warning: Method call, Services::restartService(), is deprecated. Please use Services::startManagerAsService() and/or Services::getService() instead. ";
 		print $backtrace[0]['file']." (Line ".$backtrace[0]['line'].")";
@@ -187,7 +187,7 @@ class ServicesAbstract
 	 * @param string $name The service name.
 	 * @return boolean True if the service is available, false otherwise.
 	 **/
-	function serviceAvailable( $name ) {
+	static function serviceAvailable( $name ) {
 		return $GLOBALS[SERVICES_OBJECT]->available( $name );
 	}
 	
@@ -198,7 +198,7 @@ class ServicesAbstract
 	 * @param string $name The service name.
 	 * @return boolean True if the service is running, false otherwise.
 	 **/
-	function serviceRunning( $name ) {
+	static function serviceRunning( $name ) {
 		return $GLOBALS[SERVICES_OBJECT]->running( $name );
 	}
 	
@@ -216,7 +216,7 @@ class ServicesAbstract
 	 * @return ref object The started service object. (if start=true)
 	 * @deprecated 2004/07/28 Use {@link startManagerAsService()} and {@link getService()} instead.
 	 **/
-	function requireService( $service, $start=true ) {
+	static function requireService( $service, $start=true ) {
 		$backtrace = debug_backtrace();
 		print "\n<br/><strong>Warning: Method call, Services::requireService(), is deprecated. Please use Services::startManagerAsService() and/or Services::getService() instead. ";
 		print $backtrace[0]['file']." (Line ".$backtrace[0]['line'].")";
