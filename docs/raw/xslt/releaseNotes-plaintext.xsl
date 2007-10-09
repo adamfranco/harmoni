@@ -5,7 +5,7 @@
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  
- @version $Id: releaseNotes-plaintext.xsl,v 1.1 2007/10/09 18:39:04 adamfranco Exp $
+ @version $Id: releaseNotes-plaintext.xsl,v 1.2 2007/10/09 18:41:24 adamfranco Exp $
  -->
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 <xsl:import href="trim.xsl"/>
@@ -18,6 +18,7 @@
 ///////////////////////////////////////////////////////////////////////
 -->
 <xsl:template match="changelog">Name: <xsl:value-of select="@name" /> Release Notes
+(See the <xsl:value-of select="@name" /> change log for more details)
 
 <xsl:for-each select="version">
 v. <xsl:value-of select="@number" /><xsl:if test="@date!=''"> (<xsl:value-of select="@date" />)</xsl:if>

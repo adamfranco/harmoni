@@ -1,6 +1,7 @@
 
 
-Name: Harmoni Change-Log
+Name: Harmoni Change Log
+
 
 
 v. 0.12.4 (The Future)

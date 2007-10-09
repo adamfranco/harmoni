@@ -3,11 +3,11 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.181 2007/10/09 16:16:50 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.182 2007/10/09 18:39:02 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
-<changelog name="Harmoni Change-Log">
+<changelog name="Harmoni">
 	<version number="0.12.4" date="The Future">
 		<releaseNotes>
 			New in this relase include the addition of alternate repository

@@ -5,24 +5,20 @@
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  
- @version $Id: changelog-plaintext.xsl,v 1.6 2007/10/09 16:16:51 adamfranco Exp $
+ @version $Id: changelog-plaintext.xsl,v 1.7 2007/10/09 18:39:04 adamfranco Exp $
  -->
- 
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-
 <xsl:import href="trim.xsl"/>
 <xsl:import href="paragraphs.xsl"/>
-
 <xsl:output format="text" />
 <xsl:strip-space elements="fix change new important" />
-
 <!--
 ///////////////////////////////////////////////////////////////////////
 // changelog
 ///////////////////////////////////////////////////////////////////////
 -->
 <xsl:template match="changelog">
-Name: <xsl:value-of select="@name" />
+Name: <xsl:value-of select="@name" /> Change Log
 <xsl:text>
 
 </xsl:text>

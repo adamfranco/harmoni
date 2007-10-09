@@ -5,7 +5,7 @@
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  
- @version $Id: changelog-simplehtml.xsl,v 1.7 2007/10/09 16:16:52 adamfranco Exp $
+ @version $Id: changelog-simplehtml.xsl,v 1.8 2007/10/09 18:39:04 adamfranco Exp $
  -->
  
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
@@ -39,11 +39,11 @@
 			}
 			
 		</style>
-		<title><xsl:value-of select="@name" /></title>
+		<title><xsl:value-of select="@name" /> Change Log</title>
 
 	</head>
 	<body>
-		<h1><xsl:value-of select="@name" /></h1>
+		<h1><xsl:value-of select="@name" /> Change Log</h1>
 	
 	
 <xsl:for-each select="version">
