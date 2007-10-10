@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.183 2007/10/09 21:12:02 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.184 2007/10/10 23:56:53 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -56,6 +56,14 @@
 			peventing conflicts when multiple RepositoryManager implementations
 			exist.
 		</change>
+		<fix author='adam' date='2007-10-10'>
+			Fixing a number of E_STRICT notices and improving the class and interface
+			hierarchies.
+		</fix>
+		<new author='adam' date='2007-10-10'>
+			Improved Error and Exception handling class, HarmoniErrorHandler. Adds
+			unified Error and Exception printing and logging.
+		</new>
 	</version>
 	<version number="0.12.3" date="2007-09-25">
 		<change author='adam' date='2007-09-25'>
