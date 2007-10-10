@@ -11,7 +11,7 @@ require_once HARMONI."dataManager/record/RecordFieldValue.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordField.class.php,v 1.22 2007/09/04 20:25:31 adamfranco Exp $
+ * @version $Id: RecordField.class.php,v 1.23 2007/10/10 22:58:36 adamfranco Exp $
  **/
 class RecordField {
 	
@@ -221,8 +221,7 @@ class RecordField {
 		for($i=0; true; $i++) {
 			if (!in_array($i,$this->getIndices(true))) return $i;
 		}
-		print "<b>Eh? We can't find a new index?</b><br />";
-		printDebugBacktrace(); exit();
+		throw new Exception("Eh? We can't find a new index?");
 	}
 	
 	/**

@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniNodeTaggedItem.class.php,v 1.3 2007/09/04 20:25:28 adamfranco Exp $
+ * @version $Id: HarmoniNodeTaggedItem.class.php,v 1.4 2007/10/10 22:58:35 adamfranco Exp $
  */ 
 
 /**
@@ -18,7 +18,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniNodeTaggedItem.class.php,v 1.3 2007/09/04 20:25:28 adamfranco Exp $
+ * @version $Id: HarmoniNodeTaggedItem.class.php,v 1.4 2007/10/10 22:58:35 adamfranco Exp $
  */
 class HarmoniNodeTaggedItem
 	extends	TaggedItem
@@ -32,8 +32,9 @@ class HarmoniNodeTaggedItem
 	 * @return object
 	 * @access public
 	 * @since 11/2/06
+	 * @static
 	 */
-	function forId ( $id, $system, $class='HarmoniNodeTaggedItem' ) {
+	static function forId ( $id, $system, $class='HarmoniNodeTaggedItem' ) {
 		if (is_string($id)) {
 			$idManager = Services::getService("Id");
 			$id =$idManager->getId($id);

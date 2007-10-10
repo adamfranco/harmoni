@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Services.interface.php,v 1.8 2007/10/09 21:11:58 adamfranco Exp $
+ * @version $Id: Services.interface.php,v 1.9 2007/10/10 22:58:40 adamfranco Exp $
  */
 class ServicesInterface {
 	/*     STATIC METHODS     */
@@ -31,6 +31,7 @@ class ServicesInterface {
 	 * @param string $name The name of the new service.
 	 * @param ref object $object The object.
 	 * @access public
+	 * @static
 	 * @return void
 	 **/
 	static function registerObjectAsService($name, $object) {
@@ -88,6 +89,7 @@ class ServicesInterface {
 	 * Attempts to stop all running services.
 	 * @access public
 	 * @return void
+	 * @static
 	 **/
 	static function stopAllServices() {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 

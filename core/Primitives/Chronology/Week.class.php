@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Week.class.php,v 1.5 2007/09/04 20:25:25 adamfranco Exp $
+ * @version $Id: Week.class.php,v 1.6 2007/10/10 22:58:33 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -32,7 +32,7 @@ require_once(dirname(__FILE__)."/Timespan.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Week.class.php,v 1.5 2007/09/04 20:25:25 adamfranco Exp $
+ * @version $Id: Week.class.php,v 1.6 2007/10/10 22:58:33 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -121,7 +121,7 @@ class Week
 	 * @since 5/5/05
 	 * @static
 	 */
-	function current ( $class = 'Week' ) {
+	static function current ( $class = 'Week' ) {
 		$obj = parent::current($class);
 		return $obj;
 	}
@@ -138,7 +138,7 @@ class Week
 	 * @since 5/5/05
 	 * @static
 	 */
-	function epoch ( $class = 'Week' ) {
+	static function epoch ( $class = 'Week' ) {
 		$obj = parent::epoch($class);
 		return $obj;
 	}
@@ -156,7 +156,7 @@ class Week
 	 * @since 5/5/05
 	 * @static
 	 */
-	function starting ( $aDateAndTime, $class = 'Week' ) {
+	static function starting ( $aDateAndTime, $class = 'Week' ) {
 		$obj = parent::starting($aDateAndTime, $class);
 		return $obj;
 	}
@@ -173,8 +173,9 @@ class Week
 	 * @return object Week
 	 * @access public
 	 * @since 5/11/05
+	 * @static
 	 */
-	function startingEnding ( $startDateAndTime, $endDateAndTime, 
+	static function startingEnding ( $startDateAndTime, $endDateAndTime, 
 		$class = 'Week' ) 
 	{
 		$obj = parent::startingEnding ( $startDateAndTime, $endDateAndTime, $class);
@@ -197,7 +198,7 @@ class Week
 	 * @since 5/5/05
 	 * @static
 	 */
-	function startingDuration ( $aDateAndTime, $aDuration, $class = 'Week' ) {
+	static function startingDuration ( $aDateAndTime, $aDuration, $class = 'Week' ) {
 		
 		// Validate our passed class name.
 		if (!(strtolower($class) == strtolower('Week')

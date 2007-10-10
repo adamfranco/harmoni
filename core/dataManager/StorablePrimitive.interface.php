@@ -8,9 +8,9 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorablePrimitive.interface.php,v 1.7 2007/09/04 20:25:31 adamfranco Exp $
+ * @version $Id: StorablePrimitive.interface.php,v 1.8 2007/10/10 22:58:36 adamfranco Exp $
  */
-class StorablePrimitive {
+interface StorablePrimitive {
 	
 /*********************************************************
  * Class Methods
@@ -24,7 +24,7 @@ class StorablePrimitive {
 	 * @return object StorablePrimitive
 	 * @static
 	 */
-	function createAndPopulate( $dbRow ) { }
+	static function createAndPopulate( $dbRow );
 	
 	/**
 	 * Returns a string that could be inserted into an SQL query's WHERE clause, based on the
@@ -36,7 +36,17 @@ class StorablePrimitive {
 	 * @return string or NULL if no searching is allowed.
 	 * @static
 	 */
-	function makeSearchString($value, $searchType = SEARCH_TYPE_EQUALS) { }
+	static function makeSearchString($value, $searchType = SEARCH_TYPE_EQUALS);
+	
+	/**
+	 * Takes an existing {@link SelectQuery} and adds a table join and some columns so that
+	 * when it is executed the actual data can be retrieved from the row. The join condition must
+	 * be "fk_data = data_id_field", since the field "fk_data" is already part of the DataManager's
+	 * table structure.
+	 * @access public
+	 * @return void
+	 */
+	static function alterQuery( $query );
 	
 /*********************************************************
  * Instance Methods
@@ -48,7 +58,7 @@ class StorablePrimitive {
 	 * @access public
 	 * @return integer Returns the new ID of the data stored.
 	 */
-	function insert($dbID) { }
+	function insert($dbID);
 	
 	/**
 	 * Uses the ID passed and updates the database row with
@@ -58,17 +68,7 @@ class StorablePrimitive {
 	 * @access public
 	 * @return void
 	 */
-	function update($dbID, $dataID) { }
-	
-	/**
-	 * Takes an existing {@link SelectQuery} and adds a table join and some columns so that
-	 * when it is executed the actual data can be retrieved from the row. The join condition must
-	 * be "fk_data = data_id_field", since the field "fk_data" is already part of the DataManager's
-	 * table structure.
-	 * @access public
-	 * @return void
-	 */
-	function alterQuery( $query ) { }
+	function update($dbID, $dataID);
 	
 	/**
 	 * Deletes the data row from the appropriate table.
@@ -77,6 +77,6 @@ class StorablePrimitive {
 	 * @access public
 	 * @return void
 	 */
-	function prune($dbID, $dataID) { }
+	function prune($dbID, $dataID);
 
 }

@@ -7,7 +7,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Double.class.php,v 1.5 2007/09/04 20:25:28 adamfranco Exp $
+ * @version $Id: Double.class.php,v 1.6 2007/10/10 22:58:34 adamfranco Exp $
  */ 
 
 require_once(dirname(__FILE__)."/Float.class.php");
@@ -20,7 +20,7 @@ require_once(dirname(__FILE__)."/Float.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Double.class.php,v 1.5 2007/09/04 20:25:28 adamfranco Exp $
+ * @version $Id: Double.class.php,v 1.6 2007/10/10 22:58:34 adamfranco Exp $
  */
 class Double 
 	extends Float
@@ -39,8 +39,9 @@ class Double
 	 * @return object Double
 	 * @access public
 	 * @since 7/14/05
+	 * @static
 	 */
-	function withValue ( $value, $class = 'Double') {
+	static function withValue ( $value, $class = 'Double') {
 		return parent::withValue($value, $class);
 	}
 	
@@ -51,8 +52,9 @@ class Double
 	 * @return object Double
 	 * @access public
 	 * @since 3/14/06
+	 * @static
 	 */
-	function fromString ($string, $class = 'Double') {
+	static function fromString ($string, $class = 'Double') {
 		return parent::fromString($string, $class);
 	}
 	
@@ -63,9 +65,10 @@ class Double
 	 *		of this package.
 	 * @return object Double
 	 * @access public
+	 * @static
 	 * @since 7/14/05
 	 */
-	function zero ( $class = 'Double') {
+	static function zero ( $class = 'Double') {
 		return parent::zero($class);
 	}
 	

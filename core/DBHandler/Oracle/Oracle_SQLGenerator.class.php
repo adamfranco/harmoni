@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Oracle_SQLGenerator.class.php,v 1.11 2007/09/05 21:39:00 adamfranco Exp $
+ * @version $Id: Oracle_SQLGenerator.class.php,v 1.12 2007/10/10 22:58:31 adamfranco Exp $
  */
  
 require_once(HARMONI."DBHandler/SQLGenerator.interface.php");
@@ -19,7 +19,7 @@ require_once(HARMONI."DBHandler/SQLGenerator.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Oracle_SQLGenerator.class.php,v 1.11 2007/09/05 21:39:00 adamfranco Exp $
+ * @version $Id: Oracle_SQLGenerator.class.php,v 1.12 2007/10/10 22:58:31 adamfranco Exp $
  */
 class Oracle_SQLGenerator 
 	extends SQLGeneratorInterface 
@@ -33,7 +33,7 @@ class Oracle_SQLGenerator
 	 * @static
 	 * @access public
 	 */
-	function generateSQLQuery( Query $query) {
+	static function generateSQLQuery( Query $query) {
 
 		switch($query->getType()) {
 			case INSERT : 
@@ -65,7 +65,7 @@ class Oracle_SQLGenerator
 	 * @access public
 	 * @static
 	 */
-	function generateGenericSQLQuery(GenericSQLQueryInterface $query) {
+	static function generateGenericSQLQuery(GenericSQLQueryInterface $query) {
 
 		$queries = $query->_sql;
 
@@ -89,7 +89,7 @@ class Oracle_SQLGenerator
 	 * @access public
 	 * @static
 	 */
-	function generateInsertSQLQuery(InsertQueryInterface $query) {
+	static function generateInsertSQLQuery(InsertQueryInterface $query) {
 
 		if (!$query->_table || count($query->_values) == 0) {
 			$description = "Cannot generate SQL string for this Query object due to invalid query setup.";
@@ -154,7 +154,7 @@ class Oracle_SQLGenerator
 	 * @static
 	 * @access public
 	 */
-	function generateUpdateSQLQuery(UpdateQueryInterface $query) {
+	static function generateUpdateSQLQuery(UpdateQueryInterface $query) {
 
 		$sql = "";
 	
@@ -222,7 +222,7 @@ class Oracle_SQLGenerator
 	 * @static
 	 * @access public
 	 */
-	function generateDeleteSQLQuery(DeleteQueryInterface $query) {
+	static function generateDeleteSQLQuery(DeleteQueryInterface $query) {
 
 		$sql = "";
 	
@@ -271,8 +271,9 @@ class Oracle_SQLGenerator
 	 * Returns a string representing the SELECT SQL query corresonding to the Query object.
 	 * @return string A string representing the SELECT SQL query corresonding to the Query object.
 	 * @access public
+	 * @static
 	 */
-	function generateSelectSQLQuery(SelectQueryInterface $query) {
+	static function generateSelectSQLQuery(SelectQueryInterface $query) {
 
 		$sql = "";
 		

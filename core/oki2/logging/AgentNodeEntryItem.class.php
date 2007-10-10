@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AgentNodeEntryItem.class.php,v 1.8 2007/09/05 19:55:21 adamfranco Exp $
+ * @version $Id: AgentNodeEntryItem.class.php,v 1.9 2007/10/10 22:58:38 adamfranco Exp $
  */ 
 
 /**
@@ -18,7 +18,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AgentNodeEntryItem.class.php,v 1.8 2007/09/05 19:55:21 adamfranco Exp $
+ * @version $Id: AgentNodeEntryItem.class.php,v 1.9 2007/10/10 22:58:38 adamfranco Exp $
  */
 class AgentNodeEntryItem {
 		
@@ -90,7 +90,7 @@ class AgentNodeEntryItem {
 	function setBacktrace ( $backtrace ) {
 		if (is_array($backtrace)) {
 			ob_start();
-			printDebugBacktrace($backtrace);
+			HarmoniErrorHandler::printDebugBacktrace($backtrace);
 			$this->_backtrace = ob_get_clean();
 		} else
 			$this->_backtrace = $backtrace;

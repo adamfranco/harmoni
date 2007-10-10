@@ -33,7 +33,7 @@ define("RECORD_FULL",4);
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Record.class.php,v 1.39 2007/09/04 20:25:31 adamfranco Exp $
+ * @version $Id: Record.class.php,v 1.40 2007/10/10 22:58:36 adamfranco Exp $
 */
 class Record {
 	
@@ -768,9 +768,6 @@ class Record {
 		// we will get the RecordManager and ask it to re-fetch our values. We'll also have it exclude those values
 		// that we already have fetched.
 		if ($this->getFetchMode() >= RECORD_FULL) return;
-		
-//		print "<b>makeFull()</b><br />";
-//		printDebugBacktrace(debug_backtrace());
 		
 		if (!$this->getID()) return;
 		

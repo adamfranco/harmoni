@@ -35,7 +35,7 @@ class HierarchyException
      * @access public 
      * @static 
      */
-    function UNKNOWN_PARENT_NODE () {
+    static static function UNKNOWN_PARENT_NODE () {
         return "Cannot create Node with unknown parent ";
     }
 
@@ -47,7 +47,7 @@ class HierarchyException
      * @access public 
      * @static 
      */
-    function HIERARCHY_NOT_EMPTY () {
+    static static function HIERARCHY_NOT_EMPTY () {
         return "Cannot delete a Hierarchy containing Nodes ";
     }
 
@@ -60,7 +60,7 @@ class HierarchyException
      * @access public 
      * @static 
      */
-    function UNSUPPORTED_CREATION () {
+    static static function UNSUPPORTED_CREATION () {
         return "Hierarchy does not support allowsMultipleParents is false and allowsRecursion is true ";
     }
 
@@ -72,7 +72,7 @@ class HierarchyException
      * @access public 
      * @static 
      */
-    function ATTEMPTED_RECURSION () {
+    static static function ATTEMPTED_RECURSION () {
         return "Hierarchy does not allow recursion ";
     }
 
@@ -84,7 +84,7 @@ class HierarchyException
      * @access public 
      * @static 
      */
-    function SINGLE_PARENT_HIERARCHY () {
+    static static function SINGLE_PARENT_HIERARCHY () {
         return "Hierarchy does not allow multiple parents ";
     }
 
@@ -96,7 +96,7 @@ class HierarchyException
      * @access public 
      * @static 
      */
-    function INCONSISTENT_STATE () {
+    static static function INCONSISTENT_STATE () {
         return "Removing node will result in an inconsistent state ";
     }
 
@@ -108,7 +108,7 @@ class HierarchyException
      * @access public 
      * @static 
      */
-    function UNKNOWN_TRAVERSAL_MODE () {
+    static static function UNKNOWN_TRAVERSAL_MODE () {
         return "Unknown traversal mode ";
     }
 
@@ -120,7 +120,7 @@ class HierarchyException
      * @access public 
      * @static 
      */
-    function UNKNOWN_TRAVERSAL_DIRECTION () {
+    static static function UNKNOWN_TRAVERSAL_DIRECTION () {
         return "Unknown traversal direction ";
     }
 
@@ -132,7 +132,7 @@ class HierarchyException
      * @access public 
      * @static 
      */
-    function NODE_TYPE_NOT_FOUND () {
+    static static function NODE_TYPE_NOT_FOUND () {
         return "NodeType has never been added ";
     }
 
@@ -144,7 +144,7 @@ class HierarchyException
      * @access public 
      * @static 
      */
-    function NODE_TYPE_IN_USE () {
+    static static function NODE_TYPE_IN_USE () {
         return "Cannot remove NodeType referenced by a Node ";
     }
 

@@ -13,7 +13,7 @@ require_once(HARMONI."GUIManager/Components/Menu.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Menu.class.php,v 1.14 2007/09/04 20:25:22 adamfranco Exp $
+ * @version $Id: Menu.class.php,v 1.15 2007/10/10 22:58:32 adamfranco Exp $
  */
 class Menu extends Container /* implements MenuInterface */ {
 
@@ -90,7 +90,7 @@ class Menu extends Container /* implements MenuInterface */ {
 		parent::add($menuItem, $width, $height, $alignmentX, $alignmentY);
 		
 		// if the given menuItem is selected, then select it
-		if (is_a($menuItem, "MenuItemLink"))
+		if ($menuItem instanceof MenuItemLink)
 			if ($menuItem->isSelected()) {
 				$id = $this->getComponentsCount();
 				$this->select($id);

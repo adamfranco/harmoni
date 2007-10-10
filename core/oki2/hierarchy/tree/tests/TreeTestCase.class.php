@@ -12,7 +12,7 @@ require_once(dirname(__FILE__)."/../Tree.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TreeTestCase.class.php,v 1.7 2007/09/04 20:25:42 adamfranco Exp $
+ * @version $Id: TreeTestCase.class.php,v 1.8 2007/10/10 22:58:38 adamfranco Exp $
  */
 
 	class TreeTestCase extends UnitTestCase {
@@ -55,8 +55,8 @@ require_once(dirname(__FILE__)."/../Tree.class.php");
 			$tree->addNode($node1);
 			$tree->addNode($node2);
 			
-			$this->assertTrue(is_a($node1, "TreeNodeInterface"));
-			$this->assertTrue(is_a($node2, "TreeNodeInterface"));
+			$this->assertTrue($node1 instanceof "TreeNodeInterface");
+			$this->assertTrue($node2 instanceof "TreeNodeInterface");
 			$this->assertIdentical($tree->getSize(), 2);
 			$this->assertReference($tree->getNode('1'), $node1);
 			$this->assertReference($tree->getNode('2'), $node2);

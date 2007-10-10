@@ -11,7 +11,7 @@ require_once(dirname(__FILE__)."/../Objects/SObject.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: String.class.php,v 1.6 2007/09/04 20:25:27 adamfranco Exp $
+ * @version $Id: String.class.php,v 1.7 2007/10/10 22:58:33 adamfranco Exp $
  */
 class String 
 	extends SObject 
@@ -42,7 +42,7 @@ class String
 	 * @access public
 	 * @static
 	 */
-	function withValue($value) {
+	static function withValue($value) {
 		$string = new String($value);
 		return $string;
 	}
@@ -56,7 +56,7 @@ class String
 	 * @access public
 	 * @static
 	 */
-	function fromString($aString) {
+	static function fromString($aString) {
 		$string = new String($aString);
 		return $string;
 	}

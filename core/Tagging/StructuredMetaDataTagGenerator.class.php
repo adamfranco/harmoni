@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StructuredMetaDataTagGenerator.class.php,v 1.5 2007/09/04 20:25:29 adamfranco Exp $
+ * @version $Id: StructuredMetaDataTagGenerator.class.php,v 1.6 2007/10/10 22:58:35 adamfranco Exp $
  */ 
 
 /**
@@ -19,29 +19,33 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StructuredMetaDataTagGenerator.class.php,v 1.5 2007/09/04 20:25:29 adamfranco Exp $
+ * @version $Id: StructuredMetaDataTagGenerator.class.php,v 1.6 2007/10/10 22:58:35 adamfranco Exp $
  */
 class StructuredMetaDataTagGenerator {
 
 	/**
-	 * Get the instance of StructuredMetaDataTagGenerator.
-	 * The StructuredMetaDataTagGenerator class implements the Singleton pattern. 
-	 * There is only ever one instance of the StructuredMetaDataTagGenerator object 
-	 * and it is accessed only via the StructuredMetaDataTagGenerator::instance() 
-	 * method.
+ 	 * @var object  $instance;  
+ 	 * @access private
+ 	 * @since 10/10/07
+ 	 * @static
+ 	 */
+ 	private static $instance;
+
+	/**
+	 * This class implements the Singleton pattern. There is only ever
+	 * one instance of the this class and it is accessed only via the 
+	 * ClassName::instance() method.
 	 * 
-	 * @return object StructuredMetaDataTagGenerator
+	 * @return object 
 	 * @access public
 	 * @since 5/26/05
 	 * @static
 	 */
-	function instance () {
-		if (!defined("StructuredMetaDataTagGenerator_INSTANTIATED")) {
-			$GLOBALS['__structuredMetaDataTagGenerator'] = new StructuredMetaDataTagGenerator();
-			define("StructuredMetaDataTagGenerator_INSTANTIATED", true);
-		}
+	public static function instance () {
+		if (!isset(self::$instance))
+			self::$instance = new StructuredMetaDataTagGenerator;
 		
-		return $GLOBALS['__structuredMetaDataTagGenerator'];
+		return self::$instance;
 	}
 	
 	/**
@@ -49,29 +53,7 @@ class StructuredMetaDataTagGenerator {
 	 * @access public
 	 * @return void
 	 **/
-	function StructuredMetaDataTagGenerator() {
-		// Verify that there is only one instance of Harmoni.
-		$backtrace = debug_backtrace();
-		if (false && $GLOBALS['__structuredMetaDataTagGenerator'] 
-			|| !(
-				strtolower($backtrace[1]['class']) == 'structuredmetadatataggenerator'
-				&& $backtrace[1]['function'] == 'instance'
-// 				&& $backtrace[1]['type'] == '::'	// PHP 5.2.1 seems to get this wrong
-			))
-		{
-			die("\n<dl style='border: 1px solid #F00; padding: 10px;'>"
-			."\n\t<dt><strong>Invalid StructuredMetaDataTagGenerator instantiation at...</strong></dt>"
-			."\n\t<dd> File: ".$backtrace[0]['file']
-			."\n\t\t<br/> Line: ".$backtrace[0]['line']
-			."\n\t</dd>"
-			."\n\t<dt><strong>Access StructuredMetaDataTagGenerator with <em>StructuredMetaDataTagGenerator::instance()</em></strong></dt>"
-			."\n\t<dt><strong>Backtrace:</strong></dt>"
-			."\n\t<dd>".printDebugBacktrace(debug_backtrace(), true)."</dd>"
-			."\n\t<dt><strong>PHP Version:</strong></dt>"
-			."\n\t<dd>".phpversion()."</dd>"
-			."\n</dl>");
-		}
-		
+	private function __construct() {		
 		$this->_cache = array();
 	}
 		

@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SQLGenerator.interface.php,v 1.3 2005/04/07 16:33:23 adamfranco Exp $
+ * @version $Id: SQLGenerator.interface.php,v 1.4 2007/10/10 22:58:31 adamfranco Exp $
  */
 
 /**
@@ -13,14 +13,14 @@
  * A SQLGeneratorInterface interface declares only one method, namely
  * generateSQLQuery(), which takes a query object as a parameter. The method
  * returns the SQL string representation of that query object - thus, a SQLGenerator.
- * @version $Id: SQLGenerator.interface.php,v 1.3 2005/04/07 16:33:23 adamfranco Exp $
+ * @version $Id: SQLGenerator.interface.php,v 1.4 2007/10/10 22:58:31 adamfranco Exp $
  *
  * @package harmoni.dbc
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SQLGenerator.interface.php,v 1.3 2005/04/07 16:33:23 adamfranco Exp $
+ * @version $Id: SQLGenerator.interface.php,v 1.4 2007/10/10 22:58:31 adamfranco Exp $
  */
 
 class SQLGeneratorInterface { 
@@ -32,7 +32,7 @@ class SQLGeneratorInterface {
 	 * @static
 	 * @access public
 	 */
-	function generateSQLQuery($query) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	static function generateSQLQuery($query) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 
 	
 }

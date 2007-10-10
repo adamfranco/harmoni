@@ -10,11 +10,11 @@ require_once(HARMONI."dataManager/storablePrimitives/StorableString.abstract.php
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableString.class.php,v 1.9 2007/09/04 20:25:33 adamfranco Exp $
+ * @version $Id: StorableString.class.php,v 1.10 2007/10/10 22:58:36 adamfranco Exp $
  */
 class StorableString 
 	extends StorableStringAbstract 
-	/* implements StorablePrimitive */ 
+	implements StorablePrimitive
 {
 
 /*********************************************************
@@ -40,7 +40,7 @@ class StorableString
 	 * @return object StorableString
 	 * @static
 	 */
-	function createAndPopulate( $dbRow ) {
+	static function createAndPopulate( $dbRow ) {
 		$string = new StorableString;
 		$string->_setValue($dbRow["string_data"]);
 		return $string;
@@ -56,7 +56,7 @@ class StorableString
 	 * @return string or NULL if no searching is allowed.
 	 * @static
 	 */
-	function makeSearchString($value, $searchType = SEARCH_TYPE_EQUALS) {
+	static function makeSearchString($value, $searchType = SEARCH_TYPE_EQUALS) {
 		switch ($searchType) {
 			case SEARCH_TYPE_EQUALS:
 				return "dm_string.data='".addslashes($value->asString())."'";
@@ -85,6 +85,20 @@ class StorableString
 		}
 		return null;
 	}
+	
+	/**
+	 * Takes an existing {@link SelectQuery} and adds a table join and some columns so that
+	 * when it is executed the actual data can be retrieved from the row. The join condition must
+	 * be "fk_data = data_id_field", since the field "fk_data" is already part of the DataManager's
+	 * table structure.
+	 * @access public
+	 * @return void
+	 * @static
+	 */
+	static function alterQuery( $query ) {
+		$query->addTable("dm_string",LEFT_JOIN,"dm_string.id = fk_data");
+		$query->addColumn("data","string_data","dm_string");
+	}
  
  /*********************************************************
   * Instance Methods
@@ -106,17 +120,6 @@ class StorableString
 		$this->_table = "dm_string";
 	}
 		
-	/**
-	 * Takes an existing {@link SelectQuery} and adds a table join and some columns so that
-	 * when it is executed the actual data can be retrieved from the row. The join condition must
-	 * be "fk_data = data_id_field", since the field "fk_data" is already part of the DataManager's
-	 * table structure.
-	 * @access public
-	 * @return void
-	 */
-	function alterQuery( $query ) {
-		$query->addTable("dm_string",LEFT_JOIN,"dm_string.id = fk_data");
-		$query->addColumn("data","string_data","dm_string");
-	}
+	
 	
 }

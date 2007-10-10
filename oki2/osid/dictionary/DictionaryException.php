@@ -35,7 +35,7 @@ class DictionaryException
      * @access public 
      * @static 
      */
-    function UNKNOWN_TAG () {
+    static function UNKNOWN_TAG () {
         return "Unknown Tag ";
     }
 

@@ -8,11 +8,11 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableInteger.class.php,v 1.14 2007/09/04 20:25:33 adamfranco Exp $
+ * @version $Id: StorableInteger.class.php,v 1.15 2007/10/10 22:58:36 adamfranco Exp $
  */
 class StorableInteger 
 	extends Integer 
-	/* implements StorablePrimitive */ 
+	implements StorablePrimitive
 {
 
 /*********************************************************
@@ -27,7 +27,7 @@ class StorableInteger
 	 * @return object StorableInteger
 	 * @static
 	 */
-	function createAndPopulate( $dbRow ) {
+	static function createAndPopulate( $dbRow ) {
 		$integer = new StorableInteger;
 		$integer->_setValue($dbRow["integer_data"]);
 		return $integer;
@@ -43,7 +43,7 @@ class StorableInteger
 	 * @return string or NULL if no searching is allowed.
 	 * @static
 	 */
-	function makeSearchString($value, $searchType = SEARCH_TYPE_EQUALS) {
+	static function makeSearchString($value, $searchType = SEARCH_TYPE_EQUALS) {
 		switch ($searchType) {
 			case SEARCH_TYPE_EQUALS:
 				return "dm_integer.data = ".$value->asString();
@@ -77,6 +77,20 @@ class StorableInteger
 				return $string;
 		}
 		return null;
+	}
+	
+	/**
+	 * Takes an existing {@link SelectQuery} and adds a table join and some columns so that
+	 * when it is executed the actual data can be retrieved from the row. The join condition must
+	 * be "fk_data = data_id_field", since the field "fk_data" is already part of the DataManager's
+	 * table structure.
+	 * @access public
+	 * @return void
+	 * @static
+	 */
+	static function alterQuery( $query ) {
+		$query->addTable("dm_integer",LEFT_JOIN,"dm_integer.id = fk_data");
+		$query->addColumn("data","integer_data","dm_integer");
 	}
  
  /*********************************************************
@@ -147,19 +161,6 @@ class StorableInteger
 			return false;
 		}
 		return true;
-	}
-	
-	/**
-	 * Takes an existing {@link SelectQuery} and adds a table join and some columns so that
-	 * when it is executed the actual data can be retrieved from the row. The join condition must
-	 * be "fk_data = data_id_field", since the field "fk_data" is already part of the DataManager's
-	 * table structure.
-	 * @access public
-	 * @return void
-	 */
-	function alterQuery( $query ) {
-		$query->addTable("dm_integer",LEFT_JOIN,"dm_integer.id = fk_data");
-		$query->addColumn("data","integer_data","dm_integer");
 	}
 	
 	/**

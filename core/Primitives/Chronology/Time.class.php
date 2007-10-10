@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Time.class.php,v 1.7 2007/09/04 20:25:25 adamfranco Exp $
+ * @version $Id: Time.class.php,v 1.8 2007/10/10 22:58:33 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -41,7 +41,7 @@ require_once(dirname(__FILE__)."/Year.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Time.class.php,v 1.7 2007/09/04 20:25:25 adamfranco Exp $
+ * @version $Id: Time.class.php,v 1.8 2007/10/10 22:58:33 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -74,9 +74,10 @@ class Time
 	 *		method call.
 	 * @return object Time
 	 * @access public
+	 * @static
 	 * @since 5/24/05
 	 */
-	function fromString ( $aString, $class = 'Time' ) {
+	static function fromString ( $aString, $class = 'Time' ) {
 		$parser = StringParser::getParserFor($aString);
 		
 		if (!is_string($aString) || !preg_match('/[^\W]/', $aString) || !$parser) {
@@ -99,9 +100,10 @@ class Time
 	 *		method call.
 	 * @return object Time
 	 * @access public
+	 * @static
 	 * @since 5/25/05
 	 */
-	function midnight ( $class = 'Time' ) {
+	static function midnight ( $class = 'Time' ) {
 		eval('$result = '.$class.'::withSeconds(0, $class);');
 		return $result;
 	}
@@ -116,8 +118,9 @@ class Time
 	 * @return object Time
 	 * @access public
 	 * @since 5/25/05
+	 * @static
 	 */
-	function noon ( $class = 'Time' ) {
+	static function noon ( $class = 'Time' ) {
 		eval('$result = '.$class.'::withHourMinuteSecond(12, 0, 0, $class);');
 		return $result;
 	}
@@ -137,7 +140,7 @@ class Time
  	 * @static
 	 * @since 5/4/05
 	 */
-	function withHourMinuteSecond ($anIntHour, $anIntMinute, $anIntSecond, $class = 'Time' ) 
+	static function withHourMinuteSecond ($anIntHour, $anIntMinute, $anIntSecond, $class = 'Time' ) 
 	{
 		eval('$result = '.$class.'::withSeconds(
 							  ($anIntHour * ChronologyConstants::SecondsInHour())
@@ -156,9 +159,10 @@ class Time
 	 *		method call.
 	 * @return object Time
 	 * @access public
+	 * @static
 	 * @since 5/5/05
 	 */
-	function withSeconds ( $anIntSeconds, $class = 'Time' ) {
+	static function withSeconds ( $anIntSeconds, $class = 'Time' ) {
 		// Lop off any seconds beyond those in a day
 		$duration = Duration::withSeconds($anIntSeconds);
 		$ticks = $duration->ticks();

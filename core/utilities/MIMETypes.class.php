@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MIMETypes.class.php,v 1.11 2007/09/04 20:25:54 adamfranco Exp $
+ * @version $Id: MIMETypes.class.php,v 1.12 2007/10/10 22:58:43 adamfranco Exp $
  */
 class MIMETypes {
 
@@ -281,7 +281,6 @@ class MIMETypes {
 	 * @return string
 	 * @access public
 	 * @since 10/20/04
-	 * @static
 	 */
 	function getMIMETypeForExtension ( $extension ) {
 		trim($extension, ".");

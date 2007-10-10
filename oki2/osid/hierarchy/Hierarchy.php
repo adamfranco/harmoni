@@ -28,7 +28,7 @@ class Hierarchy
      * @access public 
      * @static 
      */
-    function TRAVERSE_MODE_DEPTH_FIRST () {
+    static static function TRAVERSE_MODE_DEPTH_FIRST () {
         return 223;
     }
 
@@ -40,7 +40,7 @@ class Hierarchy
      * @access public 
      * @static 
      */
-    function TRAVERSE_MODE_BREADTH_FIRST () {
+    static static function TRAVERSE_MODE_BREADTH_FIRST () {
         return 191;
     }
 
@@ -52,7 +52,7 @@ class Hierarchy
      * @access public 
      * @static 
      */
-    function TRAVERSE_DIRECTION_UP () {
+    static static function TRAVERSE_DIRECTION_UP () {
         return 1;
     }
 
@@ -65,7 +65,7 @@ class Hierarchy
      * @access public 
      * @static 
      */
-    function TRAVERSE_DIRECTION_DOWN () {
+    static static function TRAVERSE_DIRECTION_DOWN () {
         return 2;
     }
 
@@ -77,7 +77,7 @@ class Hierarchy
      * @access public 
      * @static 
      */
-    function TRAVERSE_LEVELS_ALL () {
+    static static function TRAVERSE_LEVELS_ALL () {
         return -1;
     }
 

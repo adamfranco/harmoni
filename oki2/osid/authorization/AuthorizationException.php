@@ -31,7 +31,7 @@ class AuthorizationException
      * @access public 
      * @static 
      */
-    function EFFECTIVE_PRECEDE_EXPIRATION () {
+    static static function EFFECTIVE_PRECEDE_EXPIRATION () {
         return "Effective date must precede expiration date ";
     }
 
@@ -43,7 +43,7 @@ class AuthorizationException
      * @access public 
      * @static 
      */
-    function CANNOT_DELETE_LAST_ROOT_QUALIFIER () {
+    static static function CANNOT_DELETE_LAST_ROOT_QUALIFIER () {
         return "Cannot delete last root Qualifier ";
     }
 

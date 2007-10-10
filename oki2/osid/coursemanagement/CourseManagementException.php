@@ -35,7 +35,7 @@ class CourseManagementException
      * @access public 
      * @static 
      */
-    function UNKNOWN_TOPIC () {
+    static static function UNKNOWN_TOPIC () {
         return "Unknown Topic ";
     }
 
@@ -47,7 +47,7 @@ class CourseManagementException
      * @access public 
      * @static 
      */
-    function INVALID_CREDITS_VALUE () {
+    static static function INVALID_CREDITS_VALUE () {
         return "Invalid value for credits ";
     }
 

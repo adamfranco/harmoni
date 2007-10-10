@@ -8,11 +8,11 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableOKIType.class.php,v 1.12 2007/09/04 20:25:33 adamfranco Exp $
+ * @version $Id: StorableOKIType.class.php,v 1.13 2007/10/10 22:58:36 adamfranco Exp $
  */
 class StorableOKIType 
 	extends Type 
-	/* implements StorablePrimitive */ 
+	implements StorablePrimitive
 {
 
 /*********************************************************
@@ -25,8 +25,9 @@ class StorableOKIType
 	 * @param array $dbRow
 	 * @access public
 	 * @return object StorableOKIType
+	 * @static
 	 */
-	function populate( $dbRow ) {
+	static function createAndPopulate( $dbRow ) {
 		return new StorableOKIType(	$dbRow["okitype_domain"], 
 									$dbRow["okitype_authority"],
 									$dbRow["okitype_keyword"]);
@@ -42,7 +43,7 @@ class StorableOKIType
 	 * @return string or NULL if no searching is allowed.
 	 * @static
 	 */
-	function makeSearchString($type, $searchType = SEARCH_TYPE_EQUALS) {
+	static function makeSearchString($type, $searchType = SEARCH_TYPE_EQUALS) {
 		if ($searchType == SEARCH_TYPE_EQUALS) return "(dm_okitype.domain='".addslashes($type->getDomain())."' AND ".
 		 "dm_okitype.authority='".addslashes($type->getAuthority())."' AND ".
 		 "dm_okitype.keyword='".addslashes($type->getKeyword())."')";
@@ -150,8 +151,9 @@ class StorableOKIType
 	 * table structure.
 	 * @access public
 	 * @return void
+	 * @static
 	 */
-	function alterQuery( $query ) {
+	static function alterQuery( $query ) {
 		$query->addTable("dm_okitype",LEFT_JOIN,"dm_okitype.id = fk_data");
 		$query->addColumn("domain","okitype_domain","dm_okitype");
 		$query->addColumn("authority","okitype_authority","dm_okitype");

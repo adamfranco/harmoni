@@ -28,32 +28,36 @@ $__harmoni = null;
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Harmoni.class.php,v 1.53 2007/09/04 20:25:30 adamfranco Exp $
+ * @version $Id: Harmoni.class.php,v 1.54 2007/10/10 22:58:35 adamfranco Exp $
  **/
 class Harmoni {
 
 /*********************************************************
  * Class Methods - Instance-Creation/Singlton
  *********************************************************/
+ 	/**
+ 	 * @var object  $instance;  
+ 	 * @access private
+ 	 * @since 10/10/07
+ 	 * @static
+ 	 */
+ 	private static $instance;
 
 	/**
-	 * Get the instance of Harmoni.
-	 * The Harmoni class implements the Singleton pattern. There is only ever
-	 * one instance of the Harmoni object and it is accessed only via the 
-	 * Harmoni::instance() method.
+	 * This class implements the Singleton pattern. There is only ever
+	 * one instance of the this class and it is accessed only via the 
+	 * ClassName::instance() method.
 	 * 
-	 * @return object Harmoni
+	 * @return object 
 	 * @access public
 	 * @since 5/26/05
 	 * @static
 	 */
-	function instance () {
-		if (!defined("HARMONI_INSTANTIATED")) {
-			$GLOBALS['__harmoni'] = new Harmoni();
-			define("HARMONI_INSTANTIATED", true);
-		}
+	public static function instance () {
+		if (!isset(self::$instance))
+			self::$instance = new Harmoni;
 		
-		return $GLOBALS['__harmoni'];
+		return self::$instance;
 	}
 
 /*********************************************************
@@ -111,33 +115,10 @@ class Harmoni {
 
 	/**
 	 * The constructor.
-	 * @access public
+	 * @access private
 	 * @return void
 	 **/
-	function Harmoni() {
-		// Verify that there is only one instance of Harmoni.
-		$backtrace = debug_backtrace();
-		if (false && $GLOBALS['__harmoni'] 
-			|| !isset($backtrace[1])
-			|| !(strtolower($backtrace[1]['class']) == 'harmoni'
-				&& $backtrace[1]['function'] == 'instance'
-// 				&& $backtrace[1]['type'] == '::'	// PHP 5.2.1 seems to get this wrong
-			))
-		{
-			die("\n<dl style='border: 1px solid #F00; padding: 10px;'>"
-			."\n\t<dt><strong>Invalid Harmoni instantiation at...</strong></dt>"
-			."\n\t<dd> File: ".$backtrace[0]['file']
-			."\n\t\t<br/> Line: ".$backtrace[0]['line']
-			."\n\t</dd>"
-			."\n\t<dt><strong>Access Harmoni with <em>Harmoni::instance()</em></strong></dt>"
-			."\n\t<dt><strong>Backtrace:</strong></dt>"
-			."\n\t<dd>".printDebugBacktrace(debug_backtrace(), true)."</dd>"
-			."\n\t<dt><strong>PHP Version:</strong></dt>"
-			."\n\t<dd>".phpversion()."</dd>"
-			."\n</dl>");
-		}
-		
-		
+	private function __construct() {		
 		$this->ActionHandler = new ActionHandler($this);
 		
 		// set up config options

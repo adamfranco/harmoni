@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTime.class.php,v 1.6 2007/09/04 20:25:25 adamfranco Exp $
+ * @version $Id: DateAndTime.class.php,v 1.7 2007/10/10 22:58:33 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -64,7 +64,7 @@ require_once(dirname(__FILE__)."/../Magnitudes/Magnitude.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DateAndTime.class.php,v 1.6 2007/09/04 20:25:25 adamfranco Exp $
+ * @version $Id: DateAndTime.class.php,v 1.7 2007/10/10 22:58:33 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -110,7 +110,7 @@ class DateAndTime
 	 * @since 5/12/05
 	 * @static
 	 */
-	function clockPrecision () {
+	static function clockPrecision () {
 		$obj = Duration::withSeconds(1);
 		return $obj;
 	}
@@ -123,7 +123,7 @@ class DateAndTime
  	 * @static
 	 * @since 5/3/05
 	 */
-	function localOffset () {
+	static function localOffset () {
 		$timeZone = DateAndTime::localTimeZone();
 		return $timeZone->offset();
 	}
@@ -136,7 +136,7 @@ class DateAndTime
  	 * @static
 	 * @since 5/3/05
 	 */
-	function localTimeZone () {
+	static function localTimeZone () {
 		$tzAbbreviation = date('T');
 		$tzOffset = date('Z');
 		if ($tzAbbreviation && $tzOffset)
@@ -173,7 +173,7 @@ class DateAndTime
 	 * @since 5/2/05
 	 * @static
 	 */
-	function epoch ( $class = 'DateAndTime' ) {
+	static function epoch ( $class = 'DateAndTime' ) {
 		eval('$result = '.$class.'::withJulianDayNumber(
 					ChronologyConstants::SqueakEpoch(), 
 					$class
@@ -204,7 +204,7 @@ class DateAndTime
 	 * @since 5/12/05
 	 * @static
 	 */
-	function fromString ( $aString, $class = 'DateAndTime' ) {
+	static function fromString ( $aString, $class = 'DateAndTime' ) {
 		$parser = StringParser::getParserFor($aString);
 
 		if (!is_string($aString) || !preg_match('/[^\W]/', $aString) || !$parser) {
@@ -242,7 +242,7 @@ class DateAndTime
 	 * @since 5/3/05
 	 * @static
 	 */
-	function midnight ( $class = 'DateAndTime' ) {
+	static function midnight ( $class = 'DateAndTime' ) {
 		eval('$result = '.$class.'::now("'.$class.'");');
 		$obj =$result->atMidnight();
 		return $obj;
@@ -260,7 +260,7 @@ class DateAndTime
 	 * @since 5/3/05
 	 * @static
 	 */
-	function noon ( $class = 'DateAndTime' ) {
+	static function noon ( $class = 'DateAndTime' ) {
 		eval('$result = '.$class.'::now('.$class.');');
 		$obj =$result->atNoon();
 		return $obj;
@@ -278,7 +278,7 @@ class DateAndTime
 	 * @since 5/12/05
 	 * @static
 	 */
-	function now ( $class = 'DateAndTime' ) {
+	static function now ( $class = 'DateAndTime' ) {
 		eval('$result = '.$class.'::withYearMonthDayHourMinuteSecondOffset(
 				'.intval(date('Y')).',
 				'.intval(date('n')).',
@@ -305,7 +305,7 @@ class DateAndTime
 	 * @since 5/12/05
 	 * @static
 	 */
-	function today ( $class = 'DateAndTime' ) {
+	static function today ( $class = 'DateAndTime' ) {
 		eval('$result = '.$class.'::midnight($class);');
 		
 		return $result;
@@ -323,7 +323,7 @@ class DateAndTime
 	 * @since 5/12/05
 	 * @static
 	 */
-	function tomorrow ( $class = 'DateAndTime' ) {
+	static function tomorrow ( $class = 'DateAndTime' ) {
 		eval('$today = '.$class.'::today($class);');
 		$todaysDate =$today->asDate();
 		$tomorowsDate =$todaysDate->next();
@@ -343,7 +343,7 @@ class DateAndTime
 	 * @since 5/12/05
 	 * @static
 	 */
-	function withDateAndTime ( $aDate, $aTime, $class = 'DateAndTime' ) {
+	static function withDateAndTime ( $aDate, $aTime, $class = 'DateAndTime' ) {
 		eval('$result = '.$class.'::withYearDayHourMinuteSecond(
 				$aDate->startYear(),
 				$aDate->dayOfYear(),
@@ -369,7 +369,7 @@ class DateAndTime
 	 * @since 5/2/05
 	 * @static
 	 */
-	function withJulianDayNumber ( $aJulianDayNumber, $class = 'DateAndTime' ) {
+	static function withJulianDayNumber ( $aJulianDayNumber, $class = 'DateAndTime' ) {
 		
 		// Validate our passed class name.
 		if (!(strtolower($class) == strtolower('DateAndTime')
@@ -398,7 +398,7 @@ class DateAndTime
  	 * @static
 	 * @since 5/4/05
 	 */
-	function withYearDay ( $anIntYear, $anIntDayOfYear, $class = 'DateAndTime') {
+	static function withYearDay ( $anIntYear, $anIntDayOfYear, $class = 'DateAndTime') {
 		eval('$result = '.$class.'::withYearDayHourMinuteSecond(
 				$anIntYear,
 				$anIntDayOfYear, 
@@ -427,7 +427,7 @@ class DateAndTime
  	 * @static
 	 * @since 5/4/05
 	 */
-	function withYearDayHourMinuteSecond ( $anIntYear, $anIntDayOfYear, 
+	static function withYearDayHourMinuteSecond ( $anIntYear, $anIntDayOfYear, 
 		$anIntHour, $anIntMinute, $anIntSecond, $class = 'DateAndTime' ) 
 	{
 		eval('$return = '.$class.'::withYearDayHourMinuteSecondOffset(
@@ -460,7 +460,7 @@ class DateAndTime
  	 * @static
 	 * @since 5/4/05
 	 */
-	function withYearDayHourMinuteSecondOffset ( $anIntYear, $anIntDayOfYear, 
+	static function withYearDayHourMinuteSecondOffset ( $anIntYear, $anIntDayOfYear, 
 		$anIntHour, $anIntMinute, $anIntSecond, $aDurationOffset, $class = 'DateAndTime' ) 
 	{
 		eval('$result = '.$class.'::withYearMonthDayHourMinuteSecondOffset(
@@ -492,7 +492,7 @@ class DateAndTime
  	 * @static
 	 * @since 5/4/05
 	 */
-	function withYearMonthDay ( $anIntYear, $anIntOrStringMonth, $anIntDay, 
+	static function withYearMonthDay ( $anIntYear, $anIntOrStringMonth, $anIntDay, 
 		$class = 'DateAndTime' ) 
 	{
 		eval('$result = '.$class.'::withYearMonthDayHourMinuteSecondOffset(
@@ -526,7 +526,7 @@ class DateAndTime
  	 * @static
 	 * @since 5/4/05
 	 */
-	function withYearMonthDayHourMinute ( $anIntYear, $anIntOrStringMonth, 
+	static function withYearMonthDayHourMinute ( $anIntYear, $anIntOrStringMonth, 
 		$anIntDay, $anIntHour, $anIntMinute, $class = 'DateAndTime' ) 
 	{
 		eval('$result = '.$class.'::withYearMonthDayHourMinuteSecondOffset(
@@ -561,7 +561,7 @@ class DateAndTime
  	 * @static
 	 * @since 5/4/05
 	 */
-	function withYearMonthDayHourMinuteSecond ( $anIntYear, $anIntOrStringMonth, 
+	static function withYearMonthDayHourMinuteSecond ( $anIntYear, $anIntOrStringMonth, 
 		$anIntDay, $anIntHour, $anIntMinute, $anIntSecond, $class = 'DateAndTime' ) 
 	{
 		eval('$result = '.$class.'::withYearMonthDayHourMinuteSecondOffset(
@@ -597,7 +597,7 @@ class DateAndTime
  	 * @static
 	 * @since 5/4/05
 	 */
-	function withYearMonthDayHourMinuteSecondOffset ( $anIntYear, 
+	static function withYearMonthDayHourMinuteSecondOffset ( $anIntYear, 
 		$anIntOrStringMonth, $anIntDay, $anIntHour, $anIntMinute, 
 		$anIntSecond, $aDurationOffset, $class = 'DateAndTime'  ) 
 	{
@@ -649,7 +649,7 @@ class DateAndTime
 	 * @since 5/12/05
 	 * @static
 	 */
-	function yesterday ( $class = 'DateAndTime' ) {
+	static function yesterday ( $class = 'DateAndTime' ) {
 		eval('$today = '.$class.'::today($class);');
 		$todaysDate =$today->asDate();
 		$yesterdaysDate =$todaysDate->previous();

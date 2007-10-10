@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SimpleTableRepositoryManager.class.php,v 1.1 2007/10/05 14:02:58 adamfranco Exp $
+ * @version $Id: SimpleTableRepositoryManager.class.php,v 1.2 2007/10/10 22:58:37 adamfranco Exp $
  */ 
 
 require_once(dirname(__FILE__)."/SimpleTableIdManager.class.php");
@@ -23,7 +23,7 @@ require_once(dirname(__FILE__)."/SimpleTableRepository.class.php");
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SimpleTableRepositoryManager.class.php,v 1.1 2007/10/05 14:02:58 adamfranco Exp $
+ * @version $Id: SimpleTableRepositoryManager.class.php,v 1.2 2007/10/10 22:58:37 adamfranco Exp $
  */
 class SimpleTableRepositoryManager
 	extends RepositoryManager
@@ -170,7 +170,8 @@ class SimpleTableRepositoryManager
 			if (!count($configuration->getProperty('columns')))
 				throw new ConfigurationErrorException('"columns" must not be empty.');
 			
-			array_walk($configuration->getProperty('columns'), array($this, 'checkColumns'));
+			$columns = $configuration->getProperty('columns');
+			array_walk($columns, array($this, 'checkColumns'));
 			$this->config['columns'] = $configuration->getProperty('columns');
 			
 			if (!is_array($configuration->getProperty('dc_mapping')))

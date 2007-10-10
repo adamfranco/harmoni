@@ -8,11 +8,11 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableBoolean.class.php,v 1.13 2007/09/04 20:25:33 adamfranco Exp $
+ * @version $Id: StorableBoolean.class.php,v 1.14 2007/10/10 22:58:36 adamfranco Exp $
  */
 class StorableBoolean 
 	extends Boolean 
-	/* implements StorablePrimitive */ 
+	implements StorablePrimitive
 {
 
 /*********************************************************
@@ -27,7 +27,7 @@ class StorableBoolean
 	 * @return object StorableBoolean
 	 * @static
 	 */
-	function createAndPopulate( $dbRow ) {
+	static function createAndPopulate( $dbRow ) {
 		$boolean = new StorableBoolean;
 		$boolean->_setValue($dbRow["boolean_data"]);
 		return $boolean;
@@ -43,11 +43,25 @@ class StorableBoolean
 	 * @return string or NULL if no searching is allowed.
 	 * @static
 	 */
-	function makeSearchString($value, $searchType = SEARCH_TYPE_EQUALS) {
+	static function makeSearchString($value, $searchType = SEARCH_TYPE_EQUALS) {
 		if ($searchType == SEARCH_TYPE_EQUALS) {
 			return "dm_boolean.data = ".($value->value()?"1":"0");
 		}
 		return null;
+	}
+	
+	/**
+	 * Takes an existing {@link SelectQuery} and adds a table join and some columns so that
+	 * when it is executed the actual data can be retrieved from the row. The join condition must
+	 * be "fk_data = data_id_field", since the field "fk_data" is already part of the DataManager's
+	 * table structure.
+	 * @access public
+	 * @return void
+	 * @static
+	 */
+	static function alterQuery( $query ) {
+		$query->addTable("dm_boolean",LEFT_JOIN,"dm_boolean.id = fk_data");
+		$query->addColumn("data","boolean_data","dm_boolean");
 	}
 	
  /*********************************************************
@@ -118,19 +132,6 @@ class StorableBoolean
 			return false;
 		}
 		return true;
-	}
-	
-	/**
-	 * Takes an existing {@link SelectQuery} and adds a table join and some columns so that
-	 * when it is executed the actual data can be retrieved from the row. The join condition must
-	 * be "fk_data = data_id_field", since the field "fk_data" is already part of the DataManager's
-	 * table structure.
-	 * @access public
-	 * @return void
-	 */
-	function alterQuery( $query ) {
-		$query->addTable("dm_boolean",LEFT_JOIN,"dm_boolean.id = fk_data");
-		$query->addColumn("data","boolean_data","dm_boolean");
 	}
 	
 	/**

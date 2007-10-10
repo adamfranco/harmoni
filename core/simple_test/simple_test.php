@@ -1,5 +1,5 @@
 <?php
-    // $Id: simple_test.php,v 1.4 2007/09/04 20:25:50 adamfranco Exp $
+    // $Id: simple_test.php,v 1.5 2007/10/10 22:58:41 adamfranco Exp $
     
     if (!defined("SIMPLE_TEST")) {
         define("SIMPLE_TEST", "./");
@@ -83,7 +83,7 @@
                 if (strtolower(substr($method, 0, 4)) != "test") {
                     continue;
                 }
-                if (is_a($this, strtolower($method))) {
+                if ($this instanceof $method) {
                     continue;
                 }
                 $this->notify(new TestStart($method));

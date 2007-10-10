@@ -35,7 +35,7 @@ class RepositoryException
      * @access public 
      * @static 
      */
-    function UNKNOWN_REPOSITORY () {
+    static static function UNKNOWN_REPOSITORY () {
         return "Unknown Repository ";
     }
 
@@ -47,7 +47,7 @@ class RepositoryException
      * @access public 
      * @static 
      */
-    function NO_OBJECT_WITH_THIS_DATE () {
+    static static function NO_OBJECT_WITH_THIS_DATE () {
         return "No object has this date ";
     }
 
@@ -59,7 +59,7 @@ class RepositoryException
      * @access public 
      * @static 
      */
-    function CANNOT_COPY_OR_INHERIT_SELF () {
+    static static function CANNOT_COPY_OR_INHERIT_SELF () {
         return "Cannot copy or inherit RecordStructure from itself ";
     }
 
@@ -71,7 +71,7 @@ class RepositoryException
      * @access public 
      * @static 
      */
-    function ALREADY_INHERITING_STRUCTURE () {
+    static static function ALREADY_INHERITING_STRUCTURE () {
         return "Already inheriting this RecordStructure ";
     }
 
@@ -83,7 +83,7 @@ class RepositoryException
      * @access public 
      * @static 
      */
-    function EFFECTIVE_PRECEDE_EXPIRATION () {
+    static static function EFFECTIVE_PRECEDE_EXPIRATION () {
         return "Effective date must precede expiration date ";
     }
 

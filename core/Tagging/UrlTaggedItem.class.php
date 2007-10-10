@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: UrlTaggedItem.class.php,v 1.3 2007/09/04 20:25:29 adamfranco Exp $
+ * @version $Id: UrlTaggedItem.class.php,v 1.4 2007/10/10 22:58:35 adamfranco Exp $
  */ 
  
  
@@ -21,7 +21,7 @@ define('ARBITRARY_URL', 'ARBITRARY_URL');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: UrlTaggedItem.class.php,v 1.3 2007/09/04 20:25:29 adamfranco Exp $
+ * @version $Id: UrlTaggedItem.class.php,v 1.4 2007/10/10 22:58:35 adamfranco Exp $
  */
 class UrlTaggedItem 
 	extends TaggedItem
@@ -53,8 +53,9 @@ class UrlTaggedItem
 	 * @return object
 	 * @access public
 	 * @since 11/2/06
+	 * @static
 	 */
-	function forId ( $id, $system, $class='UrlTaggedItem' ) {
+	static function forId ( $id, $system, $class='UrlTaggedItem' ) {
 		$item = TaggedItem::forId($id, $system, $class);
 		return $item;
 	}

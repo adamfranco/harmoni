@@ -13,7 +13,7 @@ require_once(HARMONI."services/Services.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Services.abstract.php,v 1.16 2007/10/09 21:11:58 adamfranco Exp $
+ * @version $Id: Services.abstract.php,v 1.17 2007/10/10 22:58:40 adamfranco Exp $
  */
 class ServicesAbstract
 	extends ServicesInterface {
@@ -49,6 +49,7 @@ class ServicesAbstract
 	 * @return void
 	 * @access public
 	 * @since 3/24/05
+	 @static
 	 */
 	static function createServiceAlias ($name1, $name2) {
 		$GLOBALS[SERVICES_OBJECT]->createAlias($name1, $name2);
@@ -115,6 +116,7 @@ class ServicesAbstract
 	 * @return boolean true on success
 	 * @access public
 	 * @since 3/24/05
+	 * @static
 	 */
 	static function startManagerAsService ( $name, $context, $configuration ) {
 		return $GLOBALS[SERVICES_OBJECT]->startManager($name, $context, $configuration);
@@ -156,6 +158,7 @@ class ServicesAbstract
 	 * @access public
 	 * @return void
 	 * @deprecated 2005/04/04 Use {@link startManagerAsService()} and {@link getService()} instead.
+	 * @static
 	 **/
 	static function stopAllServices() {
 		$backtrace = debug_backtrace();

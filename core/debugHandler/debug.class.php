@@ -12,7 +12,7 @@ require_once HARMONI . "debugHandler/NewWindowDebugHandlerPrinter.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: debug.class.php,v 1.19 2007/09/04 20:25:33 adamfranco Exp $
+ * @version $Id: debug.class.php,v 1.20 2007/10/10 22:58:37 adamfranco Exp $
  *
  * @static
  **/
@@ -23,7 +23,7 @@ class debug {
 	 * @access public
 	 * @return void
 	 **/
-	function output( $text, $level = 5, $category = "general") {
+	static function output( $text, $level = 5, $category = "general") {
 		if (!$level) return;
 		if (!Services::serviceAvailable("Debug")) 
 			return;
@@ -43,7 +43,7 @@ class debug {
 	 * @access public
 	 * @return integer The current debug output level.
 	 **/
-	function level($level=null) {
+	static function level($level=null) {
 		if (!Services::serviceAvailable("Debug")) {
 			throwError ( new Error("Debug::level($level) called but Debug service isn't available.","debug wrapper",false));
 			return;
@@ -59,8 +59,9 @@ class debug {
 	 * Prints current debug output using NewWindowDebugHandlerPrinter
 	 * @access public
 	 * @return void
+	 * @static
 	 */
-	function printAll($debugPrinter = null) {
+	static function printAll($debugPrinter = null) {
 		// ** parameter validation
 		$extendsRule = ExtendsValidatorRule::getRule("DebugHandlerPrinterInterface");
 		ArgumentValidator::validate($debugPrinter, OptionalRule::getRule($extendsRule), true);
@@ -79,8 +80,9 @@ class debug {
 	 * @return void
 	 * @access public
 	 * @since 3/2/05
+	 * @static
 	 */
-	function printQuery ($query) {
+	static function printQuery ($query) {
 		print "\n<pre>";
 		print_r(MySQL_SQLGenerator::generateSQLQuery($query));	
 		print "\n</pre>";

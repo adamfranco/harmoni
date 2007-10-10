@@ -11,7 +11,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RequestContext.class.php,v 1.24 2007/09/04 20:25:31 adamfranco Exp $
+ * @version $Id: RequestContext.class.php,v 1.25 2007/10/10 22:58:35 adamfranco Exp $
  */
 
 define("REQUEST_HANDLER_CONTEXT_DELIMETER", "___");
@@ -36,7 +36,7 @@ class RequestContext {
 	 * @static
 	 * @access public
 	 */
-	function name($key) {
+	static function name($key) {
 		$harmoni = Harmoni::instance();
 		return $harmoni->request->getName($key);
 	}
@@ -56,7 +56,7 @@ class RequestContext {
 	 * @static
 	 * @access public
 	 */
-	function value($key) {
+	static function value($key) {
 		$harmoni = Harmoni::instance();
 		return $harmoni->request->get($key);
 	}
@@ -72,7 +72,7 @@ class RequestContext {
 	 * @static
 	 * @since 7/19/05
 	 */
-	function locationHeader ( $url ) {
+	static function locationHeader ( $url ) {
 		header("Location: ".str_replace("&amp;", "&", $url));
 		exit;
 	}
@@ -88,7 +88,7 @@ class RequestContext {
 	 * @static
 	 * @since 6/14/06
 	 */
-	function sendTo ( $url ) {
+	static function sendTo ( $url ) {
 		// use headers if possible
 		if (!headers_sent())
 			RequestContext::locationHeader($url);

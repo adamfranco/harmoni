@@ -35,7 +35,7 @@ class AssessmentException
      * @access public 
      * @static 
      */
-    function UNKNOWN_SECTION () {
+    static static function UNKNOWN_SECTION () {
         return "Unknown Section ";
     }
 
@@ -47,7 +47,7 @@ class AssessmentException
      * @access public 
      * @static 
      */
-    function UNKNOWN_ITEM () {
+    static static function UNKNOWN_ITEM () {
         return "Unknown Item ";
     }
 

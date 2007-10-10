@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Schedule.class.php,v 1.4 2007/09/04 20:25:25 adamfranco Exp $
+ * @version $Id: Schedule.class.php,v 1.5 2007/10/10 22:58:33 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -32,7 +32,7 @@ require_once(dirname(__FILE__)."/Timespan.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Schedule.class.php,v 1.4 2007/09/04 20:25:25 adamfranco Exp $
+ * @version $Id: Schedule.class.php,v 1.5 2007/10/10 22:58:33 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -64,7 +64,7 @@ class Schedule
 	 * @since 5/5/05
 	 * @static
 	 */
-	function current ( $class = 'Schedule' ) {
+	static function current ( $class = 'Schedule' ) {
 		$obj = parent::current($class);
 		return $obj;
 	}
@@ -81,7 +81,7 @@ class Schedule
 	 * @since 5/5/05
 	 * @static
 	 */
-	function epoch ( $class = 'Schedule' ) {
+	static function epoch ( $class = 'Schedule' ) {
 		$obj = parent::epoch($class);
 		return $obj;
 	}
@@ -99,7 +99,7 @@ class Schedule
 	 * @since 5/5/05
 	 * @static
 	 */
-	function starting ( $aDateAndTime, $class = 'Schedule' ) {
+	static function starting ( $aDateAndTime, $class = 'Schedule' ) {
 		$obj = parent::starting($aDateAndTime, $class);
 		return $obj;
 	}
@@ -115,9 +115,10 @@ class Schedule
 	 *		method call.
 	 * @return object Schedule
 	 * @access public
+	 * @static
 	 * @since 5/11/05
 	 */
-	function startingEnding ( $startDateAndTime, $endDateAndTime, 
+	static function startingEnding ( $startDateAndTime, $endDateAndTime, 
 		$class = 'Schedule' ) 
 	{
 		$obj = parent::startingEnding ( $startDateAndTime, $endDateAndTime, $class);
@@ -139,7 +140,7 @@ class Schedule
 	 * @since 5/5/05
 	 * @static
 	 */
-	function startingDuration ( $aDateAndTime, $aDuration, $class = 'Schedule' ) {
+	static function startingDuration ( $aDateAndTime, $aDuration, $class = 'Schedule' ) {
 		$obj = parent::startingDuration ( $aDateAndTime, $aDuration, $class);
 		return $obj;
 	}

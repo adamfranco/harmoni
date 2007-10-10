@@ -13,7 +13,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Template.class.php,v 1.4 2005/01/19 21:10:15 adamfranco Exp $
+ * @version $Id: Template.class.php,v 1.5 2007/10/10 22:58:43 adamfranco Exp $
  */
 class Template {
 	/**
@@ -67,7 +67,7 @@ class Template {
 				// ok, register them all as local variables
 				foreach(array_keys($__v) as $__k)
 					$$__k = $__v[$__k];
-			} else if (is_a($__v,"FieldSet")) {
+			} else if ($__v instanceof FieldSet) {
 				$__keys = $__v->getKeys();
 				foreach ($__keys as $__k)
 					$$__k = $__v->get($__k);

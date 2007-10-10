@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: IsAuthorizedCache.class.php,v 1.10 2007/10/05 19:10:31 adamfranco Exp $
+ * @version $Id: IsAuthorizedCache.class.php,v 1.11 2007/10/10 22:58:37 adamfranco Exp $
  */ 
 
 /**
@@ -69,7 +69,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: IsAuthorizedCache.class.php,v 1.10 2007/10/05 19:10:31 adamfranco Exp $
+ * @version $Id: IsAuthorizedCache.class.php,v 1.11 2007/10/10 22:58:37 adamfranco Exp $
  */
 class IsAuthorizedCache {
 		
@@ -78,23 +78,28 @@ class IsAuthorizedCache {
  *********************************************************/
 
 	/**
-	 * Get the instance of the IsAuthorizedCache.
-	 * The IsAuthorizedCache class implements the Singleton pattern. There 
-	 * is only ever one instance of the IsAuthorizedCache object and it is 
-	 * accessed only via the IsAuthorizedCache::instance() method.
+ 	 * @var object  $instance;  
+ 	 * @access private
+ 	 * @since 10/10/07
+ 	 * @static
+ 	 */
+ 	private static $instance;
+
+	/**
+	 * This class implements the Singleton pattern. There is only ever
+	 * one instance of the this class and it is accessed only via the 
+	 * ClassName::instance() method.
 	 * 
-	 * @return object Harmoni
+	 * @return object 
 	 * @access public
 	 * @since 5/26/05
 	 * @static
 	 */
-	function instance () {
-		if (!defined("IsAuthorizedCache_INSTANTIATED")) {
-			$GLOBALS['__isAuthorizedCacheInstance'] = new IsAuthorizedCache();
-			define("IsAuthorizedCache_INSTANTIATED", true);
-		}
+	public static function instance () {
+		if (!isset(self::$instance))
+			self::$instance = new IsAuthorizedCache;
 		
-		return $GLOBALS['__isAuthorizedCacheInstance'];
+		return self::$instance;
 	}
 
 /*********************************************************

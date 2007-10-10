@@ -1,8 +1,7 @@
 <?php
 
 require_once(HARMONI . "utilities/DataContainer.abstract.php");
-require_once(HARMONI . "errorHandler/Error.class.php");
-require_once(HARMONI . "errorHandler/throw.inc.php");
+require_once(HARMONI . "errorHandler/HarmoniErrorHandler.class.php");
 
 
 /**
@@ -13,7 +12,7 @@ require_once(HARMONI . "errorHandler/throw.inc.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniConfig.class.php,v 1.14 2007/09/05 19:55:20 adamfranco Exp $
+ * @version $Id: HarmoniConfig.class.php,v 1.15 2007/10/10 22:58:35 adamfranco Exp $
  */
 
 class HarmoniConfig extends DataContainer {

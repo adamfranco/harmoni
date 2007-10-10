@@ -11,7 +11,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: services.cfg.php,v 1.62 2007/09/19 14:00:41 adamfranco Exp $
+ * @version $Id: services.cfg.php,v 1.63 2007/10/10 22:58:31 adamfranco Exp $
  */
 
 /* :: what services should we load? you can disable some to save on startup time :: */
@@ -193,7 +193,7 @@ $context->assignContext('harmoni', $harmoni);
  */
 require_once(HARMONI."errorHandler/HarmoniException.class.php");
 require_once(HARMONI."errorHandler/Error.class.php");
-require_once(HARMONI."errorHandler/throw.inc.php");
+require_once(HARMONI . "errorHandler/HarmoniErrorHandler.class.php");
 
 /**
  * load DBHandler

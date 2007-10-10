@@ -7,7 +7,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Integer.class.php,v 1.6 2007/09/04 20:25:28 adamfranco Exp $
+ * @version $Id: Integer.class.php,v 1.7 2007/10/10 22:58:34 adamfranco Exp $
  */ 
 
 require_once(dirname(__FILE__)."/Number.class.php");
@@ -20,7 +20,7 @@ require_once(dirname(__FILE__)."/Number.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Integer.class.php,v 1.6 2007/09/04 20:25:28 adamfranco Exp $
+ * @version $Id: Integer.class.php,v 1.7 2007/10/10 22:58:34 adamfranco Exp $
  */
 class Integer 
 	extends Number
@@ -38,9 +38,10 @@ class Integer
 	 *		of this package.
 	 * @return object Integer
 	 * @access public
+	 * @static
 	 * @since 7/14/05
 	 */
-	function withValue ( $value, $class = 'Integer') {
+	static function withValue ( $value, $class = 'Integer') {
 		return parent::withValue($value, $class);
 	}
 
@@ -50,9 +51,10 @@ class Integer
 	 * @param string $string a string representation of the object
 	 * @return object Double
 	 * @access public
+	 * @static
 	 * @since 3/14/06
 	 */
-	function fromString ($string, $class = 'Integer') {
+	static function fromString ($string, $class = 'Integer') {
 		return parent::fromString($string, $class);
 	}
 
@@ -64,9 +66,10 @@ class Integer
 	 *		of this package.
 	 * @return object Integer
 	 * @access public
+	 * @static
 	 * @since 7/14/05
 	 */
-	function zero ( $class = 'Integer') {
+	static function zero ( $class = 'Integer') {
 		return parent::zero($class);
 	}
 		

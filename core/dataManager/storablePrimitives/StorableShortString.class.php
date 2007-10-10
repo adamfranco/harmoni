@@ -10,11 +10,11 @@ require_once(HARMONI."dataManager/storablePrimitives/StorableString.abstract.php
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableShortString.class.php,v 1.10 2007/09/04 20:25:33 adamfranco Exp $
+ * @version $Id: StorableShortString.class.php,v 1.11 2007/10/10 22:58:36 adamfranco Exp $
  */
 class StorableShortString
 	extends StorableStringAbstract 
-	/* implements StorablePrimitive */ 
+	implements StorablePrimitive
 {
 
 /*********************************************************
@@ -40,7 +40,7 @@ class StorableShortString
 	 * @return object StorableShortString
 	 * @static
 	 */
-	function createAndPopulate( $dbRow ) {
+	static function createAndPopulate( $dbRow ) {
 		$string = new StorableShortString;
 		$string->_setValue($dbRow["shortstring_data"]);
 		return $string;
@@ -56,7 +56,7 @@ class StorableShortString
 	 * @return string or NULL if no searching is allowed.
 	 * @static
 	 */
-	function makeSearchString($value, $searchType = SEARCH_TYPE_EQUALS) {		
+	static function makeSearchString($value, $searchType = SEARCH_TYPE_EQUALS) {		
 		switch ($searchType) {
 			case SEARCH_TYPE_EQUALS:
 				return "dm_shortstring.data='".addslashes($value->asString())."'";
@@ -85,6 +85,20 @@ class StorableShortString
 		}
 		return null;
 	}
+	
+	/**
+	 * Takes an existing {@link SelectQuery} and adds a table join and some columns so that
+	 * when it is executed the actual data can be retrieved from the row. The join condition must
+	 * be "fk_data = data_id_field", since the field "fk_data" is already part of the DataManager's
+	 * table structure.
+	 * @access public
+	 * @return void
+	 * @static
+	 */
+	static function alterQuery( $query ) {
+		$query->addTable("dm_shortstring",LEFT_JOIN,"dm_shortstring.id = fk_data");
+		$query->addColumn("data","shortstring_data","dm_shortstring");
+	}
  
  /*********************************************************
   * Instance Methods
@@ -107,17 +121,6 @@ class StorableShortString
 		$this->_table = "dm_shortstring";
 	}
 		
-	/**
-	 * Takes an existing {@link SelectQuery} and adds a table join and some columns so that
-	 * when it is executed the actual data can be retrieved from the row. The join condition must
-	 * be "fk_data = data_id_field", since the field "fk_data" is already part of the DataManager's
-	 * table structure.
-	 * @access public
-	 * @return void
-	 */
-	function alterQuery( $query ) {
-		$query->addTable("dm_shortstring",LEFT_JOIN,"dm_shortstring.id = fk_data");
-		$query->addColumn("data","shortstring_data","dm_shortstring");
-	}
+	
 	
 }

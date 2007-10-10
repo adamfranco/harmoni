@@ -35,7 +35,7 @@ class SqlException
      * @access public 
      * @static 
      */
-    function BLOB_GETBYTES_FAILED () {
+    static static function BLOB_GETBYTES_FAILED () {
         return "Blob get bytes failed ";
     }
 
@@ -47,7 +47,7 @@ class SqlException
      * @access public 
      * @static 
      */
-    function CLOB_GETCHARS_FAILED () {
+    static static function CLOB_GETCHARS_FAILED () {
         return "Clob get chars failed ";
     }
 
@@ -59,7 +59,7 @@ class SqlException
      * @access public 
      * @static 
      */
-    function CONNECTION_FAILED () {
+    static static function CONNECTION_FAILED () {
         return "Connection failed ";
     }
 
@@ -71,7 +71,7 @@ class SqlException
      * @access public 
      * @static 
      */
-    function INVALID_ARGUMENTS () {
+    static static function INVALID_ARGUMENTS () {
         return "Invalid arguments ";
     }
 
@@ -84,7 +84,7 @@ class SqlException
      * @access public 
      * @static 
      */
-    function INVALID_COLUMN_INDEX () {
+    static static function INVALID_COLUMN_INDEX () {
         return "Invalid column index ";
     }
 
@@ -96,7 +96,7 @@ class SqlException
      * @access public 
      * @static 
      */
-    function DATA_RETRIEVAL_ERROR () {
+    static static function DATA_RETRIEVAL_ERROR () {
         return "Data retrieval error ";
     }
 

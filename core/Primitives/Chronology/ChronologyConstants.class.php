@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ChronologyConstants.class.php,v 1.2 2006/06/26 12:55:07 adamfranco Exp $
+ * @version $Id: ChronologyConstants.class.php,v 1.3 2007/10/10 22:58:33 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -23,7 +23,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ChronologyConstants.class.php,v 1.2 2006/06/26 12:55:07 adamfranco Exp $
+ * @version $Id: ChronologyConstants.class.php,v 1.3 2007/10/10 22:58:33 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -39,7 +39,7 @@ class ChronologyConstants {
 	 * @since 5/2/05
 	 * @static
 	 */
-	function SqueakEpoch () {
+	static function SqueakEpoch () {
 		return 2415386;
 	}
 	
@@ -51,7 +51,7 @@ class ChronologyConstants {
 	 * @since 5/2/05
 	 * @static
 	 */
-	function SecondsInDay () {
+	static function SecondsInDay () {
 		return 86400;
 	}
 	
@@ -63,7 +63,7 @@ class ChronologyConstants {
 	 * @since 5/2/05
 	 * @static
 	 */
-	function SecondsInHour () {
+	static function SecondsInHour () {
 		return 3600;
 	}
 	
@@ -75,7 +75,7 @@ class ChronologyConstants {
 	 * @since 5/2/05
 	 * @static
 	 */
-	function SecondsInMinute () {
+	static function SecondsInMinute () {
 		return 60;
 	}
 	
@@ -87,7 +87,7 @@ class ChronologyConstants {
 	 * @since 5/2/05
 	 * @static
 	 */
-	function NanosInSecond () {
+	static function NanosInSecond () {
 		return pow (10, 9);
 	}
 	
@@ -99,7 +99,7 @@ class ChronologyConstants {
 	 * @since 5/2/05
 	 * @static
 	 */
-	function NanosInMillisecond () {
+	static function NanosInMillisecond () {
 		return pow (10, 6);
 	}
 	
@@ -111,7 +111,7 @@ class ChronologyConstants {
 	 * @since 5/2/05
 	 * @static
 	 */
-	function DayNames () {
+	static function DayNames () {
 		return array (1 => 'Sunday', 2 => 'Monday', 3 => 'Tuesday', 4 => 'Wednesday',
 			5 => 'Thursday', 6 => 'Friday', 7 => 'Saturday');
 	}
@@ -124,7 +124,7 @@ class ChronologyConstants {
 	 * @since 5/2/05
 	 * @static
 	 */
-	function MonthNames () {
+	static function MonthNames () {
 		return array (1 => 'January', 2 => 'February', 3 => 'March', 4 => 'April', 
 			5 => 'May', 6 => 'June', 7 => 'July', 8 => 'August', 9 => 'September', 
 			10 => 'October', 11 => 'November', 12 => 'December');
@@ -138,7 +138,7 @@ class ChronologyConstants {
 	 * @since 5/2/05
 	 * @static
 	 */
-	function DaysInMonth () {
+	static function DaysInMonth () {
 		return array (1 => 31, 2 => 28, 3 => 31, 4 => 30, 5 => 31, 6 => 30, 
 			7 => 31, 8 => 31, 9 => 30, 10 => 31, 11 => 30, 12 => 31);
 	}

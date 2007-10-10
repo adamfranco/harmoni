@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeStamp.class.php,v 1.5 2007/09/04 20:25:25 adamfranco Exp $
+ * @version $Id: TimeStamp.class.php,v 1.6 2007/10/10 22:58:33 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -60,7 +60,7 @@ require_once(dirname(__FILE__)."/DateAndTime.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TimeStamp.class.php,v 1.5 2007/09/04 20:25:25 adamfranco Exp $
+ * @version $Id: TimeStamp.class.php,v 1.6 2007/10/10 22:58:33 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -108,7 +108,7 @@ class TimeStamp
 	 * @since 5/2/05
 	 * @static
 	 */
-	function epoch ( $class = 'TimeStamp' ) {
+	static function epoch ( $class = 'TimeStamp' ) {
 		$obj = parent::epoch($class);
 		return $obj;
 	}
@@ -136,7 +136,7 @@ class TimeStamp
 	 * @since 5/12/05
 	 * @static
 	 */
-	function fromString ( $aString, $class = 'TimeStamp' ) {
+	static function fromString ( $aString, $class = 'TimeStamp' ) {
 		$obj = parent::fromString( $aString, $class);
 		return $obj;
 	}
@@ -175,7 +175,7 @@ class TimeStamp
 	 * @since 5/3/05
 	 * @static
 	 */
-	function midnight ( $class = 'TimeStamp' ) {
+	static function midnight ( $class = 'TimeStamp' ) {
 		$obj = parent::midnight( $class );
 		return $obj;
 	}
@@ -192,7 +192,7 @@ class TimeStamp
 	 * @since 5/12/05
 	 * @static
 	 */
-	function now ( $class = 'TimeStamp' ) {
+	static function now ( $class = 'TimeStamp' ) {
 		$obj = parent::now( $class );
 		return $obj;
 	}
@@ -209,7 +209,7 @@ class TimeStamp
 	 * @since 5/3/05
 	 * @static
 	 */
-	function noon ( $class = 'TimeStamp' ) {
+	static function noon ( $class = 'TimeStamp' ) {
 		$obj = parent::noon( $class );
 		return $obj;
 	}
@@ -226,7 +226,7 @@ class TimeStamp
 	 * @since 5/12/05
 	 * @static
 	 */
-	function today ( $class = 'TimeStamp' ) {
+	static function today ( $class = 'TimeStamp' ) {
 		$obj = parent::today( $class );
 		return $obj;
 	}
@@ -243,7 +243,7 @@ class TimeStamp
 	 * @since 5/12/05
 	 * @static
 	 */
-	function tomorrow ( $class = 'TimeStamp' ) {
+	static function tomorrow ( $class = 'TimeStamp' ) {
 		$obj = parent::tomorrow( $class );
 		return $obj;
 	}
@@ -260,7 +260,7 @@ class TimeStamp
 	 * @since 5/12/05
 	 * @static
 	 */
-	function withDateAndTime ( $aDate, $aTime, $class = 'TimeStamp' ) {
+	static function withDateAndTime ( $aDate, $aTime, $class = 'TimeStamp' ) {
 		$obj = parent::withDateAndTime( $aDate, $aTime, $class );
 		return $obj;
 	}
@@ -278,7 +278,7 @@ class TimeStamp
 	 * @since 5/2/05
 	 * @static
 	 */
-	function withJulianDayNumber ( $aJulianDayNumber, $class = 'TimeStamp' ) {
+	static function withJulianDayNumber ( $aJulianDayNumber, $class = 'TimeStamp' ) {
 		$obj = parent::withJulianDayNumber($aJulianDayNumber, $class);
 		return $obj;
 	}
@@ -296,7 +296,7 @@ class TimeStamp
  	 * @static
 	 * @since 5/4/05
 	 */
-	function withYearDay ( $anIntYear, $anIntDayOfYear, $class = 'TimeStamp') {
+	static function withYearDay ( $anIntYear, $anIntDayOfYear, $class = 'TimeStamp') {
 		$obj = parent::withYearDay ( $anIntYear, $anIntDayOfYear, $class );
 		return $obj;
 	}
@@ -318,7 +318,7 @@ class TimeStamp
  	 * @static
 	 * @since 5/4/05
 	 */
-	function withYearDayHourMinuteSecond ( $anIntYear, $anIntDayOfYear, 
+	static function withYearDayHourMinuteSecond ( $anIntYear, $anIntDayOfYear, 
 		$anIntHour, $anIntMinute, $anIntSecond, $class = 'TimeStamp' ) 
 	{
 		$obj = parent::withYearDayHourMinuteSecond ( $anIntYear, $anIntDayOfYear, 
@@ -344,7 +344,7 @@ class TimeStamp
  	 * @static
 	 * @since 5/4/05
 	 */
-	function withYearDayHourMinuteSecondOffset ( $anIntYear, $anIntDayOfYear, 
+	static function withYearDayHourMinuteSecondOffset ( $anIntYear, $anIntDayOfYear, 
 		$anIntHour, $anIntMinute, $anIntSecond, $aDurationOffset, $class = 'TimeStamp' ) 
 	{
 		$obj = parent::withYearDayHourMinuteSecondOffset ( $anIntYear, $anIntDayOfYear, 
@@ -367,7 +367,7 @@ class TimeStamp
  	 * @static
 	 * @since 5/4/05
 	 */
-	function withYearMonthDay ( $anIntYear, $anIntOrStringMonth, $anIntDay, 
+	static function withYearMonthDay ( $anIntYear, $anIntOrStringMonth, $anIntDay, 
 		$class = 'Timestamp' ) 
 	{
 		$obj = parent::withYearMonthDay ( $anIntYear, $anIntOrStringMonth, $anIntDay, 
@@ -392,7 +392,7 @@ class TimeStamp
  	 * @static
 	 * @since 5/4/05
 	 */
-	function withYearMonthDayHourMinute ( $anIntYear, $anIntOrStringMonth, 
+	static function withYearMonthDayHourMinute ( $anIntYear, $anIntOrStringMonth, 
 		$anIntDay, $anIntHour, $anIntMinute, $class = 'TimeStamp' ) 
 	{
 		$obj = parent::withYearMonthDayHourMinute ( $anIntYear, $anIntOrStringMonth, 
@@ -419,7 +419,7 @@ class TimeStamp
  	 * @static
 	 * @since 5/4/05
 	 */
-	function withYearMonthDayHourMinuteSecond ( $anIntYear, $anIntOrStringMonth, 
+	static function withYearMonthDayHourMinuteSecond ( $anIntYear, $anIntOrStringMonth, 
 		$anIntDay, $anIntHour, $anIntMinute, $anIntSecond, $class = 'TimeStamp' ) 
 	{
 		$obj = parent::withYearMonthDayHourMinuteSecond ( $anIntYear, $anIntOrStringMonth, 
@@ -446,7 +446,7 @@ class TimeStamp
  	 * @static
 	 * @since 5/4/05
 	 */
-	function withYearMonthDayHourMinuteSecondOffset ( $anIntYear, 
+	static function withYearMonthDayHourMinuteSecondOffset ( $anIntYear, 
 		$anIntOrStringMonth, $anIntDay, $anIntHour, $anIntMinute, 
 		$anIntSecond, $aDurationOffset, $class = 'TimeStamp'  ) 
 	{
@@ -469,7 +469,7 @@ class TimeStamp
 	 * @since 5/12/05
 	 * @static
 	 */
-	function yesterday ( $class = 'TimeStamp' ) {
+	static function yesterday ( $class = 'TimeStamp' ) {
 		$obj = parent::yesterday($class);
 		return $obj;
 	}

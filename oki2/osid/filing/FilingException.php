@@ -30,7 +30,7 @@ class FilingException
      * @access public 
      * @static 
      */
-    function ITEM_ALREADY_EXISTS () {
+    static function ITEM_ALREADY_EXISTS () {
         return "Selected item already exists";
     }
 
@@ -42,7 +42,7 @@ class FilingException
      * @access public 
      * @static 
      */
-    function ITEM_DOES_NOT_EXIST () {
+    static function ITEM_DOES_NOT_EXIST () {
         return "Selected item does not exist";
     }
 
@@ -54,7 +54,7 @@ class FilingException
      * @access public 
      * @static 
      */
-    function UNSUPPORTED_OPERATION () {
+    static function UNSUPPORTED_OPERATION () {
         return "Unsupported operation";
     }
 
@@ -66,7 +66,7 @@ class FilingException
      * @access public 
      * @static 
      */
-    function IO_ERROR () {
+    static function IO_ERROR () {
         return "IO error";
     }
 
@@ -78,7 +78,7 @@ class FilingException
      * @access public 
      * @static 
      */
-    function UNSUPPORTED_TYPE () {
+    static function UNSUPPORTED_TYPE () {
         return "Unsupported CabinetEntry Type";
     }
 
@@ -90,7 +90,7 @@ class FilingException
      * @access public 
      * @static 
      */
-    function CABINET_NOT_EMPTY () {
+    static function CABINET_NOT_EMPTY () {
         return "Cabinet is not empty";
     }
 
@@ -102,7 +102,7 @@ class FilingException
      * @access public 
      * @static 
      */
-    function NOT_A_CABINET () {
+    static function NOT_A_CABINET () {
         return "Object is not a Cabinet";
     }
 
@@ -114,7 +114,7 @@ class FilingException
      * @access public 
      * @static 
      */
-    function NOT_A_BYTESTORE () {
+    static function NOT_A_BYTESTORE () {
         return "Object is not a ByteStore";
     }
 
@@ -126,7 +126,7 @@ class FilingException
      * @access public 
      * @static 
      */
-    function NAME_CONTAINS_ILLEGAL_CHARS () {
+    static function NAME_CONTAINS_ILLEGAL_CHARS () {
         return "Name contains illegal characters";
     }
 
@@ -138,7 +138,7 @@ class FilingException
      * @access public 
      * @static 
      */
-    function NULL_OWNER () {
+    static function NULL_OWNER () {
         return "Owner is null";
     }
 
@@ -150,7 +150,7 @@ class FilingException
      * @access public 
      * @static 
      */
-    function DELETE_FAILED () {
+    static function DELETE_FAILED () {
         return "Delete failed";
     }
 
@@ -162,7 +162,7 @@ class FilingException
      * @access public 
      * @static 
      */
-    function CANNOT_DELETE_ROOT_CABINET () {
+    static function CANNOT_DELETE_ROOT_CABINET () {
         return "Cannot delete root Cabinet";
     }
 

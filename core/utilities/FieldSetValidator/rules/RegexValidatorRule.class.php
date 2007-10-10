@@ -10,7 +10,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/ValidatorRule.interface.
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RegexValidatorRule.class.php,v 1.7 2007/10/09 21:12:01 adamfranco Exp $
+ * @version $Id: RegexValidatorRule.class.php,v 1.8 2007/10/10 22:58:44 adamfranco Exp $
  */
 class RegexValidatorRule
 	extends ValidatorRuleInterface
@@ -116,7 +116,7 @@ class RegexValidatorRule
 	 * @static
 	 * @since 3/28/05
 	 */
-	function getRuleByArray ($options) {
+	static function getRuleByArray ($options) {
 		
 		if(!is_array($options) || count($options)==0){
 			throwError(new Error("RegexValidatorRule::getRuleByArray() requires an array with at least one value","RegexValidatorRule",true));		

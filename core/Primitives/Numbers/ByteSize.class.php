@@ -7,7 +7,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ByteSize.class.php,v 1.5 2007/09/04 20:25:28 adamfranco Exp $
+ * @version $Id: ByteSize.class.php,v 1.6 2007/10/10 22:58:34 adamfranco Exp $
  */ 
 
 require_once(dirname(__FILE__)."/Integer.class.php");
@@ -21,7 +21,7 @@ require_once(dirname(__FILE__)."/Integer.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ByteSize.class.php,v 1.5 2007/09/04 20:25:28 adamfranco Exp $
+ * @version $Id: ByteSize.class.php,v 1.6 2007/10/10 22:58:34 adamfranco Exp $
  */
 class ByteSize 
 	extends Integer
@@ -39,8 +39,9 @@ class ByteSize
 	 * @return string
 	 * @access public
 	 * @since 10/11/05
+	 * @static
 	 */
-	function suffixForPower ($power) {
+	static function suffixForPower ($power) {
 		$multiple = intval($power/10);
 		if ($multiple < 0 || $multiple > 8)
 			throwError(new Error("Invalid power, $power. Valid values are multiples of ten, 0-80.",
@@ -62,9 +63,10 @@ class ByteSize
 	 *		of this package.
 	 * @return object ByteSize
 	 * @access public
+	 * @static
 	 * @since 7/14/05
 	 */
-	function fromString ( $stringValue, $class = 'ByteSize') {
+	static function fromString ( $stringValue, $class = 'ByteSize') {
 		if (preg_match("/([0-9\.]+)\s*(B|kB|MB|GB|TB|PB|EB|ZB|YB)/i", 
 			$stringValue, $matches)) 
 		{
@@ -90,9 +92,10 @@ class ByteSize
 	 *		of this package.
 	 * @return object ByteSize
 	 * @access public
+	 * @static
 	 * @since 7/14/05
 	 */
-	function withValue ( $value, $class = 'ByteSize') {
+	static function withValue ( $value, $class = 'ByteSize') {
 		return parent::withValue($value, $class);
 	}
 	
@@ -103,9 +106,10 @@ class ByteSize
 	 *		of this package.
 	 * @return object ByteSize
 	 * @access public
+	 * @static
 	 * @since 7/14/05
 	 */
-	function zero ( $class = 'ByteSize') {
+	static function zero ( $class = 'ByteSize') {
 		return parent::zero($class);
 	}
 	

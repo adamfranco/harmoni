@@ -32,7 +32,7 @@ require_once(HARMONI."GUIManager/StyleProperty.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StyleProperty.class.php,v 1.13 2007/09/04 20:25:21 adamfranco Exp $
+ * @version $Id: StyleProperty.class.php,v 1.14 2007/10/10 22:58:32 adamfranco Exp $
  */
 class StyleProperty extends StylePropertyInterface {
 
@@ -207,7 +207,7 @@ class StyleProperty extends StylePropertyInterface {
 	 * @static
 	 * @since 5/2/06
 	 */
-	function getSCList () {
+	static function getSCList () {
 		if (isset($this->_SCList))
 			return $this->_SCList;
 		return array();

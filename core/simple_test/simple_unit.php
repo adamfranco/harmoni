@@ -1,5 +1,5 @@
 <?php
-    // $Id: simple_unit.php,v 1.5 2007/09/04 20:25:50 adamfranco Exp $
+    // $Id: simple_unit.php,v 1.6 2007/10/10 22:58:41 adamfranco Exp $
     
     if (!defined("SIMPLE_TEST")) {
         define("SIMPLE_TEST", "./");
@@ -76,7 +76,7 @@
                 $message = "[" . $this->_renderVariable($object) . "] should be type [$type]";
             }
             if (is_object($object)) {
-                $this->assertTrue(is_a($object, $type), $message);
+                $this->assertTrue(($object instanceof $type), $message);
             } else {
                 $this->assertTrue(gettype($object) == $type, $message);
             }

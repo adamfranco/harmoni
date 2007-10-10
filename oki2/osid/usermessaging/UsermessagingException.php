@@ -35,7 +35,7 @@ class UsermessagingException
      * @access public 
      * @static 
      */
-    function UNKNOWN_TOPIC () {
+    static function UNKNOWN_TOPIC () {
         return "Unknown Topic ";
     }
 
@@ -47,7 +47,7 @@ class UsermessagingException
      * @access public 
      * @static 
      */
-    function NOT_SUBSCRIBED () {
+    static function NOT_SUBSCRIBED () {
         return "Not currently subscribed to this Topic ";
     }
 

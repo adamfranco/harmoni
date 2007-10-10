@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SQLUtils.static.php,v 1.11 2007/09/17 13:54:31 adamfranco Exp $
+ * @version $Id: SQLUtils.static.php,v 1.12 2007/10/10 22:58:31 adamfranco Exp $
  */
 
 /**
@@ -18,7 +18,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SQLUtils.static.php,v 1.11 2007/09/17 13:54:31 adamfranco Exp $
+ * @version $Id: SQLUtils.static.php,v 1.12 2007/10/10 22:58:31 adamfranco Exp $
  * @static
  */
 
@@ -118,6 +118,7 @@ class SQLUtils {
 	 * @return void
 	 * @access public
 	 * @since 9/11/07
+	 * @static
 	 */
 	public static function runSQLdir ($dir, $dbIndex, $extn = 'sql') {
 		$sqlFiles = array();

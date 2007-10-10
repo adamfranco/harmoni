@@ -11,7 +11,7 @@ require_once(dirname(__FILE__)."/../Objects/SObject.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Boolean.class.php,v 1.10 2007/09/04 20:25:28 adamfranco Exp $
+ * @version $Id: Boolean.class.php,v 1.11 2007/10/10 22:58:34 adamfranco Exp $
  */
 class Boolean 
 	extends SObject
@@ -30,7 +30,7 @@ class Boolean
 	 * @access public
 	 * @static
 	 */
-	function withValue($value) {
+	static function withValue($value) {
 		$temp = new Boolean($value);
 		return $temp;
 	}
@@ -43,8 +43,9 @@ class Boolean
 	 * @return ref object
 	 * @access public
 	 * @since 3/14/06
+	 * @static
 	 */
-	function fromString ($aString) {
+	static function fromString ($aString) {
 		$temp = new Boolean(((strtolower($aString) == "true")?true:false));
 		return $temp;
 	}
@@ -57,7 +58,7 @@ class Boolean
 	 * @since 8/11/05
 	 * @static
 	 */
-	function false () {
+	static function false () {
 		$temp = new Boolean(false);
 		return $temp;
 	}
@@ -70,7 +71,7 @@ class Boolean
 	 * @since 8/11/05
 	 * @static
 	 */
-	function true () {
+	static function true () {
 		$temp = new Boolean(true);
 		return $temp;
 	}

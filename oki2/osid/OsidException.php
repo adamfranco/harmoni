@@ -33,7 +33,7 @@ class OsidException
      * @access public 
      * @static 
      */
-    function OPERATION_FAILED () {
+    static static function OPERATION_FAILED () {
         return "Operation failed ";
     }
 
@@ -45,7 +45,7 @@ class OsidException
      * @access public 
      * @static 
      */
-    function NULL_ARGUMENT () {
+    static static function NULL_ARGUMENT () {
         return "Null argument";
     }
 
@@ -57,7 +57,7 @@ class OsidException
      * @access public 
      * @static 
      */
-    function UNIMPLEMENTED () {
+    static static function UNIMPLEMENTED () {
         return "Unimplemented method ";
     }
 
@@ -69,7 +69,7 @@ class OsidException
      * @access public 
      * @static 
      */
-    function VERSION_ERROR () {
+    static static function VERSION_ERROR () {
         return "OSID Version mismatch error ";
     }
 
@@ -81,7 +81,7 @@ class OsidException
      * @access public 
      * @static 
      */
-    function ALREADY_MARKED () {
+    static static function ALREADY_MARKED () {
         return "Transaction already marked ";
     }
 
@@ -93,7 +93,7 @@ class OsidException
      * @access public 
      * @static 
      */
-    function NOTHING_MARKED () {
+    static static function NOTHING_MARKED () {
         return "No transaction marked ";
     }
 
@@ -105,7 +105,7 @@ class OsidException
      * @access public 
      * @static 
      */
-    function INTERFACE_NOT_FOUND () {
+    static static function INTERFACE_NOT_FOUND () {
         return "Interface not found ";
     }
 
@@ -117,7 +117,7 @@ class OsidException
      * @access public 
      * @static 
      */
-    function MANAGER_NOT_OSID_IMPLEMENTATION () {
+    static static function MANAGER_NOT_OSID_IMPLEMENTATION () {
         return "Manager not OSID implementation ";
     }
 
@@ -129,7 +129,7 @@ class OsidException
      * @access public 
      * @static 
      */
-    function MANAGER_NOT_FOUND () {
+    static static function MANAGER_NOT_FOUND () {
         return "Manager not found ";
     }
 
@@ -141,7 +141,7 @@ class OsidException
      * @access public 
      * @static 
      */
-    function MANAGER_INSTANTIATION_ERROR () {
+    static static function MANAGER_INSTANTIATION_ERROR () {
         return "Manager instantiation error ";
     }
 
@@ -153,7 +153,7 @@ class OsidException
      * @access public 
      * @static 
      */
-    function ERROR_ASSIGNING_CONTEXT () {
+    static static function ERROR_ASSIGNING_CONTEXT () {
         return "Error assigning context ";
     }
 
@@ -165,7 +165,7 @@ class OsidException
      * @access public 
      * @static 
      */
-    function ERROR_ASSIGNING_CONFIGURATION () {
+    static static function ERROR_ASSIGNING_CONFIGURATION () {
         return "Error assigning configuration ";
     }
 
@@ -177,7 +177,7 @@ class OsidException
      * @access public 
      * @static 
      */
-    function PERMISSION_DENIED () {
+    static static function PERMISSION_DENIED () {
         return "Permission denied";
     }
 
@@ -189,7 +189,7 @@ class OsidException
      * @access public 
      * @static 
      */
-    function CONFIGURATION_ERROR () {
+    static static function CONFIGURATION_ERROR () {
         return "Configuration error";
     }
 

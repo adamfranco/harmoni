@@ -35,7 +35,7 @@ class SharedException
      * @access public 
      * @static 
      */
-    function UNKNOWN_ID () {
+    static function UNKNOWN_ID () {
         return "Unknown Id ";
     }
 
@@ -47,7 +47,7 @@ class SharedException
      * @access public 
      * @static 
      */
-    function UNKNOWN_TYPE () {
+    static function UNKNOWN_TYPE () {
         return "Unknown Type ";
     }
 
@@ -59,7 +59,7 @@ class SharedException
      * @access public 
      * @static 
      */
-    function NO_MORE_ITERATOR_ELEMENTS () {
+    static function NO_MORE_ITERATOR_ELEMENTS () {
         return "Iterator has no more elements ";
     }
 
@@ -71,7 +71,7 @@ class SharedException
      * @access public 
      * @static 
      */
-    function ALREADY_ADDED () {
+    static function ALREADY_ADDED () {
         return "Object already added ";
     }
 
@@ -83,7 +83,7 @@ class SharedException
      * @access public 
      * @static 
      */
-    function CIRCULAR_OPERATION () {
+    static function CIRCULAR_OPERATION () {
         return "Circular operation not allowed ";
     }
 
@@ -95,7 +95,7 @@ class SharedException
      * @access public 
      * @static 
      */
-    function UNKNOWN_KEY () {
+    static function UNKNOWN_KEY () {
         return "Unknown key ";
     }
 

@@ -8,9 +8,12 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableString.abstract.php,v 1.12 2007/09/04 20:25:33 adamfranco Exp $
+ * @version $Id: StorableString.abstract.php,v 1.13 2007/10/10 22:58:36 adamfranco Exp $
  */
-class StorableStringAbstract extends String /* implements StorablePrimitive */ {
+abstract class StorableStringAbstract 
+	extends String 
+	implements StorablePrimitive
+{
 
 /*********************************************************
  * Instance Methods

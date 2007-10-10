@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Duration.class.php,v 1.5 2007/09/04 20:25:25 adamfranco Exp $
+ * @version $Id: Duration.class.php,v 1.6 2007/10/10 22:58:33 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -41,7 +41,7 @@ require_once(dirname(__FILE__)."/../Magnitudes/Magnitude.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Duration.class.php,v 1.5 2007/09/04 20:25:25 adamfranco Exp $
+ * @version $Id: Duration.class.php,v 1.6 2007/10/10 22:58:33 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -63,7 +63,7 @@ class Duration
  	 * @since 5/13/05
  	 * @static
  	 */
- 	function fromString ( $aString ) {
+ 	static function fromString ( $aString ) {
  		$parser = new ANSI58216StringParser ($aString);
  		
 		if (!is_string($aString) || !preg_match('/[^\W]/', $aString) || !$parser) {
@@ -86,7 +86,7 @@ class Duration
 	 * @static
 	 * @since 5/3/05
 	 */
-	function withDays ( $days ) {
+	static function withDays ( $days ) {
 		$obj = Duration::withDaysHoursMinutesSeconds ( $days, 0, 0, 0 );
 		return $obj;
 	}
@@ -103,7 +103,7 @@ class Duration
 	 * @static
 	 * @since 5/3/05
 	 */
-	function withDaysHoursMinutesSeconds ( $days, $hours, $minutes, $seconds ) {
+	static function withDaysHoursMinutesSeconds ( $days, $hours, $minutes, $seconds ) {
 		$obj = new Duration (
 			  ($days * ChronologyConstants::SecondsInDay())
 			+ ($hours * ChronologyConstants::SecondsInHour())
@@ -122,7 +122,7 @@ class Duration
 	 * @static
 	 * @since 5/3/05
 	 */
-	function withHours ( $hours ) {
+	static function withHours ( $hours ) {
 		$obj = Duration::withDaysHoursMinutesSeconds ( 0, $hours, 0, 0 );
 		return $obj;
 	}
@@ -136,7 +136,7 @@ class Duration
 	 * @static
 	 * @since 5/3/05
 	 */
-	function withMinutes ( $minutes ) {
+	static function withMinutes ( $minutes ) {
 		$obj = Duration::withDaysHoursMinutesSeconds ( 0, 0, $minutes, 0 );
 		return $obj;
 	}
@@ -150,7 +150,7 @@ class Duration
 	 * @since 5/13/05
 	 * @static
 	 */
-	function withMonth ( $anIntOrStrMonth ) {
+	static function withMonth ( $anIntOrStrMonth ) {
 		$currentYear = Year::current();
 		$month = Month::withMonthYear($anIntOrStrMonth, $currentYear->startYear());
 		$obj =$month->duration();
@@ -166,7 +166,7 @@ class Duration
 	 * @static
 	 * @since 5/3/05
 	 */
-	function withSeconds ( $seconds ) {
+	static function withSeconds ( $seconds ) {
 		$obj = Duration::withDaysHoursMinutesSeconds ( 0, 0, 0, $seconds );
 		return $obj;
 	}
@@ -178,8 +178,9 @@ class Duration
 	 * @return object Duration
 	 * @access public
 	 * @since 5/13/05
+	 * @static
 	 */
-	function withWeeks ( $aNumber ) {
+	static function withWeeks ( $aNumber ) {
 		$obj = Duration::withDaysHoursMinutesSeconds(($aNumber * 7), 0, 0, 0);
 		return $obj;
 	}
@@ -192,7 +193,7 @@ class Duration
  	 * @since 5/5/05
  	 * @static
  	 */
- 	function zero () {
+ 	static function zero () {
  		$obj = Duration::withDays(0);
 		return $obj;
  	}

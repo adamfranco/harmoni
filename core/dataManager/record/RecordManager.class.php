@@ -12,7 +12,7 @@ require_once HARMONI."dataManager/record/StorableRecordSet.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordManager.class.php,v 1.27 2007/09/04 20:25:32 adamfranco Exp $
+ * @version $Id: RecordManager.class.php,v 1.28 2007/10/10 22:58:36 adamfranco Exp $
  *
  * @author Gabe Schine
  */
@@ -37,7 +37,7 @@ class RecordManager {
 	 * @static
 	 * @return void
 	 */
-	function setCacheMode($mode) {
+	static function setCacheMode($mode) {
 		$mgr = Services::getService("RecordManager");
 		$mgr->_setCacheMode($mode);
 	}
@@ -261,10 +261,6 @@ class RecordManager {
 		} else {
 			$fromDBIDs = $IDs;
 		}
-		
-//		print_r($fromCacheIDs);
-//		print_r($fromDBIDs);
-//		printDebugBacktrace();
 		
 		$records = array();
 

@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SObject.class.php,v 1.4 2007/09/04 20:25:28 adamfranco Exp $
+ * @version $Id: SObject.class.php,v 1.5 2007/10/10 22:58:34 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -25,12 +25,12 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SObject.class.php,v 1.4 2007/09/04 20:25:28 adamfranco Exp $
+ * @version $Id: SObject.class.php,v 1.5 2007/10/10 22:58:34 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
  */
-class SObject {
+abstract class SObject {
 
 /*********************************************************
  * Class Methods
@@ -52,7 +52,7 @@ class SObject {
 	 * @static
 	 * @since 5/5/05
 	 */
-	function newFrom ( $targetClass, $aSimilarObject ) {
+	static function newFrom ( $targetClass, $aSimilarObject ) {
 		$newObject = new $targetClass();
 		$newObject->copySameFrom($aSimilarObject);
 		return $newObject;
@@ -300,7 +300,7 @@ class SObject {
  	 * @since 7/12/05
  	 * @static
  	 */
- 	function _deepCopyArray ( $array ) {
+ 	static function _deepCopyArray ( $array ) {
  		$newArray = array();
  		
  		foreach (array_keys($array) as $key) {

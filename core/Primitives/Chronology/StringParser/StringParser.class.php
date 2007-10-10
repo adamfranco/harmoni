@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StringParser.class.php,v 1.7 2007/09/04 20:25:25 adamfranco Exp $
+ * @version $Id: StringParser.class.php,v 1.8 2007/10/10 22:58:33 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -54,7 +54,7 @@ require_once(dirname(__FILE__)."/../Month.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StringParser.class.php,v 1.7 2007/09/04 20:25:25 adamfranco Exp $
+ * @version $Id: StringParser.class.php,v 1.8 2007/10/10 22:58:33 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -76,7 +76,7 @@ class StringParser
 	 * @since 5/24/05
 	 * @static
 	 */
-	function getParserFor ( $aString ) {
+	static function getParserFor ( $aString ) {
 		// Go through our parsers and try to find one that understands the format.
 		$parserClasses = array(	
 			'ISO8601StringParser',

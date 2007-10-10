@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Month.class.php,v 1.4 2007/09/04 20:25:25 adamfranco Exp $
+ * @version $Id: Month.class.php,v 1.5 2007/10/10 22:58:33 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -34,7 +34,7 @@ require_once(dirname(__FILE__)."/Timespan.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Month.class.php,v 1.4 2007/09/04 20:25:25 adamfranco Exp $
+ * @version $Id: Month.class.php,v 1.5 2007/10/10 22:58:33 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -56,7 +56,7 @@ class Month
 	 * @since 5/4/05
 	 * @static
 	 */
-	function indexOfMonth ( $aNameString ) {
+	static function indexOfMonth ( $aNameString ) {
 		foreach (ChronologyConstants::MonthNames() as $i => $name) {
 			if (preg_match("/$aNameString.*/i", $name))
 				return $i;
@@ -78,7 +78,7 @@ class Month
 	 * @since 5/4/05
 	 * @static
 	 */
-	function nameOfMonth ( $anInteger ) {
+	static function nameOfMonth ( $anInteger ) {
 		$names = ChronologyConstants::MonthNames();
 		if ($names[$anInteger])
 			return $names[$anInteger];
@@ -100,7 +100,7 @@ class Month
 	 * @since 5/5/05
 	 * @static
 	 */
-	function daysInMonthForYear ( $indexOrNameString, $yearInteger ) {
+	static function daysInMonthForYear ( $indexOrNameString, $yearInteger ) {
 		if (is_numeric($indexOrNameString))
 			$index = $indexOrNameString;
 		else
@@ -146,7 +146,7 @@ class Month
 	 * @since 5/5/05
 	 * @static
 	 */
-	function current ( $class = 'Month' ) {
+	static function current ( $class = 'Month' ) {
 		$obj = parent::current($class);
 		return $obj;
 	}
@@ -163,7 +163,7 @@ class Month
 	 * @since 5/5/05
 	 * @static
 	 */
-	function epoch ( $class = 'Month' ) {
+	static function epoch ( $class = 'Month' ) {
 		$obj = parent::epoch($class);
 		return $obj;
 	}
@@ -181,8 +181,9 @@ class Month
 	 * @return object Month
 	 * @access public
 	 * @since 5/10/05
+	 * @static
 	 */
-	function fromString ( $aString, $class = 'Month' ) {
+	static function fromString ( $aString, $class = 'Month' ) {
 		$parser = StringParser::getParserFor($aString);
 		
 		if (!is_string($aString) || !preg_match('/[^\W]/', $aString) || !$parser) {
@@ -209,7 +210,7 @@ class Month
 	 * @since 5/5/05
 	 * @static
 	 */
-	function starting ( $aDateAndTime, $class = 'Month' ) {
+	static function starting ( $aDateAndTime, $class = 'Month' ) {
 		$obj = parent::starting($aDateAndTime, $class);
 		return $obj;
 	}
@@ -226,8 +227,9 @@ class Month
 	 * @return object Month
 	 * @access public
 	 * @since 5/11/05
+	 * @static
 	 */
-	function startingEnding ( $startDateAndTime, $endDateAndTime, 
+	static function startingEnding ( $startDateAndTime, $endDateAndTime, 
 		$class = 'Month' ) 
 	{
 		$obj = parent::startingEnding ( $startDateAndTime, $endDateAndTime, $class);
@@ -250,7 +252,7 @@ class Month
 	 * @since 5/5/05
 	 * @static
 	 */
-	function startingDuration ( $aDateAndTime, $aDuration, $class = 'Month' ) {
+	static function startingDuration ( $aDateAndTime, $aDuration, $class = 'Month' ) {
 		
 		// Validate our passed class name.
 		if (!(strtolower($class) == strtolower('Month')
@@ -284,8 +286,9 @@ class Month
 	 * @return object Month
 	 * @access public
 	 * @since 5/11/05
+	 * @static
 	 */
-	function withMonthYear ( $anIntegerOrStringMonth, $anIntegerYear, 
+	static function withMonthYear ( $anIntegerOrStringMonth, $anIntegerYear, 
 		$class = 'Month' ) 
 	{
 		eval('$result = '.$class.'::starting(DateAndTime::withYearMonthDay(

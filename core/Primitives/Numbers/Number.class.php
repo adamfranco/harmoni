@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Number.class.php,v 1.5 2007/09/04 20:25:28 adamfranco Exp $
+ * @version $Id: Number.class.php,v 1.6 2007/10/10 22:58:34 adamfranco Exp $
  */ 
  
 require_once(dirname(__FILE__)."/../Magnitudes/Magnitude.class.php");
@@ -41,9 +41,9 @@ require_once(dirname(__FILE__)."/../Magnitudes/Magnitude.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Number.class.php,v 1.5 2007/09/04 20:25:28 adamfranco Exp $
+ * @version $Id: Number.class.php,v 1.6 2007/10/10 22:58:34 adamfranco Exp $
  */
-class Number 
+abstract class Number 
 	extends Magnitude
 {
 
@@ -59,9 +59,10 @@ class Number
 	 *		of this package.
 	 * @return object Number
 	 * @access public
+	 * @static
 	 * @since 7/14/05
 	 */
-	function withValue ( $value, $class = 'Number') {
+	static function withValue ( $value, $class = 'Number') {
 		// Validate our passed class name.
 		if (!is_subclass_of(new $class, 'Number'))
 		{
@@ -82,8 +83,9 @@ class Number
 	 * @return object Number
 	 * @access public
 	 * @since 3/14/06
+	 * @static
 	 */
-	function fromString ( $string, $class = 'Number') {
+	static function fromString ( $string, $class = 'Number') {
 		// Validate our passed class name.
 		if (!is_subclass_of(new $class, 'Number'))
 		{
@@ -104,8 +106,9 @@ class Number
 	 * @return object Number
 	 * @access public
 	 * @since 7/14/05
+	 * @static
 	 */
-	function zero ( $class = 'Number') {
+	static function zero ( $class = 'Number') {
 		eval('$result = '.$class.'::withValue(0);');
 		
 		return $result;
@@ -123,10 +126,7 @@ class Number
 	 * @access public
 	 * @since 7/14/05
 	 */
-	function plus ( $aNumber ) {
-		die("Method ".__FUNCTION__." in class ".__CLASS__
-			." should have been overridden by a child class.");
-	}
+	abstract function plus ( $aNumber );
 	
 	/**
 	 * Answer the difference of the receiver and aNumber.
@@ -148,10 +148,7 @@ class Number
 	 * @access public
 	 * @since 7/14/05
 	 */
-	function multipliedBy ( $aNumber ) {
-		die("Method ".__FUNCTION__." in class ".__CLASS__
-			." should have been overridden by a child class.");
-	}
+	abstract function multipliedBy ( $aNumber ) ;
 	
 	/**
 	 * Answer the result of dividing the receiver and aNumber.
@@ -161,10 +158,7 @@ class Number
 	 * @access public
 	 * @since 7/14/05
 	 */
-	function dividedBy ( $aNumber ) {
-		die("Method ".__FUNCTION__." in class ".__CLASS__
-			." should have been overridden by a child class.");
-	}
+	abstract function dividedBy ( $aNumber ) ;
 	
 	/**
 	 * Integer quotient defined by division with truncation toward negative 
@@ -451,10 +445,7 @@ class Number
 	 * @access private
 	 * @since 7/14/05
 	 */
-	function _setValue ( $value ) {
-		die("Method ".__FUNCTION__." in class ".__CLASS__
-			." should have been overridden by a child class.");
-	}
+	abstract function _setValue ( $value ) ;
 }
 
 ?>

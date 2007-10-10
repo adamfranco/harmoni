@@ -8,10 +8,11 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableTime.class.php,v 1.20 2007/09/04 20:25:33 adamfranco Exp $
+ * @version $Id: StorableTime.class.php,v 1.21 2007/10/10 22:58:36 adamfranco Exp $
  */
 class StorableTime 
-	extends DateAndTime /* implements StorablePrimitive */ 
+	extends DateAndTime
+	implements StorablePrimitive
 {
 	
 	var $_table;
@@ -31,7 +32,7 @@ class StorableTime
 	 * @return object StorableTime
 	 * @static
 	 */
-	function createAndPopulate( $dbRow ) {
+	static function createAndPopulate( $dbRow ) {
 		$date = StorableTime::withJulianDayNumber($dbRow["time_jdn"]);
 		$timeComponent = Duration::withSeconds($dbRow["time_seconds"]);
 		$date =$date->plus($timeComponent);
@@ -54,7 +55,7 @@ class StorableTime
 	 * @return string or NULL if no searching is allowed.
 	 * @static
 	 */
-	function makeSearchString($value, $searchType = SEARCH_TYPE_EQUALS) {
+	static function makeSearchString($value, $searchType = SEARCH_TYPE_EQUALS) {
 		// Convert to UTC
 		$utc =$this->asUTC();
 		$utcTime =$utc->asTime();
@@ -135,7 +136,7 @@ class StorableTime
 	 * @since 5/2/05
 	 * @static
 	 */
-	function epoch ( $class = 'StorableTime' ) {
+	static function epoch ( $class = 'StorableTime' ) {
 		return parent::epoch($class);
 	}
 	
@@ -162,7 +163,7 @@ class StorableTime
 	 * @since 5/12/05
 	 * @static
 	 */
-	function fromString ( $aString, $class = 'StorableTime' ) {
+	static function fromString ( $aString, $class = 'StorableTime' ) {
 		return parent::fromString( $aString, $class);
 	}
 	
@@ -199,7 +200,7 @@ class StorableTime
 	 * @since 5/3/05
 	 * @static
 	 */
-	function midnight ( $class = 'StorableTime' ) {
+	static function midnight ( $class = 'StorableTime' ) {
 		return parent::midnight( $class );
 	}
 	
@@ -215,7 +216,7 @@ class StorableTime
 	 * @since 5/12/05
 	 * @static
 	 */
-	function now ( $class = 'StorableTime' ) {
+	static function now ( $class = 'StorableTime' ) {
 		return parent::now( $class );
 	}
 	
@@ -231,7 +232,7 @@ class StorableTime
 	 * @since 5/3/05
 	 * @static
 	 */
-	function noon ( $class = 'StorableTime' ) {
+	static function noon ( $class = 'StorableTime' ) {
 		return parent::noon( $class );
 	}
 	
@@ -247,7 +248,7 @@ class StorableTime
 	 * @since 5/12/05
 	 * @static
 	 */
-	function today ( $class = 'StorableTime' ) {
+	static function today ( $class = 'StorableTime' ) {
 		return parent::today( $class );
 	}
 	
@@ -263,7 +264,7 @@ class StorableTime
 	 * @since 5/12/05
 	 * @static
 	 */
-	function tomorrow ( $class = 'StorableTime' ) {
+	static function tomorrow ( $class = 'StorableTime' ) {
 		return parent::tomorrow( $class );
 	}
 	
@@ -279,7 +280,7 @@ class StorableTime
 	 * @since 5/12/05
 	 * @static
 	 */
-	function withDateAndTime ( $aDate, $aTime, $class = 'StorableTime' ) {
+	static function withDateAndTime ( $aDate, $aTime, $class = 'StorableTime' ) {
 		return parent::withDateAndTime( $aDate, $aTime, $class );
 	}
 	
@@ -296,7 +297,7 @@ class StorableTime
 	 * @since 5/2/05
 	 * @static
 	 */
-	function withJulianDayNumber ( $aJulianDayNumber, $class = 'StorableTime' ) {
+	static function withJulianDayNumber ( $aJulianDayNumber, $class = 'StorableTime' ) {
 		return parent::withJulianDayNumber($aJulianDayNumber, $class);
 	}
 	
@@ -313,7 +314,7 @@ class StorableTime
  	 * @static
 	 * @since 5/4/05
 	 */
-	function withYearDay ( $anIntYear, $anIntDayOfYear, $class = 'StorableTime') {
+	static function withYearDay ( $anIntYear, $anIntDayOfYear, $class = 'StorableTime') {
 		return parent::withYearDay ( $anIntYear, $anIntDayOfYear, $class );
 	}
 	
@@ -334,7 +335,7 @@ class StorableTime
  	 * @static
 	 * @since 5/4/05
 	 */
-	function withYearDayHourMinuteSecond ( $anIntYear, $anIntDayOfYear, 
+	static function withYearDayHourMinuteSecond ( $anIntYear, $anIntDayOfYear, 
 		$anIntHour, $anIntMinute, $anIntSecond, $class = 'StorableTime' ) 
 	{
 		return parent::withYearDayHourMinuteSecond ( $anIntYear, $anIntDayOfYear, 
@@ -359,7 +360,7 @@ class StorableTime
  	 * @static
 	 * @since 5/4/05
 	 */
-	function withYearDayHourMinuteSecondOffset ( $anIntYear, $anIntDayOfYear, 
+	static function withYearDayHourMinuteSecondOffset ( $anIntYear, $anIntDayOfYear, 
 		$anIntHour, $anIntMinute, $anIntSecond, $aDurationOffset, $class = 'StorableTime' ) 
 	{
 		return parent::withYearDayHourMinuteSecondOffset ( $anIntYear, $anIntDayOfYear, 
@@ -381,7 +382,7 @@ class StorableTime
  	 * @static
 	 * @since 5/4/05
 	 */
-	function withYearMonthDay ( $anIntYear, $anIntOrStringMonth, $anIntDay, 
+	static function withYearMonthDay ( $anIntYear, $anIntOrStringMonth, $anIntDay, 
 		$class = 'StorableTime' ) 
 	{
 		return parent::withYearMonthDay ( $anIntYear, $anIntOrStringMonth, $anIntDay, 
@@ -405,7 +406,7 @@ class StorableTime
  	 * @static
 	 * @since 5/4/05
 	 */
-	function withYearMonthDayHourMinute ( $anIntYear, $anIntOrStringMonth, 
+	static function withYearMonthDayHourMinute ( $anIntYear, $anIntOrStringMonth, 
 		$anIntDay, $anIntHour, $anIntMinute, $class = 'StorableTime' ) 
 	{
 		return parent::withYearMonthDayHourMinute ( $anIntYear, $anIntOrStringMonth, 
@@ -430,7 +431,7 @@ class StorableTime
  	 * @static
 	 * @since 5/4/05
 	 */
-	function withYearMonthDayHourMinuteSecond ( $anIntYear, $anIntOrStringMonth, 
+	static function withYearMonthDayHourMinuteSecond ( $anIntYear, $anIntOrStringMonth, 
 		$anIntDay, $anIntHour, $anIntMinute, $anIntSecond, $class = 'StorableTime' ) 
 	{
 		return parent::withYearMonthDayHourMinuteSecond ( $anIntYear, $anIntOrStringMonth, 
@@ -456,7 +457,7 @@ class StorableTime
  	 * @static
 	 * @since 5/4/05
 	 */
-	function withYearMonthDayHourMinuteSecondOffset ( $anIntYear, 
+	static function withYearMonthDayHourMinuteSecondOffset ( $anIntYear, 
 		$anIntOrStringMonth, $anIntDay, $anIntHour, $anIntMinute, 
 		$anIntSecond, $aDurationOffset, $class = 'StorableTime'  ) 
 	{
@@ -477,13 +478,9 @@ class StorableTime
 	 * @since 5/12/05
 	 * @static
 	 */
-	function yesterday ( $class = 'StorableTime' ) {
+	static function yesterday ( $class = 'StorableTime' ) {
 		return parent::yesterday($class);
 	}
-	
-/*********************************************************
- * Instance Methods
- *********************************************************/
 	
 	/**
 	 * Takes an existing {@link SelectQuery} and adds a table join and some columns so that
@@ -492,12 +489,17 @@ class StorableTime
 	 * table structure.
 	 * @access public
 	 * @return void
+	 * @static
 	 */
-	function alterQuery( $query ) {
+	static function alterQuery( $query ) {
 		$query->addTable("dm_time",LEFT_JOIN,"dm_time.id = fk_data");
 		$query->addColumn("jdn","time_jdn","dm_time");
 		$query->addColumn("seconds","time_seconds","dm_time");
 	}
+	
+/*********************************************************
+ * Instance Methods
+ *********************************************************/
 	
 	/**
 	 * Inserts a new row into the Database with the data contained in the object.

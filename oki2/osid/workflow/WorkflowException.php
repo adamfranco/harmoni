@@ -35,7 +35,7 @@ class WorkflowException
      * @access public 
      * @static 
      */
-    function UNKNOWN_EXPRESSION () {
+    static function UNKNOWN_EXPRESSION () {
         return "Unknown Expression ";
     }
 
@@ -47,7 +47,7 @@ class WorkflowException
      * @access public 
      * @static 
      */
-    function UNKNOWN_OUTPUT_STATE () {
+    static function UNKNOWN_OUTPUT_STATE () {
         return "Unknown Output State ";
     }
 
@@ -59,7 +59,7 @@ class WorkflowException
      * @access public 
      * @static 
      */
-    function INVALID_NETWORK () {
+    static function INVALID_NETWORK () {
         return "Invalid network ";
     }
 
@@ -71,7 +71,7 @@ class WorkflowException
      * @access public 
      * @static 
      */
-    function NOT_HALTED () {
+    static function NOT_HALTED () {
         return "Work is not halted ";
     }
 

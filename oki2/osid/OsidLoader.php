@@ -123,7 +123,7 @@ class OsidLoader
      * @access public
      * @static 
      */
-    function getManager ( $osidPackageManagerName, $implPackageName, $context, $additionalConfiguration )
+    static function getManager ( $osidPackageManagerName, $implPackageName, $context, $additionalConfiguration )
     {
      /*   try {
             if ((null != context) && (null != osidPackageManagerName) &&

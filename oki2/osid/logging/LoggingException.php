@@ -35,7 +35,7 @@ class LoggingException
      * @access public 
      * @static 
      */
-    function UNKNOWN_NAME () {
+    static static function UNKNOWN_NAME () {
         return "Unknown log name ";
     }
 
@@ -47,7 +47,7 @@ class LoggingException
      * @access public 
      * @static 
      */
-    function DUPLICATE_NAME () {
+    static static function DUPLICATE_NAME () {
         return "Duplicate log name ";
     }
 
@@ -59,7 +59,7 @@ class LoggingException
      * @access public 
      * @static 
      */
-    function PRIORITY_TYPE_NOT_SET () {
+    static static function PRIORITY_TYPE_NOT_SET () {
         return "PriorityType not set ";
     }
 
@@ -71,7 +71,7 @@ class LoggingException
      * @access public 
      * @static 
      */
-    function FORMAT_TYPE_NOT_SET () {
+    static static function FORMAT_TYPE_NOT_SET () {
         return "FormatType not set ";
     }
 

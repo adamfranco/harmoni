@@ -5,14 +5,14 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/inc.php");
 
 /**
  * The Services class handles starting, stopping, registering, etc of any available services.
- * @version $Id: Services.class.php,v 1.24 2007/09/10 20:52:31 adamfranco Exp $
+ * @version $Id: Services.class.php,v 1.25 2007/10/10 22:58:40 adamfranco Exp $
  *
  * @package harmoni.services
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Services.class.php,v 1.24 2007/09/10 20:52:31 adamfranco Exp $
+ * @version $Id: Services.class.php,v 1.25 2007/10/10 22:58:40 adamfranco Exp $
  */
 class Services extends ServicesAbstract {
 	/**
@@ -157,7 +157,6 @@ class Services extends ServicesAbstract {
 	 * @param string $name The service name.
 	 * @param optional mixed $args,... Optional arguments to pass to the constructor of the service class.
 	 * @access public
-	 * @static
 	 * @return boolean True on success.
 	 * @deprecated 2005/04/04 Use {@link startManagerAsService()} and {@link getService()} instead.
 	 **/

@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostgreSQL_SQLGenerator.class.php,v 1.1 2007/09/14 13:57:08 adamfranco Exp $
+ * @version $Id: PostgreSQL_SQLGenerator.class.php,v 1.2 2007/10/10 22:58:32 adamfranco Exp $
  */
  
 require_once(HARMONI."DBHandler/SQLGenerator.interface.php");
@@ -19,7 +19,7 @@ require_once(HARMONI."DBHandler/SQLGenerator.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostgreSQL_SQLGenerator.class.php,v 1.1 2007/09/14 13:57:08 adamfranco Exp $
+ * @version $Id: PostgreSQL_SQLGenerator.class.php,v 1.2 2007/10/10 22:58:32 adamfranco Exp $
  */
 
 class PostgreSQL_SQLGenerator extends SQLGeneratorInterface {
@@ -32,7 +32,7 @@ class PostgreSQL_SQLGenerator extends SQLGeneratorInterface {
 	 * @static
 	 * @access public
 	 */
-	function generateSQLQuery(Query $query) {
+	static function generateSQLQuery(Query $query) {
 		switch($query->getType()) {
 			case INSERT : 
 				return PostgreSQL_SQLGenerator::generateInsertSQLQuery($query);
@@ -63,7 +63,7 @@ class PostgreSQL_SQLGenerator extends SQLGeneratorInterface {
 	 * @access public
 	 * @static
 	 */
-	function generateGenericSQLQuery(GenericSQLQueryInterface $query) {
+	static function generateGenericSQLQuery(GenericSQLQueryInterface $query) {
 
 		$queries = $query->_sql;
 
@@ -87,7 +87,7 @@ class PostgreSQL_SQLGenerator extends SQLGeneratorInterface {
 	 * @access public
 	 * @static
 	 */
-	function generateInsertSQLQuery(InsertQueryInterface $query) {
+	static function generateInsertSQLQuery(InsertQueryInterface $query) {
 		if (!$query->_table || count($query->_values) == 0) {
 			$description = "Cannot generate SQL string for this Query object due to invalid query setup.";
 			throw new DatabaseException($description);
@@ -151,7 +151,7 @@ class PostgreSQL_SQLGenerator extends SQLGeneratorInterface {
 	 * @static
 	 * @access public
 	 */
-	function generateUpdateSQLQuery(UpdateQueryInterface $query) {
+	static function generateUpdateSQLQuery(UpdateQueryInterface $query) {
 		$sql = "";
 	
 		if (!$query->_table || count($query->_columns) == 0 || count($query->_values) == 0) {
@@ -218,7 +218,7 @@ class PostgreSQL_SQLGenerator extends SQLGeneratorInterface {
 	 * @static
 	 * @access public
 	 */
-	function generateDeleteSQLQuery(DeleteQueryInterface $query) {
+	static function generateDeleteSQLQuery(DeleteQueryInterface $query) {
 
 		$sql = "";
 	
@@ -267,8 +267,9 @@ class PostgreSQL_SQLGenerator extends SQLGeneratorInterface {
 	 * Returns a string representing the SELECT SQL query corresonding to the Query object.
 	 * @return string A string representing the SELECT SQL query corresonding to the Query object.
 	 * @access public
+	 * @static
 	 */
-	function generateSelectSQLQuery(SelectQueryInterface $query) {
+	static function generateSelectSQLQuery(SelectQueryInterface $query) {
 
 		$sql = "";
 		

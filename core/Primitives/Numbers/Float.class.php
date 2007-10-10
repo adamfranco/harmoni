@@ -7,7 +7,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Float.class.php,v 1.6 2007/09/04 20:25:28 adamfranco Exp $
+ * @version $Id: Float.class.php,v 1.7 2007/10/10 22:58:34 adamfranco Exp $
  */ 
 
 require_once(dirname(__FILE__)."/Number.class.php");
@@ -20,7 +20,7 @@ require_once(dirname(__FILE__)."/Number.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Float.class.php,v 1.6 2007/09/04 20:25:28 adamfranco Exp $
+ * @version $Id: Float.class.php,v 1.7 2007/10/10 22:58:34 adamfranco Exp $
  */
 class Float 
 	extends Number
@@ -39,8 +39,9 @@ class Float
 	 * @return object Float
 	 * @access public
 	 * @since 7/14/05
+	 * @static
 	 */
-	function withValue ( $value, $class = 'Float') {
+	static function withValue ( $value, $class = 'Float') {
 		return parent::withValue($value, $class);
 	}
 
@@ -51,8 +52,9 @@ class Float
 	 * @return object Double
 	 * @access public
 	 * @since 3/14/06
+	 * @static
 	 */
-	function fromString ($string, $class = 'Float') {
+	static function fromString ($string, $class = 'Float') {
 		return parent::fromString($string, $class);
 	}
 
@@ -65,8 +67,9 @@ class Float
 	 * @return object Float
 	 * @access public
 	 * @since 7/14/05
+	 * @static
 	 */
-	function zero ( $class = 'Float') {
+	static function zero ( $class = 'Float') {
 		return parent::zero($class);
 	}
 		

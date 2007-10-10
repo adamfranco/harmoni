@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Timespan.class.php,v 1.5 2007/09/04 20:25:25 adamfranco Exp $
+ * @version $Id: Timespan.class.php,v 1.6 2007/10/10 22:58:33 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -32,7 +32,7 @@ require_once(dirname(__FILE__)."/../Magnitudes/Magnitude.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Timespan.class.php,v 1.5 2007/09/04 20:25:25 adamfranco Exp $
+ * @version $Id: Timespan.class.php,v 1.6 2007/10/10 22:58:33 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -77,7 +77,7 @@ class Timespan
 	 * @since 5/5/05
 	 * @static
 	 */
-	function current ( $class = 'Timespan' ) {
+	static function current ( $class = 'Timespan' ) {
 		eval('$result = '.$class.'::starting(DateAndTime::now(), $class);');
 		
 		return $result;
@@ -95,7 +95,7 @@ class Timespan
 	 * @since 5/5/05
 	 * @static
 	 */
-	function epoch ( $class = 'Timespan' ) {
+	static function epoch ( $class = 'Timespan' ) {
 		eval('$result = '.$class.'::starting(DateAndTime::epoch(), $class);');
 		
 		return $result;
@@ -114,7 +114,7 @@ class Timespan
 	 * @since 5/5/05
 	 * @static
 	 */
-	function starting ( $aDateAndTime, $class = 'Timespan' ) {
+	static function starting ( $aDateAndTime, $class = 'Timespan' ) {
 		eval('$result = '.$class.'::startingDuration(
 				$aDateAndTime, Duration::zero(), $class);');
 		
@@ -135,7 +135,7 @@ class Timespan
 	 * @since 5/5/05
 	 * @static
 	 */
-	function startingDuration ( $aDateAndTime, $aDuration, $class = 'Timespan' ) {
+	static function startingDuration ( $aDateAndTime, $aDuration, $class = 'Timespan' ) {
 		
 		// Validate our passed class name.
 		if (!(strtolower($class) == strtolower('Timespan')
@@ -163,8 +163,9 @@ class Timespan
 	 * @return object Timespan
 	 * @access public
 	 * @since 5/11/05
+	 * @static
 	 */
-	function startingEnding ( $startDateAndTime, $endDateAndTime, $class = 'Timespan' ) 
+	static function startingEnding ( $startDateAndTime, $endDateAndTime, $class = 'Timespan' ) 
 	{
 		$end =$endDateAndTime->asDateAndTime();
 		eval('$result = '.$class.'::startingDuration(

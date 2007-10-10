@@ -24,7 +24,7 @@ require_once(HARMONI."GUIManager/StyleCollection.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Theme.class.php,v 1.27 2007/09/04 20:25:21 adamfranco Exp $
+ * @version $Id: Theme.class.php,v 1.28 2007/10/10 22:58:32 adamfranco Exp $
  */
 class Theme extends ThemeInterface {
 
@@ -713,7 +713,7 @@ class Theme extends ThemeInterface {
 
 		// now, see if $component is a container, if yes then recurse to children,
 		// else return (base case)
-		if (!is_a($component, "Container"))
+		if (!($component instanceof Container))
 			return; // base case
 		else {
 			// Get the styles for its layout

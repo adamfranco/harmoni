@@ -148,16 +148,13 @@ class Type
 	 */
 	function Type ( $domain, $authority, $keyword, $description = "" ) {
 		if (!$domain) {
-			printDebugBacktrace();
-			die ("Error: Domain not specified in function Type::Type()");
+			throw new NullArgumentException ("Error: Domain not specified in function Type::Type()");
 		}
 		if (!$authority) {
-			printDebugBacktrace();
-			die ("Error: Authority not specified in function Type::Type()");
+			throw new NullArgumentException ("Error: Authority not specified in function Type::Type()");
 		}
 		if (!$keyword) {
-			printDebugBacktrace();
-			die ("Error: Keyword not specified in function Type::Type()");
+			throw new NullArgumentException ("Error: Keyword not specified in function Type::Type()");
 		}
 			
         $this->domain = $domain;
@@ -187,7 +184,7 @@ class Type
      * @since 6/1/05
      * @static
      */
-     function typeToString($aType, $glue="::") {
+     static function typeToString($aType, $glue="::") {
     	ArgumentValidator::validate($aType, ExtendsValidatorRule::getRule("Type"));
     	return $aType->getDomain() . $glue . $aType->getAuthority() . $glue . $aType->getKeyword();
     }
@@ -202,7 +199,7 @@ class Type
      * @since 6/1/05
      * @static
      */
-    function fromString($aString, $glue = "::") {
+    static function fromString($aString, $glue = "::") {
     	ArgumentValidator::validate($aString, StringValidatorRule::getRule());
 
     	$parts = explode($glue, $aString);

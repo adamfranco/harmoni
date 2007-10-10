@@ -35,7 +35,7 @@ class SchedulingException
      * @access public 
      * @static 
      */
-    function END_BEFORE_START () {
+    static function END_BEFORE_START () {
         return "End cannot precede Start ";
     }
 

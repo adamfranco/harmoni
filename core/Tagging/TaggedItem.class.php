@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TaggedItem.class.php,v 1.4 2007/09/13 16:04:16 adamfranco Exp $
+ * @version $Id: TaggedItem.class.php,v 1.5 2007/10/10 22:58:35 adamfranco Exp $
  */ 
 
 /**
@@ -18,7 +18,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TaggedItem.class.php,v 1.4 2007/09/13 16:04:16 adamfranco Exp $
+ * @version $Id: TaggedItem.class.php,v 1.5 2007/10/10 22:58:35 adamfranco Exp $
  */
 class TaggedItem {
 		
@@ -29,9 +29,10 @@ class TaggedItem {
 	 * @param string $system The system an Id is accessed through
 	 * @return object
 	 * @access public
+	 * @static
 	 * @since 11/2/06
 	 */
-	function forId ( $id, $system, $class='TaggedItem' ) {
+	static function forId ( $id, $system, $class='TaggedItem' ) {
 		$item = new $class;
 		$item->_id = $id;
 		if (method_exists($id, 'getIdString'))
@@ -49,8 +50,9 @@ class TaggedItem {
 	 * @return object
 	 * @access public
 	 * @since 11/6/06
+	 * @static
 	 */
-	function forDatabaseRow ($row) {
+	static function forDatabaseRow ($row) {
 		$taggingManager = Services::getService("Tagging");
 		$class = $taggingManager->getItemClassForSystem($row['system']);
 		eval('$item = '.$class.'::forId($row["id"], $row["system"]);');

@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Magnitude.class.php,v 1.5 2007/09/04 20:25:27 adamfranco Exp $
+ * @version $Id: Magnitude.class.php,v 1.6 2007/10/10 22:58:34 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -30,12 +30,12 @@ require_once(dirname(__FILE__)."/../Objects/SObject.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Magnitude.class.php,v 1.5 2007/09/04 20:25:27 adamfranco Exp $
+ * @version $Id: Magnitude.class.php,v 1.6 2007/10/10 22:58:34 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
  */
-class Magnitude 
+abstract class Magnitude 
 	extends SObject
 {
 
@@ -47,23 +47,7 @@ class Magnitude
 	 * @access public
 	 * @since 5/4/05
 	 */
-	function isLessThan ( $aMagnitude ) {
-		die("Method ".__FUNCTION__." in class ".__CLASS__
-			." should have been overridden by a child class.");
-	}
-	
-	/**
-	 * Test if this is equal to aMagnitude.
-	 * 
-	 * @param object Magnitude $aMagnitude
-	 * @return boolean
-	 * @access public
-	 * @since 5/4/05
-	 */
-	function isEqualTo ( $aMagnitude ) {
-		die("Method ".__FUNCTION__." in class ".__CLASS__
-		." should have been overridden by a child class.");
-	}
+	abstract function isLessThan ( $aMagnitude );
 		
 	/**
 	 * Test if this is greater than aMagnitude.
