@@ -1,6 +1,7 @@
 <?php
 
 require_once(HARMONI."errorHandler/HarmoniException.class.php");
+require_once(HARMONI."errorHandler/HarmoniErrorHandler.class.php");
 
 /**
  * This class is a hold-over from Harmoni's old error Handler, which tried to
@@ -12,7 +13,7 @@ require_once(HARMONI."errorHandler/HarmoniException.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Error.class.php,v 1.8 2007/09/19 14:04:09 adamfranco Exp $
+ * @version $Id: Error.class.php,v 1.9 2007/10/10 22:57:43 adamfranco Exp $
  */
 
 class Error 
@@ -42,12 +43,22 @@ class Error
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Error.class.php,v 1.8 2007/09/19 14:04:09 adamfranco Exp $
+ * @version $Id: Error.class.php,v 1.9 2007/10/10 22:57:43 adamfranco Exp $
  */
 class UnknownDBError extends Error {
 	function __construct($type) {
 		parent::Error("An unkonwn Database error occured.", $type, true);
 	}
+}
+
+
+/**
+ * Throws an error using the ErrorHandler.
+ * @param object Error The error object to throw.
+ */
+function throwError($error) {
+	// new implementation for PHP 5
+	throw $error;
 }
 
 ?>
