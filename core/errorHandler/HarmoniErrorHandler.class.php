@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniErrorHandler.class.php,v 1.1 2007/10/10 22:57:43 adamfranco Exp $
+ * @version $Id: HarmoniErrorHandler.class.php,v 1.2 2007/10/10 23:25:19 adamfranco Exp $
  */ 
 
 /**
@@ -18,7 +18,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniErrorHandler.class.php,v 1.1 2007/10/10 22:57:43 adamfranco Exp $
+ * @version $Id: HarmoniErrorHandler.class.php,v 1.2 2007/10/10 23:25:19 adamfranco Exp $
  */
 class HarmoniErrorHandler {
 		
@@ -138,7 +138,7 @@ class HarmoniErrorHandler {
 			throw new NullArgumentException("You must specify one or more error types.");
 			
 		foreach (func_get_args() as $errorType) {
-			if (!$this->validType($errorType))
+			if (!$this->validateType($errorType))
 				throw new HarmoniException($type." is not a valid type. Should be one of E_ERROR, E_WARNING, E_PARSE, E_NOTICE, E_CORE_ERROR, E_CORE_WARNING, E_COMPILE_ERROR, E_COMPILE_WARNING, E_USER_ERROR, E_USER_WARNING, E_USER_NOTICE, E_RECOVERABLE_ERROR, E_STRICT.");
 			
 			$this->typeLogging[$errorType] = true;
@@ -158,7 +158,7 @@ class HarmoniErrorHandler {
 			throw new NullArgumentException("You must specify one or more error types.");
 			
 		foreach (func_get_args() as $errorType) {
-			if (!$this->validType($errorType))
+			if (!$this->validateType($errorType))
 				throw new HarmoniException($type." is not a valid type. Should be one of E_ERROR, E_WARNING, E_PARSE, E_NOTICE, E_CORE_ERROR, E_CORE_WARNING, E_COMPILE_ERROR, E_COMPILE_WARNING, E_USER_ERROR, E_USER_WARNING, E_USER_NOTICE, E_RECOVERABLE_ERROR, E_STRICT.");
 			
 			$this->typeLogging[$errorType] = false;
@@ -178,7 +178,7 @@ class HarmoniErrorHandler {
 			throw new NullArgumentException("You must specify one or more error types.");
 			
 		foreach (func_get_args() as $errorType) {
-			if (!$this->validType($errorType))
+			if (!$this->validateType($errorType))
 				throw new HarmoniException($type." is not a valid type. Should be one of E_ERROR, E_WARNING, E_PARSE, E_NOTICE, E_CORE_ERROR, E_CORE_WARNING, E_COMPILE_ERROR, E_COMPILE_WARNING, E_USER_ERROR, E_USER_WARNING, E_USER_NOTICE, E_RECOVERABLE_ERROR, E_STRICT.");
 			
 			$this->typeFatality[$errorType] = true;
@@ -198,7 +198,7 @@ class HarmoniErrorHandler {
 			throw new NullArgumentException("You must specify one or more error types.");
 			
 		foreach (func_get_args() as $errorType) {
-			if (!$this->validType($errorType))
+			if (!$this->validateType($errorType))
 				throw new HarmoniException($type." is not a valid type. Should be one of E_ERROR, E_WARNING, E_PARSE, E_NOTICE, E_CORE_ERROR, E_CORE_WARNING, E_COMPILE_ERROR, E_COMPILE_WARNING, E_USER_ERROR, E_USER_WARNING, E_USER_NOTICE, E_RECOVERABLE_ERROR, E_STRICT.");
 			
 			$this->typeFatality[$errorType] = false;
@@ -238,6 +238,12 @@ class HarmoniErrorHandler {
 		
 		$backtrace = debug_backtrace();
 // 		$backtrace = array_shift(debug_backtrace());
+
+		// Remove the message from the error-handler call from the backtrace
+		$backtrace[0]['function'] = '';
+		$backtrace[0]['class'] = '';
+		$backtrace[0]['type'] = '';
+		$backtrace[0]['args'] = array();
 
 		$errorHandler = HarmoniErrorHandler::instance();
 		$errorHandler->completeHandlingError($errorType, $errorMessage, $backtrace);
@@ -424,7 +430,11 @@ class HarmoniErrorHandler {
 				print "\n\t\t\t<td>$i</td>";
 				print "\n\t\t\t<td title=\"".$trace['file']."\">$file</td>";
 				print "\n\t\t\t<td>$line</td>";
-				print "\n\t\t\t<td style='font-family: monospace; white-space: nowrap'>$class$type$function($args);</td>";
+				print "\n\t\t\t<td style='font-family: monospace; white-space: nowrap'>";
+				if ($class || $type || $function || $args) {
+					print $class.$type.$function."(".$args.");";
+				}
+				print "</td>";
 				print "\n\t\t</tr>";
 			}
 		}
