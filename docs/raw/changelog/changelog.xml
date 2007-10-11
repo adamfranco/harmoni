@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.185 2007/10/11 13:45:19 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.186 2007/10/11 16:28:48 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -1518,6 +1518,12 @@
 		<name short="tim">Tim Bahls</name>
 		<name short="john">John Lee</name>
 	</authors>
+	<reporters>
+		<reporter short="chris_newton">
+			<name>Chris Newton</name>
+			<!-- <institution></institution> -->
+		</reporter>
+	</reporters>
 	<groupid>82873</groupid>
 	<reftypes>
 		<reftype name="bug">http://sourceforge.net/tracker/index.php?func=detail&amp;group_id=82873&amp;atid=567473&amp;aid=</reftype>
