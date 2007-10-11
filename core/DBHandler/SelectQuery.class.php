@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SelectQuery.class.php,v 1.10 2007/09/05 21:38:59 adamfranco Exp $
+ * @version $Id: SelectQuery.class.php,v 1.11 2007/10/11 19:58:32 adamfranco Exp $
  */
  
 require_once(HARMONI."DBHandler/SelectQuery.interface.php");
@@ -21,7 +21,7 @@ require_once(HARMONI."DBHandler/Query.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SelectQuery.class.php,v 1.10 2007/09/05 21:38:59 adamfranco Exp $
+ * @version $Id: SelectQuery.class.php,v 1.11 2007/10/11 19:58:32 adamfranco Exp $
  */
 
 class SelectQuery 
@@ -164,6 +164,36 @@ class SelectQuery
 		
 		$newTable = array($table, $joinType, $joinCondition, $alias);
 		$this->_tables[] = $newTable;
+	}
+	
+	/**
+	 * Adds a sub-select table to the FROM clause of the SELECT query.
+	 * 
+	 * Adds a table to the FROM clause of the SELECT statement. At any moment,
+	 * a current set of tables is maintained in the object, so when a new one
+	 * is added, it is combined with the current set.
+	 * @param object SelectQueryInterface $subQuery
+	 * @param integer $joinType Specifies what type of join to perform between
+	 * the current set of tables and the table being added. Could be one of
+	 * the following: NO_JOIN, LEFT_JOIN, INNER_JOIN, RIGHT_JOIN.
+	 * @param string $joinCondition If a join is to be performed, then this
+	 * will indicate the join condition.
+	 * @param string alias An alias for this table.
+	 * @use NO_JOIN
+	 * @use LEFT_JOIN
+	 * @use INNER_JOIN
+	 * @use RIGHT_JOIN
+	 * @access public
+	 */
+	function addDerivedTable(SelectQueryInterface $subQuery, $joinType = NO_JOIN, $joinCondition = "", $alias = "") {
+		$stringRule = StringValidatorRule::getRule();
+		$integerRule = IntegerValidatorRule::getRule();
+		ArgumentValidator::validate($joinType, $integerRule, true);
+		ArgumentValidator::validate($joinCondition, $stringRule, true);
+		ArgumentValidator::validate($alias, $stringRule, true);
+		
+		
+		$this->_tables[] = array($subQuery, $joinType, $joinCondition, $alias);
 	}
 
 

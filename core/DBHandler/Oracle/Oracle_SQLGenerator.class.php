@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Oracle_SQLGenerator.class.php,v 1.12 2007/10/10 22:58:31 adamfranco Exp $
+ * @version $Id: Oracle_SQLGenerator.class.php,v 1.13 2007/10/11 19:58:37 adamfranco Exp $
  */
  
 require_once(HARMONI."DBHandler/SQLGenerator.interface.php");
@@ -19,7 +19,7 @@ require_once(HARMONI."DBHandler/SQLGenerator.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Oracle_SQLGenerator.class.php,v 1.12 2007/10/10 22:58:31 adamfranco Exp $
+ * @version $Id: Oracle_SQLGenerator.class.php,v 1.13 2007/10/11 19:58:37 adamfranco Exp $
  */
 class Oracle_SQLGenerator 
 	extends SQLGeneratorInterface 
@@ -344,7 +344,10 @@ class Oracle_SQLGenerator
 				$sql .= "\n\t";
 				
 				// append table name
-				$sql .= $table[0];
+				if ($table[0] instanceof SelectQueryInterface)
+					$sql .= "\n(\n".self::generateSelectSQLQuery($table[0])."\n)";
+				else
+					$sql .= $table[0];
 				
 				// insert the alias if present
 				if ($table[3])

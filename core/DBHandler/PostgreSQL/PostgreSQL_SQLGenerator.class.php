@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostgreSQL_SQLGenerator.class.php,v 1.2 2007/10/10 22:58:32 adamfranco Exp $
+ * @version $Id: PostgreSQL_SQLGenerator.class.php,v 1.3 2007/10/11 19:58:38 adamfranco Exp $
  */
  
 require_once(HARMONI."DBHandler/SQLGenerator.interface.php");
@@ -19,7 +19,7 @@ require_once(HARMONI."DBHandler/SQLGenerator.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostgreSQL_SQLGenerator.class.php,v 1.2 2007/10/10 22:58:32 adamfranco Exp $
+ * @version $Id: PostgreSQL_SQLGenerator.class.php,v 1.3 2007/10/11 19:58:38 adamfranco Exp $
  */
 
 class PostgreSQL_SQLGenerator extends SQLGeneratorInterface {
@@ -339,7 +339,10 @@ class PostgreSQL_SQLGenerator extends SQLGeneratorInterface {
 				$sql .= "\n\t";
 				
 				// append table name
-				$sql .= $table[0];
+				if ($table[0] instanceof SelectQueryInterface)
+					$sql .= "\n(\n".self::generateSelectSQLQuery($table[0])."\n)";
+				else
+					$sql .= $table[0];
 				
 				// insert the alias if present
 				if ($table[3])

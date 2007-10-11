@@ -6,12 +6,13 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: db_updater.php,v 1.3 2007/10/08 19:32:14 adamfranco Exp $
+ * @version $Id: db_updater.php,v 1.4 2007/10/11 19:58:32 adamfranco Exp $
  */ 
 ini_set('display_errors', true);
 
 require_once(dirname(__FILE__).'/../../harmoni.inc.php');
 require_once(dirname(__FILE__).'/MySQL/MySqlUtils.class.php');
+require_once(dirname(__FILE__).'/PostgreSQL/PostgreSQLUtils.class.php');
 
 $types = array(
 	MYSQL 		=> "MySQL",
@@ -23,7 +24,8 @@ $types = array(
 $functions = array (
 	"columnNamesToLowercase" => "Make all column names lowercase.",
 	"harmoni_0_11_0_update" => "Update the tables from Harmoni-0.10.0 to Harmoni-0.11.0.",
-	"harmoni_0_12_0_update" => "Update the tables from Harmoni-0.11.0 to Harmoni-0.12.0."
+	"harmoni_0_12_0_update" => "Update the tables from Harmoni-0.11.0 to Harmoni-0.12.0.",
+	"harmoni_0_12_4_update" => "Update the tables from Harmoni-0.12.0 to Harmoni-0.12.4."
 );
 
 function execute_update (array $types, array $functions) {
@@ -36,6 +38,9 @@ function execute_update (array $types, array $functions) {
 	switch ($_REQUEST['db_type']) {
 		case MYSQL:
 			$utilClass = "MySqlUtils";
+			break;
+		case POSTGRESQL:
+			$utilClass = "PostgreSQLUtils";
 			break;
 		default:
 			throw new Exception($types[$_REQUEST['db_type']]." databases are not currently supported for updates.");
@@ -112,7 +117,7 @@ if (isset($_REQUEST['db_type']) && isset($_REQUEST['db_host'])
 	try {
 		execute_update($types, $functions);
 	} catch (Exception $e) {
-		printExceptionInHtml($e);
+		HarmoniErrorHandler::handleException($e);
 	}
 
 	print "\n\t</div>";

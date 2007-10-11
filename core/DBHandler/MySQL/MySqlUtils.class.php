@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySqlUtils.class.php,v 1.3 2007/10/08 19:32:15 adamfranco Exp $
+ * @version $Id: MySqlUtils.class.php,v 1.4 2007/10/11 19:58:36 adamfranco Exp $
  */ 
 
 /**
@@ -18,9 +18,99 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySqlUtils.class.php,v 1.3 2007/10/08 19:32:15 adamfranco Exp $
+ * @version $Id: MySqlUtils.class.php,v 1.4 2007/10/11 19:58:36 adamfranco Exp $
  */
 class MySqlUtils {
+	
+	/**
+	 * Add the creator column to the dr_asset_info table.
+	 * 
+	 * @param int $dbIndex
+	 * @return void
+	 * @access public
+	 * @since 10/8/07
+	 */
+	public function harmoni_0_12_4_update ($dbIndex) {
+		$dbc = Services::getService("DBHandler");
+		
+		self::addIndex(
+			"log_agent", "fk_entry",
+			"ALTER TABLE `log_agent` ADD INDEX ( `fk_entry` ) ",
+			$dbIndex);
+		
+		self::addIndex(
+			"log_entry", "format_index",
+			"ALTER TABLE `log_entry` ADD INDEX `format_index` ( `log_name` , `fk_format_type` , `fk_priority_type` , `timestamp` )",
+			$dbIndex);
+		
+		self::dropIndex(
+			"log_entry", "timestamp",
+			$dbIndex);
+		
+		self::addIndex(
+			"log_node", "fk_entry",
+			"ALTER TABLE `log_node` ADD INDEX ( `fk_entry` ) ",
+			$dbIndex);
+	}
+	
+	/**
+	 * Add an index to a table if it doesn't exist
+	 * 
+	 * @param string $table
+	 * @param string $indexName
+	 * @param string $alterQuery
+	 * @return void
+	 * @access public
+	 * @since 10/11/07
+	 * @static
+	 */
+	public static function addIndex ($table, $indexName, $alterQuery, $dbIndex) {
+		$dbc = Services::getService("DBHandler");
+		
+		// Add the fk_entry key to the log_agent table
+		$hasKey = false;
+		$result = $dbc->query(new GenericSQLQuery("SHOW INDEX FROM ".$table), $dbIndex);
+		$result = $result->returnAsSelectQueryResult();
+		while ($result->hasNext()) {
+			if ($result->field("Key_name") == $indexName) {
+				$hasKey = true;
+				break;
+			}
+			$result->advanceRow();
+		}
+		
+		if (!$hasKey) {
+			// Alter the table
+			printpre("Adding key ".$indexName." to ".$table);
+			$dbc->query(new GenericSQLQuery($alterQuery), $dbIndex);
+		}
+	}
+	
+	/**
+	 * Add an index to a table if it doesn't exist
+	 * 
+	 * @param string $table
+	 * @param string $indexName
+	 * @param string $alterQuery
+	 * @return void
+	 * @access public
+	 * @since 10/11/07
+	 * @static
+	 */
+	public static function dropIndex ($table, $indexName, $dbIndex) {
+		$dbc = Services::getService("DBHandler");
+		
+		$result = $dbc->query(new GenericSQLQuery("SHOW INDEX FROM ".$table), $dbIndex);
+		$result = $result->returnAsSelectQueryResult();
+		while ($result->hasNext()) {
+			if ($result->field("Key_name") == $indexName) {
+				$dbc->query(new GenericSQLQuery("ALTER TABLE ".$table." DROP INDEX ".$indexName), $dbIndex);
+				printpre("Dropping index ".$indexName." from ".$table);
+				break;
+			}
+			$result->advanceRow();
+		}
+	}
 		
 	/**
 	 * Make all column names lowercase
@@ -30,7 +120,7 @@ class MySqlUtils {
 	 * @access public
 	 * @since 9/11/07
 	 */
-	public function columnNamesToLowercase ($dbIndex) {
+	public static function columnNamesToLowercase ($dbIndex) {
 		$dbc = Services::getService("DBHandler");
 		$tables = $dbc->getTableList($dbIndex);
 		$numChanged = 0;
@@ -61,7 +151,7 @@ class MySqlUtils {
 	 * @access public
 	 * @since 9/13/07
 	 */
-	public function harmoni_0_12_0_update ($dbIndex) {
+	public static function harmoni_0_12_0_update ($dbIndex) {
 		$dbc = Services::getService("DBHandler");
 		$tables = $dbc->getTableList($dbIndex);
 		
@@ -159,7 +249,7 @@ class MySqlUtils {
 	 * @access public
 	 * @since 10/8/07
 	 */
-	public function harmoni_0_11_0_update ($dbIndex) {
+	public static function harmoni_0_11_0_update ($dbIndex) {
 		$dbc = Services::getService("DBHandler");
 		
 		// Add the creator column to the dr_asset_info table
