@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.188 2007/10/11 17:40:40 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.189 2007/10/11 20:00:28 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -67,6 +67,18 @@
 		<new author='adam' date='2007-10-11'>
 			DatabaseManager: Can now add LIKE clauses to query objects.
 		</new>
+		<new author='adam' date='2007-10-11'>
+			DatabaseManager: Can now add sub-queries to the FROM clause via a new
+			addDerivedTable($subQuery, $joinType, $joinCondition, $alias) method.
+		</new>
+		<fix author='adam' date='2007-10-11'>
+			Logging: Log-browsing has been dramatically speeded up by refactoring
+			its queries and indexes.
+		</fix>
+		<important author='adam' date='2007-10-11'>
+			Changes to the Logging tables require running a database updater script:
+			harmoni/core/DBHandler/db_updater.php
+		</important>
 	</version>
 	<version number="0.12.3" date="2007-09-25">
 		<change author='adam' date='2007-09-25'>

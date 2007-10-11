@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniErrorHandler.class.php,v 1.3 2007/10/11 00:32:30 adamfranco Exp $
+ * @version $Id: HarmoniErrorHandler.class.php,v 1.4 2007/10/11 20:00:27 adamfranco Exp $
  */ 
 
 /**
@@ -18,7 +18,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniErrorHandler.class.php,v 1.3 2007/10/11 00:32:30 adamfranco Exp $
+ * @version $Id: HarmoniErrorHandler.class.php,v 1.4 2007/10/11 20:00:27 adamfranco Exp $
  */
 class HarmoniErrorHandler {
 		
@@ -291,8 +291,6 @@ class HarmoniErrorHandler {
 		self::printMessage('Uncaught Exception of type', $type, $exception->getMessage(), $exception->getTrace());
 		
 		self::logMessage($type, $exception->getMessage(), $exception->getTrace());
-		
-		die();
 	}
 	
 	/**

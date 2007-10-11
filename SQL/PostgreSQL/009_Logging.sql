@@ -50,7 +50,7 @@ ALTER TABLE ONLY log_entry
 	ADD CONSTRAINT log_entry_primary_key PRIMARY KEY (id);
 	
 CREATE INDEX log_entry_name_index ON log_entry (log_name);
-CREATE INDEX log_entry_timestamp_index ON log_entry ("timestamp");
+CREATE INDEX log_entry_format_index ON log_entry (log_name, fk_format_type, fk_priority_type, "timestamp");
 
 ALTER TABLE ONLY log_entry
 	ADD CONSTRAINT log_entry_fk_format_type_fkey FOREIGN KEY (fk_format_type) REFERENCES "log_type"(id) ON UPDATE CASCADE ON DELETE CASCADE;
@@ -73,6 +73,7 @@ CREATE TABLE log_agent (
 ALTER TABLE ONLY log_agent
 	ADD CONSTRAINT log_agent_fk_entry_fkey FOREIGN KEY (fk_entry) REFERENCES "log_entry"(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
+CREATE INDEX log_agent_fk_entry_index ON log_agent (fk_entry);
 CREATE INDEX log_agent_fk_agent_index ON log_agent (fk_agent);
 
 
@@ -91,4 +92,5 @@ CREATE TABLE log_node (
 ALTER TABLE ONLY log_node
 	ADD CONSTRAINT log_node_fk_entry_fkey FOREIGN KEY (fk_entry) REFERENCES "log_entry"(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
+CREATE INDEX log_node_fk_entry_index ON log_node (fk_entry);
 CREATE INDEX log_node_fk_node_index ON log_node (fk_node);

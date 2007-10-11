@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniEntryIterator.class.php,v 1.7 2007/10/11 17:40:39 adamfranco Exp $
+ * @version $Id: HarmoniEntryIterator.class.php,v 1.8 2007/10/11 20:00:27 adamfranco Exp $
  */
 
 require_once(OKI2."/osid/logging/EntryIterator.php");
@@ -28,7 +28,7 @@ require_once(dirname(__FILE__)."/HarmoniEntry.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniEntryIterator.class.php,v 1.7 2007/10/11 17:40:39 adamfranco Exp $
+ * @version $Id: HarmoniEntryIterator.class.php,v 1.8 2007/10/11 20:00:27 adamfranco Exp $
  */
 class HarmoniEntryIterator
 	extends EntryIterator
@@ -200,15 +200,12 @@ class HarmoniEntryIterator
 		
 		$query = new SelectQuery;
 		$query->addTable("log_entry");
-		$query->addTable("log_type", INNER_JOIN, "log_entry.fk_format_type = format_type.id", "format_type");
-		$query->addTable("log_type", INNER_JOIN, "log_entry.fk_priority_type = priority_type.id", "priority_type");
-		$query->addColumn("id", "entry_id", "log_entry");
+		$query->addColumn("count(*)", "number");
 		$query->setDistinct(true);
 		$this->addWhereClauses($query);
 		
-// 		Debug::printQuery($query);
 		$results =$dbc->query($query, $this->_dbIndex);
-		$this->_count = $results->getNumberOfRows();
+		$this->_count = intval($results->field('number'));
 		$results->free();
 	 }
 	
@@ -225,33 +222,56 @@ class HarmoniEntryIterator
 		// get the list of the next set of Ids
 		$query = new SelectQuery;
 		$query->addTable("log_entry");
-		$query->addTable("log_type", INNER_JOIN, "log_entry.fk_format_type = format_type.id", "format_type");
-		if (!$this->_priorityType->isEqual(new Type('logging', 'edu.middlebury', 'All')))
-			$query->addTable("log_type", INNER_JOIN, "log_entry.fk_priority_type = priority_type.id", "priority_type");
 		$query->addColumn("id", "entry_id", "log_entry");
 		$query->setDistinct(true);
 		$query->addOrderBy("timestamp", DESCENDING);
 		$this->addWhereClauses($query);
 		
-		
 		$query->limitNumberOfRows($this->_numPerLoad);
 		if ($this->_currentRow)
 			$query->startFromRow($this->_currentRow + 1);
 		
-// 		debug::printQuery($query);
+// 		printpre($query->asString());
 		$results =$dbc->query($query, $this->_dbIndex);
 		$nextIds = array();
 		while ($results->hasNext()) {
 			$row = $results->next();
-			$nextIds[] = "'".addslashes($row['entry_id'])."'";
+			$nextIds[] = $row['entry_id'];
 		}	
 		
-		// Load the rows for the next set of Ids		
-		$query =$this->getBaseQuery();
-		$query->addWhere("log_entry.id IN (".implode(", ", $nextIds).")");
-		$this->addColumnsAndOrder($query);
 		
-// 		debug::printQuery($query);
+		/*********************************************************
+		 * Load the rows for the next set of Ids
+		 *********************************************************/
+		$query = new SelectQuery;
+		$query->addTable("log_entry");
+		
+		$query->addColumn("id", "id", "log_entry");
+		$query->addColumn("timestamp", "timestamp", "log_entry");
+		$query->addColumn("category", "category", "log_entry");
+		$query->addColumn("description", "description", "log_entry");
+		$query->addColumn("backtrace", "backtrace", "log_entry");
+
+		$subQuery = new SelectQuery;
+		$subQuery->addColumn("*");
+		$subQuery->addTable("log_agent");
+		$subQuery->addWhereIn("fk_entry", $nextIds);
+		$query->addDerivedTable($subQuery, LEFT_JOIN, "log_entry.id = tmp_agent.fk_entry", "tmp_agent");
+		$query->addColumn("fk_agent", "agent_id", "tmp_agent");
+		
+		$subQuery = new SelectQuery;
+		$subQuery->addColumn("*");
+		$subQuery->addTable("log_node");
+		$subQuery->addWhereIn("fk_entry", $nextIds);
+		$query->addDerivedTable($subQuery, LEFT_JOIN, "log_entry.id = tmp_node.fk_entry", "tmp_node");
+		$query->addColumn("fk_node", "node_id", "tmp_node");
+		
+		$query->addWhereIn("id", $nextIds);
+		
+		$query->addOrderBy("timestamp", DESCENDING);
+		$query->addOrderBy("id", ASCENDING);
+				
+// 		printpre($query->asString());
 		
 		$results =$dbc->query($query, $this->_dbIndex);
 		
@@ -328,33 +348,11 @@ class HarmoniEntryIterator
 		$query = new SelectQuery;
 		
 		$query->addTable("log_entry");
-		$query->addTable("log_type", INNER_JOIN, "log_entry.fk_format_type = format_type.id", "format_type");
-		$query->addTable("log_type", INNER_JOIN, "log_entry.fk_priority_type = priority_type.id", "priority_type");
-		$query->addTable("log_agent", LEFT_JOIN, "log_entry.id = log_agent.fk_entry");
+		
+// 		$query->addTable("log_agent", LEFT_JOIN, "log_entry.id = log_agent.fk_entry");		
 		$query->addTable("log_node", LEFT_JOIN, "log_entry.id = log_node.fk_entry");
 		
 		return $query;
-	}
-	
-	/**
-	 * Add columns, orders, and limits to our query
-	 * 
-	 * @param object SelectQuery $query
-	 * @return void
-	 * @access public
-	 * @since 3/9/06
-	 */
-	function addColumnsAndOrder ( $query ) {
-		$query->addOrderBy("timestamp", DESCENDING);
-		$query->addOrderBy("id", ASCENDING);
-		
-		$query->addColumn("id", "id", "log_entry");
-		$query->addColumn("timestamp", "timestamp", "log_entry");
-		$query->addColumn("category", "category", "log_entry");
-		$query->addColumn("description", "description", "log_entry");
-		$query->addColumn("backtrace", "backtrace", "log_entry");
-		$query->addColumn("fk_agent", "agent_id", "log_agent");
-		$query->addColumn("fk_node", "node_id", "log_node");
 	}
 	
 	/**
@@ -367,13 +365,25 @@ class HarmoniEntryIterator
 	 */
 	function addWhereClauses ( $query ) {
 		$query->addWhere("log_name = '".addslashes($this->_logName)."'");
-		$query->addWhere("format_type.domain = '".addslashes($this->_formatType->getDomain())."'");
-		$query->addWhere("format_type.authority = '".addslashes($this->_formatType->getAuthority())."'");
-		$query->addWhere("format_type.keyword = '".addslashes($this->_formatType->getKeyword())."'");
+		
+		$subQuery = new SelectQuery;
+		$subQuery->addTable("log_type");
+		$subQuery->addColumn("id");
+		$subQuery->addWhereEqual("domain", $this->_formatType->getDomain());
+		$subQuery->addWhereEqual("authority", $this->_formatType->getAuthority());
+		$subQuery->addWhereEqual("keyword", $this->_formatType->getKeyword());
+		
+		$query->addWhere("log_entry.fk_format_type = \n(\n".$subQuery->asString().")");
+		
 		if ($this->_priorityType && !$this->_priorityType->isEqual(new Type('logging', 'edu.middlebury', 'All'))) {
-			$query->addWhere("priority_type.domain = '".addslashes($this->_priorityType->getDomain())."'");
-			$query->addWhere("priority_type.authority = '".addslashes($this->_priorityType->getAuthority())."'");
-			$query->addWhere("priority_type.keyword = '".addslashes($this->_priorityType->getKeyword())."'");
+			$subQuery = new SelectQuery;
+			$subQuery->addTable("log_type");
+			$subQuery->addColumn("id");
+			$subQuery->addWhereEqual("domain", $this->_priorityType->getDomain());
+			$subQuery->addWhereEqual("authority", $this->_priorityType->getAuthority());
+			$subQuery->addWhereEqual("keyword", $this->_priorityType->getKeyword());
+			
+			$query->addWhere("log_entry.fk_priority_type = \n(\n".$subQuery->asString().")");
 		}
 	}
 }
