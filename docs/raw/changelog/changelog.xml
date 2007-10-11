@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.184 2007/10/10 23:56:53 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.185 2007/10/11 13:45:19 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -63,6 +63,9 @@
 		<new author='adam' date='2007-10-10'>
 			Improved Error and Exception handling class, HarmoniErrorHandler. Adds
 			unified Error and Exception printing and logging.
+		</new>
+		<new author='adam' date='2007-10-11'>
+			DatabaseManager: Can now add LIKE clauses to query objects.
 		</new>
 	</version>
 	<version number="0.12.3" date="2007-09-25">

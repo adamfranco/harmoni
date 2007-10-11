@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SimpleTableRepository.class.php,v 1.3 2007/10/05 20:12:31 adamfranco Exp $
+ * @version $Id: SimpleTableRepository.class.php,v 1.4 2007/10/11 13:45:18 adamfranco Exp $
  */ 
 
 require_once(dirname(__FILE__)."/SimpleTableAssetIterator.class.php");
@@ -24,7 +24,7 @@ require_once(dirname(__FILE__)."/SimpleTablePartStructure.class.php");
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SimpleTableRepository.class.php,v 1.3 2007/10/05 20:12:31 adamfranco Exp $
+ * @version $Id: SimpleTableRepository.class.php,v 1.4 2007/10/11 13:45:18 adamfranco Exp $
  */
 class SimpleTableRepository
 	extends Repository
@@ -968,7 +968,7 @@ class SimpleTableRepository
 			$query->addWhereLike($this->config['id_column'], '%'.$searchCriteria.'%');
 			foreach ($this->config['columns'] as $column) {
 				$query->addColumn($column);
-				$query->addWhereLike($column, '%'.$searchCriteria.'%');
+				$query->addWhereLike($column, '%'.$searchCriteria.'%', _OR);
 			}
 			
 			if ($this->config['order_column'])

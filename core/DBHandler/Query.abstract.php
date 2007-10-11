@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Query.abstract.php,v 1.6 2007/09/05 21:38:59 adamfranco Exp $
+ * @version $Id: Query.abstract.php,v 1.7 2007/10/11 13:45:17 adamfranco Exp $
  */
 require_once(HARMONI."DBHandler/Query.interface.php");
 
@@ -18,7 +18,7 @@ require_once(HARMONI."DBHandler/Query.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Query.abstract.php,v 1.6 2007/09/05 21:38:59 adamfranco Exp $
+ * @version $Id: Query.abstract.php,v 1.7 2007/10/11 13:45:17 adamfranco Exp $
  */
 
 abstract class QueryAbstract 
@@ -103,6 +103,37 @@ abstract class QueryAbstract
 			$column, 
 			"'".addslashes($value)."'",
 			$comparison, 
+			$logicalOperation);
+	}
+	
+	/**
+	 * Add a LIKE clause where the value is quoted and escaped.
+	 * 
+	  * @param string $column
+	 * @param string $value
+	 * @return void
+	 * @access public
+	 * @since 3/9/07
+	 */
+	function addWhereRawLike ( $column, $value, $logicalOperation = _AND ) {
+		$this->addWhere(
+			$this->cleanColumn($column).' LIKE '.$value, 
+			$logicalOperation);
+	}
+	
+	/**
+	 * Add a LIKE clause where the value is quoted and escaped.
+	 * 
+	  * @param string $column
+	 * @param string $value
+	 * @return void
+	 * @access public
+	 * @since 3/9/07
+	 */
+	function addWhereLike ( $column, $value, $logicalOperation = _AND ) {
+		$this->addWhereRawLike(
+			$column, 
+			"'".addslashes($value)."'",
 			$logicalOperation);
 	}
 	
@@ -301,7 +332,7 @@ abstract class QueryAbstract
 	 * @access public
 	 * @since 3/9/07
 	 */
-	function addWhereIn ( $column, $values, $logicalOperation = _AND ) {
+	function addWhereIn ( $column, array $values, $logicalOperation = _AND ) {
 		$tmp = array();
 		foreach ($values as $value) {
 			$tmp[] = "'".addslashes($value)."'";
@@ -321,7 +352,7 @@ abstract class QueryAbstract
 	 * @access public
 	 * @since 3/9/07
 	 */
-	function addWhereNotIn ( $column, $values, $logicalOperation = _AND ) {
+	function addWhereNotIn ( $column, array $values, $logicalOperation = _AND ) {
 		$tmp = array();
 		foreach ($values as $value) {
 			$tmp[] = "'".addslashes($value)."'";
@@ -341,7 +372,7 @@ abstract class QueryAbstract
 	 * @access public
 	 * @since 3/9/07
 	 */
-	function addWhereRawIn ( $column, $values, $logicalOperation = _AND ) {
+	function addWhereRawIn ( $column, array $values, $logicalOperation = _AND ) {
 		$string = $this->cleanColumn($column)." IN (";
 		$string .= implode(", ", $values);
 		$string .= ")";
@@ -357,7 +388,7 @@ abstract class QueryAbstract
 	 * @access public
 	 * @since 3/9/07
 	 */
-	function addWhereRawNotIn ( $column, $values, $logicalOperation = _AND ) {
+	function addWhereRawNotIn ( $column, array $values, $logicalOperation = _AND ) {
 		$string = $this->cleanColumn($column)." NOT IN (";
 		$string .= implode(", ", $values);
 		$string .= ")";
