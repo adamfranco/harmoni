@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.186 2007/10/11 16:28:48 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.187 2007/10/11 16:37:00 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -95,7 +95,7 @@
 		<fix author='adam' date='2007-09-17'>
 			Agent: Fixed column type-mismatch in Agent table definition.
 		</fix>
-		<fix author='adam' date='2007-09-17'>
+		<fix author='adam' date='2007-09-17' reporter='jose_accino'>
 			DBHandler: SQLUtils::runSQLdir() now explicitly sorts SQL files 
 			and runs them in alphabetical order.
 		</fix>
@@ -1522,6 +1522,10 @@
 		<reporter short="chris_newton">
 			<name>Chris Newton</name>
 			<!-- <institution></institution> -->
+		</reporter>
+		<reporter short="jose_accino">
+			<name>José Alfonso Accino</name>
+			<institution>University of Málaga</institution>
 		</reporter>
 	</reporters>
 	<groupid>82873</groupid>

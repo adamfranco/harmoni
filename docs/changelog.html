@@ -42,6 +42,17 @@
 <b>Bug Fix:</b> AuthN/LDAP: Previously, when users where members of objects that were not under the baseDN, searching for parent groups fell into an infinite loop. (<em>2007-10-05 - Adam Franco</em>)</li>
 		<li>
 <b>Bug Fix:</b> SQL: Adding a harmoni-0.11.0 database updator that will add the 'creator' field to the dr_asset_info table. (<em>2007-10-08 - Adam Franco</em>)</li>
+		<li>
+<b>New feature:</b> Custom error_handling function. (<em>2007-10-09 - Adam Franco</em>)</li>
+		<li>
+<b>Change:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1810364&amp;group_id=82873&amp;atid=http://sourceforge.net/tracker/index.php?func=detail&amp;group_id=82873&amp;atid=567473&amp;aid=">
+        			#1810364</a> The HarmoniRepositoryManager object is now passed to the objects it creates rather than being accessed globally from within its implementation peventing conflicts when multiple RepositoryManager implementations exist. (<em>2007-10-09 - Adam Franco</em>)</li>
+		<li>
+<b>Bug Fix:</b> Fixing a number of E_STRICT notices and improving the class and interface hierarchies. (<em>2007-10-10 - Adam Franco</em>)</li>
+		<li>
+<b>New feature:</b> Improved Error and Exception handling class, HarmoniErrorHandler. Adds unified Error and Exception printing and logging. (<em>2007-10-10 - Adam Franco</em>)</li>
+		<li>
+<b>New feature:</b> DatabaseManager: Can now add LIKE clauses to query objects. (<em>2007-10-11 - Adam Franco</em>)</li>
 	</ul>
 <br><h2>Version 0.12.3</h2>
 <h3>2007-09-25</h3>
@@ -65,7 +76,7 @@
 		<li>
 <b>Bug Fix:</b> Agent: Fixed column type-mismatch in Agent table definition. (<em>2007-09-17 - Adam Franco</em>)</li>
 		<li>
-<b>Bug Fix:</b> DBHandler: SQLUtils::runSQLdir() now explicitly sorts SQL files and runs them in alphabetical order. (<em>2007-09-17 - Adam Franco</em>)</li>
+<b>Bug Fix:</b> DBHandler: SQLUtils::runSQLdir() now explicitly sorts SQL files and runs them in alphabetical order. (<em>2007-09-17 - Adam Franco</em>)<br> (<em>reported by José Alfonso Accino of University of Málaga</em>)</li>
 		<li>
 <b>Bug Fix:</b> Repository: Fixing PHP notices. (<em>2007-09-14 - Adam Franco</em>)</li>
 		<li>
