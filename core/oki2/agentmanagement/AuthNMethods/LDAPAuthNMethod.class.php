@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPAuthNMethod.class.php,v 1.18 2007/10/05 19:10:31 adamfranco Exp $
+ * @version $Id: LDAPAuthNMethod.class.php,v 1.19 2007/10/11 00:32:43 adamfranco Exp $
  */ 
  
 require_once(dirname(__FILE__)."/AuthNMethod.abstract.php");
@@ -20,7 +20,7 @@ require_once(dirname(__FILE__)."/LDAPGroup.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPAuthNMethod.class.php,v 1.18 2007/10/05 19:10:31 adamfranco Exp $
+ * @version $Id: LDAPAuthNMethod.class.php,v 1.19 2007/10/11 00:32:43 adamfranco Exp $
  */
 class LDAPAuthNMethod
 	extends AuthNMethod
@@ -368,9 +368,10 @@ class LDAPAuthNMethod
 		// Parent Groups of Agents
 		$info = $this->_connector->getInfo($authNTokens->getUsername(), array('memberof'));
 		
+		$groups = array();
+		
 		if (isset($info['memberof'])) {
-			$dns = $info['memberof'];		
-			$groups = array();
+			$dns = $info['memberof'];	
 			foreach ($dns as $dn) {
 				if ($dn != $groupDN && !isset($groups[$dn]))
 					$groups[$dn] = new LDAPGroup($dn, $this->getType(), 
@@ -386,7 +387,7 @@ class LDAPAuthNMethod
 					$parentGroups =$this->getGroupsContainingGroup($dn, true);
 					
 					while ($parentGroups->hasNext()) {
-						$group =$parentGroups->next();
+						$group = $parentGroups->next();
 						$groupId =$group->getId();
 						if (!isset($groups[$groupId->getIdString()]))
 							$groups[$groupId->getIdString()] =$group;
