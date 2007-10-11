@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniErrorHandler.class.php,v 1.2 2007/10/10 23:25:19 adamfranco Exp $
+ * @version $Id: HarmoniErrorHandler.class.php,v 1.3 2007/10/11 00:32:30 adamfranco Exp $
  */ 
 
 /**
@@ -18,7 +18,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniErrorHandler.class.php,v 1.2 2007/10/10 23:25:19 adamfranco Exp $
+ * @version $Id: HarmoniErrorHandler.class.php,v 1.3 2007/10/11 00:32:30 adamfranco Exp $
  */
 class HarmoniErrorHandler {
 		
@@ -360,10 +360,10 @@ class HarmoniErrorHandler {
 	public static function logMessage ($type, $message, array $backtrace) {
 		// If we have an error in the error handler or the logging system, 
 		// don't infinitely loop trying to log the error of the error....
-		$backtrace = debug_backtrace();
-		for ($i = 1; $i < count($backtrace); $i++) {
-			if (isset($backtrace[$i]['function']) 
-				&& strtolower($backtrace[$i]['function']) == 'logMessage') 
+		$testBacktrace = debug_backtrace();
+		for ($i = 1; $i < count($testBacktrace); $i++) {
+			if (isset($testBacktrace[$i]['function']) 
+				&& strtolower($testBacktrace[$i]['function']) == 'logMessage') 
 			{
 				return;
 			}
