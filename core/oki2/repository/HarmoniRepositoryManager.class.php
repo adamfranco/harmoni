@@ -36,7 +36,7 @@ require_once(HARMONI."oki2/repository/HarmoniRepository.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepositoryManager.class.php,v 1.40 2007/10/09 20:57:22 adamfranco Exp $ 
+ * @version $Id: HarmoniRepositoryManager.class.php,v 1.41 2007/10/11 20:41:14 adamfranco Exp $ 
  */
 
 class HarmoniRepositoryManager
@@ -372,9 +372,7 @@ class HarmoniRepositoryManager
 		// Delete type type for the Repository
 		$query = new DeleteQuery;
 		$query->setTable("dr_repository_type");
-		$query->addWhere("repository_id = '"
-						.addslashes($repositoryId->getIdString())
-						."' LIMIT 1");
+		$query->addWhereEqual("repository_id", $repositoryId->getIdString());
 		$dbc = Services::getService("DatabaseManager");
 		$dbc->query($query, $this->_dbIndex);
 		

@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.189 2007/10/11 20:00:28 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.190 2007/10/11 20:41:15 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -79,6 +79,9 @@
 			Changes to the Logging tables require running a database updater script:
 			harmoni/core/DBHandler/db_updater.php
 		</important>
+		<fix author='adam' date='2007-10-11'>
+			Repository: fixing delete repository syntax to work with PostgreSQL.
+		</fix>
 	</version>
 	<version number="0.12.3" date="2007-09-25">
 		<change author='adam' date='2007-09-25'>
