@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniEntryIterator.class.php,v 1.6 2007/09/04 20:25:43 adamfranco Exp $
+ * @version $Id: HarmoniEntryIterator.class.php,v 1.7 2007/10/11 17:40:39 adamfranco Exp $
  */
 
 require_once(OKI2."/osid/logging/EntryIterator.php");
@@ -28,7 +28,7 @@ require_once(dirname(__FILE__)."/HarmoniEntry.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniEntryIterator.class.php,v 1.6 2007/09/04 20:25:43 adamfranco Exp $
+ * @version $Id: HarmoniEntryIterator.class.php,v 1.7 2007/10/11 17:40:39 adamfranco Exp $
  */
 class HarmoniEntryIterator
 	extends EntryIterator
@@ -226,11 +226,13 @@ class HarmoniEntryIterator
 		$query = new SelectQuery;
 		$query->addTable("log_entry");
 		$query->addTable("log_type", INNER_JOIN, "log_entry.fk_format_type = format_type.id", "format_type");
-		$query->addTable("log_type", INNER_JOIN, "log_entry.fk_priority_type = priority_type.id", "priority_type");
+		if (!$this->_priorityType->isEqual(new Type('logging', 'edu.middlebury', 'All')))
+			$query->addTable("log_type", INNER_JOIN, "log_entry.fk_priority_type = priority_type.id", "priority_type");
 		$query->addColumn("id", "entry_id", "log_entry");
 		$query->setDistinct(true);
 		$query->addOrderBy("timestamp", DESCENDING);
 		$this->addWhereClauses($query);
+		
 		
 		$query->limitNumberOfRows($this->_numPerLoad);
 		if ($this->_currentRow)
@@ -368,7 +370,7 @@ class HarmoniEntryIterator
 		$query->addWhere("format_type.domain = '".addslashes($this->_formatType->getDomain())."'");
 		$query->addWhere("format_type.authority = '".addslashes($this->_formatType->getAuthority())."'");
 		$query->addWhere("format_type.keyword = '".addslashes($this->_formatType->getKeyword())."'");
-		if ($this->_priorityType) {
+		if ($this->_priorityType && !$this->_priorityType->isEqual(new Type('logging', 'edu.middlebury', 'All'))) {
 			$query->addWhere("priority_type.domain = '".addslashes($this->_priorityType->getDomain())."'");
 			$query->addWhere("priority_type.authority = '".addslashes($this->_priorityType->getAuthority())."'");
 			$query->addWhere("priority_type.keyword = '".addslashes($this->_priorityType->getKeyword())."'");

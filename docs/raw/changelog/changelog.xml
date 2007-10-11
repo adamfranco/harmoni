@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.187 2007/10/11 16:37:00 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.188 2007/10/11 17:40:40 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -165,6 +165,9 @@
 		<fix author='adam' date='2007-09-07'>
 			Repository: Now properly escapes values in modification date-storing query.
 		</fix>
+		<new author='adam' date='2007-10-11'>
+			Logging: New priority type 'All' allows for browsing of all priority levels at once.
+		</new>
 	</version>
 	<version number="0.11.0" date="2007-09-07">
 		<important author='adam'>

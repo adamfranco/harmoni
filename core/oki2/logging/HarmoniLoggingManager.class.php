@@ -7,7 +7,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniLoggingManager.class.php,v 1.3 2007/09/04 20:25:43 adamfranco Exp $
+ * @version $Id: HarmoniLoggingManager.class.php,v 1.4 2007/10/11 17:40:40 adamfranco Exp $
  */
 
 require_once(OKI2."/osid/logging/LoggingManager.php");
@@ -204,6 +204,10 @@ class HarmoniLoggingManager
 		
 		$results =$dbc->query($query, $this->_dbIndex);
 		$types = array();
+		
+		// Add a custom type to encompass all priority types
+		$types[] = new Type ('logging', 'edu.middlebury', 'All', _('All priority types.'));
+		
 		while ($results->hasNext()) {
 			$types[] = new Type(	$results->field("domain"),
 									$results->field("authority"), 
