@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostgreSQLUtils.class.php,v 1.1 2007/10/11 20:00:26 adamfranco Exp $
+ * @version $Id: PostgreSQLUtils.class.php,v 1.2 2007/10/11 20:57:00 adamfranco Exp $
  */ 
 
 /**
@@ -18,7 +18,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PostgreSQLUtils.class.php,v 1.1 2007/10/11 20:00:26 adamfranco Exp $
+ * @version $Id: PostgreSQLUtils.class.php,v 1.2 2007/10/11 20:57:00 adamfranco Exp $
  */
 class PostgreSQLUtils {
 
@@ -39,8 +39,8 @@ class PostgreSQLUtils {
 			), $dbIndex);
 			printpre("Dropping index 'log_entry_timestamp_index'.");
 		} catch (DatabaseException $e) {
-			printpre("NOT dropping index 'log_entry_timestamp_index'.");
-			printpre($e->getMessage());
+// 			printpre("NOT dropping index 'log_entry_timestamp_index'.");
+// 			printpre($e->getMessage());
 		}
 		
 		try {
@@ -49,8 +49,8 @@ class PostgreSQLUtils {
 			), $dbIndex);
 			printpre("Creating index 'log_entry_format_index'.");
 		} catch (DatabaseException $e) {
-			printpre("NOT creating index 'log_entry_format_index'.");
-			printpre($e->getMessage());
+// 			printpre("NOT creating index 'log_entry_format_index'.");
+// 			printpre($e->getMessage());
 		}
 		
 		try {
@@ -59,8 +59,8 @@ class PostgreSQLUtils {
 			), $dbIndex);
 			printpre("Creating index 'log_agent_fk_entry_index'.");
 		} catch (DatabaseException $e) {
-			printpre("NOT creating index 'log_agent_fk_entry_index'.");
-			printpre($e->getMessage());
+// 			printpre("NOT creating index 'log_agent_fk_entry_index'.");
+// 			printpre($e->getMessage());
 		}
 		
 		try {
@@ -69,8 +69,8 @@ class PostgreSQLUtils {
 			), $dbIndex);
 			printpre("Creating index 'log_node_fk_entry_index'.");
 		} catch (DatabaseException $e) {
-			printpre("NOT creating index 'log_node_fk_entry_index'.");
-			printpre($e->getMessage());
+// 			printpre("NOT creating index 'log_node_fk_entry_index'.");
+// 			printpre($e->getMessage());
 		}
 	}
 	
