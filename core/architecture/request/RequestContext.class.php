@@ -11,7 +11,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RequestContext.class.php,v 1.25 2007/10/10 22:58:35 adamfranco Exp $
+ * @version $Id: RequestContext.class.php,v 1.26 2007/10/12 14:25:11 adamfranco Exp $
  */
 
 define("REQUEST_HANDLER_CONTEXT_DELIMETER", "___");
@@ -356,8 +356,10 @@ END;
 	 * @access public
 	 */
 	function startNamespace($name) {
-		$this->_checkName($name);
-		if ($this->_currentNamespace) $this->_namespaces[] = $this->_currentNamespace;
+		if (!is_null($name))
+			$this->_checkName($name);
+		if ($this->_currentNamespace) 
+			$this->_namespaces[] = $this->_currentNamespace;
 		$this->_currentNamespace = $name;
 	}
 	
@@ -367,10 +369,11 @@ END;
 	 * @access public
 	 */
 	function endNamespace() {
-		if ($this->_currentNamespace == null) return;
+		if ($this->_currentNamespace == null && !count($this->_namespaces))
+			return;
+		
 		$curr = $this->_currentNamespace;
-		$n = count($this->_namespaces);
-		if ($n == 0) { 
+		if (!count($this->_namespaces)) { 
 			$this->_currentNamespace = null;
 			return $curr;
 		}
