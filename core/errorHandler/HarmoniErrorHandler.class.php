@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniErrorHandler.class.php,v 1.4 2007/10/11 20:00:27 adamfranco Exp $
+ * @version $Id: HarmoniErrorHandler.class.php,v 1.5 2007/10/12 20:07:15 adamfranco Exp $
  */ 
 
 /**
@@ -18,7 +18,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniErrorHandler.class.php,v 1.4 2007/10/11 20:00:27 adamfranco Exp $
+ * @version $Id: HarmoniErrorHandler.class.php,v 1.5 2007/10/12 20:07:15 adamfranco Exp $
  */
 class HarmoniErrorHandler {
 		
@@ -288,7 +288,10 @@ class HarmoniErrorHandler {
 		else
 			$type = get_class($exception);
 		
-		self::printMessage('Uncaught Exception of type', $type, $exception->getMessage(), $exception->getTrace());
+		if (ini_get('html_errors'))
+			self::printMessage('Uncaught Exception of type', $type, $exception->getMessage(), $exception->getTrace());
+		else
+			self::printPlainTextMessage('Uncaught Exception of type', $type, $exception->getMessage(), $exception->getTrace());
 		
 		self::logMessage($type, $exception->getMessage(), $exception->getTrace());
 	}
@@ -304,7 +307,10 @@ class HarmoniErrorHandler {
 	 * @since 10/10/07
 	 */
 	private function printError ($errorType, $errorMessage, array $backtrace) {
-		self::printMessage('Error', $this->errorTypes[$errorType], $errorMessage, $backtrace);
+		if (ini_get('html_errors'))
+			self::printMessage('Error', $this->errorTypes[$errorType], $errorMessage, $backtrace);
+		else
+			self::printPlainTextMessage('Error', $this->errorTypes[$errorType], $errorMessage, $backtrace);
 	}
 	
 	/**
@@ -328,6 +334,29 @@ class HarmoniErrorHandler {
 		self::printDebugBacktrace($backtrace);
 		print "\n\t</div>";
 		print "\n</div>";
+	}
+	
+	/**
+	 * Print out an error or exception message 
+	 * 
+	 * @param string $errorOrException A string describing whether this was an error or an uncaught exception.
+	 * @param string $type The type of error or exception that occurred
+	 * @param string $message A message.
+	 * @param array $backtrace
+	 * @return void
+	 * @access public
+	 * @since 10/10/07
+	 */
+	public static function printPlainTextMessage ( $errorOrException, $type, $message, array $backtrace ) {
+		print "\n*****************************************************************************";
+		print "\n* ".$errorOrException.": ";
+		print "\n*\t".$type;
+		print "\n* with message ";
+		print "\n*\t".$message;
+		print "\n* in";
+		print "\n*";
+		self::printPlainTextDebugBacktrace($backtrace);
+		print "\n*****************************************************************************";
 	}
 	
 	/**
@@ -438,6 +467,62 @@ class HarmoniErrorHandler {
 		}
 		print "\n\t</tbody>";
 		print "\n</table>";
+		
+		if ($return) return ob_get_clean();
+	}
+	
+	/**
+	 * Prints a debug_backtrace() array in a pretty plain text way...
+	 * @param optional array $trace The array. If null, a current backtrace is used.
+	 * @param optional boolean $return If true will return the HTML instead of printing it.
+	 * @access public
+	 * @return void
+	 */
+	 public static function printPlainTextDebugBacktrace($trace = null, $return=false) {
+	 	if (is_array($trace))
+	 		$traceArray = $trace;
+	 	else 
+			$traceArray = debug_backtrace();
+		
+	
+		if ($return) ob_start();
+		
+		$filenameSize = 5;
+		if (is_array($traceArray)) {
+			foreach($traceArray as $trace) {
+				$filenameSize = max($filenameSize, strlen(basename($trace['file'])));
+			}
+		}
+		$filenameSize = $filenameSize + 2;
+			
+		print "\n* # ";
+		print "\tFile";
+		for ($j = 4; $j < $filenameSize; $j++)
+			print " ";
+		print "Line";
+		print "\tCall ";
+		print "\n*-----------------------------------------------------------------------------";		
+		if (is_array($traceArray)) {			
+			foreach($traceArray as $i => $trace) {
+				/* each $traceArray element represents a step in the call hiearchy. Print them from bottom up. */
+				$file = basename($trace['file']);
+				$line = $trace['line'];
+				$function = $trace['function'];
+				$class = isset($trace['class'])?$trace['class']:'';
+				$type = isset($trace['type'])?$trace['type']:'';
+				$args = ArgumentRenderer::renderManyArguments($trace['args'], false, false);
+				
+				print "\n* $i";
+				print "\t".$file;
+				for ($j = strlen($file); $j < $filenameSize; $j++)
+					print " ";
+				print "".$line;
+				print "\t";
+				if ($class || $type || $function || $args) {
+					print $class.$type.$function."(".$args.");";
+				}
+			}
+		}
 		
 		if ($return) return ob_get_clean();
 	}
