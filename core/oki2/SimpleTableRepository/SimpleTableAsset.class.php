@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SimpleTableAsset.class.php,v 1.2 2007/10/05 15:41:57 adamfranco Exp $
+ * @version $Id: SimpleTableAsset.class.php,v 1.3 2007/10/12 14:26:40 adamfranco Exp $
  */ 
 
 require_once(dirname(__FILE__)."/SimpleTableRecord.class.php");
@@ -22,7 +22,7 @@ require_once(dirname(__FILE__)."/SimpleTablePart.class.php");
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SimpleTableAsset.class.php,v 1.2 2007/10/05 15:41:57 adamfranco Exp $
+ * @version $Id: SimpleTableAsset.class.php,v 1.3 2007/10/12 14:26:40 adamfranco Exp $
  */
 class SimpleTableAsset
 	extends Asset
@@ -1122,7 +1122,19 @@ class SimpleTableAsset
     function getModificationDate () { 
 		throw new UnimplementedException();
 	}
-	
+
+	/**
+     * Answer an iterator of the TraversalInfo of the decendent Assets 
+     * (children, grandchildren, etc).
+     * WARNING: NOT IN OSID
+     * 
+     * @return object TraversalInfoIterator
+     * @access public
+     * @since 12/15/05
+     */
+    function getDescendentInfo () {
+		throw new UnimplementedException();
+    }	
 }
 
 ?>
