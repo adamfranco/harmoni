@@ -36,7 +36,7 @@ require_once(HARMONI."oki2/repository/HarmoniRepository.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepositoryManager.class.php,v 1.41 2007/10/11 20:41:14 adamfranco Exp $ 
+ * @version $Id: HarmoniRepositoryManager.class.php,v 1.42 2007/10/12 20:59:00 adamfranco Exp $ 
  */
 
 class HarmoniRepositoryManager
@@ -551,14 +551,13 @@ class HarmoniRepositoryManager
 		
 		// Get the node for this asset to make sure its availible
 		if (!$this->_hierarchy->nodeExists($assetId)) {
-			$false = false;
-			return $false;
-			throwError(new Error(RepositoryException::UNKNOWN_ID(), "Digital Repository", 1));
+			throw new UnknownIdException();
 		}
 		
 		// figure out which DR it is in.
-		if (! $repositoryId =$this->_getAssetRepository($assetId))
-			throwError(new Error(RepositoryException::UNKNOWN_ID(), "RepositoryManager", 1));
+		$repositoryId = $this->_getAssetRepository($assetId);
+		if (!$repositoryId)
+			throw new UnknownIdException();
 			
 		$repository =$this->getRepository($repositoryId);
 		
