@@ -20,7 +20,7 @@ require_once(HARMONI."oki2/hierarchy/DefaultNodeType.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniNode.class.php,v 1.20 2007/09/13 16:04:20 adamfranco Exp $
+ * @version $Id: HarmoniNode.class.php,v 1.21 2007/10/12 15:35:07 adamfranco Exp $
  */
 
 class HarmoniNode 
@@ -434,7 +434,8 @@ class HarmoniNode
 		ArgumentValidator::validate($nodeId, ExtendsValidatorRule::getRule("Id"), true);
 		// ** end of parameter validation
 		
-		IsAuthorizedCache::dirtyNode($this->_id);
+		$isAuthorizedCache = IsAuthorizedCache::instance();
+		$isAuthorizedCache->dirtyNode($this->_id);
 		
 		$this->_cache->addParent($nodeId->getIdString(), $this->_id->getIdString());
 	}
@@ -471,7 +472,8 @@ class HarmoniNode
 		ArgumentValidator::validate($parentId, ExtendsValidatorRule::getRule("Id"), true);
 		// ** end of parameter validation
 		
-		IsAuthorizedCache::dirtyNode($this->_id);
+		$isAuthorizedCache = IsAuthorizedCache::instance();
+		$isAuthorizedCache->dirtyNode($this->_id);
 		
 		$this->_cache->removeParent($parentId->getIdString(), $this->_id->getIdString());
 	}
@@ -512,7 +514,8 @@ class HarmoniNode
 		if ($oldParentId->isEqual($newParentId))
 			return;
 		
-		IsAuthorizedCache::dirtyNode($this->_id);
+		$isAuthorizedCache = IsAuthorizedCache::instance();
+		$isAuthorizedCache->dirtyNode($this->_id);
 		
 		$this->_cache->removeParent($oldParentId->getIdString(), $this->_id->getIdString());
 		$this->_cache->addParent($newParentId->getIdString(), $this->_id->getIdString());

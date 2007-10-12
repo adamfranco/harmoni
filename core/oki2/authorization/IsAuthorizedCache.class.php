@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: IsAuthorizedCache.class.php,v 1.11 2007/10/10 22:58:37 adamfranco Exp $
+ * @version $Id: IsAuthorizedCache.class.php,v 1.12 2007/10/12 15:35:06 adamfranco Exp $
  */ 
 
 /**
@@ -69,7 +69,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: IsAuthorizedCache.class.php,v 1.11 2007/10/10 22:58:37 adamfranco Exp $
+ * @version $Id: IsAuthorizedCache.class.php,v 1.12 2007/10/12 15:35:06 adamfranco Exp $
  */
 class IsAuthorizedCache {
 		
@@ -101,7 +101,7 @@ class IsAuthorizedCache {
 		
 		return self::$instance;
 	}
-
+	
 /*********************************************************
  * Instance Variables
  *********************************************************/

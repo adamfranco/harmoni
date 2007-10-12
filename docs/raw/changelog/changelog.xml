@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.191 2007/10/12 14:26:40 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.192 2007/10/12 15:35:08 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -85,6 +85,9 @@
 		<new author='adam' date='2007-10-12'>
 			RequestContext: Now can set the null (no namespace) namespace.
 		</new>
+		<fix author='adam' date='2007-10-12'>
+			Authorization: Fixed invalid static calls to instance methods.
+		</fix>
 	</version>
 	<version number="0.12.3" date="2007-09-25">
 		<change author='adam' date='2007-09-25'>
