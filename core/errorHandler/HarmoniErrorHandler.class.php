@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniErrorHandler.class.php,v 1.5 2007/10/12 20:07:15 adamfranco Exp $
+ * @version $Id: HarmoniErrorHandler.class.php,v 1.6 2007/10/12 20:59:26 adamfranco Exp $
  */ 
 
 /**
@@ -18,7 +18,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniErrorHandler.class.php,v 1.5 2007/10/12 20:07:15 adamfranco Exp $
+ * @version $Id: HarmoniErrorHandler.class.php,v 1.6 2007/10/12 20:59:26 adamfranco Exp $
  */
 class HarmoniErrorHandler {
 		
@@ -451,7 +451,10 @@ class HarmoniErrorHandler {
 				$function = $trace['function'];
 				$class = isset($trace['class'])?$trace['class']:'';
 				$type = isset($trace['type'])?$trace['type']:'';
-				$args = ArgumentRenderer::renderManyArguments($trace['args'], false, false);
+				if (isset($trace['args']))
+					$args = ArgumentRenderer::renderManyArguments($trace['args'], false, false);
+				else
+					$args = '';
 				
 				print "\n\t\t<tr>";
 				print "\n\t\t\t<td>$i</td>";
