@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.193 2007/10/12 20:07:21 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.195 2007/10/16 13:45:18 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -89,7 +89,7 @@
 			Authorization: Fixed invalid static calls to instance methods.
 		</fix>
 		<new author='adam' date='2007-10-12'>
-			ErrorHander: Exceptions are now printed in a plain text mode when 
+			ErrorHander: Exceptions and Errors are now printed in a plain text mode when 
 			scripts are called from the command line environment.
 		</new>
 	</version>
@@ -1556,10 +1556,17 @@
 			<institution>University of Málaga</institution>
 		</reporter>
 	</reporters>
-	<groupid>82873</groupid>
 	<reftypes>
-		<reftype name="bug">http://sourceforge.net/tracker/index.php?func=detail&amp;group_id=82873&amp;atid=567473&amp;aid=</reftype>
-		<reftype name="fr">http://sourceforge.net/tracker/index.php?func=detail&amp;group_id=82873&amp;atid=567476&amp;aid=</reftype>
-		<reftype name="task">http://sourceforge.net/pm/task.php?func=detailtask&amp;group_id=82873&amp;group_project_id=37898&amp;project_task_id=</reftype>
+		<reftype name="bug" group="82873" tracker='567473'/>
+		<reftype name="fr" group="82873" tracker='567476'/>
+		<reftype name="patch" group="82873" tracker='567475'/>
+		
+		<reftype name="concerto_bug" group="88266" tracker='586054'/>
+		<reftype name="concerto_fr" group="88266" tracker='586057'/>
+		<reftype name="concerto_patch" group="88266" tracker='586056'/>
+		
+		<reftype name="segue_bug" group="82171" tracker='565234'/>
+		<reftype name="segue_fr" group="82171" tracker='565237'/>
+		<reftype name="segue_patch" group="82171" tracker='565236'/>
 	</reftypes>
 </changelog>
