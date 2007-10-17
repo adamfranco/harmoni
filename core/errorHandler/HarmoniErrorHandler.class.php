@@ -6,11 +6,23 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniErrorHandler.class.php,v 1.6 2007/10/12 20:59:26 adamfranco Exp $
+ * @version $Id: HarmoniErrorHandler.class.php,v 1.7 2007/10/17 19:07:54 adamfranco Exp $
  */ 
 
 /**
- * This is an error handler class that can display and log errors
+ * This is an error handler class that can display and log errors and exceptions.
+ *
+ * The HarmoniErrorHandler's execution is primarily controlled by the state of the
+ * 'error_reporting' and 'display_errors' directives. Any errors that match the current
+ * error_reporting level and all uncaught Exceptions will be processed by the
+ * error handler and logged. If the display_errors directive is set to 'On', then
+ * these errors and exceptions will also be printed to the screen, otherwise they 
+ * will be only logged.
+ * 
+ * In addition to the behavior devined by the 'error_reporting' and 'display_errors' directives,
+ * the HarmoniErrorHandler also allows setting of which error_levels are fatal, causing
+ * the execution to halt. This is set with the $errorHandler->fatalErrors() method
+ * which has the same parameter syntax as the error_reporting() function.
  * 
  * @since 10/10/07
  * @package harmoni.error_handler
@@ -18,7 +30,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniErrorHandler.class.php,v 1.6 2007/10/12 20:59:26 adamfranco Exp $
+ * @version $Id: HarmoniErrorHandler.class.php,v 1.7 2007/10/17 19:07:54 adamfranco Exp $
  */
 class HarmoniErrorHandler {
 		
@@ -55,18 +67,20 @@ class HarmoniErrorHandler {
 	private $errorTypes;
 	
 	/**
-	 * @var array $typeFatality;  
+	 * @var integer $fatalErrors; The bitwise integer that determines whether or not
+	 * to halt execution when an error occurs.
 	 * @access private
-	 * @since 10/10/07
+	 * @since 10/17/07
 	 */
-	private $typeFatality;
+	private $fatalErrors;
 	
 	/**
-	 * @var array $typeLogging;  
+	 * @var integer $defaultFatalErrors; The bitwise integer that determines whether or not
+	 * to halt execution when an error occurs.
 	 * @access private
-	 * @since 10/10/07
+	 * @since 10/17/07
 	 */
-	private $typeLogging;
+	private $defaultFatalErrors;
 	
 	/**
 	 * Constructor
@@ -92,132 +106,40 @@ class HarmoniErrorHandler {
 			E_STRICT			=> 'Runtime Notice'
 		);
 		
-		$this->typeFatality = array(
-			E_ERROR         	=> true,
-			E_WARNING       	=> false,
-			E_PARSE         	=> true,
-			E_NOTICE        	=> false,
-			E_CORE_ERROR    	=> true,
-			E_CORE_WARNING  	=> true,
-			E_COMPILE_ERROR 	=> true,
-			E_COMPILE_WARNING	=> true,
-			E_USER_ERROR    	=> true,
-			E_USER_WARNING  	=> false,
-			E_USER_NOTICE   	=> false,
-			E_RECOVERABLE_ERROR	=> true,
-			E_STRICT			=> false
-		);
+		$this->defaultFatalErrors = (E_ERROR | E_PARSE | E_CORE_ERROR | E_COMPILE_ERROR | E_USER_ERROR | E_RECOVERABLE_ERROR);
+		$this->fatalErrors = $this->defaultFatalErrors;
 		
-		$this->typeLogging = array(
-			E_ERROR         	=> true,
-			E_WARNING       	=> true,
-			E_PARSE         	=> true,
-			E_NOTICE        	=> false,
-			E_CORE_ERROR    	=> true,
-			E_CORE_WARNING  	=> true,
-			E_COMPILE_ERROR 	=> true,
-			E_COMPILE_WARNING	=> true,
-			E_USER_ERROR    	=> true,
-			E_USER_WARNING  	=> true,
-			E_USER_NOTICE   	=> false,
-			E_RECOVERABLE_ERROR	=> true,
-			E_STRICT			=> false
-		);
 	}
 	
 	/**
-	 * Enable logging on particular types
+	 * Make particular error types fatal. Syntax is the same as error_reporting().
 	 * 
-	 * @param int $type Can pass multiple types as multiple arguments.
-	 * @return void
+	 * @param optional int $type A integer bitmap like the error_reporting levels.
+	 * @return int If no argument is passed the current fatal errors will be returned.
 	 * @access public
 	 * @since 10/10/07
 	 */
-	public function enableLoggingFor ($type) {
+	public function fatalErrors () {
 		if (!func_num_args())
-			throw new NullArgumentException("You must specify one or more error types.");
-			
-		foreach (func_get_args() as $errorType) {
-			if (!$this->validateType($errorType))
-				throw new HarmoniException($type." is not a valid type. Should be one of E_ERROR, E_WARNING, E_PARSE, E_NOTICE, E_CORE_ERROR, E_CORE_WARNING, E_COMPILE_ERROR, E_COMPILE_WARNING, E_USER_ERROR, E_USER_WARNING, E_USER_NOTICE, E_RECOVERABLE_ERROR, E_STRICT.");
-			
-			$this->typeLogging[$errorType] = true;
-		}
+			return $this->fatalErrors;
+		
+		$args = func_get_args();
+		$level = $args[0];
+		if (!is_int($level) || func_num_args() > 1)
+			throw new NullArgumentException("You must specify an integer error level. Should be one or a bitwise combination of E_ERROR, E_WARNING, E_PARSE, E_NOTICE, E_CORE_ERROR, E_CORE_WARNING, E_COMPILE_ERROR, E_COMPILE_WARNING, E_USER_ERROR, E_USER_WARNING, E_USER_NOTICE, E_RECOVERABLE_ERROR, E_STRICT.");
+		
+		$this->fatalErrors = $level;
 	}
 	
 	/**
-	 * Disable logging on particular types
+	 * Answer the default fatal error level
 	 * 
-	 * @param int $type Can pass multiple types as multiple arguments.
-	 * @return void
+	 * @return int
 	 * @access public
-	 * @since 10/10/07
+	 * @since 10/17/07
 	 */
-	public function disableLoggingFor ($type) {
-		if (!func_num_args())
-			throw new NullArgumentException("You must specify one or more error types.");
-			
-		foreach (func_get_args() as $errorType) {
-			if (!$this->validateType($errorType))
-				throw new HarmoniException($type." is not a valid type. Should be one of E_ERROR, E_WARNING, E_PARSE, E_NOTICE, E_CORE_ERROR, E_CORE_WARNING, E_COMPILE_ERROR, E_COMPILE_WARNING, E_USER_ERROR, E_USER_WARNING, E_USER_NOTICE, E_RECOVERABLE_ERROR, E_STRICT.");
-			
-			$this->typeLogging[$errorType] = false;
-		}
-	}
-	
-	/**
-	 * Make particular error types fatal.
-	 * 
-	 * @param int $type Can pass multiple types as multiple arguments.
-	 * @return void
-	 * @access public
-	 * @since 10/10/07
-	 */
-	public function makeFatal ($type) {
-		if (!func_num_args())
-			throw new NullArgumentException("You must specify one or more error types.");
-			
-		foreach (func_get_args() as $errorType) {
-			if (!$this->validateType($errorType))
-				throw new HarmoniException($type." is not a valid type. Should be one of E_ERROR, E_WARNING, E_PARSE, E_NOTICE, E_CORE_ERROR, E_CORE_WARNING, E_COMPILE_ERROR, E_COMPILE_WARNING, E_USER_ERROR, E_USER_WARNING, E_USER_NOTICE, E_RECOVERABLE_ERROR, E_STRICT.");
-			
-			$this->typeFatality[$errorType] = true;
-		}
-	}
-	
-	/**
-	 * Disable logging on particular types
-	 * 
-	 * @param int $type Can pass multiple types as multiple arguments.
-	 * @return void
-	 * @access public
-	 * @since 10/10/07
-	 */
-	public function makeUnfatal ($type) {
-		if (!func_num_args())
-			throw new NullArgumentException("You must specify one or more error types.");
-			
-		foreach (func_get_args() as $errorType) {
-			if (!$this->validateType($errorType))
-				throw new HarmoniException($type." is not a valid type. Should be one of E_ERROR, E_WARNING, E_PARSE, E_NOTICE, E_CORE_ERROR, E_CORE_WARNING, E_COMPILE_ERROR, E_COMPILE_WARNING, E_USER_ERROR, E_USER_WARNING, E_USER_NOTICE, E_RECOVERABLE_ERROR, E_STRICT.");
-			
-			$this->typeFatality[$errorType] = false;
-		}
-	}
-	
-	/**
-	 * Validate a type
-	 * 
-	 * @param int $type
-	 * @return boolean
-	 * @access private
-	 * @since 10/10/07
-	 */
-	private function validateType ($type) {
-		if (isset($this->errorTypes[$type]))
-			return true;
-		else
-			return false;
+	public function getDefaultFatalErrorLevel () {
+		return $this->defaultFatalErrors;
 	}
 	
 	/**
@@ -231,10 +153,17 @@ class HarmoniErrorHandler {
 	 * @static
 	 */
 	public static function handleError ($errorType, $errorMessage) {
-		// do a bitwise comparisson of the error level to the current error_reporting
-		// level
-		if (!($errorType & error_reporting()))
-			return;
+		// do a bitwise comparison of the error level to the current error_reporting level
+		// and do not print or log if it doesn't match.
+		if (!($errorType & error_reporting())) {
+			// Check if the error level is fatal continue and if not.
+			$handler = HarmoniErrorHandler::instance();
+			if (!($errorType & $handler->fatalErrors))
+				return;
+			// Die if the error is fatal.
+			else
+				die();
+		}
 		
 		$backtrace = debug_backtrace();
 // 		$backtrace = array_shift(debug_backtrace());
@@ -260,14 +189,20 @@ class HarmoniErrorHandler {
 	 * @since 10/10/07
 	 */
 	private function completeHandlingError ($errorType, $errorMessage, array $backtrace) {
-		$this->printError($errorType, $errorMessage, $backtrace);
+		// Only print Errors to the screen if the display_errors directive instructs
+		// us to do so.
+		if (ini_get('display_errors') === true || ini_get('display_errors') === 'On' 
+			|| ini_get('display_errors') === 'stdout')
+		{
+			$this->printError($errorType, $errorMessage, $backtrace);
+		}
 		
-		// Log the error if needed.
-		if (isset($this->typeLogging[$errorType]) && $this->typeLogging[$errorType])
-			$this->logError($errorType, $errorMessage, $backtrace);
+		// Log the error.
+		$this->logError($errorType, $errorMessage, $backtrace);
 		
 		// Exit if the error is fatal
-		if (isset($this->typeFatality[$errorType]) && $this->typeFatality[$errorType] === false)
+		// do a bitwise comparison of the error level to the current fatalErrors level
+		if (!($errorType & $this->fatalErrors))
 			return;
 		else
 			die();
@@ -288,11 +223,18 @@ class HarmoniErrorHandler {
 		else
 			$type = get_class($exception);
 		
-		if (ini_get('html_errors'))
-			self::printMessage('Uncaught Exception of type', $type, $exception->getMessage(), $exception->getTrace());
-		else
-			self::printPlainTextMessage('Uncaught Exception of type', $type, $exception->getMessage(), $exception->getTrace());
+		// Only print Exceptions to the screen if the display_errors directive instructs
+		// us to do so.
+		if (ini_get('display_errors') === true || ini_get('display_errors') === 'On' 
+			|| ini_get('display_errors') === 'stdout')
+		{
+			if (ini_get('html_errors'))
+				self::printMessage('Uncaught Exception of type', $type, $exception->getMessage(), $exception->getTrace());
+			else
+				self::printPlainTextMessage('Uncaught Exception of type', $type, $exception->getMessage(), $exception->getTrace());
+		}
 		
+		// Log the Exception
 		self::logMessage($type, $exception->getMessage(), $exception->getTrace());
 	}
 	
@@ -385,6 +327,14 @@ class HarmoniErrorHandler {
 	 * @static
 	 */
 	public static function logMessage ($type, $message, array $backtrace) {
+		/*********************************************************
+		 * Log the error in the default system log
+		 *********************************************************/
+		error_log($message);		
+		
+		/*********************************************************
+		 * Log the error using the Logging OSID if available.
+		 *********************************************************/
 		// If we have an error in the error handler or the logging system, 
 		// don't infinitely loop trying to log the error of the error....
 		$testBacktrace = debug_backtrace();

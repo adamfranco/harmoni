@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.195 2007/10/16 13:45:18 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.196 2007/10/17 19:07:58 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -92,6 +92,9 @@
 			ErrorHander: Exceptions and Errors are now printed in a plain text mode when 
 			scripts are called from the command line environment.
 		</new>
+		<change author='adam' date='2007-10-17'>
+			Removing unneeded $harmoni paramaters from Action Source methods.
+		</change>
 	</version>
 	<version number="0.12.3" date="2007-09-25">
 		<change author='adam' date='2007-09-25'>

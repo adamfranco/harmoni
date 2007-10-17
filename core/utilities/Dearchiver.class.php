@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Dearchiver.class.php,v 1.7 2007/10/10 22:58:42 adamfranco Exp $
+ * @version $Id: Dearchiver.class.php,v 1.8 2007/10/17 19:07:55 adamfranco Exp $
  *
  * @link http://sourceforge.net/projects/concerto
  */ 
@@ -19,19 +19,28 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Dearchiver.class.php,v 1.7 2007/10/10 22:58:42 adamfranco Exp $
+ * @version $Id: Dearchiver.class.php,v 1.8 2007/10/17 19:07:55 adamfranco Exp $
  */
 
 // PEAR Libraries raise some E_STRICT runtime notices. Ignore these since we can't 
 // change them.
-$tmp = error_reporting();
-if ($tmp & E_STRICT)
-	error_reporting(E_ALL);
+$tmpReporting = error_reporting();
+if ($tmpReporting & E_STRICT)
+	error_reporting(E_ALL & ~ E_STRICT);
+
+$handler = HarmoniErrorHandler::instance();
+$tmpFatal = $handler->fatalErrors();
+if ($tmpFatal & E_STRICT)
+	$handler->fatalErrors(E_ALL & ~ E_STRICT);
 
 require_once("Archive/Tar.php");
 
-if ($tmp & E_STRICT)
-	error_reporting($tmp);
+if ($tmpReporting & E_STRICT)
+	error_reporting($tmpReporting);
+
+if ($tmpFatal & E_STRICT)
+	$handler->fatalErrors($tmpFatal );
+	
 
 
 
