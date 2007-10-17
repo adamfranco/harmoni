@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniErrorHandler.class.php,v 1.7 2007/10/17 19:07:54 adamfranco Exp $
+ * @version $Id: HarmoniErrorHandler.class.php,v 1.8 2007/10/17 19:30:13 adamfranco Exp $
  */ 
 
 /**
@@ -30,7 +30,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniErrorHandler.class.php,v 1.7 2007/10/17 19:07:54 adamfranco Exp $
+ * @version $Id: HarmoniErrorHandler.class.php,v 1.8 2007/10/17 19:30:13 adamfranco Exp $
  */
 class HarmoniErrorHandler {
 		
@@ -192,7 +192,7 @@ class HarmoniErrorHandler {
 		// Only print Errors to the screen if the display_errors directive instructs
 		// us to do so.
 		if (ini_get('display_errors') === true || ini_get('display_errors') === 'On' 
-			|| ini_get('display_errors') === 'stdout')
+			|| ini_get('display_errors') === 'stdout' || ini_get('display_errors') === '1')
 		{
 			$this->printError($errorType, $errorMessage, $backtrace);
 		}
@@ -218,7 +218,7 @@ class HarmoniErrorHandler {
 	 * @static
 	 */
 	public static function handleException (Exception $exception) {
-		if (method_exists($exception, "getType"))
+		if (method_exists($exception, "getType") && $exception->getType())
 			$type = $exception->getType();
 		else
 			$type = get_class($exception);
@@ -226,7 +226,7 @@ class HarmoniErrorHandler {
 		// Only print Exceptions to the screen if the display_errors directive instructs
 		// us to do so.
 		if (ini_get('display_errors') === true || ini_get('display_errors') === 'On' 
-			|| ini_get('display_errors') === 'stdout')
+			|| ini_get('display_errors') === 'stdout' || ini_get('display_errors') === '1')
 		{
 			if (ini_get('html_errors'))
 				self::printMessage('Uncaught Exception of type', $type, $exception->getMessage(), $exception->getTrace());
@@ -304,7 +304,7 @@ class HarmoniErrorHandler {
 	/**
 	 * Log an error with the Logging OSID implementation.
 	 * 
-	 * @param int $errorType
+	 * @param string $errorType
 	 * @param string $errorMessage
 	 * @param array $backtrace
 	 * @return void
@@ -328,9 +328,14 @@ class HarmoniErrorHandler {
 	 */
 	public static function logMessage ($type, $message, array $backtrace) {
 		/*********************************************************
-		 * Log the error in the default system log
+		 * Log the error in the default system log if the log_errors
+		 * directive is on.
 		 *********************************************************/
-		error_log($message);		
+		if (ini_get('log_errors') === true || ini_get('log_errors') === 'On' 
+			|| ini_get('log_errors') === '1')
+		{
+			error_log("PHP ".$type.":  ".$message);
+		}
 		
 		/*********************************************************
 		 * Log the error using the Logging OSID if available.
