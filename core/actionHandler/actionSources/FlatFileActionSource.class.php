@@ -18,7 +18,7 @@ require_once HARMONI."actionHandler/ActionSource.abstract.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: FlatFileActionSource.class.php,v 1.7 2007/09/04 20:25:29 adamfranco Exp $
+ * @version $Id: FlatFileActionSource.class.php,v 1.8 2007/10/17 19:03:31 adamfranco Exp $
  */
 class FlatFileActionSource extends ActionSource{
 
@@ -76,11 +76,10 @@ class FlatFileActionSource extends ActionSource{
 	 * Executes the specified action in the specified module, using the Harmoni object as a base.
 	 * @param string $module The module in which to execute.
 	 * @param string $action The specific action to execute.
-	 * @param ref object $harmoni A reference to a {@link Harmoni} object.
 	 * @access public
 	 * @return ref mixed A {@link Layout} or TRUE/FALSE
 	 */
-	function executeAction($module, $action, $harmoni)
+	function executeAction($module, $action)
 	{ 
 		$fullPath = $this->_mkFullPath($module, $action);
 		if (!$this->actionExists($module, $action)) {

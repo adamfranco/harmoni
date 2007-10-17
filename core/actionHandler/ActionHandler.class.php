@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ActionHandler.class.php,v 1.22 2007/09/04 20:25:29 adamfranco Exp $
+ * @version $Id: ActionHandler.class.php,v 1.23 2007/10/17 19:03:24 adamfranco Exp $
  */
 
 //require_once(HARMONI."actionHandler/ActionHandler.interface.php");
@@ -73,7 +73,7 @@ define("ACTIONS_CLASSES_METHOD","execute");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ActionHandler.class.php,v 1.22 2007/09/04 20:25:29 adamfranco Exp $
+ * @version $Id: ActionHandler.class.php,v 1.23 2007/10/17 19:03:24 adamfranco Exp $
  */
 class ActionHandler extends EventTrigger {
 	/**
@@ -127,8 +127,7 @@ class ActionHandler extends EventTrigger {
 	 * @access public
 	 * @return void
 	 **/
-	function ActionHandler($harmoni) {
-		$this->_harmoni =$harmoni;
+	function ActionHandler() {
 		$this->_actionsExecuted = array();
 		$this->_threads = array();
 		$this->_actionSources = array();
@@ -207,7 +206,7 @@ class ActionHandler extends EventTrigger {
 		foreach (array_keys($this->_actionSources) as $sourceID) {
 			$source =$this->_actionSources[$sourceID];
 			if ($source->actionExists($module, $action)) {
-				$result =$source->executeAction($module, $action, $this->_harmoni);
+				$result =$source->executeAction($module, $action);
 				$executedAction = true;
 				break;
 			}
