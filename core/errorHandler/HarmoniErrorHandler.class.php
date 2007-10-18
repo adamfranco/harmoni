@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniErrorHandler.class.php,v 1.8 2007/10/17 19:30:13 adamfranco Exp $
+ * @version $Id: HarmoniErrorHandler.class.php,v 1.9 2007/10/18 14:25:40 adamfranco Exp $
  */ 
 
 /**
@@ -30,7 +30,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniErrorHandler.class.php,v 1.8 2007/10/17 19:30:13 adamfranco Exp $
+ * @version $Id: HarmoniErrorHandler.class.php,v 1.9 2007/10/18 14:25:40 adamfranco Exp $
  */
 class HarmoniErrorHandler {
 		
@@ -485,8 +485,6 @@ class HarmoniErrorHandler {
 		if ($return) return ob_get_clean();
 	}
 }
-
-set_exception_handler(array('HarmoniErrorHandler', 'handleException'));
 
 
 ?>
