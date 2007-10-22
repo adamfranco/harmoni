@@ -11,7 +11,7 @@ require_once(HARMONI.'oki2/authorization/HarmoniFunctionIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthorizationCache.class.php,v 1.33 2007/09/13 16:04:18 adamfranco Exp $
+ * @version $Id: AuthorizationCache.class.php,v 1.34 2007/10/22 16:21:49 adamfranco Exp $
  */
 class AuthorizationCache {
 
@@ -187,7 +187,7 @@ class AuthorizationCache {
 		$where = "type.type_domain = '".addslashes($domain)."'";
 		$where .= " AND type.type_authority = '".addslashes($authority)."'";
 		$where .= " AND type.type_keyword = '".addslashes($keyword)."'";
-		$where .= " AND type.type_description = '".addslashes($functionTypeDescription)."'";
+// 		$where .= " AND type.type_description = '".addslashes($functionTypeDescription)."'";
 											  
 		$query->addWhere($where);
 

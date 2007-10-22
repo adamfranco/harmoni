@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.197 2007/10/22 15:36:37 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.198 2007/10/22 16:21:53 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -98,6 +98,10 @@
 		<change author='adam' date='2007-10-17'>
 			Removing unneeded $harmoni paramaters from Action Source methods.
 		</change>
+		<fix author='adam' date='2007-10-22'>
+			Authorization: Fixed type description searching. Only Domain, Authority, and
+			Keyword define the type.
+		</fix>
 	</version>
 	<version number="0.12.3" date="2007-09-25">
 		<change author='adam' date='2007-09-25'>

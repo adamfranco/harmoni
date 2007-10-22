@@ -112,6 +112,11 @@ harmoni/core/DBHandler/db_updater.php
 	* Change: 
 		Removing unneeded $harmoni paramaters from Action Source methods.
 		(2007-10-17 - Adam Franco)
+		
+	* Bug Fix: 
+		Authorization: Fixed type description searching. Only Domain, Authority, and
+		Keyword define the type.
+		(2007-10-22 - Adam Franco)
 	
 v. 0.12.3 (2007-09-25)
 ----------------------------------------------------
