@@ -3,7 +3,7 @@ Name: Harmoni Release Notes
 (See the Harmoni change log for more details)
 
 
-v. 0.12.4 (The Future)
+v. 0.13.0 (2007-10-22)
 ----------------------------------------------------
 New in this relase include the addition of alternate repository implementations for
 reading from simple database tables and federating together several different
@@ -12,6 +12,9 @@ repository implementations.
 Also, Be sure to point the database updater script
 (harmoni/core/DBHandler/db_updater.php) at your harmoni databases to add new columns
 that changed in harmoni-0.11.0 and harmoni-0.12.0.
+
+Changes to the Logging tables require running a database updater script:
+harmoni/core/DBHandler/db_updater.php 
 
 
 v. 0.12.3 (2007-09-25)

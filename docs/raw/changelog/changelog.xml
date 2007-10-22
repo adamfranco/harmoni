@@ -3,12 +3,12 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.196 2007/10/17 19:07:58 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.197 2007/10/22 15:36:37 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
-	<version number="0.12.4" date="The Future">
+	<version number="0.13.0" date="2007-10-22">
 		<releaseNotes>
 			New in this relase include the addition of alternate repository
 			implementations for reading from simple database tables and federating
@@ -17,6 +17,9 @@
 			Also, Be sure to point the database updater script (harmoni/core/DBHandler/db_updater.php)
 			at your harmoni databases to add new columns that changed in harmoni-0.11.0 
 			and harmoni-0.12.0.
+			
+			Changes to the Logging tables require running a database updater script:
+			harmoni/core/DBHandler/db_updater.php
 		</releaseNotes>
 		<new author='adam' date='2007-10-05'>
 			A new repository implementation, SimpleTableRepository, exposes simple database

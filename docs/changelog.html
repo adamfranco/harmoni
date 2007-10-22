@@ -23,11 +23,13 @@
 </head>
 <body>
 <h1>Harmoni Change Log</h1>
-<h2>Version 0.12.4</h2>
-<h3>The Future</h3>
+<h2>Version 0.13.0</h2>
+<h3>2007-10-22</h3>
 <p>New in this relase include the addition of alternate repository implementations for reading from simple database tables and federating together several different repository implementations.
 <br>
-<br>Also, Be sure to point the database updater script (harmoni/core/DBHandler/db_updater.php) at your harmoni databases to add new columns that changed in harmoni-0.11.0 and harmoni-0.12.0.</p>
+<br>Also, Be sure to point the database updater script (harmoni/core/DBHandler/db_updater.php) at your harmoni databases to add new columns that changed in harmoni-0.11.0 and harmoni-0.12.0.
+<br>
+<br>Changes to the Logging tables require running a database updater script: harmoni/core/DBHandler/db_updater.php</p>
 <ul>
 		
 		<li>
@@ -45,7 +47,7 @@
 		<li>
 <b>New feature:</b> Custom error_handling function. (<em>2007-10-09 - Adam Franco</em>)</li>
 		<li>
-<b>Change:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1810364&amp;group_id=82873&amp;atid=http://sourceforge.net/tracker/index.php?func=detail&amp;group_id=82873&amp;atid=567473&amp;aid=">
+<b>Change:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1810364&amp;group_id=&amp;atid=">
         			#1810364</a> The HarmoniRepositoryManager object is now passed to the objects it creates rather than being accessed globally from within its implementation peventing conflicts when multiple RepositoryManager implementations exist. (<em>2007-10-09 - Adam Franco</em>)</li>
 		<li>
 <b>Bug Fix:</b> Fixing a number of E_STRICT notices and improving the class and interface hierarchies. (<em>2007-10-10 - Adam Franco</em>)</li>
@@ -53,6 +55,22 @@
 <b>New feature:</b> Improved Error and Exception handling class, HarmoniErrorHandler. Adds unified Error and Exception printing and logging. (<em>2007-10-10 - Adam Franco</em>)</li>
 		<li>
 <b>New feature:</b> DatabaseManager: Can now add LIKE clauses to query objects. (<em>2007-10-11 - Adam Franco</em>)</li>
+		<li>
+<b>New feature:</b> DatabaseManager: Can now add sub-queries to the FROM clause via a new addDerivedTable($subQuery, $joinType, $joinCondition, $alias) method. (<em>2007-10-11 - Adam Franco</em>)</li>
+		<li>
+<b>Bug Fix:</b> Logging: Log-browsing has been dramatically speeded up by refactoring its queries and indexes. (<em>2007-10-11 - Adam Franco</em>)</li>
+		<li>
+<span style="color: red">*** IMPORTANT ***</span><b>Change:</b> Changes to the Logging tables require running a database updater script: harmoni/core/DBHandler/db_updater.php (<em>2007-10-11 - Adam Franco</em>)</li>
+		<li>
+<b>Bug Fix:</b> Repository: fixing delete repository syntax to work with PostgreSQL. (<em>2007-10-11 - Adam Franco</em>)</li>
+		<li>
+<b>New feature:</b> RequestContext: Now can set the null (no namespace) namespace. (<em>2007-10-12 - Adam Franco</em>)</li>
+		<li>
+<b>Bug Fix:</b> Authorization: Fixed invalid static calls to instance methods. (<em>2007-10-12 - Adam Franco</em>)</li>
+		<li>
+<b>New feature:</b> ErrorHander: Exceptions and Errors are now printed in a plain text mode when scripts are called from the command line environment. (<em>2007-10-12 - Adam Franco</em>)</li>
+		<li>
+<b>Change:</b> Removing unneeded $harmoni paramaters from Action Source methods. (<em>2007-10-17 - Adam Franco</em>)</li>
 	</ul>
 <br><h2>Version 0.12.3</h2>
 <h3>2007-09-25</h3>
@@ -119,6 +137,8 @@
 <b>Bug Fix:</b> ErrorHandler: Fixed HTML syntax error in Exception printing. (<em>2007-09-11 - Adam Franco</em>)</li>
 		<li>
 <b>Bug Fix:</b> Repository: Now properly escapes values in modification date-storing query. (<em>2007-09-07 - Adam Franco</em>)</li>
+		<li>
+<b>New feature:</b> Logging: New priority type 'All' allows for browsing of all priority levels at once. (<em>2007-10-11 - Adam Franco</em>)</li>
 	</ul>
 <br><h2>Version 0.11.0</h2>
 <h3>2007-09-07</h3>
@@ -539,14 +559,14 @@
 		<li>
 <b>Change:</b> DataManager: can now store with a Schema definition an arbitrary set of parameters for whatever is useful. Updated the Repository to use this method of storing extra data. (<em>Gabe Schine</em>)</li>
 		<li>
-<b>New feature:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=102459&amp;group_id=82873&amp;atid=http://sourceforge.net/pm/task.php?func=detailtask&amp;group_id=82873&amp;group_project_id=37898&amp;project_task_id=">
+<b>New feature:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=102459&amp;group_id=&amp;atid=">
         			#102459</a> Added task-manager linkability to the changelog. (<em>Gabe Schine</em>)</li>
 		<li>
 <b>Change:</b> Added retrieval of $_FILES-type data to the RequestContext and RequestHandler classes. (<em>Gabe Schine</em>)</li>
 		<li>
 <b>Change:</b> Updated DR module to use new DataManager. (<em>Gabe Schine</em>)</li>
 		<li>
-<b>Change:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=890779&amp;group_id=82873&amp;atid=http://sourceforge.net/tracker/index.php?func=detail&amp;group_id=82873&amp;atid=567473&amp;aid=">
+<b>Change:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=890779&amp;group_id=&amp;atid=">
         			#890779</a> DataManager now uses unique ids to reference fields instead of purely by label. (<em>Gabe Schine</em>)</li>
 		<li>
 <b>Bug Fix:</b> Fixed a number of bugs in the Primitive and StorablePrimitive classes. (<em>Gabe Schine</em>)</li>
@@ -555,14 +575,14 @@
 		<li>
 <b>New feature:</b> DBHandler and Databases now implement a getTableList() function. (<em>Gabe Schine</em>)</li>
 		<li>
-<b>New feature:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=102448&amp;group_id=82873&amp;atid=http://sourceforge.net/pm/task.php?func=detailtask&amp;group_id=82873&amp;group_project_id=37898&amp;project_task_id=">
+<b>New feature:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=102448&amp;group_id=&amp;atid=">
         			#102448</a> Implemented (but did not yet test) Oracle database connectivity. (<em>Gabe Schine</em>)</li>
 		<li>
 <b>Change:</b> Changed DBHandler's toDBDate functionality to automatically format and include quotations if necessary for the specific DB type. This became a problem for Oracle databases where a function call is necessary for date storage. (<em>Gabe Schine</em>)</li>
 		<li>
 <b>New feature:</b> Added getStringName() to the Database interface and added a method in the DBHandler to allows access to the string name based on the database index. (<em>Gabe Schine</em>)</li>
 		<li>
-<b>Change:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=116890&amp;group_id=82873&amp;atid=http://sourceforge.net/pm/task.php?func=detailtask&amp;group_id=82873&amp;group_project_id=37898&amp;project_task_id=">
+<b>Change:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=116890&amp;group_id=&amp;atid=">
         			#116890</a> All DataManager database queries now free() their results after processing. (<em>Gabe Schine</em>)</li>
 		<li>
 <b>New feature:</b> GUIManager now allows for the setting of pre and post HTML. These are HTML tags that need to surround a compontent. This is primarily used to properly nest form-tags around tables/divs to generate valid XHTML. (<em>Adam Franco</em>)</li>
@@ -717,13 +737,13 @@
 		<li>
 <b>New feature:</b> DateTime::toString() now has optional parameter to return a shorter M/D/Y for the date instead of Month DD, YYYY. (<em>Gabe Schine</em>)</li>
 		<li>
-<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=102455&amp;group_id=82873&amp;atid=http://sourceforge.net/pm/task.php?func=detailtask&amp;group_id=82873&amp;group_project_id=37898&amp;project_task_id=">
+<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=102455&amp;group_id=&amp;atid=">
         			#102455</a> AuthN queries now have slashes added to dbc query values. (<em>Adam Franco</em>)</li>
 		<li>
-<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=102455&amp;group_id=82873&amp;atid=http://sourceforge.net/pm/task.php?func=detailtask&amp;group_id=82873&amp;group_project_id=37898&amp;project_task_id=">
+<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=102455&amp;group_id=&amp;atid=">
         			#102455</a> Shared queries now have slashes added to query values. (<em>Adam Franco</em>)</li>
 		<li>
-<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=102455&amp;group_id=82873&amp;atid=http://sourceforge.net/pm/task.php?func=detailtask&amp;group_id=82873&amp;group_project_id=37898&amp;project_task_id=">
+<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=102455&amp;group_id=&amp;atid=">
         			#102455</a> Globally added addslashes() calls to quoted values in query strings. (<em>Adam Franco</em>)</li>
 		<li>
 <b>Change:</b> Fixed LoginHandler problem which was preventing the use of custom callback functions. (<em>Adam Franco</em>)</li>

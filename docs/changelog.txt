@@ -4,7 +4,7 @@ Name: Harmoni Change Log
 
 
 
-v. 0.12.4 (The Future)
+v. 0.13.0 (2007-10-22)
 ----------------------------------------------------
 New in this relase include the addition of alternate repository implementations for
 reading from simple database tables and federating together several different
@@ -13,6 +13,9 @@ repository implementations.
 Also, Be sure to point the database updater script
 (harmoni/core/DBHandler/db_updater.php) at your harmoni databases to add new columns
 that changed in harmoni-0.11.0 and harmoni-0.12.0.
+
+Changes to the Logging tables require running a database updater script:
+harmoni/core/DBHandler/db_updater.php 
 		
 		
 	* New feature: 
@@ -73,6 +76,42 @@ that changed in harmoni-0.11.0 and harmoni-0.12.0.
 	* New feature: 
 		DatabaseManager: Can now add LIKE clauses to query objects.
 		(2007-10-11 - Adam Franco)
+		
+	* New feature: 
+		DatabaseManager: Can now add sub-queries to the FROM clause via a new
+		addDerivedTable($subQuery, $joinType, $joinCondition, $alias) method.
+		(2007-10-11 - Adam Franco)
+		
+	* Bug Fix: 
+		Logging: Log-browsing has been dramatically speeded up by refactoring its
+		queries and indexes.
+		(2007-10-11 - Adam Franco)
+		
+	**** IMPORTANT *** Change: 
+		Changes to the Logging tables require running a database updater script:
+		harmoni/core/DBHandler/db_updater.php 
+		(2007-10-11 - Adam Franco)
+		
+	* Bug Fix: 
+		Repository: fixing delete repository syntax to work with PostgreSQL.
+		(2007-10-11 - Adam Franco)
+		
+	* New feature: 
+		RequestContext: Now can set the null (no namespace) namespace.
+		(2007-10-12 - Adam Franco)
+		
+	* Bug Fix: 
+		Authorization: Fixed invalid static calls to instance methods.
+		(2007-10-12 - Adam Franco)
+		
+	* New feature: 
+		ErrorHander: Exceptions and Errors are now printed in a plain text mode when
+		scripts are called from the command line environment.
+		(2007-10-12 - Adam Franco)
+		
+	* Change: 
+		Removing unneeded $harmoni paramaters from Action Source methods.
+		(2007-10-17 - Adam Franco)
 	
 v. 0.12.3 (2007-09-25)
 ----------------------------------------------------
@@ -204,6 +243,11 @@ v. 0.12.0 (2007-09-13)
 	* Bug Fix: 
 		Repository: Now properly escapes values in modification date-storing query.
 		(2007-09-07 - Adam Franco)
+		
+	* New feature: 
+		Logging: New priority type 'All' allows for browsing of all priority levels
+		at once.
+		(2007-10-11 - Adam Franco)
 	
 v. 0.11.0 (2007-09-07)
 ----------------------------------------------------
