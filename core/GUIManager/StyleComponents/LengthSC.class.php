@@ -26,7 +26,7 @@ require_once(HARMONI."GUIManager/StyleComponent.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LengthSC.class.php,v 1.13 2007/10/22 18:05:28 adamfranco Exp $
+ * @version $Id: LengthSC.class.php,v 1.14 2007/10/22 18:11:22 adamfranco Exp $
  */
 class LengthSC extends StyleComponent {
 
@@ -70,7 +70,7 @@ class CSSLengthValidatorRule extends RegexValidatorRule {
 	 * @static
 	 * @since 3/28/05
 	 */
-	static function getRule ($regex) {
+	static function getRule ($regex = null) {
 		if ($regex)
 			throw new HarmoniException("Passing of a custom string to this rule is not allowed.");
 		

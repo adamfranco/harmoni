@@ -10,7 +10,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/RegexValidatorRule.class
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: FieldRequiredValidatorRule.class.php,v 1.7 2007/10/22 18:05:29 adamfranco Exp $
+ * @version $Id: FieldRequiredValidatorRule.class.php,v 1.8 2007/10/22 18:11:23 adamfranco Exp $
  */
 class FieldRequiredValidatorRule
 	extends RegexValidatorRule
@@ -38,7 +38,7 @@ class FieldRequiredValidatorRule
 	 * @static
 	 * @since 3/28/05
 	 */
-	static function getRule ($regex) {
+	static function getRule ($regex = null) {
 		if ($regex)
 			throw new HarmoniException("Passing of a custom string to this rule is not allowed.");
 			
