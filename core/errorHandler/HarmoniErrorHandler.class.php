@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniErrorHandler.class.php,v 1.9 2007/10/18 14:25:40 adamfranco Exp $
+ * @version $Id: HarmoniErrorHandler.class.php,v 1.10 2007/10/22 18:05:29 adamfranco Exp $
  */ 
 
 /**
@@ -30,7 +30,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniErrorHandler.class.php,v 1.9 2007/10/18 14:25:40 adamfranco Exp $
+ * @version $Id: HarmoniErrorHandler.class.php,v 1.10 2007/10/22 18:05:29 adamfranco Exp $
  */
 class HarmoniErrorHandler {
 		
@@ -353,22 +353,26 @@ class HarmoniErrorHandler {
 		
 		if (class_exists('Services') && Services::serviceRunning("Logging")) {
 			
-			$loggingManager = Services::getService("Logging");
-			$log =$loggingManager->getLogForWriting("Harmoni");
-			$formatType = new Type("logging", "edu.middlebury", "AgentsAndNodes",
-							"A format in which the acting Agent[s] and the target nodes affected are specified.");
-			$priorityType = new Type("logging", "edu.middlebury", $type,
-								"Events involving critical system errors.");
-			
-			$item = new AgentNodeEntryItem($type, $message);
-			$item->setBacktrace($backtrace);
-			$item->addTextToBactrace("\n<div><strong>REQUEST_URI: </strong>".$_SERVER['REQUEST_URI']."</div>");
-			if (isset($_SERVER['HTTP_REFERER']))
-					$item->addTextToBactrace("\n<div><strong>HTTP_REFERER: </strong>".$_SERVER['HTTP_REFERER']."</div>");
-			$item->addTextToBactrace("\n<div><strong>GET: </strong><pre>".print_r($_GET, true)."</pre></div>");
-			$item->addTextToBactrace("\n<div><strong>POST: </strong><pre>".print_r($_POST, true)."</pre></div>");
-			$item->addTextToBactrace("\n<div><strong>HTTP_USER_AGENT: </strong><pre>".print_r($_SERVER['HTTP_USER_AGENT'], true)."</pre></div>");
-			$log->appendLogWithTypes($item,	$formatType, $priorityType);
+			try {
+				$loggingManager = Services::getService("Logging");
+				$log =$loggingManager->getLogForWriting("Harmoni");
+				$formatType = new Type("logging", "edu.middlebury", "AgentsAndNodes",
+								"A format in which the acting Agent[s] and the target nodes affected are specified.");
+				$priorityType = new Type("logging", "edu.middlebury", $type,
+									"Events involving critical system errors.");
+				
+				$item = new AgentNodeEntryItem($type, $message);
+				$item->setBacktrace($backtrace);
+				$item->addTextToBactrace("\n<div><strong>REQUEST_URI: </strong>".$_SERVER['REQUEST_URI']."</div>");
+				if (isset($_SERVER['HTTP_REFERER']))
+						$item->addTextToBactrace("\n<div><strong>HTTP_REFERER: </strong>".$_SERVER['HTTP_REFERER']."</div>");
+				$item->addTextToBactrace("\n<div><strong>GET: </strong><pre>".print_r($_GET, true)."</pre></div>");
+				$item->addTextToBactrace("\n<div><strong>POST: </strong><pre>".print_r($_POST, true)."</pre></div>");
+				$item->addTextToBactrace("\n<div><strong>HTTP_USER_AGENT: </strong><pre>".print_r($_SERVER['HTTP_USER_AGENT'], true)."</pre></div>");
+				$log->appendLogWithTypes($item,	$formatType, $priorityType);
+			} catch (Exception $e) {
+				// Just continue if we can't log the exception.
+			}
 		}
 	}
 	

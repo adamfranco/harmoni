@@ -11,7 +11,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/RegexValidatorRule.class
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DottedPairValidatorRule.class.php,v 1.9 2007/10/09 21:11:57 adamfranco Exp $
+ * @version $Id: DottedPairValidatorRule.class.php,v 1.10 2007/10/22 18:05:28 adamfranco Exp $
  */
 
 class DottedPairValidatorRule
@@ -40,7 +40,10 @@ class DottedPairValidatorRule
 	 * @static
 	 * @since 3/28/05
 	 */
-	static function getRule () {
+	static function getRule ($regex) {
+		if ($regex)
+			throw new HarmoniException("Passing of a custom string to this rule is not allowed.");
+		
 		// Because there is no way in PHP to get the class name of the descendent
 		// class on which this method is called, this method must be implemented
 		// in each descendent class.

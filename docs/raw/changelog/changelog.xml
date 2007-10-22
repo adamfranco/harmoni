@@ -3,11 +3,22 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.198 2007/10/22 16:21:53 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.200 2007/10/22 18:06:12 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
+	<version number="0.13.1" date="2007-10-22">
+		<releaseNotes>
+			This release fixes a few issues that were missed in the last point release.
+		</releaseNotes>
+		<fix author='adam' date='2007-10-22'>
+			ErrorHandler: Now doesn't halt if exceptions are thrown during error logging.
+		</fix>
+		<fix author='adam' date='2007-10-22'>
+			GUI: Font validator rules now properly fit the parent classes interface.
+		</fix>
+	</version>
 	<version number="0.13.0" date="2007-10-22">
 		<releaseNotes>
 			New in this relase include the addition of alternate repository

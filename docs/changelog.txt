@@ -4,6 +4,20 @@ Name: Harmoni Change Log
 
 
 
+v. 0.13.1 (2007-10-22)
+----------------------------------------------------
+This release fixes a few issues that were missed in the last point release.
+		
+		
+	* Bug Fix: 
+		ErrorHandler: Now doesn't halt if exceptions are thrown during error
+		logging. 
+		(2007-10-22 - Adam Franco)
+		
+	* Bug Fix: 
+		GUI: Font validator rules now properly fit the parent classes interface.
+		(2007-10-22 - Adam Franco)
+	
 v. 0.13.0 (2007-10-22)
 ----------------------------------------------------
 New in this relase include the addition of alternate repository implementations for

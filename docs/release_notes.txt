@@ -3,6 +3,11 @@ Name: Harmoni Release Notes
 (See the Harmoni change log for more details)
 
 
+v. 0.13.1 (2007-10-22)
+----------------------------------------------------
+This release fixes a few issues that were missed in the last point release.
+
+
 v. 0.13.0 (2007-10-22)
 ----------------------------------------------------
 New in this relase include the addition of alternate repository implementations for
