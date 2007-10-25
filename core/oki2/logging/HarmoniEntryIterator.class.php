@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniEntryIterator.class.php,v 1.8 2007/10/11 20:00:27 adamfranco Exp $
+ * @version $Id: HarmoniEntryIterator.class.php,v 1.9 2007/10/25 16:15:37 adamfranco Exp $
  */
 
 require_once(OKI2."/osid/logging/EntryIterator.php");
@@ -28,7 +28,7 @@ require_once(dirname(__FILE__)."/HarmoniEntry.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniEntryIterator.class.php,v 1.8 2007/10/11 20:00:27 adamfranco Exp $
+ * @version $Id: HarmoniEntryIterator.class.php,v 1.9 2007/10/25 16:15:37 adamfranco Exp $
  */
 class HarmoniEntryIterator
 	extends EntryIterator
@@ -230,14 +230,16 @@ class HarmoniEntryIterator
 		$query->limitNumberOfRows($this->_numPerLoad);
 		if ($this->_currentRow)
 			$query->startFromRow($this->_currentRow + 1);
-		
+// 		printpre('CurrentRow at load: '.$this->_currentRow);
 // 		printpre($query->asString());
 		$results =$dbc->query($query, $this->_dbIndex);
 		$nextIds = array();
 		while ($results->hasNext()) {
 			$row = $results->next();
 			$nextIds[] = $row['entry_id'];
-		}	
+		}
+		
+// 		printpre($nextIds);
 		
 		
 		/*********************************************************
@@ -271,7 +273,7 @@ class HarmoniEntryIterator
 		$query->addOrderBy("timestamp", DESCENDING);
 		$query->addOrderBy("id", ASCENDING);
 				
-// 		printpre($query->asString());
+//  		printpre($query->asString());
 		
 		$results =$dbc->query($query, $this->_dbIndex);
 		
@@ -283,9 +285,9 @@ class HarmoniEntryIterator
 		$backtrace = '';
 		$agents = array();
 		$nodes = array();
-		$rowsTraversed = 0;
 		while ($results->hasNext()) {
 			$row = $results->next();
+			
 			
 			// Create the entry if we have all of the data for it.
 			if ($currentEntryId && $currentEntryId != $row["id"]) {
@@ -299,6 +301,7 @@ class HarmoniEntryIterator
 												$this->_formatType,
 												$this->_priorityType);
 				$i++;
+				$this->_currentRow++;
 				$currentEntryId = null;
 				$timestamp = null;
 				$category = null;
@@ -306,8 +309,6 @@ class HarmoniEntryIterator
 				$backtrace = '';
 				$agents = array();
 				$nodes = array();
-				$this->_currentRow = $this->_currentRow + $rowsTraversed;
-				$rowsTraversed = 0;
 			}
 			
 			$currentEntryId = $row["id"];
@@ -319,7 +320,6 @@ class HarmoniEntryIterator
 			$nodes[] = $row["node_id"];
 			
 // 			printpre($currentEntryId." ".$timestamp." ".$this->_currentRow);
-			$rowsTraversed++;
 		}
 		$results->free();
 		
