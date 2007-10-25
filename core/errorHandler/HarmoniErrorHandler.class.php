@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniErrorHandler.class.php,v 1.10 2007/10/22 18:05:29 adamfranco Exp $
+ * @version $Id: HarmoniErrorHandler.class.php,v 1.11 2007/10/25 16:14:14 adamfranco Exp $
  */ 
 
 /**
@@ -30,7 +30,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniErrorHandler.class.php,v 1.10 2007/10/22 18:05:29 adamfranco Exp $
+ * @version $Id: HarmoniErrorHandler.class.php,v 1.11 2007/10/25 16:14:14 adamfranco Exp $
  */
 class HarmoniErrorHandler {
 		
@@ -316,6 +316,24 @@ class HarmoniErrorHandler {
 	}
 	
 	/**
+	 * Log an Exception.
+	 * 
+	 * @param object Exception $exception
+	 * @param optional string $logName Defaults to the Harmoni log
+	 * @return void
+	 * @access public
+	 * @since 10/24/07
+	 */
+	public static function logException (Exception $exception, $logName = 'Harmoni') {
+		if (method_exists($exception, "getType") && $exception->getType())
+			$type = $exception->getType();
+		else
+			$type = get_class($exception);
+		
+		self::logMessage($type, $exception->getMessage(), $exception->getTrace(), $logName);
+	}
+	
+	/**
 	 * Log an error or exception with the Logging OSID implemenation
 	 * 
 	 * @param string $type The type of error or exception that occurred
@@ -326,7 +344,7 @@ class HarmoniErrorHandler {
 	 * @since 10/10/07
 	 * @static
 	 */
-	public static function logMessage ($type, $message, array $backtrace) {
+	public static function logMessage ($type, $message, array $backtrace, $logName = 'Harmoni') {
 		/*********************************************************
 		 * Log the error in the default system log if the log_errors
 		 * directive is on.
@@ -352,10 +370,10 @@ class HarmoniErrorHandler {
 		}
 		
 		if (class_exists('Services') && Services::serviceRunning("Logging")) {
-			
+			$logName = preg_replace('/[^a-z0-9_\s-.]/i', '', $logName);
 			try {
 				$loggingManager = Services::getService("Logging");
-				$log =$loggingManager->getLogForWriting("Harmoni");
+				$log =$loggingManager->getLogForWriting($logName);
 				$formatType = new Type("logging", "edu.middlebury", "AgentsAndNodes",
 								"A format in which the acting Agent[s] and the target nodes affected are specified.");
 				$priorityType = new Type("logging", "edu.middlebury", $type,
