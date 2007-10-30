@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SimpleTableAsset.class.php,v 1.3 2007/10/12 14:26:40 adamfranco Exp $
+ * @version $Id: SimpleTableAsset.class.php,v 1.4 2007/10/30 16:32:47 adamfranco Exp $
  */ 
 
 require_once(dirname(__FILE__)."/SimpleTableRecord.class.php");
@@ -22,7 +22,7 @@ require_once(dirname(__FILE__)."/SimpleTablePart.class.php");
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SimpleTableAsset.class.php,v 1.3 2007/10/12 14:26:40 adamfranco Exp $
+ * @version $Id: SimpleTableAsset.class.php,v 1.4 2007/10/30 16:32:47 adamfranco Exp $
  */
 class SimpleTableAsset
 	extends Asset
@@ -88,7 +88,6 @@ class SimpleTableAsset
 			$this->repository->getId()->getIdString().".".
 			$row[$this->config['id_column']]);
 		
-		
 		$this->createCustomRecord($row);
 		$this->createDcRecord($row);
 	}
@@ -113,7 +112,7 @@ class SimpleTableAsset
 				throw new ConfigurationErrorException("Can't find part value for '".$columnId."' in ".implode(", ", array_keys($row)).".");
 				
 			$this->customRecord->addPart(
-				new SimpleTablePart($partStructure, $row[$columnId]));
+				new SimpleTablePart($partStructure, $row[$columnId], $this->config['encoding']));
 		}
 	}
 	
@@ -144,7 +143,7 @@ class SimpleTableAsset
 			}
 			
 			$this->dcRecord->addPart(
-				new SimpleTablePart($partStructure, $value));
+				new SimpleTablePart($partStructure, $value, $this->config['encoding']));
 		}
 	}
 	

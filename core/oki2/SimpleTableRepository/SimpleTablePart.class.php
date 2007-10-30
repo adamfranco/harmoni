@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SimpleTablePart.class.php,v 1.1 2007/10/05 14:02:56 adamfranco Exp $
+ * @version $Id: SimpleTablePart.class.php,v 1.2 2007/10/30 16:32:47 adamfranco Exp $
  */ 
 
 /**
@@ -18,7 +18,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SimpleTablePart.class.php,v 1.1 2007/10/05 14:02:56 adamfranco Exp $
+ * @version $Id: SimpleTablePart.class.php,v 1.2 2007/10/30 16:32:47 adamfranco Exp $
  */
 class SimpleTablePart
 	extends Part
@@ -56,13 +56,36 @@ class SimpleTablePart
 	 * Constructor
 	 * 
 	 * @param object SimpleTablePartStructure $partStructure
+	 * @param mixed $value
+	 * @param optional string $encoding Default: UTF-8. Allowed values: UTF-8, ISO-8859-1.
 	 * @return void
 	 * @access public
 	 * @since 10/4/07
 	 */
-	public function __construct (SimpleTablePartStructure $partStructure, $value) {
+	public function __construct (SimpleTablePartStructure $partStructure, $value, $encoding = 'UTF-8') {
 		$this->partStructure = $partStructure;
-		$this->value = $value;
+		
+		// Pass through numeric and non-string values
+		if (!is_string($value)) {
+			$this->value = $value;
+			return;
+		}
+		
+		// Pass through UTF-8 strings
+		if ($encoding == 'UTF-8') {
+			$this->value = $value;
+			return;
+		}
+		
+		// Convert non-UTF-8 strings to UTF-8
+		$convertedValue = iconv($encoding, 'UTF-8', $value);
+		
+		// If conversion was a success, use the converted value.
+		if ($convertedValue !== false)
+			$this->value = $convertedValue;
+		// If conversion failed, just use the original.
+		else
+			$this->value = $value;
 	}
 	
 	/**

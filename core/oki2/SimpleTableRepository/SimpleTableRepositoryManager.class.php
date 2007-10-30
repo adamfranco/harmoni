@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SimpleTableRepositoryManager.class.php,v 1.2 2007/10/10 22:58:37 adamfranco Exp $
+ * @version $Id: SimpleTableRepositoryManager.class.php,v 1.3 2007/10/30 16:32:47 adamfranco Exp $
  */ 
 
 require_once(dirname(__FILE__)."/SimpleTableIdManager.class.php");
@@ -23,7 +23,7 @@ require_once(dirname(__FILE__)."/SimpleTableRepository.class.php");
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SimpleTableRepositoryManager.class.php,v 1.2 2007/10/10 22:58:37 adamfranco Exp $
+ * @version $Id: SimpleTableRepositoryManager.class.php,v 1.3 2007/10/30 16:32:47 adamfranco Exp $
  */
 class SimpleTableRepositoryManager
 	extends RepositoryManager
@@ -140,6 +140,14 @@ class SimpleTableRepositoryManager
 			if (!preg_match('/^[a-z_-]+$/i', $configuration->getProperty('user')))
 				throw new ConfigurationErrorException("Invalid user, '$user'.");
 			$this->config['user'] = $configuration->getProperty('user');
+			
+			if ($configuration->getProperty('encoding')) {
+				if (!preg_match('/^[a-z0-9_-]+$/i', $configuration->getProperty('encoding')))
+					throw new ConfigurationErrorException("Invalid encoding, '". $configuration->getProperty('encoding')."'.");
+				$this->config['encoding'] = $configuration->getProperty('encoding');
+			} else {
+				$this->config['encoding'] = 'UTF-8';
+			}
 			
 // 			if (!preg_match('/^[a-z_-]+$/i', $configuration->getProperty('password')))
 // 				throw new ConfigurationErrorException('CONFIGURATION_ERROR');
