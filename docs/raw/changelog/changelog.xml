@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.201 2007/10/25 16:15:38 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.202 2007/10/30 16:34:29 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -17,6 +17,13 @@
 		</change>
 		<fix author='adam' date='2007-10-25'>
 			Logging: Fixed error that occured when browsing to more than 50 log entries.
+		</fix>
+		<new author='adam' date='2007-10-30'>
+			Repository: The SimpleTableRepository now will convert character encodings
+			to UTF-8 if a non-UTF-8 encoding is specified in the configuration.
+		</new>
+		<fix author='adam' date='2007-10-30'>
+			Chronology: Fixing E_STRICT-level runtime notices.
 		</fix>
 	</version>
 	<version number="0.13.1" date="2007-10-22">

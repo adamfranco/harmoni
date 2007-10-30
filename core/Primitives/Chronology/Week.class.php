@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Week.class.php,v 1.6 2007/10/10 22:58:33 adamfranco Exp $
+ * @version $Id: Week.class.php,v 1.7 2007/10/30 16:34:28 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -32,7 +32,7 @@ require_once(dirname(__FILE__)."/Timespan.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Week.class.php,v 1.6 2007/10/10 22:58:33 adamfranco Exp $
+ * @version $Id: Week.class.php,v 1.7 2007/10/30 16:34:28 adamfranco Exp $
  *
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
@@ -53,7 +53,7 @@ class Week
 	 * @access public
 	 * @since 5/4/05
 	 */
-	function indexOfDay ( $aNameString ) {
+	static function indexOfDay ( $aNameString ) {
 		foreach (ChronologyConstants::DayNames() as $i => $name) {
 			if (preg_match("/$aNameString.*/i", $name))
 				return $i;
@@ -74,7 +74,7 @@ class Week
 	 * @access public
 	 * @since 5/4/05
 	 */
-	function nameOfDay ( $anInteger ) {
+	static function nameOfDay ( $anInteger ) {
 		$names = ChronologyConstants::DayNames();
 		if ($names[$anInteger])
 			return $names[$anInteger];
@@ -93,7 +93,7 @@ class Week
 	 * @access public
 	 * @since 5/20/05
 	 */
-	function startDay () {
+	static function startDay () {
 		$dayNames = ChronologyConstants::DayNames();
 		return $dayNames[1];
 	}
