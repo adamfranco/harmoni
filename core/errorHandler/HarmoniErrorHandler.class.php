@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniErrorHandler.class.php,v 1.11 2007/10/25 16:14:14 adamfranco Exp $
+ * @version $Id: HarmoniErrorHandler.class.php,v 1.12 2007/11/01 17:25:09 adamfranco Exp $
  */ 
 
 /**
@@ -30,7 +30,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniErrorHandler.class.php,v 1.11 2007/10/25 16:14:14 adamfranco Exp $
+ * @version $Id: HarmoniErrorHandler.class.php,v 1.12 2007/11/01 17:25:09 adamfranco Exp $
  */
 class HarmoniErrorHandler {
 		
@@ -298,7 +298,7 @@ class HarmoniErrorHandler {
 		print "\n* in";
 		print "\n*";
 		self::printPlainTextDebugBacktrace($backtrace);
-		print "\n*****************************************************************************";
+		print "\n*****************************************************************************\n";
 	}
 	
 	/**
@@ -381,12 +381,14 @@ class HarmoniErrorHandler {
 				
 				$item = new AgentNodeEntryItem($type, $message);
 				$item->setBacktrace($backtrace);
-				$item->addTextToBactrace("\n<div><strong>REQUEST_URI: </strong>".$_SERVER['REQUEST_URI']."</div>");
+				if (isset($_SERVER['REQUEST_URI']))
+					$item->addTextToBactrace("\n<div><strong>REQUEST_URI: </strong>".$_SERVER['REQUEST_URI']."</div>");
 				if (isset($_SERVER['HTTP_REFERER']))
 						$item->addTextToBactrace("\n<div><strong>HTTP_REFERER: </strong>".$_SERVER['HTTP_REFERER']."</div>");
 				$item->addTextToBactrace("\n<div><strong>GET: </strong><pre>".print_r($_GET, true)."</pre></div>");
 				$item->addTextToBactrace("\n<div><strong>POST: </strong><pre>".print_r($_POST, true)."</pre></div>");
-				$item->addTextToBactrace("\n<div><strong>HTTP_USER_AGENT: </strong><pre>".print_r($_SERVER['HTTP_USER_AGENT'], true)."</pre></div>");
+				if (isset($_SERVER['HTTP_USER_AGENT']))
+					$item->addTextToBactrace("\n<div><strong>HTTP_USER_AGENT: </strong><pre>".print_r($_SERVER['HTTP_USER_AGENT'], true)."</pre></div>");
 				$log->appendLogWithTypes($item,	$formatType, $priorityType);
 			} catch (Exception $e) {
 				// Just continue if we can't log the exception.
@@ -470,7 +472,8 @@ class HarmoniErrorHandler {
 		$filenameSize = 5;
 		if (is_array($traceArray)) {
 			foreach($traceArray as $trace) {
-				$filenameSize = max($filenameSize, strlen(basename($trace['file'])));
+				if (isset($trace['file']))
+					$filenameSize = max($filenameSize, strlen(basename($trace['file'])));
 			}
 		}
 		$filenameSize = $filenameSize + 2;
