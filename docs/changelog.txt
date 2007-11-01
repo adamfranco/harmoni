@@ -4,6 +4,57 @@ Name: Harmoni Change Log
 
 
 
+v. 0.13.2 (2007-11-01)
+----------------------------------------------------
+This release fixes a few minor bugs and improves support for using the Harmoni
+Architecture via a command line interface.
+		
+		
+	* Change: 
+		ErrorHandler: Now allows specifying of which log to write to.
+		(2007-10-25 - Adam Franco)
+		
+	* Bug Fix: 
+		Logging:Fixed error that occured when browsing to more than 50 log entries.
+		(2007-10-25 - Adam Franco)
+		
+	* New feature: 
+		Repository: The SimpleTableRepository now will convert character encodings
+		to UTF-8 if a non-UTF-8 encoding is specified in the configuration.
+		(2007-10-30 - Adam Franco)
+		
+	* Bug Fix: 
+		Chronology: Fixing E_STRICT-level runtime notices.
+		(2007-10-30 - Adam Franco)
+		
+	* Bug Fix: 
+		ErrorHandler: Now checks for the existance of various $_SERVER properties as
+		they won't be available when running in CLI.
+		(2007-11-01 - Adam Franco)
+		
+	* Change: 
+		Architecture: Harmoni::execute() can now be called multiple times with
+		different actions.
+		(2007-11-01 - Adam Franco)
+		
+	* New feature: 
+		Architecture/CLI: New request handling support for command line scripts.
+		
+		A CommandLineRequestHandler will read parameters of the form
+		--name='value' into the RequestContext for usage by Harmoni and actions,
+		allowing the action system and RequestContext system to be fully utilized by
+		command-line scripts.
+		
+		A CommandLineOutputHandler simply passes returned and printed text to
+		stdout, ignore the HTTP specific header() calls and HTML formatting.
+		(2007-11-01 - Adam Franco)
+		
+	* Change: 
+		ActionHandler: Now throws an UnknownActionException when the specified
+		action is not found, allowing for special-case handling of this common
+		Exception. 
+		(2007-11-01 - Adam Franco)
+	
 v. 0.13.1 (2007-10-22)
 ----------------------------------------------------
 This release fixes a few issues that were missed in the last point release.

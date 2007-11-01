@@ -3,14 +3,15 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.203 2007/11/01 17:37:10 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.205 2007/11/01 17:54:20 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
-	<version number="0.13.2" date="The Future">
+	<version number="0.13.2" date="2007-11-01">
 		<releaseNotes>
-			
+			This release fixes a few minor bugs and improves support for using the
+			Harmoni Architecture via a command line interface.
 		</releaseNotes>
 		<change author='adam' date='2007-10-25'>
 			ErrorHandler: Now allows specifying of which log to write to.
@@ -43,6 +44,11 @@
 			A CommandLineOutputHandler simply passes returned and printed text to
 			stdout, ignore the HTTP specific header() calls and HTML formatting.
 		</new>
+		<change author='adam' date='2007-11-01'>
+			ActionHandler: Now throws an UnknownActionException when the specified
+			action is not found, allowing for special-case handling of this common
+			Exception.
+		</change>
 	</version>
 	<version number="0.13.1" date="2007-10-22">
 		<releaseNotes>

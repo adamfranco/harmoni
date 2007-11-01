@@ -3,6 +3,12 @@ Name: Harmoni Release Notes
 (See the Harmoni change log for more details)
 
 
+v. 0.13.2 (2007-11-01)
+----------------------------------------------------
+This release fixes a few minor bugs and improves support for using the Harmoni
+Architecture via a command line interface.
+
+
 v. 0.13.1 (2007-10-22)
 ----------------------------------------------------
 This release fixes a few issues that were missed in the last point release.

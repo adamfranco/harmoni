@@ -23,7 +23,33 @@
 </head>
 <body>
 <h1>Harmoni Change Log</h1>
-<h2>Version 0.13.1</h2>
+<h2>Version 0.13.2</h2>
+<h3>2007-11-01</h3>
+<p>This release fixes a few minor bugs and improves support for using the Harmoni Architecture via a command line interface.</p>
+<ul>
+		
+		<li>
+<b>Change:</b> ErrorHandler: Now allows specifying of which log to write to. (<em>2007-10-25 - Adam Franco</em>)</li>
+		<li>
+<b>Bug Fix:</b> Logging: Fixed error that occured when browsing to more than 50 log entries. (<em>2007-10-25 - Adam Franco</em>)</li>
+		<li>
+<b>New feature:</b> Repository: The SimpleTableRepository now will convert character encodings to UTF-8 if a non-UTF-8 encoding is specified in the configuration. (<em>2007-10-30 - Adam Franco</em>)</li>
+		<li>
+<b>Bug Fix:</b> Chronology: Fixing E_STRICT-level runtime notices. (<em>2007-10-30 - Adam Franco</em>)</li>
+		<li>
+<b>Bug Fix:</b> ErrorHandler: Now checks for the existance of various $_SERVER properties as they won't be available when running in CLI. (<em>2007-11-01 - Adam Franco</em>)</li>
+		<li>
+<b>Change:</b> Architecture: Harmoni::execute() can now be called multiple times with different actions. (<em>2007-11-01 - Adam Franco</em>)</li>
+		<li>
+<b>New feature:</b> Architecture/CLI: New request handling support for command line scripts.
+<br>
+<br>A CommandLineRequestHandler will read parameters of the form --name='value' into the RequestContext for usage by Harmoni and actions, allowing the action system and RequestContext system to be fully utilized by command-line scripts.
+<br>
+<br>A CommandLineOutputHandler simply passes returned and printed text to stdout, ignore the HTTP specific header() calls and HTML formatting. (<em>2007-11-01 - Adam Franco</em>)</li>
+		<li>
+<b>Change:</b> ActionHandler: Now throws an UnknownActionException when the specified action is not found, allowing for special-case handling of this common Exception. (<em>2007-11-01 - Adam Franco</em>)</li>
+	</ul>
+<br><h2>Version 0.13.1</h2>
 <h3>2007-10-22</h3>
 <p>This release fixes a few issues that were missed in the last point release.</p>
 <ul>
