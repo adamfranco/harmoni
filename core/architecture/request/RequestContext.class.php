@@ -11,7 +11,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RequestContext.class.php,v 1.26 2007/10/12 14:25:11 adamfranco Exp $
+ * @version $Id: RequestContext.class.php,v 1.27 2007/11/01 17:37:09 adamfranco Exp $
  */
 
 define("REQUEST_HANDLER_CONTEXT_DELIMETER", "___");
@@ -329,7 +329,7 @@ END;
 			if (!isset($args[2]))
 				$args[2] = NULL;
 			
-			$url =$this->mkURL($args[0], $args[1], $args[2]);
+			$url = $this->mkURL($args[0], $args[1], $args[2]);
 		}
 		
 		return $url->write();

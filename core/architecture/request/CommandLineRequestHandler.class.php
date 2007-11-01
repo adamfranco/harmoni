@@ -1,36 +1,59 @@
 <?php
-
 /**
- * @package harmoni.architecture.request
+ * @since 11/1/07
+ * @package  harmoni.architecture.request
  * 
- * @copyright Copyright &copy; 2005, Middlebury College
+ * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GETMethodRequestHandler.class.php,v 1.16 2007/11/01 17:37:09 adamfranco Exp $
+ * @version $Id: CommandLineRequestHandler.class.php,v 1.1 2007/11/01 17:37:09 adamfranco Exp $
  */ 
- 
+
 require_once(HARMONI."architecture/request/RequestHandler.interface.php");
-require_once(HARMONI."architecture/request/URLWriter.abstract.php");
+require_once(dirname(__FILE__)."/ArgumentParser.inc.php");
 
 /**
- * The job of a RequestHandler is twofold:
+ * The CommandLineRequestHandler converts command line options of the form --name=value
+ * into RequestContext parameters.
  * 
- * 1) handle incoming request data -- could be from $_REQUEST-type arrays, 
- * could be from session variables, etc.
- * 2) handle the production of URLs with given contextual data/query using an 
- * associated URLWriter class.
- *
- * @package harmoni.architecture.request
+ * @since 11/1/07
+ * @package  harmoni.architecture.request
  * 
- * @copyright Copyright &copy; 2005, Middlebury College
+ * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GETMethodRequestHandler.class.php,v 1.16 2007/11/01 17:37:09 adamfranco Exp $
+ * @version $Id: CommandLineRequestHandler.class.php,v 1.1 2007/11/01 17:37:09 adamfranco Exp $
  */
-
-class GETMethodRequestHandler 
-	implements RequestHandler 
+class CommandLineRequestHandler
+	implements RequestHandler
 {
+	
+	/**
+	 * @var array $options;  
+	 * @access private
+	 * @since 11/1/07
+	 */
+	private $options = array();
+	
+	/**
+	 * @var array $input;  
+	 * @access private
+	 * @since 11/1/07
+	 */
+	private $input = array();
+	
+	/**
+	 * Constructor
+	 * 
+	 * @param array $argumentValues
+	 * @return void
+	 * @access public
+	 * @since 11/1/07
+	 */
+	public function __construct (array $argumentValues ) {
+		$this->options = getOptionArray($argumentValues);
+		$this->input = getParameterArray($argumentValues);
+	}
 	
 	/**
 	 * Returns an associative array of key=value pairs corresponding to the request
@@ -40,8 +63,8 @@ class GETMethodRequestHandler
 	 * @return array
 	 * @access public
 	 */
-	function getRequestVariables() {
-		return array_merge($_GET, $_POST);
+	public function getRequestVariables() {
+		return $this->options;
 	}
 	
 	/**
@@ -51,8 +74,8 @@ class GETMethodRequestHandler
 	 * @return array
 	 * @access public
 	 */
-	function getFileVariables() {
-		return $_FILES;
+	public function getFileVariables() {
+		return $this->input;
 	}
 	
 	/**
@@ -61,9 +84,8 @@ class GETMethodRequestHandler
 	 * @return ref object URLWriter
 	 * @access public
 	 */
-	function createURLWriter() {
-		$writer = new GETMethodURLWriter();
-		return $writer;
+	public function createURLWriter() {
+		return new CommandLineUrlWriter;
 	}
 	
 	/**
@@ -73,14 +95,14 @@ class GETMethodRequestHandler
 	 * @return string
 	 * @access public
 	 */
-	function getRequestedModuleAction() {
-		if (isset($_REQUEST["module"]))
-			$mod = preg_replace('/[^a-zA-Z0-9_\-]/i', '', $_REQUEST["module"]);
+	public function getRequestedModuleAction() {
+		if (isset($this->options["module"]))
+			$mod = preg_replace('/[^a-zA-Z0-9_\-]/i', '', $this->options["module"]);
 		else
 			$mod = NULL;
 		
-		if (isset($_REQUEST["action"]))
-			$act = preg_replace('/[^a-zA-Z0-9_\-]/i', '', $_REQUEST["action"]);
+		if (isset($this->options["action"]))
+			$act = preg_replace('/[^a-zA-Z0-9_\-]/i', '', $this->options["action"]);
 		else
 			$act = NULL;
 		
@@ -90,22 +112,25 @@ class GETMethodRequestHandler
 }
 
 
+require_once(HARMONI."architecture/request/URLWriter.abstract.php");
+
 /**
  * The purpose of a URLWriter is to generate URLs from contextual data. This
  * data would be the current/target module and action, any contextual name=value
  * pairs specified by the code, and any additional query data.
  * 
+ * @since 11/1/07
  * @package harmoni.architecture.request
  * 
- * @copyright Copyright &copy; 2005, Middlebury College
+ * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GETMethodRequestHandler.class.php,v 1.16 2007/11/01 17:37:09 adamfranco Exp $
+ * @version $Id: CommandLineRequestHandler.class.php,v 1.1 2007/11/01 17:37:09 adamfranco Exp $
  */
-
-class GETMethodURLWriter 
-	extends URLWriter 
+class CommandLineUrlWriter
+	extends URLWriter
 {
+		
 	/** 
 	 * The following function has many forms, and due to PHP's lack of
 	 * method overloading they are all contained within the same class
@@ -118,7 +143,7 @@ class GETMethodURLWriter
 	 * @access public
 	 * @return string The URL. 
 	 */
-	function write(/* variable-length argument list*/) {
+	public function write(/* variable-length argument list*/) {
 		if (!defined("MYURL")) {
 			throwError( new Error("GETMethodURLWriter requires that 'MYURL' is defined and set to the full URL of the main index PHP script of this Harmoni program!", "GETMethodRequestHandler", true));
 		}
@@ -139,19 +164,37 @@ class GETMethodURLWriter
 		$harmoni = Harmoni::instance();
 		if (!$harmoni->config->get("sessionUseOnlyCookies") && defined("SID") && SID) 
 			$pairs[] = strip_tags(SID);
-		$pairs[] = "module=".$this->_module;
-		$pairs[] = "action=".$this->_action;
+		$pairs[] = "--module=".$this->_module;
+		$pairs[] = "--action=".$this->_action;
 		foreach ($this->_vars as $key=>$val) {
 			if (is_object($val)) {
 				throwError( new Error("Expecting string for key '$key', got '$val'.", "GETMethodRequestHandler", true));
 			}
-			$pairs[] = $key . "=" . urlencode($val);
+			$pairs[] = "--" . $key . "=" . escapeshellarg($val);
 		}
 		
-		$url .= "?" . implode("&amp;", $pairs);
+		$url .= " " . implode(" ", $pairs);
 		
 		return $url;
 	}
+	
+}
+
+/**
+ * An exception to be thrown when help is requested.
+ * 
+ * @since 11/1/07
+ * @package harmoni.architecture.request
+ * 
+ * @copyright Copyright &copy; 2007, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: CommandLineRequestHandler.class.php,v 1.1 2007/11/01 17:37:09 adamfranco Exp $
+ */
+class HelpRequestedException
+	extends HarmoniException
+{
+	
 }
 
 ?>

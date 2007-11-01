@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RequestHandler.interface.php,v 1.3 2007/09/04 20:25:31 adamfranco Exp $
+ * @version $Id: RequestHandler.interface.php,v 1.4 2007/11/01 17:37:09 adamfranco Exp $
  */ 
 
 /**
@@ -22,10 +22,10 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RequestHandler.interface.php,v 1.3 2007/09/04 20:25:31 adamfranco Exp $
+ * @version $Id: RequestHandler.interface.php,v 1.4 2007/11/01 17:37:09 adamfranco Exp $
  */
 
-class RequestHandler {
+interface RequestHandler {
 	
 	/**
 	 * Returns an associative array of key=value pairs corresponding to the request
@@ -35,9 +35,7 @@ class RequestHandler {
 	 * @return array
 	 * @access public
 	 */
-	function getRequestVariables() {
-		throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in abstract class <b> ".__CLASS__."</b> has not been overloaded in a child class.","OutputHandler",true));
-	}
+	public function getRequestVariables();
 	
 	/**
 	 * Returns an associative array of file upload data. This will usually come from
@@ -46,9 +44,7 @@ class RequestHandler {
 	 * @return array
 	 * @access public
 	 */
-	function getFileVariables() {
-		throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in abstract class <b> ".__CLASS__."</b> has not been overloaded in a child class.","OutputHandler",true));
-	}
+	public function getFileVariables();
 	
 	/**
 	 * Returns a new {@link URLWriter} object corresponding to this RequestHandler.
@@ -56,9 +52,7 @@ class RequestHandler {
 	 * @return ref object URLWriter
 	 * @access public
 	 */
-	function createURLWriter() {
-		throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in abstract class <b> ".__CLASS__."</b> has not been overloaded in a child class.","OutputHandler",true));
-	}
+	public function createURLWriter();
 	
 	/**
 	 * Returns a dotted-pair string representing the module and action requested
@@ -67,9 +61,7 @@ class RequestHandler {
 	 * @return string
 	 * @access public
 	 */
-	function getRequestedModuleAction() {
-		throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in abstract class <b> ".__CLASS__."</b> has not been overloaded in a child class.","OutputHandler",true));
-	}
+	public function getRequestedModuleAction();
 	
 }
 

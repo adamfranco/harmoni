@@ -10,10 +10,10 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: URLWriter.abstract.php,v 1.7 2007/09/04 20:25:31 adamfranco Exp $
+ * @version $Id: URLWriter.abstract.php,v 1.8 2007/11/01 17:37:09 adamfranco Exp $
  */
 
-class URLWriter 
+abstract class URLWriter 
 	extends SObject
 {
 
@@ -104,9 +104,7 @@ class URLWriter
 	 * @access public
 	 * @return string The URL. 
 	 */
-	function write(/* variable-length argument list*/) {
-		throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in abstract class <b> ".__CLASS__."</b> has not been overloaded in a child class.","RequestHandler",true));
-	}
+	abstract function write(/* variable-length argument list*/);
 	
 }
 

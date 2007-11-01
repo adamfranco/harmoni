@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PathInfoRequestHandler.class.php,v 1.2 2007/09/04 20:25:31 adamfranco Exp $
+ * @version $Id: PathInfoRequestHandler.class.php,v 1.3 2007/11/01 17:37:09 adamfranco Exp $
  */ 
 
 require_once(HARMONI."architecture/request/RequestHandler.interface.php");
@@ -21,10 +21,10 @@ require_once(HARMONI."architecture/request/URLWriter.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PathInfoRequestHandler.class.php,v 1.2 2007/09/04 20:25:31 adamfranco Exp $
+ * @version $Id: PathInfoRequestHandler.class.php,v 1.3 2007/11/01 17:37:09 adamfranco Exp $
  */
 class PathInfoRequestHandler
-	extends RequestHandler
+	implements RequestHandler
 {
 		
 	/**
@@ -130,7 +130,7 @@ class PathInfoRequestHandler
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PathInfoRequestHandler.class.php,v 1.2 2007/09/04 20:25:31 adamfranco Exp $
+ * @version $Id: PathInfoRequestHandler.class.php,v 1.3 2007/11/01 17:37:09 adamfranco Exp $
  */
 
 class PathInfoURLWriter 
