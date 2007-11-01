@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ActionHandler.class.php,v 1.23 2007/10/17 19:03:24 adamfranco Exp $
+ * @version $Id: ActionHandler.class.php,v 1.24 2007/11/01 17:36:51 adamfranco Exp $
  */
 
 //require_once(HARMONI."actionHandler/ActionHandler.interface.php");
@@ -73,7 +73,7 @@ define("ACTIONS_CLASSES_METHOD","execute");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ActionHandler.class.php,v 1.23 2007/10/17 19:03:24 adamfranco Exp $
+ * @version $Id: ActionHandler.class.php,v 1.24 2007/11/01 17:36:51 adamfranco Exp $
  */
 class ActionHandler extends EventTrigger {
 	/**
@@ -155,7 +155,7 @@ class ActionHandler extends EventTrigger {
 			}
 			$this->triggerEvent("edu.middlebury.harmoni.actionhandler.action_forwarded", $this, array("from"=>$this->_executing, "to"=>$this->_forwardToAction));
 			return;
-			throwError( new Error("ActionHandler::forward($module, $action) - could not proceed. The action does not seem to be valid.","ActionHandler",true));
+			throw new UnknownActionException("ActionHandler::forward($module, $action) - could not proceed. The action does not seem to be valid.");
 		}
 		throwError( new Error("ActionHandler::forward($module, $action) - could not proceed. The ActionHandler is not currently executing any actions.","ActionHandler",true));
 	}
@@ -192,9 +192,9 @@ class ActionHandler extends EventTrigger {
 		// if we've already executed this action, we're probably stuck
 		// in an infinite loop. no good!
 		if (in_array($_pair, $this->_actionsExecuted)) {
-			throwError(new Error("ActionHandler::execute($_pair) - could not proceed: 
+			throw new HarmoniException("ActionHandler::execute($_pair) - could not proceed: 
 								it seems we have already executed this action before. 
-								Are we in an infinite loop?","ActionHandler",true));
+								Are we in an infinite loop?");
 			return false;
 		}
 	
@@ -213,8 +213,8 @@ class ActionHandler extends EventTrigger {
 		}
 		
 		if (!$executedAction) {
-			throwError ( new Error("ActionHandler::execute($module, $action) - could not proceed: no action source could find an
-				action to associate with this module/action pair.","ActionHandler",true));
+			throw new UnknownActionException("ActionHandler::execute($module, $action) - could not proceed: no action source could find an
+				action to associate with this module/action pair.");
 		}
 		
 		// we've now executed this action -- add it to the array
@@ -422,4 +422,22 @@ class ActionHandler extends EventTrigger {
 	}
 }
 
+require_once(HARMONI."/errorHandler/HarmoniException.class.php");
+
+/**
+ * This class defines Exceptions to be thrown when a valid Action cannot be loaded.
+ * 
+ * @since 11/1/07
+ * @package harmoni.actions
+ * 
+ * @copyright Copyright &copy; 2007, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: ActionHandler.class.php,v 1.24 2007/11/01 17:36:51 adamfranco Exp $
+ */
+class UnknownActionException
+	extends HarmoniException
+{
+	
+}
 ?>
