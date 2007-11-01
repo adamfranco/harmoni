@@ -28,7 +28,7 @@ $__harmoni = null;
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Harmoni.class.php,v 1.54 2007/10/10 22:58:35 adamfranco Exp $
+ * @version $Id: Harmoni.class.php,v 1.55 2007/11/01 17:26:59 adamfranco Exp $
  **/
 class Harmoni {
 
@@ -306,8 +306,6 @@ class Harmoni {
 	}
 	
 	function _detectCurrentAction() {
-		// if we've already run, get out
-		if ($this->_currentAction) return;
 		
 		// find what action we are trying to execute
 		$pair = $this->request->getRequestedModuleAction();
