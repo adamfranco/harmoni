@@ -60,7 +60,7 @@ require_once(HARMONI.'oki2/shared/HarmoniIdIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthorizationManager.class.php,v 1.41 2007/10/12 15:35:06 adamfranco Exp $
+ * @version $Id: HarmoniAuthorizationManager.class.php,v 1.42 2007/11/05 21:05:49 adamfranco Exp $
  */
 class HarmoniAuthorizationManager 
 	extends AuthorizationManager 
@@ -1214,16 +1214,31 @@ class HarmoniAuthorizationManager
 	 */
 	function getExplicitAZs ( $agentId, $functionId, $qualifierId, $isActiveNowOnly ) { 
 		// ** parameter validation
-		ArgumentValidator::validate($agentId, ExtendsValidatorRule::getRule("Id"), true);
-		ArgumentValidator::validate($functionId, ExtendsValidatorRule::getRule("Id"), true);
-		ArgumentValidator::validate($qualifierId, ExtendsValidatorRule::getRule("Id"), true);
+		ArgumentValidator::validate($agentId, OptionalRule::getRule(ExtendsValidatorRule::getRule("Id")), true);
+		ArgumentValidator::validate($functionId, OptionalRule::getRule(ExtendsValidatorRule::getRule("Id")), true);
+		ArgumentValidator::validate($qualifierId, OptionalRule::getRule(ExtendsValidatorRule::getRule("Id")), true);
 		ArgumentValidator::validate($isActiveNowOnly, BooleanValidatorRule::getRule(), true);
 		// ** end of parameter validation
 		
+		if (is_null($agentId))
+			$agentIdString = null;
+		else
+			$agentIdString = $agentId->getIdString();
+		
+		if (is_null($functionId))
+			$functionIdString = null;
+		else
+			$functionIdString = $functionId->getIdString();
+		
+		if (is_null($qualifierId))
+			$qualifierIdString = null;
+		else
+			$qualifierIdString = $qualifierId->getIdString();
+		
 		$authorizations =$this->_cache->getAZs(
-							$agentId->getIdString(),		// aid
-							$functionId->getIdString(),		// fid
-							$qualifierId->getIdString(),	// qid
+							$agentIdString,			// aid
+							$functionIdString,		// fid
+							$qualifierIdString,		// qid
 							null, 							// ftype
 							true, 							// returnExplicitOnly
 							false,							// searchUp

@@ -3,11 +3,20 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.205 2007/11/01 17:54:20 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.206 2007/11/05 21:05:50 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
+	<version number="0.13.3" date="The Future">
+		<releaseNotes>
+			<##>
+		</releaseNotes>
+		<fix author='adam' date='2007-11-05'>
+			Authorization: The HarmoniAuthorizationManager now accepts null arguments
+			to getExplicitAZs() as per the OSID.
+		</fix>
+	</version>
 	<version number="0.13.2" date="2007-11-01">
 		<releaseNotes>
 			This release fixes a few minor bugs and improves support for using the
