@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniErrorHandler.class.php,v 1.12 2007/11/01 17:25:09 adamfranco Exp $
+ * @version $Id: HarmoniErrorHandler.class.php,v 1.13 2007/11/07 19:08:47 adamfranco Exp $
  */ 
 
 /**
@@ -30,7 +30,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniErrorHandler.class.php,v 1.12 2007/11/01 17:25:09 adamfranco Exp $
+ * @version $Id: HarmoniErrorHandler.class.php,v 1.13 2007/11/07 19:08:47 adamfranco Exp $
  */
 class HarmoniErrorHandler {
 		
@@ -425,8 +425,16 @@ class HarmoniErrorHandler {
 		if (is_array($traceArray)) {
 			foreach($traceArray as $i => $trace) {
 				/* each $traceArray element represents a step in the call hiearchy. Print them from bottom up. */
-				$file = basename($trace['file']);
-				$line = $trace['line'];
+				if (isset($trace['file']))
+					$file = basename($trace['file']);
+				else
+					$file = '';
+					
+				if (isset($trace['line']))
+					$line = $trace['line'];
+				else
+					$line = '';
+				
 				$function = $trace['function'];
 				$class = isset($trace['class'])?$trace['class']:'';
 				$type = isset($trace['type'])?$trace['type']:'';
@@ -437,7 +445,7 @@ class HarmoniErrorHandler {
 				
 				print "\n\t\t<tr>";
 				print "\n\t\t\t<td>$i</td>";
-				print "\n\t\t\t<td title=\"".$trace['file']."\">$file</td>";
+				print "\n\t\t\t<td title=\"".$file."\">$file</td>";
 				print "\n\t\t\t<td>$line</td>";
 				print "\n\t\t\t<td style='font-family: monospace; white-space: nowrap'>";
 				if ($class || $type || $function || $args) {
