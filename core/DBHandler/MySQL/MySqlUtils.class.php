@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySqlUtils.class.php,v 1.4 2007/10/11 19:58:36 adamfranco Exp $
+ * @version $Id: MySqlUtils.class.php,v 1.5 2007/11/07 19:09:48 adamfranco Exp $
  */ 
 
 /**
@@ -18,9 +18,36 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySqlUtils.class.php,v 1.4 2007/10/11 19:58:36 adamfranco Exp $
+ * @version $Id: MySqlUtils.class.php,v 1.5 2007/11/07 19:09:48 adamfranco Exp $
  */
 class MySqlUtils {
+	
+	/**
+	 * Add the new table for storing external groups under hierarchy-based groups
+	 * 
+	 * @param int $dbIndex
+	 * @return void
+	 * @access public
+	 * @since 11/6/07
+	 */
+	public function harmoni_0_13_3_update ($dbIndex) {
+		$dbc = Services::getService("DBHandler");
+		
+		$tables = $dbc->getTableList($dbIndex);
+		if (!in_array('agent_external_children', $tables)) {
+			$dbc->query(new GenericSQLQuery(
+
+"CREATE TABLE `agent_external_children` (
+  `fk_parent` varchar(70) collate utf8_bin NOT NULL,
+  `fk_child` varchar(70) collate utf8_bin NOT NULL,
+  UNIQUE KEY `parent_child_unique` (`fk_parent`,`fk_child`),
+  KEY `fk_parent` (`fk_parent`),
+  KEY `fk_child` (`fk_child`)
+) ENGINE=InnoDB COMMENT = 'This table allows addition of external-defined groups to hierarchy-based groups.';"
+				), $dbIndex);
+			printpre("Adding agent_external_children");
+		}
+	}
 	
 	/**
 	 * Add the creator column to the dr_asset_info table.

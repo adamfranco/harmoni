@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.206 2007/11/05 21:05:50 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.207 2007/11/07 19:09:57 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -15,6 +15,26 @@
 		<fix author='adam' date='2007-11-05'>
 			Authorization: The HarmoniAuthorizationManager now accepts null arguments
 			to getExplicitAZs() as per the OSID.
+		</fix>
+		<fix author='adam' date='2007-11-07' ref='1824880' reftype='segue_fr'>
+			Agent: The OSID Agent implementation now supports the addition of externally
+			defined groups (such as from LDAP) as subgroups under locally defined groups.
+			This allows for locally defined amalgamations of externally defined groups
+			into one entity.
+			
+			This relationship is stored outside of the hierarchy in a new database table
+			and requires a database update.
+		</fix>
+		<important author='adam' date='2007-11-07'>
+			Changes to the Agent tables require running a database updater script:
+			harmoni/core/DBHandler/db_updater.php
+		</important>
+		<change author='adam' date='2007-11-07'>
+			Shared: The MultiIteratorIterator now throws an exception if arguments
+			are inadvertently passed to the constructor.
+		</change>
+		<fix author='adam' date='2007-11-07'>
+			ErrorHandler: Now checks for trace elements to be set to prevent notices.
 		</fix>
 	</version>
 	<version number="0.13.2" date="2007-11-01">

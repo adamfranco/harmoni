@@ -5,7 +5,7 @@
 -- @copyright Copyright &copy; 2005, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 -- 
--- @version $Id: Agent.sql,v 1.1 2007/09/11 19:06:27 adamfranco Exp $
+-- @version $Id: Agent.sql,v 1.2 2007/11/07 19:09:45 adamfranco Exp $
 -- */
 -- --------------------------------------------------------
 
@@ -28,3 +28,14 @@ CHARACTER SET utf8
 TYPE=InnoDB;
 
 
+-- --------------------------------------------------------
+-- 
+-- Table structure for table agent_external_children
+-- 
+CREATE TABLE `agent_external_children` (
+  `fk_parent` varchar(70) collate utf8_bin NOT NULL,
+  `fk_child` varchar(70) collate utf8_bin NOT NULL,
+  UNIQUE KEY `parent_child_unique` (`fk_parent`,`fk_child`),
+  KEY `fk_parent` (`fk_parent`),
+  KEY `fk_child` (`fk_child`)
+) ENGINE=InnoDB COMMENT = 'This table allows addition of external-defined groups to hierarchy-based groups.';

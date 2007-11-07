@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPConnector.class.php,v 1.13 2007/09/04 20:25:37 adamfranco Exp $
+ * @version $Id: LDAPConnector.class.php,v 1.14 2007/11/07 19:09:54 adamfranco Exp $
  */ 
 
 /**
@@ -17,7 +17,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPConnector.class.php,v 1.13 2007/09/04 20:25:37 adamfranco Exp $
+ * @version $Id: LDAPConnector.class.php,v 1.14 2007/11/07 19:09:54 adamfranco Exp $
  */
 class LDAPConnector {
 		
@@ -131,10 +131,9 @@ class LDAPConnector {
 			ldap_connect($this->_configuration->getProperty("LDAPHost"),
 			$this->_configuration->getProperty("LDAPPort"));
 		if ($this->_conn == false)
-			throwError(new Error("LDAPAuthenticationMethod::_connect() - could 
+			throw new LDAPException ("LDAPAuthenticationMethod::_connect() - could 
 				not connect to LDAP host <b>".
-				$this->_configuration->getProperty("LDAPHost")."</b>!",
-				"LDAPAuthenticationMethod",true));
+				$this->_configuration->getProperty("LDAPHost")."</b>!");
 	}
 	
 	/**
@@ -244,7 +243,7 @@ class LDAPConnector {
 						$filter);
 		
 		if (ldap_errno($this->_conn))
-			throwError(new Error(ldap_error($this->_conn), "LDAPConnector"));
+			throw new LDAPException("Error searching with filter '$filter' under '$baseDN' with message: ".ldap_error($this->_conn));
 		
 		$dns = array();
 		$entry = ldap_first_entry($this->_conn, $sr);
@@ -273,7 +272,7 @@ class LDAPConnector {
 						$filter);
 		
 		if (ldap_errno($this->_conn))
-			throwError(new Error(ldap_error($this->_conn), "LDAPConnector"));
+			throw new LDAPException("Error listing with filter '$filter' under '$baseDN' with message: ".ldap_error($this->_conn));
 		
 		$dns = array();
 		$entry = ldap_first_entry($this->_conn, $sr);
@@ -324,7 +323,10 @@ class LDAPConnector {
 	function getInfo ($dn, $fields) {
 		$this->_connect();
 		$this->_bindForSearch();
-		$sr = ldap_read($this->_conn, $dn, "(objectclass=*)", $fields);
+		$sr = @ldap_read($this->_conn, $dn, "(objectclass=*)", $fields);
+		if (ldap_errno($this->_conn))
+			throw new LDAPException("Read failed for DN '$dn' with message: ".ldap_error($this->_conn));
+		
 		$entries = ldap_get_entries($this->_conn, $sr);
 		ldap_free_result($sr);
 		$this->_disconnect();
@@ -349,6 +351,24 @@ class LDAPConnector {
 		
 		return $values;
 	}	
+}
+
+
+/**
+ * An LDAP Exception
+ * 
+ * @since 11/6/07
+ * @package harmoni.osid_v2.agentmanagement.authn_methods
+ * 
+ * @copyright Copyright &copy; 2007, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: LDAPConnector.class.php,v 1.14 2007/11/07 19:09:54 adamfranco Exp $
+ */
+class LDAPException
+	extends HarmoniException
+{
+	
 }
 
 ?>

@@ -11,7 +11,7 @@ require_once(dirname(__FILE__)."/AgentSearch.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RootGroupSearch.class.php,v 1.3 2007/09/04 20:25:36 adamfranco Exp $
+ * @version $Id: RootGroupSearch.class.php,v 1.4 2007/11/07 19:09:52 adamfranco Exp $
  */
 
 class RootGroupSearch
@@ -108,6 +108,8 @@ class RootGroupSearch
 			$groups[] =$agentManager->getGroup($groupId);
 		}
 		
+		$allGroups = new MultiIteratorIterator();
+		$allGroups->addIterator(new HarmoniIterator($groups));
 	
 	// :: Add External Groups
 		$authNMethodManager = Services::getService("AuthNMethodManager");
@@ -117,16 +119,13 @@ class RootGroupSearch
 			$authNMethod =$authNMethodManager->getAuthNMethodForType($type);
 			
 			if ($authNMethod->supportsDirectory()) {
-				$groupIterator =$authNMethod->getRootGroups();
-				while ($groupIterator->hasNext()) {
-					$groups[] =$groupIterator->next();
-				}
+				$allGroups->addIterator($authNMethod->getRootGroups());
 			}
 		}
 		
 	// :: Return our iterator
-		$iterator = new HarmoniIterator($groups);
-		return $iterator;
+		
+		return $allGroups;
 	}
 }
 

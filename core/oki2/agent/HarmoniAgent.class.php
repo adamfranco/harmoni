@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgent.class.php,v 1.20 2007/08/22 14:45:44 adamfranco Exp $
+ * @version $Id: HarmoniAgent.class.php,v 1.21 2007/11/07 19:09:50 adamfranco Exp $
  */
 
 require_once(OKI2."/osid/agent/Agent.php");
@@ -25,7 +25,7 @@ require_once(HARMONI."/oki2/shared/HarmoniPropertiesIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgent.class.php,v 1.20 2007/08/22 14:45:44 adamfranco Exp $
+ * @version $Id: HarmoniAgent.class.php,v 1.21 2007/11/07 19:09:50 adamfranco Exp $
  */
 class HarmoniAgent 
 	implements Agent
@@ -34,23 +34,23 @@ class HarmoniAgent
 	/**
 	 * The node that this group corresponds to.
 	 * @var object _node 
-	 * @access protected
+	 * @access private
 	 */
-	var $_node;
+	private $_node;
 	
 	/**
 	 * @var object $_hierarchy;  
 	 * @access private
 	 * @since 8/30/05
 	 */
-	var $_hierarchy;
+	private $_hierarchy;
 	
 	/**
 	 * @var string $_idString
 	 * @access protected
 	 * @since 9/10/05
 	 */
-	var $_idString;
+	private $_idString;
 	
 	/**
 	 * The constructor.
@@ -267,6 +267,28 @@ class HarmoniAgent
 	 */
 	function isGroup () {
 		return false;
+	}
+	
+	/**
+	 * Answer the node for this Agent if exists.
+	 * 
+	 * @return object Node
+	 * @access public
+	 * @since 11/6/07
+	 */
+	public function getNode () {
+		return $this->_node;
+	}
+	
+	/**
+	 * Answer the Hierarchy for this Agent if exists.
+	 * 
+	 * @return object Hierarchy
+	 * @access public
+	 * @since 11/6/07
+	 */
+	protected function getHierarchy () {
+		return $this->_hierarchy;
 	}
 }
 

@@ -11,7 +11,7 @@ require_once(dirname(__FILE__)."/AgentSearch.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AncestorGroupSearch.class.php,v 1.18 2007/10/05 19:10:31 adamfranco Exp $
+ * @version $Id: AncestorGroupSearch.class.php,v 1.19 2007/11/07 19:09:52 adamfranco Exp $
  */
 
 class AncestorGroupSearch
@@ -33,6 +33,10 @@ class AncestorGroupSearch
 	 */
 	function AncestorGroupSearch ( $hierarchy) {
 		$this->_hierarchy =$hierarchy;
+		
+		$idManager = Services::getService("Id");
+		$this->everyoneId = $idManager->getId("edu.middlebury.agents.everyone");
+		$this->usersId = $idManager->getId("edu.middlebury.agents.users");
 	}
 	
 	
@@ -72,25 +76,80 @@ class AncestorGroupSearch
 		
 		$agentManager = Services::getService("Agent");
 		$idManager = Services::getService("Id");
-		$everyoneId = $idManager->getId("edu.middlebury.agents.everyone");
-		$usersId = $idManager->getId("edu.middlebury.agents.users");
 		
 	// :: Special case for Users group, parents are:
 	//		Everyone
-		if ($searchCriteria->isEqual($usersId)) {
-			$groups = array();
-			$groups[] =$agentManager->getGroup($everyoneId);
-			
-			$iterator = new HarmoniAgentIterator($groups);
-			return $iterator;
+		if ($searchCriteria->isEqual($this->usersId)) {
+			return new HarmoniAgentIterator(array($agentManager->getGroup($this->everyoneId)));
 		}
 		
+		$allGroups = array();
 		
-		$groupIds = array();
+		$isAgent = $agentManager->isAgent($searchCriteria) ;
+		
+	// :: Add Special Users group
+		if ($isAgent && !$searchCriteria->isEqual(
+				$idManager->getId("edu.middlebury.agents.anonymous")))
+		{
+			$allGroups[] = $agentManager->getGroup($this->usersId);
+		}
 		
 	// :: Load Groups from the Hierarchy
-		if ($this->_hierarchy->nodeExists($searchCriteria)) {
-			$traversalIterator =$this->_hierarchy->traverse($searchCriteria,
+		$allGroups = array_merge($allGroups, $this->getHierarchyGroups($searchCriteria));
+	
+	// :: Add External Groups
+		$externalIdsToCheckForInternalParents = array();
+		// If we have an agent, get the AuthN systems for it and search our 
+		// directories for it there
+		if ($isAgent) {
+// 			printpre($searchCriteria->getIdString()." is an Agent.");
+			$externalGroups = $this->getExternalGroupsForAgent($searchCriteria);
+		}
+		// assume that the search criteria is a group and search our directories for it.
+		else {
+// 			printpre($searchCriteria->getIdString()." is a Group.");
+			$externalGroups = $this->getExternalGroupsForGroup($searchCriteria);
+			$externalIdsToCheckForInternalParents[] = $searchCriteria;
+		}
+		
+		foreach ($externalGroups as $group) {
+			$allGroups[] = $group;
+			$externalIdsToCheckForInternalParents[] = $group->getId();
+		}
+		$allGroups = array_merge($allGroups, $this->getHierarchyAncestorsForExternalGroups($externalIdsToCheckForInternalParents));
+		
+		$uniqueGroups = array();
+		foreach ($allGroups as $group) {
+			$added = false;
+			$id = $group->getId();
+			foreach ($uniqueGroups as $addedGroup) {
+				if ($id->isEqual($addedGroup->getId())) {
+					$added = true;
+					break;
+				}
+			}
+			
+			if (!$added)
+				$uniqueGroups[] = $group;
+		}
+		
+	// :: Return our iterator
+		return new HarmoniAgentIterator($uniqueGroups);
+	}
+	
+	/**
+	 * Answer the Hierarchy Groups that contain the agentOrGroup id passed.
+	 * 
+	 * @param object Id $agentOrGroupId
+	 * @return array of Groups
+	 * @access private
+	 * @since 11/6/07
+	 */
+	private function getHierarchyGroups (Id $agentOrGroupId) {
+		$agentManager = Services::getService("Agent");
+		$groupIds = array();
+		if ($this->_hierarchy->nodeExists($agentOrGroupId)) {
+			$traversalIterator = $this->_hierarchy->traverse($agentOrGroupId,
 					Hierarchy::TRAVERSE_MODE_DEPTH_FIRST(), 
 					Hierarchy::TRAVERSE_DIRECTION_UP(), 
 					Hierarchy::TRAVERSE_LEVELS_ALL());
@@ -98,7 +157,7 @@ class AncestorGroupSearch
 			$levelToReturnTo = NULL;
 			
 			while ($traversalIterator->hasNext()) {
-				$traversalInfo =$traversalIterator->next();
+				$traversalInfo = $traversalIterator->next();
 				$nodeId =$traversalInfo->getNodeId();
 								
 				// if we are within the agent/groups tree...
@@ -107,7 +166,7 @@ class AncestorGroupSearch
 				{
 					// Do not continue above the root of the agent/group tree, 'everyone'
 					if ($levelToReturnTo == null 
-						&& $everyoneId->isEqual($nodeId)) 
+						&& $this->everyoneId->isEqual($nodeId)) 
 					{
 						$levelToReturnTo = $traversalInfo->getLevel();
 					} else if ($traversalInfo->getLevel() > $levelToReturnTo) {
@@ -115,77 +174,112 @@ class AncestorGroupSearch
 					}
 					
 					// Add the group id to our list.
-					if (!$searchCriteria->isEqual($nodeId)
+					if (!$agentOrGroupId->isEqual($nodeId)
 						&& $agentManager->isGroup($nodeId))
 					{
-						$groupIds[$nodeId->getIdString()] =$nodeId;
+						$groupIds[$nodeId->getIdString()] = $nodeId;
 					}
 				}			
 			}
-		}
-		
-		$isAgent = $agentManager->isAgent($searchCriteria) ;
-		
-	// :: Add Special Users group
-		if ($isAgent && !$searchCriteria->isEqual(
-				$idManager->getId("edu.middlebury.agents.anonymous")))
-		{
-			$groupIds[$usersId->getIdString()] =$usersId;
 		}
 		
 	// :: Build Group Objects
 	// now create an array of the group objects to add to the iterator.
 		$groups = array();
 		foreach ($groupIds as $groupId) {
-			$groups[] =$agentManager->getGroup($groupId);
+			$groups[] = $agentManager->getGroup($groupId);
 		}
 		
+		return $groups;
+	}
 	
-	// :: Add External Groups
+	/**
+	 * Answer the Hierarchy Groups that contain any of the external group ids passed.
+	 * 
+	 * @param array $externalGroupIds
+	 * @return object Iterator
+	 * @access private
+	 * @since 11/6/07
+	 */
+	private function getHierarchyAncestorsForExternalGroups (array $groupIds) {
+// 		printpre("<hr/><strong>Ancestors of</strong>");
+// 		foreach ($groupIds as $groupId)
+// 			printpre($groupId->getIdString());
+		
+		$agentManager = Services::getService("Agent");
+		
+		$groupParentIds = $agentManager->getHierarchyParentIdsForExternalGroups($groupIds);
+		
+		$groups = array();
+		foreach ($groupParentIds as $id) {
+			$groups[] = $agentManager->getGroup($id);
+			$groups = array_merge($groups, $this->getHierarchyGroups($id));	
+		}
+// 		printpre("<strong>are</strong>");
+// 		foreach ($groups as $group)
+// 			printpre($group->getId()->getIdString());
+		return $groups;
+	}
+	
+	
+	
+	/**
+	 * Answer an iterator of External groups wich contain the agent specified.
+	 * 
+	 * @param object Id $agentId
+	 * @return array of Groups
+	 * @access private
+	 * @since 11/6/07
+	 */
+	private function getExternalGroupsForAgent (Id $agentId) {
 		$authNMethodManager = Services::getService("AuthNMethodManager");
 		$mappingManager = Services::getService("AgentTokenMapping");
-		// If we have an agent, get the AuthN systems for it and search our 
-		// directories for it there
-		if ($isAgent) {
-			$mappings =$mappingManager->getMappingsForAgentId($searchCriteria);
-			while ($mappings->hasNext()) {
-				$mapping = $mappings->next();
-				$authNMethod =$authNMethodManager->getAuthNMethodForType(
-										$mapping->getAuthenticationType());
-				
-				if ($authNMethod->supportsDirectory()) {
-					$groupIterator =$authNMethod->getGroupsContainingTokens(
-										$mapping->getTokens(), true);
-					while ($groupIterator->hasNext()) {
-						$groups[] =$groupIterator->next();
-					}
-				}
-				
-			}
+		
+		$groups = array();
+		$mappings = $mappingManager->getMappingsForAgentId($agentId);
+		while ($mappings->hasNext()) {
+			$mapping = $mappings->next();
+			$authNMethod = $authNMethodManager->getAuthNMethodForType(
+									$mapping->getAuthenticationType());
 			
+			if ($authNMethod->supportsDirectory()) {
+				$groupIterator = $authNMethod->getGroupsContainingTokens(
+									$mapping->getTokens(), true);
+				while ($groupIterator->hasNext()) {
+					$groups[] = $groupIterator->next();
+				}
+			}			
 		}
-		// assume that the search criteria is a group and search our directories for it.
-		else {		
-			$types =$authNMethodManager->getAuthNTypes();
-			while ($types->hasNext()) {
-				$type =$types->next();
-				$authNMethod =$authNMethodManager->getAuthNMethodForType($type);
-				
-				if ($authNMethod->supportsDirectory() 
-					&& $authNMethod->isGroup($searchCriteria)) 
-				{
-					$groupIterator =$authNMethod->getGroupsContainingGroup(
-										$searchCriteria, true);
-					while ($groupIterator->hasNext()) {
-						$groups[] =$groupIterator->next();
-					}
+		
+		return $groups;
+	}
+	
+	/**
+	 * Answer an iterator of the External groups which contain the group specified
+	 * 
+	 * @param object Id $groupId
+	 * @return array of Groups
+	 * @access private
+	 * @since 11/6/07
+	 */
+	private function getExternalGroupsForGroup (Id $groupId) {
+		$authNMethodManager = Services::getService("AuthNMethodManager");
+		
+		$groups = array();
+		$types = $authNMethodManager->getAuthNTypes();
+		while ($types->hasNext()) {
+			$type = $types->next();
+			$authNMethod = $authNMethodManager->getAuthNMethodForType($type);
+			
+			if ($authNMethod->supportsDirectory() && $authNMethod->isGroup($groupId)) {
+				$groupIterator = $authNMethod->getGroupsContainingGroup($groupId, true);
+				while ($groupIterator->hasNext()) {
+					$groups[] = $groupIterator->next();
 				}
 			}
 		}
 		
-	// :: Return our iterator
-		$iterator = new HarmoniIterator($groups);
-		return $iterator;
+		return $groups;
 	}
 }
 

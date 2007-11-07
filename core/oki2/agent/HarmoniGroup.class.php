@@ -23,7 +23,7 @@ require_once(OKI2."/osid/agent/Group.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniGroup.class.php,v 1.23 2007/08/22 14:45:44 adamfranco Exp $
+ * @version $Id: HarmoniGroup.class.php,v 1.24 2007/11/07 19:09:50 adamfranco Exp $
  */
 class HarmoniGroup
 	extends HarmoniAgent
@@ -50,7 +50,7 @@ class HarmoniGroup
 	 * @access public
 	 */
 	function getDescription () { 
-		return $this->_node->getDescription();
+		return $this->getNode()->getDescription();
 	}
 
 	/**
@@ -74,7 +74,7 @@ class HarmoniGroup
 	 * @access public
 	 */
 	function updateDescription ( $description ) {
-		$this->_node->updateDescription($description);
+		$this->getNode()->updateDescription($description);
 	}		
 
 	/**
@@ -104,17 +104,15 @@ class HarmoniGroup
 		ArgumentValidator::validate($memberOrGroup, ExtendsValidatorRule::getRule("Agent"), true);
 		// ** end of parameter validation
 		
-		// The way groups are currently implemented, it isn't possible to
-		// add an LdapGroup to a HarmoniGroup. That should be updated to
-		// make this work.
-		if (!isset($memberOrGroup->_node)) {
-			throw new Exception("The way groups are currently implemented, it isn't possible to add an LdapGroup to a HarmoniGroup. That should be updated to make this work.");
+		// For Groups stored in our hierarchy, simply add this node as a parent.
+		if (method_exists($memberOrGroup, 'getNode')) {
+			$memberOrGroup->getNode()->addParent($this->getId());
+		} 
+		// Add the group using the AgentManager's special mapping
+		else {
+			$agentMgr = Services::getService('Agent');
+			$agentMgr->addExternalChildGroup($this->getId(), $memberOrGroup->getId());
 		}
-		
-// 		print "<div style='border: 1px dotted;, margin: 10px; padding: 10px; background-color: #faa;'>";
-// 		printpre("<strong>Adding agent, ".$memberOrGroup->getDisplayName().", to group, ".$this->getDisplayName().".</strong>");
-		$memberOrGroup->_node->addParent($this->getId());
-// 		print "</div>";
 	}
 	
 	/**
@@ -144,8 +142,14 @@ class HarmoniGroup
 		ArgumentValidator::validate($memberOrGroup, ExtendsValidatorRule::getRule("Agent"), true);
 		// ** end of parameter validation
 		
-		
-		$memberOrGroup->_node->removeParent($this->getId());
+		// For Groups stored in our hierarchy, simply remove this node as a parent.
+		if (method_exists($memberOrGroup, 'getNode')) {
+			$memberOrGroup->getNode()->removeParent($this->getId());
+		// Remove the group using the AgentManager's special mapping
+		} else {
+			$agentMgr = Services::getService('Agent');
+			$agentMgr->removeExternalChildGroup($this->getId(), $memberOrGroup->getId());
+		}
 	}
 
 	
@@ -175,16 +179,28 @@ class HarmoniGroup
 		ArgumentValidator::validate($includeSubgroups, BooleanValidatorRule::getRule(), true);
 		// ** end of parameter validation
 		
-		if ($includeSubgroups)
-			$levels = Hierarchy::TRAVERSE_LEVELS_ALL();
-		else
-			$levels = 1;
-			
-		$traversalIterator = $this->_hierarchy->traverse($this->getId(),
-			Hierarchy::TRAVERSE_MODE_DEPTH_FIRST(), Hierarchy::TRAVERSE_DIRECTION_DOWN(), 
-			$levels);
-			
-		$members = new MembersOnlyFromTraversalIterator($traversalIterator);
+		$agentManager = Services::getService("Agent");
+		
+		$myMembers = array();
+		$subgroupIterators = array();
+		$children = $this->getNode()->getChildren();
+		while ($children->hasNext()) {
+			$child = $children->next();
+			// Add the agents of this group
+			if ($agentManager->isAgent($child->getId())) {
+				$myMembers[] = $agentManager->getAgent($child->getId());
+			} 
+			// Add agents from subgroups if needed
+			else if ($includeSubgroups) {
+				$subgroup = $agentManager->getGroup($child->getId());
+				$subgroupIterators[] = $subgroup->getMembers($includeSubgroups);
+			}
+		}
+		
+		$members = new MultiIteratorIterator();
+		$members->addIterator(new HarmoniIterator($myMembers));
+		foreach ($subgroupIterators as $iterator)
+			$members->addIterator($iterator);
 		
 		return $members;
 	}
@@ -216,16 +232,33 @@ class HarmoniGroup
 		ArgumentValidator::validate($includeSubgroups, BooleanValidatorRule::getRule(), true);
 		// ** end of parameter validation
 		
-		if ($includeSubgroups)
-			$levels = Hierarchy::TRAVERSE_LEVELS_ALL();
-		else
-			$levels = 1;
-			
-		$traversalIterator = $this->_hierarchy->traverse($this->getId(),
-			Hierarchy::TRAVERSE_MODE_DEPTH_FIRST(), Hierarchy::TRAVERSE_DIRECTION_DOWN(), 
-			$levels);
+		$agentManager = Services::getService("Agent");
 		
-		$groups = new GroupsOnlyFromTraversalIterator($traversalIterator, $this->getId());
+		$myGroups = array();
+		$subgroupIterators = array();
+		$children = $this->getNode()->getChildren();
+		while ($children->hasNext()) {
+			$child = $children->next();
+			if ($agentManager->isGroup($child->getId())) {
+				$subgroup = $agentManager->getGroup($child->getId());
+				$myGroups[] = $subgroup;
+				if ($includeSubgroups)
+					$subgroupIterators[] = $subgroup->getGroups($includeSubgroups);
+			}
+		}
+		
+		// Add any External Groups
+		foreach ($agentManager->getExternalChildGroupIds($this->getId()) as $subgroupId) {
+			$subgroup = $agentManager->getGroup($subgroupId);
+			$myGroups[] = $subgroup;
+			if ($includeSubgroups)
+				$subgroupIterators[] = $subgroup->getGroups($includeSubgroups);
+		}
+		
+		$groups = new MultiIteratorIterator();
+		$groups->addIterator(new HarmoniIterator($myGroups));
+		foreach ($subgroupIterators as $iterator)
+			$groups->addIterator($iterator);
 		
 		return $groups;
 	}
@@ -262,18 +295,15 @@ class HarmoniGroup
 		
 		$id = $memberOrGroup->getId();
 
-		if ($includeSubgroups)
-			$levels = Hierarchy::TRAVERSE_LEVELS_ALL();
-		else
-			$levels = 1;
-			
-		$traversalIterator = $this->_hierarchy->traverse($this->getId(),
-			Hierarchy::TRAVERSE_MODE_DEPTH_FIRST(), Hierarchy::TRAVERSE_DIRECTION_DOWN(), 
-			$levels);
+		$children = $this->getMembers($searchSubgroups);
+		while ($children->hasNext()) {
+			if ($id->isEqual($children->next()->getId()))
+				return true;
+		}
 		
-		while ($traversalIterator->hasNext()) {
-			$info = $traversalIterator->next();
-			if ($id->isEqual($info->getNodeId()))
+		$children = $this->getGroups($searchSubgroups);
+		while ($children->hasNext()) {
+			if ($id->isEqual($children->next()->getId()))
 				return true;
 		}
 		

@@ -50,7 +50,7 @@ require_once(HARMONI."oki2/agent/EveryoneGroup.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgentManager.class.php,v 1.49 2007/10/05 19:10:30 adamfranco Exp $
+ * @version $Id: HarmoniAgentManager.class.php,v 1.50 2007/11/07 19:09:50 adamfranco Exp $
  *
  * @author Adam Franco
  * @author Dobromir Radichkov
@@ -668,7 +668,7 @@ class HarmoniAgentManager
 					$type =$types->next();
 					$authNMethod =$authNMethodManager->getAuthNMethodForType($type);
 					if ($authNMethod->supportsDirectory() && $authNMethod->isGroup($id)) {
-						$group =$authNMethod->getGroup($id);
+						$group = $authNMethod->getGroup($id);
 						break;
 					}
 				}
@@ -956,12 +956,12 @@ class HarmoniAgentManager
 	 * @param ref object Id
 	 * @return ref object
 	 **/
-	function getAgentOrGroup($id)
+	function getAgentOrGroup(Id $id)
 	{
 		if ($this->isAgent($id)) return $this->getAgent($id);
 		if ($this->isGroup($id)) return $this->getGroup($id);
-		$null = null;
-		return $null;
+		
+		throw new UnknownIdException("Could not find an Agent or Group with Id '$id'.");
 	}
 	
 	/**
@@ -1024,6 +1024,114 @@ class HarmoniAgentManager
 		}
 		
 		return false;
+	}
+	
+	
+	/*********************************************************
+	 * The methods below deal with attaching externally-defined
+	 * groups to our hierarchy-based groups
+	 *********************************************************/
+	
+	/**
+	 * Add an External group to a Hierarchy-based group.
+	 * 
+	 * @param object Id $hierarchyParentId
+	 * @param object Id $externalChildId
+	 * @return void
+	 * @access public
+	 * @since 11/6/07
+	 */
+	public function addExternalChildGroup (Id $hierarchyParentId, Id $externalChildId) {
+		// Check to see that it hasn't been added.
+		$children = $this->getExternalChildGroupIds($hierarchyParentId);
+		foreach ($children as $child) {
+			if ($externalChildId->isEqual($child))
+				throw new HarmoniException("Child group '".$externalChildId->getIdString()."' has already been added to group '".$hierarchyParentId->getIdString()."'.");
+		}
+		
+		// Insert the row.
+		$query = new InsertQuery;
+		$query->setTable('agent_external_children');
+		$query->addValue('fk_parent', $hierarchyParentId->getIdString());
+		$query->addValue('fk_child', $externalChildId->getIdString());
+		
+		$dbc = Services::getService("DBHandler");
+		$dbc->query($query, $this->_configuration->getProperty('database_index'));
+	}
+	
+	/**
+	 * Remove an External group from a Hierarchy-based group.
+	 * 
+	 * @param object Id $hierarchyParentId
+	 * @param object Id $externalChildId
+	 * @return void
+	 * @access public
+	 * @since 11/6/07
+	 */
+	public function removeExternalChildGroup (Id $hierarchyParentId, Id $externalChildId) {
+		// Remove the row.
+		$query = new DeleteQuery;
+		$query->setTable('agent_external_children');
+		$query->addWhereEqual('fk_parent', $hierarchyParentId->getIdString());
+		$query->addWhereEqual('fk_child', $externalChildId->getIdString());
+		
+		$dbc = Services::getService("DBHandler");
+		$dbc->query($query, $this->_configuration->getProperty('database_index'));
+	}
+	
+	/**
+	 * Answer the Externally-defined group Ids that are the children of the group id passed.
+	 * 
+	 * @param object Id $hierarchyParentId
+	 * @return array
+	 * @access public
+	 * @since 11/6/07
+	 */
+	public function getExternalChildGroupIds (Id $hierarchyParentId) {
+		$query = new SelectQuery;
+		$query->addTable('agent_external_children');
+		$query->addColumn('fk_child');
+		$query->addWhereEqual('fk_parent', $hierarchyParentId->getIdString());
+		
+		$dbc = Services::getService("DBHandler");
+		$result = $dbc->query($query, $this->_configuration->getProperty('database_index'));
+		
+		$idMgr = Services::getService("Id");
+		$children = array();
+		while ($result->hasMoreRows()) {
+			$children[] = $idMgr->getId($result->field('fk_child'));
+			$result->advanceRow();
+		}
+		return $children;
+	}
+	
+	/**
+	 * Answer the Hierarchy-based parent-group for an external group Id.
+	 * 
+	 * @param array $groupIds An array of Ids
+	 * @return array an array of parent group Ids
+	 * @access public
+	 * @since 11/6/07
+	 */
+	public function getHierarchyParentIdsForExternalGroups (array $groupIds) {
+		if (!count($groupIds))
+			return array();
+		
+		$query = new SelectQuery;
+		$query->addTable('agent_external_children');
+		$query->addColumn('DISTINCT fk_parent', 'parent');
+		$query->addWhereIn('fk_child', $groupIds);
+		
+		$dbc = Services::getService("DBHandler");
+		$result = $dbc->query($query, $this->_configuration->getProperty('database_index'));
+		
+		$idMgr = Services::getService("Id");
+		$parents = array();
+		while ($result->hasMoreRows()) {
+			$parents[] = $idMgr->getId($result->field('parent'));
+			$result->advanceRow();
+		}
+		return $parents;
 	}
 }
 

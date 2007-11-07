@@ -5,7 +5,7 @@
 -- @copyright Copyright &copy; 2005, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 -- 
--- @version $Id: 002_Agent.sql,v 1.2 2007/09/17 13:54:24 adamfranco Exp $
+-- @version $Id: 002_Agent.sql,v 1.3 2007/11/07 19:09:46 adamfranco Exp $
 -- */
 -- --------------------------------------------------------
 
@@ -28,4 +28,20 @@ ALTER TABLE ONLY agent_properties
 
 ALTER TABLE ONLY agent_properties
 	ADD CONSTRAINT agent_properties_fk_type_id_fkey FOREIGN KEY (fk_type_id) REFERENCES "type"(type_id) ON UPDATE CASCADE ON DELETE CASCADE;	
+
+
+-- --------------------------------------------------------
+-- 
+-- Table structure for table agent_external_children
+-- 
+CREATE TABLE agent_external_children (
+fk_parent VARCHAR( 70 ) NOT NULL ,
+fk_child VARCHAR( 70 ) NOT NULL
+);
+
+ALTER TABLE ONLY agent_external_children
+	ADD CONSTRAINT agent_external_children_unique_key UNIQUE KEY (fk_parent, fk_child);
+
+CREATE INDEX agent_external_children_fk_parent_index ON agent_external_children (fk_parent);
+CREATE INDEX agent_external_children_fk_child_index ON agent_external_children (fk_child);
 
