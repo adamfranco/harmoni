@@ -10,7 +10,7 @@ require_once(dirname(__FILE__)."/HarmoniIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MultiIteratorIterator.class.php,v 1.4 2007/09/04 20:25:48 adamfranco Exp $
+ * @version $Id: MultiIteratorIterator.class.php,v 1.5 2007/11/07 19:09:29 adamfranco Exp $
  */
 class MultiIteratorIterator
 	extends HarmoniIterator
@@ -24,6 +24,8 @@ class MultiIteratorIterator
 	 * @since 12/6/06
 	 */
 	function MultiIteratorIterator () {
+		if (func_num_args())
+			throw new HarmoniException(__CLASS__." does not take any constructor arguments.");
 		$this->HarmoniIterator($null = null);
 	}
 	
