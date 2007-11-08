@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.207 2007/11/07 19:09:57 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.208 2007/11/08 20:17:01 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -35,6 +35,9 @@
 		</change>
 		<fix author='adam' date='2007-11-07'>
 			ErrorHandler: Now checks for trace elements to be set to prevent notices.
+		</fix>
+		<fix author='adam' date='2007-11-08' ref='1828488' reftype='segue_bug'>
+			Repository: Asset create-date now properly set.
 		</fix>
 	</version>
 	<version number="0.13.2" date="2007-11-01">

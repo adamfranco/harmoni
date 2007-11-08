@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAsset.class.php,v 1.50 2007/10/09 20:57:22 adamfranco Exp $
+ * @version $Id: HarmoniAsset.class.php,v 1.51 2007/11/08 20:16:55 adamfranco Exp $
  */
 
 require_once(HARMONI."oki2/repository/HarmoniAsset.interface.php");
@@ -26,7 +26,7 @@ require_once(dirname(__FILE__)."/FromNodesAssetIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniAsset.class.php,v 1.50 2007/10/09 20:57:22 adamfranco Exp $ 
+ * @version $Id: HarmoniAsset.class.php,v 1.51 2007/11/08 20:16:55 adamfranco Exp $ 
  */
 
 class HarmoniAsset
@@ -1634,9 +1634,15 @@ class HarmoniAsset
 		// Otherwise, insert Them
 		else {
 			$query = new InsertQuery;
+			$query->addValue("asset_id", $id->getIdString());
+			$query->addRawValue("create_timestamp", "NOW()");
+			
+			// Add the creator
+			$agentId = $this->_getCurrentAgent();
+			$query->addValue("creator", $agentId->getIdString());
 		}
 		
-		$query->addValue("asset_id", $id->getIdString());
+		
 		
 		if (is_object($this->_effectiveDate))
 			$query->addValue("effective_date", $dbHandler->toDBDate($this->_effectiveDate, $this->_dbIndex));
@@ -1648,19 +1654,8 @@ class HarmoniAsset
 		else
 			$query->addRawValue("expiration_date", "NULL");
 			
-		if (is_object($this->_createDate) && $this->_createDate->isNotEqualTo(DateAndTime::epoch())) {
-			$query->addValue("create_timestamp", $dbHandler->toDBDate($this->_createDate, $this->_dbIndex));
-			$query->addRawValue("modify_timestamp", "NOW()");
-		} 
-		// We are creating the asset.
-		else {
-			$query->addRawValue("create_timestamp", "NOW()");
-			$query->addRawValue("modify_timestamp", "NOW()");
-			
-			// Add the creator
-			$agentId = $this->_getCurrentAgent();
-			$query->addValue("creator", $agentId->getIdString());
-		}
+
+		$query->addRawValue("modify_timestamp", "NOW()");
 		
 		$query->setTable("dr_asset_info");
 		
