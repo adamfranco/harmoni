@@ -23,7 +23,31 @@
 </head>
 <body>
 <h1>Harmoni Change Log</h1>
-<h2>Version 0.13.2</h2>
+<h2>Version 0.13.3</h2>
+<h3>2007-11-09</h3>
+<p>This release fixes a few minor bugs and adds the ability to attach externally-defined groups (such as from LDAP) underneith locally defined groups.
+<br>
+<br>Changes to the Agent tables require running a database updater script: harmoni/core/DBHandler/db_updater.php</p>
+<ul>
+		
+		<li>
+<b>Bug Fix:</b> Authorization: The HarmoniAuthorizationManager now accepts null arguments to getExplicitAZs() as per the OSID. (<em>2007-11-05 - Adam Franco</em>)</li>
+		<li>
+<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1824880&amp;group_id=&amp;atid=">
+        			#1824880</a> Agent: The OSID Agent implementation now supports the addition of externally defined groups (such as from LDAP) as subgroups under locally defined groups. This allows for locally defined amalgamations of externally defined groups into one entity.
+<br>
+<br>This relationship is stored outside of the hierarchy in a new database table and requires a database update. (<em>2007-11-07 - Adam Franco</em>)</li>
+		<li>
+<span style="color: red">*** IMPORTANT ***</span><b>Change:</b> Changes to the Agent tables require running a database updater script: harmoni/core/DBHandler/db_updater.php (<em>2007-11-07 - Adam Franco</em>)</li>
+		<li>
+<b>Change:</b> Shared: The MultiIteratorIterator now throws an exception if arguments are inadvertently passed to the constructor. (<em>2007-11-07 - Adam Franco</em>)</li>
+		<li>
+<b>Bug Fix:</b> ErrorHandler: Now checks for trace elements to be set to prevent notices. (<em>2007-11-07 - Adam Franco</em>)</li>
+		<li>
+<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1828488&amp;group_id=&amp;atid=">
+        			#1828488</a> Repository: Asset create-date now properly set. (<em>2007-11-08 - Adam Franco</em>)</li>
+	</ul>
+<br><h2>Version 0.13.2</h2>
 <h3>2007-11-01</h3>
 <p>This release fixes a few minor bugs and improves support for using the Harmoni Architecture via a command line interface.</p>
 <ul>

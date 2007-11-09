@@ -3,6 +3,15 @@ Name: Harmoni Release Notes
 (See the Harmoni change log for more details)
 
 
+v. 0.13.3 (2007-11-09)
+----------------------------------------------------
+This release fixes a few minor bugs and adds the ability to attach
+externally-defined groups (such as from LDAP) underneith locally defined groups.
+
+Changes to the Agent tables require running a database updater script:
+harmoni/core/DBHandler/db_updater.php 
+
+
 v. 0.13.2 (2007-11-01)
 ----------------------------------------------------
 This release fixes a few minor bugs and improves support for using the Harmoni

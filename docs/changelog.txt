@@ -4,6 +4,48 @@ Name: Harmoni Change Log
 
 
 
+v. 0.13.3 (2007-11-09)
+----------------------------------------------------
+This release fixes a few minor bugs and adds the ability to attach
+externally-defined groups (such as from LDAP) underneith locally defined groups.
+
+Changes to the Agent tables require running a database updater script:
+harmoni/core/DBHandler/db_updater.php 
+		
+		
+	* Bug Fix: 
+		Authorization: The HarmoniAuthorizationManager now accepts null arguments to
+		getExplicitAZs() as per the OSID.
+		(2007-11-05 - Adam Franco)
+		
+	* Bug Fix: #1824880 
+		Agent: The OSID Agent implementation now supports the addition of externally
+		defined groups (such as from LDAP) as subgroups under locally defined
+		groups. This allows for locally defined amalgamations of externally defined
+		groups into one entity.
+		
+		This relationship is stored outside of the hierarchy in a new database
+		table and requires a database update.
+		(2007-11-07 - Adam Franco)
+		
+	**** IMPORTANT *** Change: 
+		Changes to the Agent tables require running a database updater script:
+		harmoni/core/DBHandler/db_updater.php 
+		(2007-11-07 - Adam Franco)
+		
+	* Change: 
+		Shared: The MultiIteratorIterator now throws an exception if arguments are
+		inadvertently passed to the constructor.
+		(2007-11-07 - Adam Franco)
+		
+	* Bug Fix: 
+		ErrorHandler: Now checks for trace elements to be set to prevent notices.
+		(2007-11-07 - Adam Franco)
+		
+	* Bug Fix: #1828488 
+		Repository: Asset create-date now properly set.
+		(2007-11-08 - Adam Franco)
+	
 v. 0.13.2 (2007-11-01)
 ----------------------------------------------------
 This release fixes a few minor bugs and improves support for using the Harmoni

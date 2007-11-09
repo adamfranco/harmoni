@@ -3,14 +3,18 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.208 2007/11/08 20:17:01 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.209 2007/11/09 23:08:04 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
-	<version number="0.13.3" date="The Future">
+	<version number="0.13.3" date="2007-11-09">
 		<releaseNotes>
-			<##>
+			This release fixes a few minor bugs and adds the ability to attach externally-defined
+			groups (such as from LDAP) underneith locally defined groups.
+			
+			Changes to the Agent tables require running a database updater script:
+			harmoni/core/DBHandler/db_updater.php
 		</releaseNotes>
 		<fix author='adam' date='2007-11-05'>
 			Authorization: The HarmoniAuthorizationManager now accepts null arguments
