@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniErrorHandler.class.php,v 1.14 2007/11/12 19:35:11 adamfranco Exp $
+ * @version $Id: HarmoniErrorHandler.class.php,v 1.15 2007/11/12 20:54:37 adamfranco Exp $
  */ 
 
 /**
@@ -30,7 +30,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniErrorHandler.class.php,v 1.14 2007/11/12 19:35:11 adamfranco Exp $
+ * @version $Id: HarmoniErrorHandler.class.php,v 1.15 2007/11/12 20:54:37 adamfranco Exp $
  */
 class HarmoniErrorHandler {
 		
@@ -451,11 +451,11 @@ class HarmoniErrorHandler {
 				
 				print "\n\t\t<tr>";
 				print "\n\t\t\t<td>$i</td>";
-				print "\n\t\t\t<td title=\"".$file."\">$file</td>";
+				print "\n\t\t\t<td title=\"".htmlentities($file)."\">$file</td>";
 				print "\n\t\t\t<td>$line</td>";
 				print "\n\t\t\t<td style='font-family: monospace; white-space: nowrap'>";
 				if ($class || $type || $function || $args) {
-					print $class.$type.$function."(".$args.");";
+					print htmlentities($class.$type.$function."(".$args.");");
 				}
 				print "</td>";
 				print "\n\t\t</tr>";

@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.210 2007/11/12 19:35:19 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.211 2007/11/12 20:54:37 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -19,6 +19,10 @@
 			which is their type or class-name as applicable.
 			
 			Errors use their type as their priority and have no category.
+		</fix>
+		<fix author='adam' date='2007-11-12' ref='1827143' reftype='bug'>
+			ErrorHandler: Backtrace arguments are now escaped to prevent invalid characters from 
+			killing log-browsing HTML or causing XSS injections.
 		</fix>
 	</version>
 	<version number="0.13.3" date="2007-11-09">

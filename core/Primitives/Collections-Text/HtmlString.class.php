@@ -10,7 +10,7 @@ require_once(dirname(__FILE__)."/String.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HtmlString.class.php,v 1.15 2007/10/10 22:58:33 adamfranco Exp $
+ * @version $Id: HtmlString.class.php,v 1.16 2007/11/12 20:54:32 adamfranco Exp $
  */
 class HtmlString 
 	extends String 
@@ -403,7 +403,7 @@ class HtmlString
 		// if this is a tag that ends in '/>', return true
 		$string = substr($inputString, $tagStart + 1);
 		$nextClose = strpos($string, '>');
-		if ($string[$nextClose - 1] == '/')
+		if (isset($string[$nextClose - 1]) && $string[$nextClose - 1] == '/')
 			return true;
 		
 		// check the tag to allow exceptions for commonly invalid tags such as
