@@ -3,11 +3,24 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.209 2007/11/09 23:08:04 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.210 2007/11/12 19:35:19 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
+	<version number="0.13.4" date="The Future">
+		<releaseNotes>
+			<##>
+		</releaseNotes>
+		<fix author='adam' date='2007-11-12' ref='1829095' reftype='bug'>
+			ErrorHandler: Categories and priority types are now separate logging fields.
+			
+			Uncaught Exceptions all have priority 'Uncaught Exception' and a category
+			which is their type or class-name as applicable.
+			
+			Errors use their type as their priority and have no category.
+		</fix>
+	</version>
 	<version number="0.13.3" date="2007-11-09">
 		<releaseNotes>
 			This release fixes a few minor bugs and adds the ability to attach externally-defined

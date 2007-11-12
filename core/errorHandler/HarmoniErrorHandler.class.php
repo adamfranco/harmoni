@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniErrorHandler.class.php,v 1.13 2007/11/07 19:08:47 adamfranco Exp $
+ * @version $Id: HarmoniErrorHandler.class.php,v 1.14 2007/11/12 19:35:11 adamfranco Exp $
  */ 
 
 /**
@@ -30,7 +30,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniErrorHandler.class.php,v 1.13 2007/11/07 19:08:47 adamfranco Exp $
+ * @version $Id: HarmoniErrorHandler.class.php,v 1.14 2007/11/12 19:35:11 adamfranco Exp $
  */
 class HarmoniErrorHandler {
 		
@@ -218,6 +218,8 @@ class HarmoniErrorHandler {
 	 * @static
 	 */
 	public static function handleException (Exception $exception) {
+		$priority = 'Uncaught Exception';
+		
 		if (method_exists($exception, "getType") && $exception->getType())
 			$type = $exception->getType();
 		else
@@ -229,13 +231,13 @@ class HarmoniErrorHandler {
 			|| ini_get('display_errors') === 'stdout' || ini_get('display_errors') === '1')
 		{
 			if (ini_get('html_errors'))
-				self::printMessage('Uncaught Exception of type', $type, $exception->getMessage(), $exception->getTrace());
+				self::printMessage($priority.' of type', $type, $exception->getMessage(), $exception->getTrace());
 			else
-				self::printPlainTextMessage('Uncaught Exception of type', $type, $exception->getMessage(), $exception->getTrace());
+				self::printPlainTextMessage($priority.' of type', $type, $exception->getMessage(), $exception->getTrace());
 		}
 		
 		// Log the Exception
-		self::logMessage($type, $exception->getMessage(), $exception->getTrace());
+		self::logMessage($priority, $exception->getMessage(), $exception->getTrace(), 'Harmoni', $type);
 	}
 	
 	/**
@@ -325,12 +327,13 @@ class HarmoniErrorHandler {
 	 * @since 10/24/07
 	 */
 	public static function logException (Exception $exception, $logName = 'Harmoni') {
+		
 		if (method_exists($exception, "getType") && $exception->getType())
 			$type = $exception->getType();
 		else
 			$type = get_class($exception);
 		
-		self::logMessage($type, $exception->getMessage(), $exception->getTrace(), $logName);
+		self::logMessage('Exception', $exception->getMessage(), $exception->getTrace(), $logName, $type);
 	}
 	
 	/**
@@ -339,12 +342,15 @@ class HarmoniErrorHandler {
 	 * @param string $type The type of error or exception that occurred
 	 * @param string $message A message.
 	 * @param array $backtrace
+	 * @param optional string $logName The name of the log to write to.
+	 * @param optional string $category A category for the error or exception.
 	 * @return void
 	 * @access public
 	 * @since 10/10/07
 	 * @static
 	 */
-	public static function logMessage ($type, $message, array $backtrace, $logName = 'Harmoni') {
+	public static function logMessage ($type, $message, array $backtrace, $logName = 'Harmoni', $category = null) {
+		
 		/*********************************************************
 		 * Log the error in the default system log if the log_errors
 		 * directive is on.
@@ -379,7 +385,7 @@ class HarmoniErrorHandler {
 				$priorityType = new Type("logging", "edu.middlebury", $type,
 									"Events involving critical system errors.");
 				
-				$item = new AgentNodeEntryItem($type, $message);
+				$item = new AgentNodeEntryItem($category, $message);
 				$item->setBacktrace($backtrace);
 				if (isset($_SERVER['REQUEST_URI']))
 					$item->addTextToBactrace("\n<div><strong>REQUEST_URI: </strong>".$_SERVER['REQUEST_URI']."</div>");
