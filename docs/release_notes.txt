@@ -3,6 +3,11 @@ Name: Harmoni Release Notes
 (See the Harmoni change log for more details)
 
 
+v. 0.13.4 (2007-11-13)
+----------------------------------------------------
+This release fixes a few minor issues with the Error Handler.
+
+
 v. 0.13.3 (2007-11-09)
 ----------------------------------------------------
 This release fixes a few minor bugs and adds the ability to attach

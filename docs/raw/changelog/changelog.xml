@@ -3,14 +3,14 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.211 2007/11/12 20:54:37 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.212 2007/11/13 15:37:31 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
-	<version number="0.13.4" date="The Future">
+	<version number="0.13.4" date="2007-11-13">
 		<releaseNotes>
-			<##>
+			This release fixes a few minor issues with the Error Handler.
 		</releaseNotes>
 		<fix author='adam' date='2007-11-12' ref='1829095' reftype='bug'>
 			ErrorHandler: Categories and priority types are now separate logging fields.

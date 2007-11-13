@@ -23,7 +23,23 @@
 </head>
 <body>
 <h1>Harmoni Change Log</h1>
-<h2>Version 0.13.3</h2>
+<h2>Version 0.13.4</h2>
+<h3>2007-11-13</h3>
+<p>This release fixes a few minor issues with the Error Handler.</p>
+<ul>
+		
+		<li>
+<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1829095&amp;group_id=&amp;atid=">
+        			#1829095</a> ErrorHandler: Categories and priority types are now separate logging fields.
+<br>
+<br>Uncaught Exceptions all have priority 'Uncaught Exception' and a category which is their type or class-name as applicable.
+<br>
+<br>Errors use their type as their priority and have no category. (<em>2007-11-12 - Adam Franco</em>)</li>
+		<li>
+<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1827143&amp;group_id=&amp;atid=">
+        			#1827143</a> ErrorHandler: Backtrace arguments are now escaped to prevent invalid characters from killing log-browsing HTML or causing XSS injections. (<em>2007-11-12 - Adam Franco</em>)</li>
+	</ul>
+<br><h2>Version 0.13.3</h2>
 <h3>2007-11-09</h3>
 <p>This release fixes a few minor bugs and adds the ability to attach externally-defined groups (such as from LDAP) underneith locally defined groups.
 <br>

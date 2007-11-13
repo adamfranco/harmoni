@@ -4,6 +4,25 @@ Name: Harmoni Change Log
 
 
 
+v. 0.13.4 (2007-11-13)
+----------------------------------------------------
+This release fixes a few minor issues with the Error Handler.
+		
+		
+	* Bug Fix: #1829095 
+		ErrorHandler: Categories and priority types are now separate logging fields.
+		
+		Uncaught Exceptions all have priority 'Uncaught Exception' and a category
+		which is their type or class-name as applicable.
+		
+		Errors use their type as their priority and have no category.
+		(2007-11-12 - Adam Franco)
+		
+	* Bug Fix: #1827143 
+		ErrorHandler: Backtrace arguments are now escaped to prevent invalid
+		characters from killing log-browsing HTML or causing XSS injections.
+		(2007-11-12 - Adam Franco)
+	
 v. 0.13.3 (2007-11-09)
 ----------------------------------------------------
 This release fixes a few minor bugs and adds the ability to attach
