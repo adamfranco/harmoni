@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GETMethodRequestHandler.class.php,v 1.16 2007/11/01 17:37:09 adamfranco Exp $
+ * @version $Id: GETMethodRequestHandler.class.php,v 1.17 2007/12/03 21:54:45 adamfranco Exp $
  */ 
  
 require_once(HARMONI."architecture/request/RequestHandler.interface.php");
@@ -25,7 +25,7 @@ require_once(HARMONI."architecture/request/URLWriter.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GETMethodRequestHandler.class.php,v 1.16 2007/11/01 17:37:09 adamfranco Exp $
+ * @version $Id: GETMethodRequestHandler.class.php,v 1.17 2007/12/03 21:54:45 adamfranco Exp $
  */
 
 class GETMethodRequestHandler 
@@ -100,7 +100,7 @@ class GETMethodRequestHandler
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: GETMethodRequestHandler.class.php,v 1.16 2007/11/01 17:37:09 adamfranco Exp $
+ * @version $Id: GETMethodRequestHandler.class.php,v 1.17 2007/12/03 21:54:45 adamfranco Exp $
  */
 
 class GETMethodURLWriter 
@@ -145,6 +145,9 @@ class GETMethodURLWriter
 			if (is_object($val)) {
 				throwError( new Error("Expecting string for key '$key', got '$val'.", "GETMethodRequestHandler", true));
 			}
+// 			if (is_array($val)) {
+// 				throwError( new Error("Expecting string for key '$key', got '".print_r($val, true)."'.", "GETMethodRequestHandler", true));
+// 			}
 			$pairs[] = $key . "=" . urlencode($val);
 		}
 		

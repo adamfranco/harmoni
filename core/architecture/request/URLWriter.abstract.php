@@ -10,7 +10,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: URLWriter.abstract.php,v 1.8 2007/11/01 17:37:09 adamfranco Exp $
+ * @version $Id: URLWriter.abstract.php,v 1.9 2007/12/03 21:54:45 adamfranco Exp $
  */
 
 abstract class URLWriter 
@@ -37,7 +37,35 @@ abstract class URLWriter
 	function setModuleAction($module, $action) {
 		$this->_module = $module;
 		$this->_action = $action;
-	}	
+	}
+	
+	/**
+	 * Answer the module
+	 * 
+	 * @return string
+	 * @access public
+	 * @since 12/3/07
+	 */
+	public function getModule () {
+		if (!strlen($this->_module))
+			throw new HarmoniException("No Module set.");
+		
+		return $this->_module;
+	}
+	
+	/**
+	 * Answer the action
+	 * 
+	 * @return string
+	 * @access public
+	 * @since 12/3/07
+	 */
+	public function getAction () {
+		if (!strlen($this->_action))
+			throw new HarmoniException("No Action set.");
+		
+		return $this->_action;
+	}
 	
 	/**
 	 * Takes an associative array of name/value pairs and sets the internal data
