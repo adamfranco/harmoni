@@ -15,7 +15,7 @@ require_once("HarmoniAgent.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniEditableAgent.class.php,v 1.5 2007/09/04 20:25:36 adamfranco Exp $
+ * @version $Id: HarmoniEditableAgent.class.php,v 1.6 2007/12/03 21:52:49 adamfranco Exp $
  */
 
 class HarmoniEditableAgent
@@ -37,7 +37,7 @@ class HarmoniEditableAgent
 		ArgumentValidator::validate($newDisplayName, new StringValidatorRule(), true);
 		//set the display name in the object
 		
-		$this->_node->updateDisplayName($newDisplayName);
+		$this->getNode()->updateDisplayName($newDisplayName);
 	}
 	
 	/***
