@@ -24,7 +24,7 @@ require_once(HARMONI.'/oki2/hierarchy/DefaultNodeType.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniHierarchy.class.php,v 1.23 2007/09/21 15:29:05 adamfranco Exp $
+ * @version $Id: HarmoniHierarchy.class.php,v 1.24 2007/12/03 21:53:54 adamfranco Exp $
  */
 
 class HarmoniHierarchy 
@@ -514,7 +514,11 @@ class HarmoniHierarchy
 		// ** end of parameter validation
 		
 		$idValue = $nodeId->getIdString();
-		$node = $this->_cache->getNode($idValue);
+		try {
+			$node = $this->_cache->getNode($idValue);
+		} catch (HarmoniException $e) {
+			throw new UnknownIdException("Could not find node of Id '".$idValue."'.");
+		}
 		
 		return $node;
 	}
