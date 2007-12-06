@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.213 2007/12/03 21:54:45 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.214 2007/12/06 21:06:45 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -12,6 +12,17 @@
 		<releaseNotes>
 			
 		</releaseNotes>
+		<new author='adam' date='2007-12-06' ref='1845757' reftype='segue_bug'>
+			Primitives: HtmlString now allows cleaning of potential cross-site-scription
+			(XSS) markup from html. 
+			
+			Cleaning is done using the safehtml library	by Roman Ivanov
+			(http://pixel-apes.com/safehtml/?page=safehtml).
+		</new>
+		<change author='adam' date='2007-12-06'>
+			Shared: A new inteface, Harmoni_Iterator, defines the additional methods
+			beyond those in OSID v2 that Harmoni's iterators provide and use.
+		</change>
 		<change author='adam' date='2007-12-03'>
 			Request: Can now get the module and action from a UrlWriter.
 		</change>

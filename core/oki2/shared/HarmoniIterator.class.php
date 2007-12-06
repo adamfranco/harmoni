@@ -1,6 +1,7 @@
 <?php
 
 require_once(HARMONI."Primitives/Objects/SObject.class.php");
+require_once(HARMONI."oki2/shared/Harmoni_Iterator.interface.php");
 
 /**
  * A class for passing an arbitrary input array as an iterator.
@@ -10,10 +11,11 @@ require_once(HARMONI."Primitives/Objects/SObject.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniIterator.class.php,v 1.12 2007/09/04 20:25:48 adamfranco Exp $
+ * @version $Id: HarmoniIterator.class.php,v 1.13 2007/12/06 21:06:45 adamfranco Exp $
  */
 class HarmoniIterator
 	extends SObject
+	implements Harmoni_AppendableIterator
 {
 
 	/**
