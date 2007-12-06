@@ -19,19 +19,25 @@
 // | Authors: Many @ Sitepointforums Advanced PHP Forums                  |
 // +----------------------------------------------------------------------+
 //
-// $Id: Decorators.php,v 1.1 2007/12/06 20:40:18 adamfranco Exp $
+// $Id: Decorators.php,v 1.2 2007/12/06 20:54:48 adamfranco Exp $
 //
 /**
 * Decorators for dealing with parser options
 * @package XML_HTMLSax3
-* @version $Id: Decorators.php,v 1.1 2007/12/06 20:40:18 adamfranco Exp $
+* @version $Id: Decorators.php,v 1.2 2007/12/06 20:54:48 adamfranco Exp $
 * @see XML_HTMLSax3::set_option
 */
 /**
-* Trims the contents of element data from whitespace at start and end
-* @package XML_HTMLSax3
-* @access protected
-*/
+ * Trims the contents of element data from whitespace at start and end
+ *
+ *
+ * Changes by Adam Franco
+ * - 2007-12-06 - Removed return and pass-by reference ampersands to match PHP5 strict-mode.
+ *
+ *
+ * @package XML_HTMLSax3
+ * @access protected
+ */
 class XML_HTMLSax3_Trim {
     /**
     * Original handler object
@@ -51,8 +57,8 @@ class XML_HTMLSax3_Trim {
     * @param string original handler method
     * @access protected
     */
-    function XML_HTMLSax3_Trim(&$orig_obj, $orig_method) {
-        $this->orig_obj =& $orig_obj;
+    function XML_HTMLSax3_Trim($orig_obj, $orig_method) {
+        $this->orig_obj = $orig_obj;
         $this->orig_method = $orig_method;
     }
     /**
@@ -61,7 +67,7 @@ class XML_HTMLSax3_Trim {
     * @param string element data
     * @access protected
     */
-    function trimData(&$parser, $data) {
+    function trimData($parser, $data) {
         $data = trim($data);
         if ($data != '') {
             $this->orig_obj->{$this->orig_method}($parser, $data);
@@ -99,8 +105,8 @@ class XML_HTMLSax3_CaseFolding {
     * @param string original close handler method
     * @access protected
     */
-    function XML_HTMLSax3_CaseFolding(&$orig_obj, $orig_open_method, $orig_close_method) {
-        $this->orig_obj =& $orig_obj;
+    function XML_HTMLSax3_CaseFolding($orig_obj, $orig_open_method, $orig_close_method) {
+        $this->orig_obj = $orig_obj;
         $this->orig_open_method = $orig_open_method;
         $this->orig_close_method = $orig_close_method;
     }
@@ -111,7 +117,7 @@ class XML_HTMLSax3_CaseFolding {
     * @param array tag attributes
     * @access protected
     */
-    function foldOpen(&$parser, $tag, $attrs=array(), $empty = FALSE) {
+    function foldOpen($parser, $tag, $attrs=array(), $empty = FALSE) {
         $this->orig_obj->{$this->orig_open_method}($parser, strtoupper($tag), $attrs, $empty);
     }
     /**
@@ -120,7 +126,7 @@ class XML_HTMLSax3_CaseFolding {
     * @param string tag name
     * @access protected
     */
-    function foldClose(&$parser, $tag, $empty = FALSE) {
+    function foldClose($parser, $tag, $empty = FALSE) {
         $this->orig_obj->{$this->orig_close_method}($parser, strtoupper($tag), $empty);
     }
 }
@@ -149,8 +155,8 @@ class XML_HTMLSax3_Linefeed {
     * @param string original handler method
     * @access protected
     */
-    function XML_HTMLSax3_LineFeed(&$orig_obj, $orig_method) {
-        $this->orig_obj =& $orig_obj;
+    function XML_HTMLSax3_LineFeed($orig_obj, $orig_method) {
+        $this->orig_obj = $orig_obj;
         $this->orig_method = $orig_method;
     }
     /**
@@ -159,7 +165,7 @@ class XML_HTMLSax3_Linefeed {
     * @param string element data
     * @access protected
     */
-    function breakData(&$parser, $data) {
+    function breakData($parser, $data) {
         $data = explode("\n",$data);
         foreach ( $data as $chunk ) {
             $this->orig_obj->{$this->orig_method}($parser, $chunk);
@@ -191,8 +197,8 @@ class XML_HTMLSax3_Tab {
     * @param string original handler method
     * @access protected
     */
-    function XML_HTMLSax3_Tab(&$orig_obj, $orig_method) {
-        $this->orig_obj =& $orig_obj;
+    function XML_HTMLSax3_Tab($orig_obj, $orig_method) {
+        $this->orig_obj = $orig_obj;
         $this->orig_method = $orig_method;
     }
     /**
@@ -201,7 +207,7 @@ class XML_HTMLSax3_Tab {
     * @param string element data
     * @access protected
     */
-    function breakData(&$parser, $data) {
+    function breakData($parser, $data) {
         $data = explode("\t",$data);
         foreach ( $data as $chunk ) {
             $this->orig_obj->{$this->orig_method}($this, $chunk);
@@ -234,8 +240,8 @@ class XML_HTMLSax3_Entities_Parsed {
     * @param string original handler method
     * @access protected
     */
-    function XML_HTMLSax3_Entities_Parsed(&$orig_obj, $orig_method) {
-        $this->orig_obj =& $orig_obj;
+    function XML_HTMLSax3_Entities_Parsed($orig_obj, $orig_method) {
+        $this->orig_obj = $orig_obj;
         $this->orig_method = $orig_method;
     }
     /**
@@ -244,7 +250,7 @@ class XML_HTMLSax3_Entities_Parsed {
     * @param string element data
     * @access protected
     */
-    function breakData(&$parser, $data) {
+    function breakData($parser, $data) {
         $data = preg_split('/(&.+?;)/',$data,-1,PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
         foreach ( $data as $chunk ) {
             $chunk = html_entity_decode($chunk,ENT_NOQUOTES);
@@ -286,8 +292,8 @@ class XML_HTMLSax3_Entities_Unparsed {
     * @param string original handler method
     * @access protected
     */
-    function XML_HTMLSax3_Entities_Unparsed(&$orig_obj, $orig_method) {
-        $this->orig_obj =& $orig_obj;
+    function XML_HTMLSax3_Entities_Unparsed($orig_obj, $orig_method) {
+        $this->orig_obj = $orig_obj;
         $this->orig_method = $orig_method;
     }
     /**
@@ -296,7 +302,7 @@ class XML_HTMLSax3_Entities_Unparsed {
     * @param string element data
     * @access protected
     */
-    function breakData(&$parser, $data) {
+    function breakData($parser, $data) {
         $data = preg_split('/(&.+?;)/',$data,-1,PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
         foreach ( $data as $chunk ) {
             $this->orig_obj->{$this->orig_method}($this, $chunk);
@@ -329,8 +335,8 @@ class XML_HTMLSax3_Escape_Stripper {
     * @param string original handler method
     * @access protected
     */
-    function XML_HTMLSax3_Escape_Stripper(&$orig_obj, $orig_method) {
-        $this->orig_obj =& $orig_obj;
+    function XML_HTMLSax3_Escape_Stripper($orig_obj, $orig_method) {
+        $this->orig_obj = $orig_obj;
         $this->orig_method = $orig_method;
     }
     /**
@@ -339,7 +345,7 @@ class XML_HTMLSax3_Escape_Stripper {
     * @param string element data
     * @access protected
     */
-    function strip(&$parser, $data) {
+    function strip($parser, $data) {
         // Check for HTML comments first
         if ( substr($data,0,2) == '--' ) {
             $patterns = array(

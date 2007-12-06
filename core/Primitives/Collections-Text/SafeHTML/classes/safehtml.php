@@ -6,6 +6,9 @@
  *
  * PHP versions 4 and 5
  *
+ * Changes by Adam Franco
+ * - 2007-12-06 - Removed return and pass-by reference ampersands to match PHP5 strict-mode.
+ *
  * @category   HTML
  * @package    SafeHTML
  * @author     Roman Ivanov <thingol@mail.ru>
@@ -14,7 +17,6 @@
  * @version    1.3.7
  * @link       http://pixel-apes.com/safehtml/
  */
-
 
 /**
  * This package requires HTMLSax3 package
@@ -43,7 +45,7 @@ require_once(XML_HTMLSAX3 . 'HTMLSax3.php');
  *
  * <b>Example:</b>
  * <pre>
- * $parser =& new SafeHTML();
+ * $parser = new SafeHTML();
  * $result = $parser->parse($doc);
  * </pre>
  *
@@ -398,7 +400,7 @@ class SafeHTML
      * @return boolean
      * @access private
      */
-    function _openHandler(&$parser, $name, $attrs) 
+    function _openHandler($parser, $name, $attrs) 
     {
         $name = strtolower($name);
 
@@ -471,7 +473,7 @@ class SafeHTML
      * @return boolean
      * @access private
      */
-    function _closeHandler(&$parser, $name) 
+    function _closeHandler($parser, $name) 
     {
 
         $name = strtolower($name);
@@ -533,7 +535,7 @@ class SafeHTML
      * @return boolean
      * @access private
      */
-    function _dataHandler(&$parser, $data) 
+    function _dataHandler($parser, $data) 
     {
         if (count($this->_dcStack) == 0) {
             $this->_xhtml .= $data;
@@ -549,7 +551,7 @@ class SafeHTML
      * @return boolean
      * @access private
      */
-    function _escapeHandler(&$parser, $data) 
+    function _escapeHandler($parser, $data) 
     {
         return true;
     }
@@ -604,7 +606,7 @@ class SafeHTML
        $doc = $this->repackUTF7($doc);
 
        // Instantiate the parser
-       $parser=& new XML_HTMLSax3();
+       $parser= new XML_HTMLSax3();
 
        // Set up the parser
        $parser->set_object($this);

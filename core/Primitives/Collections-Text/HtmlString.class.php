@@ -1,6 +1,8 @@
 <?php
 
 require_once(dirname(__FILE__)."/String.class.php");
+define('XML_HTMLSAX3', dirname(__FILE__)."/SafeHTML/classes/");
+require_once(dirname(__FILE__)."/SafeHTML/classes/safehtml.php");
 
 /**
  * A HtmlString data type. This class allows for HTML-safe string shortening.
@@ -10,7 +12,7 @@ require_once(dirname(__FILE__)."/String.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HtmlString.class.php,v 1.16 2007/11/12 20:54:32 adamfranco Exp $
+ * @version $Id: HtmlString.class.php,v 1.17 2007/12/06 20:54:47 adamfranco Exp $
  */
 class HtmlString 
 	extends String 
@@ -346,6 +348,32 @@ class HtmlString
 	}
 	
 	/**
+	 * Clean out any markup that may provide foothold for a cross-site scripting (XSS) attack. * This includes Javascript, frames, etc. This method calls the other stripping methods
+	 * such as stripJS() and stripFrames(), etc and the only method needed for stripping
+	 * all XSS-related markup.
+	 * 
+	 * @return void
+	 * @access public
+	 * @since 12/6/07
+	 */
+	public function cleanXSS () {
+		$this->clean();
+		$safeHtml = new SafeHTML;
+		$this->_string = $safeHtml->parse($this->_string);
+	}
+	
+	/**
+	 * Strip out any Javascript to help prevent XSS attacks.
+	 * 
+	 * @return void
+	 * @access public
+	 * @since 12/6/07
+	 */
+	public function stripJS () {
+		// <##>
+	}
+	
+	/**
 	 * Answer the tag that starts at the given index.
 	 * 
 	 * @param string $inputString
@@ -354,7 +382,7 @@ class HtmlString
 	 * @access private
 	 * @since 12/13/05
 	 */
-	function getTag ( $inputString, $tagStart ) {
+	private function getTag ( $inputString, $tagStart ) {
 		if ($inputString[$tagStart + 1] == '/')
 			$string = substr($inputString, $tagStart + 2);
 		else
@@ -390,7 +418,7 @@ class HtmlString
 	 * @access private
 	 * @since 12/13/05
 	 */
-	function isSingleTag ( $inputString, $tagStart ) {
+	private function isSingleTag ( $inputString, $tagStart ) {
 		// if this is a close tag itself, return false
 		if ($inputString[$tagStart + 1] == '/')
 			return false;
@@ -431,7 +459,7 @@ class HtmlString
 	 * @access private
 	 * @since 12/14/05
 	 */
-	function isInvalidLessThan ( $inputString, $tagStart ) {
+	private function isInvalidLessThan ( $inputString, $tagStart ) {
 		// if this '<' is followed by one of our invalid following chars
 		$invalidFollowingChars = array("\s", "\t", "\n", "\r", "=");
 		if (in_array($inputString[$tagStart + 1], $invalidFollowingChars))
