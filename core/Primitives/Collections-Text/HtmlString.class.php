@@ -12,7 +12,7 @@ require_once(dirname(__FILE__)."/SafeHTML/classes/safehtml.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HtmlString.class.php,v 1.17 2007/12/06 20:54:47 adamfranco Exp $
+ * @version $Id: HtmlString.class.php,v 1.18 2007/12/07 18:07:54 adamfranco Exp $
  */
 class HtmlString 
 	extends String 
@@ -47,6 +47,21 @@ class HtmlString
 	static function fromString($aString) {
 		$string = new HtmlString($aString);
 		return $string;
+	}
+	
+	/**
+	 * Return a new string with cleaned of XSS-unsafe markup.
+	 * 
+	 * @param string $html
+	 * @return string
+	 * @access public
+	 * @since 12/6/07
+	 * @static
+	 */
+	public static function getSafeHtml ($html) {
+		$s = self::withValue($html);
+		$s->cleanXSS();
+		return $s->asString();
 	}
 
 	

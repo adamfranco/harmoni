@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.214 2007/12/06 21:06:45 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.215 2007/12/07 18:07:55 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -12,12 +12,18 @@
 		<releaseNotes>
 			
 		</releaseNotes>
+		<change author='adam' date='2007-12-07' ref='1845759' reftype='segue_bug'>
+			Agents: Agent display names are now stripped of XSS-vulnerable-markup.
+		</change>
 		<new author='adam' date='2007-12-06' ref='1845757' reftype='segue_bug'>
-			Primitives: HtmlString now allows cleaning of potential cross-site-scription
+			Primitives: HtmlString now allows cleaning of potential cross-site-scripting
 			(XSS) markup from html. 
 			
 			Cleaning is done using the safehtml library	by Roman Ivanov
 			(http://pixel-apes.com/safehtml/?page=safehtml).
+			
+			Use the HtmlString::getSafeHtml($aString) method to clean HTML strings
+			or use the cleanXSS() instance method of HtmlString.
 		</new>
 		<change author='adam' date='2007-12-06'>
 			Shared: A new inteface, Harmoni_Iterator, defines the additional methods
