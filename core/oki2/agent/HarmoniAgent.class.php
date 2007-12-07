@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgent.class.php,v 1.21 2007/11/07 19:09:50 adamfranco Exp $
+ * @version $Id: HarmoniAgent.class.php,v 1.22 2007/12/07 18:06:10 adamfranco Exp $
  */
 
 require_once(OKI2."/osid/agent/Agent.php");
@@ -25,7 +25,7 @@ require_once(HARMONI."/oki2/shared/HarmoniPropertiesIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgent.class.php,v 1.21 2007/11/07 19:09:50 adamfranco Exp $
+ * @version $Id: HarmoniAgent.class.php,v 1.22 2007/12/07 18:06:10 adamfranco Exp $
  */
 class HarmoniAgent 
 	implements Agent
@@ -91,7 +91,7 @@ class HarmoniAgent
 	 * @access public
 	 */
 	function getDisplayName () { 
-		return $this->_node->getDisplayName();
+		return HtmlString::getSafeHtml($this->_node->getDisplayName());
 	}
 
 	/**
