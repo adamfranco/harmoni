@@ -23,7 +23,32 @@
 </head>
 <body>
 <h1>Harmoni Change Log</h1>
-<h2>Version 0.13.4</h2>
+<h2>Version 0.13.5</h2>
+<h3>2007-12-12</h3>
+<p>This release adds a few minor fixes and a few minor cleanup changes. It also includes the addition of HTML cleaning support, availible throught the HtmlString 'primitive' class. This support can be used by client applications to strip HTML markup of tags and attributes that might result in XSS attacks.</p>
+<ul>
+		
+		<li>
+<b>Change:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1845759&amp;group_id=&amp;atid=">
+        			#1845759</a> Agents: Agent display names are now stripped of XSS-vulnerable-markup. (<em>2007-12-07 - Adam Franco</em>)</li>
+		<li>
+<b>New feature:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1845757&amp;group_id=&amp;atid=">
+        			#1845757</a> Primitives: HtmlString now allows cleaning of potential cross-site-scripting (XSS) markup from html. 
+<br>
+<br>Cleaning is done using the safehtml libraryby Roman Ivanov (http://pixel-apes.com/safehtml/?page=safehtml).
+<br>
+<br>Use the HtmlString::getSafeHtml($aString) method to clean HTML strings or use the cleanXSS() instance method of HtmlString. (<em>2007-12-06 - Adam Franco</em>)</li>
+		<li>
+<b>Change:</b> Shared: A new inteface, Harmoni_Iterator, defines the additional methods beyond those in OSID v2 that Harmoni's iterators provide and use. (<em>2007-12-06 - Adam Franco</em>)</li>
+		<li>
+<b>Change:</b> Request: Can now get the module and action from a UrlWriter. (<em>2007-12-03 - Adam Franco</em>)</li>
+		<li>
+<b>Bug Fix:</b> Hierarchy: Now more reliably throws an UnknownIdException when no node is found. (<em>2007-12-03 - Adam Franco</em>)</li>
+		<li>
+<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1841763&amp;group_id=&amp;atid=">
+        			#1841763</a> Agent: Fixed an error in the display name update implementation. (<em>2007-11-30 - Adam Franco</em>)</li>
+	</ul>
+<br><h2>Version 0.13.4</h2>
 <h3>2007-11-13</h3>
 <p>This release fixes a few minor issues with the Error Handler.</p>
 <ul>

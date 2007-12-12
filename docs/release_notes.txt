@@ -3,6 +3,14 @@ Name: Harmoni Release Notes
 (See the Harmoni change log for more details)
 
 
+v. 0.13.5 (2007-12-12)
+----------------------------------------------------
+This release adds a few minor fixes and a few minor cleanup changes. It also
+includes the addition of HTML cleaning support, availible throught the HtmlString
+'primitive' class. This support can be used by client applications to strip HTML
+markup of tags and attributes that might result in XSS attacks.
+
+
 v. 0.13.4 (2007-11-13)
 ----------------------------------------------------
 This release fixes a few minor issues with the Error Handler.

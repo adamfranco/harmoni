@@ -3,14 +3,17 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.215 2007/12/07 18:07:55 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.216 2007/12/12 18:20:51 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
-	<version number="0.13.5" date="The Future">
+	<version number="0.13.5" date="2007-12-12">
 		<releaseNotes>
-			
+			This release adds a few minor fixes and a few minor cleanup changes. It
+			also includes the addition of HTML cleaning support, availible throught the
+			HtmlString 'primitive' class. This support can be used by client applications
+			to strip HTML markup of tags and attributes that might result in XSS attacks.
 		</releaseNotes>
 		<change author='adam' date='2007-12-07' ref='1845759' reftype='segue_bug'>
 			Agents: Agent display names are now stripped of XSS-vulnerable-markup.

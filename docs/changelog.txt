@@ -4,6 +4,46 @@ Name: Harmoni Change Log
 
 
 
+v. 0.13.5 (2007-12-12)
+----------------------------------------------------
+This release adds a few minor fixes and a few minor cleanup changes. It also
+includes the addition of HTML cleaning support, availible throught the HtmlString
+'primitive' class. This support can be used by client applications to strip HTML
+markup of tags and attributes that might result in XSS attacks.
+		
+		
+	* Change: #1845759 
+		Agents: Agent display names are now stripped of XSS-vulnerable-markup.
+		(2007-12-07 - Adam Franco)
+		
+	* New feature: #1845757 
+		Primitives: HtmlString now allows cleaning of potential cross-site-scripting
+		(XSS) markup from html. 
+		
+		Cleaning is done using the safehtml libraryby Roman Ivanov (http://pixel-apes.com/safehtml/?page=safehtml).
+		
+		Use the HtmlString::getSafeHtml($aString) method to clean HTML strings or
+		use the cleanXSS() instance method of HtmlString.
+		(2007-12-06 - Adam Franco)
+		
+	* Change: 
+		Shared: A new inteface, Harmoni_Iterator, defines the additional methods
+		beyond those in OSID v2 that Harmoni's iterators provide and use.
+		(2007-12-06 - Adam Franco)
+		
+	* Change: 
+		Request: Can now get the module and action from a UrlWriter.
+		(2007-12-03 - Adam Franco)
+		
+	* Bug Fix: 
+		Hierarchy: Now more reliably throws an UnknownIdException when no node is
+		found. 
+		(2007-12-03 - Adam Franco)
+		
+	* Bug Fix: #1841763 
+		Agent: Fixed an error in the display name update implementation.
+		(2007-11-30 - Adam Franco)
+	
 v. 0.13.4 (2007-11-13)
 ----------------------------------------------------
 This release fixes a few minor issues with the Error Handler.
