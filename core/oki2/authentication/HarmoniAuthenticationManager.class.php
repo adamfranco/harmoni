@@ -64,7 +64,7 @@ require_once(dirname(__FILE__)."/FormActionNamePassTokenCollector.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthenticationManager.class.php,v 1.28 2007/09/04 20:25:37 adamfranco Exp $
+ * @version $Id: HarmoniAuthenticationManager.class.php,v 1.29 2007/12/14 21:42:53 adamfranco Exp $
  */
 class HarmoniAuthenticationManager 
 	extends AuthenticationManager
@@ -375,7 +375,7 @@ class HarmoniAuthenticationManager
 	function isUserAuthenticatedWithAnyType () {
 		$authTypes =$this->getAuthenticationTypes();
 		while ($authTypes->hasNext()) {
-			if ($this->isAuthenticated($authTypes->next()))
+			if ($this->isUserAuthenticated($authTypes->next()))
 				return true;
 		}
 		
