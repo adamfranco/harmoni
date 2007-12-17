@@ -19,7 +19,7 @@ require_once(HARMONI."GUIManager/StyleProperties/BorderSP.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TableLayout.class.php,v 1.5 2007/09/04 20:25:22 adamfranco Exp $
+ * @version $Id: TableLayout.class.php,v 1.6 2007/12/17 17:26:09 adamfranco Exp $
  */
 class TableLayout 
 	extends LayoutInterface 
@@ -97,7 +97,7 @@ class TableLayout
 	 **/
 	function render($container, $theme, $tabs = "") {
 		// print html for container (a table)
-		echo $tabs."<table width=\"100%\" border=\"0\" cellpadding=\"0px\" cellspacing=\"0px\">\n";
+		echo $tabs."<table width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">\n";
 		echo $tabs."\t<tr>\n";
 		
 		// extra tdStyles (not themed)

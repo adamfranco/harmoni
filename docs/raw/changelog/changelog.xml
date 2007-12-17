@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.217 2007/12/14 21:42:59 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.218 2007/12/17 17:26:14 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -12,6 +12,9 @@
 		<releaseNotes>
 			
 		</releaseNotes>
+		<fix author='adam' date='2007-12-17'>
+			GUI: Removing 'px' from the values of cellpadding and cellspacing attributes.
+		</fix>
 		<fix author='adam' date='2007-12-14'>
 			AuthN: Fixed error in isUserAuthenticatedWithAnyType().
 		</fix>
