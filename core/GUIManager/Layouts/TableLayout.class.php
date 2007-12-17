@@ -19,7 +19,7 @@ require_once(HARMONI."GUIManager/StyleProperties/BorderSP.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TableLayout.class.php,v 1.7 2007/12/17 17:50:53 adamfranco Exp $
+ * @version $Id: TableLayout.class.php,v 1.8 2007/12/17 19:13:57 adamfranco Exp $
  */
 class TableLayout 
 	extends LayoutInterface 
@@ -136,10 +136,11 @@ class TableLayout
 				
 				// width and height of the component
 				$width = $height = "";
+				$styles = '';
 				$width = $container->getComponentWidth($key + 1);
 				$height = $container->getComponentHeight($key + 1);
-				if (isset($width) && $width) $width = " width=\"$width\"";
-				if (isset($height) && $height) $height = " height=\"$height\"";
+				if (isset($width) && $width) $styles .= "width: $width; ";
+				if (isset($height) && $height) $styles .= "height: $height; ";
 	
 				// include halign and valign
 				$halign = $valign = "";
@@ -155,7 +156,7 @@ class TableLayout
 				}
 				
 				// render the component in separate table cell
-				echo $tabs."\t<td $width$height$halign$valign$tdStyles>\n";
+				echo $tabs."\t<td $halign$valign style='$styles".$this->_tdStyles."'>\n";
 				$component->render($theme, $tabs."\t\t");
 				echo $tabs."\t</td>\n";
 			}

@@ -17,7 +17,7 @@ require_once(HARMONI."GUIManager/StyleProperties/BorderSP.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: XLayout.class.php,v 1.10 2007/12/17 17:26:09 adamfranco Exp $
+ * @version $Id: XLayout.class.php,v 1.11 2007/12/17 19:13:57 adamfranco Exp $
  */
 class XLayout extends LayoutInterface {
 
@@ -90,10 +90,11 @@ class XLayout extends LayoutInterface {
 			
 			// width and height of the component
 			$width = $height = "";
+			$styles = '';
 			$width = $container->getComponentWidth($key + 1);
 			$height = $container->getComponentHeight($key + 1);
-			if (isset($width)) $width = " width=\"$width\"";
-			if (isset($height)) $height = " height=\"$height\"";
+			if (isset($width) && $width) $styles .= "width: $width; ";
+			if (isset($height) && $height) $styles = "height: $height; ";
 
 			// include halign and valign
 			$halign = $valign = "";
@@ -109,7 +110,7 @@ class XLayout extends LayoutInterface {
 			}
 			
 			// render the component in separate table cell
-			echo $tabs."\t<td $width$height$halign$valign>\n";
+			echo $tabs."\t<td $halign$valign style='$styles'>\n";
 			$component->render($theme, $tabs."\t\t");
 			echo "\n".$tabs."\t</td>\n";
 		}
