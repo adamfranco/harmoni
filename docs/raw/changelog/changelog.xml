@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.220 2007/12/17 19:14:08 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.221 2007/12/20 20:16:12 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -12,6 +12,10 @@
 		<releaseNotes>
 			
 		</releaseNotes>
+		<change author='adam' date='2007-12-20' ref='1854956' reftype='fr'>
+			GUI: Can now pass in components to use as non-blank placeholders in case the 
+			placeholder never gets replaced.
+		</change>
 		<fix author='adam' date='2007-12-17'>
 			GUI: Moving table-width definitions to style tags to aid validation.
 		</fix>

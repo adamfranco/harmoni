@@ -19,7 +19,7 @@ require_once(HARMONI."GUIManager/StyleProperties/HeightSP.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Container.class.php,v 1.17 2007/09/04 20:25:21 adamfranco Exp $
+ * @version $Id: Container.class.php,v 1.18 2007/12/20 20:16:10 adamfranco Exp $
  */
 class Container extends Component /* implements ContainerInterface */ {
 
@@ -135,12 +135,18 @@ class Container extends Component /* implements ContainerInterface */ {
 	 * This method can be used in conjunction with insertAtPlaceholder()
 	 * to allow out-of-order addition of components.
 	 * 
+	 * @param optional mixed $placeholder A component or null to use as the placeholder.
 	 * @return integer
 	 * @access public
 	 * @since 1/24/07
 	 */
-	function addPlaceholder () {
-		$this->add(new Blank(1));
+	function addPlaceholder ($placeholder = null) {
+		if (is_null($placeholder))
+			$this->add(new Blank(1));
+		else {
+			ArgumentValidator::validate($placeholder, ExtendsValidatorRule::getRule('Component'));
+			$this->add($placeholder);
+		}
 		$placeholderId = count($this->_components);
 		
 		// Record the Id so that we can verify it when inserting later
