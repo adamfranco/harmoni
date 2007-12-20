@@ -3,16 +3,16 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.221 2007/12/20 20:16:12 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.222 2007/12/20 21:53:57 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
-	<version number="0.13.6" date="The Future">
+	<version number="0.13.6" date="2007-12-20">
 		<releaseNotes>
-			
+			This release fixes a few minor bugs.
 		</releaseNotes>
-		<change author='adam' date='2007-12-20' ref='1854956' reftype='fr'>
+		<change author='adam' date='2007-12-20' ref='1854956' reftype='segue_bug'>
 			GUI: Can now pass in components to use as non-blank placeholders in case the 
 			placeholder never gets replaced.
 		</change>

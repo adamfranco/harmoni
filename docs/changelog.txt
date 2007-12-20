@@ -4,6 +4,33 @@ Name: Harmoni Change Log
 
 
 
+v. 0.13.6 (2007-12-20)
+----------------------------------------------------
+This release fixes a few minor bugs.
+		
+		
+	* Change: #1854956 
+		GUI: Can now pass in components to use as non-blank placeholders in case the
+		placeholder never gets replaced.
+		(2007-12-20 - Adam Franco)
+		
+	* Bug Fix: 
+		GUI: Moving table-width definitions to style tags to aid validation.
+		(2007-12-17 - Adam Franco)
+		
+	* Bug Fix: 
+		GUI: Removing empty width attributes from table data.
+		(2007-12-17 - Adam Franco)
+		
+	* Bug Fix: 
+		GUI: Removing 'px' from the values of cellpadding and cellspacing
+		attributes. 
+		(2007-12-17 - Adam Franco)
+		
+	* Bug Fix: 
+		AuthN: Fixed error in isUserAuthenticatedWithAnyType().
+		(2007-12-14 - Adam Franco)
+	
 v. 0.13.5 (2007-12-12)
 ----------------------------------------------------
 This release adds a few minor fixes and a few minor cleanup changes. It also
