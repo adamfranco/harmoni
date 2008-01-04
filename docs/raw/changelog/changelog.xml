@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.223 2008/01/04 19:57:22 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.224 2008/01/04 19:58:17 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -16,8 +16,7 @@
 			ErrorHandler: Now prints the error and/or exception code.
 		</change>
 		<change author='adam' date='2008-01-04'>
-			Database: MySQL database now throws a DuplicateKeyException on error code
-			1164.
+			Database: MySQL database now throws a DuplicateKeyException on error code 1062.
 		</change>
 	</version>
 	<version number="0.13.6" date="2007-12-20">

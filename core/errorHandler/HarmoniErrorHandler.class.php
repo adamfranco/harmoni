@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniErrorHandler.class.php,v 1.15 2007/11/12 20:54:37 adamfranco Exp $
+ * @version $Id: HarmoniErrorHandler.class.php,v 1.16 2008/01/04 19:57:22 adamfranco Exp $
  */ 
 
 /**
@@ -30,7 +30,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniErrorHandler.class.php,v 1.15 2007/11/12 20:54:37 adamfranco Exp $
+ * @version $Id: HarmoniErrorHandler.class.php,v 1.16 2008/01/04 19:57:22 adamfranco Exp $
  */
 class HarmoniErrorHandler {
 		
@@ -231,9 +231,9 @@ class HarmoniErrorHandler {
 			|| ini_get('display_errors') === 'stdout' || ini_get('display_errors') === '1')
 		{
 			if (ini_get('html_errors'))
-				self::printMessage($priority.' of type', $type, $exception->getMessage(), $exception->getTrace());
+				self::printMessage($priority.' of type', $type, $exception->getMessage(), $exception->getTrace(), $exception->getCode());
 			else
-				self::printPlainTextMessage($priority.' of type', $type, $exception->getMessage(), $exception->getTrace());
+				self::printPlainTextMessage($priority.' of type', $type, $exception->getMessage(), $exception->getTrace(), $exception->getCode());
 		}
 		
 		// Log the Exception
@@ -252,9 +252,9 @@ class HarmoniErrorHandler {
 	 */
 	private function printError ($errorType, $errorMessage, array $backtrace) {
 		if (ini_get('html_errors'))
-			self::printMessage('Error', $this->errorTypes[$errorType], $errorMessage, $backtrace);
+			self::printMessage('Error', $this->errorTypes[$errorType], $errorMessage, $backtrace, $errorType);
 		else
-			self::printPlainTextMessage('Error', $this->errorTypes[$errorType], $errorMessage, $backtrace);
+			self::printPlainTextMessage('Error', $this->errorTypes[$errorType], $errorMessage, $backtrace, $errorType);
 	}
 	
 	/**
@@ -264,13 +264,18 @@ class HarmoniErrorHandler {
 	 * @param string $type The type of error or exception that occurred
 	 * @param string $message A message.
 	 * @param array $backtrace
+	 * @param optional int $code
 	 * @return void
 	 * @access public
 	 * @since 10/10/07
 	 */
-	public static function printMessage ( $errorOrException, $type, $message, array $backtrace ) {
+	public static function printMessage ( $errorOrException, $type, $message, array $backtrace, $code = null) {
 		print "\n<div style='background-color: #FAA; border: 2px dotted #F00; padding: 10px;'><strong>".$errorOrException."</strong>: ";
-		print "\n\t<div style='padding-left: 20px; font-style: italic;'>".$type."</div>";
+		print "\n\t<div style='padding-left: 20px; font-style: italic;'>".$type;
+		if (!is_null($code)) {
+			print " (".strval($code).")";
+		}
+		print "</div>";
 		print "with message ";
 		print "\n\t<div style='padding-left: 20px; font-style: italic;'>".$message."</div>";
 		print "\n\tin";
@@ -295,6 +300,9 @@ class HarmoniErrorHandler {
 		print "\n*****************************************************************************";
 		print "\n* ".$errorOrException.": ";
 		print "\n*\t".$type;
+		if (!is_null($code)) {
+			print " (".strval($code).")";
+		}
 		print "\n* with message ";
 		print "\n*\t".$message;
 		print "\n* in";
