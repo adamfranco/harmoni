@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQLDatabase.class.php,v 1.37 2007/09/05 21:39:00 adamfranco Exp $
+ * @version $Id: MySQLDatabase.class.php,v 1.38 2008/01/04 19:57:09 adamfranco Exp $
  */
  
 require_once(HARMONI."DBHandler/Database.abstract.php");
@@ -31,7 +31,7 @@ require_once(HARMONI."DBHandler/MySQL/MySQL_SQLGenerator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQLDatabase.class.php,v 1.37 2007/09/05 21:39:00 adamfranco Exp $
+ * @version $Id: MySQLDatabase.class.php,v 1.38 2008/01/04 19:57:09 adamfranco Exp $
  */
  
 class MySQLDatabase 
@@ -368,6 +368,7 @@ class MySQLDatabase
 				switch (mysql_errno($this->_linkId)) {
 					// Duplicate Key
 					case 1022:
+					case 1062:
 						throw new DuplucateKeyDatabaseException("MySQL Error: ".mysql_error($this->_linkId), mysql_errno($this->_linkId));
 					
 					// max_allowed_packet
