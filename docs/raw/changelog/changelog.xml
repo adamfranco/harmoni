@@ -3,14 +3,14 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.224 2008/01/04 19:58:17 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.225 2008/01/14 21:27:46 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
-	<version number="0.13.7" date="The Future">
+	<version number="0.13.7" date="2008-01-14">
 		<releaseNotes>
-			
+			This release fixes a few minor issues.
 		</releaseNotes>
 		<change author='adam' date='2008-01-04'>
 			ErrorHandler: Now prints the error and/or exception code.

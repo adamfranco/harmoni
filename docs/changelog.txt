@@ -4,6 +4,20 @@ Name: Harmoni Change Log
 
 
 
+v. 0.13.7 (2008-01-14)
+----------------------------------------------------
+This release fixes a few minor issues.
+		
+		
+	* Change: 
+		ErrorHandler: Now prints the error and/or exception code.
+		(2008-01-04 - Adam Franco)
+		
+	* Change: 
+		Database: MySQL database now throws a DuplicateKeyException on error code
+		1062. 
+		(2008-01-04 - Adam Franco)
+	
 v. 0.13.6 (2007-12-20)
 ----------------------------------------------------
 This release fixes a few minor bugs.

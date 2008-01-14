@@ -3,6 +3,11 @@ Name: Harmoni Release Notes
 (See the Harmoni change log for more details)
 
 
+v. 0.13.7 (2008-01-14)
+----------------------------------------------------
+This release fixes a few minor issues.
+
+
 v. 0.13.6 (2007-12-20)
 ----------------------------------------------------
 This release fixes a few minor bugs.
