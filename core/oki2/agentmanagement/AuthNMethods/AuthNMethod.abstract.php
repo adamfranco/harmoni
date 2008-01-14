@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthNMethod.abstract.php,v 1.13 2007/09/04 20:25:37 adamfranco Exp $
+ * @version $Id: AuthNMethod.abstract.php,v 1.14 2008/01/14 21:26:41 adamfranco Exp $
  */ 
 
 /**
@@ -32,7 +32,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthNMethod.abstract.php,v 1.13 2007/09/04 20:25:37 adamfranco Exp $
+ * @version $Id: AuthNMethod.abstract.php,v 1.14 2008/01/14 21:26:41 adamfranco Exp $
  */
 class AuthNMethod {
 	
@@ -231,7 +231,7 @@ class AuthNMethod {
 	 * @param object AuthNTokens $authNTokens
 	 * @param object Properties $properties
 	 * @return void
-	 * @access private
+	 * @access protected
 	 * @since 3/1/05
 	 */
 	function _populateProperties ( $authNTokens, $properties ) {
