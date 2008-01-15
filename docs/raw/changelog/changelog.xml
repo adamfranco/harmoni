@@ -3,11 +3,19 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.225 2008/01/14 21:27:46 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.226 2008/01/15 18:26:50 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
+	<version number="0.13.8" date="2008-01-15">
+		<releaseNotes>
+			A minor fix to Group searching.
+		</releaseNotes>
+		<fix author='adam' date='2008-01-15' ref='1872249' reftype='segue_bug'>
+			Agent: Token search now ensures uniqueness of Ids.
+		</fix>
+	</version>
 	<version number="0.13.7" date="2008-01-14">
 		<releaseNotes>
 			This release fixes a few minor issues.

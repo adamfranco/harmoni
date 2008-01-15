@@ -3,6 +3,11 @@ Name: Harmoni Release Notes
 (See the Harmoni change log for more details)
 
 
+v. 0.13.8 (2008-01-15)
+----------------------------------------------------
+A minor fix to Group searching.
+
+
 v. 0.13.7 (2008-01-14)
 ----------------------------------------------------
 This release fixes a few minor issues.

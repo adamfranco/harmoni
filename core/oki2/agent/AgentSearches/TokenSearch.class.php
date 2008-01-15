@@ -11,7 +11,7 @@ require_once(dirname(__FILE__)."/AgentSearch.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TokenSearch.class.php,v 1.6 2007/09/04 20:25:36 adamfranco Exp $
+ * @version $Id: TokenSearch.class.php,v 1.7 2008/01/15 18:26:48 adamfranco Exp $
  */
 
 class TokenSearch
@@ -79,20 +79,24 @@ class TokenSearch
 		$idManager = Services::getService("IdManager");
 		
 		$types =$authNMethodManager->getAuthNTypes();
+		$idsFound = array();
 		while ($types->hasNext()) {
 			$type =$types->next();
 			$authNMethod =$authNMethodManager->getAuthNMethodForType($type);
 			if(!method_exists($authNMethod,"getGroupTokensBySearch")){
 			  continue;
 			}
-			$tokensIterator =$authNMethod->getGroupTokensBySearch($searchCriteria);
+			$tokensIterator = $authNMethod->getGroupTokensBySearch($searchCriteria);
 			
 		
 			
 			while ($tokensIterator->hasNextObject()) {
-				$token =$tokensIterator->nextObject();
-				$allGroups[] =$agentManager->getGroup(
+				$token = $tokensIterator->nextObject();
+				if (!in_array($token->getIdentifier(), $idsFound)) {
+					$allGroups[] = $agentManager->getGroup(
 									$idManager->getId($token->getIdentifier()));
+					$idsFound[] = $token->getIdentifier();
+				}
 			}
 		}		
 		

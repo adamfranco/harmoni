@@ -4,6 +4,15 @@ Name: Harmoni Change Log
 
 
 
+v. 0.13.8 (2008-01-15)
+----------------------------------------------------
+A minor fix to Group searching.
+		
+		
+	* Bug Fix: #1872249 
+		Agent: Token search now ensures uniqueness of Ids.
+		(2008-01-15 - Adam Franco)
+	
 v. 0.13.7 (2008-01-14)
 ----------------------------------------------------
 This release fixes a few minor issues.
