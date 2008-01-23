@@ -5,11 +5,12 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgent.class.php,v 1.22 2007/12/07 18:06:10 adamfranco Exp $
+ * @version $Id: HarmoniAgent.class.php,v 1.23 2008/01/23 16:50:42 adamfranco Exp $
  */
 
 require_once(OKI2."/osid/agent/Agent.php");
 require_once(HARMONI."/oki2/shared/HarmoniPropertiesIterator.class.php");
+require_once(HARMONI."/Primitives/Collections-Text/HtmlString.class.php");
 
 /**
  * Agent is an abstraction that includes Id, display name, type, and
@@ -25,7 +26,7 @@ require_once(HARMONI."/oki2/shared/HarmoniPropertiesIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgent.class.php,v 1.22 2007/12/07 18:06:10 adamfranco Exp $
+ * @version $Id: HarmoniAgent.class.php,v 1.23 2008/01/23 16:50:42 adamfranco Exp $
  */
 class HarmoniAgent 
 	implements Agent
