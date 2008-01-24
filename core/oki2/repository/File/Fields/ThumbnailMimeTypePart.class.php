@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: ThumbnailMimeTypePart.class.php,v 1.14 2007/09/13 16:04:21 adamfranco Exp $
+ * @version $Id: ThumbnailMimeTypePart.class.php,v 1.15 2008/01/24 19:09:29 adamfranco Exp $
  */
 class ThumbnailMimeTypePart extends Part
 //	extends java.io.Serializable
@@ -215,7 +215,8 @@ class ThumbnailMimeTypePart extends Part
 	 * @access public
 	 */
 	function updateValue($value) {
-		ArgumentValidator::validate($value, NonzeroLengthStringValidatorRule::getRule());
+		if (!is_null($value))
+			ArgumentValidator::validate($value, NonzeroLengthStringValidatorRule::getRule());
 		
 		// Store the name in the object in case its asked for again.
 		$this->_type = $value;

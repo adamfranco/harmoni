@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileNamePart.class.php,v 1.11 2007/09/04 20:25:44 adamfranco Exp $
+ * @version $Id: FileNamePart.class.php,v 1.12 2008/01/24 19:09:29 adamfranco Exp $
  */
 class FileNamePart extends Part
 //	extends java.io.Serializable
@@ -213,10 +213,15 @@ class FileNamePart extends Part
 	 * @access public
 	 */
 	function updateValue($value) {
-		ArgumentValidator::validate($value, StringValidatorRule::getRule());
+		if (!is_null($value))
+			ArgumentValidator::validate($value, StringValidatorRule::getRule());
+		
 		
 		// Store the name in the object in case its asked for again.
-		$this->_name = $value;
+		if (is_null($value))
+			$this->_name = '';
+		else
+			$this->_name = $value;
 		
 	// then write it to the database.
 		$dbHandler = Services::getService("DatabaseManager");
@@ -232,17 +237,21 @@ class FileNamePart extends Part
 		if ($result->field("count") > 0) {
 			$query = new UpdateQuery;
 			$query->setTable("dr_file");
-			$query->setColumns(array("filename"));
-			$query->setValues(array("'".addslashes($this->_name)."'"));
+			if (is_null($value))
+				$query->addRawValue("filename", "NULL");
+			else
+				$query->addValue("filename", $this->_name);
 			$query->addWhere("id = '".$this->_recordId->getIdString()."'");
 		}
 		// If it doesn't exist, use an insert query.
 		else {
 			$query = new InsertQuery;
 			$query->setTable("dr_file");
-			$query->setColumns(array("id","filename"));
-			$query->setValues(array("'".$this->_recordId->getIdString()."'",
-									"'".addslashes($this->_name)."'"));
+			$query->addValue("id", $this->_recordId->getIdString());
+			if (is_null($value))
+				$query->addRawValue("filename", "NULL");
+			else
+				$query->addValue("filename", $this->_name);
 		}
 		$result->free();
 		// run the query

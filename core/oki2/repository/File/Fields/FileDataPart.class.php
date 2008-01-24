@@ -19,7 +19,7 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileDataPart.class.php,v 1.14 2007/09/13 19:08:45 adamfranco Exp $
+ * @version $Id: FileDataPart.class.php,v 1.15 2008/01/24 19:09:29 adamfranco Exp $
  */
  
 class FileDataPart 
@@ -219,7 +219,16 @@ class FileDataPart
 //		ArgumentValidator::validate($value, StringValidatorRule::getRule());
 		$dbHandler = Services::getService("DatabaseManager");
 		
-		
+		// Delete the row if we are setting the value to null
+		if (is_null($value)) {
+			$query = new DeleteQuery;
+			$query->setTable("dr_file_data");
+			$query->addWhere("fk_file = '".$this->_recordId->getIdString()."'");
+			$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
+			
+			$this->_asset->updateModificationDate();
+			return;
+		}
 		
 		// Store the data in the object in case its asked for again.
 //		$this->_data = $value;

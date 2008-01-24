@@ -29,7 +29,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileRecord.class.php,v 1.27 2007/09/11 17:40:57 adamfranco Exp $ 
+ * @version $Id: FileRecord.class.php,v 1.28 2008/01/24 19:09:26 adamfranco Exp $ 
  */
 class FileRecord 
 	extends RecordInterface
@@ -270,7 +270,7 @@ class FileRecord
 				$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 				
 			} else if ($field != "FILE_SIZE") {
-				$this->_parts[$field]->updateValue("NULL");
+				$this->_parts[$field]->updateValue(null);
 			}
 		} else {
 			throwError(new Error(RepositoryException::UNKNOWN_ID().": $string", "FileRecord", true));

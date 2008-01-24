@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: FileUrlPart.class.php,v 1.3 2007/09/11 17:40:57 adamfranco Exp $
+ * @version $Id: FileUrlPart.class.php,v 1.4 2008/01/24 19:09:29 adamfranco Exp $
  */ 
 
 /**
@@ -18,7 +18,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: FileUrlPart.class.php,v 1.3 2007/09/11 17:40:57 adamfranco Exp $
+ * @version $Id: FileUrlPart.class.php,v 1.4 2008/01/24 19:09:29 adamfranco Exp $
  */
 class FileUrlPart
 	extends Part
@@ -213,13 +213,25 @@ class FileUrlPart
 	 * @access public
 	 */
 	function updateValue($value) {
-		ArgumentValidator::validate($value, StringValidatorRule::getRule());
+		if (!is_null($value))
+			ArgumentValidator::validate($value, StringValidatorRule::getRule());
 		
 		// Store the name in the object in case its asked for again.
 		$this->_value = $value;
 		
 	// then write it to the database.
 		$dbHandler = Services::getService("DatabaseManager");
+		
+		// Delete the row if we are setting the value to null
+		if (is_null($value)) {
+			$query = new DeleteQuery;
+			$query->setTable("dr_file_data");
+			$query->addWhere("fk_file = '".$this->_recordId->getIdString()."'");
+			$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
+			
+			$this->_asset->updateModificationDate();
+			return;
+		}
 	
 		// Check to see if the name is in the database
 		// Check to see if the data is in the database
