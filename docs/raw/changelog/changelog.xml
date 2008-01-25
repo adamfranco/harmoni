@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.229 2008/01/25 17:06:25 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.230 2008/01/25 20:50:46 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -12,6 +12,11 @@
 		<releaseNotes>
 			
 		</releaseNotes>
+		<new author='adam' date='2008-01-25'>
+			Repository: Assets can now have their Creator and Creation/Modification
+			dates force-set, enabling retention of these properties when importing
+			from backup.
+		</new>
 		<new author='adam' date='2008-01-25'>
 			RequestContext: Now provides help methods to interpret URLs written
 			by the system.

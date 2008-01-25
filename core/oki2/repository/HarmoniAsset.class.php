@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAsset.class.php,v 1.51 2007/11/08 20:16:55 adamfranco Exp $
+ * @version $Id: HarmoniAsset.class.php,v 1.52 2008/01/25 20:50:45 adamfranco Exp $
  */
 
 require_once(HARMONI."oki2/repository/HarmoniAsset.interface.php");
@@ -26,7 +26,7 @@ require_once(dirname(__FILE__)."/FromNodesAssetIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniAsset.class.php,v 1.51 2007/11/08 20:16:55 adamfranco Exp $ 
+ * @version $Id: HarmoniAsset.class.php,v 1.52 2008/01/25 20:50:45 adamfranco Exp $ 
  */
 
 class HarmoniAsset
@@ -1762,35 +1762,6 @@ class HarmoniAsset
 	}
 	
 	/**
-     * Get the date at which this Asset was created.
-     *  
-     * WARNING: NOT IN OSID
-     *
-     * @return object DateAndTime
-     * 
-     * @throws object RepositoryException An exception with one of
-     *         the following messages defined in
-     *         org.osid.repository.RepositoryException may be thrown: {@link
-     *         org.osid.repository.RepositoryException#OPERATION_FAILED
-     *         OPERATION_FAILED}, {@link
-     *         org.osid.repository.RepositoryException#PERMISSION_DENIED
-     *         PERMISSION_DENIED}, {@link
-     *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
-     *         CONFIGURATION_ERROR}, {@link
-     *         org.osid.repository.RepositoryException#UNIMPLEMENTED
-     *         UNIMPLEMENTED}
-     * 
-     * @access public
-     */
-    function getCreationDate () { 
-		if (!isset($this->_createDate) || $this->_createDate->isEqualTo(DateAndTime::epoch())) {
-			$this->_loadDates();
-		}
-		
-		return $this->_createDate;
-	}
-	
-	/**
 	 * Answer the Id of the agent that created the asset
 	 * 
 	 * WARNING: NOT IN OSID
@@ -1834,12 +1805,107 @@ class HarmoniAsset
      * 
      * @access public
      */
+    function getCreationDate () { 
+		if (!isset($this->_createDate) || $this->_createDate->isEqualTo(DateAndTime::epoch())) {
+			$this->_loadDates();
+		}
+		
+		return $this->_createDate;
+	}
+	
+	/**
+     * Get the date at which this Asset was created.
+     *  
+     * WARNING: NOT IN OSID
+     *
+     * @return object DateAndTime
+     * 
+     * @throws object RepositoryException An exception with one of
+     *         the following messages defined in
+     *         org.osid.repository.RepositoryException may be thrown: {@link
+     *         org.osid.repository.RepositoryException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+     *         UNIMPLEMENTED}
+     * 
+     * @access public
+     */
     function getModificationDate () { 
 		if (!isset($this->_modifyDate) || $this->_modifyDate->isEqualTo(DateAndTime::epoch())) {
 			$this->_loadDates();
 		}
 		
 		return $this->_modifyDate;
+	}
+	
+	/**
+	 * Forcibly set the creator of this Asset. This is meant to be used when importing
+	 * from backups.
+     *  
+     * WARNING: NOT IN OSID
+     *
+	 * @param object Id $agentId
+	 * @return void
+	 * @access public
+	 * @since 1/25/08
+	 */
+	public function forceSetCreator (Id $agentId) {
+		$dbHandler = Services::getService("DatabaseManager");
+		$query = new UpdateQuery;
+		$query->setTable("dr_asset_info");
+		$query->addValue("creator", $agentId->getIdString());
+		$query->addWhere("asset_id='".$this->getId()->getIdString()."'");
+		$dbHandler->query($query, $this->_dbIndex);
+		
+		$this->_creator = $agentId->getIdString();
+	}
+	
+	/**
+	 * Forcibly set the creation date of this Asset. This is meant to be used when importing
+	 * from backups.
+     *  
+     * WARNING: NOT IN OSID
+     *
+	 * @param object DateAndTime $date
+	 * @return void
+	 * @access public
+	 * @since 1/25/08
+	 */
+	public function forceSetCreationDate (DateAndTime $date) {
+		$dbHandler = Services::getService("DatabaseManager");
+		$query = new UpdateQuery;
+		$query->setTable("dr_asset_info");
+		$query->addValue("create_timestamp", $date->asString());
+		$query->addWhere("asset_id='".$this->getId()->getIdString()."'");
+		$dbHandler->query($query, $this->_dbIndex);
+		
+		$this->_createDate = $date;
+	}
+	
+	/**
+	 * Forcibly set the creation date of this Asset. This is meant to be used when importing
+	 * from backups.
+     *  
+     * WARNING: NOT IN OSID
+     *
+	 * @param object DateAndTime $date
+	 * @return void
+	 * @access public
+	 * @since 1/25/08
+	 */
+	public function forceSetModificationDate (DateAndTime $date) {
+		$dbHandler = Services::getService("DatabaseManager");
+		$query = new UpdateQuery;
+		$query->setTable("dr_asset_info");
+		$query->addValue("modify_timestamp", $date->asString());
+		$query->addWhere("asset_id='".$this->getId()->getIdString()."'");
+		$dbHandler->query($query, $this->_dbIndex);
+		
+		$this->_modifyDate = $date;
 	}
 	
 	/**
