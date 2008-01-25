@@ -11,7 +11,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RequestContext.class.php,v 1.27 2007/11/01 17:37:09 adamfranco Exp $
+ * @version $Id: RequestContext.class.php,v 1.28 2008/01/25 17:06:22 adamfranco Exp $
  */
 
 define("REQUEST_HANDLER_CONTEXT_DELIMETER", "___");
@@ -279,6 +279,44 @@ END;
 	
 	/**
 	 * Returns a new {@link URLWriter} from the {@link RequestHandler}, assigning
+	 * the module/action passed or keeping the current module/action.
+	 * This method will return a url with no context data, only the variables passed.
+	 *
+	 * @param optional string $module
+	 * @param optional string $action
+	 * @param optional array $variables
+	 * @return ref object URLWriter
+	 * @access public
+	 */
+	function mkURLWithoutContext($module = null, $action = null, $variables = null ) {
+		
+		// create a new URLWriter from the RequestHandler
+		$this->_checkForHandler();
+		$url =$this->_requestHandler->createURLWriter();
+		
+		
+		// Set the Module and Action
+		if ($module != null && $action != null) {
+			$url->setModuleAction($module, $action);
+		} else {
+			$harmoni = Harmoni::instance();
+			list($module, $action) = explode(".",$harmoni->getCurrentAction());
+			if (!$module) 
+				list($module, $action) = explode(".",$this->getRequestedModuleAction());
+
+			$url->setModuleAction($module, $action);
+		}
+		
+		// Addition $variables passed
+		if (is_array($variables)) {
+			$url->setValues($variables);
+		}
+		
+		return $url;
+	}
+	
+	/**
+	 * Returns a new {@link URLWriter} from the {@link RequestHandler}, assigning
 	 * the module/action passed or keeping the current module/action. As well, 
 	 * mkFullURL passes through all Request and Context data through to the resulting
 	 * Url.
@@ -481,6 +519,30 @@ END;
 		}
 		
 		return $array;
+	}
+	
+	/**
+	 * Given an input url written by the current handler, return a url-encoded
+	 * string of parameters and values. Ampersands separating parameters should
+	 * use the XML entity representation, '&amp;'.
+	 * 
+	 * For instance, the PathInfo handler would for the following input
+	 *		http://www.example.edu/basedir/moduleName/actionName/parm1/value1/param2/value2
+	 * would return
+	 *		module=moduleName&amp;action=actionName&amp;param1=value1&amp;param2=value2
+	 * 
+	 * @param string $inputUrl
+	 * @return mixed string URL-encoded parameter list or FALSE if unmatched
+	 * @access public
+	 * @since 1/25/08
+	 */
+	public function getParameterListFromUrl ($inputUrl) {
+		$this->_checkForHandler();
+		try {
+			return $this->_requestHandler->getParameterListFromUrl($inputUrl);
+		} catch (UnimplementedException $e) {
+			return false;
+		}
 	}
 	
 	/**

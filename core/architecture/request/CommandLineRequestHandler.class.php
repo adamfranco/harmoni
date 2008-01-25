@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CommandLineRequestHandler.class.php,v 1.1 2007/11/01 17:37:09 adamfranco Exp $
+ * @version $Id: CommandLineRequestHandler.class.php,v 1.2 2008/01/25 17:06:22 adamfranco Exp $
  */ 
 
 require_once(HARMONI."architecture/request/RequestHandler.interface.php");
@@ -22,7 +22,7 @@ require_once(dirname(__FILE__)."/ArgumentParser.inc.php");
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CommandLineRequestHandler.class.php,v 1.1 2007/11/01 17:37:09 adamfranco Exp $
+ * @version $Id: CommandLineRequestHandler.class.php,v 1.2 2008/01/25 17:06:22 adamfranco Exp $
  */
 class CommandLineRequestHandler
 	implements RequestHandler
@@ -109,6 +109,35 @@ class CommandLineRequestHandler
 		return $mod .".". $act;
 	}
 	
+	/**
+	 * Given an input url written by the current handler, return a url-encoded
+	 * string of parameters and values. Ampersands separating parameters should
+	 * use the XML entity representation, '&amp;'.
+	 * 
+	 * For instance, the PathInfo handler would for the following input
+	 *		http://www.example.edu/basedir/moduleName/actionName/parm1/value1/param2/value2
+	 * would return
+	 *		module=moduleName&amp;action=actionName&amp;param1=value1&amp;param2=value2
+	 * 
+	 * @param string $inputUrl
+	 * @return mixed string URL-encoded parameter list or FALSE if unmatched
+	 * @access public
+	 * @since 1/25/08
+	 * @static
+	 */
+	public static function getParameterListFromUrl ($inputUrl) {
+		$pattern = "/^".str_replace('/', '\/', MYURL).' (--([^\\s=]+)=(.+))*$/i';
+		if (!preg_match($pattern, $inputUrl, $matches))
+			return FALSE;
+		else {
+			$params = array();
+			for ($i = 0; $i < count($matches[2]); $i++) 
+				$params[] = $matches[2]."=".$matches[3];
+			
+			return implode("&amp;", $params);
+		}
+	}
+	
 }
 
 
@@ -125,7 +154,7 @@ require_once(HARMONI."architecture/request/URLWriter.abstract.php");
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CommandLineRequestHandler.class.php,v 1.1 2007/11/01 17:37:09 adamfranco Exp $
+ * @version $Id: CommandLineRequestHandler.class.php,v 1.2 2008/01/25 17:06:22 adamfranco Exp $
  */
 class CommandLineUrlWriter
 	extends URLWriter
@@ -189,7 +218,7 @@ class CommandLineUrlWriter
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CommandLineRequestHandler.class.php,v 1.1 2007/11/01 17:37:09 adamfranco Exp $
+ * @version $Id: CommandLineRequestHandler.class.php,v 1.2 2008/01/25 17:06:22 adamfranco Exp $
  */
 class HelpRequestedException
 	extends HarmoniException

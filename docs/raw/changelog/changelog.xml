@@ -3,15 +3,23 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.228 2008/01/23 22:05:13 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.229 2008/01/25 17:06:25 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
-	<version number="0.13.9" date="The Future">
+	<version number="0.14.0" date="The Future">
 		<releaseNotes>
 			
 		</releaseNotes>
+		<new author='adam' date='2008-01-25'>
+			RequestContext: Now provides help methods to interpret URLs written
+			by the system.
+		</new>
+		<change author='adam' date='2008-01-24'>
+			Repository: When updating to null values in the FILE record, data rows are 
+			now deleted directly rather than updated to null values.
+		</change>
 		<new author='adam' date='2008-01-23' ref='1815898' reftype='fr'>
 			New Harmoni_DOMDocument that adds on a few helper methods and work-arounds
 			to the default PHP5 DOM implementation.

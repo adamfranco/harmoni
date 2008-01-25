@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RequestHandler.interface.php,v 1.4 2007/11/01 17:37:09 adamfranco Exp $
+ * @version $Id: RequestHandler.interface.php,v 1.5 2008/01/25 17:06:22 adamfranco Exp $
  */ 
 
 /**
@@ -22,7 +22,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RequestHandler.interface.php,v 1.4 2007/11/01 17:37:09 adamfranco Exp $
+ * @version $Id: RequestHandler.interface.php,v 1.5 2008/01/25 17:06:22 adamfranco Exp $
  */
 
 interface RequestHandler {
@@ -62,6 +62,24 @@ interface RequestHandler {
 	 * @access public
 	 */
 	public function getRequestedModuleAction();
+	
+	/**
+	 * Given an input url written by the current handler, return a url-encoded
+	 * string of parameters and values. Ampersands separating parameters should
+	 * use the XML entity representation, '&amp;'.
+	 * 
+	 * For instance, the PathInfo handler would for the following input
+	 *		http://www.example.edu/basedir/moduleName/actionName/parm1/value1/param2/value2
+	 * would return
+	 *		module=moduleName&amp;action=actionName&amp;param1=value1&amp;param2=value2
+	 * 
+	 * @param string $inputUrl
+	 * @return mixed string URL-encoded parameter list or FALSE if unmatched
+	 * @access public
+	 * @since 1/25/08
+	 * @static
+	 */
+	public static function getParameterListFromUrl ($inputUrl);
 	
 }
 

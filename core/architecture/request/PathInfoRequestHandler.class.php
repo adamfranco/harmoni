@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PathInfoRequestHandler.class.php,v 1.3 2007/11/01 17:37:09 adamfranco Exp $
+ * @version $Id: PathInfoRequestHandler.class.php,v 1.4 2008/01/25 17:06:22 adamfranco Exp $
  */ 
 
 require_once(HARMONI."architecture/request/RequestHandler.interface.php");
@@ -21,7 +21,7 @@ require_once(HARMONI."architecture/request/URLWriter.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PathInfoRequestHandler.class.php,v 1.3 2007/11/01 17:37:09 adamfranco Exp $
+ * @version $Id: PathInfoRequestHandler.class.php,v 1.4 2008/01/25 17:06:22 adamfranco Exp $
  */
 class PathInfoRequestHandler
 	implements RequestHandler
@@ -117,6 +117,53 @@ class PathInfoRequestHandler
 		}
 	}
 	
+	/**
+	 * Given an input url written by the current handler, return a url-encoded
+	 * string of parameters and values. Ampersands separating parameters should
+	 * use the XML entity representation, '&amp;'.
+	 * 
+	 * For instance, the PathInfo handler would for the following input
+	 *		http://www.example.edu/basedir/moduleName/actionName/parm1/value1/param2/value2
+	 * would return
+	 *		module=moduleName&amp;action=actionName&amp;param1=value1&amp;param2=value2
+	 * 
+	 * @param string $inputUrl
+	 * @return mixed string URL-encoded parameter list or FALSE if unmatched
+	 * @access public
+	 * @since 1/25/08
+	 * @static
+	 */
+	public static function getParameterListFromUrl ($inputUrl) {
+		$pattern = "/^".str_replace('/', '\/', MYURL).'([^?]*)\??(.*)$/i';
+		if (!preg_match($pattern, $inputUrl, $matches))
+			return FALSE;
+		else {
+			$pathInfo = trim($matches[1], "/");
+			$pathInfoParts = explode('/', $pathInfo);
+			
+			$params = array();
+			if (isset($pathInfoParts[0]))
+				$params[] = 'module='.$pathInfoParts[0];
+			if (isset($pathInfoParts[1]))
+				$params[] = 'action='.$pathInfoParts[1];
+					
+			// Add the rest of the path as name => value pairs
+			for ($i = 2; $i < count ($pathInfoParts); $i = $i + 2) {
+				$params[] = $pathInfoParts[$i].'='.$pathInfoParts[$i+1];
+			}
+			
+			// If there is also a get component to the request add that on.
+			if ($matches[2]) {
+				$getParams = explode("&amp;", $matches[2]);
+				if (!$getParams[0])
+					array_shift($getParms);
+				$params = array_merge($params, $getParams);
+			}
+			
+			return implode("&amp;", $params);
+		}
+	}
+	
 }
 
 
@@ -130,7 +177,7 @@ class PathInfoRequestHandler
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PathInfoRequestHandler.class.php,v 1.3 2007/11/01 17:37:09 adamfranco Exp $
+ * @version $Id: PathInfoRequestHandler.class.php,v 1.4 2008/01/25 17:06:22 adamfranco Exp $
  */
 
 class PathInfoURLWriter 
