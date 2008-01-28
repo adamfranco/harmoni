@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PathInfoRequestHandler.class.php,v 1.4 2008/01/25 17:06:22 adamfranco Exp $
+ * @version $Id: PathInfoRequestHandler.class.php,v 1.5 2008/01/28 18:30:06 adamfranco Exp $
  */ 
 
 require_once(HARMONI."architecture/request/RequestHandler.interface.php");
@@ -21,7 +21,7 @@ require_once(HARMONI."architecture/request/URLWriter.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PathInfoRequestHandler.class.php,v 1.4 2008/01/25 17:06:22 adamfranco Exp $
+ * @version $Id: PathInfoRequestHandler.class.php,v 1.5 2008/01/28 18:30:06 adamfranco Exp $
  */
 class PathInfoRequestHandler
 	implements RequestHandler
@@ -110,7 +110,24 @@ class PathInfoRequestHandler
 					
 					// Add the rest of the path as name => value pairs
 					for ($i = 2; $i < count ($pathInfoParts); $i = $i + 2) {
-						$this->_request[$pathInfoParts[$i]] = $pathInfoParts[$i+1];
+						$key = $pathInfoParts[$i];
+						$val = $pathInfoParts[$i+1];
+						
+						// Normal case
+						if (!isset($this->_request[$key]))
+							$this->_request[$key] = $val;
+						
+						// Second value (i.e. from a multi-select form)
+						else if (!is_array($this->_request[$key])) {
+							$tmp = $this->_request[$key];
+							$this->_request[$key] = array();
+							$this->_request[$key][] = $tmp;
+							$this->_request[$key][] = $val;
+						}
+						// Third or later value for the key
+						else {
+							$this->_request[$key][] = $val;
+						}
 					}
 				}
 			}
@@ -177,7 +194,7 @@ class PathInfoRequestHandler
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PathInfoRequestHandler.class.php,v 1.4 2008/01/25 17:06:22 adamfranco Exp $
+ * @version $Id: PathInfoRequestHandler.class.php,v 1.5 2008/01/28 18:30:06 adamfranco Exp $
  */
 
 class PathInfoURLWriter 
@@ -220,9 +237,18 @@ class PathInfoURLWriter
 		$pairs[] = $this->_action;
 		foreach ($this->_vars as $key=>$val) {
 			if (is_object($val)) {
-				throwError( new Error("Expecting string for key '$key', got '$val'.", "GETMethodRequestHandler", true));
+				throwError( new Error("Expecting string for key '$key', got '$val'.", "PathInfoRequestHandler", true));
 			}
-			$pairs[] = $key . "/" . urlencode($val);
+			
+			// For multi-select form elements
+			if (is_array($val)) {
+				foreach ($val as $arrayVal)
+					$pairs[] = $key . "/" . urlencode($arrayVal);
+			} 
+			// normal single-string values
+			else {
+				$pairs[] = $key . "/" . urlencode($val);
+			}
 		}
 		
 		$url .= "/" . implode("/", $pairs);
