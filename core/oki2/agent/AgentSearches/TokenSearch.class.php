@@ -11,11 +11,12 @@ require_once(dirname(__FILE__)."/AgentSearch.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TokenSearch.class.php,v 1.7 2008/01/15 18:26:48 adamfranco Exp $
+ * @version $Id: TokenSearch.class.php,v 1.8 2008/01/31 20:56:45 adamfranco Exp $
  */
 
 class TokenSearch
-	extends AgentSearchInterface {
+	implements AgentSearchInterface 
+{
 		
 	/**
 	 * Get all the Agents with the specified search criteria and search Type.

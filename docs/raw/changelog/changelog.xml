@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.231 2008/01/28 18:30:13 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.232 2008/01/31 20:56:47 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -12,6 +12,9 @@
 		<releaseNotes>
 			
 		</releaseNotes>
+		<new author='adam' date='2008-01-31'>
+			Agent: New search method for searching based on agent properties.
+		</new>
 		<fix author='adam' date='2008-01-28'>
 			Request: PathInfo and GET url writers now support arrays of parameters
 			(such as from a multi-select).

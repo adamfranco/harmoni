@@ -11,11 +11,12 @@ require_once(dirname(__FILE__)."/AgentSearch.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AncestorGroupSearch.class.php,v 1.19 2007/11/07 19:09:52 adamfranco Exp $
+ * @version $Id: AncestorGroupSearch.class.php,v 1.20 2008/01/31 20:56:44 adamfranco Exp $
  */
 
 class AncestorGroupSearch
-	extends AgentSearchInterface {
+	implements AgentSearchInterface 
+{
 	
 	/**
 	 * @var object $_hierarchy;  

@@ -12,6 +12,7 @@ require_once(HARMONI."oki2/agent/HarmoniGroup.class.php");
 require_once(HARMONI."oki2/agent/AgentSearches/TokenSearch.class.php");
 require_once(HARMONI."oki2/agent/AgentSearches/AncestorGroupSearch.class.php");
 require_once(HARMONI."oki2/agent/AgentSearches/RootGroupSearch.class.php");
+require_once(HARMONI."oki2/agent/AgentSearches/AgentPropertiesSearch.class.php");
 
 require_once(HARMONI."oki2/shared/HarmoniType.class.php");
 require_once(HARMONI."oki2/shared/HarmoniTypeIterator.class.php");
@@ -50,7 +51,7 @@ require_once(HARMONI."oki2/agent/EveryoneGroup.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgentManager.class.php,v 1.50 2007/11/07 19:09:50 adamfranco Exp $
+ * @version $Id: HarmoniAgentManager.class.php,v 1.51 2008/01/31 20:56:43 adamfranco Exp $
  *
  * @author Adam Franco
  * @author Dobromir Radichkov
@@ -127,6 +128,8 @@ class HarmoniAgentManager
 		$this->_agentSearches = array ();
 		$this->_agentSearches["Agent & Group Search::edu.middlebury.harmoni::TokenSearch"] =
 			new TokenSearch;
+		$this->_agentSearches["Agent & Group Search::edu.middlebury.harmoni::AgentPropertiesSearch"] =
+			new AgentPropertiesSearch($this->_configuration->getProperty('database_index'));
 		
 		// initialize our Group Search Types
 		$this->_groupSearches = array ();
@@ -135,6 +138,7 @@ class HarmoniAgentManager
 		$this->_groupSearches["Agent & Group Search::edu.middlebury.harmoni::RootGroups"] =
 			new RootGroupSearch ($hierarchy);
 		$this->_groupSearches["Agent & Group Search::edu.middlebury.harmoni::TokenSearch"] =$this->_agentSearches["Agent & Group Search::edu.middlebury.harmoni::TokenSearch"];
+		$this->_groupSearches["Agent & Group Search::edu.middlebury.harmoni::AgentPropertiesSearch"] =$this->_agentSearches["Agent & Group Search::edu.middlebury.harmoni::AgentPropertiesSearch"];
 		
 		$this->_everyoneGroup = new EveryoneGroup($hierarchy, $hierarchy->getNode($this->_everyoneId));
 	}

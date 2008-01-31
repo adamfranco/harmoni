@@ -11,11 +11,12 @@ require_once(dirname(__FILE__)."/AgentSearch.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RootGroupSearch.class.php,v 1.4 2007/11/07 19:09:52 adamfranco Exp $
+ * @version $Id: RootGroupSearch.class.php,v 1.5 2008/01/31 20:56:44 adamfranco Exp $
  */
 
 class RootGroupSearch
-	extends AgentSearchInterface {
+	implements AgentSearchInterface 
+{
 	
 	/**
 	 * @var object $_hierarchy;  
