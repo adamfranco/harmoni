@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PathInfoRequestHandler.class.php,v 1.6 2008/01/31 15:33:19 adamfranco Exp $
+ * @version $Id: PathInfoRequestHandler.class.php,v 1.7 2008/01/31 20:55:11 adamfranco Exp $
  */ 
 
 require_once(HARMONI."architecture/request/RequestHandler.interface.php");
@@ -21,7 +21,7 @@ require_once(HARMONI."architecture/request/URLWriter.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PathInfoRequestHandler.class.php,v 1.6 2008/01/31 15:33:19 adamfranco Exp $
+ * @version $Id: PathInfoRequestHandler.class.php,v 1.7 2008/01/31 20:55:11 adamfranco Exp $
  */
 class PathInfoRequestHandler
 	implements RequestHandler
@@ -111,7 +111,10 @@ class PathInfoRequestHandler
 					// Add the rest of the path as name => value pairs
 					for ($i = 2; $i < count ($pathInfoParts); $i = $i + 2) {
 						$key = $pathInfoParts[$i];
-						$val = $pathInfoParts[$i+1];
+						if (isset($pathInfoParts[$i+1]))
+							$val = $pathInfoParts[$i+1];
+						else
+							$val = null;
 						
 						// Normal case (and multiple copies of the same value)
 						if (!isset($this->_request[$key]) || $val === $this->_request[$key])
@@ -194,7 +197,7 @@ class PathInfoRequestHandler
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PathInfoRequestHandler.class.php,v 1.6 2008/01/31 15:33:19 adamfranco Exp $
+ * @version $Id: PathInfoRequestHandler.class.php,v 1.7 2008/01/31 20:55:11 adamfranco Exp $
  */
 
 class PathInfoURLWriter 
