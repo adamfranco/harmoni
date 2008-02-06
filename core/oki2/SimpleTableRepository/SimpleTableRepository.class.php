@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SimpleTableRepository.class.php,v 1.4 2007/10/11 13:45:18 adamfranco Exp $
+ * @version $Id: SimpleTableRepository.class.php,v 1.5 2008/02/06 15:37:45 adamfranco Exp $
  */ 
 
 require_once(dirname(__FILE__)."/SimpleTableAssetIterator.class.php");
@@ -24,11 +24,10 @@ require_once(dirname(__FILE__)."/SimpleTablePartStructure.class.php");
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SimpleTableRepository.class.php,v 1.4 2007/10/11 13:45:18 adamfranco Exp $
+ * @version $Id: SimpleTableRepository.class.php,v 1.5 2008/02/06 15:37:45 adamfranco Exp $
  */
 class SimpleTableRepository
-	extends Repository
-	// implements Repository
+	implements Repository
 {
 
 	/**
@@ -395,7 +394,7 @@ class SimpleTableRepository
 	 * 
 	 * @access public
 	 */
-	function createAsset ( $displayName, $description, $assetType ) { 
+	function createAsset ( $displayName, $description, Type $assetType ) { 
 		throw new UnimplementedException();
 	} 
 	
@@ -421,7 +420,7 @@ class SimpleTableRepository
 	 * 
 	 * @access public
 	 */
-	function deleteAsset ( $assetId ) { 
+	function deleteAsset ( Id $assetId ) { 
 		throw new UnimplementedException();
 	} 
 	
@@ -487,7 +486,7 @@ class SimpleTableRepository
 	 * 
 	 * @access public
 	 */
-	function getAssetsByType ( $assetType ) { 
+	function getAssetsByType ( Type $assetType ) { 
 		throw new UnimplementedException();
 	} 
 	
@@ -540,7 +539,7 @@ class SimpleTableRepository
 	 * 
 	 * @access public
 	 */
-	function getPropertiesByType ( $propertiesType ) { 
+	function getPropertiesByType ( Type $propertiesType ) { 
 		throw new UnimplementedException();
 	} 
 	
@@ -638,7 +637,7 @@ class SimpleTableRepository
 	 * 
 	 * @access public
 	 */
-	function getRecordStructuresByType ( $recordStructureType ) { 
+	function getRecordStructuresByType ( Type $recordStructureType ) { 
 		throw new UnimplementedException();
 	} 
 	
@@ -669,7 +668,7 @@ class SimpleTableRepository
 	 * 
 	 * @access public
 	 */
-	function getMandatoryRecordStructures ( $assetType ) { 
+	function getMandatoryRecordStructures ( Type $assetType ) { 
 		throw new UnimplementedException();
 	} 
 	
@@ -757,7 +756,7 @@ class SimpleTableRepository
 	 * 
 	 * @access public
 	 */
-	function getStatus ( $assetId ) { 
+	function getStatus ( Id $assetId ) { 
 		throw new UnimplementedException();
 	} 
 	
@@ -788,7 +787,7 @@ class SimpleTableRepository
 	 * 
 	 * @access public
 	 */
-	function validateAsset ( $assetId ) { 
+	function validateAsset ( Id $assetId ) { 
 		throw new UnimplementedException();
 	} 
 	
@@ -815,7 +814,7 @@ class SimpleTableRepository
 	 * 
 	 * @access public
 	 */
-	function invalidateAsset ( $assetId ) { 
+	function invalidateAsset ( Id $assetId ) { 
 		throw new UnimplementedException();
 	} 
 	
@@ -843,7 +842,7 @@ class SimpleTableRepository
 	 * 
 	 * @access public
 	 */
-	function getAsset ( $assetId ) { 
+	function getAsset ( Id $assetId ) { 
 		$query = new SelectQuery;
 		$query->addTable($this->config['table']);
 		$query->addColumn($this->config['id_column']);
@@ -892,7 +891,7 @@ class SimpleTableRepository
 	 * 
 	 * @access public
 	 */
-	function getAssetByDate ( $assetId, $date ) { 
+	function getAssetByDate ( Id $assetId, $date ) { 
 		throw new UnimplementedException();
 	} 
 	
@@ -920,7 +919,7 @@ class SimpleTableRepository
 	 * 
 	 * @access public
 	 */
-	function getAssetDates ( $assetId ) { 
+	function getAssetDates ( Id $assetId ) { 
 		throw new UnimplementedException();
 	} 
 	
@@ -952,7 +951,7 @@ class SimpleTableRepository
 	 * 
 	 * @access public
 	 */
-	function getAssetsBySearch ( $searchCriteria, $searchType, $searchProperties ) { 
+	function getAssetsBySearch ( $searchCriteria, Type $searchType, Properties $searchProperties ) { 
 		if ($searchType->isEqual(
 			new Type(
 				"Repository",
@@ -1017,7 +1016,7 @@ class SimpleTableRepository
 	 * 
 	 * @access public
 	 */
-	function copyAsset ( $asset ) { 
+	function copyAsset ( Asset $asset ) { 
 		throw new UnimplementedException();
 	} 
 	

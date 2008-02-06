@@ -5,14 +5,14 @@ require_once HARMONI."dataManager/record/RecordSet.class.php";
 require_once HARMONI."dataManager/record/StorableRecordSet.class.php";
 
 /**
- * The RecordManager handles the creation, tagging and fetching of {@link Record}s from the database.
+ * The RecordManager handles the creation, tagging and fetching of {@link DMRecord}s from the database.
  *
  * @package harmoni.datamanager
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordManager.class.php,v 1.28 2007/10/10 22:58:36 adamfranco Exp $
+ * @version $Id: RecordManager.class.php,v 1.29 2008/02/06 15:37:42 adamfranco Exp $
  *
  * @author Gabe Schine
  */
@@ -120,9 +120,9 @@ class RecordManager {
 	}
 	
 	/**
-	 * Returns the Ids of all groups a Record is in.
+	 * Returns the Ids of all groups a DMRecord is in.
 	 *
-	 * @param ref object $record The {@link Record}.
+	 * @param ref object $record The {@link DMRecord}.
 	 * @return array An indexed array of the group ids (integers).
 	 */
 	function getRecordSetIDsContaining($record) {
@@ -130,7 +130,7 @@ class RecordManager {
 	}
 	
 	/**
-	 * Returns the Ids of all groups a Record ID is in.
+	 * Returns the Ids of all groups a DMRecord ID is in.
 	 *
 	 * @param int $id
 	 * @return array An indexed array of the group ids (integers).
@@ -232,8 +232,8 @@ class RecordManager {
 	}
 	
 	/**
-	*  Fetches and returns an array of Record IDs from the database in one Query.
-	* @return ref array Indexed by Record ID, values are {@link Record}s.
+	*  Fetches and returns an array of DMRecord IDs from the database in one Query.
+	* @return ref array Indexed by DMRecord ID, values are {@link DMRecord}s.
 	* @param array $IDs
 	* @param optional int $mode Specifies the mode the record should be fetched.
 	* @param optional object $limitResults NOT YET IMPLEMENTED
@@ -320,7 +320,7 @@ class RecordManager {
 					$schemaManager = Services::getService("SchemaManager");
 					$schema =$schemaManager->getSchemaByID($type);
 					$schema->load();
-					$records[$id] = new Record($schema, $vcontrol?true:false, $mode);
+					$records[$id] = new DMRecord($schema, $vcontrol?true:false, $mode);
 					if ($this->_cacheMode) $this->_recordCache[$id] =$records[$id];
 				}
 				
@@ -333,10 +333,10 @@ class RecordManager {
 		}				
 
 		// make sure we found the data sets
-		$rule = ExtendsValidatorRule::getRule("Record");
+		$rule = ExtendsValidatorRule::getRule("DMRecord");
 		foreach ($IDs as $id) {
 			if (!$rule->check($records[$id]))
-				throwError(new Error(UNKNOWN_ID.": Record $id was requested, but not found.", "DataManager", TRUE));
+				throwError(new Error(UNKNOWN_ID.": DMRecord $id was requested, but not found.", "DataManager", TRUE));
 			
 			// and set the fetch mode.
 			$records[$id]->setFetchMode($mode);
@@ -350,7 +350,7 @@ class RecordManager {
 	 * Takes an array of IDs and some search criteria, and weeds out the IDs that don't
 	 * match that criteria.
 	 * @param ref object $criteria The {@link SearchCriteria}.
-	 * @param optional array $ids An array of Record IDs to search among. If not specified, all records will be searched.
+	 * @param optional array $ids An array of DMRecord IDs to search among. If not specified, all records will be searched.
 	 * @access public
 	 */
 	function getRecordIDsBySearch($criteria, $ids=null) {
@@ -462,7 +462,7 @@ class RecordManager {
 	}
 	
 	/**
-	* Fetches a single Record from the database.
+	* Fetches a single DMRecord from the database.
 	* @return ref object
 	* @param int $id
 	* @param optional int $mode
@@ -473,9 +473,9 @@ class RecordManager {
 	}
 	
 	/**
-	 * Deletes the Record of the Specified Id
+	 * Deletes the DMRecord of the Specified Id
 	 * @param int $id
-	 * @param optional bool $prune Set to TRUE if you want the Record to actually be pruned from the database and not just deactivated.
+	 * @param optional bool $prune Set to TRUE if you want the DMRecord to actually be pruned from the database and not just deactivated.
 	 */
 	function deleteRecord ( $id, $prune=false ) {
 		$mode = RECORD_FULL;
@@ -485,7 +485,7 @@ class RecordManager {
 	}
 	
 	/**
-	 * Delete the Record Set and any records that are referenced only by this record
+	 * Delete the DMRecord Set and any records that are referenced only by this record
 	 * set and not shared with other record sets.
 	 * 
 	 * @param int $id The Id of the set to delete.
@@ -572,15 +572,15 @@ class RecordManager {
 	}
 	
 	/**
-	* Returns a new {@link Record} object that can be inserted into the database.
+	* Returns a new {@link DMRecord} object that can be inserted into the database.
 	* @return ref object
-	* @param string $type The Schema type/ID that refers to the Schema to associate this Record with.
-	* @param optional bool $verControl Specifies if the Record should be created with Version Control. Default=no.
+	* @param string $type The Schema type/ID that refers to the Schema to associate this DMRecord with.
+	* @param optional bool $verControl Specifies if the DMRecord should be created with Version Control. Default=no.
 	*/
 	function createRecord( $type, $verControl = false ) {
 		$schemaManager = Services::getService("SchemaManager");
 		if (!$schemaManager->schemaExists($type)) {
-			throwError ( new Error("could not create new Record of type ".$type.
+			throwError ( new Error("could not create new DMRecord of type ".$type.
 			" because the requested type does not seem to be registered
 			with the SchemaManager.","RecordManager",true));
 		}
@@ -589,15 +589,15 @@ class RecordManager {
 		$schema =$schemaManager->getSchemaByID($type);
 		// load from the DB
 		$schema->load();
-		debug::output("Creating new Record of type '".$type."', which allows fields: ".implode(", ",$schema->getAllIDs()),DEBUG_SYS4,"DataManager");
-		$newRecord = new Record($schema, $verControl);
+		debug::output("Creating new DMRecord of type '".$type."', which allows fields: ".implode(", ",$schema->getAllIDs()),DEBUG_SYS4,"DataManager");
+		$newRecord = new DMRecord($schema, $verControl);
 		return $newRecord;
 	}
 	
 	/**
 	* @return array
 	* @param string $type The Schema type to look for.
-	* Returns an array of Record IDs that are of the Schema type $type.
+	* Returns an array of DMRecord IDs that are of the Schema type $type.
 	*/
 	function getRecordIDsByType($type) {
 		// we're going to get all the IDs that match a given type.

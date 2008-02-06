@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SQLDatabaseAuthNMethod.class.php,v 1.13 2007/09/04 20:25:37 adamfranco Exp $
+ * @version $Id: SQLDatabaseAuthNMethod.class.php,v 1.14 2008/02/06 15:37:47 adamfranco Exp $
  */ 
  
 require_once(dirname(__FILE__)."/AuthNMethod.abstract.php");
@@ -18,7 +18,7 @@ require_once(dirname(__FILE__)."/AuthNMethod.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SQLDatabaseAuthNMethod.class.php,v 1.13 2007/09/04 20:25:37 adamfranco Exp $
+ * @version $Id: SQLDatabaseAuthNMethod.class.php,v 1.14 2008/02/06 15:37:47 adamfranco Exp $
  */
 class SQLDatabaseAuthNMethod
 	extends AuthNMethod
@@ -32,7 +32,7 @@ class SQLDatabaseAuthNMethod
 	 * @access public
 	 * @since 3/24/05
 	 */
-	function assignConfiguration ( $configuration ) {
+	function assignConfiguration ( Properties $configuration ) {
 	
 		parent::assignConfiguration($configuration);
 		

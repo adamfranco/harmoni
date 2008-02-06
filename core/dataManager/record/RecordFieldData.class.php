@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Holds information about a specific version of a value index of a field in a {@link Record}. Information held
+ * Holds information about a specific version of a value index of a field in a {@link DMRecord}. Information held
  * includes: Date created/modified, active/not active (ie, deleted), and the actual value object (usually a {@link Primitive}). 
  *
  * @package harmoni.datamanager
@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordFieldData.class.php,v 1.26 2007/09/04 20:25:31 adamfranco Exp $
+ * @version $Id: RecordFieldData.class.php,v 1.27 2008/02/06 15:37:42 adamfranco Exp $
  * @author Gabe Schine
  */
 class RecordFieldData {
@@ -231,7 +231,7 @@ class RecordFieldData {
 			$result =$dbHandler->query($query, DATAMANAGER_DBID);
 			
 			if (!$result) {
-				throwError( new UnknownDBError("Record") );
+				throwError( new UnknownDBError("DMRecord") );
 				return false;
 			}
 		}
@@ -244,7 +244,7 @@ class RecordFieldData {
 				$query->setWhere("id='".addslashes($id)."'");
 
 				$res =$dbHandler->query($query, DATAMANAGER_DBID);
-				if (!$res) throwError( new UnknownDBError("Record"));
+				if (!$res) throwError( new UnknownDBError("DMRecord"));
 				
 				// now tell the data object to prune itself
 				$this->recastAsStorable();
@@ -256,7 +256,7 @@ class RecordFieldData {
 				$query->setWhere("fk_record_field='".addslashes($id)."'");
 				
 				$res =$dbHandler->query($query, DATAMANAGER_DBID);
-				if (!$res) throwError( new UnknownDBError("Record"));
+				if (!$res) throwError( new UnknownDBError("DMRecord"));
 			}
 		}
 		

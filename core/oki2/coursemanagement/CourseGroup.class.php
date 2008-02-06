@@ -16,10 +16,10 @@ require_once(OKI2."/osid/coursemanagement/CourseGroup.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CourseGroup.class.php,v 1.9 2007/09/04 20:25:39 adamfranco Exp $
+ * @version $Id: CourseGroup.class.php,v 1.10 2008/02/06 15:37:48 adamfranco Exp $
  */
 class HarmoniCourseGroup
-	extends CourseGroup
+	implements CourseGroup
 {
 	
 	
@@ -166,7 +166,7 @@ class HarmoniCourseGroup
 	 * 
 	 * @access public
 	 */
-	function addCourse ( $canonicalCourseId ) {
+	function addCourse ( Id $canonicalCourseId ) {
 		$cm=Services::getService("CourseManagement");
 		$course =$cm->getCanonicalCourse($canonicalCourseId);
 		$course->_node->addParent($this->_node->getId());
@@ -196,7 +196,7 @@ class HarmoniCourseGroup
 	 * 
 	 * @access public
 	 */
-	function removeCourse ( $canonicalCourseId ) { 
+	function removeCourse ( Id $canonicalCourseId ) { 
 		$cm=Services::getService("CourseManagement");
 		$course =$cm->getCanonicalCourse($canonicalCourseId);
 		$course->_node->removeParent($this->_node->getId()); 

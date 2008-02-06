@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DataManager.abstract.php,v 1.17 2007/09/04 20:25:31 adamfranco Exp $
+ * @version $Id: DataManager.abstract.php,v 1.18 2008/02/06 15:37:42 adamfranco Exp $
  */
  
 require_once(HARMONI."dataManager/schema/SchemaManager.class.php");
@@ -27,7 +27,7 @@ require_once(HARMONI."dataManager/versionConstraints/include.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DataManager.abstract.php,v 1.17 2007/09/04 20:25:31 adamfranco Exp $
+ * @version $Id: DataManager.abstract.php,v 1.18 2008/02/06 15:37:42 adamfranco Exp $
  *
  * @author Gabe Schine
  * @abstract
@@ -54,7 +54,7 @@ class DataManager {
 	 * 
 	 * @access public
 	 */
-	function assignConfiguration ( $configuration ) { 
+	function assignConfiguration ( Properties $configuration ) { 
 		$dbIndex = $configuration->getProperty('database_index');
 		$preloadTypes =$configuration->getProperty('preload_types');
 		
@@ -85,7 +85,7 @@ class DataManager {
 	 * 
 	 * @access public
 	 */
-	function assignOsidContext ( $context ) { 
+	function assignOsidContext ( OsidContext $context ) { 
 		$this->_osidContext =$context;
 	} 
 	

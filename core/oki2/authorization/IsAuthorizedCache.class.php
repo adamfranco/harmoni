@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: IsAuthorizedCache.class.php,v 1.12 2007/10/12 15:35:06 adamfranco Exp $
+ * @version $Id: IsAuthorizedCache.class.php,v 1.13 2008/02/06 15:37:48 adamfranco Exp $
  */ 
 
 /**
@@ -69,7 +69,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: IsAuthorizedCache.class.php,v 1.12 2007/10/12 15:35:06 adamfranco Exp $
+ * @version $Id: IsAuthorizedCache.class.php,v 1.13 2008/02/06 15:37:48 adamfranco Exp $
  */
 class IsAuthorizedCache {
 		
@@ -519,9 +519,9 @@ class IsAuthorizedCache {
 // 				$timer2->start();
 // 				$traversal =$hierarchy->traverse(
 // 					$rootNode->getId(),
-// 					Hierarchy::TRAVERSE_MODE_DEPTH_FIRST(),
-// 					Hierarchy::TRAVERSE_DIRECTION_DOWN(),
-// 					Hierarchy::TRAVERSE_LEVELS_ALL());
+// 					Hierarchy::TRAVERSE_MODE_DEPTH_FIRST,
+// 					Hierarchy::TRAVERSE_DIRECTION_DOWN,
+// 					Hierarchy::TRAVERSE_LEVELS_ALL);
 // 				$timer2->end();
 // 				printf("<br/>CacheAZ Traversal Time: %1.6f", $timer2->printTime());
 // 				
@@ -702,9 +702,9 @@ class IsAuthorizedCache {
 		
 		$traversalInfo =$hierarchy->traverse(
     		$nodeId,
-    		Hierarchy::TRAVERSE_MODE_DEPTH_FIRST(),
-    		Hierarchy::TRAVERSE_DIRECTION_DOWN(),
-    		Hierarchy::TRAVERSE_LEVELS_ALL());
+    		Hierarchy::TRAVERSE_MODE_DEPTH_FIRST,
+    		Hierarchy::TRAVERSE_DIRECTION_DOWN,
+    		Hierarchy::TRAVERSE_LEVELS_ALL);
     		
     	$nodesToDirty = array();	
     		

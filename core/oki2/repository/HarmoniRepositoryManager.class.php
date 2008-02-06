@@ -36,11 +36,11 @@ require_once(HARMONI."oki2/repository/HarmoniRepository.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepositoryManager.class.php,v 1.42 2007/10/12 20:59:00 adamfranco Exp $ 
+ * @version $Id: HarmoniRepositoryManager.class.php,v 1.43 2008/02/06 15:37:52 adamfranco Exp $ 
  */
 
 class HarmoniRepositoryManager
-	extends RepositoryManager
+	implements RepositoryManager
 {
 	
 	var $_configuration;
@@ -120,7 +120,7 @@ class HarmoniRepositoryManager
 	 * 
 	 * @access public
 	 */
-	function assignConfiguration ( $configuration ) { 
+	function assignConfiguration ( Properties $configuration ) { 
 		$this->_configuration =$configuration;
 		
 		$dbIndex = $configuration->getProperty('database_index');
@@ -173,7 +173,7 @@ class HarmoniRepositoryManager
 	 * 
 	 * @access public
 	 */
-	function assignOsidContext ( $context ) { 
+	function assignOsidContext ( OsidContext $context ) { 
 		$this->_osidContext =$context;
 	} 
 
@@ -205,7 +205,7 @@ class HarmoniRepositoryManager
 	 * 
 	 * @access public
 	 */
-	function createRepository ( $displayName, $description, $repositoryType, $id = NULL ){
+	function createRepository ( $displayName, $description, Type $repositoryType, Id $id = NULL ){
 		// Argument Validation
 		ArgumentValidator::validate($displayName, StringValidatorRule::getRule());
 		ArgumentValidator::validate($description, StringValidatorRule::getRule());
@@ -311,7 +311,7 @@ class HarmoniRepositoryManager
      * 
      * @access public
      */
-	function deleteRepository($repositoryId) {
+	function deleteRepository(Id $repositoryId) {
 		$repository =$this->getRepository($repositoryId);
 		
 		// Check to see if this DR has any assets.
@@ -344,9 +344,9 @@ class HarmoniRepositoryManager
 				// if we cant then sort the asset ids by depth
 				$infoIterator =$this->_hierarchy->traverse(
 					$repositoryId,
-					Hierarchy::TRAVERSE_MODE_DEPTH_FIRST(),
-					Hierarchy::TRAVERSE_DIRECTION_DOWN(),
-					Hierarchy::TRAVERSE_LEVELS_ALL());
+					Hierarchy::TRAVERSE_MODE_DEPTH_FIRST,
+					Hierarchy::TRAVERSE_DIRECTION_DOWN,
+					Hierarchy::TRAVERSE_LEVELS_ALL);
 				$levels = array();
 				while ($infoIterator->hasNextTraversalInfo()) {
 					$info =$infoIterator->nextTraversalInfo();
@@ -444,7 +444,7 @@ class HarmoniRepositoryManager
 	 * 
 	 * @access public
 	 */
-  function getRepositoriesByType ( $repositoryType ) { 
+  function getRepositoriesByType ( Type $repositoryType ) { 
 		ArgumentValidator::validate($repositoryType, ExtendsValidatorRule::getRule("Type"));
 		
 		// Select the Ids of corresponding repositories
@@ -503,7 +503,7 @@ class HarmoniRepositoryManager
 	 * 
 	 * @access public
 	 */
-	function getRepository ( $repositoryId ) { 
+	function getRepository ( Id $repositoryId ) { 
 		ArgumentValidator::validate($repositoryId, ExtendsValidatorRule::getRule("Id"));
 		
 		if (!isset($this->_createdRepositories[$repositoryId->getIdString()])) {
@@ -546,7 +546,7 @@ class HarmoniRepositoryManager
 	 * 
 	 * @access public
 	 */
-	function getAsset ( $assetId ) { 
+	function getAsset ( Id $assetId ) { 
 		ArgumentValidator::validate($assetId, ExtendsValidatorRule::getRule("Id"));
 		
 		// Get the node for this asset to make sure its availible
@@ -581,7 +581,7 @@ class HarmoniRepositoryManager
 	 * {@link DigitalRepositoryException#NULL_ARGUMENT NULL_ARGUMENT}, 
 	 * {@link DigitalRepositoryException#NO_OBJECT_WITH_THIS_DATE NO_OBJECT_WITH_THIS_DATE}
 	 */
-	function getAssetByDate($assetId, $date) {
+	function getAssetByDate(Id $assetId, $date) {
 		// figure out which DR it is in.
 		if (! $repositoryId =$this->_getAssetRepository($assetId))
 			throwError(new Error(RepositoryException::UNKNOWN_ID(), "RepositoryManager", 1));
@@ -617,7 +617,7 @@ class HarmoniRepositoryManager
    * 
    * @access public
    */
-  function getAssetDates ( $assetId ) { 
+  function getAssetDates ( Id $assetId ) { 
 		// figure out which Repository it is in.
 		if (! $repositoryId =$this->_getAssetRepository($assetId))
 			throwError(new Error(RepositoryException::UNKNOWN_ID(), "RepositoryManager", 1));
@@ -660,8 +660,8 @@ class HarmoniRepositoryManager
 	 * 
 	 * @access public
 	 */
-	function getAssetsBySearch ( $repositories, $searchCriteria, $searchType, $searchProperties ) { 
-      die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	function getAssetsBySearch ( array $repositories, $searchCriteria, Type $searchType, Properties $searchProperties ) { 
+      throw new UnimplementedException;
   } 
 	
 	
@@ -688,7 +688,7 @@ class HarmoniRepositoryManager
 	 * {@link DigitalRepositoryException#UNKNOWN_TYPE UNKNOWN_TYPE}, 
 	 * {@link DigitalRepositoryException#UNKNOWN_DR UNKNOWN_DR}
 	 */
-	function getAssets($repositories, $searchCriteria, $searchType, $searchProperties) {
+	function getAssets(array $repositories, $searchCriteria, Type $searchType, Properties $searchProperties) {
 		$combinedAssets = array();
 		
 		foreach ($digitalRepositories as $key => $val) {
@@ -734,7 +734,7 @@ class HarmoniRepositoryManager
 	 * 
 	 * @access public
 	 */
-	function copyAsset ( $repository, $assetId ) { 
+	function copyAsset ( Repository $repository, Id $assetId ) { 
 		$asset =$repository->getAsset($assetId);
 		return $repository->copyAsset( $asset );
 	}
@@ -788,12 +788,26 @@ class HarmoniRepositoryManager
 		
 		return $obj;
 	}
+	
+	/**
+     * Verify to OsidLoader that it is loading
+     * 
+     * <p>
+     * OSID Version: 2.0
+     * </p>
+     * .
+     * 
+     * @throws object OsidException 
+     * 
+     * @access public
+     */
+    public function osidVersion_2_0 () {}
 
 /******************************************************************************
  * Private Functions:	
  ******************************************************************************/
  
-	function _getAssetRepository ($assetId) {
+	function _getAssetRepository (Id $assetId) {
 		$node =$this->_hierarchy->getNode($assetId);
 		
 		// If we have reached the top of the hierarchy and don't have a parent that

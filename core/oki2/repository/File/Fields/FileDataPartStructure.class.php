@@ -21,9 +21,10 @@ require_once(OKI2."/osid/repository/PartStructure.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileDataPartStructure.class.php,v 1.9 2007/09/04 20:25:44 adamfranco Exp $ 
+ * @version $Id: FileDataPartStructure.class.php,v 1.10 2008/02/06 15:37:53 adamfranco Exp $ 
  */
-class FileDataPartStructure extends PartStructure
+class FileDataPartStructure 
+	implements PartStructure
 //	extends java.io.Serializable
 {
 
@@ -55,6 +56,31 @@ class FileDataPartStructure extends PartStructure
 	function getDisplayName() {
 		return "File Data";
 	}
+	
+	/**
+     * Update the display name for this Record.
+     * 
+     * @param string $displayName
+     * 
+     * @throws object RepositoryException An exception with one of
+     *         the following messages defined in
+     *         org.osid.repository.RepositoryException may be thrown: {@link
+     *         org.osid.repository.RepositoryException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+     *         UNIMPLEMENTED}, {@link
+     *         org.osid.repository.RepositoryException#NULL_ARGUMENT
+     *         NULL_ARGUMENT}
+     * 
+     * @access public
+     */
+    public function updateDisplayName ( $displayName ) {
+    	throw new UnimplementedException;
+    }
 
 	/**
 	 * Get the description for this PartStructure.
@@ -278,7 +304,7 @@ class FileDataPartStructure extends PartStructure
 	 * 
 	 * @access public
 	 */
-	function validatePart($part) {
+	function validatePart(Part $part) {
 		// we can check if the Part (ie, ValueVersions) has values of the right type.
 		// @todo
 		

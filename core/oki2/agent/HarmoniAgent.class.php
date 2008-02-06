@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgent.class.php,v 1.23 2008/01/23 16:50:42 adamfranco Exp $
+ * @version $Id: HarmoniAgent.class.php,v 1.24 2008/02/06 15:37:46 adamfranco Exp $
  */
 
 require_once(OKI2."/osid/agent/Agent.php");
@@ -26,7 +26,7 @@ require_once(HARMONI."/Primitives/Collections-Text/HtmlString.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgent.class.php,v 1.23 2008/01/23 16:50:42 adamfranco Exp $
+ * @version $Id: HarmoniAgent.class.php,v 1.24 2008/02/06 15:37:46 adamfranco Exp $
  */
 class HarmoniAgent 
 	implements Agent
@@ -189,7 +189,7 @@ class HarmoniAgent
 	 * 
 	 * @access public
 	 */
-	function getPropertiesByType ( $propertiesType ) { 
+	function getPropertiesByType ( Type $propertiesType ) { 
 		$propertyManager = Services::getService("Property");
 		$propertiesArray = $propertyManager->retrieveProperties($this->_idString);
 		

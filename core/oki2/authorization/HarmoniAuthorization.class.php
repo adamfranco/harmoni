@@ -16,10 +16,10 @@ require_once(HARMONI."Primitives/Chronology/include.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthorization.class.php,v 1.18 2007/09/04 20:25:38 adamfranco Exp $
+ * @version $Id: HarmoniAuthorization.class.php,v 1.19 2008/02/06 15:37:48 adamfranco Exp $
  */
 class HarmoniAuthorization 
-	extends Authorization 
+	implements Authorization 
 {
 
 	/**

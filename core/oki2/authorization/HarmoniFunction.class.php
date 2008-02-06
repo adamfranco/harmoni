@@ -16,10 +16,10 @@ require_once(OKI2."/osid/authorization/Function.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniFunction.class.php,v 1.13 2007/09/13 16:04:18 adamfranco Exp $
+ * @version $Id: HarmoniFunction.class.php,v 1.14 2008/02/06 15:37:48 adamfranco Exp $
  */
 class HarmoniFunction
-	extends FunctionInterface 
+	implements FunctionInterface 
 {
 
 	/**

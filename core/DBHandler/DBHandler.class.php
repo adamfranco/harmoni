@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DBHandler.class.php,v 1.27 2007/09/14 13:57:06 adamfranco Exp $
+ * @version $Id: DBHandler.class.php,v 1.28 2008/02/06 15:37:41 adamfranco Exp $
  */
  
 /**
@@ -68,7 +68,7 @@ require_once(HARMONI."Primitives/Chronology/include.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DBHandler.class.php,v 1.27 2007/09/14 13:57:06 adamfranco Exp $
+ * @version $Id: DBHandler.class.php,v 1.28 2008/02/06 15:37:41 adamfranco Exp $
  */
 
 class DBHandler { 
@@ -111,7 +111,7 @@ class DBHandler {
 	 * 
 	 * @access public
 	 */
-	function assignConfiguration ( $configuration ) { 
+	function assignConfiguration ( Properties $configuration ) { 
 		$this->_configuration =$configuration;
 	}
 
@@ -139,7 +139,7 @@ class DBHandler {
 	 * 
 	 * @access public
 	 */
-	function assignOsidContext ( $context ) { 
+	function assignOsidContext ( OsidContext $context ) { 
 		$this->_osidContext =$context;
 	} 
 	

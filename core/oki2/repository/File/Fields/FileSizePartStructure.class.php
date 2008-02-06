@@ -21,10 +21,10 @@ require_once(OKI2."/osid/repository/PartStructure.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileSizePartStructure.class.php,v 1.10 2007/09/04 20:25:46 adamfranco Exp $ 
+ * @version $Id: FileSizePartStructure.class.php,v 1.11 2008/02/06 15:37:53 adamfranco Exp $ 
  */
 class FileSizePartStructure 
-	extends PartStructure
+	implements PartStructure
 {
 
 	var $_partStructure;
@@ -55,7 +55,32 @@ class FileSizePartStructure
 	function getDisplayName() {
 		return "File Size";
 	}
-
+	
+	/**
+     * Update the display name for this Record.
+     * 
+     * @param string $displayName
+     * 
+     * @throws object RepositoryException An exception with one of
+     *         the following messages defined in
+     *         org.osid.repository.RepositoryException may be thrown: {@link
+     *         org.osid.repository.RepositoryException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+     *         UNIMPLEMENTED}, {@link
+     *         org.osid.repository.RepositoryException#NULL_ARGUMENT
+     *         NULL_ARGUMENT}
+     * 
+     * @access public
+     */
+    public function updateDisplayName ( $displayName ) {
+    	throw new UnimplementedException;
+    }
+	
 	/**
 	 * Get the description for this PartStructure.
 	 *	
@@ -250,7 +275,33 @@ class FileSizePartStructure
 	function getRecordStructure() {
 		return $this->_recordStructure;
 	}
-
+	
+	/**
+	 * Get all the PartStructures in the PartStructure.	 Iterators return a
+	 * set, one at a time.
+	 *	
+	 * @return object PartStructureIterator
+	 * 
+	 * @throws object RepositoryException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.repository.RepositoryException may be thrown: {@link
+	 *		   org.osid.repository.RepositoryException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.repository.RepositoryException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}
+	 * 
+	 * @access public
+	 */
+	function getPartStructures() {
+		$array = array();
+		$obj = new HarmoniNodeIterator($array);
+		return $obj; // @todo replace with HarmoniPartStructureIterator
+	}
+	
 	/**
 	 * Validate a Part against its PartStructure.  Return true if valid; false
 	 * otherwise.  The status of the Asset holding this Record is not changed
@@ -278,7 +329,7 @@ class FileSizePartStructure
 	 * 
 	 * @access public
 	 */
-	function validatePart($part) {
+	function validatePart(Part $part) {
 		// we can check if the Part (ie, ValueVersions) has values of the right type.
 		// @todo
 		

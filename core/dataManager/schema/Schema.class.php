@@ -4,7 +4,7 @@ require_once(HARMONI."dataManager/schema/SchemaField.class.php");
 
 /**
  * Holds the descriptive information about a specific OKI-style DataManager Schema. Schemas
- * define the fields available in a {@link Record}, the number of values allowed in that field.
+ * define the fields available in a {@link DMRecord}, the number of values allowed in that field.
  * Using the class the actual data structure can be set up in the PHP code and then
  * synchronized to the database using the {@link SchemaManager}.
  *
@@ -13,7 +13,7 @@ require_once(HARMONI."dataManager/schema/SchemaField.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Schema.class.php,v 1.21 2007/09/04 20:25:32 adamfranco Exp $
+ * @version $Id: Schema.class.php,v 1.22 2008/02/06 15:37:43 adamfranco Exp $
  * @author Gabe Schine
  */
 class Schema extends SObject {

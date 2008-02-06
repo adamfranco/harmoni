@@ -18,7 +18,7 @@ require_once(OKI2."/osid/scheduling/AgentCommitment.php");
  * @package org.osid.scheduling
  */
 class HarmoniAgentCommitment
-extends AgentCommitment
+	implements AgentCommitment
 {
 	
 	/**

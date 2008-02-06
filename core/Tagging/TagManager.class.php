@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TagManager.class.php,v 1.5 2007/09/04 20:53:12 adamfranco Exp $
+ * @version $Id: TagManager.class.php,v 1.6 2008/02/06 15:37:41 adamfranco Exp $
  */ 
 
 /**
@@ -36,10 +36,10 @@ require_once(dirname(__FILE__)."/StructuredMetaDataTagGenerator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TagManager.class.php,v 1.5 2007/09/04 20:53:12 adamfranco Exp $
+ * @version $Id: TagManager.class.php,v 1.6 2008/02/06 15:37:41 adamfranco Exp $
  */
 class TagManager
-	extends OsidManager	
+	implements OsidManager	
 {
 	
 	/**
@@ -450,7 +450,7 @@ class TagManager
      * 
      * @access public
      */
-    function assignConfiguration ( $configuration ) { 
+    function assignConfiguration ( Properties $configuration ) { 
        $this->_configuration =$configuration;
     }
     
@@ -595,10 +595,23 @@ class TagManager
      * 
      * @access public
      */
-    function assignOsidContext ( $context ) { 
+    function assignOsidContext ( OsidContext $context ) { 
 		$this->_osidContext =$context;
     }  
 	
+	/**
+     * Verify to OsidLoader that it is loading
+     * 
+     * <p>
+     * OSID Version: 2.0
+     * </p>
+     * .
+     * 
+     * @throws object OsidException 
+     * 
+     * @access public
+     */
+    public function osidVersion_2_0 () {}
 }
 
 ?>

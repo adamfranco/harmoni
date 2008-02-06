@@ -15,10 +15,10 @@ require_once(OKI2."/osid/coursemanagement/CourseGradeRecord.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CourseGradeRecord.class.php,v 1.9 2007/09/04 20:25:39 adamfranco Exp $
+ * @version $Id: CourseGradeRecord.class.php,v 1.10 2008/02/06 15:37:48 adamfranco Exp $
  */
 class HarmoniCourseGradeRecord
-	extends CourseGradeRecord
+	implements CourseGradeRecord
 {
 	
 	
@@ -296,7 +296,29 @@ class HarmoniCourseGradeRecord
 	} 
 	
 	
-	
+	/**
+     * Get the Agent (student) associated with this CourseGradeRecord.
+     *  
+     * @return object Id
+     * 
+     * @throws object CourseManagementException An exception
+     *         with one of the following messages defined in
+     *         org.osid.coursemanagement.CourseManagementException may be
+     *         thrown:  {@link
+     *         org.osid.coursemanagement.CourseManagementException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.coursemanagement.CourseManagementException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.coursemanagement.CourseManagementException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.coursemanagement.CourseManagementException#UNIMPLEMENTED
+     *         UNIMPLEMENTED}
+     * 
+     * @access public
+     */
+    public function getStudent () {
+    	throw new UnimplementedException;
+    }
 	
 	
 	

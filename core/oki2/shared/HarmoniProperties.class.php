@@ -19,10 +19,10 @@ require_once(HARMONI."oki2/shared/HarmoniObjectIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniProperties.class.php,v 1.17 2007/09/04 20:25:48 adamfranco Exp $
+ * @version $Id: HarmoniProperties.class.php,v 1.18 2008/02/06 15:37:55 adamfranco Exp $
  */
 class HarmoniProperties
-	extends Properties
+	implements Properties
 {
 
 	/**
@@ -33,8 +33,7 @@ class HarmoniProperties
 	 * @access public
 	 * @since 11/18/04
 	 */
-	function HarmoniProperties ($type) {
-		ArgumentValidator::validate($type, ExtendsValidatorRule::getRule("Type"), true);
+	function HarmoniProperties (Type $type) {
 		$this->_type = $type;
 		$this->_properties = array();
 	}

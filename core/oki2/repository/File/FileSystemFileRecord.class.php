@@ -25,7 +25,7 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileSystemFileRecord.class.php,v 1.9 2007/09/11 17:40:57 adamfranco Exp $ 
+ * @version $Id: FileSystemFileRecord.class.php,v 1.10 2008/02/06 15:37:52 adamfranco Exp $ 
  */
 class FileSystemFileRecord 
 	extends FileRecord
@@ -88,7 +88,7 @@ class FileSystemFileRecord
 	 * 
 	 * @access public
 	 */
-	function deletePart($partId) {
+	function deletePart(Id $partId) {
 		$string = $partId->getIdString();
 		if (ereg("(.*)-(FILE_SIZE|FILE_NAME|FILE_DATA|MIME_TYPE|THUMBNAIL_DATA|THUMBNAIL_MIME_TYPE)",$string,$r)) {
 			$recordId = $r[1];

@@ -19,9 +19,10 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileNamePartStructure.class.php,v 1.8 2007/09/04 20:25:44 adamfranco Exp $ 
+ * @version $Id: FileNamePartStructure.class.php,v 1.9 2008/02/06 15:37:53 adamfranco Exp $ 
  */
-class FileNamePartStructure extends PartStructure
+class FileNamePartStructure 
+	implements PartStructure
 //	extends java.io.Serializable
 {
 
@@ -53,6 +54,31 @@ class FileNamePartStructure extends PartStructure
 	function getDisplayName() {
 		return "File Name";
 	}
+	
+	/**
+     * Update the display name for this Record.
+     * 
+     * @param string $displayName
+     * 
+     * @throws object RepositoryException An exception with one of
+     *         the following messages defined in
+     *         org.osid.repository.RepositoryException may be thrown: {@link
+     *         org.osid.repository.RepositoryException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+     *         UNIMPLEMENTED}, {@link
+     *         org.osid.repository.RepositoryException#NULL_ARGUMENT
+     *         NULL_ARGUMENT}
+     * 
+     * @access public
+     */
+    public function updateDisplayName ( $displayName ) {
+    	throw new UnimplementedException;
+    }
 
 	/**
 	 * Get the description for this PartStructure.
@@ -276,7 +302,7 @@ class FileNamePartStructure extends PartStructure
 	 * 
 	 * @access public
 	 */
-	function validatePart($part) {
+	function validatePart(Part $part) {
 		// we can check if the Part (ie, ValueVersions) has values of the right type.
 		// @todo
 		

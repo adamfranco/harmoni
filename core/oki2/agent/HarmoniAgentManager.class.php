@@ -51,13 +51,13 @@ require_once(HARMONI."oki2/agent/EveryoneGroup.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgentManager.class.php,v 1.51 2008/01/31 20:56:43 adamfranco Exp $
+ * @version $Id: HarmoniAgentManager.class.php,v 1.52 2008/02/06 15:37:46 adamfranco Exp $
  *
  * @author Adam Franco
  * @author Dobromir Radichkov
  */
 class HarmoniAgentManager
-	extends AgentManager
+	implements AgentManager
 {
 	
 	/**
@@ -73,7 +73,7 @@ class HarmoniAgentManager
 	/**
 	 * Constructor. Set up any database connections needed.
 	 */
-	function HarmoniAgentManager() {
+	function __construct() {
 		$idManager = Services::getService("Id");
 		
 		$this->_everyoneId = $idManager->getId("edu.middlebury.agents.everyone");
@@ -105,7 +105,7 @@ class HarmoniAgentManager
 	 * 
 	 * @access public
 	 */
-	function assignConfiguration ( $configuration ) { 
+	function assignConfiguration ( Properties $configuration ) { 
 		$this->_configuration =$configuration;
 		
 		$hierarchyId =$configuration->getProperty('hierarchy_id');
@@ -167,7 +167,7 @@ class HarmoniAgentManager
 	 * 
 	 * @access public
 	 */
-	function assignOsidContext ( $context ) { 
+	function assignOsidContext ( OsidContext $context ) { 
 		$this->_osidContext =$context;
 	} 
 
@@ -232,15 +232,10 @@ class HarmoniAgentManager
 	 * 
 	 * @access public
 	 */
-	function createAgent ( $displayName, $agentType, $properties, $agentId = null ) { 
+	function createAgent ( $displayName, Type $agentType, Properties $properties, Id $agentId = null ) { 
 		
 		// ** parameter validation
-		ArgumentValidator::validate($agentType, ExtendsValidatorRule::getRule("Type"), true);
-		ArgumentValidator::validate($properties, ExtendsValidatorRule::getRule("Properties"), true);
 		ArgumentValidator::validate($displayName, StringValidatorRule::getRule(), true);
-		ArgumentValidator::validate($agentId, OptionalRule::getRule(
-			ExtendsValidatorRule::getRule("Id")), true);
-	
 		$propertiesArray[] =$properties;
 		// ** end of parameter validation
 		
@@ -291,7 +286,7 @@ class HarmoniAgentManager
 	 * 
 	 * @access public
 	 */
-	function deleteAgent ( $id ) {
+	function deleteAgent ( Id $id ) {
 		// ** parameter validation
 		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"), true);
 		// ** end of parameter validation
@@ -330,7 +325,7 @@ class HarmoniAgentManager
 	 * 
 	 * @access public
 	 */
-	function getAgent ( $id ) { 
+	function getAgent ( Id $id ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"), true);
 		// ** end of parameter validation
@@ -371,8 +366,8 @@ class HarmoniAgentManager
 		$hierarchyManager = Services::getService("Hierarchy");
 		$hierarchy =$hierarchyManager->getHierarchy($this->_hierarchyId);
 		$traversalIterator =$hierarchy->traverse($this->_allAgentsId,
-			Hierarchy::TRAVERSE_MODE_DEPTH_FIRST(), Hierarchy::TRAVERSE_DIRECTION_DOWN(), 
-			Hierarchy::TRAVERSE_LEVELS_ALL());
+			Hierarchy::TRAVERSE_MODE_DEPTH_FIRST, Hierarchy::TRAVERSE_DIRECTION_DOWN, 
+			Hierarchy::TRAVERSE_LEVELS_ALL);
 			
 		$agentIterator = new MembersOnlyFromTraversalIterator($traversalIterator);
 		return $agentIterator;
@@ -402,7 +397,7 @@ class HarmoniAgentManager
 	 * 
 	 * @access public
 	 */
-	function getAgentsBySearch ( $searchCriteria, $agentSearchType ) { 
+	function getAgentsBySearch ( $searchCriteria, Type $agentSearchType ) { 
 		$typeString = $agentSearchType->getDomain()
 						."::".$agentSearchType->getAuthority()
 						."::".$agentSearchType->getKeyword();
@@ -498,7 +493,7 @@ class HarmoniAgentManager
 	 * @access public
 	 */
 	function getPropertyTypes () { 
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+		throw new UnimplementedException;
 	} 
 
 	/**
@@ -528,12 +523,10 @@ class HarmoniAgentManager
 	 * 
 	 * @access public
 	 */
-	function createGroup ( $displayName, $groupType, $description, $properties, $id = null ) { 
+	function createGroup ( $displayName, Type $groupType, $description, Properties $properties, Id $id = null ) { 
 		// ** parameter validation
-		ArgumentValidator::validate($groupType,  ExtendsValidatorRule::getRule("Type"), true);
 		ArgumentValidator::validate($displayName, StringValidatorRule::getRule(), true);
 		ArgumentValidator::validate($description, StringValidatorRule::getRule(), true);
-		ArgumentValidator::validate($properties, ExtendsValidatorRule::getRule("Properties"), true);
 		// ensure that we aren't using the type of one of the AuthNTypes
 		// which would confict with external directories.
 		// :: Add External Groups
@@ -598,10 +591,7 @@ class HarmoniAgentManager
 	 * @access public
 	 */
 	 
-	function deleteGroup ( $id ) { 
-		// ** parameter validation
-		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"), true);
-		// ** end of parameter validation
+	function deleteGroup ( Id $id ) {
 		
 		//remove the properties of the agent from the database
 		$propertyManager = Services::getService("Property");
@@ -647,10 +637,7 @@ class HarmoniAgentManager
 	 * 
 	 * @access public
 	 */
-	function getGroup ( $id ) { 
-		// ** parameter validation
-		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"), true);
-		// ** end of parameter validation
+	function getGroup ( Id $id ) {
 		
 		if ($id->isEqual($this->_usersId)) {
 			return $this->_usersGroup;
@@ -764,8 +751,7 @@ class HarmoniAgentManager
 	 * 
 	 * @access public
 	 */
-	function getGroupsBySearch ( $searchCriteria, $groupSearchType ) { 
-		ArgumentValidator::validate($groupSearchType, ExtendsValidatorRule::getRule("Type"));
+	function getGroupsBySearch ( $searchCriteria, Type $groupSearchType ) { 
 		$typeString = $groupSearchType->getDomain()
 						."::".$groupSearchType->getAuthority()
 						."::".$groupSearchType->getKeyword();
@@ -773,7 +759,7 @@ class HarmoniAgentManager
 		// get the Group Search object
 		$groupSearch = $this->_groupSearches[$typeString];
 		if (!is_object($groupSearch))
-			throwError(new Error(AgentException::UNKNOWN_TYPE().", ".Type::typeToString($groupSearchType),"GroupManager",true));
+			throwError(new Error(AgentException::UNKNOWN_TYPE().", ".$groupSearchType->asString(),"GroupManager",true));
 		
 		return $groupSearch->getGroupsBySearch($searchCriteria); 
 	}
@@ -844,7 +830,7 @@ class HarmoniAgentManager
 		$seen = array();
 		while($groups->hasNext()) {
 			$group =$groups->next();
-			$typeString = Type::typeToString($group->getType());
+			$typeString = $group->getType()->asString();
 			if (in_array($typeString, $seen)) continue;
 			$seen[] = $typeString;
 			$types[] =$group->getType();
@@ -887,8 +873,8 @@ class HarmoniAgentManager
 	 * 
 	 * @access public
 	 */
-	function getAgentsByType ( $agentType ) { 
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	function getAgentsByType ( Type $agentType ) { 
+		throw new UnimplementedException;
 	} 
 
 	/**
@@ -914,8 +900,7 @@ class HarmoniAgentManager
 	 * 
 	 * @access public
 	 */
-	function getGroupsByType ( $groupType ) { 
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	function getGroupsByType ( Type $groupType ) {
 	} 
 	
 	/**
@@ -927,11 +912,7 @@ class HarmoniAgentManager
 	 *
 	 * @return boolean
 	 */
-	function isAgent( $id) {
-		// ** parameter validation
-		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"), true);
-		// ** end of parameter validation
-		
+	function isAgent( Id $id) {
 		if ($id->isEqual($this->_usersId))
 			return false;
 		
@@ -977,11 +958,7 @@ class HarmoniAgentManager
 	 *
 	 * @return boolean
 	 */
-	function isGroup($id) {
-		// ** parameter validation
-		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"), true);
-		// ** end of parameter validation
-		
+	function isGroup(Id $id) {
 		// Agents are determined by being children of the "All Agents" node.
 		// Check this first as Agents are also listed under the group tree.
 		if ($this->isAgent($id)) {
@@ -1005,8 +982,8 @@ class HarmoniAgentManager
 			$hierarchyManager = Services::getService("Hierarchy");
 			$hierarchy =$hierarchyManager->getHierarchy($this->_hierarchyId);
 			$traversalIterator =$hierarchy->traverse($this->_allGroupsId,
-					Hierarchy::TRAVERSE_MODE_DEPTH_FIRST(), Hierarchy::TRAVERSE_DIRECTION_DOWN(), 
-					Hierarchy::TRAVERSE_LEVELS_ALL());
+					Hierarchy::TRAVERSE_MODE_DEPTH_FIRST, Hierarchy::TRAVERSE_DIRECTION_DOWN, 
+					Hierarchy::TRAVERSE_LEVELS_ALL);
 			
 			while ($traversalIterator->hasNext()) {
 				$traversalInfo =$traversalIterator->next();
@@ -1137,6 +1114,20 @@ class HarmoniAgentManager
 		}
 		return $parents;
 	}
+	
+	/**
+     * Verify to OsidLoader that it is loading
+     * 
+     * <p>
+     * OSID Version: 2.0
+     * </p>
+     * .
+     * 
+     * @throws object OsidException 
+     * 
+     * @access public
+     */
+    public function osidVersion_2_0 () {}
 }
 
 ?>

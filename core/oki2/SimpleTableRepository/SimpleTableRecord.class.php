@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SimpleTableRecord.class.php,v 1.1 2007/10/05 14:02:56 adamfranco Exp $
+ * @version $Id: SimpleTableRecord.class.php,v 1.2 2008/02/06 15:37:45 adamfranco Exp $
  */ 
 
 /**
@@ -18,11 +18,10 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SimpleTableRecord.class.php,v 1.1 2007/10/05 14:02:56 adamfranco Exp $
+ * @version $Id: SimpleTableRecord.class.php,v 1.2 2008/02/06 15:37:45 adamfranco Exp $
  */
 class SimpleTableRecord
-	extends RecordInterface
-	// implements Record
+	implements Record
 {
 
 	/**
@@ -40,7 +39,7 @@ class SimpleTableRecord
 	 * @access public
 	 * @since 10/4/07
 	 */
-	public function __construct ($idMgr, SimpleTableRecordStructure $recordStructure) {
+	public function __construct (IdManager $idMgr, SimpleTableRecordStructure $recordStructure) {
 		$this->idMgr = $idMgr;
 		$this->recordStructure = $recordStructure;
 	}
@@ -169,7 +168,7 @@ class SimpleTableRecord
 	 * 
 	 * @access public
 	 */
-	function createPart ( $partStructureId, $value ) { 
+	function createPart ( Id $partStructureId, $value ) { 
 		throw new UnimplementedException();
 	} 
 	
@@ -195,7 +194,7 @@ class SimpleTableRecord
 	 * 
 	 * @access public
 	 */
-	function deletePart ( $partId ) { 
+	function deletePart ( Id $partId ) { 
 		throw new UnimplementedException();
 	} 
 	
@@ -232,7 +231,7 @@ class SimpleTableRecord
 	 * @access public
 	 * @since 10/10/05
 	 */
-	function getPart ($id) {
+	function getPart (Id $id) {
 		if (!isset($this->parts[$id->getIdString()]))
 			throw new UnknownIdException();
 		return $this->parts[$id->getIdString()];
@@ -265,7 +264,7 @@ class SimpleTableRecord
      * 
      * @access public
      */
-    function getPartsByPartStructure ( $partStructureId ) {
+    function getPartsByPartStructure ( Id $partStructureId ) {
     	if (!isset($this->partsByPartStructure[$partStructureId->getIdString()]))
     		return new HarmoniIterator(array());
     	return new HarmoniIterator($this->partsByPartStructure[$partStructureId->getIdString()]);

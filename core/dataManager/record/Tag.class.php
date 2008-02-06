@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Stores the mapping between a RecordTag and the specific versions of values within a Record that were
- * created when the Record was tagged. A tag can be thought of like a CVS tag, where each file in CVS is like
+ * Stores the mapping between a RecordTag and the specific versions of values within a DMRecord that were
+ * created when the DMRecord was tagged. A tag can be thought of like a CVS tag, where each file in CVS is like
  * a specific value in a record. Each value has its own number of versions, and a RecordTag can remember
  * all the versions that were active at any given time.
  *
@@ -11,7 +11,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Tag.class.php,v 1.10 2007/09/04 20:25:32 adamfranco Exp $
+ * @version $Id: Tag.class.php,v 1.11 2008/02/06 15:37:43 adamfranco Exp $
  */
 class RecordTag {
 	
@@ -83,7 +83,7 @@ class RecordTag {
 	}
 	
 	/**
-	 * Returns the ID of the {@link Record} for which this RecordTag was created.
+	 * Returns the ID of the {@link DMRecord} for which this RecordTag was created.
 	 * @return int
 	 * @access public
 	 */

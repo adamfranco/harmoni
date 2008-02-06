@@ -10,7 +10,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: harmoni.inc.php,v 1.46 2007/09/04 21:02:19 adamfranco Exp $
+ * @version $Id: harmoni.inc.php,v 1.47 2008/02/06 15:37:40 adamfranco Exp $
  */
 
  /* :: start the output buffer, if it's not already :: */
@@ -38,7 +38,7 @@ define("SIMPLE_TEST",HARMONI.DIRECTORY_SEPARATOR."simple_test".DIRECTORY_SEPARAT
  * @const string OKI The OKI interfaces location.
  */
 define("OKI",dirname(__FILE__).DIRECTORY_SEPARATOR."oki".DIRECTORY_SEPARATOR);
-define("OKI2",dirname(__FILE__).DIRECTORY_SEPARATOR."oki2".DIRECTORY_SEPARATOR);
+define("OKI2",dirname(__FILE__).DIRECTORY_SEPARATOR."oki2_0_1".DIRECTORY_SEPARATOR);
 //require_once(OKI."inc.php");
 
 /*********************************************************

@@ -20,11 +20,11 @@ require_once(OKI2."/osid/hierarchy/TraversalInfo.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniTraversalInfo.class.php,v 1.9 2007/09/04 20:25:41 adamfranco Exp $
+ * @version $Id: HarmoniTraversalInfo.class.php,v 1.10 2008/02/06 15:37:50 adamfranco Exp $
  */
 
 class HarmoniTraversalInfo
-	extends TraversalInfo
+	implements TraversalInfo
 {
 	/**
 	 * @var object Id $_id The id for this Node.

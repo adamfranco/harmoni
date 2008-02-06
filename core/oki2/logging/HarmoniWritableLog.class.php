@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniWritableLog.class.php,v 1.5 2007/09/13 16:04:20 adamfranco Exp $
+ * @version $Id: HarmoniWritableLog.class.php,v 1.6 2008/02/06 15:37:51 adamfranco Exp $
  */
 
 require_once(OKI2."/osid/logging/WritableLog.php");
@@ -238,7 +238,7 @@ class HarmoniWritableLog
 		if (!isset($this->_typeIds))
 			$this->_typeIds = array();
 		
-		if (!isset($this->_typeIds[Type::typeToString($type)])) {
+		if (!isset($this->_typeIds[$type->asString()])) {
 			$dbc = Services::getService("DatabaseManager");
 			$query = new SelectQuery;
 			$query->addColumn("id");
@@ -249,7 +249,7 @@ class HarmoniWritableLog
 			$results =$dbc->query($query, $this->_dbIndex);
 			
 			if ($results->getNumberOfRows()) {
-				$this->_typeIds[Type::typeToString($type)] = $results->field("id");
+				$this->_typeIds[$type->asString()] = $results->field("id");
 				$results->free();
 			} else {
 				$results->free();
@@ -265,10 +265,10 @@ class HarmoniWritableLog
 											"'".addslashes($type->getKeyword())."'",
 											"'".addslashes($type->getDescription())."'"));
 				$results =$dbc->query($query, $this->_dbIndex);
-				$this->_typeIds[Type::typeToString($type)] = $results->getLastAutoIncrementValue();
+				$this->_typeIds[$type->asString()] = $results->getLastAutoIncrementValue();
 			}
 		}
-		return $this->_typeIds[Type::typeToString($type)];
+		return $this->_typeIds[$type->asString()];
 	}
 }
 

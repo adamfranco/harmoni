@@ -3,7 +3,7 @@
 require_once HARMONI."dataManager/record/RecordFieldValue.class.php";
 
 /**
- * Holds a number of indexes for values within a specific field within a Record. For those fields with
+ * Holds a number of indexes for values within a specific field within a DMRecord. For those fields with
  * only one value, only index 0 will be used. Otherwise, indexes will be created in numerical order (1, 2, ...).
  *
  * @package harmoni.datamanager
@@ -11,7 +11,7 @@ require_once HARMONI."dataManager/record/RecordFieldValue.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordField.class.php,v 1.23 2007/10/10 22:58:36 adamfranco Exp $
+ * @version $Id: RecordField.class.php,v 1.24 2008/02/06 15:37:42 adamfranco Exp $
  **/
 class RecordField {
 	
@@ -170,8 +170,8 @@ class RecordField {
 		
 		// otherwise... throw an error.
 		throwError( new Error(
-		"While trying to add/set a value in Record ID ".$this->_parent->getID().", we recieved an unexpected
-		data type. Expecting: $type, but got an object of class ".get_class($object).".", "Record",true));
+		"While trying to add/set a value in DMRecord ID ".$this->_parent->getID().", we recieved an unexpected
+		data type. Expecting: $type, but got an object of class ".get_class($object).".", "DMRecord",true));
 		return false;
 	}
 	
@@ -192,7 +192,7 @@ class RecordField {
 			throwError ( new Error(
 			"Field label '$label' can not add a new value because it does not allow multiple
 				values. In Schema ".$this->_parent->getSchemaID().".",
-			"Record",true));
+			"DMRecord",true));
 			return false;
 		}
 		
@@ -225,7 +225,7 @@ class RecordField {
 	}
 	
 	/**
-	* Attempts to set the value of $index to $value. If the Record is version controlled, this will 
+	* Attempts to set the value of $index to $value. If the DMRecord is version controlled, this will 
 	* add a new version rather than set the existing value.
 	* @return bool
 	* @param int $index
@@ -375,8 +375,8 @@ class RecordField {
 	}
 	
 	/**
-	 * Returns the Record object that the current object is a part of.
-	 * @return ref object Record The parent Record object
+	 * Returns the DMRecord object that the current object is a part of.
+	 * @return ref object DMRecord The parent DMRecord object
 	 */
 	function getRecord() {
 		return $this->_parent;

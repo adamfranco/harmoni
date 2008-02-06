@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SimpleTableRecordStructure.class.php,v 1.2 2007/10/05 20:12:31 adamfranco Exp $
+ * @version $Id: SimpleTableRecordStructure.class.php,v 1.3 2008/02/06 15:37:45 adamfranco Exp $
  */ 
 
 /**
@@ -18,11 +18,10 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SimpleTableRecordStructure.class.php,v 1.2 2007/10/05 20:12:31 adamfranco Exp $
+ * @version $Id: SimpleTableRecordStructure.class.php,v 1.3 2008/02/06 15:37:45 adamfranco Exp $
  */
 class SimpleTableRecordStructure
-	extends RecordStructure
-	// implements RecordStructure
+	implements RecordStructure
 {
 	
 	/**
@@ -288,7 +287,7 @@ class SimpleTableRecordStructure
 	 * @return object PartStructure
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 */
-	function getPartStructure($partStructureId) {
+	function getPartStructure(Id $partStructureId) {
 		if (!isset($this->partStructures[$partStructureId->getIdString()]))
 			throw new UnknownIdException("<strong>".$partStructureId->getIdString()."</strong> was not found in <strong>".implode(", ", array_keys($this->partStructures))."</strong>.");
 		
@@ -346,7 +345,7 @@ class SimpleTableRecordStructure
 	 * 
 	 * @access public
 	 */
-	function validateRecord ( $record ) { 
+	function validateRecord ( Record $record ) { 
 		throw new UnimplementedException();
 	} 
 

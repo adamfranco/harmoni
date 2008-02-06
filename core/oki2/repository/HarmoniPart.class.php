@@ -19,11 +19,10 @@ require(OKI2."osid/repository/Part.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniPart.class.php,v 1.20 2007/09/04 20:25:43 adamfranco Exp $ 
+ * @version $Id: HarmoniPart.class.php,v 1.21 2008/02/06 15:37:52 adamfranco Exp $ 
  */
 class HarmoniPart 
-	extends Part
-//	extends java.io.Serializable
+	implements Part
 {
 
 	var $_recordFieldValue;
@@ -161,7 +160,7 @@ class HarmoniPart
 	 * 
 	 * @access public
 	 */
-	function createPart ( $partStructureId, $value ) { 
+	function createPart ( Id $partStructureId, $value ) { 
 		throwError(
 			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
 		
@@ -192,7 +191,7 @@ class HarmoniPart
 	 * 
 	 * @access public
 	 */
-	function deletePart ( $partId ) { 
+	function deletePart ( Id $partId ) { 
 		throwError(
 			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
 		

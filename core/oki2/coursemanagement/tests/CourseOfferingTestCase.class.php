@@ -80,8 +80,8 @@
           	       
           	$agents = array();
           	 	
-			$scheduleItemA =$sm->createScheduleItem("Fall 2006 range", "", $scheduleItemType, 300, 600, null);
-			$scheduleItemB =$sm->createScheduleItem("Fall 2006 range", "", $scheduleItemType, 1300, 1600, null);				
+			$scheduleItemA =$sm->v3_createScheduleItem("Fall 2006 range", "", $scheduleItemType, 300, 600, null);
+			$scheduleItemB =$sm->v3_createScheduleItem("Fall 2006 range", "", $scheduleItemType, 1300, 1600, null);				
 			$scheduleA = array($scheduleItemA);
 			$scheduleB = array($scheduleItemA);
 						

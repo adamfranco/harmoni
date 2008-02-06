@@ -21,9 +21,10 @@ require(OKI2."osid/repository/PartStructure.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniPartStructure.class.php,v 1.21 2007/10/09 20:57:22 adamfranco Exp $  
+ * @version $Id: HarmoniPartStructure.class.php,v 1.22 2008/02/06 15:37:52 adamfranco Exp $  
  */
-class HarmoniPartStructure extends PartStructure
+class HarmoniPartStructure 
+	implements PartStructure
 //	extends java.io.Serializable
 {
 
@@ -414,7 +415,7 @@ class HarmoniPartStructure extends PartStructure
 	 * 
 	 * @access public
 	 */
-	function validatePart ( $part ) { 
+	function validatePart ( Part $part ) { 
 		// we can check if the part (ie, RecordFieldValue) has values of the right type.
 		// @todo
 		

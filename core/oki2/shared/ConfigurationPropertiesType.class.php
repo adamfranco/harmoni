@@ -10,14 +10,14 @@ require_once(HARMONI."oki2/shared/HarmoniType.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ConfigurationPropertiesType.class.php,v 1.3 2007/04/12 15:37:33 adamfranco Exp $
+ * @version $Id: ConfigurationPropertiesType.class.php,v 1.4 2008/02/06 15:37:55 adamfranco Exp $
  */
 class ConfigurationPropertiesType
 	 extends HarmoniType 
 {
 
-	function ConfigurationPropertiesType() {
-		$this->HarmoniType("Harmoni", 
+	function __construct() {
+		parent::__construct("Harmoni", 
 						   "Harmoni", 
 						   "Configuration", 
 						   "Things for configuring services.");	

@@ -14,14 +14,11 @@ if (!isset($_SESSION['harmoniid'])) {
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniTestId.class.php,v 1.9 2007/09/04 20:25:48 adamfranco Exp $
+ * @version $Id: HarmoniTestId.class.php,v 1.10 2008/02/06 15:37:55 adamfranco Exp $
  */
 
 class HarmoniTestId
-	extends Id
-
-	// extends java.io.Serializable
-
+	implements Id
 { // begin Id
 
 	/**
@@ -54,7 +51,7 @@ class HarmoniTestId
 	}
 
 	// public boolean isEqual(osid.shared.Id $id);
-	function isEqual($id) {
+	function isEqual( Id $id) {
 		return ($id->getIdString() == $this->_id)?true:false;
 	}
 

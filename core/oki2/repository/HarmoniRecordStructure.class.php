@@ -23,11 +23,11 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRecordStructure.class.php,v 1.37 2007/10/09 20:57:22 adamfranco Exp $ 
+ * @version $Id: HarmoniRecordStructure.class.php,v 1.38 2008/02/06 15:37:52 adamfranco Exp $ 
  */
 
 class HarmoniRecordStructure 
-	extends RecordStructure
+	implements RecordStructure
 {
 	
 	var $_schema;
@@ -177,7 +177,7 @@ class HarmoniRecordStructure
 	 * @return object PartStructure
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 */
-	function getPartStructure($partId) {
+	function getPartStructure(Id $partId) {
 		ArgumentValidator::validate($partId, ExtendsValidatorRule::getRule("Id"));
 		if (!isset($this->_createdParts[$partId->getIdString()])) {
 			$this->_schema->load();
@@ -392,7 +392,7 @@ class HarmoniRecordStructure
 	 * 
 	 * @access public
 	 */
-	function validateRecord ( $record ) { 
+	function validateRecord ( Record $record ) { 
 		// all we can really do is make sure the DataSet behind the Record is of the correct
 		// type to match this RecordStructure (DataSetTypeDefinition).
 		
@@ -416,7 +416,7 @@ class HarmoniRecordStructure
 	 *
 	 * @return object PartStructure The newly created PartStructure.
 	 */
-	function createPartStructure($displayName, $description, $partType, $isMandatory, $isRepeatable, $isPopulatedByRepository, $theid=null) {
+	function createPartStructure($displayName, $description, Type $partType, $isMandatory, $isRepeatable, $isPopulatedByRepository, $theid=null) {
 		ArgumentValidator::validate($displayName, StringValidatorRule::getRule());
 		ArgumentValidator::validate($description, StringValidatorRule::getRule());
 		ArgumentValidator::validate($partType, ExtendsValidatorRule::getRule("Type"));
@@ -482,7 +482,7 @@ class HarmoniRecordStructure
 	 * @access public
 	 * @since 6/8/06
 	 */
-	function convertPartStructureToType ( $partStructureId, $type, $statusStars = null ) {
+	function convertPartStructureToType ( Id $partStructureId, Type $type, $statusStars = null ) {
 		$oldPartStructure =$this->getPartStructure($partStructureId);
 		$newPartStructure =$this->createPartStructure(
 								$oldPartStructure->getDisplayName(),
@@ -558,7 +558,7 @@ class HarmoniRecordStructure
 	 * @access public
 	 * @since 6/8/06
 	 */
-	function deletePartStructure ( $partStructureId ) {
+	function deletePartStructure ( Id $partStructureId ) {
 		// Delete the Structure
 		$schemaMgr = Services::getService("SchemaManager");
 		$recordMgr = Services::getService("RecordManager");

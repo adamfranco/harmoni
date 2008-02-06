@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: BasicOutputHandlerConfigProperties.class.php,v 1.6 2007/09/07 17:25:06 adamfranco Exp $
+ * @version $Id: BasicOutputHandlerConfigProperties.class.php,v 1.7 2008/02/06 15:37:42 adamfranco Exp $
  */
 
 require_once(OKI2."/osid/shared/Properties.php");
@@ -28,10 +28,10 @@ require_once(HARMONI."oki2/shared/ConfigurationPropertiesType.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: BasicOutputHandlerConfigProperties.class.php,v 1.6 2007/09/07 17:25:06 adamfranco Exp $
+ * @version $Id: BasicOutputHandlerConfigProperties.class.php,v 1.7 2008/02/06 15:37:42 adamfranco Exp $
  */
 class BasicOutputHandlerConfigProperties
-	extends Properties
+	implements Properties
 {
 
 	/**

@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniEntry.class.php,v 1.4 2007/09/04 20:25:43 adamfranco Exp $
+ * @version $Id: HarmoniEntry.class.php,v 1.5 2008/02/06 15:37:51 adamfranco Exp $
  */
 
 require_once(OKI2."/osid/logging/Entry.php");
@@ -28,7 +28,7 @@ require_once(dirname(__FILE__)."/AgentNodeEntryItem.class.php");
  * @package harmoni.osid_v2.logging
  */
 class HarmoniEntry
-	extends Entry
+	implements Entry
 {
 	
 	/**

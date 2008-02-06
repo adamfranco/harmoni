@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniEntryIterator.class.php,v 1.9 2007/10/25 16:15:37 adamfranco Exp $
+ * @version $Id: HarmoniEntryIterator.class.php,v 1.10 2008/02/06 15:37:51 adamfranco Exp $
  */
 
 require_once(OKI2."/osid/logging/EntryIterator.php");
@@ -28,10 +28,10 @@ require_once(dirname(__FILE__)."/HarmoniEntry.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniEntryIterator.class.php,v 1.9 2007/10/25 16:15:37 adamfranco Exp $
+ * @version $Id: HarmoniEntryIterator.class.php,v 1.10 2008/02/06 15:37:51 adamfranco Exp $
  */
 class HarmoniEntryIterator
-	extends EntryIterator
+	implements EntryIterator
 {
 	
 	/**

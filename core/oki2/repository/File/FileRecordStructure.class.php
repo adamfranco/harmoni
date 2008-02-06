@@ -28,10 +28,10 @@ require_once(HARMONI."/oki2/repository/HarmoniPartStructureIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileRecordStructure.class.php,v 1.14 2007/09/04 20:25:44 adamfranco Exp $ 
+ * @version $Id: FileRecordStructure.class.php,v 1.15 2008/02/06 15:37:52 adamfranco Exp $ 
  */
 class HarmoniFileRecordStructure 
-	extends RecordStructure
+	implements RecordStructure
 {
 	
 	var $_partStructures;
@@ -74,6 +74,31 @@ class HarmoniFileRecordStructure
 	function getDisplayName() {
 		return "File";
 	}
+	
+	/**
+     * Update the display name for this Record.
+     * 
+     * @param string $displayName
+     * 
+     * @throws object RepositoryException An exception with one of
+     *         the following messages defined in
+     *         org.osid.repository.RepositoryException may be thrown: {@link
+     *         org.osid.repository.RepositoryException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+     *         UNIMPLEMENTED}, {@link
+     *         org.osid.repository.RepositoryException#NULL_ARGUMENT
+     *         NULL_ARGUMENT}
+     * 
+     * @access public
+     */
+    public function updateDisplayName ( $displayName ) {
+    	throw new UnimplementedException;
+    }
 	
 	/**
 	 * Get the description for this RecordStructure.
@@ -166,7 +191,7 @@ class HarmoniFileRecordStructure
 	 * 
 	 * @access public
 	 */
-	function getPartStructure($partStructureId) {
+	function getPartStructure(Id $partStructureId) {
 		if ($this->_partStructures[$partStructureId->getIdString()]) {		
 			return $this->_partStructures[$partStructureId->getIdString()];
 		} else {
@@ -246,6 +271,30 @@ class HarmoniFileRecordStructure
 	function getFormat() {
 		return "Harmoni File";
 	}
+	
+	/**
+     * Return true if this RecordStructure is repeatable; false otherwise.
+     * This is determined by the implementation.
+     *  
+     * @return boolean
+     * 
+     * @throws object RepositoryException An exception with one of
+     *         the following messages defined in
+     *         org.osid.repository.RepositoryException may be thrown: {@link
+     *         org.osid.repository.RepositoryException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+     *         UNIMPLEMENTED}
+     * 
+     * @access public
+     */
+    public function isRepeatable () {
+    	return true;
+    }
 
 	/**
 	 * Validate a Record against its RecordStructure.  Return true if valid;
@@ -274,7 +323,7 @@ class HarmoniFileRecordStructure
 	 * 
 	 * @access public
 	 */
-	function validateRecord($record) {
+	function validateRecord(Record $record) {
 		// all we can really do is make sure the DataSet behind the Record is of the correct
 		// type to match this RecordStructure (DataSetTypeDefinition).
 		

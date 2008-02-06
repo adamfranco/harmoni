@@ -98,19 +98,19 @@
 			$agents2[] =$agent2->getId();
                       	
           	        	
-			$scheduleItemA1 =$sm->createScheduleItem("Fall 2006 range", "Fallin' leaves!", $itemStat2, 300, 900, null);
+			$scheduleItemA1 =$sm->v3_createScheduleItem("Fall 2006 range", "Fallin' leaves!", $itemStat2, 300, 900, null);
 			$masterIdA = $scheduleItemA1->getMasterIdentifier();
-			$scheduleItemA2 =$sm->createScheduleItem("Thanksgiving", "", $itemStat1, 350, 400, $masterIdA);
-			$scheduleItemA3 =$sm->createScheduleItem("Christmas", "ho ho ho", $itemStat2, 500, 600, $masterIdA);
+			$scheduleItemA2 =$sm->v3_createScheduleItem("Thanksgiving", "", $itemStat1, 350, 400, $masterIdA);
+			$scheduleItemA3 =$sm->v3_createScheduleItem("Christmas", "ho ho ho", $itemStat2, 500, 600, $masterIdA);
 			
-			$scheduleItemB1 =$sm->createScheduleItem("Fall 2006 range", "", $itemStat1, 1300, 1900, null);
+			$scheduleItemB1 =$sm->v3_createScheduleItem("Fall 2006 range", "", $itemStat1, 1300, 1900, null);
 			$masterIdB = $scheduleItemB1->getMasterIdentifier();
-			$scheduleItemB2 =$sm->createScheduleItem("Thanksgiving", "", $itemStat1, 1350, 1400, $masterIdB);
-			$scheduleItemB3 =$sm->createScheduleItem("Christmas", "ho ho ho", $itemStat2, 1500, 1600, $masterIdB);				
+			$scheduleItemB2 =$sm->v3_createScheduleItem("Thanksgiving", "", $itemStat1, 1350, 1400, $masterIdB);
+			$scheduleItemB3 =$sm->v3_createScheduleItem("Christmas", "ho ho ho", $itemStat2, 1500, 1600, $masterIdB);				
 			
-			$scheduleItemC1 =$sm->createScheduleItem("Funky time", "", $itemStat1, 100, 500, null);
+			$scheduleItemC1 =$sm->v3_createScheduleItem("Funky time", "", $itemStat1, 100, 500, null);
 			$masterIdC = $scheduleItemC1->getMasterIdentifier();
-			$scheduleItemC2 =$sm->createScheduleItem("Dance party", "", $itemStat2, 700, 1400, $masterIdC);
+			$scheduleItemC2 =$sm->v3_createScheduleItem("Dance party", "", $itemStat2, 700, 1400, $masterIdC);
         	
         	
 			
@@ -787,12 +787,12 @@
 			
 			$agents = array();
 			
-			$si1 =$sm->createScheduleItem("", "", $defStat, 100, 200, null);
-			$si2 =$sm->createScheduleItem("", "", $defStat, 150, 300, null);
-			$si3 =$sm->createScheduleItem("", "", $defStat, 250, 400, null);
-			$si4 =$sm->createScheduleItem("", "", $defStat, 300, 350, null);
-			$si5 =$sm->createScheduleItem("", "", $defStat, 351, 450, null);
-			$si6 =$sm->createScheduleItem("", "", $defStat, 500, 650, null);
+			$si1 =$sm->v3_createScheduleItem("", "", $defStat, 100, 200, null);
+			$si2 =$sm->v3_createScheduleItem("", "", $defStat, 150, 300, null);
+			$si3 =$sm->v3_createScheduleItem("", "", $defStat, 250, 400, null);
+			$si4 =$sm->v3_createScheduleItem("", "", $defStat, 300, 350, null);
+			$si5 =$sm->v3_createScheduleItem("", "", $defStat, 351, 450, null);
+			$si6 =$sm->v3_createScheduleItem("", "", $defStat, 500, 650, null);
 			
 			$si1->addAgentCommitment($agent3->getId(),$defCommitStat);
 			$si2->addAgentCommitment($agent1->getId(),$defCommitStat);

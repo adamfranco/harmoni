@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAsset.interface.php,v 1.6 2007/04/12 15:37:31 adamfranco Exp $
+ * @version $Id: HarmoniAsset.interface.php,v 1.7 2008/02/06 15:37:52 adamfranco Exp $
  */
 
 require_once(OKI2."osid/repository/Asset.php");
@@ -22,10 +22,10 @@ require_once(OKI2."osid/repository/Asset.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAsset.interface.php,v 1.6 2007/04/12 15:37:31 adamfranco Exp $
+ * @version $Id: HarmoniAsset.interface.php,v 1.7 2008/02/06 15:37:52 adamfranco Exp $
  */
 
-class HarmoniAssetInterface
+interface HarmoniAssetInterface
 	extends Asset 
 {  // begin Asset
 
@@ -33,17 +33,7 @@ class HarmoniAssetInterface
 	 * Saves this object to persistable storage.
 	 * @access protected
 	 */
-	function save () {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
-	 
-	/**
-	 * Loads this object from persistable storage.
-	 * @access protected
-	 */
-	function load () {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}	
+	function save ();
 
 }  // end Asset
 

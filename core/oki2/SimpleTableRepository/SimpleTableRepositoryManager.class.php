@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SimpleTableRepositoryManager.class.php,v 1.3 2007/10/30 16:32:47 adamfranco Exp $
+ * @version $Id: SimpleTableRepositoryManager.class.php,v 1.4 2008/02/06 15:37:45 adamfranco Exp $
  */ 
 
 require_once(dirname(__FILE__)."/SimpleTableIdManager.class.php");
@@ -23,11 +23,10 @@ require_once(dirname(__FILE__)."/SimpleTableRepository.class.php");
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SimpleTableRepositoryManager.class.php,v 1.3 2007/10/30 16:32:47 adamfranco Exp $
+ * @version $Id: SimpleTableRepositoryManager.class.php,v 1.4 2008/02/06 15:37:45 adamfranco Exp $
  */
 class SimpleTableRepositoryManager
-	extends RepositoryManager
-// 	implements RepositoryManager
+	implements RepositoryManager
 {
 	/**
 	 * @var OsidContext $context;  
@@ -88,7 +87,7 @@ class SimpleTableRepositoryManager
 	 * 
 	 * @access public
 	 */
-	function assignOsidContext ( $context ) { 
+	function assignOsidContext ( OsidContext $context ) { 
 		$this->context = $context;
 	} 
 	
@@ -109,7 +108,7 @@ class SimpleTableRepositoryManager
 	 * 
 	 * @access public
 	 */
-	function assignConfiguration ( $configuration ) {
+	function assignConfiguration ( Properties $configuration ) {
 		if (isset($this->repository))
 			throw new ConfigurationErrorException('configuration already assigned.');
 		
@@ -294,7 +293,7 @@ class SimpleTableRepositoryManager
 	 * 
 	 * @access public
 	 */
-	function createRepository ( $displayName, $description, $repositoryType ) { 
+	function createRepository ( $displayName, $description, Type $repositoryType ) { 
 		throw new UnimplementedException();
 	}
 	
@@ -320,7 +319,7 @@ class SimpleTableRepositoryManager
 	 * 
 	 * @access public
 	 */
-	function deleteRepository ( $repositoryId ) { 
+	function deleteRepository ( Id $repositoryId ) { 
 		throw new UnimplementedException();
 	} 
 	
@@ -379,7 +378,7 @@ class SimpleTableRepositoryManager
 	 * 
 	 * @access public
 	 */
-	function getRepositoriesByType ( $repositoryType ) { 
+	function getRepositoriesByType ( Type $repositoryType ) { 
 		throw new UnimplementedException();
 	} 
 	
@@ -407,7 +406,7 @@ class SimpleTableRepositoryManager
 	 * 
 	 * @access public
 	 */
-	function getRepository ( $repositoryId ) {
+	function getRepository ( Id $repositoryId ) {
 		if (!isset($this->repository))
 			throw new ConfigurationErrorException("No configuration.");
 			
@@ -441,7 +440,7 @@ class SimpleTableRepositoryManager
 	 * 
 	 * @access public
 	 */
-	function getAsset ( $assetId ) { 
+	function getAsset ( Id $assetId ) { 
 		return $this->repository->getAsset($assetId);
 	} 
 	
@@ -473,7 +472,7 @@ class SimpleTableRepositoryManager
 	 * 
 	 * @access public
 	 */
-	function getAssetByDate ( $assetId, $date ) { 
+	function getAssetByDate ( Id $assetId, $date ) { 
 		throw new UnimplementedException();
 	} 
 	
@@ -501,7 +500,7 @@ class SimpleTableRepositoryManager
 	 * 
 	 * @access public
 	 */
-	function getAssetDates ( $assetId ) { 
+	function getAssetDates ( Id $assetId ) { 
 		throw new UnimplementedException();
 	} 
 	
@@ -537,7 +536,7 @@ class SimpleTableRepositoryManager
 	 * 
 	 * @access public
 	 */
-	function getAssetsBySearch ( $repositories, $searchCriteria, $searchType, $searchProperties ) { 
+	function getAssetsBySearch ( array $repositories, $searchCriteria, Type $searchType, Properties $searchProperties ) { 
 		return $this->repository->getAssetsBySearch($searchCriteria, $searchType, $searchProperties);
 	} 
 	
@@ -568,7 +567,7 @@ class SimpleTableRepositoryManager
 	 * 
 	 * @access public
 	 */
-	function copyAsset ( $repository, $assetId ) { 
+	function copyAsset ( Repository $repository, Id $assetId ) { 
 		throw new UnimplementedException();
 	} 
 	
@@ -596,6 +595,20 @@ class SimpleTableRepositoryManager
 	function getRepositoryTypes () { 
 		throw new UnimplementedException();
 	} 
+	
+	/**
+     * Verify to OsidLoader that it is loading
+     * 
+     * <p>
+     * OSID Version: 2.0
+     * </p>
+     * .
+     * 
+     * @throws object OsidException 
+     * 
+     * @access public
+     */
+    public function osidVersion_2_0 () {}
 	
 }
 

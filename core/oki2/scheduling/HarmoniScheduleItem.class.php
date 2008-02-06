@@ -20,7 +20,7 @@ require_once(OKI2."/osid/scheduling/ScheduleItem.php");
  * @package org.osid.scheduling
  */
 class HarmoniScheduleItem
-extends ScheduleItem
+	implements ScheduleItem
 {
 	
 	
@@ -180,7 +180,7 @@ extends ScheduleItem
      * 
      * @access public
      */
-    function updateStatus ( $status ) {
+    function updateStatus ( Type $status ) {
     	$index = $this->_typeToIndex('item_stat',$status);
        $this->_setField('fk_sc_item_stat_type', $index);
     } 
@@ -479,7 +479,7 @@ extends ScheduleItem
      * 
      * @access public
      */
-    function removeAgentCommitment ( $agentId) { 
+    function removeAgentCommitment ( Id $agentId) { 
         
 		$dbHandler = Services::getService("DBHandler");
 		$query= new DeleteQuery;
@@ -520,7 +520,7 @@ extends ScheduleItem
      * 
      * @access public
      */
-    function changeAgentCommitment ( $agentId, $agentStatus ) { 
+    function changeAgentCommitment ( Id $agentId, Type $agentStatus ) { 
         $typeIndex = $this->_typeToIndex('commit_stat',$agentStatus);
 		
 		$dbHandler = Services::getService("DBHandler");
@@ -568,7 +568,7 @@ extends ScheduleItem
      * 
      * @access public
      */
-    function addAgentCommitment ( $agentId, $agentStatus ) { 
+    function addAgentCommitment ( Id $agentId, Type $agentStatus ) { 
         
     	
 		$dbHandler = Services::getService("DBHandler");
@@ -625,7 +625,7 @@ extends ScheduleItem
      * 
      * @access public
      */
-    function getPropertiesByType ( $propertiesType ) { 
+    function getPropertiesByType ( Type $propertiesType ) { 
     	$type =$this->getStatus();
 		$propertiesType = new Type("PropertiesType", $type->getAuthority(), "properties");
 		if($propertiesType->isEqualTo($propertiesType)){

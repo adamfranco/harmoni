@@ -11,7 +11,7 @@ require_once(dirname(__FILE__)."/AgentSearch.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AncestorGroupSearch.class.php,v 1.20 2008/01/31 20:56:44 adamfranco Exp $
+ * @version $Id: AncestorGroupSearch.class.php,v 1.21 2008/02/06 15:37:46 adamfranco Exp $
  */
 
 class AncestorGroupSearch
@@ -151,9 +151,9 @@ class AncestorGroupSearch
 		$groupIds = array();
 		if ($this->_hierarchy->nodeExists($agentOrGroupId)) {
 			$traversalIterator = $this->_hierarchy->traverse($agentOrGroupId,
-					Hierarchy::TRAVERSE_MODE_DEPTH_FIRST(), 
-					Hierarchy::TRAVERSE_DIRECTION_UP(), 
-					Hierarchy::TRAVERSE_LEVELS_ALL());
+					Hierarchy::TRAVERSE_MODE_DEPTH_FIRST, 
+					Hierarchy::TRAVERSE_DIRECTION_UP, 
+					Hierarchy::TRAVERSE_LEVELS_ALL);
 			
 			$levelToReturnTo = NULL;
 			

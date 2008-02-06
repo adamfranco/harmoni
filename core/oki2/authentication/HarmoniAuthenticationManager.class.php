@@ -64,10 +64,10 @@ require_once(dirname(__FILE__)."/FormActionNamePassTokenCollector.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthenticationManager.class.php,v 1.29 2007/12/14 21:42:53 adamfranco Exp $
+ * @version $Id: HarmoniAuthenticationManager.class.php,v 1.30 2008/02/06 15:37:48 adamfranco Exp $
  */
 class HarmoniAuthenticationManager 
-	extends AuthenticationManager
+	implements AuthenticationManager
 {
 	
 	/**
@@ -108,8 +108,8 @@ class HarmoniAuthenticationManager
 	 * 
 	 * @access public
 	 */
-	function assignOsidContext ( $context ) { 
-		$this->_osidContext =$context;
+	function assignOsidContext ( OsidContext $context ) { 
+		$this->_osidContext = $context;
 	} 
 
 	/**
@@ -135,7 +135,7 @@ class HarmoniAuthenticationManager
 	 * 
 	 * @access public
 	 */
-	function assignConfiguration ( $configuration ) { 
+	function assignConfiguration ( Properties $configuration ) { 
 		$this->_configuration =$configuration;
 		
 		$configKeys =$this->_configuration->getKeys();
@@ -220,7 +220,7 @@ class HarmoniAuthenticationManager
 	 * 
 	 * @access public
 	 */
-	function authenticateUser ( $authenticationType ) {
+	function authenticateUser ( Type $authenticationType ) {
 		if ($authenticationType->isEqual($this->_adminActAsType)) {
 			$this->_authenticateAdminActAsUser();
 		} else {
@@ -307,7 +307,7 @@ class HarmoniAuthenticationManager
 	 * 
 	 * @access public
 	 */
-	function isUserAuthenticated ( $authenticationType ) { 
+	function isUserAuthenticated ( Type $authenticationType ) { 
 		$this->_checkType($authenticationType);
 		
 		if(isset($_SESSION['__AuthenticatedAgents']
@@ -346,7 +346,7 @@ class HarmoniAuthenticationManager
 	 * 
 	 * @access public
 	 */
-	function getUserId ( $authenticationType ) { 
+	function getUserId ( Type $authenticationType ) { 
 		$this->_checkType($authenticationType);
 		
 		$idManager = Services::getService("Id");
@@ -453,7 +453,7 @@ class HarmoniAuthenticationManager
 	 * 
 	 * @access public
 	 */
-	function destroyAuthenticationForType ( $authenticationType ) { 
+	function destroyAuthenticationForType ( Type $authenticationType ) { 
 		$this->_checkType($authenticationType);
 		
 		unset($_SESSION['__AuthenticatedAgents']
@@ -473,10 +473,7 @@ class HarmoniAuthenticationManager
 	 * @access private
 	 * @since 3/15/05
 	 */
-	function _checkType ( $type ) {
-		// Check that we have a valid AuthenticationType.
-		ArgumentValidator::validate($type, ExtendsValidatorRule::getRule("Type"));
-
+	function _checkType ( Type $type ) {
 		$typeValid = FALSE;
 		$authNTypes =$this->getAuthenticationTypes();
 		while ($authNTypes->hasNext()) {
@@ -498,7 +495,7 @@ class HarmoniAuthenticationManager
 	 * @access private
 	 * @since 3/15/05
 	 */
-	function _getTypeString ($type) {
+	function _getTypeString (Type $type) {
 		return $type->getDomain()
 			."::".$type->getAuthority()
 			."::".$type->getKeyword();
@@ -516,7 +513,7 @@ class HarmoniAuthenticationManager
 	 * @access protected
 	 * @since 3/15/05
 	 */
-	function _getAgentIdForAuthNTokens ( $authNTokens, $authenticationType ) {
+	function _getAgentIdForAuthNTokens ( AuthNTokens $authNTokens, Type $authenticationType ) {
 		$mappingManager = Services::getService("AgentTokenMapping");
 		$mapping =$mappingManager->getMappingForTokens($authNTokens, $authenticationType);
 		
@@ -553,7 +550,7 @@ class HarmoniAuthenticationManager
 	 * @access private
 	 * @since 3/15/05
 	 */
-	function _getAuthNTokensFromUser( $authenticationType ) {
+	function _getAuthNTokensFromUser( Type $authenticationType ) {
 		if (isset($this->_tokenCollectors[
 			$this->_getTypeString($authenticationType)]))
 		{
@@ -563,7 +560,7 @@ class HarmoniAuthenticationManager
 			$tokenCollector =$this->_defaultTokenCollector;
 		}
 		
-		$tokens = $tokenCollector->collectTokens(Type::typeToString($authenticationType));
+		$tokens = $tokenCollector->collectTokens($authenticationType->asString());
 		
 		
 		// if we have tokens, create an AuthNTokens object for them.
@@ -654,7 +651,7 @@ class HarmoniAuthenticationManager
 	 * @access public
 	 * @since 12/11/06
 	 */
-	function _authenticateAdminActAsUserForType ( $authenticationType ) {
+	function _authenticateAdminActAsUserForType ( Type $authenticationType ) {
 		$this->_checkType($authenticationType);
 // 		$this->destroyAuthenticationForType($authenticationType);
 		
@@ -707,6 +704,20 @@ class HarmoniAuthenticationManager
 			return false;
 		}
 	}
+	
+	/**
+     * Verify to OsidLoader that it is loading
+     * 
+     * <p>
+     * OSID Version: 2.0
+     * </p>
+     * .
+     * 
+     * @throws object OsidException 
+     * 
+     * @access public
+     */
+    public function osidVersion_2_0 () {}
 }
 
 ?>

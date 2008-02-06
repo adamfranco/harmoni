@@ -20,10 +20,10 @@ require_once(HARMONI.'oki2/authorization/HarmoniQualifierIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniQualifier.class.php,v 1.12 2007/09/04 20:25:38 adamfranco Exp $
+ * @version $Id: HarmoniQualifier.class.php,v 1.13 2008/02/06 15:37:48 adamfranco Exp $
  */
 class HarmoniQualifier 
-	extends Qualifier 
+	implements Qualifier 
 {
 	
 	/**
@@ -48,12 +48,7 @@ class HarmoniQualifier
 	 * @param ref object cache The AuthorizationCache object.
 	 * @access public
 	 */
-	function HarmoniQualifier($node, $cache) {
-		// ** parameter validation
-		ArgumentValidator::validate($node, ExtendsValidatorRule::getRule("Node"), true);
-		ArgumentValidator::validate($cache, ExtendsValidatorRule::getRule("AuthorizationCache"), true);
-		// ** end of parameter validation
-		
+	function HarmoniQualifier(Node $node, AuthorizationCache $cache) {
 		$this->_node =$node;
 		$this->_cache =$cache;
 	}
@@ -259,7 +254,7 @@ class HarmoniQualifier
 	 * 
 	 * @access public
 	 */
-	function addParent ( $parentQualifierId ) { 
+	function addParent ( Id $parentQualifierId ) { 
 		$this->_node->addParent($parentQualifierId);
 	}
 
@@ -289,7 +284,7 @@ class HarmoniQualifier
 	 * 
 	 * @access public
 	 */
-	function removeParent ( $parentQualifierId ) { 
+	function removeParent ( Id $parentQualifierId ) { 
 		$this->_node->removeParent($parentQualifierId);
 	}
 
@@ -319,7 +314,7 @@ class HarmoniQualifier
 	 * 
 	 * @access public
 	 */
-	function changeParent ( $oldParentId, $newParentId ) { 
+	function changeParent ( Id $oldParentId, Id $newParentId ) { 
 		$this->_node->changeParent($oldParentId, $newParentId);
 	}
 
@@ -349,12 +344,7 @@ class HarmoniQualifier
 	 * 
 	 * @access public
 	 */
-	function isChildOf ( $parentId ) { 
-		// ** parameter validation
-		$extendsRule = ExtendsValidatorRule::getRule("Id");
-		ArgumentValidator::validate($parentId, $extendsRule, true);
-		// ** end of parameter validation
-
+	function isChildOf ( Id $parentId ) {
 		// get the parents of this node
 		$parents =$this->getParents();
 		// search for the given parent
@@ -395,7 +385,7 @@ class HarmoniQualifier
 	 * 
 	 * @access public
 	 */
-	function isDescendantOf ( $ancestorId ) { 
+	function isDescendantOf ( Id $ancestorId ) { 
 		// Alright, I realize this could be written much more efficiently (for
 		// example by using Hierarchy->traverse()) but it is too much pain to do so.
 		// The code below uses the methods in this class and is clearer, albeit slower.

@@ -10,7 +10,7 @@ require_once HARMONI."dataManager/versionConstraints/VersionConstraint.interface
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PruneAllVersionConstraint.class.php,v 1.6 2007/09/04 20:25:33 adamfranco Exp $
+ * @version $Id: PruneAllVersionConstraint.class.php,v 1.7 2008/02/06 15:37:44 adamfranco Exp $
  */
 class PruneAllVersionConstraint extends VersionConstraint {
 
@@ -21,7 +21,7 @@ class PruneAllVersionConstraint extends VersionConstraint {
 			// these are the conditions under which we will prune the version: (OR)
 			// 1) it is inactive
 			// 2) the field it is part of has been entirely deleted (deactivated) in the Schema
-			// 3) the Record it is part of is inactive
+			// 3) the DMRecord it is part of is inactive
 			if (!$ver->isActive() || !$ver->_parent->_parent->_schemaField->isActive()
 				|| !$ver->_parent->_parent->_parent->isActive())
 				$ver->prune();

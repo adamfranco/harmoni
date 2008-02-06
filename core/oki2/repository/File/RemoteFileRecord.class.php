@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RemoteFileRecord.class.php,v 1.3 2007/09/11 17:40:57 adamfranco Exp $
+ * @version $Id: RemoteFileRecord.class.php,v 1.4 2008/02/06 15:37:52 adamfranco Exp $
  */ 
 
 require_once(dirname(__FILE__)."/Fields/FileUrlPart.class.php");
@@ -35,7 +35,7 @@ require_once(dirname(__FILE__)."/Fields/RemoteFileSizePart.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RemoteFileRecord.class.php,v 1.3 2007/09/11 17:40:57 adamfranco Exp $
+ * @version $Id: RemoteFileRecord.class.php,v 1.4 2008/02/06 15:37:52 adamfranco Exp $
  */
 class RemoteFileRecord
 	extends FileRecord
@@ -102,7 +102,7 @@ class RemoteFileRecord
 	 * 
 	 * @access public
 	 */
-	function deletePart($partId) {
+	function deletePart(Id $partId) {
 		$string = $partId->getIdString();
 		if (ereg("(.*)-(".implode("|", array_keys($this->_parts)).")",$string,$r)) {
 			$recordId = $r[1];

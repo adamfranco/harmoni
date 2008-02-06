@@ -11,7 +11,7 @@ require_once(dirname(__FILE__)."/ImageMagickProcessor.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ImageProcessor.class.php,v 1.8 2007/09/04 20:25:24 adamfranco Exp $
+ * @version $Id: ImageProcessor.class.php,v 1.9 2008/02/06 15:37:41 adamfranco Exp $
  */
 
 class ImageProcessor {
@@ -71,7 +71,7 @@ class ImageProcessor {
 	 * 
 	 * @access public
 	 */
-	function assignConfiguration ( $configuration ) { 
+	function assignConfiguration ( Properties $configuration ) { 
 		$this->_configuration =$configuration;
 		
 		ArgumentValidator::validate($configuration->getProperty('thumbnail_format'), 
@@ -129,7 +129,7 @@ class ImageProcessor {
 	 * 
 	 * @access public
 	 */
-	function assignOsidContext ( $context ) { 
+	function assignOsidContext ( OsidContext $context ) { 
 		$this->_osidContext =$context;
 	}
 	

@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthNMethodManager.class.php,v 1.8 2007/09/04 20:25:37 adamfranco Exp $
+ * @version $Id: AuthNMethodManager.class.php,v 1.9 2008/02/06 15:37:47 adamfranco Exp $
  */ 
 
 /**
@@ -19,10 +19,10 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthNMethodManager.class.php,v 1.8 2007/09/04 20:25:37 adamfranco Exp $
+ * @version $Id: AuthNMethodManager.class.php,v 1.9 2008/02/06 15:37:47 adamfranco Exp $
  */
 class AuthNMethodManager
-	extends OsidManager
+	implements OsidManager
 {
 		
 	/**
@@ -68,7 +68,7 @@ class AuthNMethodManager
      * 
      * @access public
      */
-    function assignOsidContext ( $context ) { 
+    function assignOsidContext ( OsidContext $context ) { 
         $this->_osidContext =$context;
     } 
 
@@ -89,7 +89,7 @@ class AuthNMethodManager
      * 
      * @access public
      */
-    function assignConfiguration ( $configuration ) { 
+    function assignConfiguration ( Properties $configuration ) { 
         $this->_configuration =$configuration;
         $keys =$configuration->getKeys();
         while($keys->hasNextObject()) {
@@ -188,7 +188,19 @@ class AuthNMethodManager
 		return $type->getDomain()."::".$type->getAuthority()."::".$type->getKeyword();
 	}
 	
-	
+	/**
+     * Verify to OsidLoader that it is loading
+     * 
+     * <p>
+     * OSID Version: 2.0
+     * </p>
+     * .
+     * 
+     * @throws object OsidException 
+     * 
+     * @access public
+     */
+    public function osidVersion_2_0 () {}	
 }
 
 ?>

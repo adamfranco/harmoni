@@ -20,11 +20,11 @@ require_once(HARMONI."oki2/hierarchy/DefaultNodeType.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniNode.class.php,v 1.21 2007/10/12 15:35:07 adamfranco Exp $
+ * @version $Id: HarmoniNode.class.php,v 1.22 2008/02/06 15:37:50 adamfranco Exp $
  */
 
 class HarmoniNode 
-	extends Node 
+	implements Node 
 {
 
 	/**
@@ -429,7 +429,7 @@ class HarmoniNode
 	 * 
 	 * @access public
 	 */
-	function addParent ( $nodeId ) { 
+	function addParent ( Id $nodeId ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($nodeId, ExtendsValidatorRule::getRule("Id"), true);
 		// ** end of parameter validation
@@ -467,7 +467,7 @@ class HarmoniNode
 	 * 
 	 * @access public
 	 */
-	function removeParent ( $parentId ) { 
+	function removeParent ( Id $parentId ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($parentId, ExtendsValidatorRule::getRule("Id"), true);
 		// ** end of parameter validation
@@ -505,7 +505,7 @@ class HarmoniNode
 	 * 
 	 * @access public
 	 */
-	function changeParent ( $oldParentId, $newParentId ) { 
+	function changeParent ( Id $oldParentId, Id $newParentId ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($oldParentId, ExtendsValidatorRule::getRule("Id"), true);
 		ArgumentValidator::validate($newParentId, ExtendsValidatorRule::getRule("Id"), true);

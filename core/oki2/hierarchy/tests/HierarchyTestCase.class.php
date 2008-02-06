@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HierarchyTestCase.class.php,v 1.12 2007/09/04 20:25:41 adamfranco Exp $
+ * @version $Id: HierarchyTestCase.class.php,v 1.13 2008/02/06 15:37:50 adamfranco Exp $
  */
  
 require_once(dirname(__FILE__).'/../HarmoniHierarchy.class.php');
@@ -20,7 +20,7 @@ require_once(dirname(__FILE__).'/../HarmoniHierarchy.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HierarchyTestCase.class.php,v 1.12 2007/09/04 20:25:41 adamfranco Exp $
+ * @version $Id: HierarchyTestCase.class.php,v 1.13 2008/02/06 15:37:50 adamfranco Exp $
  */
 
 	class HierarchyTestCase extends UnitTestCase {
@@ -254,8 +254,8 @@ require_once(dirname(__FILE__).'/../HarmoniHierarchy.class.php');
 			$this->hierarchy->clearCache();
 
 			$iterator =$this->hierarchy->traverse($idG, 
-													Hierarchy::TRAVERSE_MODE_DEPTH_FIRST(), 
-													Hierarchy::TRAVERSE_DIRECTION_DOWN(), 
+													Hierarchy::TRAVERSE_MODE_DEPTH_FIRST, 
+													Hierarchy::TRAVERSE_DIRECTION_DOWN, 
 													-1);
 													
 //			echo "<pre>\n";
@@ -283,8 +283,8 @@ require_once(dirname(__FILE__).'/../HarmoniHierarchy.class.php');
 			$this->hierarchy->clearCache();
 
 			$iterator =$this->hierarchy->traverse($idD, 
-													Hierarchy::TRAVERSE_MODE_DEPTH_FIRST(), 
-													Hierarchy::TRAVERSE_DIRECTION_UP(), 
+													Hierarchy::TRAVERSE_MODE_DEPTH_FIRST, 
+													Hierarchy::TRAVERSE_DIRECTION_UP, 
 													-1);
 //			echo "<pre>\n";
 //			print_r($iterator);

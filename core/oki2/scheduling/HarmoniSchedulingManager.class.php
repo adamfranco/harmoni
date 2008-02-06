@@ -46,7 +46,7 @@ require_once(HARMONI."oki2/scheduling/HarmoniScheduleItemIterator.class.php");
 * @package org.osid.scheduling
 */
 class HarmoniSchedulingManager
-extends SchedulingManager
+	implements SchedulingManager
 {
 
 
@@ -90,7 +90,7 @@ extends SchedulingManager
 	*
 	* @access public
 	*/
-	function assignConfiguration ( $configuration ) {
+	function assignConfiguration ( Properties $configuration ) {
 		$def = $configuration->getProperty('default_authority');
 
 
@@ -125,12 +125,49 @@ extends SchedulingManager
 	*
 	* @access public
 	*/
-	function assignOsidContext ( $context ) {
+	function assignOsidContext ( OsidContext $context ) {
 		$this->_osidContext =$context;
 	}
 
-
-
+	/**
+     * Create a ScheduleItem.  The masterIdentifier argument is optional.    A
+     * Master Identifier is a key, rule, or function that can be used to
+     * associated more than one ScheduleItem together.  An example can be
+     * recurring items where each recurring item has the same Master
+     * Identifier.   An unique Id is generated for this ScheduleItem by the
+     * implementation.
+     * 
+     * @param string $displayName
+     * @param string $description
+     * @param object array $agents
+     * @param int $start
+     * @param int $end
+     * @param string $masterIdentifier
+     *  
+     * @return object ScheduleItem
+     * 
+     * @throws object SchedulingException An exception with one of
+     *         the following messages defined in
+     *         org.osid.scheduling.SchedulingException may be thrown:   {@link
+     *         org.osid.scheduling.SchedulingException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.scheduling.SchedulingException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.scheduling.SchedulingException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.scheduling.SchedulingException#UNIMPLEMENTED
+     *         UNIMPLEMENTED}, {@link
+     *         org.osid.scheduling.SchedulingException#NULL_ARGUMENT
+     *         NULL_ARGUMENT}, {@link
+     *         org.osid.scheduling.SchedulingException#UNKNOWN_ID UNKNOWN_ID},
+     *         {@link org.osid.scheduling.SchedulingException#END_BEFORE_START
+     *         END_BEFORE_START}
+     * 
+     * @access public
+     */
+    public function createScheduleItem ( $displayName, $description, array $agents, $start, $end, $masterIdentifier ) {
+		throw new UnimplmentedException;
+	}
 	/**
 	* WARNING: NOT IN OSID -- This method is designed to comply with V3 of the OSIDs, at least
 	* How Tom suggested they were headed 
@@ -174,7 +211,7 @@ extends SchedulingManager
 	*
 	* @access public
 	*/
-	function createScheduleItem ( $displayName, $description, $scheduleItemStatusType, $start, $end, $masterIdentifier = null ) {
+	function v3_createScheduleItem ( $displayName, $description, Type $scheduleItemStatusType, $start, $end, $masterIdentifier = null ) {
 
 		if($start>$end){
 			throwError(new Error("The end of a ScheduleItem cannot come before the end", "HarmoniSchedulingManager", true));
@@ -252,7 +289,7 @@ extends SchedulingManager
 	*
 	* @access public
 	*/
-	function deleteScheduleItem ( $scheduleItemId ) {
+	function deleteScheduleItem ( Id $scheduleItemId ) {
 		$dbHandler = Services::getService("DBHandler");
 		$query= new DeleteQuery;
 		$query->setTable('sc_item');
@@ -293,7 +330,7 @@ extends SchedulingManager
 	*
 	* @access public
 	*/
-	function getAvailableTimes ( $agents, $start, $end ) {
+	function getAvailableTimes ( array $agents, $start, $end ) {
 		
 		if(count($agents)==0){
 			$array[] =&new HarmoniTimespan($start,$end);
@@ -427,7 +464,7 @@ extends SchedulingManager
 	*
 	* @access public
 	*/
-	function getScheduleItem ( $scheduleItemId ) {
+	function getScheduleItem ( Id $scheduleItemId ) {
 		$ret = new HarmoniScheduleItem($scheduleItemId);
 		return $ret;
 	}
@@ -464,7 +501,7 @@ extends SchedulingManager
 	*
 	* @access public
 	*/
-	function getScheduleItems ( $start, $end, $status ) {
+	function getScheduleItems ( $start, $end, Type $status ) {
 
 		//get all schedule item rows with the appropriate type
 		$dbHandler = Services::getService("DBHandler");
@@ -544,7 +581,7 @@ extends SchedulingManager
 	*
 	* @access public
 	*/
-	function getScheduleItemsForAgents ( $start, $end, $status, $agents ) {
+	function getScheduleItemsForAgents ( $start, $end, Type $status, array $agents ) {
 
 
 		if(count($agents)==0){
@@ -1010,6 +1047,20 @@ extends SchedulingManager
 		$ret=$row[$key];
 		return $ret;
 	}
+	
+	/**
+     * Verify to OsidLoader that it is loading
+     * 
+     * <p>
+     * OSID Version: 2.0
+     * </p>
+     * .
+     * 
+     * @throws object OsidException 
+     * 
+     * @access public
+     */
+    public function osidVersion_2_0 () {}
 
 }
 

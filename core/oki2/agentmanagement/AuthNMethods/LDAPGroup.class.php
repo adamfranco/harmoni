@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPGroup.class.php,v 1.3 2007/08/22 14:45:45 adamfranco Exp $
+ * @version $Id: LDAPGroup.class.php,v 1.4 2008/02/06 15:37:47 adamfranco Exp $
  */ 
 
 require_once(OKI2."/osid/agent/Group.php");
@@ -21,7 +21,7 @@ require_once(dirname(__FILE__)."/LDAPAgentIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPGroup.class.php,v 1.3 2007/08/22 14:45:45 adamfranco Exp $
+ * @version $Id: LDAPGroup.class.php,v 1.4 2008/02/06 15:37:47 adamfranco Exp $
  */
 class LDAPGroup
 	implements Group
@@ -192,7 +192,7 @@ class LDAPGroup
 	 * 
 	 * @access public
 	 */
-	function add ( $memberOrGroup ) { 
+	function add ( Agent $memberOrGroup ) { 
 		throwError(new Error(AgentException::UNIMPLEMENTED(), "LDAPGroup", true));
 	} 
 
@@ -218,7 +218,7 @@ class LDAPGroup
 	 * 
 	 * @access public
 	 */
-	function remove ( $memberOrGroup ) { 
+	function remove ( Agent $memberOrGroup ) { 
 		throwError(new Error(AgentException::UNIMPLEMENTED(), "LDAPGroup", true));
 	} 
 
@@ -423,7 +423,7 @@ class LDAPGroup
 	 * 
 	 * @access public
 	 */
-	function contains ( $memberOrGroup, $searchSubgroups ) {
+	function contains ( Agent $memberOrGroup, $searchSubgroups ) {
 		$myMembers = $this->getMembers(false);
 		while ($myMembers->hasNext()) {
 			if ($memberOrGroup->isEqual($myMembers->next()->getId())) {
@@ -473,7 +473,7 @@ class LDAPGroup
 	 * 
 	 * @access public
 	 */
-	function getPropertiesByType ( $propertiesType ) { 
+	function getPropertiesByType ( Type $propertiesType ) { 
 		throwError(new Error(AgentException::UNIMPLEMENTED(), "LDAPGroup", true));
 	} 
 

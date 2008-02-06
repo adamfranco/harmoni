@@ -35,7 +35,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniPropertyManager.class.php,v 1.8 2007/09/13 16:04:17 adamfranco Exp $
+ * @version $Id: HarmoniPropertyManager.class.php,v 1.9 2008/02/06 15:37:46 adamfranco Exp $
  *
  * @author Ben Gore
  */
@@ -59,7 +59,7 @@ class HarmoniPropertyManager
 	 * @return void
 	 */
 	
-	function assignConfiguration($configuration){
+	function assignConfiguration ( Properties $configuration ){
 		$this->_configuration =$configuration;
 		
 		$dbIndex =$configuration->getProperty('database_index');
@@ -96,7 +96,7 @@ class HarmoniPropertyManager
 	 * 
 	 * @access public
 	 */
-	function assignOsidContext ( $context ) { 
+	function assignOsidContext ( OsidContext $context ) { 
 		$this->_osidContext =$context;
 	} 
 	

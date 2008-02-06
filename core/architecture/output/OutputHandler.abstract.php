@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OutputHandler.abstract.php,v 1.6 2007/09/04 20:25:30 adamfranco Exp $
+ * @version $Id: OutputHandler.abstract.php,v 1.7 2008/02/06 15:37:42 adamfranco Exp $
  */ 
  
  require_once(OKI2."/osid/OsidManager.php");
@@ -20,10 +20,10 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: OutputHandler.abstract.php,v 1.6 2007/09/04 20:25:30 adamfranco Exp $
+ * @version $Id: OutputHandler.abstract.php,v 1.7 2008/02/06 15:37:42 adamfranco Exp $
  */
 class OutputHandler 
-	extends OsidManager
+	implements OsidManager
 {
 
 /*********************************************************
@@ -61,7 +61,7 @@ class OutputHandler
 	 * 
 	 * @access public
 	 */
-	function assignConfiguration ( $configuration ) { 
+	function assignConfiguration ( Properties $configuration ) { 
 		$this->_configuration =$configuration;
 	}
 
@@ -89,9 +89,24 @@ class OutputHandler
 	 * 
 	 * @access public
 	 */
-	function assignOsidContext ( $context ) { 
+	function assignOsidContext ( OsidContext $context ) { 
 		$this->_osidContext =$context;
 	} 
+	
+	/**
+     * Verify to OsidLoader that it is loading
+     * 
+     * <p>
+     * OSID Version: 2.0
+     * </p>
+     * .
+     * 
+     * @throws object OsidException 
+     * 
+     * @access public
+     */
+    function osidVersion_2_0 () {
+    }
 		
 	/**
 	 * Attach this class to the HarmoniObject as the current OutputHandler.

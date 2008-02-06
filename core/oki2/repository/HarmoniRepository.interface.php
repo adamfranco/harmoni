@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniRepository.interface.php,v 1.8 2007/04/12 15:37:31 adamfranco Exp $
+ * @version $Id: HarmoniRepository.interface.php,v 1.9 2008/02/06 15:37:52 adamfranco Exp $
  */
  
 require_once(OKI2."osid/repository/Repository.php");
@@ -23,10 +23,10 @@ require_once(OKI2."osid/repository/RepositoryException.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniRepository.interface.php,v 1.8 2007/04/12 15:37:31 adamfranco Exp $
+ * @version $Id: HarmoniRepository.interface.php,v 1.9 2008/02/06 15:37:52 adamfranco Exp $
  */
 
-class HarmoniRepositoryInterface
+interface HarmoniRepositoryInterface
 	extends Repository 
 {  // begin DigitalRepository
 
@@ -34,17 +34,9 @@ class HarmoniRepositoryInterface
 	 * Saves this object to persistable storage.
 	 * @access protected
 	 */
-	function save () {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}
+	function save ();
 	 
-	/**
-	 * Loads this object from persistable storage.
-	 * @access protected
-	 */
-	function load () {
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface <b> ".__CLASS__."</b> has not been overloaded in a child class.");
-	}	
+
 
 }  // end DigitalRepository
 

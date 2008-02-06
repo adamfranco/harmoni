@@ -24,10 +24,10 @@ require_once(OKI2."/osid/coursemanagement/CourseOffering.php");
 * @copyright Copyright &copy; 2005, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: CourseOffering.class.php,v 1.27 2007/09/04 20:25:39 adamfranco Exp $
+* @version $Id: CourseOffering.class.php,v 1.28 2008/02/06 15:37:48 adamfranco Exp $
 */
 class HarmoniCourseOffering
-extends CourseOffering
+	implements CourseOffering
 {
 
 
@@ -530,7 +530,7 @@ extends CourseOffering
 	*
 	* @access public
 	*/
-	function createCourseSection ( $title, $number, $description, $sectionType, $sectionStatusType, $location ) {
+	function createCourseSection ( $title, $number, $description, Type $sectionType, Type $sectionStatusType, $location ) {
 		
 		//set any defaults
 		if(is_null($title)){
@@ -597,7 +597,7 @@ extends CourseOffering
 	*
 	* @access public
 	*/
-	function deleteCourseSection ( $courseSectionId ) {	  	
+	function deleteCourseSection ( Id $courseSectionId ) {	  	
 		$this->_hierarchy->deleteNode($courseSectionId);
 		$dbManager = Services::getService("DatabaseManager");
 		$query= new DeleteQuery;
@@ -694,7 +694,7 @@ extends CourseOffering
 	*
 	* @access public
 	*/
-	function getCourseSectionsByType ( $sectionType ) {
+	function getCourseSectionsByType ( Type $sectionType ) {
 
 
 		$nodeIterator =$this->_node->getChildren();
@@ -768,7 +768,7 @@ extends CourseOffering
 	*
 	* @access public
 	*/
-	function addAsset ( $assetId ) {
+	function addAsset ( Id $assetId ) {
 		
 	$dbManager = Services::getService("DatabaseManager");
 		$query= new SelectQuery;
@@ -821,7 +821,7 @@ extends CourseOffering
 	*
 	* @access public
 	*/
-	function removeAsset ( $assetId ) {
+	function removeAsset ( Id $assetId ) {
 		$dbManager = Services::getService("DatabaseManager");
 		$query= new DeleteQuery;
 		$query->setTable('cm_assets');
@@ -897,7 +897,7 @@ extends CourseOffering
 	*
 	* @access public
 	*/
-	function updateCourseGradeType ( $courseGradeType ) {		
+	function updateCourseGradeType ( Type $courseGradeType ) {		
 		$gm = Services::getService('Grading');
 		$typeIndex = $gm->_typeToIndex('grade',$courseGradeType);
 		$this->_setField('fk_gr_grade_type',$typeIndex);
@@ -927,7 +927,7 @@ extends CourseOffering
 	*
 	* @access public
 	*/
-	function updateStatus ( $statusType ) {
+	function updateStatus ( Type $statusType ) {
 		$this->_setField('fk_cm_offer_stat_type',$this->_typeToIndex('offer_stat',$statusType));
 	}
 
@@ -962,7 +962,7 @@ extends CourseOffering
 	*
 	* @access public
 	*/
-	function addStudent ( $agentId, $enrollmentStatusType ) {
+	function addStudent ( Id $agentId, Type $enrollmentStatusType ) {
 		throwError(new Error("addStudent() is not implemented for CourseOffering--it makes little sense", "CourseOffering", true));
 	}
 
@@ -994,7 +994,7 @@ extends CourseOffering
 	*
 	* @access public
 	*/
-	function changeStudent ( $agentId, $enrollmentStatusType ) {
+	function changeStudent ( Id $agentId, Type $enrollmentStatusType ) {
 		throwError(new Error("changeStudent() is not implemented for CourseOffering--it makes little sense", "CourseOffering", true));
 	}
 
@@ -1022,7 +1022,7 @@ extends CourseOffering
 	*
 	* @access public
 	*/
-	function removeStudent ( $agentId ) {
+	function removeStudent ( Id $agentId ) {
 		$courseSections =$this->getCourseSections();
 		while ($courseSections->hasNextCourseSection()) {
 			$courseSection =$courseSections->nextCourseSection();
@@ -1139,7 +1139,7 @@ extends CourseOffering
 	*
 	* @access public
 	*/
-	function getRosterByType ( $enrollmentStatusType ) {
+	function getRosterByType ( Type $enrollmentStatusType ) {
 		
 		$idManager = Services::getService('IdManager');
 		$dbManager = Services::getService("DatabaseManager");
@@ -1298,7 +1298,7 @@ extends CourseOffering
 	*
 	* @access public
 	*/
-	function getPropertiesByType ( $propertiesType ) {
+	function getPropertiesByType ( Type $propertiesType ) {
 		$courseType =$this->getOfferingType();
 		$propType = new Type("PropertiesType", $courseType->getAuthority(), "properties"); 		
 		if($propertiesType->isEqualTo($propType)){

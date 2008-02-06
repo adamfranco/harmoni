@@ -18,10 +18,10 @@ require_once(OKI2."/osid/shared/Id.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniId.class.php,v 1.13 2007/09/04 20:25:48 adamfranco Exp $
+ * @version $Id: HarmoniId.class.php,v 1.14 2008/02/06 15:37:55 adamfranco Exp $
  */
 class HarmoniId 
-	extends Id 
+	implements Id 
 {
 
 	/**
@@ -34,7 +34,7 @@ class HarmoniId
 	 * @param string $id The desired id. If NULL, a new unique id is used.
 	 *
 	 */
-	function HarmoniId ( $id  ) {
+	function __construct ( $id  ) {
 		// ** parameter validation
 		ArgumentValidator::validate($id, 
 			OrValidatorRule::getRule(
@@ -115,10 +115,7 @@ class HarmoniId
 	 * 
 	 * @access public
 	 */
-	function isEqual ( $id ) {
-		// Validate the arguments
-		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"));
-		
+	function isEqual ( Id $id ) {
 		return ($id->getIdString() == $this->_id) ? true : false;
 	}
 

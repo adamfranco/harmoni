@@ -17,7 +17,7 @@ require_once(dirname(__FILE__)."/HarmoniAgentIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: UsersGroup.class.php,v 1.12 2007/11/07 19:09:51 adamfranco Exp $
+ * @version $Id: UsersGroup.class.php,v 1.13 2008/02/06 15:37:46 adamfranco Exp $
  */
 class UsersGroup
 	extends HarmoniGroup
@@ -179,7 +179,7 @@ class UsersGroup
 	 * 
 	 * @access public
 	 */
-	function add ( $memberOrGroup ) { 
+	function add ( Agent $memberOrGroup ) { 
 		throwError(new Error(AgentException::PERMISSION_DENIED(),"UsersGroup",true));
 	}
 
@@ -203,7 +203,7 @@ class UsersGroup
 	 *		   org.osid.agent.AgentException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * 
 	 */
-	function attach( $memberOrGroup) {
+	function attach( Agent $memberOrGroup) {
 		throwError(new Error(AgentException::PERMISSION_DENIED(),"UsersGroup",true));
 	}
 	
@@ -229,7 +229,7 @@ class UsersGroup
 	 * 
 	 * @access public
 	 */
-	function remove ( $memberOrGroup ) {
+	function remove ( Agent $memberOrGroup ) {
 		throwError(new Error(AgentException::PERMISSION_DENIED(),"UsersGroup",true));
 	}
 
@@ -316,7 +316,7 @@ class UsersGroup
 	 * 
 	 * @access public
 	 */
-	function contains ( $memberOrGroup, $searchSubgroups ) {
+	function contains ( Agent $memberOrGroup, $searchSubgroups ) {
 		// we are going to ignore the Everyone group and the Anonymous agent
 		// otherwise they are in the group
 		$ids = Services::getService("Id");
@@ -341,10 +341,12 @@ class UsersGroup
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: UsersGroup.class.php,v 1.12 2007/11/07 19:09:51 adamfranco Exp $
+ * @version $Id: UsersGroup.class.php,v 1.13 2008/02/06 15:37:46 adamfranco Exp $
  */
 
-class UsersGroupIterator extends HarmoniAgentIterator {
+class UsersGroupIterator 
+	extends HarmoniAgentIterator 
+{
 	var $_iterator;
 	var $_next;
 	var $_ignore;

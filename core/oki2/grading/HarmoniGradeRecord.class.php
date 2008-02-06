@@ -18,7 +18,7 @@ require_once(OKI2."/osid/grading/GradeRecord.php");
  * @package org.osid.grading
  */
 class HarmoniGradeRecord
-extends GradeRecord
+	implements GradeRecord
 {
 	
 	
@@ -292,7 +292,7 @@ extends GradeRecord
      * 
      * @access public
      */
-    function getPropertiesByType ( $propertiesType ) { 
+    function getPropertiesByType ( Type $propertiesType ) { 
         $type =$this->getGradeRecordType();
 		$propType = new Type("PropertiesType", $type->getAuthority(), "properties"); 		
 		if($propertiesType->isEqualTo($propType)){

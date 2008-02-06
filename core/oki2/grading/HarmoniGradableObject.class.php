@@ -19,7 +19,7 @@ require_once(OKI2."/osid/grading/GradableObject.php");
  * @package org.osid.grading
  */
 class HarmoniGradableObject
-extends GradableObject
+	implements GradableObject
 {
 	
 	
@@ -330,7 +330,7 @@ extends GradableObject
      * 
      * @access public
      */
-    function getPropertiesByType ( $propertiesType ) { 
+    function getPropertiesByType ( Type $propertiesType ) { 
         $type =$this->getGradeType();
 		$propType = new Type("PropertiesType", $type->getAuthority(), "properties"); 		
 		if($propertiesType->isEqualTo($propType)){

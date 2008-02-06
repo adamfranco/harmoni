@@ -44,10 +44,11 @@ require_once(HARMONI.'/oki2/id/HarmoniIdManager.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniHierarchyManager.class.php,v 1.29 2007/10/05 14:01:07 adamfranco Exp $
+ * @version $Id: HarmoniHierarchyManager.class.php,v 1.30 2008/02/06 15:37:50 adamfranco Exp $
  */
 class HarmoniHierarchyManager 
-	extends HierarchyManager {
+	implements HierarchyManager 
+{
 
 
 	/**
@@ -106,7 +107,7 @@ class HarmoniHierarchyManager
 	 * 
 	 * @access public
 	 */
-	function assignConfiguration ( $configuration ) { 
+	function assignConfiguration ( Properties $configuration ) { 
 		$this->_configuration =$configuration;
 		
 		$dbIndex =$configuration->getProperty('database_index');
@@ -144,7 +145,7 @@ class HarmoniHierarchyManager
 	 * 
 	 * @access public
 	 */
-	function assignOsidContext ( $context ) { 
+	function assignOsidContext ( OsidContext $context ) { 
 		$this->_osidContext =$context;
 	} 
 
@@ -178,7 +179,7 @@ class HarmoniHierarchyManager
 	 * 
 	 * @access public
 	 */
-	function createHierarchy ( $displayName, $nodeTypes, $description, $allowsMultipleParents, $allowsRecursion, $id = NULL ) { 
+	function createHierarchy ( $displayName, array $nodeTypes, $description, $allowsMultipleParents, $allowsRecursion, Id $id = NULL ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($description, StringValidatorRule::getRule(), true);
 		ArgumentValidator::validate($displayName, StringValidatorRule::getRule(), true);
@@ -258,7 +259,7 @@ class HarmoniHierarchyManager
 	 * 
 	 * @access public
 	 */
-	function getHierarchy ( $hierarchyId ) { 
+	function getHierarchy ( Id $hierarchyId ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($hierarchyId, ExtendsValidatorRule::getRule("Id"), true);
 		// ** end of parameter validation
@@ -394,7 +395,7 @@ class HarmoniHierarchyManager
 	 * 
 	 * @access public
 	 */
-	function deleteHierarchy ( $hierarchyId ) { 
+	function deleteHierarchy ( Id $hierarchyId ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($hierarchyId, ExtendsValidatorRule::getRule("Id"), true);
 		// ** end of parameter validation
@@ -471,7 +472,7 @@ class HarmoniHierarchyManager
 	 * @param ref object id The Id object.
 	 * @return ref object The Node with the given Id.
 	 **/
-	function getNode($id) {
+	function getNode(Id $id) {
 		// ** parameter validation
 		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"), true);
 		// ** end of parameter validation
@@ -522,7 +523,7 @@ class HarmoniHierarchyManager
 	 * 
 	 * @access public
 	 */
-	function nodeExists ( $nodeId ) { 
+	function nodeExists ( Id $nodeId ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($nodeId, ExtendsValidatorRule::getRule("Id"), true);
 		// ** end of parameter validation
@@ -548,13 +549,27 @@ class HarmoniHierarchyManager
 	 * @access public
 	 * @return ref object The Hierarchy to which the Node belongs.
 	 **/
-	function getHierarchyForNode($node) {
+	function getHierarchyForNode(Node $node) {
 		$idManager = Services::getService("Id");
 		$hierarchyId =$idManager->getId($node->_cache->_hierarchyId);
 		$hierarchy =$this->getHierarchy($hierarchyId);
 		
 		return $hierarchy;
 	}
+	
+	/**
+     * Verify to OsidLoader that it is loading
+     * 
+     * <p>
+     * OSID Version: 2.0
+     * </p>
+     * .
+     * 
+     * @throws object OsidException 
+     * 
+     * @access public
+     */
+    public function osidVersion_2_0 () {}
 }
 
 ?>

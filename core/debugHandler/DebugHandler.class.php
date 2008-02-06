@@ -101,7 +101,7 @@ define("DEBUG_SYS5",15);
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DebugHandler.class.php,v 1.10 2007/09/04 20:25:33 adamfranco Exp $
+ * @version $Id: DebugHandler.class.php,v 1.11 2008/02/06 15:37:44 adamfranco Exp $
  **/
 
 class DebugHandler {
@@ -147,7 +147,7 @@ class DebugHandler {
 	 * 
 	 * @access public
 	 */
-	function assignConfiguration ( $configuration ) { 
+	function assignConfiguration ( Properties $configuration ) { 
 		$this->_configuration =$configuration;
 	}
 
@@ -175,7 +175,7 @@ class DebugHandler {
 	 * 
 	 * @access public
 	 */
-	function assignOsidContext ( $context ) { 
+	function assignOsidContext ( OsidContext $context ) { 
 		$this->_osidContext =$context;
 	} 
 	

@@ -10,14 +10,14 @@ define("NEW_VERSION","new");
 
 /**
  * Responsible for keeping track of multiple versions of a value for a specific index within a 
- * field within a Record.
+ * field within a DMRecord.
  *
  * @package harmoni.datamanager
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordFieldValue.class.php,v 1.22 2007/09/04 20:25:32 adamfranco Exp $
+ * @version $Id: RecordFieldValue.class.php,v 1.23 2008/02/06 15:37:42 adamfranco Exp $
  *
  * @author Gabe Schine
  */
@@ -73,7 +73,7 @@ class RecordFieldValue {
 	}
 	
 	/**
-	* Commits the existing (and new, if applicable) versions of this value to the database. If the Record
+	* Commits the existing (and new, if applicable) versions of this value to the database. If the DMRecord
 	* is version controlled and the new value is the same as the old value, it is ignored.
 	* @return void
 	*/
@@ -178,7 +178,7 @@ class RecordFieldValue {
 	}
 	
 	/**
-	* "Sets" the value of this specific index to $value. If the Record is version controlled, a new
+	* "Sets" the value of this specific index to $value. If the DMRecord is version controlled, a new
 	* version is added. Otherwise, the current active version is modified.
 	* @return bool
 	* @param ref object $value A {@link SObject} object.
@@ -276,7 +276,7 @@ class RecordFieldValue {
 	*/
 	function getVersion( $verID ) {
 		if (!isset($this->_versions[$verID])) {
-			throwError( new Error("Could not find version ID $verID.","Record",true));
+			throwError( new Error("Could not find version ID $verID.","DMRecord",true));
 		}
 		return $this->_versions[$verID];
 	}

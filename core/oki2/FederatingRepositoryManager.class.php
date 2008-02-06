@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: FederatingRepositoryManager.class.php,v 1.1 2007/10/05 14:02:54 adamfranco Exp $
+ * @version $Id: FederatingRepositoryManager.class.php,v 1.2 2008/02/06 15:37:45 adamfranco Exp $
  */ 
 
 /**
@@ -19,7 +19,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: FederatingRepositoryManager.class.php,v 1.1 2007/10/05 14:02:54 adamfranco Exp $
+ * @version $Id: FederatingRepositoryManager.class.php,v 1.2 2008/02/06 15:37:45 adamfranco Exp $
  */
 class FederatingRepositoryManager
 	// implements RepositoryManager
@@ -63,7 +63,7 @@ class FederatingRepositoryManager
 	 * 
 	 * @access public
 	 */
-	function assignOsidContext ( $context ) { 
+	function assignOsidContext ( OsidContext $context ) { 
 		$this->context = $context;
 		
 		foreach ($this->managers as $manager)
@@ -87,7 +87,7 @@ class FederatingRepositoryManager
 	 * 
 	 * @access public
 	 */
-	function assignConfiguration ( $configuration ) {} 
+	function assignConfiguration ( Properties $configuration ) {} 
 	
 	/**
 	 * Add a new Repository Manager

@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniReadableLog.class.php,v 1.3 2007/09/04 20:25:43 adamfranco Exp $
+ * @version $Id: HarmoniReadableLog.class.php,v 1.4 2008/02/06 15:37:51 adamfranco Exp $
  */
 require_once(OKI2."/osid/logging/ReadableLog.php");
 require_once(dirname(__FILE__)."/HarmoniEntryIterator.class.php");
@@ -27,7 +27,7 @@ require_once(dirname(__FILE__)."/SearchEntryIterator.class.php");
  * @package harmoni.osid_v2.logging
  */
 class HarmoniReadableLog
-	extends ReadableLog
+	implements ReadableLog
 {
 	
 	/**
@@ -91,7 +91,7 @@ class HarmoniReadableLog
 	 * 
 	 * @access public
 	 */
-	function getEntries ( $formatType, $priorityType ) { 
+	function getEntries ( Type $formatType, Type $priorityType ) { 
 		$iterator = new HarmoniEntryIterator($this->_name, $formatType, $priorityType, $this->_dbIndex);
 		return $iterator;
 	}
@@ -125,10 +125,10 @@ class HarmoniReadableLog
 	 * 
 	 * @access public
 	 */
-	function getEntriesBySearch ( $searchCriteria, $searchType, $formatType, $priorityType ) { 
+	function getEntriesBySearch ( $searchCriteria, Type $searchType, Type $formatType, Type $priorityType ) { 
 		$validType = new Type("logging_search", "edu.middlebury", "Date-Range/Agent/Node");
 		if (!$validType->isEqual($searchType)) {
-			throwError(new Error("Invalid search type, ".Type::typeToString($searchType).".", "Logging"));
+			throwError(new Error("Invalid search type, ".$searchType->asString().".", "Logging"));
 		}
 		
 		$iterator = new SearchEntryIterator($this->_name, $searchCriteria, $formatType, $priorityType, $this->_dbIndex);

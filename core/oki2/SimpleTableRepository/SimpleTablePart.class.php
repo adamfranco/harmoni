@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SimpleTablePart.class.php,v 1.2 2007/10/30 16:32:47 adamfranco Exp $
+ * @version $Id: SimpleTablePart.class.php,v 1.3 2008/02/06 15:37:45 adamfranco Exp $
  */ 
 
 /**
@@ -18,11 +18,10 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SimpleTablePart.class.php,v 1.2 2007/10/30 16:32:47 adamfranco Exp $
+ * @version $Id: SimpleTablePart.class.php,v 1.3 2008/02/06 15:37:45 adamfranco Exp $
  */
 class SimpleTablePart
-	extends Part
-	// implements Part
+	implements Part
 {
 	/**
 	 * @var object SimpleTablePartStructure $partStructure
@@ -235,7 +234,7 @@ class SimpleTablePart
 	 * 
 	 * @access public
 	 */
-	function createPart ( $partStructureId, $value ) { 
+	function createPart ( Id $partStructureId, $value ) { 
 		throw new UnimplementedException();
 	} 
 	
@@ -261,7 +260,7 @@ class SimpleTablePart
 	 * 
 	 * @access public
 	 */
-	function deletePart ( $partId ) { 
+	function deletePart ( Id $partId ) { 
 		throw new UnimplementedException();
 	} 
 	

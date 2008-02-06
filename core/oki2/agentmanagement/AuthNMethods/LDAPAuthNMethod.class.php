@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPAuthNMethod.class.php,v 1.19 2007/10/11 00:32:43 adamfranco Exp $
+ * @version $Id: LDAPAuthNMethod.class.php,v 1.20 2008/02/06 15:37:47 adamfranco Exp $
  */ 
  
 require_once(dirname(__FILE__)."/AuthNMethod.abstract.php");
@@ -20,7 +20,7 @@ require_once(dirname(__FILE__)."/LDAPGroup.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPAuthNMethod.class.php,v 1.19 2007/10/11 00:32:43 adamfranco Exp $
+ * @version $Id: LDAPAuthNMethod.class.php,v 1.20 2008/02/06 15:37:47 adamfranco Exp $
  */
 class LDAPAuthNMethod
 	extends AuthNMethod
@@ -35,7 +35,7 @@ class LDAPAuthNMethod
 	 * @access public
 	 * @since 3/24/05
 	 */
-	function assignConfiguration ( $configuration ) {
+	function assignConfiguration ( Properties $configuration ) {
 		parent::assignConfiguration($configuration);
 		
 		$this->_connector = new LDAPConnector($configuration);

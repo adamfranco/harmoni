@@ -10,7 +10,7 @@ require_once(HARMONI."dataManager/record/RecordSet.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: StorableRecordSet.class.php,v 1.12 2007/09/04 20:25:32 adamfranco Exp $
+ * @version $Id: StorableRecordSet.class.php,v 1.13 2008/02/06 15:37:43 adamfranco Exp $
  */
 class StorableRecordSet extends RecordSet {
 	
@@ -41,7 +41,7 @@ class StorableRecordSet extends RecordSet {
 	 }
 
 	/**
-	 * Fetches all the {@link Record}s that we know about. 
+	 * Fetches all the {@link DMRecord}s that we know about. 
 	 * Use {@link RecordSet::getRecords()} to get the fetched records.
 	 * @param optional int $mode Defaults to RECORD_CURRENT. Specifies the fetch mode. Must be one of the RECORD_* constants.
 	 * @param optional mixed $limitResults NOT IMPLEMENTED.
@@ -63,7 +63,7 @@ class StorableRecordSet extends RecordSet {
 	}
 	 
 	/**
-	 * Returns an array of Record IDs that we know about.
+	 * Returns an array of DMRecord IDs that we know about.
 	 * @return array
 	 */
 	function getRecordIDs() {
@@ -82,7 +82,7 @@ class StorableRecordSet extends RecordSet {
 	
 	/**
 	 * Removes the given record from the set.
-	 * @param ref object $record A {@link Record} object.
+	 * @param ref object $record A {@link DMRecord} object.
 	 * @access public
 	 * @return void
 	 */
@@ -112,7 +112,7 @@ class StorableRecordSet extends RecordSet {
 	
 	
 	/**
-	 * Attempts to commit our {@link Record}s to the database and update our mapping.
+	 * Attempts to commit our {@link DMRecord}s to the database and update our mapping.
 	 * @param boolean optional $ignoreMandatory If true, doesn't fail if mandatory
 	 *		fields don't have values.
 	 * @return void
@@ -187,7 +187,7 @@ class StorableRecordSet extends RecordSet {
 	}
 	
 	/**
-	 * Returns a {@link Record} by ID.
+	 * Returns a {@link DMRecord} by ID.
 	 * @param int $id
 	 * @access public
 	 * @return ref object
@@ -210,7 +210,7 @@ class StorableRecordSet extends RecordSet {
 	}
 	
 	/**
-	 * Returns all of the {@link Record}s within this Set to the state they were in on the given date.
+	 * Returns all of the {@link DMRecord}s within this Set to the state they were in on the given date.
 	 * @param ref object $date A {@link DateAndTime} object.
 	 * @access public
 	 * @return boolean

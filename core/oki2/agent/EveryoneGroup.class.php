@@ -16,7 +16,7 @@ require_once(dirname(__FILE__)."/HarmoniGroup.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: EveryoneGroup.class.php,v 1.7 2007/08/22 14:45:44 adamfranco Exp $
+ * @version $Id: EveryoneGroup.class.php,v 1.8 2008/02/06 15:37:46 adamfranco Exp $
  */
 class EveryoneGroup
 	extends HarmoniGroup
@@ -68,7 +68,7 @@ class EveryoneGroup
 	 * 
 	 * @access public
 	 */
-	function add ( $memberOrGroup ) { 
+	function add ( Agent $memberOrGroup ) { 
 		throwError(new Error(AgentException::PERMISSION_DENIED(),"EveryoneGroup",true));
 	}
 
@@ -92,7 +92,7 @@ class EveryoneGroup
 	 *		   org.osid.agent.AgentException#NULL_ARGUMENT NULL_ARGUMENT}
 	 * 
 	 */
-	function attach( $memberOrGroup) {
+	function attach( Agent $memberOrGroup) {
 		throwError(new Error(AgentException::PERMISSION_DENIED(),"EveryoneGroup",true));
 	}
 	
@@ -118,7 +118,7 @@ class EveryoneGroup
 	 * 
 	 * @access public
 	 */
-	function remove ( $memberOrGroup ) {
+	function remove ( Agent $memberOrGroup ) {
 		throwError(new Error(AgentException::PERMISSION_DENIED(),"EveryoneGroup",true));
 	}
 
@@ -222,7 +222,7 @@ class EveryoneGroup
 	 * 
 	 * @access public
 	 */
-	function contains ( $memberOrGroup, $searchSubgroups ) { 
+	function contains ( Agent $memberOrGroup, $searchSubgroups ) { 
 		return true;
 	}
 }

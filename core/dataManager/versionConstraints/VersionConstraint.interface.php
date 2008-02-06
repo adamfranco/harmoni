@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: VersionConstraint.interface.php,v 1.6 2007/09/04 20:25:33 adamfranco Exp $
+ * @version $Id: VersionConstraint.interface.php,v 1.7 2008/02/06 15:37:44 adamfranco Exp $
  */
 class VersionConstraint {
 	
@@ -23,7 +23,7 @@ class VersionConstraint {
 	function checkRecordFieldValue($value) { }
 	
 	/**
-	 * Takes a {@link Record} and checks all the tags to make sure
+	 * Takes a {@link DMRecord} and checks all the tags to make sure
 	 * none of them fail the constraints. If they do, it asks the {@link RecordTagManager} to delete
 	 * them from the database.
 	 * @param ref object $record
@@ -32,8 +32,8 @@ class VersionConstraint {
 	function checkTags($record) { }
 	
 	/**
-	 * Takes a {@link Record} and returns if it is still valid or should be deleted. TRUE if it's still OK.
-	 * NOTE: if a Record is flagged for deletion and the children are not, then
+	 * Takes a {@link DMRecord} and returns if it is still valid or should be deleted. TRUE if it's still OK.
+	 * NOTE: if a DMRecord is flagged for deletion and the children are not, then
 	 * there's gonna be broken data in the database.
 	 * @param ref object $record
 	 * @return bool

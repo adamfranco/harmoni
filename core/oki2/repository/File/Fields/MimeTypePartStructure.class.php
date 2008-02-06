@@ -19,9 +19,10 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: MimeTypePartStructure.class.php,v 1.8 2007/09/04 20:25:46 adamfranco Exp $ 
+ * @version $Id: MimeTypePartStructure.class.php,v 1.9 2008/02/06 15:37:53 adamfranco Exp $ 
  */
-class MimeTypePartStructure extends PartStructure
+class MimeTypePartStructure 
+	implements PartStructure
 //	extends java.io.Serializable
 {
 
@@ -53,6 +54,31 @@ class MimeTypePartStructure extends PartStructure
 	function getDisplayName() {
 		return "MIME Type";
 	}
+	
+	/**
+     * Update the display name for this Record.
+     * 
+     * @param string $displayName
+     * 
+     * @throws object RepositoryException An exception with one of
+     *         the following messages defined in
+     *         org.osid.repository.RepositoryException may be thrown: {@link
+     *         org.osid.repository.RepositoryException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+     *         UNIMPLEMENTED}, {@link
+     *         org.osid.repository.RepositoryException#NULL_ARGUMENT
+     *         NULL_ARGUMENT}
+     * 
+     * @access public
+     */
+    public function updateDisplayName ( $displayName ) {
+    	throw new UnimplementedException;
+    }
 
 	/**
 	 * Get the description for this PartStructure.
@@ -277,11 +303,37 @@ class MimeTypePartStructure extends PartStructure
 	 * 
 	 * @access public
 	 */
-	function validatePart($part) {
+	function validatePart(Part $part) {
 		// we can check if the part (ie, ValueVersions) has values of the right type.
 		// @todo
 		
 		return true;
+	}
+	
+	/**
+	 * Get all the PartStructures in the PartStructure.	 Iterators return a
+	 * set, one at a time.
+	 *	
+	 * @return object PartStructureIterator
+	 * 
+	 * @throws object RepositoryException An exception with one of
+	 *		   the following messages defined in
+	 *		   org.osid.repository.RepositoryException may be thrown: {@link
+	 *		   org.osid.repository.RepositoryException#OPERATION_FAILED
+	 *		   OPERATION_FAILED}, {@link
+	 *		   org.osid.repository.RepositoryException#PERMISSION_DENIED
+	 *		   PERMISSION_DENIED}, {@link
+	 *		   org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+	 *		   CONFIGURATION_ERROR}, {@link
+	 *		   org.osid.repository.RepositoryException#UNIMPLEMENTED
+	 *		   UNIMPLEMENTED}
+	 * 
+	 * @access public
+	 */
+	function getPartStructures() {
+		$array = array();
+		$obj = new HarmoniNodeIterator($array);
+		return $obj; // @todo replace with HarmoniPartStructureIterator
 	}
 	
 /*********************************************************

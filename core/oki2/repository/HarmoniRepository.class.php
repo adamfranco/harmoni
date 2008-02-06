@@ -1,6 +1,7 @@
 <?php
 
-require_once(HARMONI."/oki2/repository/HarmoniRepository.interface.php");
+require_once(OKI2."osid/repository/Repository.php");
+require_once(OKI2."osid/repository/RepositoryException.php");
 require_once(HARMONI."/oki2/repository/HarmoniAsset.class.php");
 require_once(HARMONI."/oki2/repository/HarmoniAssetIterator.class.php");
 require_once(HARMONI."/oki2/repository/HarmoniRepositoryIterator.class.php");
@@ -48,11 +49,11 @@ require_once(dirname(__FILE__)."/SearchModules/AuthoritativeValuesSearch.class.p
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRepository.class.php,v 1.64 2007/10/12 20:59:00 adamfranco Exp $ 
+ * @version $Id: HarmoniRepository.class.php,v 1.65 2008/02/06 15:37:52 adamfranco Exp $ 
  */
 
 class HarmoniRepository
-	extends HarmoniRepositoryInterface
+	implements Repository
 {
 	
 	var $_configuration;
@@ -124,7 +125,7 @@ class HarmoniRepository
 	 * @param object assetId
 	 * @return bool
 	 */
-	function isAssetValid($assetId) {
+	function isAssetValid( Id $assetId) {
 		throw(new Error("Method gone from OSID","Repository",TRUE));
 		return $this->_assetValidFlags[$assetId->getIdString()];
 	}
@@ -316,7 +317,7 @@ class HarmoniRepository
 	 * 
 	 * @access public
 	 */
-	function createAsset ( $displayName, $description, $assetType, $id = NULL ) { 
+	function createAsset ( $displayName, $description, Type $assetType, $id = NULL ) { 
 		// Get our id for the parent id
 		$repositoryId =$this->_node->getId();
 		
@@ -372,7 +373,7 @@ class HarmoniRepository
 	 * 
 	 * @access public
 	 */
-	function deleteAsset ( $assetId , $parentId = null) { 
+	function deleteAsset ( Id $assetId , $parentId = null) { 
 		ArgumentValidator::validate($assetId, ExtendsValidatorRule::getRule("Id"));
 				
 		// Get the asset
@@ -448,8 +449,8 @@ class HarmoniRepository
 	function getAssets () { 
 		// get a list for all the nodes under this hierarchy.
 		$traversalInfoIterator =$this->_hierarchy->traverse($this->_node->getId(), 
-										Hierarchy::TRAVERSE_MODE_DEPTH_FIRST(), Hierarchy::TRAVERSE_DIRECTION_DOWN(), 
-										Hierarchy::TRAVERSE_LEVELS_ALL());
+										Hierarchy::TRAVERSE_MODE_DEPTH_FIRST, Hierarchy::TRAVERSE_DIRECTION_DOWN, 
+										Hierarchy::TRAVERSE_LEVELS_ALL);
 		
 		// These are for ignoring nodes, used when we have another repository
 		// as a child.
@@ -520,7 +521,7 @@ class HarmoniRepository
 	 * 
 	 * @access public
 	 */
-	function getAssetsByType ( $assetType ) { 
+	function getAssetsByType ( Type $assetType ) { 
 		ArgumentValidator::validate($assetType, ExtendsValidatorRule::getRule("Type"));
 		$assets = array();
 		$allAssets =$this->getAssets();
@@ -607,8 +608,8 @@ class HarmoniRepository
 	 * 
 	 * @access public
 	 */
-	function getPropertiesByType ( $propertiesType ) { 
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	function getPropertiesByType ( Type $propertiesType ) { 
+		throw new UnimplementedException();
 	} 
 
 	 /**
@@ -631,7 +632,7 @@ class HarmoniRepository
 	 * @access public
 	 */
 	function getPropertyTypes () { 
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+		throw new UnimplementedException();
 	} 
 	
 	 /**
@@ -654,7 +655,7 @@ class HarmoniRepository
 	 * @access public
 	 */
 	function getProperties () { 
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+		throw new UnimplementedException();
 	} 
 	
 
@@ -682,9 +683,40 @@ class HarmoniRepository
 	 * 
 	 * @access public
 	 */
-	function getRecordStructuresByType ( $recordStructureType ) { 
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	function getRecordStructuresByType ( Type $recordStructureType ) { 
+		throw new UnimplementedException();
 	} 
+	
+	 /**
+     * Get the RecordStructures that this AssetType must support.
+     * RecordStructures are used to categorize information about Assets.
+     * Iterators return a set, one at a time.
+     * 
+     * @param object Type $assetType
+     *  
+     * @return object RecordStructureIterator
+     * 
+     * @throws object RepositoryException An exception with one of
+     *         the following messages defined in
+     *         org.osid.repository.RepositoryException may be thrown: {@link
+     *         org.osid.repository.RepositoryException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+     *         UNIMPLEMENTED}, {@link
+     *         org.osid.repository.RepositoryException#NULL_ARGUMENT
+     *         NULL_ARGUMENT}, {@link
+     *         org.osid.repository.RepositoryException#UNKNOWN_TYPE
+     *         UNKNOWN_TYPE}
+     * 
+     * @access public
+     */
+    function getMandatoryRecordStructures ( Type $assetType ) {
+    	throw new UnimplementedException();
+    }
 	
 	/**
 	 * Get all the SearchTypes supported by this Repository.  Iterators return
@@ -732,7 +764,7 @@ class HarmoniRepository
 	 * @access public
 	 */
 	function getStatusTypes () { 
-		die ("Method <b>".__FUNCTION__."()</b> declared in class <b> ".__CLASS__."</b> has not been implimented.");
+		throw new UnimplementedException();
 	}
 	
 	/**
@@ -743,7 +775,7 @@ class HarmoniRepository
 	 * @return object RecordStructure	 The RecordStructure of the requested Id.
 	 * @throws osid.dr.DigitalRepositoryException An exception with one of the following messages defined in osid.dr.DigitalRepositoryException may be thrown: {@link DigitalRepositoryException#OPERATION_FAILED OPERATION_FAILED}, {@link DigitalRepositoryException#PERMISSION_DENIED PERMISSION_DENIED}, {@link DigitalRepositoryException#CONFIGURATION_ERROR CONFIGURATION_ERROR}, {@link DigitalRepositoryException#UNIMPLEMENTED UNIMPLEMENTED}
 	 */
-	function getRecordStructure( $infoStructureId ) {
+	function getRecordStructure( Id $infoStructureId ) {
 		// Check that we have created an infoStructure with the ID
 		if (!isset($this->_createdRecordStructures[$infoStructureId->getIdString()])) {
 			// If not, create the infoStructure
@@ -829,8 +861,8 @@ class HarmoniRepository
 	 * 
 	 * @access public
 	 */
-	function getStatus ( $assetId ) { 
-		die ("Method <b>".__FUNCTION__."()</b> declared in class <b> ".__CLASS__."</b> has not been implimented.");
+	function getStatus ( Id $assetId ) { 
+		throw new UnimplementedException();
 	}
 
 	/**
@@ -860,7 +892,7 @@ class HarmoniRepository
 	 * 
 	 * @access public
 	 */
-	function validateAsset ( $assetId ) { 
+	function validateAsset ( Id $assetId ) { 
 		$string = $assetId->getIdString();
 		
 		$this->_assetValidFlags[$string] = true;
@@ -889,7 +921,7 @@ class HarmoniRepository
 	 * 
 	 * @access public
 	 */
-	function invalidateAsset ( $assetId ) { 
+	function invalidateAsset ( Id $assetId ) { 
 		$string = $assetId->getIdString();
 		
 		$this->_assetValidFlags[$string] = false;
@@ -923,9 +955,7 @@ class HarmoniRepository
 	 * 
 	 * @access public
 	 */
-	function getAsset ( $assetId, $verifyExistance = TRUE) { 
-		ArgumentValidator::validate($assetId, ExtendsValidatorRule::getRule("Id"));
-		
+	function getAsset ( Id $assetId, $verifyExistance = TRUE) { 		
 		if (!isset($this->_createdAssets[$assetId->getIdString()])) {
 			
 			if ($verifyExistance) {
@@ -961,7 +991,7 @@ class HarmoniRepository
 	 * @access public
 	 * @since 1/22/07
 	 */
-	function assetExists ( $assetId ) {
+	function assetExists ( Id $assetId ) {
 		if (isset($this->_createdAssets[$assetId->getIdString()]))
 			return true;
 		else {
@@ -1000,8 +1030,7 @@ class HarmoniRepository
 	 * 
 	 * @access public
 	 */
-	function getAssetByDate ( $assetId, $date ) { 
-		ArgumentValidator::validate($assetId, ExtendsValidatorRule::getRule("Id"));
+	function getAssetByDate ( Id $assetId, $date ) { 
 		ArgumentValidator::validate($date, HasMethodsValidatorRule::getRule("asDateAndTime"));
 		
 		die ("Method <b>".__FUNCTION__."()</b> declared in class <b> ".__CLASS__."</b> has not been implimented.");
@@ -1034,9 +1063,7 @@ class HarmoniRepository
 	 * 
 	 * @access public
 	 */
-	function getAssetDates ( $assetId ) { 
-		ArgumentValidator::validate($assetId, ExtendsValidatorRule::getRule("Id"));
-		
+	function getAssetDates ( Id $assetId ) { 		
 		$recordMgr = Services::getService("RecordManager");
 		
 		// Get the DataSets in the Asset's DataSetGroup
@@ -1079,8 +1106,7 @@ class HarmoniRepository
 	 * 
 	 * @access public
 	 */
-	function getAssetsBySearch ( $searchCriteria, $searchType, $searchProperties ) {
-		ArgumentValidator::validate($searchType, ExtendsValidatorRule::getRule("Type"));
+	function getAssetsBySearch ( $searchCriteria, Type $searchType, Properties $searchProperties ) {
 		ArgumentValidator::validate($searchProperties, OptionalRule::getRule(
 			ExtendsValidatorRule::getRule("Properties")));
 		
@@ -1205,7 +1231,7 @@ class HarmoniRepository
 	 * 
 	 * @access public
 	 */
-	function copyAsset ( $asset ) { 
+	function copyAsset ( Asset $asset ) { 
 		// Copy the asset to the dr root (recursivley for children)
 		$id =$this->_copyAsset($asset, $this->getId());
 		
@@ -1340,7 +1366,7 @@ class HarmoniRepository
 	 * @access public
 	 * @since 6/6/06
 	 */
-	function deleteRecordStructure ( $recordStructureId, $statusStars = null ) {
+	function deleteRecordStructure ( Id $recordStructureId, $statusStars = null ) {
 		// Delete the Records that use this RecordStructure
 		$assets =$this->getAssets();
 		
@@ -1402,7 +1428,7 @@ class HarmoniRepository
 	 * @access public
 	 * @since 6/7/06
 	 */
-	function duplicateRecordStructure ( $recordStructureId, $copyRecords = FALSE, 
+	function duplicateRecordStructure ( Id $recordStructureId, $copyRecords = FALSE, 
 		$id = null, $isGlobal = FALSE, $statusStars = null ) 
 	{
 		ArgumentValidator::validate($recordStructureId, ExtendsValidatorRule::getRule("Id"));
@@ -1478,7 +1504,7 @@ class HarmoniRepository
 	 * 
 	 * @access private
 	 */
-	function _copyAsset($asset, $newParentId) {
+	function _copyAsset(Asset $asset, Id $newParentId) {
 		// Create the new asset
 		$newAsset =$this->createAsset($asset->getDisplayName(),$asset->getDescription(), $asset->getAssetType());
 		

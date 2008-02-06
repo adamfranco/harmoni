@@ -81,9 +81,9 @@
           	$cs2 =$cm->createCanonicalCourse("Computer Graphics", "CSCI367", "descrip",$canType, $canStatType,1);
           	
           	
-			$scheduleItemA1 =$sm->createScheduleItem("Fall 2005 range", "", $scheduleItemType, 300, 900, null);
-			$scheduleItemA2 =$sm->createScheduleItem("Thanksgiving", "", $scheduleItemType, 350, 400, null);
-			$scheduleItemA3 =$sm->createScheduleItem("Christmas", "ho ho ho", $scheduleItemType, 500, 600, null);
+			$scheduleItemA1 =$sm->v3_createScheduleItem("Fall 2005 range", "", $scheduleItemType, 300, 900, null);
+			$scheduleItemA2 =$sm->v3_createScheduleItem("Thanksgiving", "", $scheduleItemType, 350, 400, null);
+			$scheduleItemA3 =$sm->v3_createScheduleItem("Christmas", "ho ho ho", $scheduleItemType, 500, 600, null);
 			
 			
 			$scheduleA = array($scheduleItemA1,$scheduleItemA2,$scheduleItemA3);

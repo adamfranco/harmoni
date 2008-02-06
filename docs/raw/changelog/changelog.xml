@@ -3,15 +3,33 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.232 2008/01/31 20:56:47 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.233 2008/02/06 15:37:56 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
-	<version number="0.14.0" date="The Future">
+	<version number="1.0.0" date="The Future">
 		<releaseNotes>
 			
 		</releaseNotes>
+		<important author='adam' date='2008-02-06'>
+			The O.K.I. OSID interfaces have all been converted from classes
+			with die() statements to actual PHP 5 interfaces. 
+		</important>
+		<change author='adam' date='2008-02-06'>
+			OSIDs: The O.K.I. OSID interfaces have all been converted from classes
+			with die() statements to actual PHP 5 interfaces. 
+			
+			Class typing has been added to all OSID method declarations.
+			
+			Class-constants which were bound as static methods to support
+			PHP 4 are now actual class constants.
+			
+			OsidExceptions now extend the base 'Exception' class.
+			
+			The DataManager's 'Record' class has been renamed 'DMRecord' so that
+			it will not conflict with the OSID 'Record'.
+		</change>
 		<new author='adam' date='2008-01-31'>
 			Agent: New search method for searching based on agent properties.
 		</new>

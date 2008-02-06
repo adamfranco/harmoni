@@ -19,11 +19,11 @@
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileDataPart.class.php,v 1.15 2008/01/24 19:09:29 adamfranco Exp $
+ * @version $Id: FileDataPart.class.php,v 1.16 2008/02/06 15:37:53 adamfranco Exp $
  */
  
 class FileDataPart 
-	extends Part 
+	implements Part 
 {
 
 	var $_recordId;
@@ -65,6 +65,54 @@ class FileDataPart
 		$idManager = Services::getService("Id");
 		return $idManager->getId($this->_recordId->getIdString()."-FILE_DATA");
 	}
+	
+	/**
+     * Update the display name for this Record.
+     * 
+     * @param string $displayName
+     * 
+     * @throws object RepositoryException An exception with one of
+     *         the following messages defined in
+     *         org.osid.repository.RepositoryException may be thrown: {@link
+     *         org.osid.repository.RepositoryException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+     *         UNIMPLEMENTED}, {@link
+     *         org.osid.repository.RepositoryException#NULL_ARGUMENT
+     *         NULL_ARGUMENT}
+     * 
+     * @access public
+     */
+    public function updateDisplayName ( $displayName ) {
+    	throw new UnimplementedException;
+    }
+
+    /**
+     * Get the display name for this Record.
+     *  
+     * @return string
+     * 
+     * @throws object RepositoryException An exception with one of
+     *         the following messages defined in
+     *         org.osid.repository.RepositoryException may be thrown: {@link
+     *         org.osid.repository.RepositoryException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+     *         UNIMPLEMENTED}
+     * 
+     * @access public
+     */
+    public function getDisplayName () {
+    	throw new UnimplementedException;
+    }
 
 	/**
 	 * Create a Part.  Records are composed of Parts. Parts can also contain
@@ -93,7 +141,7 @@ class FileDataPart
 	 * 
 	 * @access public
 	 */
-	function createPart($partStructureId, $value) {
+	function createPart(Id $partStructureId, $value) {
 		throwError(
 			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
 	}
@@ -120,7 +168,7 @@ class FileDataPart
 	 * 
 	 * @access public
 	 */
-	function deletePart($partId) {
+	function deletePart(Id $partId) {
 		throwError(
 			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
 	}

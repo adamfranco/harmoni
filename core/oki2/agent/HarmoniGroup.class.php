@@ -23,7 +23,7 @@ require_once(OKI2."/osid/agent/Group.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniGroup.class.php,v 1.24 2007/11/07 19:09:50 adamfranco Exp $
+ * @version $Id: HarmoniGroup.class.php,v 1.25 2008/02/06 15:37:46 adamfranco Exp $
  */
 class HarmoniGroup
 	extends HarmoniAgent
@@ -99,11 +99,7 @@ class HarmoniGroup
 	 * 
 	 * @access public
 	 */
-	function add ( $memberOrGroup ) { 
-		// ** parameter validation
-		ArgumentValidator::validate($memberOrGroup, ExtendsValidatorRule::getRule("Agent"), true);
-		// ** end of parameter validation
-		
+	function add ( Agent $memberOrGroup ) {
 		// For Groups stored in our hierarchy, simply add this node as a parent.
 		if (method_exists($memberOrGroup, 'getNode')) {
 			$memberOrGroup->getNode()->addParent($this->getId());
@@ -137,11 +133,7 @@ class HarmoniGroup
 	 * 
 	 * @access public
 	 */
-	function remove ( $memberOrGroup ) {
-		// ** parameter validation
-		ArgumentValidator::validate($memberOrGroup, ExtendsValidatorRule::getRule("Agent"), true);
-		// ** end of parameter validation
-		
+	function remove ( Agent $memberOrGroup ) {		
 		// For Groups stored in our hierarchy, simply remove this node as a parent.
 		if (method_exists($memberOrGroup, 'getNode')) {
 			$memberOrGroup->getNode()->removeParent($this->getId());
@@ -287,9 +279,7 @@ class HarmoniGroup
 	 * 
 	 * @access public
 	 */
-	function contains ( $memberOrGroup, $searchSubgroups ) { 
-		// ** parameter validation
-		ArgumentValidator::validate($memberOrGroup, ExtendsValidatorRule::getRule("Agent"), true);
+	function contains ( Agent $memberOrGroup, $searchSubgroups ) {
 		ArgumentValidator::validate($searchSubgroups, BooleanValidatorRule::getRule(), true);
 		// ** end of parameter validation
 		

@@ -42,11 +42,11 @@ require_once(HARMONI."oki2/shared/HarmoniId.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniIdManager.class.php,v 1.26 2007/09/13 16:04:20 adamfranco Exp $
+ * @version $Id: HarmoniIdManager.class.php,v 1.27 2008/02/06 15:37:50 adamfranco Exp $
  */
 
 class HarmoniIdManager
-	extends IdManager
+	implements IdManager
 {
 
 	/**
@@ -95,7 +95,7 @@ class HarmoniIdManager
 	 * 
 	 * @access public
 	 */
-	function assignConfiguration ( $configuration ) { 
+	function assignConfiguration ( Properties $configuration ) { 
 		$this->_configuration =$configuration;
 		
 		$dbIndex = $configuration->getProperty('database_index');
@@ -137,7 +137,7 @@ class HarmoniIdManager
 	 * 
 	 * @access public
 	 */
-	function assignOsidContext ( $context ) { 
+	function assignOsidContext ( OsidContext $context ) { 
 		$this->_osidContext =$context;
 	} 
 
@@ -229,4 +229,18 @@ class HarmoniIdManager
 //		$this->_ids[$idString] = $id;
 		return $id;
 	}
+	
+	/**
+     * Verify to OsidLoader that it is loading
+     * 
+     * <p>
+     * OSID Version: 2.0
+     * </p>
+     * .
+     * 
+     * @throws object OsidException 
+     * 
+     * @access public
+     */
+    public function osidVersion_2_0 () {}
 }

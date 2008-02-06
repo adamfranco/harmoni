@@ -21,7 +21,7 @@ require_once(HARMONI."GUIManager/Component.class.php");
 * @copyright Copyright &copy; 2005, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: GUIManager.class.php,v 1.29 2007/09/04 20:25:21 adamfranco Exp $
+* @version $Id: GUIManager.class.php,v 1.30 2008/02/06 15:37:41 adamfranco Exp $
 */
 class GUIManager
 extends GUIManagerAbstract
@@ -83,7 +83,7 @@ extends GUIManagerAbstract
 	*
 	* @access public
 	*/
-	function assignConfiguration ( $configuration ) {
+	function assignConfiguration ( Properties $configuration ) {
 		$this->_configuration =$configuration;
 
 		$dbIndex =$configuration->getProperty('database_index');
@@ -135,7 +135,7 @@ extends GUIManagerAbstract
 	*
 	* @access public
 	*/
-	function assignOsidContext ( $context ) {
+	function assignOsidContext ( OsidContext $context ) {
 		ArgumentValidator::validate($context->getContext('harmoni'),
 		ExtendsValidatorRule::getRule('Harmoni'));
 

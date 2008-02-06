@@ -11,7 +11,7 @@ require_once(dirname(__FILE__)."/PersistentOrderedSet.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SetManager.class.php,v 1.13 2007/09/04 20:25:49 adamfranco Exp $
+ * @version $Id: SetManager.class.php,v 1.14 2008/02/06 15:37:56 adamfranco Exp $
  */
 class SetManager {
 	
@@ -64,7 +64,7 @@ class SetManager {
 	 * 
 	 * @access public
 	 */
-	function assignConfiguration ( $configuration ) { 
+	function assignConfiguration ( Properties $configuration ) { 
 		$this->_configuration =$configuration;
 		
 		$dbIndex =$configuration->getProperty('database_index');
@@ -100,7 +100,7 @@ class SetManager {
 	 * 
 	 * @access public
 	 */
-	function assignOsidContext ( $context ) { 
+	function assignOsidContext ( OsidContext $context ) { 
 		$this->_osidContext =$context;
 	} 
 	

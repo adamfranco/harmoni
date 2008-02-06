@@ -24,11 +24,11 @@ require_once(HARMONI.'/oki2/hierarchy/DefaultNodeType.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniHierarchy.class.php,v 1.24 2007/12/03 21:53:54 adamfranco Exp $
+ * @version $Id: HarmoniHierarchy.class.php,v 1.25 2008/02/06 15:37:50 adamfranco Exp $
  */
 
 class HarmoniHierarchy 
-	extends Hierarchy {
+	implements Hierarchy {
 
 	/**
 	 * The Id of this hierarchy.
@@ -65,12 +65,10 @@ class HarmoniHierarchy
 	 * one that all other nodes in the Hierarchy are using.
 	 * @access public
 	 */
-	function HarmoniHierarchy($id, $displayName, $description, $cache) {
+	function HarmoniHierarchy(Id $id, $displayName, $description, HierarchyCache $cache) {
 		// ** parameter validation
-		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"), true);
 		ArgumentValidator::validate($displayName, StringValidatorRule::getRule(), true);
 		ArgumentValidator::validate($description, StringValidatorRule::getRule(), true);
-		ArgumentValidator::validate($cache, ExtendsValidatorRule::getRule("HierarchyCache"), true);
 		// ** end of parameter validation
 	
 		$this->_id =$id;
@@ -282,7 +280,7 @@ class HarmoniHierarchy
 	 * 
 	 * @access public
 	 */
-	function createRootNode ( $nodeId, $nodeType, $displayName, $description ) { 
+	function createRootNode ( Id $nodeId, Type $nodeType, $displayName, $description ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($nodeId, ExtendsValidatorRule::getRule("Id"), true);
 		ArgumentValidator::validate($nodeType, ExtendsValidatorRule::getRule("Type"), true);
@@ -325,11 +323,8 @@ class HarmoniHierarchy
 	 * 
 	 * @access public
 	 */
-	function createNode ( $nodeId, $parentId, $type, $displayName, $description ) { 
+	function createNode ( Id $nodeId, Id $parentId, Type $type, $displayName, $description ) { 
 		// ** parameter validation
-		ArgumentValidator::validate($nodeId, ExtendsValidatorRule::getRule("Id"), true);
-		ArgumentValidator::validate($parentId, ExtendsValidatorRule::getRule("Id"), true);
-		ArgumentValidator::validate($type, ExtendsValidatorRule::getRule("Type"), true);
 		ArgumentValidator::validate($displayName, StringValidatorRule::getRule(), true);
 		ArgumentValidator::validate($description, StringValidatorRule::getRule(), true);
 		// ** end of parameter validation
@@ -362,11 +357,7 @@ class HarmoniHierarchy
 	 * 
 	 * @access public
 	 */
-	function deleteNode ( $nodeId ) { 
-		// ** parameter validation
-		ArgumentValidator::validate($nodeId, ExtendsValidatorRule::getRule("Id"), true);
-		// ** end of parameter validation
-		
+	function deleteNode ( Id $nodeId ) {
 		$this->_cache->deleteNode($nodeId->getIdString());
 	}
 
@@ -393,7 +384,7 @@ class HarmoniHierarchy
 	 * 
 	 * @access public
 	 */
-	function addNodeType ( $type ) { 
+	function addNodeType ( Type $type ) { 
 		throwError(new Error(HierarchyException::UNIMPLEMENTED(), "Hierarchy", true));
 	}
 
@@ -423,7 +414,7 @@ class HarmoniHierarchy
 	 * 
 	 * @access public
 	 */
-	function removeNodeType ( $type ) { 
+	function removeNodeType ( Type $type ) { 
 		throwError(new Error(HierarchyException::UNIMPLEMENTED(), "Hierarchy", true));
 	}
 
@@ -508,7 +499,7 @@ class HarmoniHierarchy
 	 * 
 	 * @access public
 	 */
-	function getNode ( $nodeId ) { 
+	function getNode ( Id $nodeId ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($nodeId, ExtendsValidatorRule::getRule("Id"), true);
 		// ** end of parameter validation
@@ -534,7 +525,7 @@ class HarmoniHierarchy
 	 * 
 	 * @access public
 	 */
-	function nodeExists ( $nodeId ) { 
+	function nodeExists ( Id $nodeId ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($nodeId, ExtendsValidatorRule::getRule("Id"), true);
 		// ** end of parameter validation
@@ -618,7 +609,7 @@ class HarmoniHierarchy
 	 *
 	 * @todo Replace JavaDoc with PHPDoc
 	 */
-	function getNodesByType( $nodeType ) {
+	function getNodesByType( Type $nodeType ) {
 		try {
 			// if all the nodes haven't been cached then do it
 			$where = "type_domain = '".addslashes($nodeType->getDomain())."'";
@@ -712,19 +703,18 @@ class HarmoniHierarchy
 	 * 
 	 * @access public
 	 */
-	function traverse ( $startId, $mode, $direction, $levels ) { 
+	function traverse ( Id $startId, $mode, $direction, $levels ) { 
 		// Check the arguments
-		ArgumentValidator::validate($startId, ExtendsValidatorRule::getRule("Id"));
 		ArgumentValidator::validate($mode, IntegerValidatorRule::getRule());
 		ArgumentValidator::validate($direction, IntegerValidatorRule::getRule());
 		ArgumentValidator::validate($levels, IntegerValidatorRule::getRule());
 
-		if ($mode != Hierarchy::TRAVERSE_MODE_DEPTH_FIRST()) {
+		if ($mode != Hierarchy::TRAVERSE_MODE_DEPTH_FIRST) {
 			// Only depth-first traversal is supported in the current implementation.
 			throwError(new Error(HierarchyException::UNKNOWN_TRAVERSAL_DIRECTION(), "Hierarchy", true));
 		}
 
-		$down = ($direction == Hierarchy::TRAVERSE_DIRECTION_DOWN());
+		$down = ($direction == Hierarchy::TRAVERSE_DIRECTION_DOWN);
 		$result = $this->_cache->traverse($startId, $down, $levels);
 
 		return $result;

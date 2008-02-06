@@ -26,18 +26,11 @@ require_once(OKI2."/osid/coursemanagement/CourseSection.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CourseSection.class.php,v 1.26 2007/09/04 20:25:39 adamfranco Exp $
+ * @version $Id: CourseSection.class.php,v 1.27 2008/02/06 15:37:48 adamfranco Exp $
  */
 class HarmoniCourseSection
-	extends CourseSection
+	implements CourseSection
 {
-	
-	
-	
-	
-	
-	
-	
 	/**
 	 * @variable object $_node the node in the hierarchy.
 	 * @access private
@@ -559,7 +552,7 @@ class HarmoniCourseSection
 	 * 
 	 * @access public
 	 */
-	function addAsset ( $assetId ) { 
+	function addAsset ( Id $assetId ) { 
 		$dbManager = Services::getService("DatabaseManager");
 		$query= new SelectQuery;
 		$query->addTable('cm_assets');
@@ -610,7 +603,7 @@ class HarmoniCourseSection
 	 * 
 	 * @access public
 	 */
-	function removeAsset ( $assetId ) { 
+	function removeAsset ( Id $assetId ) { 
 			$dbManager = Services::getService("DatabaseManager");
 		$query= new DeleteQuery;
 		$query->setTable('cm_assets');
@@ -682,7 +675,7 @@ class HarmoniCourseSection
 	 * 
 	 * @access public
 	 */
-	function updateSchedule ( $scheduleItems ) { 
+	function updateSchedule ( array $scheduleItems ) { 
 		$dbManager = Services::getService("DatabaseManager");
 		$query= new DeleteQuery;
 		$query->setTable('cm_schedule');
@@ -764,7 +757,7 @@ class HarmoniCourseSection
 	 * 
 	 * @access public
 	 */
-	function addStudent ( $agentId, $enrollmentStatusType ) { 
+	function addStudent ( Id $agentId, Type $enrollmentStatusType ) { 
 	
 
 		$dbManager = Services::getService("DatabaseManager");
@@ -821,7 +814,7 @@ class HarmoniCourseSection
 	 * 
 	 * @access public
 	 */
-	function changeStudent ( $agentId, $enrollmentStatusType ) { 
+	function changeStudent ( Id $agentId, Type $enrollmentStatusType ) { 
 		
 		
 		$dbManager = Services::getService("DatabaseManager");
@@ -881,7 +874,7 @@ class HarmoniCourseSection
 	 * 
 	 * @access public
 	 */
-	function removeStudent ( $agentId ) { 
+	function removeStudent ( Id $agentId ) { 
 		
 
 		$dbManager = Services::getService("DatabaseManager");
@@ -972,7 +965,7 @@ class HarmoniCourseSection
 	 * 
 	 * @access public
 	 */
-	function getRosterByType ( $enrollmentStatusType ) { 
+	function getRosterByType ( Type $enrollmentStatusType ) { 
 		$dbManager = Services::getService("DatabaseManager");
 		
 		$typeIndex = $this->_typeToIndex('enroll_stat',$enrollmentStatusType);
@@ -1024,7 +1017,7 @@ $query->addWhere("fk_cm_section='".addslashes($this->_id->getIdString())."' AND 
 	 * 
 	 * @access public
 	 */
-	function updateStatus ( $statusType ) { 
+	function updateStatus ( Type $statusType ) { 
 		$this->_setField('fk_cm_section_stat_type',$this->_typeToIndex('section_stat',$statusType));
 	} 
 
@@ -1054,7 +1047,7 @@ $query->addWhere("fk_cm_section='".addslashes($this->_id->getIdString())."' AND 
 	 * 
 	 * @access public
 	 */
-	function getPropertiesByType ( $propertiesType ) { 
+	function getPropertiesByType ( Type $propertiesType ) { 
 		$courseType =$this->getSectionType();
 		$propertiesType = new Type("PropertiesType", $courseType->getAuthority(), "properties"); 		
 		if($propertiesType->isEqualTo($propertiesType)){

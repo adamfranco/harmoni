@@ -29,10 +29,10 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: FileRecord.class.php,v 1.28 2008/01/24 19:09:26 adamfranco Exp $ 
+ * @version $Id: FileRecord.class.php,v 1.29 2008/02/06 15:37:52 adamfranco Exp $ 
  */
 class FileRecord 
-	extends RecordInterface
+	implements Record
 {
 	
 	var $_id;
@@ -130,6 +130,54 @@ class FileRecord
 	function getId() {
 		return $this->_id;
 	}
+	
+	/**
+     * Update the display name for this Record.
+     * 
+     * @param string $displayName
+     * 
+     * @throws object RepositoryException An exception with one of
+     *         the following messages defined in
+     *         org.osid.repository.RepositoryException may be thrown: {@link
+     *         org.osid.repository.RepositoryException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+     *         UNIMPLEMENTED}, {@link
+     *         org.osid.repository.RepositoryException#NULL_ARGUMENT
+     *         NULL_ARGUMENT}
+     * 
+     * @access public
+     */
+    public function updateDisplayName ( $displayName ) {
+    	throw new UnimplementedException;
+    }
+
+    /**
+     * Get the display name for this Record.
+     *  
+     * @return string
+     * 
+     * @throws object RepositoryException An exception with one of
+     *         the following messages defined in
+     *         org.osid.repository.RepositoryException may be thrown: {@link
+     *         org.osid.repository.RepositoryException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+     *         UNIMPLEMENTED}
+     * 
+     * @access public
+     */
+    public function getDisplayName () {
+    	throw new UnimplementedException;
+    }
 
 	/**
 	 * Create a Part.  Records are composed of Parts. Parts can also contain
@@ -158,7 +206,7 @@ class FileRecord
 	 * 
 	 * @access public
 	 */
-	function createPart($partStructureId, $value) {
+	function createPart(Id $partStructureId, $value) {
 		$found = FALSE;
 		foreach($this->_parts as $key => $val){
 			if($partStructureId->isEqual($val->getId()))
@@ -242,7 +290,7 @@ class FileRecord
 	 * 
 	 * @access public
 	 */
-	function deletePart($partId) {
+	function deletePart(Id $partId) {
 		$string = $partId->getIdString();
 		if (ereg("(.*)-(".implode("|", array_keys($this->_parts)).")",$string,$r)) {
 			$recordId = $r[1];
@@ -317,7 +365,7 @@ class FileRecord
 	 * @access public
 	 * @since 10/10/05
 	 */
-	function getPart ($id) {
+	function getPart (Id $id) {
 		$parts =$this->getParts();
 		
 		while ($parts->hasNext()) {
@@ -446,7 +494,7 @@ class FileRecord
      * 
      * @access public
      */
-    function getPartsByPartStructure ( $partStructureId ) {
+    function getPartsByPartStructure ( Id $partStructureId ) {
     	$this->_loadParts();
     	
     	$partArray = array();

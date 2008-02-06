@@ -11,14 +11,14 @@ require_once HARMONI."dataManager/record/Tag.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TagManager.class.php,v 1.15 2007/09/04 20:25:32 adamfranco Exp $
+ * @version $Id: TagManager.class.php,v 1.16 2008/02/06 15:37:43 adamfranco Exp $
 */
 class RecordTagManager {
 	
 	/**
-	 * Takes a {@link Record} and an optional date and creates a {@link RecordTag} in the database based
-	 * on the current active versions of values within the {@link Record}.
-	 * @param ref object $record The {@link Record} to be tagged.
+	 * Takes a {@link DMRecord} and an optional date and creates a {@link RecordTag} in the database based
+	 * on the current active versions of values within the {@link DMRecord}.
+	 * @param ref object $record The {@link DMRecord} to be tagged.
 	 * @param optional object $date An optional {@link DateAndTime} object to attach to the tag instead of the current date/time.
 	 * @return int The new tag's ID in the database.
 	 * @access public
@@ -77,7 +77,7 @@ class RecordTagManager {
 
 	/**
 	 * Removes from the Database all tags associated with $record.
-	 * @param ref object $record A {@link Record} object.
+	 * @param ref object $record A {@link DMRecord} object.
 	 * @return void
 	 */
 	function pruneTags($record) {
@@ -147,7 +147,7 @@ class RecordTagManager {
 	
 	/**
 	 * Checks to see if any of our RecordTags are empty, and if so, deletes them.
-	 * @param ref object $record The {@link Record} to check.
+	 * @param ref object $record The {@link DMRecord} to check.
 	 * @return void
 	 */
 	function checkForEmptyTags($record) {
@@ -181,7 +181,7 @@ class RecordTagManager {
 	/**
 	 * Returns an array of {@link RecordTag}s without having loaded all of the mapping data. Useful for
 	 * just checking what tags are available and what dates they were created on.
-	 * @param int $id The ID of the {@link Record} to look for.
+	 * @param int $id The ID of the {@link DMRecord} to look for.
 	 * @return ref array
 	 * @access public
 	 */
@@ -216,8 +216,8 @@ class RecordTagManager {
 	}
 	
 	/**
-	 * Fetches all of the {@link RecordTag}s available for {@link Record} ID $id with all mapping data loaded.
-	 * @param int $id The {@link Record} ID.
+	 * Fetches all of the {@link RecordTag}s available for {@link DMRecord} ID $id with all mapping data loaded.
+	 * @param int $id The {@link DMRecord} ID.
 	 * @return ref array
 	 * @access public
 	 */
@@ -274,7 +274,7 @@ class RecordTagManager {
 	}
 	
 	/**
-	 * Deletes all tags stored in the database for {@link Record} id $id.
+	 * Deletes all tags stored in the database for {@link DMRecord} id $id.
 	 * @access public
 	 * @param int $id
 	 * @return void

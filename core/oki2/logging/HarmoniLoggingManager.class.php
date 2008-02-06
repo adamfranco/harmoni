@@ -7,7 +7,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniLoggingManager.class.php,v 1.4 2007/10/11 17:40:40 adamfranco Exp $
+ * @version $Id: HarmoniLoggingManager.class.php,v 1.5 2008/02/06 15:37:51 adamfranco Exp $
  */
 
 require_once(OKI2."/osid/logging/LoggingManager.php");
@@ -51,7 +51,7 @@ require_once(dirname(__FILE__)."/HarmoniWritableLog.class.php");
  * @package harmoni.osid_v2.logging
  */
 class HarmoniLoggingManager
-	extends LoggingManager
+	implements LoggingManager
 {
 	/**
 	 * The database connection as returned by the DBHandler.
@@ -80,7 +80,7 @@ class HarmoniLoggingManager
 	 * 
 	 * @access public
 	 */
-	function assignConfiguration ( $configuration ) { 
+	function assignConfiguration ( Properties $configuration ) { 
 		$this->_configuration =$configuration;
 		
 		$dbIndex = $configuration->getProperty('database_index');
@@ -116,7 +116,7 @@ class HarmoniLoggingManager
 	 * 
 	 * @access public
 	 */
-	function assignOsidContext ( $context ) { 
+	function assignOsidContext ( OsidContext $context ) { 
 		$this->_osidContext =$context;
 	}
 	
@@ -439,6 +439,20 @@ class HarmoniLoggingManager
 	function supportsReading () { 
 		return true;
 	} 
+	
+	/**
+     * Verify to OsidLoader that it is loading
+     * 
+     * <p>
+     * OSID Version: 2.0
+     * </p>
+     * .
+     * 
+     * @throws object OsidException 
+     * 
+     * @access public
+     */
+    public function osidVersion_2_0 () {}
 }
 
 ?>

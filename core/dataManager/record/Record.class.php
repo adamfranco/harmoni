@@ -25,7 +25,7 @@ define("RECORD_FULL",4);
 
 
 /**
-* A Record is a set of data matching a certain {@link Schema}. The Record can be fetched from the database in a number of
+* A DMRecord is a set of data matching a certain {@link Schema}. The DMRecord can be fetched from the database in a number of
 * ways, which can be changed at runtime. See the RECORD_* constants.
  *
  * @package harmoni.datamanager
@@ -33,9 +33,9 @@ define("RECORD_FULL",4);
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Record.class.php,v 1.40 2007/10/10 22:58:36 adamfranco Exp $
+ * @version $Id: Record.class.php,v 1.41 2008/02/06 15:37:42 adamfranco Exp $
 */
-class Record {
+class DMRecord {
 	
 	var $_myID;
 	
@@ -54,10 +54,10 @@ class Record {
 	/**
 	 * Constructor
 	 * @param mixed $schema Either a {@link Schema} object or a string ID of the schema to use.
-	 * @param optional boolean $verControl If set to TRUE this Record will use version-control.
+	 * @param optional boolean $verControl If set to TRUE this DMRecord will use version-control.
 	 * @param optional int $fetchMode USED INTERNALLY
 	 */
-	function Record($schema, $verControl=false, $fetchMode = RECORD_FULL) {
+	function DMRecord($schema, $verControl=false, $fetchMode = RECORD_FULL) {
 		ArgumentValidator::validate($verControl, BooleanValidatorRule::getRule());
 //		ArgumentValidator::validate($schema, ExtendsValidatorRule::getRule("Schema"));
 		
@@ -93,7 +93,7 @@ class Record {
 	}
 	
 	/**
-	 * Returns this Record's {@link Schema}
+	 * Returns this DMRecord's {@link Schema}
 	 * @return ref object
 	 */
 	function getSchema() {
@@ -137,7 +137,7 @@ class Record {
 	}
 	
 	/**
-	 * Returns the Schema ID associated with this Record.
+	 * Returns the Schema ID associated with this DMRecord.
 	 * @return string
 	 */
 	function getSchemaID() {
@@ -145,7 +145,7 @@ class Record {
 	}
 	
 	/**
-	* Returns this Record's ID.
+	* Returns this DMRecord's ID.
 	* @return int
 	*/
 	function getID() { 
@@ -342,7 +342,7 @@ class Record {
 			$this->_myID = $row['record_id'];
 		else if ($row['record_id'] != $this->_myID) {
 			throwError( new Error("Can not take database row because it does not seem to correspond with our
-			Record ID.", "Record",true));
+			DMRecord ID.", "DMRecord",true));
 		}
 		
 		// let's check if we have our creation date set yet.
@@ -352,7 +352,7 @@ class Record {
 			$this->_dateFromDB = true;
 		}
 		
-		// if this is an empty Record, we're going to get a row with NULL values for all
+		// if this is an empty DMRecord, we're going to get a row with NULL values for all
 		// columns not in the "dm_record_field" table. so, let's check for that and return if it's the case.
 		if (!$row['record_field_id']) return;
 		
@@ -362,7 +362,7 @@ class Record {
 		$label = $this->_getFieldLabel($fieldID);
 
 		if (!isset($this->_fields[$fieldID])) {
-			throwError( new Error("Could not populate Record with label '$label' because it doesn't
+			throwError( new Error("Could not populate DMRecord with label '$label' because it doesn't
 				seem to be defined in the Schema.","record",true));
 		}
 		
@@ -373,7 +373,7 @@ class Record {
 	}
 	
 	/**
-	 * Returns the {@link DateAndTime} object specifying when this Record was created.
+	 * Returns the {@link DateAndTime} object specifying when this DMRecord was created.
 	 * @access public
 	 * @return ref object
 	 */
@@ -406,7 +406,7 @@ class Record {
 	}
 	
 	/**
-	 * Returns if this Record is about to be deleted or not.
+	 * Returns if this DMRecord is about to be deleted or not.
 	 * @return bool
 	 * @access public
 	 */
@@ -477,7 +477,7 @@ class Record {
 	}
 	
 	/**
-	* Commits (either inserts or updates) the data for this Record into the database.
+	* Commits (either inserts or updates) the data for this DMRecord into the database.
 	* @param boolean optional $ignoreMandatory If true, doesn't fail if mandatory
 	*		fields don't have values.
 	* @return bool
@@ -498,8 +498,8 @@ class Record {
 				$fieldDef =$this->_schema->getField($id);
 				if ($fieldDef->isRequired() && ($this->_fields[$id]->numValues(true) == 0 ||
 						$this->_fields[$id]->numValues() == 0) && !$ignoreMandatory) {
-					throwError(new Error("Could not commit Record to database because the required field '$id' does
-					not have any values!","Record",true));
+					throwError(new Error("Could not commit DMRecord to database because the required field '$id' does
+					not have any values!","DMRecord",true));
 					return false;
 				}
 			}
@@ -538,7 +538,7 @@ class Record {
 			$result =$dbHandler->query($query,DATAMANAGER_DBID);
 			
 			if (!$result) {
-				throwError( new UnknownDBError("Record") );
+				throwError( new UnknownDBError("DMRecord") );
 				return false;
 			}
 		}
@@ -596,7 +596,7 @@ class Record {
 	}
 	
 	/**
-	* Uses the {@link RecordTagManager} service to add a tag of the current state (in the DB) of this Record.
+	* Uses the {@link RecordTagManager} service to add a tag of the current state (in the DB) of this DMRecord.
 	* @return void
 	* @param optional object $date An optional {@link DateAndTime} to specify the date that should be attached to the tag instead of the current date/time.
 	*/
@@ -627,15 +627,15 @@ class Record {
 	}
 	
 	/**
-	* Creates an exact (specific to the data) copy of the Record, that can then be inserted into
+	* Creates an exact (specific to the data) copy of the DMRecord, that can then be inserted into
 	* the DB as a new set with the same data.
-	* @return ref object A new {@link Record} object.
+	* @return ref object A new {@link DMRecord} object.
 	*/
 	function replicate() {
 		
 		$this->makeFull();
 		
-		$newSet = new Record($this->_schema, $this->_versionControlled);
+		$newSet = new DMRecord($this->_schema, $this->_versionControlled);
 		// @todo
 		foreach ($this->_schema->getAllIDs() as $id) {
 			$label = $this->_getFieldLabel($id);
@@ -684,7 +684,7 @@ class Record {
 	function activateTag($tag) {
 		// check to make sure the tag is affiliated with us
 		if ($this->getID() != $tag->getRecordID()) {
-			throwError (new Error("Can not activate tag because it is not affiliated with this Record.","Record",true));
+			throwError (new Error("Can not activate tag because it is not affiliated with this DMRecord.","DMRecord",true));
 			return false;
 		}
 		
@@ -814,7 +814,7 @@ class Record {
  */
 class FieldNotFoundError extends Error {
 	function FieldNotFoundError($label,$type) {
-		parent::Error("The field labeled '$label' was not found in schema '$type'.","Record",true);
+		parent::Error("The field labeled '$label' was not found in schema '$type'.","DMRecord",true);
 	}
 }
 
@@ -823,7 +823,7 @@ class FieldNotFoundError extends Error {
  */
 class ValueIndexNotFoundError extends Error {
 	function ValueIndexNotFoundError($label,$id,$index) {
-		parent::Error("The value index $index was not found for field '$label' in Record ID $id.","Record",true);
+		parent::Error("The value index $index was not found for field '$label' in DMRecord ID $id.","DMRecord",true);
 	}
 }
 

@@ -11,7 +11,7 @@ require_once(HARMONI.'oki2/authorization/HarmoniFunctionIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthorizationCache.class.php,v 1.34 2007/10/22 16:21:49 adamfranco Exp $
+ * @version $Id: AuthorizationCache.class.php,v 1.35 2008/02/06 15:37:48 adamfranco Exp $
  */
 class AuthorizationCache {
 
@@ -370,7 +370,7 @@ class AuthorizationCache {
 		ArgumentValidator::validate($functionType, ExtendsValidatorRule::getRule("Type"), true);
 		// ** end of parameter validation
 
-		$typeString = Type::typeToString($functionType);
+		$typeString = $functionType->asString();
 		if (!isset($this->_functions) || !isset($this->_functions[$typeString])) {			
 			if (!isset($this->_functions))
 				$this->_functions = array();
@@ -572,8 +572,8 @@ class AuthorizationCache {
 		$hierarchyManager = Services::getService("Hierarchy");
 		$node = $hierarchyManager->getNode($qualifierId);
 		$hierarchy = $hierarchyManager->getHierarchyForNode($node);
-		$nodes = $hierarchy->traverse($qualifierId, Hierarchy::TRAVERSE_MODE_DEPTH_FIRST(), 
-										Hierarchy::TRAVERSE_DIRECTION_DOWN(), Hierarchy::TRAVERSE_LEVELS_ALL());
+		$nodes = $hierarchy->traverse($qualifierId, Hierarchy::TRAVERSE_MODE_DEPTH_FIRST, 
+										Hierarchy::TRAVERSE_DIRECTION_DOWN, Hierarchy::TRAVERSE_LEVELS_ALL);
 
 		// create the qualifiers
 		$qualifiers = array();
@@ -749,8 +749,8 @@ class AuthorizationCache {
 		
 			if ($searchUp) {
 				// these are the ancestor nodes
-				$nodes =$hierarchy->traverse($qualifierId, Hierarchy::TRAVERSE_MODE_DEPTH_FIRST(),
-						Hierarchy::TRAVERSE_DIRECTION_UP(), Hierarchy::TRAVERSE_LEVELS_ALL());
+				$nodes =$hierarchy->traverse($qualifierId, Hierarchy::TRAVERSE_MODE_DEPTH_FIRST,
+						Hierarchy::TRAVERSE_DIRECTION_UP, Hierarchy::TRAVERSE_LEVELS_ALL);
 				
 				// now get the id of each node and store in array
 				while($nodes->hasNext()){
@@ -1018,9 +1018,9 @@ $timer = new Timer;
 $timer->start();						
 						$nodes =$hierarchy->traverse(
 							$explicitQualifierId, 
-							Hierarchy::TRAVERSE_MODE_DEPTH_FIRST(),
-							Hierarchy::TRAVERSE_DIRECTION_DOWN(),
-							Hierarchy::TRAVERSE_LEVELS_ALL());
+							Hierarchy::TRAVERSE_MODE_DEPTH_FIRST,
+							Hierarchy::TRAVERSE_DIRECTION_DOWN,
+							Hierarchy::TRAVERSE_LEVELS_ALL);
 $timer->end();
 printf("LoadAZTime: %1.6f <br/>", $timer->printTime());
 								

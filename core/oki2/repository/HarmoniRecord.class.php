@@ -24,11 +24,11 @@ require_once(HARMONI."/oki2/repository/HarmoniPartIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniRecord.class.php,v 1.25 2007/10/09 20:57:22 adamfranco Exp $ 
+ * @version $Id: HarmoniRecord.class.php,v 1.26 2008/02/06 15:37:52 adamfranco Exp $ 
  */
 
 class HarmoniRecord 
-	extends RecordInterface
+	implements Record
 {
 	
 	var $_record;
@@ -43,7 +43,7 @@ class HarmoniRecord
 	 */
 	private $manager;
 	
-	function HarmoniRecord(RepositoryManager $manager, RecordStructure $recordStructure, Record $record, Asset $asset ) {
+	function HarmoniRecord(RepositoryManager $manager, RecordStructure $recordStructure, DMRecord $record, Asset $asset ) {
 		$this->manager = $manager;
 		$this->_record=$record;
 		$this->_recordStructure =$recordStructure;
@@ -52,7 +52,56 @@ class HarmoniRecord
 		
 		$this->_asset =$asset;
 	}
- /**
+	
+	/**
+     * Update the display name for this Record.
+     * 
+     * @param string $displayName
+     * 
+     * @throws object RepositoryException An exception with one of
+     *         the following messages defined in
+     *         org.osid.repository.RepositoryException may be thrown: {@link
+     *         org.osid.repository.RepositoryException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+     *         UNIMPLEMENTED}, {@link
+     *         org.osid.repository.RepositoryException#NULL_ARGUMENT
+     *         NULL_ARGUMENT}
+     * 
+     * @access public
+     */
+    public function updateDisplayName ( $displayName ) {
+    	throw new UnimplementedException;
+    }
+
+    /**
+     * Get the display name for this Record.
+     *  
+     * @return string
+     * 
+     * @throws object RepositoryException An exception with one of
+     *         the following messages defined in
+     *         org.osid.repository.RepositoryException may be thrown: {@link
+     *         org.osid.repository.RepositoryException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.repository.RepositoryException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}, {@link
+     *         org.osid.repository.RepositoryException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.repository.RepositoryException#UNIMPLEMENTED
+     *         UNIMPLEMENTED}
+     * 
+     * @access public
+     */
+    public function getDisplayName () {
+    	throw new UnimplementedException;
+    }
+	
+	/**
 	 * Get the unique Id for this Record.
 	 *	
 	 * @return object Id
@@ -104,7 +153,7 @@ class HarmoniRecord
 	 * 
 	 * @access public
 	 */
-	function createPart ( $partStructureId, $value ) { 
+	function createPart ( Id $partStructureId, $value ) { 
 		ArgumentValidator::validate($value, ExtendsValidatorRule::getRule("SObject"));
 		$partID = $partStructureId->getIdString();
 		
@@ -177,7 +226,7 @@ class HarmoniRecord
 	 * 
 	 * @access public
 	 */
-	function deletePart ( $partId ) { 
+	function deletePart ( Id $partId ) { 
 		$string = $partId->getIdString();
 		if (ereg("(.+)::(.+)::([0-9]+)",$string,$r)) {
 			$recordId = $r[1];
@@ -250,7 +299,7 @@ class HarmoniRecord
 	 * @access public
 	 * @since 10/10/05
 	 */
-	function getPart ($id) {
+	function getPart (Id $id) {
 		$parts =$this->getParts();
 		
 		while ($parts->hasNext()) {
@@ -324,7 +373,7 @@ class HarmoniRecord
      * 
      * @access public
      */
-    function getPartsByPartStructure ( $partStructureId ) {
+    function getPartsByPartStructure ( Id $partStructureId ) {
     	$partStructure =$this->_recordStructure->getPartStructure($partStructureId);
 		$partStructureId = $partStructure->getId();
 		$idString = $partStructureId->getIdString();		

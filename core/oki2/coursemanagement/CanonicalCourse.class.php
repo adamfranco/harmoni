@@ -28,10 +28,10 @@ require_once(HARMONI."oki2/shared/HarmoniStringIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: CanonicalCourse.class.php,v 1.29 2007/09/04 20:25:39 adamfranco Exp $
+ * @version $Id: CanonicalCourse.class.php,v 1.30 2008/02/06 15:37:48 adamfranco Exp $
  */
 class HarmoniCanonicalCourse
-	extends CanonicalCourse
+	implements CanonicalCourse
 {
 	
 	
@@ -369,7 +369,7 @@ class HarmoniCanonicalCourse
 	 * 
 	 * @access public
 	 */
-	function createCanonicalCourse ( $title, $number, $description, $courseType, $courseStatusType, $credits ) { 
+	function createCanonicalCourse ( $title, $number, $description, Type $courseType, Type $courseStatusType, $credits ) { 
 	
 		
 		$idManager = Services::getService("IdManager");
@@ -476,7 +476,7 @@ class HarmoniCanonicalCourse
 	 * 
 	 * @access public
 	 */
-	function getCanonicalCoursesByType ( $courseType ) { 
+	function getCanonicalCoursesByType ( Type $courseType ) { 
 		$cm = Services::getService("CourseManagement");
 		
 		//get the children
@@ -541,7 +541,7 @@ class HarmoniCanonicalCourse
 	 * 
 	 * @access public
 	 */
-	function createCourseOffering ( $title, $number, $description, $termId, $offeringType, $offeringStatusType, $courseGradeType ) { 
+	function createCourseOffering ( $title, $number, $description, Id $termId, Type $offeringType, Type $offeringStatusType, Type $courseGradeType ) { 
 		
 		//set any defaults
 		if(is_null($title)){
@@ -622,7 +622,7 @@ class HarmoniCanonicalCourse
 	 * 
 	 * @access public
 	 */
-	function deleteCourseOffering ( $courseOfferingId ) { 
+	function deleteCourseOffering ( Id $courseOfferingId ) { 
 	  
 	  $node =$this->_hierarchy->getNode($courseOfferingId);
 
@@ -717,7 +717,7 @@ class HarmoniCanonicalCourse
 	 * 
 	 * @access public
 	 */
-	function getCourseOfferingsByType ( $offeringType ) { 
+	function getCourseOfferingsByType ( Type $offeringType ) { 
 	
 		$nodeIterator =$this->_node->getChildren();
 		
@@ -771,7 +771,7 @@ class HarmoniCanonicalCourse
 	 * 
 	 * @access public
 	 */
-	function addEquivalentCourse ( $canonicalCourseId ) {
+	function addEquivalentCourse ( Id $canonicalCourseId ) {
 		//Courses are equivalent if they have the same id in the equivalent field
 		//The id chosen is the lowest of the ids
 		//getField()
@@ -829,7 +829,7 @@ class HarmoniCanonicalCourse
 	 * 
 	 * @access public
 	 */
-	function removeEquivalentCourse ( $canonicalCourseId ) { 		
+	function removeEquivalentCourse ( Id $canonicalCourseId ) { 		
 		$cm = Services::getService("CourseManagement");		
 		$course =$cm->getCanonicalCourse($canonicalCourseId);		
 		$courseIterator =$course->getEquivalentCourses();	
@@ -1154,7 +1154,7 @@ class HarmoniCanonicalCourse
 	 * 
 	 * @access public
 	 */
-	function updateStatus ( $statusType ) { 
+	function updateStatus ( Type $statusType ) { 
 
 		$index = $this->_typeToIndex('can_stat',$statusType);
 		$this->_setField('fk_cm_can_stat_type',$index);
@@ -1246,7 +1246,7 @@ class HarmoniCanonicalCourse
 	*
 	* @access public
 	*/
-	function getPropertiesByType ( $propertiesType ) {
+	function getPropertiesByType ( Type $propertiesType ) {
 		$courseType =$this->getCourseType();
 		$propType = new Type("PropertiesType", $courseType->getAuthority(), "properties"); 		
 		if($propertiesType->isEqualTo($propType)){

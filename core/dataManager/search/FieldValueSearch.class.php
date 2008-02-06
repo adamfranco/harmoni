@@ -3,14 +3,14 @@
 require_once HARMONI."dataManager/search/SearchCriteria.interface.php";
 
 /**
- * Searches for only {@link Record}s that contain a certain field=value pair.
+ * Searches for only {@link DMRecord}s that contain a certain field=value pair.
  *
  * @package harmoni.datamanager.search
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: FieldValueSearch.class.php,v 1.13 2007/09/04 20:25:32 adamfranco Exp $
+ * @version $Id: FieldValueSearch.class.php,v 1.14 2008/02/06 15:37:43 adamfranco Exp $
  */
 class FieldValueSearch extends SearchCriteria {
 	

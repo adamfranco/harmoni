@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AgentTokenMappingManager.class.php,v 1.12 2007/09/13 16:04:18 adamfranco Exp $
+ * @version $Id: AgentTokenMappingManager.class.php,v 1.13 2008/02/06 15:37:46 adamfranco Exp $
  */ 
  
  require_once(dirname(__FILE__)."/AgentTokenMapping.class.php");
@@ -36,10 +36,10 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AgentTokenMappingManager.class.php,v 1.12 2007/09/13 16:04:18 adamfranco Exp $
+ * @version $Id: AgentTokenMappingManager.class.php,v 1.13 2008/02/06 15:37:46 adamfranco Exp $
  */
 class AgentTokenMappingManager
-	extends OsidManager
+	implements OsidManager
 {
 	/**
 	 * Constructor. We wish to ensure that the manager is properly configured
@@ -84,7 +84,7 @@ class AgentTokenMappingManager
      * 
      * @access public
      */
-    function assignOsidContext ( $context ) { 
+    function assignOsidContext ( OsidContext $context ) { 
         $this->_osidContext =$context;
     } 
 
@@ -105,7 +105,7 @@ class AgentTokenMappingManager
      * 
      * @access public
      */
-    function assignConfiguration ( $configuration ) { 
+    function assignConfiguration ( Properties $configuration ) { 
         $this->_configuration =$configuration;
         ArgumentValidator::validate($this->_configuration->getProperty('database_id'),
         	IntegerValidatorRule::getRule());
@@ -125,12 +125,8 @@ class AgentTokenMappingManager
 	 * @access public
 	 * @since 3/1/05
 	 */
-	function createMapping ( $agentId, $authNTokens, $authenticationType ) {
+	function createMapping ( Id $agentId, AuthNTokens $authNTokens, Type $authenticationType ) {
 		$this->_checkConfig();
-		
-		ArgumentValidator::validate($authNTokens, ExtendsValidatorRule::getRule("AuthNTokens"));
-		ArgumentValidator::validate($agentId, ExtendsValidatorRule::getRule("Id"));
-		ArgumentValidator::validate($authenticationType, ExtendsValidatorRule::getRule("Type"));
 		
 		if ($this->mappingExists($agentId, $authNTokens, $authenticationType))
 			throwError( new Error("Cannot create Mapping. Mapping already exists: ('"
@@ -185,11 +181,9 @@ class AgentTokenMappingManager
 	 * @access public
 	 * @since 3/9/05
 	 */
-	function deleteMapping ( $mapping ) {
+	function deleteMapping ( AgentTokenMapping $mapping ) {
 		$this->_checkConfig();
-		
-		ArgumentValidator::validate($mapping, ExtendsValidatorRule::getRule("AgentTokenMapping"));
-		
+				
 		$dbc = Services::getService("DatabaseManager");
 		$dbc->beginTransaction($this->_dbId);
 		
@@ -238,11 +232,8 @@ class AgentTokenMappingManager
 	 * @access public
 	 * @since 3/9/05
 	 */
-	function getMappingForTokens ( $authNTokens, $authenticationType ) {
+	function getMappingForTokens ( AuthNTokens $authNTokens, Type $authenticationType ) {
 		$this->_checkConfig();
-		
-		ArgumentValidator::validate($authNTokens, ExtendsValidatorRule::getRule("AuthNTokens"));
-		ArgumentValidator::validate($authenticationType, ExtendsValidatorRule::getRule("Type"));
 		
 		$dbc = Services::getService("DatabaseManager");
 		
@@ -283,11 +274,8 @@ class AgentTokenMappingManager
 	 * @access public
 	 * @since 3/9/05
 	 */
-	function getMappingsForAgentIdAndAuthenticationType ( $agentId, $authenticationType ) {
+	function getMappingsForAgentIdAndAuthenticationType ( Id $agentId, Type $authenticationType ) {
 		$this->_checkConfig();
-		
-		ArgumentValidator::validate($agentId, ExtendsValidatorRule::getRule("Id"));
-		ArgumentValidator::validate($authenticationType, ExtendsValidatorRule::getRule("Type"));
 		
 		$dbc = Services::getService("DatabaseManager");
 		
@@ -323,11 +311,9 @@ class AgentTokenMappingManager
 	 * @access public
 	 * @since 3/9/05
 	 */
-	function getMappingsForAgentId ( $agentId ) {
+	function getMappingsForAgentId ( Id $agentId ) {
 		$this->_checkConfig();
-		
-		ArgumentValidator::validate($agentId, ExtendsValidatorRule::getRule("Id"));
-		
+				
 		$dbc = Services::getService("DatabaseManager");
 		
 		$query =$this->_createSelectQuery();
@@ -355,12 +341,8 @@ class AgentTokenMappingManager
 	 * @access public
 	 * @since 3/1/05
 	 */
-	function mappingExists ( $agentId, $authNTokens, $authenticationType ) {
+	function mappingExists ( Id $agentId, AuthNTokens $authNTokens, Type $authenticationType ) {
 		$this->_checkConfig();
-		
-		ArgumentValidator::validate($authNTokens, ExtendsValidatorRule::getRule("AuthNTokens"));
-		ArgumentValidator::validate($agentId, ExtendsValidatorRule::getRule("Id"));
-		ArgumentValidator::validate($authenticationType, ExtendsValidatorRule::getRule("Type"));
 		
 		$dbc = Services::getService("DatabaseManager");
 		
@@ -411,11 +393,8 @@ class AgentTokenMappingManager
 	 * @access private
 	 * @since 3/1/05
 	 */
-	function _mappingExistsForTokens ($authNTokens, $authenticationType ) {
+	function _mappingExistsForTokens (AuthNTokens $authNTokens, Type $authenticationType ) {
 		$this->_checkConfig();
-		
-		ArgumentValidator::validate($authNTokens, ExtendsValidatorRule::getRule("AuthNTokens"));
-		ArgumentValidator::validate($authenticationType, ExtendsValidatorRule::getRule("Type"));
 		
 		$dbc = Services::getService("DatabaseManager");
 		
@@ -475,7 +454,7 @@ class AgentTokenMappingManager
 	 * @access private
 	 * @since 3/9/05
 	 */
-	function _getTypeKey ( $type ) {
+	function _getTypeKey ( Type $type ) {
 		$dbc = Services::getService("DatabaseManager");
 		
 		// Check if the type exists and return its key if found.
@@ -524,12 +503,12 @@ class AgentTokenMappingManager
 	/**
 	 * Create an array of mapping objects from a query result.
 	 * 
-	 * @param object SelectQueryResult
+	 * @param object SelectQueryResultInterface
 	 * @return array
 	 * @access private
 	 * @since 3/9/05
 	 */
-	function _createMappingsFromResult ( $result ) {
+	function _createMappingsFromResult ( SelectQueryResultInterface $result ) {
 		$mappings = array();
 		$types = array();
 		$idManager = Services::getService('Id');
@@ -584,7 +563,19 @@ class AgentTokenMappingManager
 		return $query;
 	}
 	
-	
+	/**
+     * Verify to OsidLoader that it is loading
+     * 
+     * <p>
+     * OSID Version: 2.0
+     * </p>
+     * .
+     * 
+     * @throws object OsidException 
+     * 
+     * @access public
+     */
+    public function osidVersion_2_0 () {}	
 }
 
 ?>

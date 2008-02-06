@@ -69,13 +69,8 @@ require_once(HARMONI."oki2/grading/HarmoniGradeRecordIterator.class.php");
  * @package org.osid.grading
  */
 class HarmoniGradingManager
-    extends GradingManager
+    implements GradingManager
 {
-	
-	
-	
-	
-	
 	
 	/**
 	* @variable object OsidContext $_osidContext the OSID context.
@@ -116,7 +111,7 @@ class HarmoniGradingManager
 	*
 	* @access public
 	*/
-	function assignConfiguration ( $configuration ) {
+	function assignConfiguration ( Properties $configuration ) {
 		
 		
 	}
@@ -145,7 +140,7 @@ class HarmoniGradingManager
 	*
 	* @access public
 	*/
-	function assignOsidContext ( $context ) {
+	function assignOsidContext ( OsidContext $context ) {
 		
 		$this->_osidContext =$context;
 	}
@@ -189,7 +184,7 @@ class HarmoniGradingManager
      * 
      * @access public
      */
-    function createGradableObject ( $displayName, $description, $courseSectionId, $externalReferenceId, $gradeType, $scoringDefinition, $gradeScale, $gradeWeight ) { 
+    function createGradableObject ( $displayName, $description, Id $courseSectionId, Id $externalReferenceId, Type $gradeType, Type $scoringDefinition, Type $gradeScale, $gradeWeight ) { 
         //make id
 		$idManager = Services::getService("IdManager");
 		$id=$idManager->createId();
@@ -243,7 +238,7 @@ class HarmoniGradingManager
      * 
      * @access public
      */
-    function deleteGradableObject ( $gradableObjectId ) {
+    function deleteGradableObject ( Id $gradableObjectId ) {
 
     	    
 		$dbManager = Services::getService("DatabaseManager");
@@ -285,7 +280,7 @@ class HarmoniGradingManager
      * 
      * @access public
      */
-    function getGradableObject ( $gradableObjectId ) { 
+    function getGradableObject ( Id $gradableObjectId ) { 
         $ret = new HarmoniGradableObject($gradableObjectId);	 
 		return $ret; 
     } 
@@ -317,7 +312,7 @@ class HarmoniGradingManager
      * 
      * @access public
      */
-    function getGradableObjects ( $courseSectionId, $externalReferenceId ) { 
+    function getGradableObjects ( Id $courseSectionId, Id $externalReferenceId ) { 
         //set up query
     	$dbManager = Services::getService("DatabaseManager");
 		$query= new SelectQuery;
@@ -387,7 +382,7 @@ class HarmoniGradingManager
      * 
      * @access public
      */
-    function createGradeRecord ( $gradableObjectId, $agentId, $gradeValue, $GradeRecordType ) { 
+    function createGradeRecord ( Id $gradableObjectId, Id $agentId, $gradeValue, Type $GradeRecordType ) { 
         //make id
 		$idManager = Services::getService("IdManager");
 		$id=$idManager->createId();
@@ -440,7 +435,7 @@ class HarmoniGradingManager
      * 
      * @access public
      */
-    function deleteGradeRecord ( $gradableObjectId, $agentId, $GradeRecordType = null) { 
+    function deleteGradeRecord ( Id $gradableObjectId, Id $agentId, Type $GradeRecordType) { 
         $dbManager = Services::getService("DatabaseManager");
 		$query= new DeleteQuery;
 		$query->setTable('gr_record');
@@ -489,7 +484,7 @@ class HarmoniGradingManager
      * 
      * @access public
      */
-    function getGradeRecords ( $courseSectionId, $externalReferenceId, $gradableObjectId, $agentId, $GradeRecordType ) {         
+    function getGradeRecords ( Id $courseSectionId, Id $externalReferenceId, Id $gradableObjectId, Id $agentId, Type $GradeRecordType ) {         
     	//set up query
     	$dbManager = Services::getService("DatabaseManager");
 		$query= new SelectQuery;
@@ -856,7 +851,20 @@ class HarmoniGradingManager
 		$ret=$row[$key];
 		return $ret;
 	}
-    
+
+	/**
+     * Verify to OsidLoader that it is loading
+     * 
+     * <p>
+     * OSID Version: 2.0
+     * </p>
+     * .
+     * 
+     * @throws object OsidException 
+     * 
+     * @access public
+     */
+    public function osidVersion_2_0 () {}    
 }
 
 ?>

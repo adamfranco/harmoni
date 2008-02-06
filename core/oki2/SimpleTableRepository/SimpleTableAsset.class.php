@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SimpleTableAsset.class.php,v 1.4 2007/10/30 16:32:47 adamfranco Exp $
+ * @version $Id: SimpleTableAsset.class.php,v 1.5 2008/02/06 15:37:45 adamfranco Exp $
  */ 
 
 require_once(dirname(__FILE__)."/SimpleTableRecord.class.php");
@@ -22,11 +22,10 @@ require_once(dirname(__FILE__)."/SimpleTablePart.class.php");
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SimpleTableAsset.class.php,v 1.4 2007/10/30 16:32:47 adamfranco Exp $
+ * @version $Id: SimpleTableAsset.class.php,v 1.5 2008/02/06 15:37:45 adamfranco Exp $
  */
 class SimpleTableAsset
-	extends Asset
-	// implements Asset
+	implements Asset
 {
 	
 	/**
@@ -498,7 +497,7 @@ class SimpleTableAsset
 	 * 
 	 * @access public
 	 */
-	function addAsset ( $assetId ) { 
+	function addAsset ( Id $assetId ) { 
 		throw new UnimplementedException();
 	} 
 	
@@ -526,7 +525,7 @@ class SimpleTableAsset
 	 * 
 	 * @access public
 	 */
-	function removeAsset ( $assetId, $includeChildren ) { 
+	function removeAsset ( Id $assetId, $includeChildren ) { 
 		throw new UnimplementedException();
 	} 
 	
@@ -580,7 +579,7 @@ class SimpleTableAsset
 	 * 
 	 * @access public
 	 */
-	function getAssetsByType ( $assetType ) { 
+	function getAssetsByType ( Type $assetType ) { 
 		throw new UnimplementedException();
 	} 
 	
@@ -609,7 +608,7 @@ class SimpleTableAsset
 	 * 
 	 * @access public
 	 */
-	function createRecord ( $recordStructureId ) { 
+	function createRecord ( Id $recordStructureId ) { 
 		throw new UnimplementedException();
 	} 
 	
@@ -641,7 +640,7 @@ class SimpleTableAsset
 	 * 
 	 * @access public
 	 */
-	function inheritRecordStructure ( $assetId, $recordStructureId ) { 
+	function inheritRecordStructure ( Id $assetId, Id $recordStructureId ) { 
 		throw new UnimplementedException();
 	} 
 	
@@ -672,7 +671,7 @@ class SimpleTableAsset
 	 * 
 	 * @access public
 	 */
-	function copyRecordStructure ( $assetId, $recordStructureId ) { 
+	function copyRecordStructure ( Id $assetId, Id $recordStructureId ) { 
 		throw new UnimplementedException();
 	} 
 	
@@ -700,7 +699,7 @@ class SimpleTableAsset
 	 * 
 	 * @access public
 	 */
-	function deleteRecord ( $recordId ) { 
+	function deleteRecord ( Id $recordId ) { 
 		throw new UnimplementedException();
 	} 
 	
@@ -753,7 +752,7 @@ class SimpleTableAsset
 	 * 
 	 * @access public
 	 */
-	function getRecordsByRecordStructure ( $recordStructureId ) { 
+	function getRecordsByRecordStructure ( Id $recordStructureId ) { 
 		switch ($recordStructureId->getIdString()) {
 			case 'dc':
 				return new HarmoniIterator(array($this->dcRecord));
@@ -789,7 +788,7 @@ class SimpleTableAsset
 	 * 
 	 * @access public
 	 */
-	function getRecordsByRecordStructureType ( $recordStructureType ) { 
+	function getRecordsByRecordStructureType ( Type $recordStructureType ) { 
 		throw new UnimplementedException();
 	} 
 	
@@ -865,7 +864,7 @@ class SimpleTableAsset
 	 * 
 	 * @access public
 	 */
-	function getRecord ( $recordId ) { 
+	function getRecord ( Id $recordId ) { 
 		if ($recordId->isEqual($this->dcRecord->getId()))
 			return $this->dcRecord;
 		if ($recordId->isEqual($this->customRecord->getId()))
@@ -899,7 +898,7 @@ class SimpleTableAsset
 	 * 
 	 * @access public
 	 */
-	function getPart ( $partId ) { 
+	function getPart ( Id $partId ) { 
 		try {
 			return $this->dcRecord->getPart($partId);
 		} catch (Exception $e) {
@@ -936,7 +935,7 @@ class SimpleTableAsset
 	 * 
 	 * @access public
 	 */
-	function getPartValue ( $partId ) { 
+	function getPartValue ( Id $partId ) { 
 		try {
 			$part = $this->getPart($partId);
 		} catch (Exception $e) {
@@ -971,7 +970,7 @@ class SimpleTableAsset
 	 * 
 	 * @access public
 	 */
-	function getPartsByPartStructure ( $partStructureId ) { 
+	function getPartsByPartStructure ( Id $partStructureId ) { 
 		try {
 			return $this->dcRecord->getPartsByPartStructure($partStructureId);
 		} catch (Exception $e) {
@@ -1008,7 +1007,7 @@ class SimpleTableAsset
 	 * 
 	 * @access public
 	 */
-	function getPartValuesByPartStructure ( $partStructureId ) { 
+	function getPartValuesByPartStructure ( Id $partStructureId ) { 
 		try {
 			$parts = $this->getPartsByPartStructure($partStructureId);
 		} catch (Exception $e) {

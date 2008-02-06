@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordSet.class.php,v 1.12 2007/09/04 20:25:32 adamfranco Exp $
+ * @version $Id: RecordSet.class.php,v 1.13 2008/02/06 15:37:43 adamfranco Exp $
  */
 class RecordSet {
 	
@@ -24,7 +24,7 @@ class RecordSet {
 	
 	/**
 	 * Adds the records in the passed array to our set.
-	 * @param ref array $records An array of {@link Record} objects.
+	 * @param ref array $records An array of {@link DMRecord} objects.
 	 * @access public
 	 * @return void
 	 */
@@ -57,7 +57,7 @@ class RecordSet {
 	}
 	
 	/**
-	 * Returns if this set contains the passed {@link Record}
+	 * Returns if this set contains the passed {@link DMRecord}
 	 * @param ref object $record
 	 * @access public
 	 * @return boolean
@@ -77,7 +77,7 @@ class RecordSet {
 	
 	/**
 	 * Removes the given record from the set.
-	 * @param ref object $record A {@link Record} object.
+	 * @param ref object $record A {@link DMRecord} object.
 	 * @access public
 	 * @return void
 	 */
@@ -101,7 +101,7 @@ class RecordSet {
 	}
 	
 	/**
-	 * Returns an array of Record IDs that we know about.
+	 * Returns an array of DMRecord IDs that we know about.
 	 * @return array
 	 */
 	function getRecordIDs() {
@@ -146,7 +146,7 @@ class RecordSet {
 	}
 	
 	/**
-	 * Adds the given {@link Record} to our list.
+	 * Adds the given {@link DMRecord} to our list.
 	 * @param ref object $record
 	 * @return void
 	 */
@@ -194,16 +194,16 @@ class RecordSet {
 	}
 	
 	/**
-	 * Returns all of the {@link Record}s within this Set to the state they were in on the given date.
+	 * Returns all of the {@link DMRecord}s within this Set to the state they were in on the given date.
 	 * @param ref object $date A {@link DateAndTime} object.
 	 * @access public
 	 * @return boolean
 	 */
 	function revertToDate($date)
 	{
-		// this function goes through each Record, gets all the tags, and finds the one that has the closest tag
+		// this function goes through each DMRecord, gets all the tags, and finds the one that has the closest tag
 		// date to $date, as long as the tag date is *before* $date.
-		// then, we activate that tag on the Record and commit it to the database
+		// then, we activate that tag on the DMRecord and commit it to the database
 		$tagManager = Services::getService("RecordTagManager");
 		
 		for ($i = 0; $i < count($this->_records); $i++) {
@@ -225,7 +225,7 @@ class RecordSet {
 			}
 			
 			if ($closest) {
-				// we're going to activate the tag, then commit the Record
+				// we're going to activate the tag, then commit the DMRecord
 				$d =$closest->getDate();
 				$this->_records[$i]->activateTag($closest);
 				$this->_records[$i]->commit();

@@ -15,10 +15,10 @@ require_once(OKI2."/osid/coursemanagement/Term.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Term.class.php,v 1.17 2007/09/04 20:25:39 adamfranco Exp $
+ * @version $Id: Term.class.php,v 1.18 2008/02/06 15:37:48 adamfranco Exp $
  */
 class HarmoniTerm
-	extends Term
+	implements Term
 {
 	
 		/**

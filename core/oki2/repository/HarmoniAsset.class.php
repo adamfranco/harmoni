@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAsset.class.php,v 1.52 2008/01/25 20:50:45 adamfranco Exp $
+ * @version $Id: HarmoniAsset.class.php,v 1.53 2008/02/06 15:37:52 adamfranco Exp $
  */
 
 require_once(HARMONI."oki2/repository/HarmoniAsset.interface.php");
@@ -26,11 +26,11 @@ require_once(dirname(__FILE__)."/FromNodesAssetIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniAsset.class.php,v 1.52 2008/01/25 20:50:45 adamfranco Exp $ 
+ * @version $Id: HarmoniAsset.class.php,v 1.53 2008/02/06 15:37:52 adamfranco Exp $ 
  */
 
 class HarmoniAsset
-	extends HarmoniAssetInterface
+	implements Asset, HarmoniAssetInterface
 { // begin Asset
 	
 	var $_configuration;
@@ -492,7 +492,7 @@ class HarmoniAsset
      * 
      * @access public
      */
-    function addAsset ( $assetId ) { 
+    function addAsset ( Id $assetId ) { 
 		$node =$this->_hierarchy->getNode($assetId);
 		$oldParents =$node->getParents();
 		// We are assuming a single-parent hierarchy
@@ -527,7 +527,10 @@ class HarmoniAsset
      * 
      * @access public
      */
-    function removeAsset ( $assetId, $includeChildren = FALSE ) { 
+    function removeAsset ( Id $assetId, $includeChildren ) { 
+    	if ($includeChildren !== true)
+    		 $includeChildren = FALSE;
+    	
 		$node =$this->_hierarchy->getNode($assetId);
 	
 		if (!$includeChildren) {
@@ -628,9 +631,9 @@ class HarmoniAsset
     function getDescendentInfo () {
     	$traversalInfo =$this->_hierarchy->traverse(
     		$this->getId(),
-    		Hierarchy::TRAVERSE_MODE_DEPTH_FIRST(),
-    		Hierarchy::TRAVERSE_DIRECTION_DOWN(),
-    		Hierarchy::TRAVERSE_LEVELS_ALL());
+    		Hierarchy::TRAVERSE_MODE_DEPTH_FIRST,
+    		Hierarchy::TRAVERSE_DIRECTION_DOWN,
+    		Hierarchy::TRAVERSE_LEVELS_ALL);
     		
     	return $traversalInfo;
     }
@@ -662,7 +665,7 @@ class HarmoniAsset
      * 
      * @access public
      */
-    function getParentsByType ( $assetType ) {
+    function getParentsByType ( Type $assetType ) {
     	$assets = array();
 		$parents =$this->_node->getParents();
 		while ($parents->hasNext()) {
@@ -704,7 +707,7 @@ class HarmoniAsset
      * @access public
      */
 	
-    function getAssetsByType ( $assetType ) { 
+    function getAssetsByType ( Type $assetType ) { 
     	$assets = array();
 		$children =$this->_node->getChildren();
 		while ($children->hasNext()) {
@@ -743,8 +746,7 @@ class HarmoniAsset
      * 
      * @access public
      */
-    function createRecord ( $recordStructureId ) { 
-		ArgumentValidator::validate($recordStructureId, ExtendsValidatorRule::getRule("Id"));
+    function createRecord (Id $recordStructureId ) { 
 		
 		// If this is a schema that is hard coded into our implementation, create
 		// a record for that schema.
@@ -856,12 +858,8 @@ class HarmoniAsset
      * 
      * @access public
      */
-    function inheritRecordStructure ( $assetId, $recordStructureId ) { 
+    function inheritRecordStructure ( Id $assetId, Id $recordStructureId ) { 
 	
-		// Check the arguments
-		ArgumentValidator::validate($recordStructureId, ExtendsValidatorRule::getRule("Id"));
-		ArgumentValidator::validate($assetId, ExtendsValidatorRule::getRule("Id"));
-		
 		// If this is a schema that is hard coded into our implementation, create
 		// a record for that schema.
 		if (in_array($recordStructureId->getIdString(), array_keys($this->_repository->_builtInTypes))) 
@@ -963,12 +961,8 @@ class HarmoniAsset
      * 
      * @access public
      */
-    function copyRecordStructure ( $assetId, $recordStructureId ) { 
+    function copyRecordStructure (Id $assetId, Id $recordStructureId ) { 
 	
-		// Check the arguments	
-		ArgumentValidator::validate($recordStructureId, ExtendsValidatorRule::getRule("Id"));
-		ArgumentValidator::validate($assetId, ExtendsValidatorRule::getRule("Id"));
-		
 		// Get our managers:
 		$recordMgr = Services::getService("RecordManager");
 		$idMgr = Services::getService("Id");
@@ -1028,8 +1022,7 @@ class HarmoniAsset
      * 
      * @access public
      */
-    function deleteRecord ( $recordId ) { 
-		ArgumentValidator::validate($recordId, ExtendsValidatorRule::getRule("Id"));
+    function deleteRecord (Id $recordId ) { 
 		
 		$record =$this->getRecord($recordId);
 		$structure =$record->getRecordStructure();
@@ -1110,8 +1103,7 @@ class HarmoniAsset
      * 
      * @access public
      */
-    function getRecord ( $recordId ) { 
-		ArgumentValidator::validate($recordId, ExtendsValidatorRule::getRule("Id"));
+    function getRecord ( Id $recordId ) { 
 		
 		// Check to see if the record is in our cache.
 		// If so, return it. If not, create it, then return it.
@@ -1157,7 +1149,7 @@ class HarmoniAsset
 				$record =$recordMgr->fetchRecord($recordId->getIdString());
 	
 				// Make sure that we have a valid dataSet
-				$rule = ExtendsValidatorRule::getRule("Record");
+				$rule = ExtendsValidatorRule::getRule("DMRecord");
 				if (!$rule->check($record))
 					throwError(new Error(RepositoryException::UNKNOWN_ID(), "Repository :: Asset", TRUE));
 				
@@ -1274,8 +1266,7 @@ class HarmoniAsset
      * 
      * @access public
      */
-    function getRecordsByRecordStructure ( $recordStructureId ) { 
-		ArgumentValidator::validate($recordStructureId, ExtendsValidatorRule::getRule("Id"));
+    function getRecordsByRecordStructure (Id $recordStructureId ) { 
 		
 		$id =$this->getId();
 		$recordMgr = Services::getService("RecordManager");
@@ -1357,8 +1348,8 @@ class HarmoniAsset
      * 
      * @access public
      */
-    function getRecordsByRecordStructureType ( $recordStructureType ) { 
-        throwError(new Error(RepositoryException::UNIMPLEMENTED(), "Repository :: Asset", TRUE));
+    function getRecordsByRecordStructureType (Type $recordStructureType ) { 
+		throw new UnimplementedException();
     } 
  	
  	/**
@@ -1488,7 +1479,7 @@ class HarmoniAsset
      * 
      * @access public
      */
-    function getPart ( $partId ) { 
+    function getPart ( Id $partId ) { 
 	
 		$records =$this->getRecords();
 		while ($records->hasNext()) {
@@ -1529,7 +1520,7 @@ class HarmoniAsset
      * 
      * @access public
      */
-    function getPartValue ( $partId ) { 
+    function getPartValue ( Id $partId ) { 
 		$part =$this->getPart($partId);
 		return $part->getValue();
 	}
@@ -1559,7 +1550,7 @@ class HarmoniAsset
      * 
      * @access public
      */
-    function getPartsByPartStructure ( $partStructureId ) { 
+    function getPartsByPartStructure ( Id $partStructureId ) { 
 		$returnParts = array();
 		$records =$this->getRecords();
 		while ($records->hasNext()) {
@@ -1601,7 +1592,7 @@ class HarmoniAsset
      * 
      * @access public
      */
-    function getPartValuesByPartStructure ( $partStructureId ) { 
+    function getPartValuesByPartStructure ( Id $partStructureId ) { 
     	$partIterator =$this->getPartsByPartStructure($partStructureId);
     	$partValues = array();
 //		print $partStructureId->getIdString()."<br />";
