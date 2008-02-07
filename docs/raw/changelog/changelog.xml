@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.233 2008/02/06 15:37:56 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.234 2008/02/07 20:11:32 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -29,6 +29,9 @@
 			
 			The DataManager's 'Record' class has been renamed 'DMRecord' so that
 			it will not conflict with the OSID 'Record'.
+		</change>
+		<change author='adam' date='2008-02-07'>
+			Moved Type::fromString(Type $type) to HarmoniType class.
 		</change>
 		<new author='adam' date='2008-01-31'>
 			Agent: New search method for searching based on agent properties.

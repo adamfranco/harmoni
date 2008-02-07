@@ -60,7 +60,7 @@ require_once(HARMONI.'oki2/shared/HarmoniIdIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthorizationManager.class.php,v 1.43 2008/02/06 15:37:48 adamfranco Exp $
+ * @version $Id: HarmoniAuthorizationManager.class.php,v 1.44 2008/02/07 20:11:31 adamfranco Exp $
  */
 class HarmoniAuthorizationManager 
 	implements AuthorizationManager 
@@ -920,7 +920,7 @@ class HarmoniAuthorizationManager
 	 * 
 	 * @access public
 	 */
-	function getWhoCanDo ( Id $functionId, Id $qualifierId ) { 
+	function getWhoCanDo ( Id $functionId = null, Id $qualifierId = null ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($functionId, ExtendsValidatorRule::getRule("Id"), true);
 		ArgumentValidator::validate($qualifierId, OptionalRule::getRule(ExtendsValidatorRule::getRule("Id")), true);
@@ -972,7 +972,7 @@ class HarmoniAuthorizationManager
 	 * 
 	 * @access public
 	 */
-	function getExplicitUserAZs ( Id $functionId, Id $qualifierId, $isActiveNowOnly ) { 
+	function getExplicitUserAZs ( Id $functionId = null, Id $qualifierId = null, $isActiveNowOnly = true ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($isActiveNowOnly, BooleanValidatorRule::getRule(), true);
 		// ** end of parameter validation
@@ -1029,7 +1029,7 @@ class HarmoniAuthorizationManager
 	 * 
 	 * @access public
 	 */
-	function getExplicitUserAZsByFuncType ( Type $functionType, Id $qualifierId, $isActiveNowOnly ) { 
+	function getExplicitUserAZsByFuncType ( Type $functionType = null, Id $qualifierId = null, $isActiveNowOnly = true ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($isActiveNowOnly, BooleanValidatorRule::getRule(), true);
 		// ** end of parameter validation
@@ -1203,7 +1203,7 @@ class HarmoniAuthorizationManager
 	 * 
 	 * @access public
 	 */
-	function getExplicitAZs ( Id $agentId, Id $functionId, Id $qualifierId, $isActiveNowOnly ) { 
+	function getExplicitAZs ( Id $agentId = null, Id $functionId = null, Id $qualifierId = null, $isActiveNowOnly = true ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($isActiveNowOnly, BooleanValidatorRule::getRule(), true);
 		// ** end of parameter validation
@@ -1271,7 +1271,7 @@ class HarmoniAuthorizationManager
 	 * 
 	 * @access public
 	 */
-	function getExplicitAZsByFuncType ( Id $agentId, Type $functionType, Id $qualifierId, $isActiveNowOnly ) { 
+	function getExplicitAZsByFuncType ( Id $agentId = null, Type $functionType = null, Id $qualifierId = null, $isActiveNowOnly = true ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($isActiveNowOnly, BooleanValidatorRule::getRule(), true);
 		// ** end of parameter validation
@@ -1351,7 +1351,7 @@ class HarmoniAuthorizationManager
 	 * 
 	 * @access public
 	 */
-	function getAllAZs ( Id $agentId, Id $functionId, Id $qualifierId, $isActiveNowOnly ) { 
+	function getAllAZs ( Id $agentId = null, Id $functionId = null, Id $qualifierId = null, $isActiveNowOnly = true ) { 
 		// ** parameter validation
 		ArgumentValidator::validate($isActiveNowOnly, BooleanValidatorRule::getRule(), true);
 		// ** end of parameter validation

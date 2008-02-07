@@ -647,7 +647,7 @@ interface AuthorizationManager
      * 
      * @access public
      */
-    public function getWhoCanDo ( Id $functionId, Id $qualifierId ); 
+    public function getWhoCanDo ( Id $functionId = null, Id $qualifierId = null ); 
 
     /**
      * Given a functionId and qualifierId (one must be non-null) returns the
@@ -679,7 +679,7 @@ interface AuthorizationManager
      * 
      * @access public
      */
-    public function getExplicitUserAZs ( Id $functionId, Id $qualifierId, $isActiveNowOnly ); 
+    public function getExplicitUserAZs ( Id $functionId = null, Id $qualifierId = null, $isActiveNowOnly = true ); 
 
     /**
      * Given a FunctionType and qualifierId returns the matching user
@@ -714,7 +714,7 @@ interface AuthorizationManager
      * 
      * @access public
      */
-    public function getExplicitUserAZsByFuncType ( Type $functionType, Id $qualifierId, $isActiveNowOnly ); 
+    public function getExplicitUserAZsByFuncType ( Type $functionType = null, Id $qualifierId = null, $isActiveNowOnly = true ); 
 
     /**
      * Given an implicit returns the matching explicit user Authorizations.
@@ -852,7 +852,7 @@ interface AuthorizationManager
      * 
      * @access public
      */
-    public function getExplicitAZs ( Id $agentId, Id $functionId, Id $qualifierId, $isActiveNowOnly ); 
+    public function getExplicitAZs ( Id $agentId = null, Id $functionId = null, Id $qualifierId = null, $isActiveNowOnly = true ); 
 
     /**
      * Given a agentId, a FunctionType, and a qualifierId (either agentId or
@@ -889,7 +889,7 @@ interface AuthorizationManager
      * 
      * @access public
      */
-    public function getExplicitAZsByFuncType ( Id $agentId, Type $functionType, Id $qualifierId, $isActiveNowOnly ); 
+    public function getExplicitAZsByFuncType ( Id $agentId = null, Type $functionType = null, Id $qualifierId = null, $isActiveNowOnly = true ); 
 
     /**
      * Given a functionId and a qualifierId returns all Authorizations that
@@ -925,7 +925,7 @@ interface AuthorizationManager
      * 
      * @access public
      */
-    public function getAllAZs ( Id $agentId, Id $functionId, Id $qualifierId, $isActiveNowOnly ); 
+    public function getAllAZs ( Id $agentId = null, Id $functionId = null, Id $qualifierId = null, $isActiveNowOnly = true ); 
 
     /**
      * Given a FunctionType and a qualifierId returns all Authorizations that
