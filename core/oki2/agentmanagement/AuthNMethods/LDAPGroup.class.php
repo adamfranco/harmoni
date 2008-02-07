@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPGroup.class.php,v 1.4 2008/02/06 15:37:47 adamfranco Exp $
+ * @version $Id: LDAPGroup.class.php,v 1.5 2008/02/07 20:10:48 adamfranco Exp $
  */ 
 
 require_once(OKI2."/osid/agent/Group.php");
@@ -21,7 +21,7 @@ require_once(dirname(__FILE__)."/LDAPAgentIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPGroup.class.php,v 1.4 2008/02/06 15:37:47 adamfranco Exp $
+ * @version $Id: LDAPGroup.class.php,v 1.5 2008/02/07 20:10:48 adamfranco Exp $
  */
 class LDAPGroup
 	implements Group
@@ -424,16 +424,17 @@ class LDAPGroup
 	 * @access public
 	 */
 	function contains ( Agent $memberOrGroup, $searchSubgroups ) {
+		$id = $memberOrGroup->getId();
 		$myMembers = $this->getMembers(false);
 		while ($myMembers->hasNext()) {
-			if ($memberOrGroup->isEqual($myMembers->next()->getId())) {
+			if ($id->isEqual($myMembers->next()->getId())) {
 				return true;
 			}
 		}
 		
 		$myGroups = $this->getGroups(false);
 		while ($myGroups->hasNext()) {
-			if ($memberOrGroup->isEqual($myGroups->next()->getId())) {
+			if ($id->isEqual($myGroups->next()->getId())) {
 				return true;
 			}
 		}
