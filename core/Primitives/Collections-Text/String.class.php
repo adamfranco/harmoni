@@ -11,13 +11,13 @@ require_once(dirname(__FILE__)."/../Objects/SObject.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: String.class.php,v 1.7 2007/10/10 22:58:33 adamfranco Exp $
+ * @version $Id: String.class.php,v 1.8 2008/02/14 20:20:24 adamfranco Exp $
  */
 class String 
 	extends SObject 
 {
 	
-	var $_string;
+	protected $_string;
 
 	function String($string="") {
 		$this->_string = (string) $string;

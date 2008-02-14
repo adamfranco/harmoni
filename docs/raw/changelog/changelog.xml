@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.234 2008/02/07 20:11:32 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.235 2008/02/14 20:21:22 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -30,6 +30,10 @@
 			The DataManager's 'Record' class has been renamed 'DMRecord' so that
 			it will not conflict with the OSID 'Record'.
 		</change>
+		<fix author='adam' date='2008-02-14'>
+			Primitives: HtmlString can now take additional protocals to pass unchanged
+			through the cleanXSS() method.
+		</fix>
 		<change author='adam' date='2008-02-07'>
 			Moved Type::fromString(Type $type) to HarmoniType class.
 		</change>

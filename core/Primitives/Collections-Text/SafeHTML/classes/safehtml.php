@@ -192,7 +192,7 @@ class SafeHTML
     var $whiteProtocols = array(
         'ed2k',   'file', 'ftp',  'gopher', 'http',  'https', 
         'irc',    'mailto', 'news', 'nntp', 'telnet', 'webcal', 
-        'xmpp',   'callto',
+        'xmpp',   'callto', 'feed',
         );
 
     /**

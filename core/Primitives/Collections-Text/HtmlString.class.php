@@ -12,15 +12,18 @@ require_once(dirname(__FILE__)."/SafeHTML/classes/safehtml.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HtmlString.class.php,v 1.18 2007/12/07 18:07:54 adamfranco Exp $
+ * @version $Id: HtmlString.class.php,v 1.19 2008/02/14 20:20:23 adamfranco Exp $
  */
 class HtmlString 
 	extends String 
 {
-	var $_children;
+	private $_children;
+	protected $_string;
+	private $safeProtocals;
 	
-	function HtmlString($string="") {
+	function __construct ($string="") {
 		$this->_string = (string) $string;
+		$this->safeProtocals = array();
 	}
 	
 	/**
@@ -31,8 +34,7 @@ class HtmlString
 	 * @static
 	 */
 	static function withValue($value) {
-		$string = new HtmlString($value);
-		return $string;
+		return new HtmlString($value);
 	}
 
 	/**
@@ -45,8 +47,7 @@ class HtmlString
 	 * @static
 	 */
 	static function fromString($aString) {
-		$string = new HtmlString($aString);
-		return $string;
+		return new HtmlString($aString);
 	}
 	
 	/**
@@ -374,7 +375,31 @@ class HtmlString
 	public function cleanXSS () {
 		$this->clean();
 		$safeHtml = new SafeHTML;
+		
+		// Add on any special protocals
+		foreach ($this->safeProtocals as $protocal)
+			$safeHtml->whiteProtocols[] = $protocal;
+			
 		$this->_string = $safeHtml->parse($this->_string);
+	}
+	
+	/**
+	 * Add a new protocal (i.e. 'feed' for urls like 'feed://www.example.com/')
+	 * to those allowed to exist in urls. The following protocals are allowed by
+	 * default:
+	 *		'ed2k',   'file', 'ftp',  'gopher', 'http',  'https', 
+	 *		'irc',    'mailto', 'news', 'nntp', 'telnet', 'webcal', 
+	 * 		'xmpp',   'callto', 'feed'
+	 * 
+	 * @param string $protocal name
+	 * @return void
+	 * @access public
+	 * @since 2/14/08
+	 */
+	public function addSafeProtocal ($protocal) {
+		ArgumentValidator::validate($protocal, NonzeroLengthStringValidatorRule::getRule());
+		
+		$this->safeProtocals[] = $protocal;
 	}
 	
 	/**
