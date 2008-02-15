@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ImageMagickProcessor.class.php,v 1.12 2007/09/25 19:00:11 adamfranco Exp $
+ * @version $Id: ImageMagickProcessor.class.php,v 1.13 2008/02/15 16:50:03 adamfranco Exp $
  */
 
 class ImageMagickProcessor {
@@ -333,10 +333,12 @@ class ImageMagickProcessor {
 			
 			$text = exec($convertString, $output, $exitCode);
 			
-			if ($exitCode) {
+			// Multi-page PDF files seem to not give an exit code, but still do
+			// not convert. Check for file existance manually with file_exists.
+			if ($exitCode || !file_exists($destPath)) {
 				unlink($sourcePath);
 				@unlink($destPath);
-				throw new HarmoniException("Convert Failed: '$convertString' $text ErrorCode: ".$exitCode);
+				throw new ImageProcessingFailedException("Convert Failed: '$convertString' $text", $exitCode);
 				exit;
 			} else {			
 				// read the thumbnail data.

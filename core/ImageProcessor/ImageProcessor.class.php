@@ -11,7 +11,7 @@ require_once(dirname(__FILE__)."/ImageMagickProcessor.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ImageProcessor.class.php,v 1.9 2008/02/06 15:37:41 adamfranco Exp $
+ * @version $Id: ImageProcessor.class.php,v 1.10 2008/02/15 16:50:03 adamfranco Exp $
  */
 
 class ImageProcessor {
@@ -270,6 +270,22 @@ class ImageProcessor {
 		
 		throwError(new Error("Unsupported Format, '$format'.", "ImageProcessor", true));
 	}
+}
+
+/**
+ * An Exception for failed processing.
+ * 
+ * @since 2/15/08
+ * @package harmoni.image_processor
+ * 
+ * @copyright Copyright &copy; 2007, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: ImageProcessor.class.php,v 1.10 2008/02/15 16:50:03 adamfranco Exp $
+ */
+class ImageProcessingFailedException
+	extends HarmoniException
+{	
 }
 
 ?>
