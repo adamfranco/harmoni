@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.235 2008/02/14 20:21:22 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.236 2008/02/15 16:50:03 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -63,6 +63,11 @@
 		</new>
 		<fix author='adam' date='2008-01-23'>
 			Agent now requires needed HtmlString class.
+		</fix>
+		<fix author='adam' date='2008-02-15' ref='1854967' reftype='segue_bug'>
+			ImageProcessor: Multi-page PDF files seem to not give an exit code when
+			thumbnail generation fails. Thumbnail existance is now manually checked
+			with file_exists() to prevent errors from coming through.
 		</fix>
 	</version>
 	<version number="0.13.8" date="2008-01-15">
