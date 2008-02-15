@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.237 2008/02/15 16:51:24 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.238 2008/02/15 18:11:45 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -69,6 +69,9 @@
 			thumbnail generation fails. Thumbnail existence is now manually checked
 			with file_exists() to prevent errors from coming through.
 		</fix>
+		<change author='adam' date='2008-02-15' ref='1871570' reftype='segue_bug'>
+			RequestContext: Can now get the module and action listed in a url.
+		</change>
 	</version>
 	<version number="0.13.8" date="2008-01-15">
 		<releaseNotes>

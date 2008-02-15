@@ -12,7 +12,7 @@ require_once HARMONI."dataManager/record/StorableRecordSet.class.php";
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RecordManager.class.php,v 1.29 2008/02/06 15:37:42 adamfranco Exp $
+ * @version $Id: RecordManager.class.php,v 1.30 2008/02/15 18:11:45 adamfranco Exp $
  *
  * @author Gabe Schine
  */
@@ -335,8 +335,8 @@ class RecordManager {
 		// make sure we found the data sets
 		$rule = ExtendsValidatorRule::getRule("DMRecord");
 		foreach ($IDs as $id) {
-			if (!$rule->check($records[$id]))
-				throwError(new Error(UNKNOWN_ID.": DMRecord $id was requested, but not found.", "DataManager", TRUE));
+			if (!isset($records[$id]) || !$rule->check($records[$id]))
+				throw new UnknownIdException("DMRecord $id was requested, but not found.");
 			
 			// and set the fetch mode.
 			$records[$id]->setFetchMode($mode);

@@ -11,7 +11,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RequestContext.class.php,v 1.28 2008/01/25 17:06:22 adamfranco Exp $
+ * @version $Id: RequestContext.class.php,v 1.29 2008/02/15 18:11:43 adamfranco Exp $
  */
 
 define("REQUEST_HANDLER_CONTEXT_DELIMETER", "___");
@@ -543,6 +543,50 @@ END;
 		} catch (UnimplementedException $e) {
 			return false;
 		}
+	}
+	
+	/**
+	 * Answer the module specified in a url written by the current handler.
+	 * Return false if not can be found.
+	 * 
+	 * @param string $url
+	 * @return string
+	 * @access public
+	 * @since 2/15/08
+	 */
+	public function getModuleFromUrl ($inputUrl) {
+		$paramList = $this->getParameterListFromUrl($inputUrl);
+		if (!$paramList)
+			return false;
+		
+		parse_str(str_replace('&amp;', '&', $paramList), $params);
+		
+		if (isset($params['module']) && strlen($params['module']))
+			return $params['module'];
+		
+		return false;
+	}
+	
+	/**
+	 * Answer the action specified in a url written by the current handler.
+	 * Return false if not can be found.
+	 * 
+	 * @param string $url
+	 * @return string
+	 * @access public
+	 * @since 2/15/08
+	 */
+	public function getActionFromUrl ($inputUrl) {
+		$paramList = $this->getParameterListFromUrl($inputUrl);
+		if (!$paramList)
+			return false;
+		
+		parse_str(str_replace('&amp;', '&', $paramList), $params);
+		
+		if (isset($params['action']) && strlen($params['action']))
+			return $params['action'];
+		
+		return false;
 	}
 	
 	/**
