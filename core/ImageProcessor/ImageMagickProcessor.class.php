@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ImageMagickProcessor.class.php,v 1.13 2008/02/15 16:50:03 adamfranco Exp $
+ * @version $Id: ImageMagickProcessor.class.php,v 1.14 2008/02/15 16:51:24 adamfranco Exp $
  */
 
 class ImageMagickProcessor {
@@ -334,7 +334,7 @@ class ImageMagickProcessor {
 			$text = exec($convertString, $output, $exitCode);
 			
 			// Multi-page PDF files seem to not give an exit code, but still do
-			// not convert. Check for file existance manually with file_exists.
+			// not convert. Check for file existence manually with file_exists.
 			if ($exitCode || !file_exists($destPath)) {
 				unlink($sourcePath);
 				@unlink($destPath);
