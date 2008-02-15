@@ -3,14 +3,17 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.238 2008/02/15 18:11:45 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.239 2008/02/15 20:08:33 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
-	<version number="1.0.0" date="The Future">
+	<version number="1.0.0" date="2008-02-15">
 		<releaseNotes>
-			
+			This release includes a newly generated set of the O.K.I. OSIDs as
+			PHP5 interfaces instead of concrete classes. As well, a number of bug
+			have been fixed and the reliability of PATH_INFO-based urls has been 
+			improved.
 		</releaseNotes>
 		<important author='adam' date='2008-02-06'>
 			The O.K.I. OSID interfaces have all been converted from classes
@@ -53,7 +56,7 @@
 			RequestContext: Now provides help methods to interpret URLs written
 			by the system.
 		</new>
-		<change author='adam' date='2008-01-24'>
+		<change author='adam' date='2008-01-24' ref='1891413' reftype='segue_bug'>
 			Repository: When updating to null values in the FILE record, data rows are 
 			now deleted directly rather than updated to null values.
 		</change>

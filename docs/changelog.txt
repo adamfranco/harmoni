@@ -4,6 +4,86 @@ Name: Harmoni Change Log
 
 
 
+v. 1.0.0 (2008-02-15)
+----------------------------------------------------
+This release includes a newly generated set of the O.K.I. OSIDs as PHP5 interfaces
+instead of concrete classes. As well, a number of bug have been fixed and the
+reliability of PATH_INFO-based urls has been improved.
+		
+		
+	**** IMPORTANT *** Change: 
+		The O.K.I. OSID interfaces have all been converted from classes with die()
+		statements to actual PHP 5 interfaces.
+		(2008-02-06 - Adam Franco)
+		
+	* Change: 
+		OSIDs: The O.K.I. OSID interfaces have all been converted from classes with
+		die() statements to actual PHP 5 interfaces. 
+		
+		Class typing has been added to all OSID method declarations.
+		
+		Class-constants which were bound as static methods to support PHP 4 are
+		now actual class constants.
+		
+		OsidExceptions now extend the base 'Exception' class.
+		
+		The DataManager's 'Record' class has been renamed 'DMRecord' so that it
+		will not conflict with the OSID 'Record'.
+		(2008-02-06 - Adam Franco)
+		
+	* Bug Fix: 
+		Primitives: HtmlString can now take additional protocals to pass unchanged
+		through the cleanXSS() method.
+		(2008-02-14 - Adam Franco)
+		
+	* Change: 
+		Moved Type::fromString(Type $type) to HarmoniType class.
+		(2008-02-07 - Adam Franco)
+		
+	* New feature: 
+		Agent: New search method for searching based on agent properties.
+		(2008-01-31 - Adam Franco)
+		
+	* Bug Fix: 
+		Request: PathInfo and GET url writers now support arrays of parameters (such
+		as from a multi-select).
+		(2008-01-28 - Adam Franco)
+		
+	* New feature: 
+		Repository: Assets can now have their Creator and Creation/Modification
+		dates force-set, enabling retention of these properties when importing from
+		backup. 
+		(2008-01-25 - Adam Franco)
+		
+	* New feature: 
+		RequestContext: Now provides help methods to interpret URLs written by the
+		system. 
+		(2008-01-25 - Adam Franco)
+		
+	* Change: #1891413 
+		Repository: When updating to null values in the FILE record, data rows are
+		now deleted directly rather than updated to null values.
+		(2008-01-24 - Adam Franco)
+		
+	* New feature: #1815898 
+		New Harmoni_DOMDocument that adds on a few helper methods and work-arounds
+		to the default PHP5 DOM implementation.
+		(2008-01-23 - Adam Franco)
+		
+	* Bug Fix: 
+		Agent now requires needed HtmlString class.
+		(2008-01-23 - Adam Franco)
+		
+	* Bug Fix: #1854967 
+		ImageProcessor: Multi-page PDF files seem to not give an exit code when
+		thumbnail generation fails. Thumbnail existence is now manually checked with
+		file_exists() to prevent errors from coming through.
+		(2008-02-15 - Adam Franco)
+		
+	* Change: #1871570 
+		RequestContext: Can now get the module and action listed in a url.
+		(2008-02-15 - Adam Franco)
+	
 v. 0.13.8 (2008-01-15)
 ----------------------------------------------------
 A minor fix to Group searching.

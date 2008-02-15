@@ -3,6 +3,13 @@ Name: Harmoni Release Notes
 (See the Harmoni change log for more details)
 
 
+v. 1.0.0 (2008-02-15)
+----------------------------------------------------
+This release includes a newly generated set of the O.K.I. OSIDs as PHP5 interfaces
+instead of concrete classes. As well, a number of bug have been fixed and the
+reliability of PATH_INFO-based urls has been improved.
+
+
 v. 0.13.8 (2008-01-15)
 ----------------------------------------------------
 A minor fix to Group searching.
