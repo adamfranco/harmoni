@@ -10,7 +10,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: URLWriter.abstract.php,v 1.9 2007/12/03 21:54:45 adamfranco Exp $
+ * @version $Id: URLWriter.abstract.php,v 1.10 2008/02/19 14:53:44 adamfranco Exp $
  */
 
 abstract class URLWriter 
@@ -76,8 +76,21 @@ abstract class URLWriter
 	 * @return void
 	 */
 	function batchSetValues($array) {
+		$toIgnore =  array(
+			"module", "action"
+		);
+		// Ensure that the session id does not get into the url if 
+		// configured to use only cookis for sessions.
+		$harmoni = Harmoni::instance();
+		if ($harmoni->config->get("sessionUseOnlyCookies") === true)
+			$toIgnore[] = $harmoni->config->get("sessionName");
+		
+		// Add any cookie keys to the ignore list to prevent the addition of
+		// __utma and __utmz cookies from Google Analytics among others.
+		$toIgnore = array_merge($toIgnore, array_keys($_COOKIE));
+		
 		foreach ($array as $key=>$val) {
-			if (!in_array($key, array("module", "action")))
+			if (!in_array($key, $toIgnore))
 				$this->_vars[$key] = $val;
 		}	
 	}

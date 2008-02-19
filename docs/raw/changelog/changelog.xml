@@ -3,11 +3,19 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.239 2008/02/15 20:08:33 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.240 2008/02/19 14:53:46 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
+	<version number="1.0.1" date="The Future">
+		<releaseNotes>
+			
+		</releaseNotes>
+		<fix author='adam' date='2008-02-19' ref='1896959' reftype='segue_bug'>
+			Request: Cookie values are now stripped out of URLs made with mkURLWithPassthrough().
+		</fix>
+	</version>
 	<version number="1.0.0" date="2008-02-15">
 		<releaseNotes>
 			This release includes a newly generated set of the O.K.I. OSIDs as
