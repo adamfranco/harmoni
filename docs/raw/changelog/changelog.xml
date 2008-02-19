@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.240 2008/02/19 14:53:46 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.241 2008/02/19 21:43:20 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -14,6 +14,9 @@
 		</releaseNotes>
 		<fix author='adam' date='2008-02-19' ref='1896959' reftype='segue_bug'>
 			Request: Cookie values are now stripped out of URLs made with mkURLWithPassthrough().
+		</fix>
+		<fix author='adam' date='2008-02-19'>
+			AuthZ: Fixed issue in default Type constuctors.
 		</fix>
 	</version>
 	<version number="1.0.0" date="2008-02-15">
