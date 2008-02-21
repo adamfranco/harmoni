@@ -23,7 +23,20 @@
 </head>
 <body>
 <h1>Harmoni Change Log</h1>
-<h2>Version 1.0.0</h2>
+<h2>Version 1.0.1</h2>
+<h3>2008-02-21</h3>
+<p>This release fixes an issue in which Cookie values were bing appended to some URLs. Also fixes a few other typos and bugs.</p>
+<ul>
+		
+		<li>
+<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1896959&amp;group_id=&amp;atid=">
+        			#1896959</a> Request: Cookie values are now stripped out of URLs made with mkURLWithPassthrough(). (<em>2008-02-19 - Adam Franco</em>)</li>
+		<li>
+<b>Bug Fix:</b> AuthZ: Fixed issue in default Type constuctors. (<em>2008-02-19 - Adam Franco</em>)</li>
+		<li>
+<b>Change:</b> DatabaseManager: The DuplucateKeyDatabaseException now extends the QueryDatabaseException as it occurs due to problems with a query. (<em>2008-02-21 - Adam Franco</em>)</li>
+	</ul>
+<br><h2>Version 1.0.0</h2>
 <h3>2008-02-15</h3>
 <p>This release includes a newly generated set of the O.K.I. OSIDs as PHP5 interfaces instead of concrete classes. As well, a number of bug have been fixed and the reliability of PATH_INFO-based urls has been improved.</p>
 <ul>

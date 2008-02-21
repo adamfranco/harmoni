@@ -4,6 +4,26 @@ Name: Harmoni Change Log
 
 
 
+v. 1.0.1 (2008-02-21)
+----------------------------------------------------
+This release fixes an issue in which Cookie values were bing appended to some URLs.
+Also fixes a few other typos and bugs.
+		
+		
+	* Bug Fix: #1896959 
+		Request: Cookie values are now stripped out of URLs made with
+		mkURLWithPassthrough(). 
+		(2008-02-19 - Adam Franco)
+		
+	* Bug Fix: 
+		AuthZ: Fixed issue in default Type constuctors.
+		(2008-02-19 - Adam Franco)
+		
+	* Change: 
+		DatabaseManager: The DuplucateKeyDatabaseException now extends the
+		QueryDatabaseException as it occurs due to problems with a query.
+		(2008-02-21 - Adam Franco)
+	
 v. 1.0.0 (2008-02-15)
 ----------------------------------------------------
 This release includes a newly generated set of the O.K.I. OSIDs as PHP5 interfaces
