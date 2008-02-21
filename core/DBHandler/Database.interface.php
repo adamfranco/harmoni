@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Database.interface.php,v 1.11 2007/09/05 21:38:59 adamfranco Exp $
+ * @version $Id: Database.interface.php,v 1.12 2008/02/21 18:59:22 adamfranco Exp $
  */
  
 interface Database {
@@ -179,7 +179,7 @@ interface Database {
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Database.interface.php,v 1.11 2007/09/05 21:38:59 adamfranco Exp $
+ * @version $Id: Database.interface.php,v 1.12 2008/02/21 18:59:22 adamfranco Exp $
  */
 class DatabaseException
 	extends HarmoniException
@@ -195,7 +195,7 @@ class DatabaseException
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Database.interface.php,v 1.11 2007/09/05 21:38:59 adamfranco Exp $
+ * @version $Id: Database.interface.php,v 1.12 2008/02/21 18:59:22 adamfranco Exp $
  */
 class ConnectionDatabaseException
 	extends DatabaseException
@@ -212,7 +212,7 @@ class ConnectionDatabaseException
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Database.interface.php,v 1.11 2007/09/05 21:38:59 adamfranco Exp $
+ * @version $Id: Database.interface.php,v 1.12 2008/02/21 18:59:22 adamfranco Exp $
  */
 class TransactionDatabaseException
 	extends DatabaseException
@@ -229,7 +229,7 @@ class TransactionDatabaseException
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Database.interface.php,v 1.11 2007/09/05 21:38:59 adamfranco Exp $
+ * @version $Id: Database.interface.php,v 1.12 2008/02/21 18:59:22 adamfranco Exp $
  */
 class QueryDatabaseException
 	extends DatabaseException
@@ -247,7 +247,7 @@ class QueryDatabaseException
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Database.interface.php,v 1.11 2007/09/05 21:38:59 adamfranco Exp $
+ * @version $Id: Database.interface.php,v 1.12 2008/02/21 18:59:22 adamfranco Exp $
  */
 class QuerySizeDatabaseException
 	extends QueryDatabaseException
@@ -266,10 +266,10 @@ class QuerySizeDatabaseException
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Database.interface.php,v 1.11 2007/09/05 21:38:59 adamfranco Exp $
+ * @version $Id: Database.interface.php,v 1.12 2008/02/21 18:59:22 adamfranco Exp $
  */
 class DuplucateKeyDatabaseException
-	extends DatabaseException
+	extends QueryDatabaseException
 {
 
 }

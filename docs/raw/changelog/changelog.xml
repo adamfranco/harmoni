@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.241 2008/02/19 21:43:20 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.242 2008/02/21 18:59:23 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -18,6 +18,10 @@
 		<fix author='adam' date='2008-02-19'>
 			AuthZ: Fixed issue in default Type constuctors.
 		</fix>
+		<change author='adam' date='2008-02-21'>
+			DatbaseManager: The DuplucateKeyDatabaseException now extends the 
+			QueryDatabaseException as it occurs due to problems with a query.
+		</change>
 	</version>
 	<version number="1.0.0" date="2008-02-15">
 		<releaseNotes>
