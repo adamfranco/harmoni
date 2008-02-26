@@ -3,7 +3,6 @@
 require_once(OKI2."/osid/authentication/AuthenticationManager.php");
 require_once(OKI2."/osid/authentication/AuthenticationException.php");
 
-require_once(HARMONI.'/oki2/authentication/HarmoniAuthenticationType.class.php');
 require_once(HARMONI.'/oki2/shared/HarmoniType.class.php');
 require_once(HARMONI.'/oki2/shared/HarmoniTypeIterator.class.php');
 require_once(HARMONI."oki2/shared/HarmoniProperties.class.php");
@@ -64,7 +63,7 @@ require_once(dirname(__FILE__)."/FormActionNamePassTokenCollector.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthenticationManager.class.php,v 1.30 2008/02/06 15:37:48 adamfranco Exp $
+ * @version $Id: HarmoniAuthenticationManager.class.php,v 1.31 2008/02/26 16:03:57 adamfranco Exp $
  */
 class HarmoniAuthenticationManager 
 	implements AuthenticationManager

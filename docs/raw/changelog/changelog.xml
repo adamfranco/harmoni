@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.244 2008/02/26 14:18:00 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.245 2008/02/26 16:04:11 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -16,6 +16,9 @@
 			Request: Path-info handler now doesn't raise a notice when no action
 			is passed.
 		</fix>
+		<change author='adam' date='2008-02-26' reporter='jose_accino'>
+			AuthN: Removed legacy class HarmoniAuthenticationType.
+		</change>
 	</version>
 	<version number="1.0.1" date="2008-02-21">
 		<releaseNotes>
