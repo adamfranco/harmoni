@@ -3,11 +3,20 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.243 2008/02/21 20:41:15 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.244 2008/02/26 14:18:00 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
+	<version number="1.0.2" date="The Future">
+		<releaseNotes>
+			
+		</releaseNotes>
+		<fix author='adam' date='2008-02-26' ref='1899163' reftype='segue_bug'>
+			Request: Path-info handler now doesn't raise a notice when no action
+			is passed.
+		</fix>
+	</version>
 	<version number="1.0.1" date="2008-02-21">
 		<releaseNotes>
 			This release fixes an issue in which Cookie values were bing appended
