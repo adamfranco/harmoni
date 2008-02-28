@@ -15,7 +15,7 @@ require_once(HARMONI."GUIManager/Component.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Blank.class.php,v 1.5 2005/02/07 21:38:14 adamfranco Exp $
+ * @version $Id: Blank.class.php,v 1.6 2008/02/28 16:15:36 adamfranco Exp $
  */
 class Blank extends Component {
 
@@ -33,8 +33,10 @@ class Blank extends Component {
 	 * result in copying the objects instead of referencing them as using
 	 * <code>addStyle()</code> would do.
 	 **/
-	function Blank($index) {
-		$this->Component(null, BLANK, $index);
+	function Blank($index = null) {
+		if (is_null($index))
+			$index = 1;
+		parent::__construct(null, BLANK, $index);
 		
 		// if there are style collections to add
 		if (func_num_args() > 1)

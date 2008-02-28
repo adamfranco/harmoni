@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.245 2008/02/26 16:04:11 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.246 2008/02/28 16:15:51 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -12,6 +12,9 @@
 		<releaseNotes>
 			
 		</releaseNotes>
+		<fix author='adam' date='2008-02-28'>
+			GUI: Fixed error in Blank component constructor.
+		</fix>
 		<fix author='adam' date='2008-02-26' ref='1899163' reftype='segue_bug'>
 			Request: Path-info handler now doesn't raise a notice when no action
 			is passed.
