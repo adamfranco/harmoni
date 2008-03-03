@@ -4,6 +4,29 @@ Name: Harmoni Change Log
 
 
 
+v. 1.0.2 (2008-03-03)
+----------------------------------------------------
+This release fixes a few minor bugs.
+		
+		
+	* Bug Fix: 
+		Primitives: Fixed a Date method definition to define it as static.
+		(2008-02-29 - Adam Franco)
+		
+	* Bug Fix: 
+		GUI: Fixed error in Blank component constructor.
+		(2008-02-28 - Adam Franco)
+		
+	* Bug Fix: #1899163 
+		Request: Path-info handler now doesn't raise a notice when no action is
+		passed. 
+		(2008-02-26 - Adam Franco)
+		
+	* Change: 
+		AuthN: Removed legacy class HarmoniAuthenticationType.
+		(2008-02-26 - Adam Franco)
+		(reported by Jos&#xE9; Alfonso Accino of University of M&#xE1;laga)
+	
 v. 1.0.1 (2008-02-21)
 ----------------------------------------------------
 This release fixes an issue in which Cookie values were bing appended to some URLs.

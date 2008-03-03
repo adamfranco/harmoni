@@ -3,6 +3,11 @@ Name: Harmoni Release Notes
 (See the Harmoni change log for more details)
 
 
+v. 1.0.2 (2008-03-03)
+----------------------------------------------------
+This release fixes a few minor bugs.
+
+
 v. 1.0.1 (2008-02-21)
 ----------------------------------------------------
 This release fixes an issue in which Cookie values were bing appended to some URLs.
