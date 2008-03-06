@@ -3,11 +3,21 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.248 2008/03/03 17:24:19 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.249 2008/03/06 14:23:31 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
+	<version number="1.0.3" date="The Future">
+		<releaseNotes>
+			
+		</releaseNotes>
+		<fix author='adam' date='2008-03-06' ref='1908762' reftype='segue_bug' reporter='bryan_carson'>
+			Request: PathInfo Request variables are now encoded with rawurlencode()
+			instead of urlenced() to encode spaces with '%20' instead of '+'. This
+			prevents some decoding issues when values contain spaces.
+		</fix>
+	</version>
 	<version number="1.0.2" date="2008-03-03">
 		<releaseNotes>
 			This release fixes a few minor bugs.
@@ -1846,6 +1856,10 @@
 		<reporter short="jose_accino">
 			<name>José Alfonso Accino</name>
 			<institution>University of Málaga</institution>
+		</reporter>
+		<reporter short="bryan_carson">
+			<name>Bryan Carson</name>
+			<institution>Middlebury College</institution>
 		</reporter>
 	</reporters>
 	<reftypes>

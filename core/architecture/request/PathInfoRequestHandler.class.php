@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PathInfoRequestHandler.class.php,v 1.8 2008/02/26 14:17:49 adamfranco Exp $
+ * @version $Id: PathInfoRequestHandler.class.php,v 1.9 2008/03/06 14:23:31 adamfranco Exp $
  */ 
 
 require_once(HARMONI."architecture/request/RequestHandler.interface.php");
@@ -21,7 +21,7 @@ require_once(HARMONI."architecture/request/URLWriter.abstract.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PathInfoRequestHandler.class.php,v 1.8 2008/02/26 14:17:49 adamfranco Exp $
+ * @version $Id: PathInfoRequestHandler.class.php,v 1.9 2008/03/06 14:23:31 adamfranco Exp $
  */
 class PathInfoRequestHandler
 	implements RequestHandler
@@ -200,7 +200,7 @@ class PathInfoRequestHandler
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: PathInfoRequestHandler.class.php,v 1.8 2008/02/26 14:17:49 adamfranco Exp $
+ * @version $Id: PathInfoRequestHandler.class.php,v 1.9 2008/03/06 14:23:31 adamfranco Exp $
  */
 
 class PathInfoURLWriter 
@@ -249,11 +249,11 @@ class PathInfoURLWriter
 			// For multi-select form elements
 			if (is_array($val)) {
 				foreach ($val as $arrayVal)
-					$pairs[] = $key . "/" . urlencode($arrayVal);
+					$pairs[] = $key . "/" . rawurlencode($arrayVal);
 			} 
 			// normal single-string values
 			else {
-				$pairs[] = $key . "/" . urlencode($val);
+				$pairs[] = $key . "/" . rawurlencode($val);
 			}
 		}
 		
