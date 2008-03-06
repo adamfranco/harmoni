@@ -15,7 +15,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/inc.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: ArgumentValidator.class.php,v 1.13 2007/10/09 21:11:59 adamfranco Exp $
+ * @version $Id: ArgumentValidator.class.php,v 1.14 2008/03/06 15:17:02 adamfranco Exp $
  */
 class ArgumentValidator {
 
@@ -65,8 +65,7 @@ class ArgumentValidator {
 			$description .= ".";
 
 			// now create the error
-			throwError(new Error($description, "System", $isFatal));
-			return false;		    
+			throw new InvalidArgumentException($description);
 		}
 		
 		// validation is successful

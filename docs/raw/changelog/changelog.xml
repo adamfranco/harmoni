@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.249 2008/03/06 14:23:31 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.250 2008/03/06 15:17:04 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -17,6 +17,10 @@
 			instead of urlenced() to encode spaces with '%20' instead of '+'. This
 			prevents some decoding issues when values contain spaces.
 		</fix>
+		<change author='adam' date='2008-03-06' ref='1907111' reftype='fr'>
+			ArgumentValidator: Now throws an InvalidArgumentException on validation fail
+			to allow for easier catching of this type of error.
+		</change>
 	</version>
 	<version number="1.0.2" date="2008-03-03">
 		<releaseNotes>
