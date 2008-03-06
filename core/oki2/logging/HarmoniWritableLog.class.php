@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniWritableLog.class.php,v 1.6 2008/02/06 15:37:51 adamfranco Exp $
+ * @version $Id: HarmoniWritableLog.class.php,v 1.7 2008/03/06 16:09:32 adamfranco Exp $
  */
 
 require_once(OKI2."/osid/logging/WritableLog.php");
@@ -46,8 +46,30 @@ require_once(dirname(__FILE__)."/HarmoniReadableLog.class.php");
  */
 class HarmoniWritableLog
 	extends HarmoniReadableLog
-//	extends WritableLog	// implements writable log
+	implements WritableLog
 {
+	
+	/**
+     * Get the display name for this WritableLog.
+     *  
+     * @return string
+     * 
+     * @throws object LoggingException An exception with one of the
+     *         following messages defined in org.osid.logging.LoggingException
+     *         may be thrown:   {@link
+     *         org.osid.logging.LoggingException#UNIMPLEMENTED UNIMPLEMENTED},
+     *         {@link org.osid.logging.LoggingException#OPERATION_FAILED
+     *         OPERATION_FAILED}, {@link
+     *         org.osid.logging.LoggingException#CONFIGURATION_ERROR
+     *         CONFIGURATION_ERROR}, {@link
+     *         org.osid.logging.LoggingException#PERMISSION_DENIED
+     *         PERMISSION_DENIED}
+     * 
+     * @access public
+     */
+    public function getDisplayName () {
+    	return parent::getDisplayName();
+    }
 
 	/**
 	 * Write the entryItem to the Log. The entryItem is written to the Log
@@ -108,10 +130,8 @@ class HarmoniWritableLog
 	 * 
 	 * @access public
 	 */
-	function appendLogWithTypes ( $entryItem, $formatType, $priorityType ) { 
-		ArgumentValidator::validate($entryItem, ExtendsValidatorRule::getRule("AgentNodeEntryItem"));
-		ArgumentValidator::validate($formatType, ExtendsValidatorRule::getRule("Type"));
-		ArgumentValidator::validate($priorityType, ExtendsValidatorRule::getRule("Type"));
+	function appendLogWithTypes ( $entryItem, Type $formatType, Type $priorityType ) { 
+		ArgumentValidator::validate($entryItem, ExtendsValidatorRule::getRule("AgentNodeEntryItemInterface"));
 			
 		$formatTypeId = $this->_getTypeId($formatType);
 		$priorityTypeId = $this->_getTypeId($priorityType);
@@ -194,8 +214,7 @@ class HarmoniWritableLog
 	 * 
 	 * @access public
 	 */
-	function assignPriorityType ( $priorityType ) {
-		ArgumentValidator::validate($priorityType, ExtendsValidatorRule::getRule("Type"));
+	function assignPriorityType ( Type $priorityType ) {
 		$this->_priorityType =$priorityType;
 	} 
 
@@ -221,8 +240,7 @@ class HarmoniWritableLog
 	 * 
 	 * @access public
 	 */
-	function assignFormatType ( $formatType ) {
-		ArgumentValidator::validate($formatType, ExtendsValidatorRule::getRule("Type"));
+	function assignFormatType ( Type $formatType ) {
 		$this->_formatType =$formatType;
 	}
 	
@@ -234,7 +252,7 @@ class HarmoniWritableLog
 	 * @access public
 	 * @since 3/1/06
 	 */
-	function _getTypeId ( $type ) {
+	function _getTypeId ( Type $type ) {
 		if (!isset($this->_typeIds))
 			$this->_typeIds = array();
 		

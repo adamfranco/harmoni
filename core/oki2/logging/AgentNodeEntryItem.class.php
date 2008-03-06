@@ -6,8 +6,10 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AgentNodeEntryItem.class.php,v 1.9 2007/10/10 22:58:38 adamfranco Exp $
+ * @version $Id: AgentNodeEntryItem.class.php,v 1.10 2008/03/06 16:09:32 adamfranco Exp $
  */ 
+
+require_once(dirname(__FILE__)."/AgentNodeEntryItem.interface.php");
 
 /**
  * The AgentNodeEntryItem encapsulates data about a log entry
@@ -18,9 +20,11 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AgentNodeEntryItem.class.php,v 1.9 2007/10/10 22:58:38 adamfranco Exp $
+ * @version $Id: AgentNodeEntryItem.class.php,v 1.10 2008/03/06 16:09:32 adamfranco Exp $
  */
-class AgentNodeEntryItem {
+class AgentNodeEntryItem 
+	implements AgentNodeEntryItemInterface
+{
 		
 	/**
 	 * Constructor
@@ -32,7 +36,7 @@ class AgentNodeEntryItem {
 	 * @access public
 	 * @since 3/2/06
 	 */
-	function AgentNodeEntryItem ( $category, $description, $nodeIds = array() ) {
+	function __construct ( $category, $description, $nodeIds = array() ) {
 		ArgumentValidator::validate($category, StringValidatorRule::getRule());
 		ArgumentValidator::validate($description, StringValidatorRule::getRule());
 		ArgumentValidator::validate($nodeIds, ArrayValidatorRule::getRule());
