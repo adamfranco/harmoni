@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SimpleTableRepository.class.php,v 1.5 2008/02/06 15:37:45 adamfranco Exp $
+ * @version $Id: SimpleTableRepository.class.php,v 1.6 2008/03/06 16:45:29 adamfranco Exp $
  */ 
 
 require_once(dirname(__FILE__)."/SimpleTableAssetIterator.class.php");
@@ -24,7 +24,7 @@ require_once(dirname(__FILE__)."/SimpleTablePartStructure.class.php");
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SimpleTableRepository.class.php,v 1.5 2008/02/06 15:37:45 adamfranco Exp $
+ * @version $Id: SimpleTableRepository.class.php,v 1.6 2008/03/06 16:45:29 adamfranco Exp $
  */
 class SimpleTableRepository
 	implements Repository
@@ -961,6 +961,13 @@ class SimpleTableRepository
 		{
 			if (!is_string($searchCriteria))
 				throw new OperationFailedException('search criteria should be a string.');
+			
+			// Convert the criteria to the proper character set.
+			$encoding = $this->config['encoding'];
+			if (!is_null($encoding))
+				$searchCriteria = iconv('UTF-8', $encoding, $searchCriteria);
+			
+			
 			$query = new SelectQuery;
 			$query->addTable($this->config['table']);
 			$query->addColumn($this->config['id_column']);
