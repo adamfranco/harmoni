@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.252 2008/03/06 16:45:31 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.253 2008/03/06 17:00:49 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -28,7 +28,10 @@
 			Logging: HarmoniWritableLog now correctly implements the WritableLog interface.
 		</fix>
 		<fix author='adam' date='2008-03-06'>
-			SimpleTableRepository: Interall IdManager now implements IdManager.
+			SimpleTableRepository: Internal IdManager now implements IdManager.
+		</fix>
+		<fix author='adam' date='2008-03-06' ref='1824819' reftype='bug'>
+			SimpleTableRepository: Now converts search criteria to the proper character set.
 		</fix>
 	</version>
 	<version number="1.0.2" date="2008-03-03">
