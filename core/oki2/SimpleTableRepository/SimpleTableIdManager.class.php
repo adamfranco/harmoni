@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SimpleTableIdManager.class.php,v 1.1 2007/10/05 14:02:56 adamfranco Exp $
+ * @version $Id: SimpleTableIdManager.class.php,v 1.2 2008/03/06 16:32:06 adamfranco Exp $
  */ 
 
 require_once(HARMONI."/oki2/shared/HarmoniId.class.php");
@@ -20,11 +20,74 @@ require_once(HARMONI."/oki2/shared/HarmoniId.class.php");
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: SimpleTableIdManager.class.php,v 1.1 2007/10/05 14:02:56 adamfranco Exp $
+ * @version $Id: SimpleTableIdManager.class.php,v 1.2 2008/03/06 16:32:06 adamfranco Exp $
  */
 class SimpleTableIdManager
-	// implements IdManager
+	implements IdManager
 {
+
+	/**
+	 * Return context of this OsidManager.
+	 *  
+	 * @return object OsidContext
+	 * 
+	 * @throws object OsidException 
+	 * 
+	 * @access public
+	 */
+	function getOsidContext () { 
+		return $this->context;
+	} 
+	
+	/**
+	 * Assign the context of this OsidManager.
+	 * 
+	 * @param object OsidContext $context
+	 * 
+	 * @throws object OsidException An exception with one of the following
+	 *         messages defined in org.osid.OsidException:  {@link
+	 *         org.osid.OsidException#NULL_ARGUMENT NULL_ARGUMENT}
+	 * 
+	 * @access public
+	 */
+	function assignOsidContext ( OsidContext $context ) { 
+		$this->context = $context;
+	} 
+	
+	/**
+	 * Assign the configuration of this OsidManager.
+	 * 
+	 * @param object Properties $configuration (original type: java.util.Properties)
+	 * 
+	 * @throws object OsidException An exception with one of the following
+	 *         messages defined in org.osid.OsidException:  {@link
+	 *         org.osid.OsidException#OPERATION_FAILED OPERATION_FAILED},
+	 *         {@link org.osid.OsidException#PERMISSION_DENIED
+	 *         PERMISSION_DENIED}, {@link
+	 *         org.osid.OsidException#CONFIGURATION_ERROR
+	 *         CONFIGURATION_ERROR}, {@link
+	 *         org.osid.OsidException#UNIMPLEMENTED UNIMPLEMENTED}, {@link
+	 *         org.osid.OsidException#NULL_ARGUMENT NULL_ARGUMENT}
+	 * 
+	 * @access public
+	 */
+	function assignConfiguration ( Properties $configuration ) {
+	
+	}
+	
+	/**
+     * Verify to OsidLoader that it is loading
+     * 
+     * <p>
+     * OSID Version: 2.0
+     * </p>
+     * .
+     * 
+     * @throws object OsidException 
+     * 
+     * @access public
+     */
+    public function osidVersion_2_0 () {}
 		
 	/**
 	 * Answer a new Id Object
