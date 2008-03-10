@@ -4,6 +4,41 @@ Name: Harmoni Change Log
 
 
 
+v. 1.0.3 (2008-03-10)
+----------------------------------------------------
+This release fixes a few bugs.
+		
+		
+	* Bug Fix: #1908762 
+		Request: PathInfo Request variables are now encoded with rawurlencode()
+		instead of urlenced() to encode spaces with '%20' instead of '+'. This
+		prevents some decoding issues when values contain spaces.
+		(2008-03-06 - Adam Franco)
+		(reported by Bryan Carson of Middlebury College)
+		
+	* Change: #1907111 
+		ArgumentValidator: Now throws an InvalidArgumentException on validation fail
+		to allow for easier catching of this type of error.
+		(2008-03-06 - Adam Franco)
+		
+	* Change: #1907239 
+		Logging:Logging Items must now implement a new AgentNodeEntryItemInterface.
+		(2008-03-06 - Adam Franco)
+		
+	* Bug Fix: 
+		Logging: HarmoniWritableLog now correctly implements the WritableLog
+		interface. 
+		(2008-03-06 - Adam Franco)
+		
+	* Bug Fix: 
+		SimpleTableRepository: Internal IdManager now implements IdManager.
+		(2008-03-06 - Adam Franco)
+		
+	* Bug Fix: #1824819 
+		SimpleTableRepository: Now converts search criteria to the proper character
+		set. 
+		(2008-03-06 - Adam Franco)
+	
 v. 1.0.2 (2008-03-03)
 ----------------------------------------------------
 This release fixes a few minor bugs.

@@ -23,7 +23,29 @@
 </head>
 <body>
 <h1>Harmoni Change Log</h1>
-<h2>Version 1.0.2</h2>
+<h2>Version 1.0.3</h2>
+<h3>2008-03-10</h3>
+<p>This release fixes a few bugs.</p>
+<ul>
+		
+		<li>
+<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1908762&amp;group_id=&amp;atid=">
+        			#1908762</a> Request: PathInfo Request variables are now encoded with rawurlencode() instead of urlenced() to encode spaces with '%20' instead of '+'. This prevents some decoding issues when values contain spaces. (<em>2008-03-06 - Adam Franco</em>)<br> (<em>reported by Bryan Carson of Middlebury College</em>)</li>
+		<li>
+<b>Change:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1907111&amp;group_id=&amp;atid=">
+        			#1907111</a> ArgumentValidator: Now throws an InvalidArgumentException on validation fail to allow for easier catching of this type of error. (<em>2008-03-06 - Adam Franco</em>)</li>
+		<li>
+<b>Change:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1907239&amp;group_id=&amp;atid=">
+        			#1907239</a> Logging: Logging Items must now implement a new AgentNodeEntryItemInterface. (<em>2008-03-06 - Adam Franco</em>)</li>
+		<li>
+<b>Bug Fix:</b> Logging: HarmoniWritableLog now correctly implements the WritableLog interface. (<em>2008-03-06 - Adam Franco</em>)</li>
+		<li>
+<b>Bug Fix:</b> SimpleTableRepository: Internal IdManager now implements IdManager. (<em>2008-03-06 - Adam Franco</em>)</li>
+		<li>
+<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1824819&amp;group_id=&amp;atid=">
+        			#1824819</a> SimpleTableRepository: Now converts search criteria to the proper character set. (<em>2008-03-06 - Adam Franco</em>)</li>
+	</ul>
+<br><h2>Version 1.0.2</h2>
 <h3>2008-03-03</h3>
 <p>This release fixes a few minor bugs.</p>
 <ul>

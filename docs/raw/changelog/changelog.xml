@@ -3,14 +3,14 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.253 2008/03/06 17:00:49 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.254 2008/03/10 17:03:58 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
-	<version number="1.0.3" date="The Future">
+	<version number="1.0.3" date="2008-03-10">
 		<releaseNotes>
-			
+			This release fixes a few bugs.
 		</releaseNotes>
 		<fix author='adam' date='2008-03-06' ref='1908762' reftype='segue_bug' reporter='bryan_carson'>
 			Request: PathInfo Request variables are now encoded with rawurlencode()
