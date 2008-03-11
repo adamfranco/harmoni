@@ -5,7 +5,7 @@
 -- @copyright Copyright &copy; 2006, Middlebury College
 -- @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 -- 
--- @version $Id: GUI.sql,v 1.1 2007/09/11 19:06:28 adamfranco Exp $
+-- @version $Id: GUI.sql,v 1.2 2008/03/11 19:32:05 adamfranco Exp $
 -- */
 -- --------------------------------------------------------
 
@@ -23,7 +23,7 @@ CREATE TABLE `tm_style_collection` (
   `collection_component` varchar(255) NOT NULL default 'BLANK',
   `collection_index` varchar(255) NOT NULL default '',
   `collection_class` varchar(255) NOT NULL default '',
-  `FK_theme_id` varchar(255) NOT NULL default ''
+  `fk_theme_id` varchar(255) NOT NULL default ''
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -36,7 +36,7 @@ CREATE TABLE `tm_style_component` (
   `component_id` varchar(75) NOT NULL default '0',
   `component_class_name` varchar(255) NOT NULL default '',
   `component_value` varchar(255) NOT NULL default '',
-  `FK_property_id` varchar(75) NOT NULL default ''
+  `fk_property_id` varchar(75) NOT NULL default ''
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -50,7 +50,7 @@ CREATE TABLE `tm_style_property` (
   `property_name` varchar(255) default NULL,
   `property_display_name` varchar(255) default '',
   `property_description` text,
-  `FK_collection_id` varchar(75) default NULL
+  `fk_collection_id` varchar(75) default NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------

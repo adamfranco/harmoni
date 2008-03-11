@@ -3,7 +3,7 @@
   `Course` text NOT NULL,
   PRIMARY KEY  (`ID`)
 ) TYPE=MyISAM;-- -- Dumping data for table `courses`-- INSERT INTO `courses` VALUES (1, 'PHYS202');INSERT INTO `courses` VALUES (2, 'MATH325');INSERT INTO `courses` VALUES (3, 'CSCI201');-- ---------------------------------------------------------- -- Table structure for table `decisions`-- DROP TABLE IF EXISTS `decisions`;CREATE TABLE `decisions` (
-  `FK_teams` varchar(255) NOT NULL default '',
+  `fk_teams` varchar(255) NOT NULL default '',
   `data_id` varchar(255) NOT NULL default '',
   `lenom` blob NOT NULL,
   `lesize` varchar(255) NOT NULL default ''

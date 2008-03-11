@@ -24,7 +24,7 @@ require_once(HARMONI."GUIManager/StyleCollection.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Theme.class.php,v 1.28 2007/10/10 22:58:32 adamfranco Exp $
+ * @version $Id: Theme.class.php,v 1.29 2008/03/11 19:32:10 adamfranco Exp $
  */
 class Theme extends ThemeInterface {
 
@@ -348,7 +348,7 @@ class Theme extends ThemeInterface {
 			$idValue = $id->getIdString();
 			$query = new DeleteQuery();
 			$query->setTable($guiManager->_dbName.".tm_style_collection");
-			$query->addWhere("FK_theme_id = $idValue");
+			$query->addWhere("fk_theme_id = $idValue");
 			$result =$dbHandler->query($query, $guiManager->_dbIndex);
 		}
 		

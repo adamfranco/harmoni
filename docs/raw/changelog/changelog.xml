@@ -3,11 +3,19 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.254 2008/03/10 17:03:58 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.255 2008/03/11 19:32:10 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
+	<version number="1.0.4" date="The Future">
+		<releaseNotes>
+			
+		</releaseNotes>
+		<change author='adam' date='2008-03-11'>
+			GUI: Table columns are now all lowercase.
+		</change>
+	</version>
 	<version number="1.0.3" date="2008-03-10">
 		<releaseNotes>
 			This release fixes a few bugs.

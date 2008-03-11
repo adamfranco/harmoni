@@ -21,7 +21,7 @@ require_once(HARMONI."GUIManager/Component.class.php");
 * @copyright Copyright &copy; 2005, Middlebury College
 * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 *
-* @version $Id: GUIManager.class.php,v 1.30 2008/02/06 15:37:41 adamfranco Exp $
+* @version $Id: GUIManager.class.php,v 1.31 2008/03/11 19:32:10 adamfranco Exp $
 */
 class GUIManager
 extends GUIManagerAbstract
@@ -432,7 +432,7 @@ extends GUIManagerAbstract
 
 		$query = new SelectQuery();
 		$query->addTable($this->_dbName.".tm_style_collection");
-		$query->addWhere("FK_theme_id = $idValue");
+		$query->addWhere("fk_theme_id = $idValue");
 		$query->addColumn("*");
 		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 
@@ -493,7 +493,7 @@ extends GUIManagerAbstract
 
 		$query = new SelectQuery();
 		$query->addTable($this->_dbName.".tm_style_property");
-		$query->addWhere("FK_collection_id = $idValue");
+		$query->addWhere("fk_collection_id = $idValue");
 		$query->addColumn("*");
 		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 
@@ -532,7 +532,7 @@ extends GUIManagerAbstract
 
 		$query = new SelectQuery();
 		$query->addTable($this->_dbName.".tm_style_component");
-		$query->addWhere("FK_property_id = $idValue");
+		$query->addWhere("fk_property_id = $idValue");
 		$query->addColumn("*");
 		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 
@@ -832,7 +832,7 @@ extends GUIManagerAbstract
 		$idValue = $themeId->getIdString();
 		$query = new DeleteQuery();
 		$query->setTable($this->_dbName.".tm_style_collection");
-		$query->addWhere("FK_theme_id = $idValue");
+		$query->addWhere("fk_theme_id = $idValue");
 		$result =$dbHandler->query($query, $this->_dbIndex);
 
 
@@ -857,7 +857,7 @@ extends GUIManagerAbstract
 		$idValue = $id->getIdString();
 		$query = new DeleteQuery();
 		$query->setTable($this->_dbName.".tm_style_property");
-		$query->addWhere("FK_collection_id = $idValue");
+		$query->addWhere("fk_collection_id = $idValue");
 		$result =$dbHandler->query($query, $this->_dbIndex);
 
 
@@ -878,7 +878,7 @@ extends GUIManagerAbstract
 		$idValue = $id->getIdString();
 		$query = new DeleteQuery();
 		$query->setTable($this->_dbName.".tm_style_component");
-		$query->addWhere("FK_property_id = $idValue");
+		$query->addWhere("fk_property_id = $idValue");
 		$result =$dbHandler->query($query, $this->_dbIndex);
 
 
