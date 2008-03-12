@@ -4,6 +4,16 @@ Name: Harmoni Change Log
 
 
 
+v. 1.0.4 (2008-03-12)
+----------------------------------------------------
+This release updates the default case of column names in several minor database
+tables. 
+		
+		
+	* Change: 
+		GUI: Table columns are now all lowercase.
+		(2008-03-11 - Adam Franco)
+	
 v. 1.0.3 (2008-03-10)
 ----------------------------------------------------
 This release fixes a few bugs.

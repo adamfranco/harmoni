@@ -3,14 +3,14 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.255 2008/03/11 19:32:10 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.256 2008/03/12 15:07:30 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
-	<version number="1.0.4" date="The Future">
+	<version number="1.0.4" date="2008-03-12">
 		<releaseNotes>
-			
+			This release updates the default case of column names in several minor database tables.
 		</releaseNotes>
 		<change author='adam' date='2008-03-11'>
 			GUI: Table columns are now all lowercase.

@@ -3,6 +3,12 @@ Name: Harmoni Release Notes
 (See the Harmoni change log for more details)
 
 
+v. 1.0.4 (2008-03-12)
+----------------------------------------------------
+This release updates the default case of column names in several minor database
+tables. 
+
+
 v. 1.0.3 (2008-03-10)
 ----------------------------------------------------
 This release fixes a few bugs.
