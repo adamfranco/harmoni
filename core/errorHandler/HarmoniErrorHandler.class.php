@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniErrorHandler.class.php,v 1.16 2008/01/04 19:57:22 adamfranco Exp $
+ * @version $Id: HarmoniErrorHandler.class.php,v 1.17 2008/03/20 19:12:17 adamfranco Exp $
  */ 
 
 /**
@@ -30,7 +30,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniErrorHandler.class.php,v 1.16 2008/01/04 19:57:22 adamfranco Exp $
+ * @version $Id: HarmoniErrorHandler.class.php,v 1.17 2008/03/20 19:12:17 adamfranco Exp $
  */
 class HarmoniErrorHandler {
 		
@@ -277,7 +277,7 @@ class HarmoniErrorHandler {
 		}
 		print "</div>";
 		print "with message ";
-		print "\n\t<div style='padding-left: 20px; font-style: italic;'>".$message."</div>";
+		print "\n\t<div style='padding-left: 20px; font-style: italic;'>".htmlentities($message)."</div>";
 		print "\n\tin";
 		print "\n\t<div style='padding-left: 20px;'>";
 		self::printDebugBacktrace($backtrace);
@@ -459,7 +459,7 @@ class HarmoniErrorHandler {
 				
 				print "\n\t\t<tr>";
 				print "\n\t\t\t<td>$i</td>";
-				print "\n\t\t\t<td title=\"".htmlentities($file)."\">$file</td>";
+				print "\n\t\t\t<td title=\"".htmlentities($file)."\">".htmlentities($file)."</td>";
 				print "\n\t\t\t<td>$line</td>";
 				print "\n\t\t\t<td style='font-family: monospace; white-space: nowrap'>";
 				if ($class || $type || $function || $args) {
