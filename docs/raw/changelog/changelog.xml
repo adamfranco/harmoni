@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.257 2008/03/17 13:45:48 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.258 2008/03/20 19:17:15 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -12,6 +12,22 @@
 		<releaseNotes>
 			
 		</releaseNotes>
+		<new author='adam' date='2008-03-20'>
+			Request: Can now override the specified module and action. This is
+			useful to allow entry points to force usage of a particular action.
+		</new>
+		<new author='adam' date='2008-03-20'>
+			Request: Can now retrieve parameters from a url string.
+		</new>
+		<new author='adam' date='2008-03-20'>
+			Request: Can now retrieve namespaced parameters from a url string.
+		</new>
+		<fix author='adam' date='2008-03-20'>
+			ErrorHandler: Now escapes entities in back-traces.
+		</fix>
+		<fix author='adam' date='2008-03-20'>
+			Architecture: Now throws an UnknownActionException if no module is specified.
+		</fix>
 		<fix author='adam' date='2008-03-17'>
 			Agent: AgentManager now throws an UnknownIdException instead of a generic
 			one when an agent doesn't exist with the id specified.

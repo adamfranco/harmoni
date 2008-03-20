@@ -28,7 +28,7 @@ $__harmoni = null;
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Harmoni.class.php,v 1.55 2007/11/01 17:26:59 adamfranco Exp $
+ * @version $Id: Harmoni.class.php,v 1.56 2008/03/20 19:12:36 adamfranco Exp $
  **/
 class Harmoni {
 
@@ -323,7 +323,7 @@ class Harmoni {
 			$action = $this->config->get("defaultAction");
 		} else if (ereg("^\.[[:alnum:]_-]+$",$pair)) {
 			// no good! throw an error
-			throwError(new Error("Harmoni::execute() - Could not execute action '$pair' - a module needs to be specified!","Harmoni",true));
+			throw new UnknownActionException("Harmoni::execute() - Could not execute action '$pair' - a module needs to be specified!");
 			return false;
 		} else if (ereg("^\.?$",$pair)) {
 			$module = $this->config->get("defaultModule");
