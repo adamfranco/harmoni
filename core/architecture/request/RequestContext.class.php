@@ -11,7 +11,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RequestContext.class.php,v 1.29 2008/02/15 18:11:43 adamfranco Exp $
+ * @version $Id: RequestContext.class.php,v 1.30 2008/03/20 19:11:57 adamfranco Exp $
  */
 
 define("REQUEST_HANDLER_CONTEXT_DELIMETER", "___");
@@ -210,6 +210,9 @@ END;
 	 * @access public
 	 */
 	function getRequestedModuleAction() {
+		if (isset($this->moduleActionOverride))
+			return $this->moduleActionOverride;
+		
 		$this->_checkForHandler();
 		return $this->_requestHandler->getRequestedModuleAction();
 	}
@@ -438,6 +441,27 @@ END;
 	}
 	
 	/**
+	 * Override the requested module and action with those passed. This must be
+	 * called before Harmoni::execute() in order to have the specified action executed.
+	 * 
+	 * @param string $module
+	 * @param string $action
+	 * @return void
+	 * @access public
+	 * @since 3/20/08
+	 */
+	public function setModuleAction ($module, $action) {
+		$this->moduleActionOverride = $module.'.'.$action;
+	}
+	
+	/**
+	 * @var string $moduleActionOverride;  A module and action to override the ones passed.
+	 * @access private
+	 * @since 3/20/08
+	 */
+	private $moduleActionOverride;
+	
+	/**
 	 * Ensures that $key is removed from the context-data (and not included in URLs
 	 * generated later). If you pass a name like "context1/context2/name",
 	 * the RequestContext uses it as a context-insensitive name (ie, you are specifying
@@ -543,6 +567,73 @@ END;
 		} catch (UnimplementedException $e) {
 			return false;
 		}
+	}
+	
+	/**
+	 * Given an input url written by the current handler, return an associative array
+	 * of parameters and values excluding the module and action.
+	 * 
+	 * For instance, the PathInfo handler would for the following input
+	 *		http://www.example.edu/basedir/moduleName/actionName/parm1/value1/param2/value2
+	 * would return
+	 *		Array (
+	 *			param1 => value1,
+	 *			param2 => value2
+	 *		)
+	 * 
+	 * @param string $inputUrl
+	 * @return mixed array or FALSE if unmatched
+	 * @access public
+	 * @since 1/25/08
+	 */
+	public function getParameterArrayFromUrl ($inputUrl) {
+		$urlString = $this->getParameterListFromUrl($inputUrl);
+		if ($urlString === false)
+			return false;
+		
+		preg_match_all('/(&(amp;)?)?([^&=]+)=([^&=]+)/', $urlString, $paramMatches);
+		$args = array();
+		for ($i = 0; $i < count($paramMatches[1]); $i++) {
+			$key = $paramMatches[3][$i];
+			$value = $paramMatches[4][$i];
+			
+			if ($key != 'module' && $key != 'action')
+				$args[$key] = $value;
+		}
+		
+		return $args;
+	}
+	
+	/**
+	 * Given an input url written by the current handler, return an associative array
+	 * of parameters and values that are in the namespace specified.
+	 * 
+	 * For instance, the PathInfo handler would for the following input
+	 *		http://www.example.edu/basedir/moduleName/actionName/parm1/value1/namespaceX_param2/value2
+	 * with a namespace of 'namespaceX'
+	 * would return
+	 *		Array (
+	 *			param2 => value2
+	 *		)
+	 * 
+	 * @param string $namespace
+	 * @param string $inputUrl
+	 * @return mixed array or FALSE if unmatched
+	 * @access public
+	 * @since 1/25/08
+	 */
+	public function getNamespaceParameterArrayFromUrl ($namespace, $inputUrl) {
+		$params = $this->getParameterArrayFromUrl($inputUrl);
+		if ($params === false)
+			return false;
+		
+		$namespaceParams = array();
+		foreach ($params as $key => $value) {
+			if (preg_match('/^'.$namespace.REQUEST_HANDLER_CONTEXT_DELIMETER.'(.+)$/', $key, $matches))
+				$namespaceParams[$matches[1]] = $value;
+		}
+		
+		return $namespaceParams;
 	}
 	
 	/**
