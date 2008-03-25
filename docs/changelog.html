@@ -23,7 +23,25 @@
 </head>
 <body>
 <h1>Harmoni Change Log</h1>
-<h2>Version 1.0.4</h2>
+<h2>Version 1.0.5</h2>
+<h3>2008-03-25</h3>
+<p>This release includes some improvements to enable more flexibility in the Request system as well as fixes a few minor issues.</p>
+<ul>
+		
+		<li>
+<b>New feature:</b> Request: Can now override the specified module and action. This is useful to allow entry points to force usage of a particular action. (<em>2008-03-20 - Adam Franco</em>)</li>
+		<li>
+<b>New feature:</b> Request: Can now retrieve parameters from a url string. (<em>2008-03-20 - Adam Franco</em>)</li>
+		<li>
+<b>New feature:</b> Request: Can now retrieve namespaced parameters from a url string. (<em>2008-03-20 - Adam Franco</em>)</li>
+		<li>
+<b>Bug Fix:</b> ErrorHandler: Now escapes entities in back-traces. (<em>2008-03-20 - Adam Franco</em>)</li>
+		<li>
+<b>Bug Fix:</b> Architecture: Now throws an UnknownActionException if no module is specified. (<em>2008-03-20 - Adam Franco</em>)</li>
+		<li>
+<b>Bug Fix:</b> Agent: AgentManager now throws an UnknownIdException instead of a generic one when an agent doesn't exist with the id specified. (<em>2008-03-17 - Adam Franco</em>)</li>
+	</ul>
+<br><h2>Version 1.0.4</h2>
 <h3>2008-03-12</h3>
 <p>This release updates the default case of column names in several minor database tables.</p>
 <ul>
