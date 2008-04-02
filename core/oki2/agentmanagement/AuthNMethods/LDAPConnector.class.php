@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPConnector.class.php,v 1.14 2007/11/07 19:09:54 adamfranco Exp $
+ * @version $Id: LDAPConnector.class.php,v 1.15 2008/04/02 13:57:05 adamfranco Exp $
  */ 
 
 /**
@@ -17,7 +17,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPConnector.class.php,v 1.14 2007/11/07 19:09:54 adamfranco Exp $
+ * @version $Id: LDAPConnector.class.php,v 1.15 2008/04/02 13:57:05 adamfranco Exp $
  */
 class LDAPConnector {
 		
@@ -127,6 +127,9 @@ class LDAPConnector {
 	 * @return void 
 	 **/
 	function _connect() {
+		printpre("LDAP: connecting ");
+		HarmoniErrorHandler::printDebugBacktrace();
+		
 		$this->_conn = 
 			ldap_connect($this->_configuration->getProperty("LDAPHost"),
 			$this->_configuration->getProperty("LDAPPort"));
@@ -236,24 +239,31 @@ class LDAPConnector {
 	 * @since 3/4/05
 	 */
 	function getDNsBySearch ( $filter, $baseDN ) {
-		$this->_connect();
-		$this->_bindForSearch();
-		$sr = ldap_search($this->_conn,
-						$baseDN,
-						$filter);
+		if (!isset($_SESSION['LDAP_DNs_BY_SEARCH_FILTER']))
+			$_SESSION['LDAP_DNs_BY_SEARCH_FILTER'] = array();
 		
-		if (ldap_errno($this->_conn))
-			throw new LDAPException("Error searching with filter '$filter' under '$baseDN' with message: ".ldap_error($this->_conn));
-		
-		$dns = array();
-		$entry = ldap_first_entry($this->_conn, $sr);
-		while($entry) {
-			$dns[] = ldap_get_dn($this->_conn, $entry);
-			$entry = ldap_next_entry($this->_conn, $entry);
+		if (!isset($_SESSION['LDAP_DNs_BY_SEARCH_FILTER'][$filter])) {
+			$this->_connect();
+			$this->_bindForSearch();
+			$sr = ldap_search($this->_conn,
+							$baseDN,
+							$filter);
+			
+			if (ldap_errno($this->_conn))
+				throw new LDAPException("Error searching with filter '$filter' under '$baseDN' with message: ".ldap_error($this->_conn));
+			
+			$dns = array();
+			$entry = ldap_first_entry($this->_conn, $sr);
+			while($entry) {
+				$dns[] = ldap_get_dn($this->_conn, $entry);
+				$entry = ldap_next_entry($this->_conn, $entry);
+			}
+			ldap_free_result($sr);
+			$this->_disconnect();
+			
+			$_SESSION['LDAP_DNs_BY_SEARCH_FILTER'][$filter] = $dns;
 		}
-		ldap_free_result($sr);
-		$this->_disconnect();
-		return $dns;
+		return $_SESSION['LDAP_DNs_BY_SEARCH_FILTER'][$filter];
 	}
 	
 	/**
@@ -321,6 +331,28 @@ class LDAPConnector {
 	 * @since 3/4/05
 	 */
 	function getInfo ($dn, $fields) {
+		if (!isset($_SESSION['LDAP_info_cache']))
+			$_SESSION['LDAP_info_cache'] = array();
+		
+		if (!isset($_SESSION['LDAP_info_cache'][$dn]))
+			$_SESSION['LDAP_info_cache'][$dn] = array();
+			
+		// Try 
+		$cacheFilled = true;
+		$values = array();
+		foreach($fields as $field) {
+			if (isset($_SESSION['LDAP_info_cache'][$dn][$field]))
+				$values[$field] = $_SESSION['LDAP_info_cache'][$dn][$field];
+			else
+				$cacheFilled = false;
+		}
+		
+		// If the cache is full, return our values from it.
+		if ($cacheFilled) {
+			return $values;
+		}
+				
+		// Otherwise, do the LDAP search and return our values from LDAP
 		$this->_connect();
 		$this->_bindForSearch();
 		$sr = @ldap_read($this->_conn, $dn, "(objectclass=*)", $fields);
@@ -349,6 +381,11 @@ class LDAPConnector {
 					$values[$key][] = $value[$j];
 		}
 		
+		// Load the cache
+		foreach($values as $field => $value) {
+			$_SESSION['LDAP_info_cache'][$dn][$field] = $value;
+		}
+		
 		return $values;
 	}	
 }
@@ -363,7 +400,7 @@ class LDAPConnector {
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPConnector.class.php,v 1.14 2007/11/07 19:09:54 adamfranco Exp $
+ * @version $Id: LDAPConnector.class.php,v 1.15 2008/04/02 13:57:05 adamfranco Exp $
  */
 class LDAPException
 	extends HarmoniException
