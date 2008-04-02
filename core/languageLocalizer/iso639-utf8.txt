@@ -54,7 +54,7 @@ bre;bre;br;Breton;Celtic
 btk;btk;;Batak (Indonesia);
 bua;bua;;Buriat;
 bug;bug;;Buginese;
-bul;bul;bg;български;Slavic
+bul;bul;bg;Bulgarian;Slavic
 cad;cad;;Caddo;
 cai;cai;;Central American Indian (Other);
 car;car;;Carib;

@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.263 2008/04/02 19:48:40 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.264 2008/04/02 20:12:30 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -22,6 +22,9 @@
 		<change author='adam' date='2008-04-02' ref='1930276' reftype='fr' reporter='jose_accino'>
 			Language: Now supports three-letter language codes such as 'ave_VE'. 
 			Also supports secondary three-letter codes such as 'cym', 'wel', and 'cy' for 'Welsh'.
+		</change>
+		<change author='adam' date='2008-04-02'>
+			Language: Country names are now nicely mixed-case rather than all upper.
 		</change>
 	</version>
 	<version number="1.0.5" date="2008-03-25">
