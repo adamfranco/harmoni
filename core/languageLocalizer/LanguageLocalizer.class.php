@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LanguageLocalizer.class.php,v 1.24 2008/04/02 19:48:39 adamfranco Exp $
+ * @version $Id: LanguageLocalizer.class.php,v 1.25 2008/04/02 20:34:47 adamfranco Exp $
  */
 class LanguageLocalizer {
 	/**
@@ -217,7 +217,9 @@ class LanguageLocalizer {
 		
 		// If gettext support is availible, use it.
 		if (hasGettext()) {
+			putenv("LANG=".$this->_lang);
 			$result = setlocale(LC_ALL, $this->_lang);
+			
 			debug::output( "Setting Lang to ".$this->_lang." => '$result'.",DEBUG_SYS5,"LanguageLocalizer");
 		}
 	}
@@ -228,6 +230,34 @@ class LanguageLocalizer {
 	 */
 	function getLanguage() {
 		return $this->_lang;
+	}
+	
+	/**
+	 * Answer the language code without the country
+	 * 
+	 * @return string
+	 * @access public
+	 * @since 4/2/08
+	 */
+	public function getCurrentLanguageCode () {
+		if (!preg_match("/^([a-z]{2,3})_([A-Z]{2})$/", $this->_lang, $parts))
+			throw new OperationFailedException("Invalid current language, '".$this->_lang."'.");
+		
+		return $parts[1];
+	}
+	
+	/**
+	 * Answer the country code without the language
+	 * 
+	 * @return string
+	 * @access public
+	 * @since 4/2/08
+	 */
+	public function getCurrentCountryCode () {
+		if (!preg_match("/^([a-z]{2,3})_([A-Z]{2})$/", $this->_lang, $parts))
+			throw new OperationFailedException("Invalid current language, '".$this->_lang."'.");
+		
+		return $parts[2];
 	}
 	
 	/**

@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.264 2008/04/02 20:12:30 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.265 2008/04/02 20:34:49 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -19,13 +19,27 @@
 		<change author='adam' date='2008-04-02' ref='1931215' reftype='segue_fr'>
 			Hierarchy: HierarchyCache now throws classed exceptions rather than generic ones.
 		</change>
-		<change author='adam' date='2008-04-02' ref='1930276' reftype='fr' reporter='jose_accino'>
+		<change author='adam' date='2008-04-02' ref='1930276' reftype='bug' reporter='jose_accino'>
 			Language: Now supports three-letter language codes such as 'ave_VE'. 
 			Also supports secondary three-letter codes such as 'cym', 'wel', and 'cy' for 'Welsh'.
 		</change>
 		<change author='adam' date='2008-04-02'>
 			Language: Country names are now nicely mixed-case rather than all upper.
 		</change>
+		<change author='adam' date='2008-04-02' ref='1930280' reftype='bug' reporter='jose_accino'>
+			Language: Now does a 
+			
+			putenv('LANG='.$this->_lang); 
+			
+			in addition to 
+			
+			setlocale(LC_ALL, $this->_lang);
+		</change>
+		<new author='adam' date='2008-04-02' ref='1930291' reftype='fr' reporter='jose_accino'>
+			Language: New methods LanguageLocalizer::getCurrentLanguageCode() and
+			LanguageLocalizer::getCurrentCountryCode() to provide access to the simple
+			versions of the current codes.
+		</new>
 	</version>
 	<version number="1.0.5" date="2008-03-25">
 		<releaseNotes>
