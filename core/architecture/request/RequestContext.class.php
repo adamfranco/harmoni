@@ -11,7 +11,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RequestContext.class.php,v 1.30 2008/03/20 19:11:57 adamfranco Exp $
+ * @version $Id: RequestContext.class.php,v 1.31 2008/04/02 21:11:13 achapin Exp $
  */
 
 define("REQUEST_HANDLER_CONTEXT_DELIMETER", "___");
@@ -326,12 +326,19 @@ END;
 	 *
 	 * @param optional string $module
 	 * @param optional string $action
+	 * @param optional array $variables
 	 * @return ref object URLWriter
 	 * @since 6/7/05
 	 */
-	function mkURLWithPassthrough ( $module = null, $action = null ) {
+	function mkURLWithPassthrough ( $module = null, $action = null, $variables = null ) {
 		$url =$this->mkURL($module, $action);
 		$url->batchSetValues($this->_requestData);
+		
+		// Addition $variables passed
+		if (is_array($variables)) {
+			$url->setValues($variables);
+		}
+		
 		return $url;
 	}
 	
