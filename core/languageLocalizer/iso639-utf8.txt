@@ -1,4 +1,4 @@
-﻿aar;aar;aa;Afar;Hamitic
+aar;aar;aa;Afar;Hamitic
 abk;abk;ab;Abkhazian;Ibero-caucasian
 ace;ace;;Achinese;
 ach;ach;;Acoli;

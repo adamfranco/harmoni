@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LanguageLocalizer.class.php,v 1.23 2008/02/06 15:37:45 adamfranco Exp $
+ * @version $Id: LanguageLocalizer.class.php,v 1.24 2008/04/02 19:48:39 adamfranco Exp $
  */
 class LanguageLocalizer {
 	/**
@@ -194,8 +194,8 @@ class LanguageLocalizer {
 	 * @todo -cLanguageLocalizer Implement LanguageLocalizer.setLanguage - use gettext functionality.
 	 **/
 	function setLanguage($language) {
-		if (!ereg("^[a-z]{2}_[A-Z]{2}",$language)) {
-			throwError(new Error("LanguageLocalizer::setLanguage($language) - language must start with 'xx_XX' (where x/X is any letter). Example: 'en_US'.","LanguageLocalizer",true));
+		if (!preg_match("/^[a-z]{2,3}_[A-Z]{2}$/",$language)) {
+			throwError(new Error("LanguageLocalizer::setLanguage($language) - language must start with 'xx_XX' or 'xxx_XX' (where x/X is any letter). Example: 'en_US'.","LanguageLocalizer",true));
 			return false;
 		}
 		
@@ -267,10 +267,15 @@ class LanguageLocalizer {
 			foreach ($inputArray as $line) {
 				$line = rtrim($line);
 				$parts = explode(';',$line);
+				if ($parts[0])
+					$languages[$parts[0]] = $parts[3];
+				if ($parts[1])
+					$languages[$parts[1]] = $parts[3];
 				if ($parts[2])
 					$languages[$parts[2]] = $parts[3];
+				
 			}
-			
+						
 			// Compile an array of all countries
 			if ($includeCountries) {
 				$countries = array();
@@ -289,10 +294,12 @@ class LanguageLocalizer {
 				foreach ($this->_applications as $application => $langDir) {
 					$handle = opendir($langDir);
 					while (($file = readdir($handle)) !== FALSE) {
-						if (ereg("([a-z]{2})_([A-Z]{2})", $file, $parts)) {
+						if (preg_match("/^([a-z]{2,3})_([A-Z]{2})$/", $file, $parts)) {
 							if ($includeCountries)
-								$_SESSION['__AvailibleLanguages'][$file] = $languages[$parts[1]].
-															" - ".$countries[$parts[2]];
+								$_SESSION['__AvailibleLanguages'][$file] = 
+										$languages[$parts[1]].
+									" - ".$countries[$parts[2]];
+// 									" - ".$this->ucfirst_strtolower_utf8($countries[$parts[2]]);
 							else
 								$_SESSION['__AvailibleLanguages'][$file] = $languages[$parts[1]];
 						}
@@ -301,13 +308,29 @@ class LanguageLocalizer {
 			} 
 			// if we don't have gettext support, just show the default language
 			else {
-				ereg("([a-z]{2})_([A-Z]{2})", $this->_lang, $parts);
+				preg_match("/^([a-z]{2,3})_([A-Z]{2})$/", $this->_lang, $parts);
 				$_SESSION['__AvailibleLanguages'][$this->_lang] = $languages[$parts[1]].
 															" - ".$countries[$parts[2]];
 			}
 		}
 		
 		return $_SESSION['__AvailibleLanguages'];
+	}
+	
+	/**
+	 * Do a ucfirst(strtolower()) on a utf8 string
+	 * 
+	 * @param string $inputString
+	 * @return string
+	 * @access private
+	 * @since 4/2/08
+	 */
+	private function ucfirst_strtolower_utf8 ($inputString) {
+		$outputString    = utf8_decode($inputString);
+		$outputString    = strtolower($outputString);
+		$outputString    = ucfirst($outputString);
+		$outputString    = utf8_encode($outputString);
+		return $outputString;
 	}
 }
 
