@@ -3,11 +3,20 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.259 2008/03/25 16:29:56 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.260 2008/04/02 13:57:06 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
+	<version number="1.0.6" date="The Future">
+		<releaseNotes>
+			
+		</releaseNotes>
+		<change author='adam' date='2008-04-02' ref='1897447' reftype='segue_fr'>
+			LDAP: LDAP connector now caches returned info in the session to dramatically
+			improve speed of repeated data access. (about 3x)
+		</change>
+	</version>
 	<version number="1.0.5" date="2008-03-25">
 		<releaseNotes>
 			This release includes some improvements to enable more flexibility in

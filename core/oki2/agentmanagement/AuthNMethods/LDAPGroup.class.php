@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPGroup.class.php,v 1.5 2008/02/07 20:10:48 adamfranco Exp $
+ * @version $Id: LDAPGroup.class.php,v 1.6 2008/04/02 13:57:05 adamfranco Exp $
  */ 
 
 require_once(OKI2."/osid/agent/Group.php");
@@ -21,7 +21,7 @@ require_once(dirname(__FILE__)."/LDAPAgentIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPGroup.class.php,v 1.5 2008/02/07 20:10:48 adamfranco Exp $
+ * @version $Id: LDAPGroup.class.php,v 1.6 2008/04/02 13:57:05 adamfranco Exp $
  */
 class LDAPGroup
 	implements Group
@@ -142,10 +142,13 @@ class LDAPGroup
 	 * @access public
 	 */
 	function getDisplayName () { 
-		$connector = $this->_configuration->getProperty('connector');
-		$fields = array("name");
-		$results = $connector->getInfo($this->_idString, $fields);
-		return $results['name'][0];
+		if (!isset($this->displayName)) {
+			$connector = $this->_configuration->getProperty('connector');
+			$fields = array("name");
+			$results = $connector->getInfo($this->_idString, $fields);
+			$this->displayName = $results['name'][0];
+		}
+		return $this->displayName;
 	} 
 
 	/**

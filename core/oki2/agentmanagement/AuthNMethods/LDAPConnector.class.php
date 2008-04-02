@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPConnector.class.php,v 1.15 2008/04/02 13:57:05 adamfranco Exp $
+ * @version $Id: LDAPConnector.class.php,v 1.16 2008/04/02 14:01:15 adamfranco Exp $
  */ 
 
 /**
@@ -17,7 +17,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPConnector.class.php,v 1.15 2008/04/02 13:57:05 adamfranco Exp $
+ * @version $Id: LDAPConnector.class.php,v 1.16 2008/04/02 14:01:15 adamfranco Exp $
  */
 class LDAPConnector {
 		
@@ -126,10 +126,7 @@ class LDAPConnector {
 	 * @access private
 	 * @return void 
 	 **/
-	function _connect() {
-		printpre("LDAP: connecting ");
-		HarmoniErrorHandler::printDebugBacktrace();
-		
+	function _connect() {		
 		$this->_conn = 
 			ldap_connect($this->_configuration->getProperty("LDAPHost"),
 			$this->_configuration->getProperty("LDAPPort"));
@@ -400,7 +397,7 @@ class LDAPConnector {
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPConnector.class.php,v 1.15 2008/04/02 13:57:05 adamfranco Exp $
+ * @version $Id: LDAPConnector.class.php,v 1.16 2008/04/02 14:01:15 adamfranco Exp $
  */
 class LDAPException
 	extends HarmoniException
