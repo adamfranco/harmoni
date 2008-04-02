@@ -33,7 +33,7 @@ require_once(HARMONI."oki2/hierarchy/HarmoniTraversalInfoIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HierarchyCache.class.php,v 1.40 2007/09/21 15:29:05 adamfranco Exp $
+ * @version $Id: HierarchyCache.class.php,v 1.41 2008/04/02 17:49:08 adamfranco Exp $
  **/
 
 class HierarchyCache {
@@ -327,7 +327,7 @@ class HierarchyCache {
 		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 	
 		if ($queryResult->getNumberOfRows() != 1)
-			throwError(new Error(HierarchyException::OPERATION_FAILED(),"HierarchyCache",true));
+			throw new OperationFailedException($queryResult->getNumberOfRows()." rows found. Expecting 1.");
 		
 		
 		// Update the ancestory table
@@ -388,7 +388,7 @@ class HierarchyCache {
 		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 		
 		if ($queryResult->getNumberOfRows() != 1)
-			throwError(new Error(HierarchyException::OPERATION_FAILED(),"HierarchyCache",true));
+			throw new OperationFailedException($queryResult->getNumberOfRows()." rows found. Expecting 1.");
 		
 		// Update the ancestory table
 		$this->_tree->_traversalCache = array();
@@ -422,7 +422,7 @@ class HierarchyCache {
 		$idManager = Services::getService("Id");
 		
 		if (!$nodeQueryResult->hasMoreRows()) {
-			throw new HarmoniException("No nodes found. \$query = ".printpre($this->_nodeQuery->asString(), true));
+			throw new UnknownIdException("No nodes found where ".$where);
 		}
 		while ($nodeQueryResult->hasMoreRows()) {
 			$nodeRow = $nodeQueryResult->getCurrentRow();
@@ -609,8 +609,10 @@ class HierarchyCache {
 			$nodes = $this->getNodesFromDB("node_id = '".addslashes($idValue)."'");
 			
 			// must be only one node
-			if (count($nodes) != 1) {
-				throwError(new Error(HierarchyException::OPERATION_FAILED()." - ".count($nodes)." nodes found.", "HierarchyCache", true));
+			if (!count($nodes)) {
+				throw new UnknownIdException("Node not found for Id, '".$idValue."'.");
+			} else if (count($nodes) != 1) {
+				throw new OperationFailedException(count($nodes)." nodes found. Expecting 1.");
 			}
 			
 			$displayName = $nodes[0]->getDisplayName();
@@ -664,7 +666,7 @@ class HierarchyCache {
 			}
 			
 			if (count($nodes) > 1) {
-				throwError(new Error(HierarchyException::OPERATION_FAILED(), "HierarchyCache", true));
+				throw new OperationFailedException(count($nodes)." nodes found. Expecting 1.");
 			}
 			
 			$displayName = $nodes[0]->getDisplayName();
@@ -1133,7 +1135,7 @@ class HierarchyCache {
 					
 					// must be only one node
 					if (count($nodes) != 1) {
-						throwError(new Error(HierarchyException::OPERATION_FAILED(), "HierarchyCache", true));
+						throw new OperationFailedException(count($nodes)." nodes found. Expecting 1.");
 					}
 					
 // 					$displayName = $nodes[0]->getDisplayName();
@@ -1270,7 +1272,7 @@ class HierarchyCache {
 				
 				// must be only one node
 				if (count($nodes) != 1) {
-					throwError(new Error(HierarchyException::OPERATION_FAILED().": ".count($nodes)." nodes found.", "HierarchyCache", true));
+					throw new OperationFailedException(count($nodes)." nodes found. Expecting 1.");
 				}
 				
 				$displayName = $nodes[0]->getDisplayName();
@@ -1438,7 +1440,7 @@ class HierarchyCache {
 					
 					// must be only one node
 					if (count($nodes) != 1) {
-						throwError(new Error(HierarchyException::OPERATION_FAILED(), "HierarchyCache", true));
+						throw new OperationFailedException(count($nodes)." nodes found. Expecting 1.");
 					}
 					
 					$displayName = $nodes[0]->getDisplayName();
@@ -1537,7 +1539,7 @@ class HierarchyCache {
 		$idValue = $nodeId->getIdString();
 		if ($this->_isCached($idValue)) {
 				// The node has already been cached!
-				throwError(new Error(HierarchyException::OPERATION_FAILED(), "HierarchyCache", true));
+				throw new OperationFailedException("Node, '$idValue' is already cached.");
 		}
 		
 		// attempt to insert the node now
@@ -1610,7 +1612,7 @@ class HierarchyCache {
 		
 		if ($queryResult->getNumberOfRows() != 1) {
 				//"Could not insert the node (it already exists?)";
-				throwError(new Error(HierarchyException::OPERATION_FAILED(), "HierarchyCache", true));
+				throw new OperationFailedException($queryResult->getNumberOfRows()." nodes found. Expecting 1. Node already exists?");
 		}
 		
 		// create the node object to return
@@ -1669,7 +1671,7 @@ class HierarchyCache {
 		// if not a leaf, cannot delete
 		if (!$node->isLeaf()) {
 				// "Can not delete non-leaf nodes.";
-				throwError(new Error(HierarchyException::OPERATION_FAILED(). " - Cannont delete non-leaf nodes", "HierarchyCache", true));
+				throw new OperationFailedException("Cannont delete non-leaf nodes.");
 		}
 		
 		// clear the cache and update the _tree structure
@@ -1704,11 +1706,11 @@ class HierarchyCache {
 		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0) {
 			$queryResult->free();
-			throwError(new Error(HierarchyException::OPERATION_FAILED(),"HierarchyCache",true));
+			throw new OperationFailedException("No type found for node, '$idValue'.");
 		}
 		if ($queryResult->getNumberOfRows() > 1) {
 			$queryResult->free();		
-			throwError(new Error(HierarchyException::OPERATION_FAILED() ,"HierarchyCache",true));
+			throw new OperationFailedException("Multiple types found for node, '$idValue'.");
 		}
 		$typeIdValue = $queryResult->field("type_id");
 		$queryResult->free();

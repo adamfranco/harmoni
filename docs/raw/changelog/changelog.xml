@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.261 2008/04/02 14:02:05 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.262 2008/04/02 17:49:10 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -15,6 +15,9 @@
 		<change author='adam' date='2008-04-02' ref='1897447' reftype='segue_fr'>
 			AgentManagement: LDAP connector now caches returned info in the session 
 			to dramatically	improve speed of repeated data access. (about 3x)
+		</change>
+		<change author='adam' date='2008-04-02' ref='1931215' reftype='segue_fr'>
+			Hierarchy: HierarchyCache now throws classed exceptions rather than generic ones.
 		</change>
 	</version>
 	<version number="1.0.5" date="2008-03-25">
