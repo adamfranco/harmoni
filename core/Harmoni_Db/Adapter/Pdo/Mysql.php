@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Mysql.php,v 1.1.2.2 2008/04/03 23:27:49 adamfranco Exp $
+ * @version $Id: Mysql.php,v 1.1.2.3 2008/04/03 23:54:50 adamfranco Exp $
  */ 
 
 require_once 'Zend/Db/Adapter/Pdo/Mysql.php';
@@ -20,7 +20,7 @@ require_once 'Zend/Db/Adapter/Pdo/Mysql.php';
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Mysql.php,v 1.1.2.2 2008/04/03 23:27:49 adamfranco Exp $
+ * @version $Id: Mysql.php,v 1.1.2.3 2008/04/03 23:54:50 adamfranco Exp $
  */
 class Harmoni_Db_Adapter_Pdo_Mysql
 	extends Zend_Db_Adapter_Pdo_Mysql
@@ -65,6 +65,20 @@ class Harmoni_Db_Adapter_Pdo_Mysql
     		return new Harmoni_Db_Delete($this);
     	else
     		return parent::delete($table, $where);
+    }
+    
+    /**
+     * Inserts a table row with specified data.
+     *
+     * @param mixed $table The table to insert data into.
+     * @param array $bind Column-value pairs.
+     * @return int The number of affected rows.
+     */
+    public function insert($table = null, array $bind = null) {
+    	if (is_null($table) && is_null($bind))
+    		return new Harmoni_Db_Insert($this);
+    	else
+    		return parent::insert($table, $bind);
     }
 	
 }

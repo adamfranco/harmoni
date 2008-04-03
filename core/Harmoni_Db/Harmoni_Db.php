@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Harmoni_Db.php,v 1.1.2.2 2008/04/03 23:27:47 adamfranco Exp $
+ * @version $Id: Harmoni_Db.php,v 1.1.2.3 2008/04/03 23:54:50 adamfranco Exp $
  */ 
 
 require_once 'Zend/Db.php';
@@ -16,6 +16,7 @@ require_once(dirname(__FILE__).'/Adapter/Pdo/Mysql.php');
 require_once(dirname(__FILE__).'/Select.php');
 require_once(dirname(__FILE__).'/Update.php');
 require_once(dirname(__FILE__).'/Delete.php');
+require_once(dirname(__FILE__).'/Insert.php');
 
 /**
  * Class for connecting to SQL databases and performing common operations.
@@ -26,7 +27,7 @@ require_once(dirname(__FILE__).'/Delete.php');
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Harmoni_Db.php,v 1.1.2.2 2008/04/03 23:27:47 adamfranco Exp $
+ * @version $Id: Harmoni_Db.php,v 1.1.2.3 2008/04/03 23:54:50 adamfranco Exp $
  */
 class Harmoni_Db
 	extends Zend_Db
