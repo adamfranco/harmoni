@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniErrorHandler.class.php,v 1.17 2008/03/20 19:12:17 adamfranco Exp $
+ * @version $Id: HarmoniErrorHandler.class.php,v 1.17.2.1 2008/04/03 21:53:06 adamfranco Exp $
  */ 
 
 /**
@@ -30,7 +30,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniErrorHandler.class.php,v 1.17 2008/03/20 19:12:17 adamfranco Exp $
+ * @version $Id: HarmoniErrorHandler.class.php,v 1.17.2.1 2008/04/03 21:53:06 adamfranco Exp $
  */
 class HarmoniErrorHandler {
 		
@@ -439,10 +439,13 @@ class HarmoniErrorHandler {
 		if (is_array($traceArray)) {
 			foreach($traceArray as $i => $trace) {
 				/* each $traceArray element represents a step in the call hiearchy. Print them from bottom up. */
-				if (isset($trace['file']))
+				if (isset($trace['file'])) {
+					$filePath = $trace['file'];
 					$file = basename($trace['file']);
-				else
+				} else {
+					$filePath = '';
 					$file = '';
+				}
 					
 				if (isset($trace['line']))
 					$line = $trace['line'];
@@ -459,7 +462,7 @@ class HarmoniErrorHandler {
 				
 				print "\n\t\t<tr>";
 				print "\n\t\t\t<td>$i</td>";
-				print "\n\t\t\t<td title=\"".htmlentities($file)."\">".htmlentities($file)."</td>";
+				print "\n\t\t\t<td title=\"".htmlentities($filePath)."\">".htmlentities($file)."</td>";
 				print "\n\t\t\t<td>$line</td>";
 				print "\n\t\t\t<td style='font-family: monospace; white-space: nowrap'>";
 				if ($class || $type || $function || $args) {
