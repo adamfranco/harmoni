@@ -3,14 +3,16 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.267 2008/04/03 03:12:02 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.268 2008/04/03 03:19:34 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
-	<version number="1.0.6" date="The Future">
+	<version number="1.0.6" date="2008-04-02">
 		<releaseNotes>
-			
+			In addition to a few bug fixes elsewhere, this release improves the
+			LanguageLocalizer to support all ISO 639-3 language codes and adds
+			native translation of language names from Wikipedia.org.
 		</releaseNotes>
 		<change author='adam' date='2008-04-02'>
 			Request: Can now pass additional variables to mkURLWithPassthrough().

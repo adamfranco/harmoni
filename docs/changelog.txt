@@ -4,9 +4,11 @@ Name: Harmoni Change Log
 
 
 
-v. 1.0.6 (The Future)
+v. 1.0.6 (2008-04-02)
 ----------------------------------------------------
-
+In addition to a few bug fixes elsewhere, this release improves the
+LanguageLocalizer to support all ISO 639-3 language codes and adds native
+translation of language names from Wikipedia.org.
 		
 		
 	* Change: 
