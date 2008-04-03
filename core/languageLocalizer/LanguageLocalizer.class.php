@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LanguageLocalizer.class.php,v 1.25 2008/04/02 20:34:47 adamfranco Exp $
+ * @version $Id: LanguageLocalizer.class.php,v 1.26 2008/04/03 03:12:00 adamfranco Exp $
  */
 class LanguageLocalizer {
 	/**
@@ -280,31 +280,79 @@ class LanguageLocalizer {
 	/**
 	 * Return an array of availible languages. The keys are the language codes
 	 * and the values are a UTF-8 encoded string representation of the language
-	 * name (eg. "en_US" => "English - US", "es_ES" => "Español - España",
-	 * "es_MX" => "Español - México")
+	 * name (eg. "en_US" => "English - US", "es_ES" => "Espa√±ol - Espa√±a",
+	 * "es_MX" => "Espa√±ol - M√©xico")
 	 * @param boolean $includeCountries Include the countries of the language
 	 *		codes. Default is TRUE.
+	 * @param optional array $nameTranslationOrder The order in which to return translated name strings.
+	 * 		Default is array('native', 'eng', 'fra', 'spa', 'zho', 'rus', 'deu')
 	 * @return array
 	 */
-	function getLanguages($includeCountries = TRUE) {
+	function getLanguages($includeCountries = TRUE, $nameTranslationOrder = array('native', 'eng', 'fra', 'spa', 'zho', 'rus', 'deu')) {
 		if (!isset($_SESSION['__AvailibleLanguages'])) {
-			$langfile = HARMONI.'languageLocalizer/iso639-utf8.txt';
+			$validNameTranslations = array('native', 'eng', 'fra', 'spa', 'zho', 'rus', 'deu');
+			foreach ($nameTranslationOrder as $trans)
+				if (!in_array($trans, $validNameTranslations))
+					throw new InvalidArgumentException("Invalid name translation, $trans.");
+			
+			$langfile = HARMONI.'languageLocalizer/iso-639-3.tab';
+			$translationsFile = HARMONI.'languageLocalizer/iso-639-3_translated.tab';
 			$countryfile = HARMONI.'languageLocalizer/countries.txt';
+			
+			// Compile an array of translated names.
+			$translations = array();
+			$inputArray = file($translationsFile);
+			$defs = explode("\t", array_shift($inputArray));
+			foreach ($inputArray as $line) {
+				$parts = explode("\t",$line);
+				$code = $parts[0];
+				$translations[$code] = array();
+				for ($i = 5; $i <= 11; $i++) {
+					if (isset($parts[$i]))
+						$translations[$code][$defs[$i]] = $parts[$i];
+				}
+
+			}
+// 			header("Content-type: text/plain; charset=utf-8");
+// 			printpre($translations);
+// 			exit;
 			
 			// Compile an array of all languages
 			$languages = array();
 			$inputArray = file($langfile);
+			array_shift($inputArray);
+
 			foreach ($inputArray as $line) {
-				$line = rtrim($line);
-				$parts = explode(';',$line);
-				if ($parts[0])
-					$languages[$parts[0]] = $parts[3];
+// 				$line = rtrim($line);
+				$parts = explode("\t",$line);
+				$code = $parts[0];
+				
+				// Determine the name of the language
+				$name = null;
+				if (isset($translations[$code])) {
+					foreach ($nameTranslationOrder as $trans) {
+						if (isset($translations[$code][$trans]) && $translations[$code][$trans]) {
+							$name = $translations[$code][$trans];
+							break;
+						}
+					}
+				}
+				// Use the ISO english name if none is found or the english version is to be used.
+				if (!$name || $trans == 'eng')
+					$name = $parts[6];
+					
+				$languages[$parts[0]] = $name;
 				if ($parts[1])
-					$languages[$parts[1]] = $parts[3];
+					$languages[$parts[1]] = $name;
 				if ($parts[2])
-					$languages[$parts[2]] = $parts[3];
+					$languages[$parts[2]] = $name;
+				if ($parts[3])
+					$languages[$parts[3]] = $name;
 				
 			}
+			
+// 			header("Content-type: text/plain; charset=utf-8");
+// 			printpre($languages); exit;
 						
 			// Compile an array of all countries
 			if ($includeCountries) {

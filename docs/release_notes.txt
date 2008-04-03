@@ -3,6 +3,11 @@ Name: Harmoni Release Notes
 (See the Harmoni change log for more details)
 
 
+v. 1.0.6 (The Future)
+----------------------------------------------------
+
+
+
 v. 1.0.5 (2008-03-25)
 ----------------------------------------------------
 This release includes some improvements to enable more flexibility in the Request

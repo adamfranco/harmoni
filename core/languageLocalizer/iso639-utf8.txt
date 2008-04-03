@@ -28,6 +28,7 @@ awa;awa;;Awadhi;
 aym;aym;ay;Aymara;Amerindian
 aze;aze;az;Azerbaijani;Turkic/altaic
 bad;bad;;Banda;
+bae;bae;;Baré;
 bai;bai;;Bamileke languages;
 bak;bak;ba;Bashkir;Turkic/altaic
 bal;bal;;Baluchi;
@@ -241,6 +242,7 @@ man;man;;Mandingo;
 map;map;;Austronesian (Other);
 mar;mar;mr;Marathi;Indian
 mas;mas;;Masai;
+mch;mch;;Yekwana;
 mdr;mdr;;Mandar;
 men;men;;Mende;
 mga;mga;;Irish, Middle (900-1200);

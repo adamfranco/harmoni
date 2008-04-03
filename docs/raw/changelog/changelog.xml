@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.266 2008/04/02 21:11:14 achapin Exp $
+ @version $Id: changelog.xml,v 1.267 2008/04/03 03:12:02 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -43,6 +43,11 @@
 			LanguageLocalizer::getCurrentCountryCode() to provide access to the simple
 			versions of the current codes.
 		</new>
+		<change author='adam' date='2008-04-02'>
+			Language: Added new ISO 639-3 language list. Added language-name translation
+			table from Wikipedia.org. Can now return language names in native form or in
+			specified translation order.
+		</change>
 	</version>
 	<version number="1.0.5" date="2008-03-25">
 		<releaseNotes>
