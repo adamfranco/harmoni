@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Select.php,v 1.1.2.1 2008/04/03 21:54:40 adamfranco Exp $
+ * @version $Id: Select.php,v 1.1.2.2 2008/04/03 23:27:47 adamfranco Exp $
  */ 
 
 /**
@@ -18,7 +18,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Select.php,v 1.1.2.1 2008/04/03 21:54:40 adamfranco Exp $
+ * @version $Id: Select.php,v 1.1.2.2 2008/04/03 23:27:47 adamfranco Exp $
  */
 class Harmoni_Db_Select
 	extends Zend_Db_Select
@@ -76,7 +76,7 @@ class Harmoni_Db_Select
 	function addWhereComparison ( $column, $value, $comparison, $logicalOperation = _AND ) {
 		$this->addWhereRawComparison(
 			$column, 
-			"'".addslashes($value)."'",
+			$this->_adapter->quote($value),
 			$comparison, 
 			$logicalOperation);
 	}
@@ -108,7 +108,7 @@ class Harmoni_Db_Select
 	function addWhereLike ( $column, $value, $logicalOperation = _AND ) {
 		$this->addWhereRawLike(
 			$column, 
-			"'".addslashes($value)."'",
+			$this->_adapter->quote($value),
 			$logicalOperation);
 	}
 	
@@ -310,7 +310,7 @@ class Harmoni_Db_Select
 	function addWhereIn ( $column, array $values, $logicalOperation = _AND ) {
 		$tmp = array();
 		foreach ($values as $value) {
-			$tmp[] = "'".addslashes($value)."'";
+			$tmp[] = $this->_adapter->quote($value);
 		}
 		$string = $this->cleanColumn($column)." IN (";
 		$string .= implode(", ", $tmp);
@@ -330,7 +330,7 @@ class Harmoni_Db_Select
 	function addWhereNotIn ( $column, array $values, $logicalOperation = _AND ) {
 		$tmp = array();
 		foreach ($values as $value) {
-			$tmp[] = "'".addslashes($value)."'";
+			$tmp[] = $this->_adapter->quote($value);
 		}
 		$string = $this->cleanColumn($column)." NOT IN (";
 		$string .= implode(", ", $tmp);

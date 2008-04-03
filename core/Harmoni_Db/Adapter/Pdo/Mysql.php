@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Mysql.php,v 1.1.2.1 2008/04/03 21:54:40 adamfranco Exp $
+ * @version $Id: Mysql.php,v 1.1.2.2 2008/04/03 23:27:49 adamfranco Exp $
  */ 
 
 require_once 'Zend/Db/Adapter/Pdo/Mysql.php';
@@ -20,7 +20,7 @@ require_once 'Zend/Db/Adapter/Pdo/Mysql.php';
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Mysql.php,v 1.1.2.1 2008/04/03 21:54:40 adamfranco Exp $
+ * @version $Id: Mysql.php,v 1.1.2.2 2008/04/03 23:27:49 adamfranco Exp $
  */
 class Harmoni_Db_Adapter_Pdo_Mysql
 	extends Zend_Db_Adapter_Pdo_Mysql
@@ -35,6 +35,36 @@ class Harmoni_Db_Adapter_Pdo_Mysql
 	 */
     public function select() {
         return new Harmoni_Db_Select($this);
+    }
+    
+    /**
+     * Updates table rows with specified data based on a WHERE clause.
+     *
+     * @param  mixed        $table The table to update.
+     * @param  array        $bind  Column-value pairs.
+     * @param  mixed        $where UPDATE WHERE clause(s).
+     * @return int          The number of affected rows.
+     */
+    public function update($table = null, array $bind = null, $where = '') {
+    	if (is_null($table) && is_null($bind) && !strlen($where))
+    		return new Harmoni_Db_Update($this);
+    	else
+    		return parent::update($table, $bind, $where);
+    }
+    
+    /**
+     * Deletes table rows based on a WHERE clause.
+     *
+     * @param  mixed        $table The table to update.
+     * @param  array        $bind  Column-value pairs.
+     * @param  mixed        $where UPDATE WHERE clause(s).
+     * @return int          The number of affected rows.
+     */
+	public function delete($table = null, $where = '') {
+    	if (is_null($table) && !strlen($where))
+    		return new Harmoni_Db_Delete($this);
+    	else
+    		return parent::delete($table, $where);
     }
 	
 }
