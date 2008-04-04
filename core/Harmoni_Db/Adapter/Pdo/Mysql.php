@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Mysql.php,v 1.1.2.3 2008/04/03 23:54:50 adamfranco Exp $
+ * @version $Id: Mysql.php,v 1.1.2.4 2008/04/04 15:43:08 adamfranco Exp $
  */ 
 
 require_once 'Zend/Db/Adapter/Pdo/Mysql.php';
@@ -20,7 +20,7 @@ require_once 'Zend/Db/Adapter/Pdo/Mysql.php';
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Mysql.php,v 1.1.2.3 2008/04/03 23:54:50 adamfranco Exp $
+ * @version $Id: Mysql.php,v 1.1.2.4 2008/04/04 15:43:08 adamfranco Exp $
  */
 class Harmoni_Db_Adapter_Pdo_Mysql
 	extends Zend_Db_Adapter_Pdo_Mysql
@@ -80,7 +80,59 @@ class Harmoni_Db_Adapter_Pdo_Mysql
     	else
     		return parent::insert($table, $bind);
     }
-	
+    
+    /**
+     * @var int $numPrepared; A counter for the number of statements prepared 
+     * @access private
+     * @since 4/4/08
+     */
+    private $numPrepared;
+    
+    /**
+     * Prepares an SQL statement.
+     *
+     * @param string $sql The SQL statement with placeholders.
+     * @param array $bind An array of data to bind to the placeholders.
+     * @return PDOStatement
+     */
+    public function prepare($sql) {
+		$this->_connect();
+        $stmt = new Harmoni_Db_Statement_Pdo($this, $sql);
+        $stmt->setFetchMode($this->_fetchMode);
+        
+        $this->numPrepared++;
+        return $stmt;
+    }
+    
+    /**
+     * @var int $numExecuted; A counter for the number of statements executed 
+     * @access private
+     * @since 4/4/08
+     */
+    private $numExecuted;
+    
+    /**
+     * Increment the execution counter. This should only be called by statements.
+     * 
+     * @return void
+     * @access public
+     * @since 4/4/08
+     */
+    public function incrementExecCounter () {
+    	$this->numExecuted++;
+    }
+
+	/**
+	 * Answer a statistics string.
+	 *
+	 * @return string
+	 * @access public
+	 * @since 4/4/08
+	 */
+	public function getStats () {
+		return "Statements Prepared: ".$this->numPrepared
+			." <br/>\nStatement Executions: ".$this->numExecuted;
+	}
 }
 
 ?>

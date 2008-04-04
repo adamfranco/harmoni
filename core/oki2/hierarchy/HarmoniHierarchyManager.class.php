@@ -44,7 +44,7 @@ require_once(HARMONI.'/oki2/id/HarmoniIdManager.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniHierarchyManager.class.php,v 1.30 2008/02/06 15:37:50 adamfranco Exp $
+ * @version $Id: HarmoniHierarchyManager.class.php,v 1.30.2.1 2008/04/04 15:43:09 adamfranco Exp $
  */
 class HarmoniHierarchyManager 
 	implements HierarchyManager 
@@ -116,9 +116,11 @@ class HarmoniHierarchyManager
 		// ** parameter validation
 		ArgumentValidator::validate($dbIndex, IntegerValidatorRule::getRule(), true);
 		ArgumentValidator::validate($dbName, StringValidatorRule::getRule(), true);
+		ArgumentValidator::validate($configuration->getProperty('harmoni_db_key'), StringValidatorRule::getRule(), true);
 		// ** end of parameter validation
 		
 		$this->_dbIndex = $dbIndex;
+		$this->harmoni_db_key = $configuration->getProperty('harmoni_db_key');
 	}
 
 	/**
@@ -294,7 +296,7 @@ class HarmoniHierarchyManager
 		$id = $idManager->getId($idValue);
 		$allowsMultipleParents = ($row['multiparent'] == '1');
 		
-		$cache = new HierarchyCache($idValue, $allowsMultipleParents, $this->_dbIndex);
+		$cache = new HierarchyCache($idValue, $allowsMultipleParents, $this->_dbIndex, $this->harmoni_db_key);
 		
 		$hierarchy = new HarmoniHierarchy($id, $row['display_name'], $row['description'], $cache);
 
@@ -479,26 +481,32 @@ class HarmoniHierarchyManager
 
 		$idValue = $id->getIdString();
 		
-		$dbHandler = Services::getService("DatabaseManager");
+		if (!isset($this->getNode_stmt)) {
+		
+			$db = Harmoni_Db::getDatabase($this->harmoni_db_key);
+			$query = $db->select();
+		
 
-		// find the hierarchy id for this node
-		$query = new SelectQuery();
-		$query->addColumn("fk_hierarchy", "hierarchy_id", "node");
-		$query->addTable("node");
-		$joinc = "node.fk_hierarchy = "."hierarchy.hierarchy_id";
-		$query->addTable("hierarchy", INNER_JOIN, $joinc);
-		$where = "node.node_id = '".addslashes($idValue)."'";
-		$query->addWhere($where);
+			// find the hierarchy id for this node
+			$query->addColumn("fk_hierarchy", "hierarchy_id", "node");
+			$query->addTable("node");
+			$joinc = "node.fk_hierarchy = "."hierarchy.hierarchy_id";
+			$query->addTable("hierarchy", INNER_JOIN, $joinc);
+			$query->addWhereEqual("node.node_id", $idValue);
+			
+			$this->getNode_stmt = $query->prepare();
+		}
 		
-		$nodeQueryResult =$dbHandler->query($query, $this->_dbIndex);
+		$this->getNode_stmt->bindValue(1, $idValue);
+		$this->getNode_stmt->execute();
+		$result = $this->getNode_stmt->fetchAll();
+		$this->getNode_stmt->closeCursor();
 		
-		if ($nodeQueryResult->getNumberOfRows() != 1) {
-			$nodeQueryResult->free();
+		if (count($result) != 1) {
 			throw new UnknownIdException("Could not find node of id, '".$id->getIdString()."'.");
 		}
 		
-		$nodeRow = $nodeQueryResult->getCurrentRow();
-		$nodeQueryResult->free();
+		$nodeRow = $result[0];
 
 		$idManager = Services::getService("Id");
 
@@ -510,6 +518,47 @@ class HarmoniHierarchyManager
 		$node =$hierarchy->getNode($id);
 
 		return $node;
+		
+		//-------------------------------------------------------------
+// 		
+// 		
+// 		// ** parameter validation
+// 		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"), true);
+// 		// ** end of parameter validation
+// 
+// 		$idValue = $id->getIdString();
+// 		
+// 		$dbHandler = Services::getService("DatabaseManager");
+// 
+// 		// find the hierarchy id for this node
+// 		$query = new SelectQuery();
+// 		$query->addColumn("fk_hierarchy", "hierarchy_id", "node");
+// 		$query->addTable("node");
+// 		$joinc = "node.fk_hierarchy = "."hierarchy.hierarchy_id";
+// 		$query->addTable("hierarchy", INNER_JOIN, $joinc);
+// 		$where = "node.node_id = '".addslashes($idValue)."'";
+// 		$query->addWhere($where);
+// 		
+// 		$nodeQueryResult =$dbHandler->query($query, $this->_dbIndex);
+// 		
+// 		if ($nodeQueryResult->getNumberOfRows() != 1) {
+// 			$nodeQueryResult->free();
+// 			throw new UnknownIdException("Could not find node of id, '".$id->getIdString()."'.");
+// 		}
+// 		
+// 		$nodeRow = $nodeQueryResult->getCurrentRow();
+// 		$nodeQueryResult->free();
+// 
+// 		$idManager = Services::getService("Id");
+// 
+// 		$hierarchyId = $nodeRow['hierarchy_id'];
+// 
+// 		// get the hierarchy
+// 		$hierarchy =$this->getHierarchy($idManager->getId($hierarchyId));
+// 		
+// 		$node =$hierarchy->getNode($id);
+// 
+// 		return $node;
 	}
 	
 	/**

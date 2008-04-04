@@ -33,7 +33,7 @@ require_once(HARMONI."oki2/hierarchy/HarmoniTraversalInfoIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HierarchyCache.class.php,v 1.41 2008/04/02 17:49:08 adamfranco Exp $
+ * @version $Id: HierarchyCache.class.php,v 1.41.2.1 2008/04/04 15:43:09 adamfranco Exp $
  **/
 
 class HierarchyCache {
@@ -118,7 +118,7 @@ class HierarchyCache {
 	 * @param object DateAndTime $lastStructureUpdate
 	 * @access protected
 	 */
-	function HierarchyCache($hierarchyId, $allowsMultipleParents, $dbIndex) {
+	function HierarchyCache($hierarchyId, $allowsMultipleParents, $dbIndex, $harmoni_db_key) {
 		// ** parameter validation
 		ArgumentValidator::validate($hierarchyId, 
 			OrValidatorRule::getRule(
@@ -127,11 +127,13 @@ class HierarchyCache {
 			true);
 		ArgumentValidator::validate($allowsMultipleParents, BooleanValidatorRule::getRule(), true);
 		ArgumentValidator::validate($dbIndex, IntegerValidatorRule::getRule(), true);
+		ArgumentValidator::validate($harmoni_db_key, StringValidatorRule::getRule(), true);
 		// ** end of parameter validation
 
 		$this->_tree = new Tree();
 		$this->_cache = array();
 		$this->_dbIndex = $dbIndex;
+		$this->harmoni_db_key = $harmoni_db_key;
 		$this->_hierarchyId = $hierarchyId;
 		$this->_allowsMultipleParents = $allowsMultipleParents;
 
@@ -149,6 +151,33 @@ class HierarchyCache {
 		$this->_nodeQuery->addOrderBy("node_id");
 		$joinc = "fk_type = "."type_id";
 		$this->_nodeQuery->addTable("type", INNER_JOIN, $joinc);
+		
+		// New Harmoni_Db_version
+		$db = Harmoni_Db::getDatabase($this->harmoni_db_key);
+		$query = $db->select();
+		$query->addColumn("node_id", "id", "node");
+		$query->addColumn("node_display_name", "display_name", "node");
+		$query->addColumn("node_description", "description", "node");
+		$query->addColumn("fk_hierarchy", "hierarchy_id", "node");
+		$query->addColumn("type_domain", "domain", "type");
+		$query->addColumn("type_authority", "authority", "type");
+		$query->addColumn("type_keyword", "keyword", "type");
+		$query->addColumn("type_description", "type_description", "type");
+		$query->addTable("node");
+		$query->addOrderBy("node_id");
+		$joinc = "fk_type = "."type_id";
+		$query->addTable("type", INNER_JOIN, $joinc);
+		$query->addWhereEqual("fk_hierarchy", $this->_hierarchyId);
+		
+		$byTypeQuery = clone $query;
+		
+		$this->getNodes_node_key = $query->addWhereEqual("node_id", '');
+		$this->getNodes_stmt = $query->prepare();
+		
+		$this->getNodesByType_domain_key = $byTypeQuery->addWhereEqual("type_domain", '');
+		$this->getNodesByType_authority_key = $byTypeQuery->addWhereEqual("type_authority", '');
+		$this->getNodesByType_keyword_key = $byTypeQuery->addWhereEqual("type_keyword", '');
+		$this->getNodesByType_stmt = $byTypeQuery->prepare();
 		
 		$this->_infoCache = array();
 	}
@@ -404,28 +433,24 @@ class HierarchyCache {
 	 * which nodes to return.
 	 * @return ref object An array of HarmoniNode objects.
 	 **/
-	function getNodesFromDB($where) {
+	function getNodesFromDB($nodeId) {
 		// ** parameter validation
-		ArgumentValidator::validate($where, StringValidatorRule::getRule(), true);
+		ArgumentValidator::validate($nodeId, StringValidatorRule::getRule(), true);
+		ArgumentValidator::validate($nodeId, RegexValidatorRule::getRule("^[^']+$"));
 		// ** end of parameter validation
 
-		$dbHandler = Services::getService("DatabaseManager");
-
-		$this->_nodeQuery->resetWhere();
-		$this->_nodeQuery->addWhere($where);
-		$this->_nodeQuery->addWhere("fk_hierarchy = '".addslashes($this->_hierarchyId)."'");
-		
-		$nodeQueryResult = $dbHandler->query($this->_nodeQuery, $this->_dbIndex);
+		$this->getNodes_stmt->bindValue($this->getNodes_node_key, $nodeId);
+		$this->getNodes_stmt->execute();
+		$nodeQueryResult = $this->getNodes_stmt->fetchAll();
 		
 		$result = array();
 
 		$idManager = Services::getService("Id");
 		
-		if (!$nodeQueryResult->hasMoreRows()) {
-			throw new UnknownIdException("No nodes found where ".$where);
+		if (!count($nodeQueryResult)) {
+			throw new UnknownIdException("No nodes found for id ".$nodeId);
 		}
-		while ($nodeQueryResult->hasMoreRows()) {
-			$nodeRow = $nodeQueryResult->getCurrentRow();
+		foreach ($nodeQueryResult as $nodeRow) {
 			$idValue = $nodeRow['id'];
 			
 			$id =$idManager->getId($idValue);
@@ -436,7 +461,45 @@ class HierarchyCache {
 	
 			$result[] =$node;
 		
-			$nodeQueryResult->advanceRow();
+		}
+		
+		return $result;
+	}
+	
+	/**
+	 * Answer the nodes matching a type
+	 * 
+	 * @param object Type $type
+	 * @return array
+	 * @access public
+	 * @since 4/3/08
+	 */
+	public function getNodesFromDbByType (Type $type) {
+		$this->getNodesByType_stmt->bindValue($this->getNodesByType_domain_key, $type->getDomain());
+		$this->getNodesByType_stmt->bindValue($this->getNodesByType_authority_key, $type->getAuthority());
+		$this->getNodesByType_stmt->bindValue($this->getNodesByType_keyword_key, $type->getKeyword());
+		$this->getNodesByType_stmt->execute();
+		$nodeQueryResult = $this->getNodesByType_stmt->fetchAll();
+		$this->getNodesByType_stmt->closeCursor();
+		
+		$result = array();
+
+		$idManager = Services::getService("Id");
+		
+		if (!count($nodeQueryResult)) {
+			throw new UnknownIdException("No nodes found for id ".$nodeId);
+		}
+		foreach ($nodeQueryResult as $nodeRow) {
+			$idValue = $nodeRow['id'];
+			
+			$id =$idManager->getId($idValue);
+			$type = new HarmoniType($nodeRow['domain'], $nodeRow['authority'], 
+									  $nodeRow['keyword'], $nodeRow['type_description']);
+			$node = new HarmoniNode($id, $type, 
+									  $nodeRow['display_name'], $nodeRow['description'], $this);
+	
+			$result[] =$node;
+		
 		}
 		
 		return $result;
@@ -606,7 +669,7 @@ class HierarchyCache {
 		if (!$this->_isCached($idValue)) {
 		
 			// now fetch the node from the database
-			$nodes = $this->getNodesFromDB("node_id = '".addslashes($idValue)."'");
+			$nodes = $this->getNodesFromDB($idValue);
 			
 			// must be only one node
 			if (!count($nodes)) {
@@ -655,7 +718,7 @@ class HierarchyCache {
 		if (!$this->_isCached($idValue)) {
 			// now fetch the node from the database
 			try {
-				$nodes = $this->getNodesFromDB("node_id = '".addslashes($idValue)."'");
+				$nodes = $this->getNodesFromDB($idValue);
 			} catch (HarmoniException $e) {
 				return false;
 			}
@@ -694,6 +757,10 @@ class HierarchyCache {
 	 * @return ref array An array of the parent nodes of the given node.
 	 **/
 	function getParents($node) {
+		// use new Harmoni_Db implementation.
+		// @todo Move that implementation here after testing.
+		return $this->getParents_new($node);
+		
 		// ** parameter validation
 		ArgumentValidator::validate($node, ExtendsValidatorRule::getRule("HarmoniNode"), true);
 		// ** end of parameter validation
@@ -740,8 +807,10 @@ class HierarchyCache {
 			$query->addWhere($where);
 			$query->addOrderBy("node_id");
 			
+// 			printpre(array_keys($nodesToExclude));
 			if (count($nodesToExclude) > 0) {
 				$idsToExclude = array_keys($nodesToExclude);
+				printpre($idsToExclude);
 				foreach ($idsToExclude as $key => $id)
 					$idsToExclude[$key] = "'".addslashes($id)."'";
 				$where = implode(", ",$idsToExclude);
@@ -799,6 +868,129 @@ class HierarchyCache {
 		return $result;
 	}
 	
+	/**
+	 * Caches the parents (if not cached already)
+	 * of the given node by fecthing them from the database
+	 * if neccessary, and then inserting them in <code>_tree</code> and updating
+	 * <code>_cache</code>.
+	 * @access public
+	 * @param object node The node object whose parents we must cache.
+	 * @return ref array An array of the parent nodes of the given node.
+	 **/
+	function getParents_new($node) {
+		// ** parameter validation
+		ArgumentValidator::validate($node, ExtendsValidatorRule::getRule("HarmoniNode"), true);
+		// ** end of parameter validation
+		
+		$idValue = $node->_id->getIdString();
+
+		// if the children have not been already cached, do it
+		if (!$this->_isCachedUp($idValue, 1)) {
+
+			// include the given node in the cache of nodes if necessary
+			if (!$this->_isCached($idValue)) {
+				$nullValue = NULL; 	// getting rid of PHP warnings by specifying
+									// this second argument
+				$this->_tree->addNode(new TreeNode($idValue), $nullValue);
+				$this->_cache[$idValue][0] =$node;
+			}
+	
+			// now fetch <code>$node</code>'s parents from the database
+			// with the exception of those parents that have been already fetched
+			$treeNode =$this->_tree->getNode($idValue);
+			$nodesToExclude = (isset($treeNode)) ? ($treeNode->getParents()) : array();
+	
+			if (!isset($this->getParents_stmt)) {
+				$db = Harmoni_Db::getDatabase($this->harmoni_db_key);
+				$query = $db->select();
+	
+				// set the columns to select
+				$query->addColumn("node_id", "id", "parents");
+				$query->addColumn("node_display_name", "display_name", "parents");
+				$query->addColumn("node_description", "description", "parents");
+				$query->addColumn("type_domain", "domain", "type");
+				$query->addColumn("type_authority", "authority", "type");
+				$query->addColumn("type_keyword", "keyword", "type");
+				$query->addColumn("type_description", "type_description", "type");
+		
+				// set the tables
+				$query->addTable("j_node_node", NO_JOIN, "", "child");
+				$joinc = "child.fk_parent = "."parents.node_id";
+				$query->addTable("node", INNER_JOIN, $joinc, "parents");
+				$joinc = "parents.fk_type = "."type_id";
+				$query->addTable("type", INNER_JOIN, $joinc);
+				
+				$query->addWhereEqual("child.fk_hierarchy", $this->_hierarchyId);
+				$this->getParents_nodeId_key = $query->addWhereEqual("child.fk_child", $idValue);
+				$query->addOrderBy("node_id");
+				
+				$query->addWhereRawNotIn("parents.node_id", array_fill(0, 10, '?'));
+				
+				$this->getParents_stmt = $query->prepare();
+			}
+			
+			$this->getParents_stmt->bindValue($this->getParents_nodeId_key, $idValue);
+			
+			// This will often be an empty array, but we will allow up to 10 values
+			// for now to limit the ammount of null values sent to the database.
+			// This can be increased if needed or other algorithms used.
+			$idsToExclude = array_keys($nodesToExclude);
+			if (count($idsToExclude) > 10)
+				throw new OperationFailedException("Current implementation doesn't support more than 10 exclusions, ".count($idsToExclude)." given.");
+			for ($i = count($idsToExclude); $i < 10; $i++) {
+				$idsToExclude[] = 'NULL';
+			}
+			$j = 0;
+			for ($i = $this->getParents_nodeId_key + 1; $i < $this->getParents_nodeId_key + 11; $i++) {
+				$this->getParents_stmt->bindValue($i, $idsToExclude[$j]);
+				$j++;
+			}
+			
+			$this->getParents_stmt->execute();
+			$result = $this->getParents_stmt->fetchAll();
+			$this->getParents_stmt->closeCursor();
+			
+			$idManager = Services::getService("Id");
+			// for all rows returned by the query
+			foreach ($result as $row) {
+				
+				// see if node in current row is in the cache
+				$parentIdValue = $row['id'];
+				// if not create it and cache it
+				if (!$this->_isCached($parentIdValue)) {
+					$parentId =$idManager->getId($parentIdValue);
+					$parentType = new HarmoniType($row['domain'], $row['authority'], 
+												  $row['keyword'], $row['type_description']);
+					$parent = new HarmoniNode($parentId, $parentType, 
+											  $row['display_name'], $row['description'], $this);
+					$parentTreeNode = new TreeNode($parentIdValue);
+					$nullValue = NULL; 	// getting rid of PHP warnings by specifying
+										// this second argument
+					$this->_tree->addNode($parentTreeNode, $nullValue);
+					$this->_tree->addNode($treeNode, $parentTreeNode);
+					$this->_cache[$parentIdValue][0] =$parent;
+					$this->_cache[$parentIdValue][1] = 0;
+					$this->_cache[$parentIdValue][2] = 0;
+				}
+				// if yes, then just update tree stucture
+				else 
+					$this->_tree->addNode($treeNode, $this->_tree->getNode($parentIdValue));
+	
+			}
+			
+			// finish caching
+			$this->_cache[$idValue][2] = 1; // parents have been cached
+		}
+		
+		// now that all nodes are cached, just return all children
+		$treeNode =$this->_tree->getNode($idValue);
+		$result = array();
+		$parentsIds =$treeNode->getParents();
+		foreach (array_keys($parentsIds) as $i => $key)
+			$result[] =$this->_cache[$key][0];
+			
+		return $result;
+	}
 	
 
 	/**
@@ -1131,7 +1323,7 @@ class HierarchyCache {
 				// if the node has not been cached, then we must create it
 //				echo "<br />--- CACHE UPDATE: ";
 				if (!$this->_isCached($nodeId)) {
-					$nodes =$this->getNodesFromDB("node_id = '".addslashes($nodeId)."'");
+					$nodes =$this->getNodesFromDB($nodeId);
 					
 					// must be only one node
 					if (count($nodes) != 1) {
@@ -1268,7 +1460,7 @@ class HierarchyCache {
 			// if the node has not been cached, then we must create it
 // 			echo "<br />--- CACHE UPDATE: ";
 			if (!$this->_isCached($nodeId)) {
-				$nodes =$this->getNodesFromDB("node_id = '".addslashes($nodeId)."'");
+				$nodes =$this->getNodesFromDB($nodeId);
 				
 				// must be only one node
 				if (count($nodes) != 1) {
@@ -1436,7 +1628,7 @@ class HierarchyCache {
 				// if the node has not been cached, then we must create it
 // 				echo "<br />--- CACHE UPDATE: ";
 				if (!$this->_isCached($nodeId)) {
-					$nodes =$this->getNodesFromDB("node_id = '".addslashes($nodeId)."'");
+					$nodes =$this->getNodesFromDB($nodeId);
 					
 					// must be only one node
 					if (count($nodes) != 1) {

@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DBHandler.class.php,v 1.28 2008/02/06 15:37:41 adamfranco Exp $
+ * @version $Id: DBHandler.class.php,v 1.28.2.1 2008/04/04 15:43:08 adamfranco Exp $
  */
  
 /**
@@ -68,7 +68,7 @@ require_once(HARMONI."Primitives/Chronology/include.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DBHandler.class.php,v 1.28 2008/02/06 15:37:41 adamfranco Exp $
+ * @version $Id: DBHandler.class.php,v 1.28.2.1 2008/04/04 15:43:08 adamfranco Exp $
  */
 
 class DBHandler { 
@@ -258,6 +258,9 @@ class DBHandler {
 	 * @access public
 	 */
 	function query(Query $query, $dbIndex=0) {
+		$backtrace = debug_backtrace();
+		printpre($backtrace[1]['class'].$backtrace[1]['type'].$backtrace[1]['function']);
+
 		if (!isset($this->_databases[$dbIndex]))
 			throw new DatabaseException("Unknown database index '$dbIndex'.");
 		

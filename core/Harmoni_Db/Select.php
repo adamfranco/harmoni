@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Select.php,v 1.1.2.2 2008/04/03 23:27:47 adamfranco Exp $
+ * @version $Id: Select.php,v 1.1.2.3 2008/04/04 15:43:08 adamfranco Exp $
  */ 
 
 /**
@@ -18,7 +18,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Select.php,v 1.1.2.2 2008/04/03 23:27:47 adamfranco Exp $
+ * @version $Id: Select.php,v 1.1.2.3 2008/04/04 15:43:08 adamfranco Exp $
  */
 class Harmoni_Db_Select
 	extends Zend_Db_Select
@@ -27,6 +27,13 @@ class Harmoni_Db_Select
 /*********************************************************
  * Methods from Query.abstract.php
  *********************************************************/
+ 	
+ 	/**
+ 	 * @var array $placeholdValues; An array of the values to insert into placeholders 
+ 	 * @access private
+ 	 * @since 4/3/08
+ 	 */
+ 	private $placeholderValues = array();
 
 	/**
 	 * Answer a safe SQL column string
@@ -48,7 +55,7 @@ class Harmoni_Db_Select
 	 * @param string $column
 	 * @param string $value
 	 * @param string $comparison
-	 * @return void
+	 * @return mixed string or int The placeholder key for the value.
 	 * @access public
 	 * @since 3/9/07
 	 */
@@ -56,11 +63,14 @@ class Harmoni_Db_Select
 		if (!preg_match('/[!=><]{1,3}/', $comparison))
 			throw new DatabaseException("Invalid SQL comparison, '".$comparison."'");
 		
+		$this->placeholderValues[] = $value;
 		$this->addWhere(
 			$this->cleanColumn($column)
 				.$comparison
-				.$value, 
+				.'?', 
 			$logicalOperation);
+		
+		return count($this->placeholderValues);
 	}
 	
 	/**
@@ -69,14 +79,14 @@ class Harmoni_Db_Select
 	  * @param string $column
 	 * @param string $value
 	 * @param string $comparison
-	 * @return void
+	 * @return mixed string or int The placeholder key for the value.
 	 * @access public
 	 * @since 3/9/07
 	 */
 	function addWhereComparison ( $column, $value, $comparison, $logicalOperation = _AND ) {
-		$this->addWhereRawComparison(
+		return $this->addWhereRawComparison(
 			$column, 
-			$this->_adapter->quote($value),
+			$value,
 			$comparison, 
 			$logicalOperation);
 	}
@@ -86,14 +96,17 @@ class Harmoni_Db_Select
 	 * 
 	  * @param string $column
 	 * @param string $value
-	 * @return void
+	 * @return mixed string or int The placeholder key for the value.
 	 * @access public
 	 * @since 3/9/07
 	 */
 	function addWhereRawLike ( $column, $value, $logicalOperation = _AND ) {
+		$this->placeholderValues[] = $value;
 		$this->addWhere(
-			$this->cleanColumn($column).' LIKE '.$value, 
+			$this->cleanColumn($column).' LIKE ?', 
 			$logicalOperation);
+
+		return count($this->placeholderValues);
 	}
 	
 	/**
@@ -101,14 +114,14 @@ class Harmoni_Db_Select
 	 * 
 	  * @param string $column
 	 * @param string $value
-	 * @return void
+	 * @return mixed string or int The placeholder key for the value.
 	 * @access public
 	 * @since 3/9/07
 	 */
 	function addWhereLike ( $column, $value, $logicalOperation = _AND ) {
-		$this->addWhereRawLike(
+		return $this->addWhereRawLike(
 			$column, 
-			$this->_adapter->quote($value),
+			$value,
 			$logicalOperation);
 	}
 	
@@ -117,12 +130,12 @@ class Harmoni_Db_Select
 	 * 
 	 * @param string $column
 	 * @param string $value
-	 * @return void
+	 * @return mixed string or int The placeholder key for the value.
 	 * @access public
 	 * @since 3/9/07
 	 */
 	function addWhereEqual ( $column, $value, $logicalOperation = _AND ) {
-		$this->addWhereComparison($column, $value, '=', $logicalOperation);
+		return $this->addWhereComparison($column, $value, '=', $logicalOperation);
 	}
 	
 	/**
@@ -130,12 +143,12 @@ class Harmoni_Db_Select
 	 * 
 	 * @param string $column
 	 * @param string $value
-	 * @return void
+	 * @return mixed string or int The placeholder key for the value.
 	 * @access public
 	 * @since 3/9/07
 	 */
 	function addWhereNotEqual ( $column, $value, $logicalOperation = _AND ) {
-		$this->addWhereComparison($column, $value, '!=', $logicalOperation);
+		return $this->addWhereComparison($column, $value, '!=', $logicalOperation);
 	}
 	
 	/**
@@ -143,12 +156,12 @@ class Harmoni_Db_Select
 	 * 
 	 * @param string $column
 	 * @param string $value
-	 * @return void
+	 * @return mixed string or int The placeholder key for the value.
 	 * @access public
 	 * @since 3/9/07
 	 */
 	function addWhereLessThan ( $column, $value, $logicalOperation = _AND ) {
-		$this->addWhereComparison($column, $value, '<', $logicalOperation);
+		return $this->addWhereComparison($column, $value, '<', $logicalOperation);
 	}
 	
 	/**
@@ -156,12 +169,12 @@ class Harmoni_Db_Select
 	 * 
 	 * @param string $column
 	 * @param string $value
-	 * @return void
+	 * @return mixed string or int The placeholder key for the value.
 	 * @access public
 	 * @since 3/9/07
 	 */
 	function addWhereGreaterThan ( $column, $value, $logicalOperation = _AND ) {
-		$this->addWhereComparison($column, $value, '>', $logicalOperation);
+		return $this->addWhereComparison($column, $value, '>', $logicalOperation);
 	}
 	
 	/**
@@ -169,12 +182,12 @@ class Harmoni_Db_Select
 	 * 
 	 * @param string $column
 	 * @param string $value
-	 * @return void
+	 * @return mixed string or int The placeholder key for the value.
 	 * @access public
 	 * @since 3/9/07
 	 */
 	function addWhereLessThanOrEqual ( $column, $value, $logicalOperation = _AND ) {
-		$this->addWhereComparison($column, $value, '<=', $logicalOperation);
+		return $this->addWhereComparison($column, $value, '<=', $logicalOperation);
 	}
 	
 	/**
@@ -182,12 +195,12 @@ class Harmoni_Db_Select
 	 * 
 	 * @param string $column
 	 * @param string $value
-	 * @return void
+	 * @return mixed string or int The placeholder key for the value.
 	 * @access public
 	 * @since 3/9/07
 	 */
 	function addWhereGreaterThanOrEqual ( $column, $value, $logicalOperation = _AND ) {
-		$this->addWhereComparison($column, $value, '>=', $logicalOperation);
+		return $this->addWhereComparison($column, $value, '>=', $logicalOperation);
 	}
 	
 	/**
@@ -195,12 +208,12 @@ class Harmoni_Db_Select
 	 * 
 	 * @param string $column
 	 * @param string $value
-	 * @return void
+	 * @return mixed string or int The placeholder key for the value.
 	 * @access public
 	 * @since 3/9/07
 	 */
 	function addWhereRawEqual ( $column, $value, $logicalOperation = _AND ) {
-		$this->addWhereRawComparison($column, $value, '=', $logicalOperation);
+		return $this->addWhereRawComparison($column, $value, '=', $logicalOperation);
 	}
 	
 	/**
@@ -208,12 +221,12 @@ class Harmoni_Db_Select
 	 * 
 	 * @param string $column
 	 * @param string $value
-	 * @return void
+	 * @return mixed string or int The placeholder key for the value.
 	 * @access public
 	 * @since 3/9/07
 	 */
 	function addWhereRawNotEqual ( $column, $value, $logicalOperation = _AND ) {
-		$this->addWhereRawComparison($column, $value, '!=', $logicalOperation);
+		return $this->addWhereRawComparison($column, $value, '!=', $logicalOperation);
 	}
 	
 	/**
@@ -221,12 +234,12 @@ class Harmoni_Db_Select
 	 * 
 	 * @param string $column
 	 * @param string $value
-	 * @return void
+	 * @return mixed string or int The placeholder key for the value.
 	 * @access public
 	 * @since 3/9/07
 	 */
 	function addWhereRawLessThan ( $column, $value, $logicalOperation = _AND ) {
-		$this->addWhereRawComparison($column, $value, '<', $logicalOperation);
+		return $this->addWhereRawComparison($column, $value, '<', $logicalOperation);
 	}
 	
 	/**
@@ -234,12 +247,12 @@ class Harmoni_Db_Select
 	 * 
 	 * @param string $column
 	 * @param string $value
-	 * @return void
+	 * @return mixed string or int The placeholder key for the value.
 	 * @access public
 	 * @since 3/9/07
 	 */
 	function addWhereRawGreaterThan ( $column, $value, $logicalOperation = _AND ) {
-		$this->addWhereRawComparison($column, $value, '>', $logicalOperation);
+		return $this->addWhereRawComparison($column, $value, '>', $logicalOperation);
 	}
 	
 	/**
@@ -247,12 +260,12 @@ class Harmoni_Db_Select
 	 * 
 	 * @param string $column
 	 * @param string $value
-	 * @return void
+	 * @return mixed string or int The placeholder key for the value.
 	 * @access public
 	 * @since 3/9/07
 	 */
 	function addWhereRawLessThanOrEqual ( $column, $value, $logicalOperation = _AND ) {
-		$this->addWhereRawComparison($column, $value, '<=', $logicalOperation);
+		return $this->addWhereRawComparison($column, $value, '<=', $logicalOperation);
 	}
 	
 	/**
@@ -260,12 +273,12 @@ class Harmoni_Db_Select
 	 * 
 	 * @param string $column
 	 * @param string $value
-	 * @return void
+	 * @return mixed string or int The placeholder key for the value.
 	 * @access public
 	 * @since 3/9/07
 	 */
 	function addWhereRawGreaterThanOrEqual ( $column, $value, $logicalOperation = _AND ) {
-		$this->addWhereRawComparison($column, $value, '>=', $logicalOperation);
+		return $this->addWhereRawComparison($column, $value, '>=', $logicalOperation);
 	}
 	
 	/**
@@ -273,12 +286,12 @@ class Harmoni_Db_Select
 	 * 
 	 * @param string $column
 	 * @param string $value
-	 * @return void
+	 * @return mixed string or int The placeholder key for the value.
 	 * @access public
 	 * @since 3/9/07
 	 */
 	function addWhereNull ( $column, $logicalOperation = _AND ) {
-		$this->addWhere(
+		return $this->addWhere(
 			$this->cleanColumn($column)." IS NULL",
 			$logicalOperation);
 	}
@@ -288,34 +301,33 @@ class Harmoni_Db_Select
 	 * 
 	 * @param string $column
 	 * @param string $value
-	 * @return void
+	 * @return mixed string or int The placeholder key for the value.
 	 * @access public
 	 * @since 3/9/07
 	 */
 	function addWhereNotNull ( $column, $logicalOperation = _AND ) {
-		$this->addWhere(
+		return $this->addWhere(
 			$this->cleanColumn($column)." IS NOT NULL", 
 			$logicalOperation);
 	}
 	
 	/**
 	 * Add a where clause of the form column IN ('xxx', 'yyy').
+	 *
+	 * 
 	 * 
 	 * @param string $column
 	 * @param array $values
-	 * @return void
+	 * @return mixed string or int The placeholder key for the value.
 	 * @access public
 	 * @since 3/9/07
 	 */
 	function addWhereIn ( $column, array $values, $logicalOperation = _AND ) {
-		$tmp = array();
-		foreach ($values as $value) {
-			$tmp[] = $this->_adapter->quote($value);
-		}
-		$string = $this->cleanColumn($column)." IN (";
-		$string .= implode(", ", $tmp);
-		$string .= ")";
+		foreach ($values as $key => $value)
+			$values[$key] = $this->_adapter->quote($value);
+		$string = $this->cleanColumn($column)." IN (".implode(', ', $values).")";
 		$this->addWhere($string, $logicalOperation);
+
 	}
 	
 	/**
@@ -323,18 +335,14 @@ class Harmoni_Db_Select
 	 * 
 	 * @param string $column
 	 * @param array $values
-	 * @return void
+	 * @return mixed string or int The placeholder key for the value.
 	 * @access public
 	 * @since 3/9/07
 	 */
 	function addWhereNotIn ( $column, array $values, $logicalOperation = _AND ) {
-		$tmp = array();
-		foreach ($values as $value) {
-			$tmp[] = $this->_adapter->quote($value);
-		}
-		$string = $this->cleanColumn($column)." NOT IN (";
-		$string .= implode(", ", $tmp);
-		$string .= ")";
+		foreach ($values as $key => $value)
+			$values[$key] = $this->_adapter->quote($value);
+		$string = $this->cleanColumn($column)." NOT IN (".implode(', ', $values).")";
 		$this->addWhere($string, $logicalOperation);
 	}
 	
@@ -343,14 +351,12 @@ class Harmoni_Db_Select
 	 * 
 	 * @param string $column
 	 * @param array $values
-	 * @return void
+	 * @return mixed string or int The placeholder key for the value.
 	 * @access public
 	 * @since 3/9/07
 	 */
 	function addWhereRawIn ( $column, array $values, $logicalOperation = _AND ) {
-		$string = $this->cleanColumn($column)." IN (";
-		$string .= implode(", ", $values);
-		$string .= ")";
+		$string = $this->cleanColumn($column)." IN (".implode(', ', $values).")";
 		$this->addWhere($string, $logicalOperation);
 	}
 	
@@ -359,14 +365,12 @@ class Harmoni_Db_Select
 	 * 
 	 * @param string $column
 	 * @param array $values
-	 * @return void
+	 * @return mixed string or int The placeholder key for the value.
 	 * @access public
 	 * @since 3/9/07
 	 */
 	function addWhereRawNotIn ( $column, array $values, $logicalOperation = _AND ) {
-		$string = $this->cleanColumn($column)." NOT IN (";
-		$string .= implode(", ", $values);
-		$string .= ")";
+		$string = $this->cleanColumn($column)." NOT IN (".implode(', ', $values).")";
 		$this->addWhere($string, $logicalOperation);
 	}
 	
@@ -694,6 +698,20 @@ class Harmoni_Db_Select
 		$this->limit($this->_parts[self::LIMIT_COUNT], $startFromRow);
 	}
 	
+	
+	/**
+	 * Prepare the statement and return a PDOStatement-like object.
+	 *
+	 * @return Zend_Db_Statment|PDOStatement
+	 * @access public
+	 * @since 4/3/08
+	 */
+	public function prepare () {
+		$stmt = $this->_adapter->prepare($this->__toString());
+		foreach ($this->placeholderValues as $i => $value)
+			$stmt->bindValue($i + 1, $value);
+		return $stmt;
+	}
 }
 
 ?>
