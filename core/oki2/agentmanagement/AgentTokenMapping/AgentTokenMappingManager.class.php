@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AgentTokenMappingManager.class.php,v 1.13 2008/02/06 15:37:46 adamfranco Exp $
+ * @version $Id: AgentTokenMappingManager.class.php,v 1.13.2.1 2008/04/04 18:55:35 adamfranco Exp $
  */ 
  
  require_once(dirname(__FILE__)."/AgentTokenMapping.class.php");
@@ -36,7 +36,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AgentTokenMappingManager.class.php,v 1.13 2008/02/06 15:37:46 adamfranco Exp $
+ * @version $Id: AgentTokenMappingManager.class.php,v 1.13.2.1 2008/04/04 18:55:35 adamfranco Exp $
  */
 class AgentTokenMappingManager
 	implements OsidManager
@@ -110,6 +110,10 @@ class AgentTokenMappingManager
         ArgumentValidator::validate($this->_configuration->getProperty('database_id'),
         	IntegerValidatorRule::getRule());
         	
+        ArgumentValidator::validate($this->_configuration->getProperty('harmoni_db_name'),
+        	StringValidatorRule::getRule());
+        
+        $this->harmoni_db_name = $this->_configuration->getProperty('harmoni_db_name');
         $this->_dbId = $this->_configuration->getProperty('database_id');
         
         $this->_isInitialized = TRUE;
@@ -235,23 +239,38 @@ class AgentTokenMappingManager
 	function getMappingForTokens ( AuthNTokens $authNTokens, Type $authenticationType ) {
 		$this->_checkConfig();
 		
-		$dbc = Services::getService("DatabaseManager");
+		if (!isset($this->getMappingForTokens_stmt)) {
+			
+			$db = Harmoni_Db::getDatabase($this->harmoni_db_name);
+			$query = $db->select();
+			$query->addTable($this->_mappingTable);
+			$query->addTable($this->_typeTable, 
+				LEFT_JOIN, 
+				$db->quoteIdentifier($this->_mappingTable.'.fk_type')
+					.'='
+					.$db->quoteIdentifier($this->_typeTable.'.id'));
+			$query->addColumn('agent_id');
+			$query->addColumn('token_identifier');
+			$query->addColumn('domain');
+			$query->addColumn('authority');
+			$query->addColumn('keyword');
+			$query->addColumn('description');
+			
+			$query->addWhereEqual("token_identifier", $authNTokens->getIdentifier());
+			$query->addWhereEqual("domain", $authenticationType->getDomain());
+			$query->addWhereEqual("authority", $authenticationType->getAuthority());
+			$query->addWhereEqual("keyword", $authenticationType->getKeyword());
+			
+			$this->getMappingForTokens_stmt = $query->prepare();
+		}
+		$this->getMappingForTokens_stmt->bindValue(1, $authNTokens->getIdentifier());
+		$this->getMappingForTokens_stmt->bindValue(2, $authenticationType->getDomain());
+		$this->getMappingForTokens_stmt->bindValue(3, $authenticationType->getAuthority());
+		$this->getMappingForTokens_stmt->bindValue(4, $authenticationType->getKeyword());
 		
-		$query =$this->_createSelectQuery();
+		$this->getMappingForTokens_stmt->execute();
 		
-		$query->addWhere(
-			"token_identifier='".addslashes($authNTokens->getIdentifier())."'");
-		$query->addWhere(
-			"domain='".addslashes($authenticationType->getDomain())."'",
-			_AND);
-		$query->addWhere(
-			"authority='".addslashes($authenticationType->getAuthority())."'",
-			_AND);
-		$query->addWhere(
-			"keyword='".addslashes($authenticationType->getKeyword())."'",
-			_AND);
-		
-		$result =$dbc->query($query, $this->_dbId);
+		$result = $this->getMappingForTokens_stmt->getResult();
 		
 		$mappings =$this->_createMappingsFromResult($result);
 		

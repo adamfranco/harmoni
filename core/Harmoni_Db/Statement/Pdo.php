@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Pdo.php,v 1.1.2.1 2008/04/04 15:43:08 adamfranco Exp $
+ * @version $Id: Pdo.php,v 1.1.2.2 2008/04/04 18:55:35 adamfranco Exp $
  */ 
 
 /**
@@ -18,7 +18,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Pdo.php,v 1.1.2.1 2008/04/04 15:43:08 adamfranco Exp $
+ * @version $Id: Pdo.php,v 1.1.2.2 2008/04/04 18:55:35 adamfranco Exp $
  */
 class Harmoni_Db_Statement_Pdo
 	extends Zend_Db_Statement_Pdo
@@ -34,6 +34,17 @@ class Harmoni_Db_Statement_Pdo
 	public function _execute(array $params = null) {
 		$this->_adapter->incrementExecCounter();
 		return parent::_execute($params);
+	}
+	
+	/**
+	 * Answer a query result object similar to that from the DBHandler
+	 * 
+	 * @return object Harmoni_Db_SelectResult
+	 * @access public
+	 * @since 4/4/08
+	 */
+	public function getResult () {
+		return new Harmoni_Db_SelectResult($this);
 	}
 }
 

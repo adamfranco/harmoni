@@ -33,7 +33,7 @@ require_once(HARMONI."oki2/hierarchy/HarmoniTraversalInfoIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HierarchyCache.class.php,v 1.41.2.1 2008/04/04 15:43:09 adamfranco Exp $
+ * @version $Id: HierarchyCache.class.php,v 1.41.2.2 2008/04/04 18:55:36 adamfranco Exp $
  **/
 
 class HierarchyCache {
@@ -1245,10 +1245,6 @@ class HierarchyCache {
 	 * @return void
 	 **/
 	function _traverseDown($idValue, $levels) {
-		$dbHandler = Services::getService("DatabaseManager");
-		$query = new SelectQuery();
-		
-		
 		// the original value of levels
 		$originalLevels = $levels;
 		
@@ -1260,36 +1256,46 @@ class HierarchyCache {
 		// then set it to 31
 		if (($levels > 31) || ($levels < 0))
 			$levels = 31;
-			
+		
 		// generate query
-		$query->addColumn("fk_parent", "level0_id", "level0");
-		$query->addColumn("fk_child",  "level1_id", "level0");
-		$query->addTable("j_node_node", NO_JOIN, "", "level0");
-		$query->addOrderBy("level0_id");
-		$query->addOrderBy("level1_id");
-		
-		// now left join with itself.
-		// maximum number of joins is 31, we've used 1 already, so there are 30 left
-		for ($level = 1; $level <= $levels-1; $level++) {
-			$joinc = "level".($level-1).".fk_hierarchy = level".($level).".fk_hierarchy AND level".($level-1).".fk_child = level".($level).".fk_parent";
-			$query->addTable("j_node_node", LEFT_JOIN, $joinc, "level".($level));
-			$query->addColumn("fk_child", "level".($level+1)."_id", "level".($level));
-			$query->addOrderBy("level".($level+1)."_id");
+		if (!isset($this->_traversDown_stmts))
+			$this->_traversDown_stmts = array();
+			
+		if (!isset($this->_traversDown_stmts[$levels])) {
+			$db = Harmoni_Db::getDatabase($this->harmoni_db_key);
+			$query = $db->select();
+			$query->addColumn("fk_parent", "level0_id", "level0");
+			$query->addColumn("fk_child",  "level1_id", "level0");
+			$query->addTable("j_node_node", NO_JOIN, "", "level0");
+			$query->addOrderBy("level0_id");
+			$query->addOrderBy("level1_id");
+			
+			// now left join with itself.
+			// maximum number of joins is 31, we've used 1 already, so there are 30 left
+			for ($level = 1; $level <= $levels-1; $level++) {
+				$joinc = "level".($level-1).".fk_hierarchy = level".($level).".fk_hierarchy AND level".($level-1).".fk_child = level".($level).".fk_parent";
+				$query->addTable("j_node_node", LEFT_JOIN, $joinc, "level".($level));
+				$query->addColumn("fk_child", "level".($level+1)."_id", "level".($level));
+				$query->addOrderBy("level".($level+1)."_id");
+			}
+			
+			// this is the where clause
+			$query->addWhereEqual("level0.fk_hierarchy", $this->_hierarchyId);
+			$query->addWhereEqual("level0.fk_parent", $idValue);
+			
+	//		echo "<pre>\n";
+	//		echo MySQL_SQLGenerator::generateSQLQuery($query);
+	//		echo "</pre>\n";
+	
+	// $timer1 = new Timer;
+	// $timer1->start();
+			
+			// execute the query
+			$this->_traversDown_stmts[$levels] = $query->prepare();
 		}
-		
-		// this is the where clause
-		$where = "level0.fk_hierarchy = '".addslashes($this->_hierarchyId)."' AND level0.fk_parent = '".addslashes($idValue)."'";
-		$query->addWhere($where);
-		
-//		echo "<pre>\n";
-//		echo MySQL_SQLGenerator::generateSQLQuery($query);
-//		echo "</pre>\n";
-
-// $timer1 = new Timer;
-// $timer1->start();
-		
-		// execute the query
-		$queryResult =$dbHandler->query($query, $this->_dbIndex);
+		$this->_traversDown_stmts[$levels]->bindValue(2, $idValue);
+		$this->_traversDown_stmts[$levels]->execute();
+		$queryResult = $this->_traversDown_stmts[$levels]->getResult();
 
 // $timer1->end();
 // printf("<br/>Traversal Query Time: %1.6f", $timer1->printTime());
