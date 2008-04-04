@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DBHandler.class.php,v 1.28.2.3 2008/04/04 18:52:00 adamfranco Exp $
+ * @version $Id: DBHandler.class.php,v 1.28.2.4 2008/04/04 20:27:10 adamfranco Exp $
  */
  
 /**
@@ -68,7 +68,7 @@ require_once(HARMONI."Primitives/Chronology/include.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DBHandler.class.php,v 1.28.2.3 2008/04/04 18:52:00 adamfranco Exp $
+ * @version $Id: DBHandler.class.php,v 1.28.2.4 2008/04/04 20:27:10 adamfranco Exp $
  */
 
 class DBHandler { 
@@ -262,7 +262,11 @@ class DBHandler {
 			if (!isset($this->queryCallers))
 				$this->queryCallers = array();
 			$backtrace = debug_backtrace();
-			$this->queryCallers[] = $backtrace[1]['class'].$backtrace[1]['type'].$backtrace[1]['function']."()";
+			if (isset($backtrace[1]['class']))
+				$string = $backtrace[1]['class'].$backtrace[1]['type'].$backtrace[1]['function']."()";
+			else
+				$string = $backtrace[1]['function']."()";
+			$this->queryCallers[] = $string; 
 		}
 
 		if (!isset($this->_databases[$dbIndex]))

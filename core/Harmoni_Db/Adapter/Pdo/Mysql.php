@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Mysql.php,v 1.1.2.4 2008/04/04 15:43:08 adamfranco Exp $
+ * @version $Id: Mysql.php,v 1.1.2.5 2008/04/04 20:27:11 adamfranco Exp $
  */ 
 
 require_once 'Zend/Db/Adapter/Pdo/Mysql.php';
@@ -20,7 +20,7 @@ require_once 'Zend/Db/Adapter/Pdo/Mysql.php';
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Mysql.php,v 1.1.2.4 2008/04/04 15:43:08 adamfranco Exp $
+ * @version $Id: Mysql.php,v 1.1.2.5 2008/04/04 20:27:11 adamfranco Exp $
  */
 class Harmoni_Db_Adapter_Pdo_Mysql
 	extends Zend_Db_Adapter_Pdo_Mysql
@@ -101,6 +101,18 @@ class Harmoni_Db_Adapter_Pdo_Mysql
         $stmt->setFetchMode($this->_fetchMode);
         
         $this->numPrepared++;
+        if (isset($this->recordQueryCallers) && $this->recordQueryCallers) {
+			if (!isset($this->queryCallers))
+				$this->queryCallers = array();
+			$backtrace = debug_backtrace();
+			if (isset($backtrace[2]['class']))
+				$caller = $backtrace[2]['class'].$backtrace[2]['type'].$backtrace[2]['function']."()";
+			else
+				$caller = $backtrace[2]['function']."()";
+			$this->queryCallers[$caller] = 0;
+			$stmt->caller = $caller;
+		}
+        
         return $stmt;
     }
     
@@ -118,7 +130,11 @@ class Harmoni_Db_Adapter_Pdo_Mysql
      * @access public
      * @since 4/4/08
      */
-    public function incrementExecCounter () {
+    public function incrementExecCounter ($caller = null) {
+    	if (!is_null($caller) && isset($this->recordQueryCallers) && $this->recordQueryCallers) {
+    		$this->queryCallers[$caller]++;
+    	}
+    		
     	$this->numExecuted++;
     }
 
@@ -130,8 +146,20 @@ class Harmoni_Db_Adapter_Pdo_Mysql
 	 * @since 4/4/08
 	 */
 	public function getStats () {
-		return "Statements Prepared: ".$this->numPrepared
-			." <br/>\nStatement Executions: ".$this->numExecuted;
+		ob_start();
+		print "Statements Prepared: ".$this->numPrepared;
+		print " <br/>\nStatement Executions: ".$this->numExecuted;
+		if (isset($this->recordQueryCallers) && $this->recordQueryCallers && is_array($this->queryCallers)) {
+			$callers = array_keys($this->queryCallers);
+			$numbers = array_values($this->queryCallers);
+			array_multisort($numbers, SORT_DESC, $callers);
+			print "\n<pre>Statement Executions by Caller:\n";
+			for ($i = 0; $i < count ($callers); $i++) {
+				print "\n".$numbers[$i]."\t".$callers[$i];
+			}
+			print "</pre>";
+		}
+		return ob_get_clean();
 	}
 }
 

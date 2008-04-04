@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Pdo.php,v 1.1.2.2 2008/04/04 18:55:35 adamfranco Exp $
+ * @version $Id: Pdo.php,v 1.1.2.3 2008/04/04 20:27:12 adamfranco Exp $
  */ 
 
 /**
@@ -18,11 +18,17 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Pdo.php,v 1.1.2.2 2008/04/04 18:55:35 adamfranco Exp $
+ * @version $Id: Pdo.php,v 1.1.2.3 2008/04/04 20:27:12 adamfranco Exp $
  */
 class Harmoni_Db_Statement_Pdo
 	extends Zend_Db_Statement_Pdo
 {
+	/**
+	 * @var string $caller; An identifier for the function that prepared this statement, used for debugging purposes. 
+	 * @access public
+	 * @since 4/4/08
+	 */
+	public $caller = null;
 	
 	/**
 	 * Executes a prepared statement.
@@ -32,7 +38,7 @@ class Harmoni_Db_Statement_Pdo
 	 * @throws Zend_Db_Statement_Exception
 	 */
 	public function _execute(array $params = null) {
-		$this->_adapter->incrementExecCounter();
+		$this->_adapter->incrementExecCounter($this->caller);
 		return parent::_execute($params);
 	}
 	
