@@ -3,11 +3,19 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.268 2008/04/03 03:19:34 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.269 2008/04/04 17:55:22 achapin Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
+	<version number="1.0.7" date="The Future">
+		<releaseNotes>
+			
+		</releaseNotes>
+		<fix author='alex,adam' date='2008-04-04' ref='1934661' reftype='bug'>
+			AgentManagement: LDAP search cache now is per baseDN.
+		</fix>
+	</version>
 	<version number="1.0.6" date="2008-04-02">
 		<releaseNotes>
 			In addition to a few bug fixes elsewhere, this release improves the

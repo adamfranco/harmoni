@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPConnector.class.php,v 1.16 2008/04/02 14:01:15 adamfranco Exp $
+ * @version $Id: LDAPConnector.class.php,v 1.17 2008/04/04 17:55:22 achapin Exp $
  */ 
 
 /**
@@ -17,7 +17,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPConnector.class.php,v 1.16 2008/04/02 14:01:15 adamfranco Exp $
+ * @version $Id: LDAPConnector.class.php,v 1.17 2008/04/04 17:55:22 achapin Exp $
  */
 class LDAPConnector {
 		
@@ -239,7 +239,7 @@ class LDAPConnector {
 		if (!isset($_SESSION['LDAP_DNs_BY_SEARCH_FILTER']))
 			$_SESSION['LDAP_DNs_BY_SEARCH_FILTER'] = array();
 		
-		if (!isset($_SESSION['LDAP_DNs_BY_SEARCH_FILTER'][$filter])) {
+		if (!isset($_SESSION['LDAP_DNs_BY_SEARCH_FILTER'][$filter.'---'.$baseDN])) {
 			$this->_connect();
 			$this->_bindForSearch();
 			$sr = ldap_search($this->_conn,
@@ -258,9 +258,9 @@ class LDAPConnector {
 			ldap_free_result($sr);
 			$this->_disconnect();
 			
-			$_SESSION['LDAP_DNs_BY_SEARCH_FILTER'][$filter] = $dns;
+			$_SESSION['LDAP_DNs_BY_SEARCH_FILTER'][$filter.'---'.$baseDN] = $dns;
 		}
-		return $_SESSION['LDAP_DNs_BY_SEARCH_FILTER'][$filter];
+		return $_SESSION['LDAP_DNs_BY_SEARCH_FILTER'][$filter.'---'.$baseDN];
 	}
 	
 	/**
@@ -397,7 +397,7 @@ class LDAPConnector {
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: LDAPConnector.class.php,v 1.16 2008/04/02 14:01:15 adamfranco Exp $
+ * @version $Id: LDAPConnector.class.php,v 1.17 2008/04/04 17:55:22 achapin Exp $
  */
 class LDAPException
 	extends HarmoniException

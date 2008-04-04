@@ -51,7 +51,7 @@ require_once(HARMONI."oki2/agent/EveryoneGroup.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAgentManager.class.php,v 1.53 2008/03/17 13:45:48 adamfranco Exp $
+ * @version $Id: HarmoniAgentManager.class.php,v 1.54 2008/04/04 17:55:21 achapin Exp $
  *
  * @author Adam Franco
  * @author Dobromir Radichkov
@@ -664,6 +664,9 @@ class HarmoniAgentManager
 					}
 				}
 			}
+			
+			if ($group === false)
+				throw new UnknownIdException("Could not get Group for Id, '$id'");
 			
 			return $group;
 		}
