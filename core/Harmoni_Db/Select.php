@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Select.php,v 1.1.2.3 2008/04/04 15:43:08 adamfranco Exp $
+ * @version $Id: Select.php,v 1.1.2.4 2008/04/07 19:28:51 adamfranco Exp $
  */ 
 
 /**
@@ -18,7 +18,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Select.php,v 1.1.2.3 2008/04/04 15:43:08 adamfranco Exp $
+ * @version $Id: Select.php,v 1.1.2.4 2008/04/07 19:28:51 adamfranco Exp $
  */
 class Harmoni_Db_Select
 	extends Zend_Db_Select
@@ -712,6 +712,22 @@ class Harmoni_Db_Select
 			$stmt->bindValue($i + 1, $value);
 		return $stmt;
 	}
+	
+	/**
+     * Executes the current select object and returns the result
+     *
+     * @param integer $fetchMode OPTIONAL
+     * @return PDO_Statement|Zend_Db_Statement
+     */
+    public function query($fetchMode = null)
+    {
+        $stmt = $this->_adapter->query($this, $this->placeholderValues);
+        if ($fetchMode == null) {
+            $fetchMode = $this->_adapter->getFetchMode();
+        }
+        $stmt->setFetchMode($fetchMode);
+        return $stmt;
+    }
 }
 
 ?>

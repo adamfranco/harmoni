@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Mysql.php,v 1.1.2.5 2008/04/04 20:27:11 adamfranco Exp $
+ * @version $Id: Mysql.php,v 1.1.2.6 2008/04/07 19:28:51 adamfranco Exp $
  */ 
 
 require_once 'Zend/Db/Adapter/Pdo/Mysql.php';
@@ -20,7 +20,7 @@ require_once 'Zend/Db/Adapter/Pdo/Mysql.php';
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Mysql.php,v 1.1.2.5 2008/04/04 20:27:11 adamfranco Exp $
+ * @version $Id: Mysql.php,v 1.1.2.6 2008/04/07 19:28:51 adamfranco Exp $
  */
 class Harmoni_Db_Adapter_Pdo_Mysql
 	extends Zend_Db_Adapter_Pdo_Mysql
@@ -160,6 +160,28 @@ class Harmoni_Db_Adapter_Pdo_Mysql
 			print "</pre>";
 		}
 		return ob_get_clean();
+	}
+	
+	/**
+	 * Answer the number of statements prepared
+	 * 
+	 * @return int
+	 * @access public
+	 * @since 4/7/08
+	 */
+	public function getNumPrepared () {
+		return $this->numPrepared;
+	}
+	
+	/**
+	 * Answer the number of statements executed
+	 * 
+	 * @return int
+	 * @access public
+	 * @since 4/7/08
+	 */
+	public function getNumExecuted () {
+		return $this->numExecuted;
 	}
 }
 
