@@ -8,7 +8,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Timer.class.php,v 1.5 2007/04/12 15:37:34 adamfranco Exp $
+ * @version $Id: Timer.class.php,v 1.5.2.1 2008/04/07 19:28:22 adamfranco Exp $
  */ 
 class Timer {
 	var $_start;
@@ -35,6 +35,17 @@ class Timer {
 		$e = $es + $em;
 		
 		return ($e-$s);
+	}
+	
+	/**
+	 * Answer a float of the time spent
+	 * 
+	 * @return float
+	 * @access public
+	 * @since 4/7/08
+	 */
+	public function getTime () {
+		return $this->printTime();
 	}
 }
 
