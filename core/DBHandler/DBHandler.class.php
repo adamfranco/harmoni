@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DBHandler.class.php,v 1.28 2008/02/06 15:37:41 adamfranco Exp $
+ * @version $Id: DBHandler.class.php,v 1.29 2008/04/08 20:02:24 adamfranco Exp $
  */
  
 /**
@@ -68,7 +68,7 @@ require_once(HARMONI."Primitives/Chronology/include.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: DBHandler.class.php,v 1.28 2008/02/06 15:37:41 adamfranco Exp $
+ * @version $Id: DBHandler.class.php,v 1.29 2008/04/08 20:02:24 adamfranco Exp $
  */
 
 class DBHandler { 
@@ -258,6 +258,17 @@ class DBHandler {
 	 * @access public
 	 */
 	function query(Query $query, $dbIndex=0) {
+		if (isset($this->recordQueryCallers) && $this->recordQueryCallers) {
+			if (!isset($this->queryCallers))
+				$this->queryCallers = array();
+			$backtrace = debug_backtrace();
+			if (isset($backtrace[1]['class']))
+				$string = $backtrace[1]['class'].$backtrace[1]['type'].$backtrace[1]['function']."()";
+			else
+				$string = $backtrace[1]['function']."()";
+			$this->queryCallers[] = $string; 
+		}
+
 		if (!isset($this->_databases[$dbIndex]))
 			throw new DatabaseException("Unknown database index '$dbIndex'.");
 		
@@ -276,6 +287,13 @@ class DBHandler {
 	 * @access public
 	 */
 	function queryQueue(Queue $queue, $dbIndex=0) {
+		if (isset($this->recordQueryCallers) && $this->recordQueryCallers) {
+			if (!isset($this->queryCallers))
+				$this->queryCallers = array();
+			$backtrace = debug_backtrace();
+			$this->queryCallers[] = $backtrace[1]['class'].$backtrace[1]['type'].$backtrace[1]['function']."()";
+		}
+		
 		// ** parameter validation
 		$this->_validateDBIndex($dbIndex);
 		// ** end of parameter validation
@@ -555,5 +573,52 @@ class DBHandler {
 	function generateSQL (Query $query, $dbIndex = 0) {
 		return $this->_databases[$dbIndex]->generateSQL($query);
 	}
+	
+	/**
+	 * answer an array of query-callers
+	 * 
+	 * @return array
+	 * @access public
+	 * @since 4/4/08
+	 */
+	public function getQueryCallers () {
+		if (!isset($this->queryCallers) && !isset($this->recordQueryCallers))
+			throw new DatabaseException("No query-callers recorded.");
+		if (!is_array($this->queryCallers))
+			return array();
+		return $this->queryCallers;
+	}
+	
+	/**
+	 * Answer some statistics about query callers
+	 *
+	 * @return string
+	 * @access public
+	 * @since 4/4/08
+	 */
+	public function getQueryCallerStats () {
+		$callers = array();
+		$numCalls = array();
+		foreach ($this->getQueryCallers() as $caller) {
+			$key = array_search($caller, $callers);
+			if ($key === false) {
+				$callers[] = $caller;
+				$numCalls[] = 1;
+			} else {
+				$numCalls[$key]++;
+			}
+		}
+		
+		array_multisort($numCalls, SORT_DESC, $callers);
+		
+		ob_start();
+		print "<pre>";
+		for ($i = 0; $i < count($callers); $i++) {
+			print "\n".$numCalls[$i]."\t".$callers[$i];
+		}
+		print "</pre>";
+		return ob_get_clean();
+	}
 }
+
 ?>

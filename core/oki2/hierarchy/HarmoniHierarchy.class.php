@@ -24,7 +24,7 @@ require_once(HARMONI.'/oki2/hierarchy/DefaultNodeType.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniHierarchy.class.php,v 1.25 2008/02/06 15:37:50 adamfranco Exp $
+ * @version $Id: HarmoniHierarchy.class.php,v 1.26 2008/04/08 20:02:43 adamfranco Exp $
  */
 
 class HarmoniHierarchy 
@@ -507,7 +507,7 @@ class HarmoniHierarchy
 		$idValue = $nodeId->getIdString();
 		try {
 			$node = $this->_cache->getNode($idValue);
-		} catch (HarmoniException $e) {
+		} catch (UnknownIdException $e) {
 			throw new UnknownIdException("Could not find node of Id '".$idValue."'.");
 		}
 		
@@ -612,13 +612,10 @@ class HarmoniHierarchy
 	function getNodesByType( Type $nodeType ) {
 		try {
 			// if all the nodes haven't been cached then do it
-			$where = "type_domain = '".addslashes($nodeType->getDomain())."'";
-			$where .= " AND type_authority = '".addslashes($nodeType->getAuthority())."'";
-			$where .= " AND type_keyword = '".addslashes($nodeType->getKeyword())."'";
-			$nodes =$this->_cache->getNodesFromDB($where);
+			$nodes =$this->_cache->getNodesFromDbByType($nodeType);
 		}
 		// No Nodes found
-		catch (HarmoniException $e) {
+		catch (UnknownIdException $e) {
 			$nodes = array();
 		}
 

@@ -11,7 +11,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: services.cfg.php,v 1.63 2007/10/10 22:58:31 adamfranco Exp $
+ * @version $Id: services.cfg.php,v 1.64 2008/04/08 20:02:21 adamfranco Exp $
  */
 
 /* :: what services should we load? you can disable some to save on startup time :: */
@@ -36,6 +36,7 @@ if (!defined("LOAD_DATAMANAGER")) 			define("LOAD_DATAMANAGER", true);
  * functionality affected: Database connectivity, and anything that depends on it.
  */
 if (!defined("LOAD_DBC")) 					define("LOAD_DBC", true);
+if (!defined("LOAD_HARMONI_DB")) 					define("LOAD_HARMONI_DB", true);
 
 /**
  * functionality affected: Sets
@@ -201,6 +202,17 @@ require_once(HARMONI . "errorHandler/HarmoniErrorHandler.class.php");
 require_once(HARMONI."DBHandler/DBHandler.class.php");
 Services::registerService("DatabaseManager","DBHandler");
 Services::createServiceAlias("DatabaseManager", "DBHandler");
+
+if (LOAD_HARMONI_DB) {
+	/*********************************************************
+	 * Zend Framework location
+	 *********************************************************/
+	ini_set('include_path', ini_get('include_path').":".realpath(HARMONI_BASE)."/ZendFramework/library");
+
+	require_once(HARMONI."Harmoni_Db/Harmoni_Db.php");
+// 	Services::registerService("DatabaseManager","DBHandler");
+// 	Services::createServiceAlias("DatabaseManager", "DBHandler");
+}
 
 /**
  * load debug handler

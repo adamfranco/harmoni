@@ -3,18 +3,49 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.269 2008/04/04 17:55:22 achapin Exp $
+<<<<<<< changelog.xml
+ @version $Id: changelog.xml,v 1.270 2008/04/08 20:02:46 adamfranco Exp $
+=======
+ @version $Id: changelog.xml,v 1.270 2008/04/08 20:02:46 adamfranco Exp $
+>>>>>>> 1.268.2.5
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
-	<version number="1.0.7" date="The Future">
+	<version number="1.1.0" date="The Future">
 		<releaseNotes>
 			
 		</releaseNotes>
+		<new author='adam' date='2008-04-03' ref='1814119' reftype='fr'>
+			Harmoni_Db: New Zend_Db and PDO-based database abstraction and query
+			writing system.
+		</new>
+		<new author='adam' date='2008-04-03' ref='1814119' reftype='fr'>
+			Harmoni_Db: Required Zend_Db sources are now included with Harmoni. No extra 
+			installation is needed.
+		</new>
+		<change author='adam' date='2008-04-04'>
+			DatabaseManager: Can now trace query-calling functions.
+		</change>
+		<new author='adam' date='2008-04-08' ref='1814119' reftype='fr'>
+			Hierarchy: Can now optionally use Harmoni_Db for some common queries.
+		</new>
+		<change author='adam' date='2008-04-08'>
+			Hierarchy: Now only catches UnknownIdExceptions to allow database exceptions
+			to bubble up.
+		</change>
+		<new author='adam' date='2008-04-08' ref='1814119' reftype='fr'>
+			AgentManagement: Can now optionally use Harmoni_Db for some common queries.
+		</new>
 		<fix author='alex,adam' date='2008-04-04' ref='1934661' reftype='bug'>
 			AgentManagement: LDAP search cache now is per baseDN.
 		</fix>
+		<change author='adam' date='2008-04-08'>
+			Debug: added var_dump_pre() function for doing a var_dump() with preformat tags.
+		</change>
+		<fix author='adam' date='2008-04-03'>
+			ErrorHandler: now prints the full file path in the backtrace file title.
+		</fix>		
 	</version>
 	<version number="1.0.6" date="2008-04-02">
 		<releaseNotes>

@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AgentTokenMappingManager.class.php,v 1.13 2008/02/06 15:37:46 adamfranco Exp $
+ * @version $Id: AgentTokenMappingManager.class.php,v 1.14 2008/04/08 20:02:42 adamfranco Exp $
  */ 
  
  require_once(dirname(__FILE__)."/AgentTokenMapping.class.php");
@@ -36,7 +36,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AgentTokenMappingManager.class.php,v 1.13 2008/02/06 15:37:46 adamfranco Exp $
+ * @version $Id: AgentTokenMappingManager.class.php,v 1.14 2008/04/08 20:02:42 adamfranco Exp $
  */
 class AgentTokenMappingManager
 	implements OsidManager
@@ -110,6 +110,15 @@ class AgentTokenMappingManager
         ArgumentValidator::validate($this->_configuration->getProperty('database_id'),
         	IntegerValidatorRule::getRule());
         	
+        // Store the Harmoni_Db adapter if it is configured.
+        $harmoni_db_name = $this->_configuration->getProperty('harmoni_db_name');
+        if (!is_null($harmoni_db_name)) {
+			try {
+				$this->harmoni_db = Harmoni_Db::getDatabase($harmoni_db_name);
+			} catch (UnknownIdException $e) {
+			}
+        }
+        
         $this->_dbId = $this->_configuration->getProperty('database_id');
         
         $this->_isInitialized = TRUE;
@@ -233,6 +242,12 @@ class AgentTokenMappingManager
 	 * @since 3/9/05
 	 */
 	function getMappingForTokens ( AuthNTokens $authNTokens, Type $authenticationType ) {
+		// Use Harmoni_Db method for greater performance if it is configured
+		if (isset($this->harmoni_db))
+			return $this->getMappingForTokens_Harmoni_Db($authNTokens, $authenticationType);
+		
+		// Otherwise use original method
+		
 		$this->_checkConfig();
 		
 		$dbc = Services::getService("DatabaseManager");
@@ -252,6 +267,63 @@ class AgentTokenMappingManager
 			_AND);
 		
 		$result =$dbc->query($query, $this->_dbId);
+		
+		$mappings =$this->_createMappingsFromResult($result);
+		
+		if (count($mappings) == 0) {
+			$mapping = FALSE;	// Returning by reference, so must create a var.
+			return $mapping;
+		} else if (count($mappings) != 1)
+			throwError( new Error("Invalid number of results: ".count($mappings),
+									 "AgentTokenMappingManager", true));
+		else
+			return $mappings[0];
+	}
+	
+	/**
+	 * Return the mapping for an AuthNTokens.
+	 * 
+	 * @param object AuthNTokens $authNTokens
+	 * @param object Type $authenticationType
+	 * @return mixed AgentTokenMapping OR FALSE if not found.
+	 * @access private
+	 * @since 3/9/05
+	 */
+	private function getMappingForTokens_Harmoni_Db ( AuthNTokens $authNTokens, Type $authenticationType ) {
+		$this->_checkConfig();
+		
+		if (!isset($this->getMappingForTokens_stmt)) {
+			
+			$db = $this->harmoni_db;
+			$query = $db->select();
+			$query->addTable($this->_mappingTable);
+			$query->addTable($this->_typeTable, 
+				LEFT_JOIN, 
+				$db->quoteIdentifier($this->_mappingTable.'.fk_type')
+					.'='
+					.$db->quoteIdentifier($this->_typeTable.'.id'));
+			$query->addColumn('agent_id');
+			$query->addColumn('token_identifier');
+			$query->addColumn('domain');
+			$query->addColumn('authority');
+			$query->addColumn('keyword');
+			$query->addColumn('description');
+			
+			$query->addWhereEqual("token_identifier", $authNTokens->getIdentifier());
+			$query->addWhereEqual("domain", $authenticationType->getDomain());
+			$query->addWhereEqual("authority", $authenticationType->getAuthority());
+			$query->addWhereEqual("keyword", $authenticationType->getKeyword());
+			
+			$this->getMappingForTokens_stmt = $query->prepare();
+		}
+		$this->getMappingForTokens_stmt->bindValue(1, $authNTokens->getIdentifier());
+		$this->getMappingForTokens_stmt->bindValue(2, $authenticationType->getDomain());
+		$this->getMappingForTokens_stmt->bindValue(3, $authenticationType->getAuthority());
+		$this->getMappingForTokens_stmt->bindValue(4, $authenticationType->getKeyword());
+		
+		$this->getMappingForTokens_stmt->execute();
+		
+		$result = $this->getMappingForTokens_stmt->getResult();
 		
 		$mappings =$this->_createMappingsFromResult($result);
 		

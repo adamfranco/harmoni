@@ -44,7 +44,7 @@ require_once(HARMONI.'/oki2/id/HarmoniIdManager.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniHierarchyManager.class.php,v 1.30 2008/02/06 15:37:50 adamfranco Exp $
+ * @version $Id: HarmoniHierarchyManager.class.php,v 1.31 2008/04/08 20:02:43 adamfranco Exp $
  */
 class HarmoniHierarchyManager 
 	implements HierarchyManager 
@@ -119,6 +119,15 @@ class HarmoniHierarchyManager
 		// ** end of parameter validation
 		
 		$this->_dbIndex = $dbIndex;
+		
+		// Store the Harmoni_Db adapter if it is configured.
+        $harmoni_db_name = $this->_configuration->getProperty('harmoni_db_name');
+        if (!is_null($harmoni_db_name)) {
+			try {
+				$this->harmoni_db = Harmoni_Db::getDatabase($harmoni_db_name);
+			} catch (UnknownIdException $e) {
+			}
+        }
 	}
 
 	/**
@@ -294,7 +303,11 @@ class HarmoniHierarchyManager
 		$id = $idManager->getId($idValue);
 		$allowsMultipleParents = ($row['multiparent'] == '1');
 		
-		$cache = new HierarchyCache($idValue, $allowsMultipleParents, $this->_dbIndex);
+		if (isset($this->harmoni_db))
+			$harmoni_db = $this->harmoni_db;
+		else
+			$harmoni_db = null;
+		$cache = new HierarchyCache($idValue, $allowsMultipleParents, $this->_dbIndex, $harmoni_db);
 		
 		$hierarchy = new HarmoniHierarchy($id, $row['display_name'], $row['description'], $cache);
 
@@ -472,10 +485,13 @@ class HarmoniHierarchyManager
 	 * @param ref object id The Id object.
 	 * @return ref object The Node with the given Id.
 	 **/
-	function getNode(Id $id) {
-		// ** parameter validation
-		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"), true);
-		// ** end of parameter validation
+	function getNode(Id $id) {		
+		// Use Harmoni_Db method for greater performance if it is configured
+		if (isset($this->harmoni_db))
+			return $this->getNode_Harmoni_Db($id);
+		
+		// Otherwise use original method
+		
 
 		$idValue = $id->getIdString();
 		
@@ -499,6 +515,55 @@ class HarmoniHierarchyManager
 		
 		$nodeRow = $nodeQueryResult->getCurrentRow();
 		$nodeQueryResult->free();
+
+		$idManager = Services::getService("Id");
+
+		$hierarchyId = $nodeRow['hierarchy_id'];
+
+		// get the hierarchy
+		$hierarchy =$this->getHierarchy($idManager->getId($hierarchyId));
+		
+		$node =$hierarchy->getNode($id);
+
+		return $node;
+	}
+	
+	/**
+	 * Answer a hierarchy node with the id specified
+	 * 
+	 * @param object Id $id
+	 * @return object Node
+	 * @access private
+	 * @since 4/7/08
+	 */
+	private function getNode_Harmoni_Db (Id $id) {
+		$idValue = $id->getIdString();
+		
+		if (!isset($this->getNode_stmt)) {
+		
+			$query = $this->harmoni_db->select();
+		
+
+			// find the hierarchy id for this node
+			$query->addColumn("fk_hierarchy", "hierarchy_id", "node");
+			$query->addTable("node");
+			$joinc = "node.fk_hierarchy = "."hierarchy.hierarchy_id";
+			$query->addTable("hierarchy", INNER_JOIN, $joinc);
+			$query->addWhereEqual("node.node_id", $idValue);
+			
+			$this->getNode_stmt = $query->prepare();
+		}
+		
+		$this->getNode_stmt->bindValue(1, $idValue);
+		$this->getNode_stmt->execute();
+		$result = $this->getNode_stmt->fetchAll();
+		$this->getNode_stmt->closeCursor();
+		
+		if (count($result) != 1) {
+			throw new UnknownIdException("Could not find node of id, '".$id->getIdString()."'.");
+		}
+		
+		$nodeRow = $result[0];
 
 		$idManager = Services::getService("Id");
 
