@@ -6,13 +6,13 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Mysql.php,v 1.1.2.7 2008/04/08 15:48:04 adamfranco Exp $
+ * @version $Id: Oci.php,v 1.1.2.1 2008/04/08 15:48:05 adamfranco Exp $
  */ 
 
-require_once 'Zend/Db/Adapter/Pdo/Mysql.php';
+require_once 'Zend/Db/Adapter/Pdo/Oci.php';
 
 /**
- * Class for connecting to MySQL databases and performing common operations.
+ * Class for connecting to Oracle databases and performing common operations.
  * All of the Harmoni_Db_Adapter_Pdo_xxxx classes should be identical except for 
  * the class names.
  * 
@@ -22,10 +22,10 @@ require_once 'Zend/Db/Adapter/Pdo/Mysql.php';
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Mysql.php,v 1.1.2.7 2008/04/08 15:48:04 adamfranco Exp $
+ * @version $Id: Oci.php,v 1.1.2.1 2008/04/08 15:48:05 adamfranco Exp $
  */
-class Harmoni_Db_Adapter_Pdo_Mysql
-	extends Zend_Db_Adapter_Pdo_Mysql
+class Harmoni_Db_Adapter_Pdo_Oci
+	extends Zend_Db_Adapter_Pdo_Oci
 {
 	
 	/**

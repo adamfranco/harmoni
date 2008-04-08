@@ -6,12 +6,13 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Harmoni_Db.php,v 1.1.2.6 2008/04/08 14:28:56 adamfranco Exp $
+ * @version $Id: Harmoni_Db.php,v 1.1.2.7 2008/04/08 15:48:16 adamfranco Exp $
  */ 
 
 require_once 'Zend/Db.php';
 
 require_once(dirname(__FILE__).'/Adapter/Pdo/Mysql.php');
+require_once(dirname(__FILE__).'/Adapter/Pdo/Pgsql.php');
 
 require_once(dirname(__FILE__).'/Statement/Pdo.php');
 
@@ -31,7 +32,7 @@ require_once(dirname(__FILE__).'/Result/Harmoni_Db_SelectResult.class.php');
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Harmoni_Db.php,v 1.1.2.6 2008/04/08 14:28:56 adamfranco Exp $
+ * @version $Id: Harmoni_Db.php,v 1.1.2.7 2008/04/08 15:48:16 adamfranco Exp $
  */
 class Harmoni_Db
 	extends Zend_Db
