@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.268.2.3 2008/04/04 18:55:36 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.268.2.4 2008/04/08 15:01:42 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -12,6 +12,9 @@
 		<releaseNotes>
 			
 		</releaseNotes>
+		<change author='adam' date='2008-04-08'>
+			Debug: added var_dump_pre() function for doing a var_dump() with preformat tags.
+		</change>
 		<fix author='adam' date='2008-04-03'>
 			ErrorHandler: now prints the full file path in the backtrace file title.
 		</fix>
@@ -22,6 +25,10 @@
 			Harmoni_Db: New Zend_Db and PDO-based database abstraction and query
 			writing system.
 		</new>
+		<change author='adam' date='2008-04-08'>
+			Hierarchy: Now only catches UnknownIdExceptions to allow database exceptions
+			to bubble up.
+		</change>
 	</version>
 	<version number="1.0.6" date="2008-04-02">
 		<releaseNotes>
