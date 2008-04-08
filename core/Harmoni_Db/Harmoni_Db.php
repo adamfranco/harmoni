@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Harmoni_Db.php,v 1.1.2.5 2008/04/04 18:55:35 adamfranco Exp $
+ * @version $Id: Harmoni_Db.php,v 1.1.2.6 2008/04/08 14:28:56 adamfranco Exp $
  */ 
 
 require_once 'Zend/Db.php';
@@ -31,7 +31,7 @@ require_once(dirname(__FILE__).'/Result/Harmoni_Db_SelectResult.class.php');
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Harmoni_Db.php,v 1.1.2.5 2008/04/04 18:55:35 adamfranco Exp $
+ * @version $Id: Harmoni_Db.php,v 1.1.2.6 2008/04/08 14:28:56 adamfranco Exp $
  */
 class Harmoni_Db
 	extends Zend_Db
@@ -77,7 +77,7 @@ class Harmoni_Db
 	 */
 	public static function getDatabase ($name) {
 		if (!isset(self::$dbRegistry[$name])) 
-			throw new OperationFailedException("Database not registered with name, '$name'.");
+			throw new UnknownIdException("Database not registered with name, '$name'.");
 		
 		return self::$dbRegistry[$name];
 	}
