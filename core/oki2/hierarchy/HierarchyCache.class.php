@@ -33,7 +33,7 @@ require_once(HARMONI."oki2/hierarchy/HarmoniTraversalInfoIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HierarchyCache.class.php,v 1.41.2.2 2008/04/04 18:55:36 adamfranco Exp $
+ * @version $Id: HierarchyCache.class.php,v 1.41.2.3 2008/04/08 13:46:21 adamfranco Exp $
  **/
 
 class HierarchyCache {
@@ -118,7 +118,7 @@ class HierarchyCache {
 	 * @param object DateAndTime $lastStructureUpdate
 	 * @access protected
 	 */
-	function HierarchyCache($hierarchyId, $allowsMultipleParents, $dbIndex, $harmoni_db_key) {
+	function HierarchyCache($hierarchyId, $allowsMultipleParents, $dbIndex, $harmoni_db = null) {
 		// ** parameter validation
 		ArgumentValidator::validate($hierarchyId, 
 			OrValidatorRule::getRule(
@@ -127,13 +127,11 @@ class HierarchyCache {
 			true);
 		ArgumentValidator::validate($allowsMultipleParents, BooleanValidatorRule::getRule(), true);
 		ArgumentValidator::validate($dbIndex, IntegerValidatorRule::getRule(), true);
-		ArgumentValidator::validate($harmoni_db_key, StringValidatorRule::getRule(), true);
 		// ** end of parameter validation
 
 		$this->_tree = new Tree();
 		$this->_cache = array();
 		$this->_dbIndex = $dbIndex;
-		$this->harmoni_db_key = $harmoni_db_key;
 		$this->_hierarchyId = $hierarchyId;
 		$this->_allowsMultipleParents = $allowsMultipleParents;
 
@@ -152,32 +150,37 @@ class HierarchyCache {
 		$joinc = "fk_type = "."type_id";
 		$this->_nodeQuery->addTable("type", INNER_JOIN, $joinc);
 		
-		// New Harmoni_Db_version
-		$db = Harmoni_Db::getDatabase($this->harmoni_db_key);
-		$query = $db->select();
-		$query->addColumn("node_id", "id", "node");
-		$query->addColumn("node_display_name", "display_name", "node");
-		$query->addColumn("node_description", "description", "node");
-		$query->addColumn("fk_hierarchy", "hierarchy_id", "node");
-		$query->addColumn("type_domain", "domain", "type");
-		$query->addColumn("type_authority", "authority", "type");
-		$query->addColumn("type_keyword", "keyword", "type");
-		$query->addColumn("type_description", "type_description", "type");
-		$query->addTable("node");
-		$query->addOrderBy("node_id");
-		$joinc = "fk_type = "."type_id";
-		$query->addTable("type", INNER_JOIN, $joinc);
-		$query->addWhereEqual("fk_hierarchy", $this->_hierarchyId);
+		// New Harmoni_Db version
 		
-		$byTypeQuery = clone $query;
-		
-		$this->getNodes_node_key = $query->addWhereEqual("node_id", '');
-		$this->getNodes_stmt = $query->prepare();
-		
-		$this->getNodesByType_domain_key = $byTypeQuery->addWhereEqual("type_domain", '');
-		$this->getNodesByType_authority_key = $byTypeQuery->addWhereEqual("type_authority", '');
-		$this->getNodesByType_keyword_key = $byTypeQuery->addWhereEqual("type_keyword", '');
-		$this->getNodesByType_stmt = $byTypeQuery->prepare();
+		if (!is_null($harmoni_db)) {
+			ArgumentValidator::validate($harmoni_db, ExtendsValidatorRule::getRule('Zend_Db_Adapter_Abstract'));
+			$this->harmoni_db = $harmoni_db;
+			
+			$query = $this->harmoni_db->select();
+			$query->addColumn("node_id", "id", "node");
+			$query->addColumn("node_display_name", "display_name", "node");
+			$query->addColumn("node_description", "description", "node");
+			$query->addColumn("fk_hierarchy", "hierarchy_id", "node");
+			$query->addColumn("type_domain", "domain", "type");
+			$query->addColumn("type_authority", "authority", "type");
+			$query->addColumn("type_keyword", "keyword", "type");
+			$query->addColumn("type_description", "type_description", "type");
+			$query->addTable("node");
+			$query->addOrderBy("node_id");
+			$joinc = "fk_type = "."type_id";
+			$query->addTable("type", INNER_JOIN, $joinc);
+			$query->addWhereEqual("fk_hierarchy", $this->_hierarchyId);
+			
+			$byTypeQuery = clone $query;
+			
+			$this->getNodes_node_key = $query->addWhereEqual("node_id", '');
+			$this->getNodes_stmt = $query->prepare();
+			
+			$this->getNodesByType_domain_key = $byTypeQuery->addWhereEqual("type_domain", '');
+			$this->getNodesByType_authority_key = $byTypeQuery->addWhereEqual("type_authority", '');
+			$this->getNodesByType_keyword_key = $byTypeQuery->addWhereEqual("type_keyword", '');
+			$this->getNodesByType_stmt = $byTypeQuery->prepare();
+		}
 		
 		$this->_infoCache = array();
 	}
@@ -424,19 +427,70 @@ class HierarchyCache {
 		$this->rebuildSubtreeAncestory($child->getId());
 	}
 	
-		
 	/**
-	 * Gets node(s) from the database that match the criteria specified by
-	 * the given where condition.
+	 * Gets node(s) from the database that match the node-id specified.
+	 * 
+	 * @param string $nodeId
+	 * @return array of Node objects
 	 * @access public
-	 * @param string where The where condition that will be used to determine
-	 * which nodes to return.
-	 * @return ref object An array of HarmoniNode objects.
-	 **/
-	function getNodesFromDB($nodeId) {
+	 * @since 4/7/08
+	 */
+	public function getNodesFromDB ($nodeId) {
+		// Use Harmoni_Db method for greater performance if it is configured
+		if (isset($this->harmoni_db))
+			return $this->getNodesFromDB_Harmoni_Db($nodeId);
+		
+		// Otherwise use original method
+		
+		
 		// ** parameter validation
 		ArgumentValidator::validate($nodeId, StringValidatorRule::getRule(), true);
-		ArgumentValidator::validate($nodeId, RegexValidatorRule::getRule("^[^']+$"));
+		// ** end of parameter validation
+
+		$dbHandler = Services::getService("DatabaseManager");
+
+		$this->_nodeQuery->resetWhere();
+		$this->_nodeQuery->addWhereEqual('node_id', $nodeId);
+		$this->_nodeQuery->addWhereEqual("fk_hierarchy", $this->_hierarchyId);
+		
+		$nodeQueryResult = $dbHandler->query($this->_nodeQuery, $this->_dbIndex);
+		
+		$result = array();
+
+		$idManager = Services::getService("Id");
+		
+		if (!$nodeQueryResult->hasMoreRows()) {
+			throw new UnknownIdException("No nodes found with Id ".$nodeId);
+		}
+		while ($nodeQueryResult->hasMoreRows()) {
+			$nodeRow = $nodeQueryResult->getCurrentRow();
+			$idValue = $nodeRow['id'];
+			
+			$id =$idManager->getId($idValue);
+			$type = new HarmoniType($nodeRow['domain'], $nodeRow['authority'], 
+									  $nodeRow['keyword'], $nodeRow['type_description']);
+			$node = new HarmoniNode($id, $type, 
+									  $nodeRow['display_name'], $nodeRow['description'], $this);
+	
+			$result[] =$node;
+		
+			$nodeQueryResult->advanceRow();
+		}
+		
+		return $result;
+	}
+	
+		
+	/**
+	 * Gets node(s) from the database that match the node-id specified.
+	 * @access public
+	 * @param string $nodeId 
+	 * @return ref object An array of HarmoniNode objects.
+	 * @private
+	 **/
+	private function getNodesFromDB_Harmoni_Db($nodeId) {
+		// ** parameter validation
+		ArgumentValidator::validate($nodeId, StringValidatorRule::getRule(), true);
 		// ** end of parameter validation
 
 		$this->getNodes_stmt->bindValue($this->getNodes_node_key, $nodeId);
@@ -475,6 +529,56 @@ class HierarchyCache {
 	 * @since 4/3/08
 	 */
 	public function getNodesFromDbByType (Type $type) {
+		// Use Harmoni_Db method for greater performance if it is configured
+		if (isset($this->harmoni_db))
+			return $this->getNodesFromDbByType_Harmoni_Db($type);
+		
+		// Otherwise use original method
+		
+		$dbHandler = Services::getService("DatabaseManager");
+
+		$this->_nodeQuery->resetWhere();
+		$this->_nodeQuery->addWhereEqual('type_domain', $type->getDomain());
+		$this->_nodeQuery->addWhereEqual('type_authority', $type->getAuthority());
+		$this->_nodeQuery->addWhereEqual('type_keyword', $type->getKeyword());
+		$this->_nodeQuery->addWhereEqual("fk_hierarchy", $this->_hierarchyId);
+		
+		$nodeQueryResult = $dbHandler->query($this->_nodeQuery, $this->_dbIndex);
+		
+		$result = array();
+
+		$idManager = Services::getService("Id");
+		
+		if (!$nodeQueryResult->hasMoreRows()) {
+			throw new UnknownIdException("No nodes found with Id ".$nodeId);
+		}
+		while ($nodeQueryResult->hasMoreRows()) {
+			$nodeRow = $nodeQueryResult->getCurrentRow();
+			$idValue = $nodeRow['id'];
+			
+			$id =$idManager->getId($idValue);
+			$type = new HarmoniType($nodeRow['domain'], $nodeRow['authority'], 
+									  $nodeRow['keyword'], $nodeRow['type_description']);
+			$node = new HarmoniNode($id, $type, 
+									  $nodeRow['display_name'], $nodeRow['description'], $this);
+	
+			$result[] =$node;
+		
+			$nodeQueryResult->advanceRow();
+		}
+		
+		return $result;
+	}
+	
+	/**
+	 * Answer the nodes matching a type
+	 * 
+	 * @param object Type $type
+	 * @return array
+	 * @access private
+	 * @since 4/3/08
+	 */
+	private function getNodesFromDbByType_Harmoni_Db (Type $type) {
 		$this->getNodesByType_stmt->bindValue($this->getNodesByType_domain_key, $type->getDomain());
 		$this->getNodesByType_stmt->bindValue($this->getNodesByType_authority_key, $type->getAuthority());
 		$this->getNodesByType_stmt->bindValue($this->getNodesByType_keyword_key, $type->getKeyword());
@@ -719,7 +823,7 @@ class HierarchyCache {
 			// now fetch the node from the database
 			try {
 				$nodes = $this->getNodesFromDB($idValue);
-			} catch (HarmoniException $e) {
+			} catch (UnknownIdException $e) {
 				return false;
 			}
 			
@@ -757,9 +861,12 @@ class HierarchyCache {
 	 * @return ref array An array of the parent nodes of the given node.
 	 **/
 	function getParents($node) {
-		// use new Harmoni_Db implementation.
-		// @todo Move that implementation here after testing.
-		return $this->getParents_new($node);
+		// Use Harmoni_Db method for greater performance if it is configured
+		if (isset($this->harmoni_db))
+			return $this->getParents_Harmoni_Db($node);
+		
+		// Otherwise use original method
+		
 		
 		// ** parameter validation
 		ArgumentValidator::validate($node, ExtendsValidatorRule::getRule("HarmoniNode"), true);
@@ -807,10 +914,8 @@ class HierarchyCache {
 			$query->addWhere($where);
 			$query->addOrderBy("node_id");
 			
-// 			printpre(array_keys($nodesToExclude));
 			if (count($nodesToExclude) > 0) {
 				$idsToExclude = array_keys($nodesToExclude);
-				printpre($idsToExclude);
 				foreach ($idsToExclude as $key => $id)
 					$idsToExclude[$key] = "'".addslashes($id)."'";
 				$where = implode(", ",$idsToExclude);
@@ -877,7 +982,7 @@ class HierarchyCache {
 	 * @param object node The node object whose parents we must cache.
 	 * @return ref array An array of the parent nodes of the given node.
 	 **/
-	function getParents_new($node) {
+	function getParents_Harmoni_Db($node) {
 		// ** parameter validation
 		ArgumentValidator::validate($node, ExtendsValidatorRule::getRule("HarmoniNode"), true);
 		// ** end of parameter validation
@@ -901,8 +1006,7 @@ class HierarchyCache {
 			$nodesToExclude = (isset($treeNode)) ? ($treeNode->getParents()) : array();
 	
 			if (!isset($this->getParents_stmt)) {
-				$db = Harmoni_Db::getDatabase($this->harmoni_db_key);
-				$query = $db->select();
+				$query = $this->harmoni_db->select();
 	
 				// set the columns to select
 				$query->addColumn("node_id", "id", "parents");
@@ -1257,45 +1361,10 @@ class HierarchyCache {
 		if (($levels > 31) || ($levels < 0))
 			$levels = 31;
 		
-		// generate query
-		if (!isset($this->_traversDown_stmts))
-			$this->_traversDown_stmts = array();
-			
-		if (!isset($this->_traversDown_stmts[$levels])) {
-			$db = Harmoni_Db::getDatabase($this->harmoni_db_key);
-			$query = $db->select();
-			$query->addColumn("fk_parent", "level0_id", "level0");
-			$query->addColumn("fk_child",  "level1_id", "level0");
-			$query->addTable("j_node_node", NO_JOIN, "", "level0");
-			$query->addOrderBy("level0_id");
-			$query->addOrderBy("level1_id");
-			
-			// now left join with itself.
-			// maximum number of joins is 31, we've used 1 already, so there are 30 left
-			for ($level = 1; $level <= $levels-1; $level++) {
-				$joinc = "level".($level-1).".fk_hierarchy = level".($level).".fk_hierarchy AND level".($level-1).".fk_child = level".($level).".fk_parent";
-				$query->addTable("j_node_node", LEFT_JOIN, $joinc, "level".($level));
-				$query->addColumn("fk_child", "level".($level+1)."_id", "level".($level));
-				$query->addOrderBy("level".($level+1)."_id");
-			}
-			
-			// this is the where clause
-			$query->addWhereEqual("level0.fk_hierarchy", $this->_hierarchyId);
-			$query->addWhereEqual("level0.fk_parent", $idValue);
-			
-	//		echo "<pre>\n";
-	//		echo MySQL_SQLGenerator::generateSQLQuery($query);
-	//		echo "</pre>\n";
-	
-	// $timer1 = new Timer;
-	// $timer1->start();
-			
-			// execute the query
-			$this->_traversDown_stmts[$levels] = $query->prepare();
-		}
-		$this->_traversDown_stmts[$levels]->bindValue(2, $idValue);
-		$this->_traversDown_stmts[$levels]->execute();
-		$queryResult = $this->_traversDown_stmts[$levels]->getResult();
+		if (isset($this->harmoni_db))
+			$queryResult = $this->_doTraverseDownQuery_Harmoni_Db($idValue, $levels);
+		else
+			$queryResult = $this->_doTraverseDownQuery($idValue, $levels);
 
 // $timer1->end();
 // printf("<br/>Traversal Query Time: %1.6f", $timer1->printTime());
@@ -1406,6 +1475,100 @@ class HierarchyCache {
 		$queryResult->free();
 // $timer1->end();
 // printf("<br/>Traversal Processing Time: %1.6f", $timer1->printTime());
+	}
+	
+	/**
+	 * Do the traverse down query using the DatabaseManager
+	 * 
+	 * @param string $idValue
+	 * @param int $levels
+	 * @return object SelectQueryResult
+	 * @access private
+	 * @since 4/7/08
+	 */
+	private function _doTraverseDownQuery ($idValue, $levels) {
+		$dbHandler = Services::getService("DatabaseManager");
+		$query = new SelectQuery();
+		
+		// generate query
+		$query->addColumn("fk_parent", "level0_id", "level0");
+		$query->addColumn("fk_child",  "level1_id", "level0");
+		$query->addTable("j_node_node", NO_JOIN, "", "level0");
+		$query->addOrderBy("level0_id");
+		$query->addOrderBy("level1_id");
+		
+		// now left join with itself.
+		// maximum number of joins is 31, we've used 1 already, so there are 30 left
+		for ($level = 1; $level <= $levels-1; $level++) {
+			$joinc = "level".($level-1).".fk_hierarchy = level".($level).".fk_hierarchy AND level".($level-1).".fk_child = level".($level).".fk_parent";
+			$query->addTable("j_node_node", LEFT_JOIN, $joinc, "level".($level));
+			$query->addColumn("fk_child", "level".($level+1)."_id", "level".($level));
+			$query->addOrderBy("level".($level+1)."_id");
+		}
+		
+		// this is the where clause
+		$query->addWhereEqual('level0.fk_hierarchy', $this->_hierarchyId);
+		$query->addWhereEqual('level0.fk_parent', $idValue);
+		
+// 		echo "<pre>\n";
+// 		echo MySQL_SQLGenerator::generateSQLQuery($query);
+// 		echo "</pre>\n";
+
+// $timer1 = new Timer;
+// $timer1->start();
+		
+		// execute the query
+		return $dbHandler->query($query, $this->_dbIndex);
+	}
+	
+	/**
+	 * Do the traverse down query using Harmoni_Db
+	 * 
+	 * @param string $idValue
+	 * @param int $levels
+	 * @return object SelectQueryResult
+	 * @access private
+	 * @since 4/7/08
+	 */
+	private function _doTraverseDownQuery_Harmoni_Db ($idValue, $levels) {
+		// generate query
+		if (!isset($this->_traversDown_stmts))
+			$this->_traversDown_stmts = array();
+			
+		if (!isset($this->_traversDown_stmts[$levels])) {
+			$query = $this->harmoni_db->select();
+			$query->addColumn("fk_parent", "level0_id", "level0");
+			$query->addColumn("fk_child",  "level1_id", "level0");
+			$query->addTable("j_node_node", NO_JOIN, "", "level0");
+			$query->addOrderBy("level0_id");
+			$query->addOrderBy("level1_id");
+			
+			// now left join with itself.
+			// maximum number of joins is 31, we've used 1 already, so there are 30 left
+			for ($level = 1; $level <= $levels-1; $level++) {
+				$joinc = "level".($level-1).".fk_hierarchy = level".($level).".fk_hierarchy AND level".($level-1).".fk_child = level".($level).".fk_parent";
+				$query->addTable("j_node_node", LEFT_JOIN, $joinc, "level".($level));
+				$query->addColumn("fk_child", "level".($level+1)."_id", "level".($level));
+				$query->addOrderBy("level".($level+1)."_id");
+			}
+			
+			// this is the where clause
+			$query->addWhereEqual("level0.fk_hierarchy", $this->_hierarchyId);
+			$query->addWhereEqual("level0.fk_parent", $idValue);
+			
+	//		echo "<pre>\n";
+	//		echo MySQL_SQLGenerator::generateSQLQuery($query);
+	//		echo "</pre>\n";
+	
+	// $timer1 = new Timer;
+	// $timer1->start();
+			
+			// execute the query
+			$this->_traversDown_stmts[$levels] = $query->prepare();
+		}
+		$this->_traversDown_stmts[$levels]->bindValue(2, $idValue);
+		$this->_traversDown_stmts[$levels]->execute();
+		return $this->_traversDown_stmts[$levels]->getResult();
 	}
 	
 	
