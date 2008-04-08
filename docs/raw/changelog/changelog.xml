@@ -3,7 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.268.2.4 2008/04/08 15:01:42 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.268.2.5 2008/04/08 15:36:04 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
@@ -24,6 +24,10 @@
 		<new author='adam' date='2008-04-03' ref='1814119' reftype='fr'>
 			Harmoni_Db: New Zend_Db and PDO-based database abstraction and query
 			writing system.
+		</new>
+		<new author='adam' date='2008-04-03' ref='1814119' reftype='fr'>
+			Harmoni_Db: Required Zend_Db sources are now included with Harmoni. No extra 
+			installation is needed.
 		</new>
 		<change author='adam' date='2008-04-08'>
 			Hierarchy: Now only catches UnknownIdExceptions to allow database exceptions
