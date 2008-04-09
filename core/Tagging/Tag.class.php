@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Tag.class.php,v 1.5 2007/09/04 20:25:29 adamfranco Exp $
+ * @version $Id: Tag.class.php,v 1.6 2008/04/09 21:28:28 achapin Exp $
  */ 
 
 require_once(dirname(__FILE__)."/TaggedItemIterator.class.php");
@@ -22,7 +22,7 @@ require_once(dirname(__FILE__)."/TagFilterIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Tag.class.php,v 1.5 2007/09/04 20:25:29 adamfranco Exp $
+ * @version $Id: Tag.class.php,v 1.6 2008/04/09 21:28:28 achapin Exp $
  */
 class Tag {
 	
@@ -265,6 +265,34 @@ class Tag {
 		
 		$iterator = new TaggedItemIterator($result);
 		return $iterator;
+	}
+	
+	/**
+	 * Answer all the items with this tag that match a particular list
+	 * 
+	 * @param array $items An array of TaggedItem objects
+	 * @return object TaggedItemIterator
+	 * @access public
+	 * @since 4/9/08
+	 */
+	public function getItemsInList (array $items) {
+		ArgumentValidator::validate($items, ArrayValidatorRuleWithRule::getRule(ExtendsValidatorRule::getRule('TaggedItem')));
+		
+		if (!count($items))
+			return new HarmoniIterator(array());
+		
+		$id = array();
+		$system = $items[0]->getSystem();
+		foreach ($items as $item) {
+			if ($system != $item->getSystem())
+				throw new Exception("getItemsInList() currently only supports items from the same system. If needed, this method should be updated.");
+			
+			$ids[] = $item->getId();
+		}
+		
+		return $this->getItemsWithIdsInSystem(new HarmoniIterator($ids), $system);
+		
+		
 	}
 	
 	/**
