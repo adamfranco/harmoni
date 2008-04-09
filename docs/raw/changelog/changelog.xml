@@ -4,9 +4,9 @@
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 <<<<<<< changelog.xml
- @version $Id: changelog.xml,v 1.270 2008/04/08 20:02:46 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.271 2008/04/09 15:59:10 adamfranco Exp $
 =======
- @version $Id: changelog.xml,v 1.270 2008/04/08 20:02:46 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.271 2008/04/09 15:59:10 adamfranco Exp $
 >>>>>>> 1.268.2.5
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
@@ -46,6 +46,10 @@
 		<fix author='adam' date='2008-04-03'>
 			ErrorHandler: now prints the full file path in the backtrace file title.
 		</fix>		
+		<fix author='adam' date='2008-04-09' ref='1938748' reftype='segue_bug'>
+			ErrorHandler: Now filters request values whose names contain 'password'
+			and other configurable request values out of logs, inserting a placeholder.
+		</fix>
 	</version>
 	<version number="1.0.6" date="2008-04-02">
 		<releaseNotes>

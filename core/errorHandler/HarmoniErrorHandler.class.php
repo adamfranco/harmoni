@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniErrorHandler.class.php,v 1.18 2008/04/08 20:02:41 adamfranco Exp $
+ * @version $Id: HarmoniErrorHandler.class.php,v 1.19 2008/04/09 15:59:08 adamfranco Exp $
  */ 
 
 /**
@@ -30,7 +30,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniErrorHandler.class.php,v 1.18 2008/04/08 20:02:41 adamfranco Exp $
+ * @version $Id: HarmoniErrorHandler.class.php,v 1.19 2008/04/09 15:59:08 adamfranco Exp $
  */
 class HarmoniErrorHandler {
 		
@@ -83,6 +83,13 @@ class HarmoniErrorHandler {
 	private $defaultFatalErrors;
 	
 	/**
+	 * @var array $privateRequestItems; Items to be filtered out of backtraces and logs 
+	 * @access private
+	 * @since 4/9/08
+	 */
+	private $privateRequestItems;
+	
+	/**
 	 * Constructor
 	 * 
 	 * @return void
@@ -109,6 +116,7 @@ class HarmoniErrorHandler {
 		$this->defaultFatalErrors = (E_ERROR | E_PARSE | E_CORE_ERROR | E_COMPILE_ERROR | E_USER_ERROR | E_RECOVERABLE_ERROR);
 		$this->fatalErrors = $this->defaultFatalErrors;
 		
+		$this->privateRequestItems = array();
 	}
 	
 	/**
@@ -399,8 +407,8 @@ class HarmoniErrorHandler {
 					$item->addTextToBactrace("\n<div><strong>REQUEST_URI: </strong>".$_SERVER['REQUEST_URI']."</div>");
 				if (isset($_SERVER['HTTP_REFERER']))
 						$item->addTextToBactrace("\n<div><strong>HTTP_REFERER: </strong>".$_SERVER['HTTP_REFERER']."</div>");
-				$item->addTextToBactrace("\n<div><strong>GET: </strong><pre>".print_r($_GET, true)."</pre></div>");
-				$item->addTextToBactrace("\n<div><strong>POST: </strong><pre>".print_r($_POST, true)."</pre></div>");
+				$item->addTextToBactrace("\n<div><strong>GET: </strong><pre>".print_r(self::stripPrivate($_GET), true)."</pre></div>");
+				$item->addTextToBactrace("\n<div><strong>POST: </strong><pre>".print_r(self::stripPrivate($_POST), true)."</pre></div>");
 				if (isset($_SERVER['HTTP_USER_AGENT']))
 					$item->addTextToBactrace("\n<div><strong>HTTP_USER_AGENT: </strong><pre>".print_r($_SERVER['HTTP_USER_AGENT'], true)."</pre></div>");
 				$log->appendLogWithTypes($item,	$formatType, $priorityType);
@@ -408,6 +416,42 @@ class HarmoniErrorHandler {
 				// Just continue if we can't log the exception.
 			}
 		}
+	}
+	
+	/**
+	 * This method will strip out the values of request parameters deemed to be private.
+	 * By default, and parameter key that contains the string 'password' will be hidden.
+	 * 
+	 * @param array $requestParams
+	 * @return array
+	 * @access private
+	 * @since 4/9/08
+	 * @static
+	 */
+	private static function stripPrivate (array $requestParams) {
+		$filtered = array();
+		$instance = self::instance();
+		foreach ($requestParams as $key => $val) {
+			if (preg_match('/password/i', $key))
+				$filtered[$key] = 'VALUE_FILTERED_IN_LOG';
+			else if (in_array($key, $instance->privateRequestItems))
+				$filtered[$key] = 'VALUE_FILTERED_IN_LOG';
+			else
+				$filtered[$key] = $val;
+		}
+		return $filtered;
+	}
+	
+	/**
+	 * Add a request key to strip from logs
+	 * 
+	 * @param string $key
+	 * @return void
+	 * @access public
+	 * @since 4/9/08
+	 */
+	public function addPrivateRequestKey ($key) {
+		$this->privateRequestItems[] = $key;
 	}
 	
 	/**
