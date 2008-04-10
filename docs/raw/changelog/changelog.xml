@@ -4,9 +4,9 @@
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 <<<<<<< changelog.xml
- @version $Id: changelog.xml,v 1.271 2008/04/09 15:59:10 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.272 2008/04/10 17:34:10 adamfranco Exp $
 =======
- @version $Id: changelog.xml,v 1.271 2008/04/09 15:59:10 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.272 2008/04/10 17:34:10 adamfranco Exp $
 >>>>>>> 1.268.2.5
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
@@ -50,6 +50,9 @@
 			ErrorHandler: Now filters request values whose names contain 'password'
 			and other configurable request values out of logs, inserting a placeholder.
 		</fix>
+		<new author='adam' date='2008-04-10'>
+			Request: Can now set or override a request parameter through a new setRequestParam() method.
+		</new>
 	</version>
 	<version number="1.0.6" date="2008-04-02">
 		<releaseNotes>

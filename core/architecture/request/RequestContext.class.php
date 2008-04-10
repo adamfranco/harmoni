@@ -11,7 +11,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: RequestContext.class.php,v 1.31 2008/04/02 21:11:13 achapin Exp $
+ * @version $Id: RequestContext.class.php,v 1.32 2008/04/10 17:34:09 adamfranco Exp $
  */
 
 define("REQUEST_HANDLER_CONTEXT_DELIMETER", "___");
@@ -445,6 +445,22 @@ END;
 		$this->_checkName($key);
 		$nKey = $this->_mkFullName($key);
 		$this->_contextData[$nKey] = $value;
+	}
+	
+	/**
+	 * Set a value in the request data array, overriding any existing value with
+	 * that key.
+	 * 
+	 * @param string $key
+	 * @param string $value
+	 * @return void
+	 * @access public
+	 * @since 4/10/08
+	 */
+	public function setRequestParam ($key, $value) {
+		$this->_checkName($key);
+		$nKey = $this->_mkFullName($key);
+		$this->_requestData[$nKey] = $value;
 	}
 	
 	/**
