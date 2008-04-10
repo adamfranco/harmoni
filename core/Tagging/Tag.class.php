@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Tag.class.php,v 1.6 2008/04/09 21:28:28 achapin Exp $
+ * @version $Id: Tag.class.php,v 1.7 2008/04/10 04:17:34 achapin Exp $
  */ 
 
 require_once(dirname(__FILE__)."/TaggedItemIterator.class.php");
@@ -22,7 +22,7 @@ require_once(dirname(__FILE__)."/TagFilterIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Tag.class.php,v 1.6 2008/04/09 21:28:28 achapin Exp $
+ * @version $Id: Tag.class.php,v 1.7 2008/04/10 04:17:34 achapin Exp $
  */
 class Tag {
 	
@@ -290,9 +290,8 @@ class Tag {
 			$ids[] = $item->getId();
 		}
 		
-		return $this->getItemsWithIdsInSystem(new HarmoniIterator($ids), $system);
-		
-		
+		return new HarmoniIterator($ids);
+				
 	}
 	
 	/**
@@ -344,6 +343,37 @@ class Tag {
 		$query->addWhere("tag.value='".addslashes($this->getValue())."'");
 		$query->addWhere("tag.user_id='".addslashes($agentId->getIdString())."'");
 		
+		$query->addOrderBy('tag.tstamp', DESCENDING);
+		
+		$dbc = Services::getService("DatabaseManager");
+		$result =$dbc->query($query, $this->getDatabaseIndex());
+		
+		$iterator = new TaggedItemIterator($result);
+		return $iterator;
+	}
+
+	/**
+	 * Answer all items with this tag where the tag was added by the given agent
+	 * 
+	 * @return object TaggedItemIterator
+	 * @access public
+	 * @since 11/2/06
+	 */
+	function getItemsForAgentInListinSystem ($ids, $agentId, $system) {
+		$query = new SelectQuery;
+		$query->addColumn('tag_item.db_id');
+		$query->addColumn('tag_item.id');
+		$query->addColumn('tag_item.system');
+		$query->addTable('tag');
+		$query->addTable('tag_item', INNER_JOIN, "tag.fk_item = tag_item.db_id");
+		$query->addWhere("tag.value='".addslashes($this->getValue())."'");
+		$query->addWhere("tag.user_id='".addslashes($agentId->getIdString())."'");
+		$idList = array();
+		while ($ids->hasNext()) {
+			$id =$ids->next();
+			$idList[] = "'".addslashes($id->getIdString())."'";
+		}
+		$query->addWhere("tag_item.id IN (".implode(", ", $idList).")");
 		$query->addOrderBy('tag.tstamp', DESCENDING);
 		
 		$dbc = Services::getService("DatabaseManager");
