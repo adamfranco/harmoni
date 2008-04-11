@@ -23,7 +23,45 @@
 </head>
 <body>
 <h1>Harmoni Change Log</h1>
-<h2>Version 1.0.6</h2>
+<h2>Version 1.1.0</h2>
+<h3>2008-04-11</h3>
+<p>This release adds a new database access and SQL query system, Harmoni_Db. Harmoni_Db is an extension of Zend_Db and adds Harmoni query-building syntax to the Zend_Db system. Through Harmoni_Db, prepared SQL statements are now supported and can be configured for use in the Hierarchy and AgentManagement services for increased performance.
+<br>
+<br>See the change log for additional fixes and improvements.</p>
+<ul>
+		
+		<li>
+<b>New feature:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1814119&amp;group_id=&amp;atid=">
+        			#1814119</a> Harmoni_Db: New Zend_Db and PDO-based database abstraction and query writing system.
+<br>
+<br>See the following page for more information: http://harmoni.sourceforge.net/wiki/index.php/Harmoni_Db (<em>2008-04-03 - Adam Franco</em>)</li>
+		<li>
+<b>New feature:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1814119&amp;group_id=&amp;atid=">
+        			#1814119</a> Harmoni_Db: Required Zend_Db sources are now included with Harmoni. No extra installation is needed. (<em>2008-04-03 - Adam Franco</em>)</li>
+		<li>
+<b>Change:</b> DatabaseManager: Can now trace query-calling functions. (<em>2008-04-04 - Adam Franco</em>)</li>
+		<li>
+<b>New feature:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1814119&amp;group_id=&amp;atid=">
+        			#1814119</a> Hierarchy: Can now optionally use Harmoni_Db for some common queries. (<em>2008-04-08 - Adam Franco</em>)</li>
+		<li>
+<b>Change:</b> Hierarchy: Now only catches UnknownIdExceptions to allow database exceptions to bubble up. (<em>2008-04-08 - Adam Franco</em>)</li>
+		<li>
+<b>New feature:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1814119&amp;group_id=&amp;atid=">
+        			#1814119</a> AgentManagement: Can now optionally use Harmoni_Db for some common queries. (<em>2008-04-08 - Adam Franco</em>)</li>
+		<li>
+<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1934661&amp;group_id=&amp;atid=">
+        			#1934661</a> AgentManagement: LDAP search cache now is per baseDN. (<em>2008-04-04 - Alex Chapin, Adam Franco</em>)</li>
+		<li>
+<b>Change:</b> Debug: added var_dump_pre() function for doing a var_dump() with pre-format tags. (<em>2008-04-08 - Adam Franco</em>)</li>
+		<li>
+<b>Bug Fix:</b> ErrorHandler: now prints the full file path in the backtrace file title. (<em>2008-04-03 - Adam Franco</em>)</li>		
+		<li>
+<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1938748&amp;group_id=&amp;atid=">
+        			#1938748</a> ErrorHandler: Now filters request values whose names contain 'password' and other configurable request values out of logs, inserting a placeholder. (<em>2008-04-09 - Adam Franco</em>)</li>
+		<li>
+<b>New feature:</b> Request: Can now set or override a request parameter through a new setRequestParam() method. (<em>2008-04-10 - Adam Franco</em>)</li>
+	</ul>
+<br><h2>Version 1.0.6</h2>
 <h3>2008-04-02</h3>
 <p>In addition to a few bug fixes elsewhere, this release improves the LanguageLocalizer to support all ISO 639-3 language codes and adds native translation of language names from Wikipedia.org.</p>
 <ul>

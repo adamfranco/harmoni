@@ -3,6 +3,16 @@ Name: Harmoni Release Notes
 (See the Harmoni change log for more details)
 
 
+v. 1.1.0 (2008-04-11)
+----------------------------------------------------
+This release adds a new database access and SQL query system, Harmoni_Db. Harmoni_Db
+is an extension of Zend_Db and adds Harmoni query-building syntax to the Zend_Db
+system. Through Harmoni_Db, prepared SQL statements are now supported and can be
+configured for use in the Hierarchy and AgentManagement services for increased performance.
+
+See the change log for additional fixes and improvements.
+
+
 v. 1.0.6 (2008-04-02)
 ----------------------------------------------------
 In addition to a few bug fixes elsewhere, this release improves the

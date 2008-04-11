@@ -4,21 +4,29 @@
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 <<<<<<< changelog.xml
- @version $Id: changelog.xml,v 1.273 2008/04/11 17:07:34 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.274 2008/04/11 21:16:18 adamfranco Exp $
 =======
- @version $Id: changelog.xml,v 1.273 2008/04/11 17:07:34 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.274 2008/04/11 21:16:18 adamfranco Exp $
 >>>>>>> 1.268.2.5
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
-	<version number="1.1.0" date="The Future">
+	<version number="1.1.0" date="2008-04-11">
 		<releaseNotes>
+			This release adds a new database access and SQL query system, Harmoni_Db.
+			Harmoni_Db is an extension of Zend_Db and adds Harmoni query-building 
+			syntax to the Zend_Db system. Through Harmoni_Db, prepared SQL statements
+			are now supported and can be configured for use in the Hierarchy and AgentManagement
+			services for increased performance.
 			
+			See the change log for additional fixes and improvements.
 		</releaseNotes>
 		<new author='adam' date='2008-04-03' ref='1814119' reftype='fr'>
 			Harmoni_Db: New Zend_Db and PDO-based database abstraction and query
 			writing system.
+			
+			See the following page for more information: http://harmoni.sourceforge.net/wiki/index.php/Harmoni_Db
 		</new>
 		<new author='adam' date='2008-04-03' ref='1814119' reftype='fr'>
 			Harmoni_Db: Required Zend_Db sources are now included with Harmoni. No extra 
@@ -41,7 +49,7 @@
 			AgentManagement: LDAP search cache now is per baseDN.
 		</fix>
 		<change author='adam' date='2008-04-08'>
-			Debug: added var_dump_pre() function for doing a var_dump() with preformat tags.
+			Debug: added var_dump_pre() function for doing a var_dump() with pre-format tags.
 		</change>
 		<fix author='adam' date='2008-04-03'>
 			ErrorHandler: now prints the full file path in the backtrace file title.
