@@ -4,9 +4,9 @@
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 <<<<<<< changelog.xml
- @version $Id: changelog.xml,v 1.272 2008/04/10 17:34:10 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.273 2008/04/11 17:07:34 adamfranco Exp $
 =======
- @version $Id: changelog.xml,v 1.272 2008/04/10 17:34:10 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.273 2008/04/11 17:07:34 adamfranco Exp $
 >>>>>>> 1.268.2.5
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
@@ -37,7 +37,7 @@
 		<new author='adam' date='2008-04-08' ref='1814119' reftype='fr'>
 			AgentManagement: Can now optionally use Harmoni_Db for some common queries.
 		</new>
-		<fix author='alex,adam' date='2008-04-04' ref='1934661' reftype='bug'>
+		<fix author='alex,adam' date='2008-04-04' ref='1934661' reftype='segue_bug'>
 			AgentManagement: LDAP search cache now is per baseDN.
 		</fix>
 		<change author='adam' date='2008-04-08'>
