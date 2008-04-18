@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Harmoni_DOMDocument.class.php,v 1.1 2008/02/04 20:38:00 adamfranco Exp $
+ * @version $Id: Harmoni_DOMDocument.class.php,v 1.2 2008/04/18 14:57:59 adamfranco Exp $
  */ 
 
 /**
@@ -19,7 +19,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Harmoni_DOMDocument.class.php,v 1.1 2008/02/04 20:38:00 adamfranco Exp $
+ * @version $Id: Harmoni_DOMDocument.class.php,v 1.2 2008/04/18 14:57:59 adamfranco Exp $
  */
 class Harmoni_DOMDocument 
 	extends DOMDocument
@@ -263,7 +263,7 @@ class Harmoni_DOMDocument
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Harmoni_DOMDocument.class.php,v 1.1 2008/02/04 20:38:00 adamfranco Exp $
+ * @version $Id: Harmoni_DOMDocument.class.php,v 1.2 2008/04/18 14:57:59 adamfranco Exp $
  */
 class ValidationFailedException
 	extends Exception
@@ -327,6 +327,17 @@ class ValidationFailedException
 		print "\n</tbody>";
 		print "\n</table>";
 		return ob_get_clean();
+	}
+	
+	/**
+	 * Answer an HTML-formatted message.
+	 * 
+	 * @return string
+	 * @access public
+	 * @since 4/18/08
+	 */
+	public function getHtmlMessage () {
+		return $this->getMessage();
 	}
 }
 
