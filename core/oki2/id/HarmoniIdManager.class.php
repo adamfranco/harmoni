@@ -42,7 +42,7 @@ require_once(HARMONI."oki2/shared/HarmoniId.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniIdManager.class.php,v 1.27 2008/02/06 15:37:50 adamfranco Exp $
+ * @version $Id: HarmoniIdManager.class.php,v 1.28 2008/04/18 15:43:19 adamfranco Exp $
  */
 
 class HarmoniIdManager
@@ -111,6 +111,32 @@ class HarmoniIdManager
 		
 		if ($prefix)
 			$this->_prefix = $prefix;
+		
+		$harmoni_db_name = $this->_configuration->getProperty('harmoni_db_name');
+        if (!is_null($harmoni_db_name)) {
+			try {
+				$this->harmoni_db = Harmoni_Db::getDatabase($harmoni_db_name);
+				
+				$this->setUpStatements();
+			} catch (UnknownIdException $e) {
+			}
+        }
+	}
+	
+	/**
+	 * Set up our statements
+	 * 
+	 * @return void
+	 * @access private
+	 * @since 4/17/08
+	 */
+	private function setUpStatements () {
+		$this->createId_stmt = $this->harmoni_db->prepare('INSERT INTO id () VALUES()');
+				
+		$query = $this->harmoni_db->delete();
+		$query->setTable("id");
+		$query->addWhereLessThan("id_value", NULL);
+		$this->deleteId_stmt = $query->prepare();
 	}
 
 	/**
@@ -158,28 +184,35 @@ class HarmoniIdManager
 	 * @access public
 	 */
 	function createId () { 
-		debug::output("Attempting to generate new id.", 20, "IdManager");
-		$dbHandler = Services::getService("DatabaseManager");
-		
-		$query = new InsertQuery();
-		$query->setAutoIncrementColumn("id_value", "id_id_value_seq");
-		$query->setTable("id");
-		$query->addRowOfValues(array());
-		
-		$result =$dbHandler->query($query,$this->_dbIndex);
-		if ($result->getNumberOfRows() != 1) {
-			throwError( new Error(IdException::CONFIGURATION_ERROR(), "IdManager", true));
+		if (isset($this->createId_stmt)) {
+			$this->createId_stmt->execute();
+			$newID = $this->harmoni_db->lastInsertId('id', 'id_value');
+			
+			$this->deleteId_stmt->bindValue(1, $newID);
+			$this->deleteId_stmt->execute();
+		} else {
+			debug::output("Attempting to generate new id.", 20, "IdManager");
+			$dbHandler = Services::getService("DatabaseManager");
+			
+			$query = new InsertQuery();
+			$query->setAutoIncrementColumn("id_value", "id_id_value_seq");
+			$query->setTable("id");
+			$query->addRowOfValues(array());
+			
+			$result =$dbHandler->query($query,$this->_dbIndex);
+			if ($result->getNumberOfRows() != 1) {
+				throwError( new Error(IdException::CONFIGURATION_ERROR(), "IdManager", true));
+			}
+			
+			$newID = $result->getLastAutoIncrementValue();
+			
+			// Clear out any values smaller than our last one to keep the table from 
+			// exploding size.
+			$query = new DeleteQuery();
+			$query->setTable("id");
+			$query->setWhere("id_value < '".$newID."'");
+			$result =$dbHandler->query($query,$this->_dbIndex);
 		}
-		
-		$newID = $result->getLastAutoIncrementValue();
-		
-		// Clear out any values smaller than our last one to keep the table from 
-		// exploding size.
-		$query = new DeleteQuery();
-		$query->setTable("id");
-		$query->setWhere("id_value < '".$newID."'");
-		$result =$dbHandler->query($query,$this->_dbIndex);
-		
 		
 		$newID = $this->_prefix.strval($newID);
 		
