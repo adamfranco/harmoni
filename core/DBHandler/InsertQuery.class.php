@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: InsertQuery.class.php,v 1.9 2007/09/05 21:38:59 adamfranco Exp $
+ * @version $Id: InsertQuery.class.php,v 1.10 2008/04/18 15:11:51 adamfranco Exp $
  */
 require_once(HARMONI."DBHandler/InsertQuery.interface.php");
 
@@ -22,7 +22,7 @@ require_once(HARMONI."DBHandler/InsertQuery.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: InsertQuery.class.php,v 1.9 2007/09/05 21:38:59 adamfranco Exp $ 
+ * @version $Id: InsertQuery.class.php,v 1.10 2008/04/18 15:11:51 adamfranco Exp $ 
  */
 
 class InsertQuery 
@@ -158,6 +158,8 @@ class InsertQuery
 	 * @since 3/8/07
 	 */
 	function addRawValue ( $column, $value ) {
+		if (is_numeric($value))
+			$value = strval($value);
 		ArgumentValidator::validate($column, NonzeroLengthStringValidatorRule::getRule());
 		ArgumentValidator::validate($value, NonzeroLengthStringValidatorRule::getRule());
 		
@@ -184,6 +186,8 @@ class InsertQuery
 	 * @since 3/8/07
 	 */
 	function addValue ( $column, $value ) {
+		if (is_numeric($value))
+			$value = strval($value);
 		ArgumentValidator::validate($column, NonzeroLengthStringValidatorRule::getRule());
 		ArgumentValidator::validate($value, StringValidatorRule::getRule());
 		
