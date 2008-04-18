@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Tag.class.php,v 1.7 2008/04/10 04:17:34 achapin Exp $
+ * @version $Id: Tag.class.php,v 1.8 2008/04/18 14:54:48 adamfranco Exp $
  */ 
 
 require_once(dirname(__FILE__)."/TaggedItemIterator.class.php");
@@ -22,7 +22,7 @@ require_once(dirname(__FILE__)."/TagFilterIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Tag.class.php,v 1.7 2008/04/10 04:17:34 achapin Exp $
+ * @version $Id: Tag.class.php,v 1.8 2008/04/18 14:54:48 adamfranco Exp $
  */
 class Tag {
 	
@@ -93,11 +93,12 @@ class Tag {
 	 * 
 	 * @param object TaggedItem $item
 	 * @param object Id $agentId
+	 * @param optional object DateAndTime $date An optional timestamp, used for importing historical tags.
 	 * @return object The item
 	 * @access public
 	 * @since 11/6/06
 	 */
-	function tagItemForAgent ( $item, $agentId ) {
+	function tagItemForAgent ( TaggedItem $item, Id $agentId, DateAndTime $date = null) {
 		// Make sure the item is not already tagged
 		if ($this->isItemTagged($item))
 			return $item;
@@ -108,11 +109,12 @@ class Tag {
 		
 		$query = new InsertQuery;
 		$query->setTable('tag');
-		$query->setColumns(array('value', 'user_id', 'fk_item'));
-		$query->setValues(array(
-			"'".addslashes($this->getValue())."'",
-			"'".addslashes($agentId->getIdString())."'",
-			"'".addslashes($item->getDatabaseId())."'"));
+		$query->addValue('value', $this->getValue());
+		$query->addValue('user_id', $agentId->getIdString());
+		$query->addValue('fk_item', $item->getDatabaseId());
+		
+		if (!is_null($date))
+			$query->addValue('tstamp', $date->asString());
 		
 		$dbc = Services::getService("DatabaseManager");
 		$result =$dbc->query($query, $this->getDatabaseIndex());
