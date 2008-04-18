@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniErrorHandler.class.php,v 1.19 2008/04/09 15:59:08 adamfranco Exp $
+ * @version $Id: HarmoniErrorHandler.class.php,v 1.20 2008/04/18 14:58:26 adamfranco Exp $
  */ 
 
 /**
@@ -30,7 +30,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniErrorHandler.class.php,v 1.19 2008/04/09 15:59:08 adamfranco Exp $
+ * @version $Id: HarmoniErrorHandler.class.php,v 1.20 2008/04/18 14:58:26 adamfranco Exp $
  */
 class HarmoniErrorHandler {
 		
@@ -238,9 +238,12 @@ class HarmoniErrorHandler {
 		if (ini_get('display_errors') === true || ini_get('display_errors') === 'On' 
 			|| ini_get('display_errors') === 'stdout' || ini_get('display_errors') === '1')
 		{
-			if (ini_get('html_errors'))
-				self::printMessage($priority.' of type', $type, $exception->getMessage(), $exception->getTrace(), $exception->getCode());
-			else
+			if (ini_get('html_errors')) {
+				if (method_exists($exception, 'getHtmlMessage'))
+					self::printHtmlMessage($priority.' of type', $type, $exception->getHtmlMessage(), $exception->getTrace(), $exception->getCode());
+				else
+					self::printMessage($priority.' of type', $type, $exception->getMessage(), $exception->getTrace(), $exception->getCode());
+			} else
 				self::printPlainTextMessage($priority.' of type', $type, $exception->getMessage(), $exception->getTrace(), $exception->getCode());
 		}
 		
@@ -278,6 +281,22 @@ class HarmoniErrorHandler {
 	 * @since 10/10/07
 	 */
 	public static function printMessage ( $errorOrException, $type, $message, array $backtrace, $code = null) {
+		self::printHtmlMessage($errorOrException, $type, htmlentities($message), $backtrace, $code);
+	}
+	
+	/**
+	 * Print out an error or exception message 
+	 * 
+	 * @param string $errorOrException A string describing whether this was an error or an uncaught exception.
+	 * @param string $type The type of error or exception that occurred
+	 * @param string $message A message.
+	 * @param array $backtrace
+	 * @param optional int $code
+	 * @return void
+	 * @access public
+	 * @since 04/18/08
+	 */
+	public static function printHtmlMessage ( $errorOrException, $type, $message, array $backtrace, $code = null) {
 		print "\n<div style='background-color: #FAA; border: 2px dotted #F00; padding: 10px;'><strong>".$errorOrException."</strong>: ";
 		print "\n\t<div style='padding-left: 20px; font-style: italic;'>".$type;
 		if (!is_null($code)) {
@@ -285,7 +304,7 @@ class HarmoniErrorHandler {
 		}
 		print "</div>";
 		print "with message ";
-		print "\n\t<div style='padding-left: 20px; font-style: italic;'>".htmlentities($message)."</div>";
+		print "\n\t<div style='padding-left: 20px; font-style: italic;'>".$message."</div>";
 		print "\n\tin";
 		print "\n\t<div style='padding-left: 20px;'>";
 		self::printDebugBacktrace($backtrace);

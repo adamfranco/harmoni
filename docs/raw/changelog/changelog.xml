@@ -4,14 +4,35 @@
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 <<<<<<< changelog.xml
- @version $Id: changelog.xml,v 1.274 2008/04/11 21:16:18 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.276 2008/04/18 14:58:54 adamfranco Exp $
 =======
- @version $Id: changelog.xml,v 1.274 2008/04/11 21:16:18 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.276 2008/04/18 14:58:54 adamfranco Exp $
 >>>>>>> 1.268.2.5
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
+	<version number="1.1.1" date="The Future">
+		<releaseNotes>
+			
+		</releaseNotes>
+		<new author='adam' date='2008-04-18'>
+			ErrorHandler: Exceptions can now define a getHtmlMessage() method and have
+			this HTML-formatted message printed without entity conversion.
+		</new>
+		<change author='adam' date='2008-04-18'>
+			Harmoni_DOMDocument: Now defines getHtmlMessage() in its ValidationException
+			to print more ledgible messages.
+		</change>
+		<new author='adam' date='2008-04-18' ref='1940489' reftype='segue_fr'>
+			Tagging: Can now access information about individual applications of a tag
+			via TagManager::getTagInfoForItem().
+		</new>
+		<change author='adam' date='2008-04-18' ref='1940489' reftype='segue_fr'>
+			Tagging: Can now specify a timestamp when setting a tag for a particular
+			agent.
+		</change>
+	</version>
 	<version number="1.1.0" date="2008-04-11">
 		<releaseNotes>
 			This release adds a new database access and SQL query system, Harmoni_Db.

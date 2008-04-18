@@ -13,7 +13,7 @@ require_once(HARMONI."errorHandler/HarmoniErrorHandler.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Error.class.php,v 1.9 2007/10/10 22:57:43 adamfranco Exp $
+ * @version $Id: Error.class.php,v 1.10 2008/04/18 14:58:26 adamfranco Exp $
  */
 
 class Error 
@@ -43,7 +43,7 @@ class Error
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Error.class.php,v 1.9 2007/10/10 22:57:43 adamfranco Exp $
+ * @version $Id: Error.class.php,v 1.10 2008/04/18 14:58:26 adamfranco Exp $
  */
 class UnknownDBError extends Error {
 	function __construct($type) {
@@ -56,7 +56,7 @@ class UnknownDBError extends Error {
  * Throws an error using the ErrorHandler.
  * @param object Error The error object to throw.
  */
-function throwError($error) {
+function throwError(Exception $error) {
 	// new implementation for PHP 5
 	throw $error;
 }
