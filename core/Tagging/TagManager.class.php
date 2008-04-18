@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TagManager.class.php,v 1.6 2008/02/06 15:37:41 adamfranco Exp $
+ * @version $Id: TagManager.class.php,v 1.7 2008/04/18 14:55:21 adamfranco Exp $
  */ 
 
 /**
@@ -26,6 +26,7 @@ require_once(dirname(__FILE__)."/TaggedItem.class.php");
 require_once(dirname(__FILE__)."/HarmoniNodeTaggedItem.class.php");
 require_once(dirname(__FILE__)."/UrlTaggedItem.class.php");
 require_once(dirname(__FILE__)."/StructuredMetaDataTagGenerator.class.php");
+require_once(dirname(__FILE__)."/TagInfo.class.php");
 
 /**
  * The TagManager handles the creation and retreval of tags.
@@ -36,7 +37,7 @@ require_once(dirname(__FILE__)."/StructuredMetaDataTagGenerator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: TagManager.class.php,v 1.6 2008/02/06 15:37:41 adamfranco Exp $
+ * @version $Id: TagManager.class.php,v 1.7 2008/04/18 14:55:21 adamfranco Exp $
  */
 class TagManager
 	implements OsidManager	
@@ -277,6 +278,42 @@ class TagManager
 			ksort($tags);
 		
 		$iterator = new HarmoniIterator($tags);
+		return $iterator;
+	}
+	
+	/**
+	 * Answer an TagInfoIterator that lists information on tags attached to an item.
+	 * 
+	 * @param object TaggedItem $item
+	 * @return object TagInfoIterator
+	 * @access public
+	 * @since 4/18/08
+	 */
+	public function getTagInfoForItem (TaggedItem $item) {
+		$query = new SelectQuery();
+		$query->addTable('tag');
+		$query->addColumn('value');
+		$query->addColumn('user_id');
+		$query->addColumn('tstamp');
+		$query->addWhereEqual("fk_item", $item->getDatabaseId());
+		
+		$dbc = Services::getService("DatabaseManager");
+		$result = $dbc->query($query, $this->getDatabaseIndex());
+		
+		$iterator = new HarmoniIterator(array());
+		$idManager = Services::getService("Id");
+		while ($result->hasNext()) {
+			$row = $result->next();
+			$iterator->add(
+				new TagInfo(
+					new Tag($row['value']),
+					$item,
+					$idManager->getId($row['user_id']),
+					DateAndTime::fromString($row['tstamp'])
+				)
+			);
+		}
+		
 		return $iterator;
 	}
 	
