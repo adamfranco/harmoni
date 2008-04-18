@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Insert.php,v 1.2 2008/04/08 20:02:26 adamfranco Exp $
+ * @version $Id: Insert.php,v 1.3 2008/04/18 15:12:50 adamfranco Exp $
  */ 
 
 /**
@@ -18,7 +18,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Insert.php,v 1.2 2008/04/08 20:02:26 adamfranco Exp $
+ * @version $Id: Insert.php,v 1.3 2008/04/18 15:12:50 adamfranco Exp $
  */
 class Harmoni_Db_Insert
 	extends Harmoni_Db_Select
@@ -69,6 +69,10 @@ class Harmoni_Db_Insert
 	 * @since 3/8/07
 	 */
 	function addColumn ( $column ) {
+		// Make sure that we have a row
+		if (!count($this->values))
+			$this->createRow();
+		
 		$this->columns[] = $this->cleanColumn($column);
 		$index = count($this->columns) - 1;
 		
