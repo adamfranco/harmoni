@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Tag.class.php,v 1.8 2008/04/18 14:54:48 adamfranco Exp $
+ * @version $Id: Tag.class.php,v 1.9 2008/04/18 20:40:40 achapin Exp $
  */ 
 
 require_once(dirname(__FILE__)."/TaggedItemIterator.class.php");
@@ -22,7 +22,7 @@ require_once(dirname(__FILE__)."/TagFilterIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Tag.class.php,v 1.8 2008/04/18 14:54:48 adamfranco Exp $
+ * @version $Id: Tag.class.php,v 1.9 2008/04/18 20:40:40 achapin Exp $
  */
 class Tag {
 	
@@ -112,6 +112,8 @@ class Tag {
 		$query->addValue('value', $this->getValue());
 		$query->addValue('user_id', $agentId->getIdString());
 		$query->addValue('fk_item', $item->getDatabaseId());
+		
+		//printpre("'".addslashes($item->getDatabaseId())."'"))
 		
 		if (!is_null($date))
 			$query->addValue('tstamp', $date->asString());
