@@ -33,7 +33,7 @@ require_once(HARMONI."oki2/hierarchy/HarmoniTraversalInfoIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HierarchyCache.class.php,v 1.42 2008/04/08 20:02:43 adamfranco Exp $
+ * @version $Id: HierarchyCache.class.php,v 1.43 2008/04/21 18:01:42 adamfranco Exp $
  **/
 
 class HierarchyCache {
@@ -118,7 +118,7 @@ class HierarchyCache {
 	 * @param object DateAndTime $lastStructureUpdate
 	 * @access protected
 	 */
-	function HierarchyCache($hierarchyId, $allowsMultipleParents, $dbIndex, $harmoni_db = null) {
+	function __construct($hierarchyId, $allowsMultipleParents, $dbIndex, $harmoni_db = null) {
 		// ** parameter validation
 		ArgumentValidator::validate($hierarchyId, 
 			OrValidatorRule::getRule(
@@ -341,16 +341,9 @@ class HierarchyCache {
 		$dbHandler = Services::getService("DatabaseManager");
 		$query = new InsertQuery();
 		$query->setTable("j_node_node");
-		$columns = array();
-		$columns[] = "fk_hierarchy";
-		$columns[] = "fk_parent";
-		$columns[] = "fk_child";
-		$query->setColumns($columns);
-		$values = array();
-		$values[] = "'".addslashes($this->_hierarchyId)."'";
-		$values[] = "'".addslashes($parentIdValue)."'";
-		$values[] = "'".addslashes($childIdValue)."'";
-		$query->setValues($values);
+		$query->addValue("fk_hierarchy", $this->_hierarchyId);
+		$query->addValue("fk_parent", $parentIdValue);
+		$query->addValue("fk_child", $childIdValue);
 		
 //		echo "<pre>\n";
 //		echo MySQL_SQLGenerator::generateSQLQuery($query);
@@ -409,9 +402,9 @@ class HierarchyCache {
 		$dbHandler = Services::getService("DatabaseManager");
 		$query = new DeleteQuery();
 		$query->setTable("j_node_node");
-		$query->addWhere("fk_hierarchy= '".addslashes($this->_hierarchyId)."'");
-		$query->addWhere("fk_parent = '".addslashes($parentIdValue)."'");
-		$query->addWhere("fk_child = '".addslashes($childIdValue)."'");
+		$query->addWhereEqual("fk_hierarchy", $this->_hierarchyId);
+		$query->addWhereEqual("fk_parent", $parentIdValue);
+		$query->addWhereEqual("fk_child", $childIdValue);
 		
 //		echo "<pre>\n";
 //		echo MySQL_SQLGenerator::generateSQLQuery($query);
@@ -635,7 +628,7 @@ class HierarchyCache {
 		$joinc = "node_id = fk_child AND node.fk_hierarchy = j_node_node.fk_hierarchy";
 		$query->addTable("j_node_node", LEFT_JOIN, $joinc);
 
-		$query->addWhere("node.fk_hierarchy = '".addslashes($this->_hierarchyId)."'");
+		$query->addWhereEqual("node.fk_hierarchy", $this->_hierarchyId);
 
 		$query->addOrderBy("node_id");
 		
@@ -711,7 +704,7 @@ class HierarchyCache {
 		$joinc = "node_id = fk_child and node.fk_hierarchy = j_node_node.fk_hierarchy";
 		$query->addTable("j_node_node", LEFT_JOIN, $joinc);
 		$query->addColumn("fk_child", "join_id", "j_node_node");
-		$query->addWhere("node.fk_hierarchy = '".addslashes($this->_hierarchyId)."'");
+		$query->addWhereEqual("node.fk_hierarchy", $this->_hierarchyId);
 		$query->addWhere("fk_child IS NULL");
 		$query->addOrderBy("fk_child");
 
@@ -860,17 +853,13 @@ class HierarchyCache {
 	 * @param object node The node object whose parents we must cache.
 	 * @return ref array An array of the parent nodes of the given node.
 	 **/
-	function getParents($node) {
+	function getParents(Node $node) {
 		// Use Harmoni_Db method for greater performance if it is configured
 		if (isset($this->harmoni_db))
 			return $this->getParents_Harmoni_Db($node);
 		
 		// Otherwise use original method
 		
-		
-		// ** parameter validation
-		ArgumentValidator::validate($node, ExtendsValidatorRule::getRule("HarmoniNode"), true);
-		// ** end of parameter validation
 		
 		$idValue = $node->_id->getIdString();
 
@@ -910,17 +899,12 @@ class HierarchyCache {
 			$joinc = "parents.fk_type = "."type_id";
 			$query->addTable("type", INNER_JOIN, $joinc);
 			
-			$where = "child.fk_hierarchy = '".$this->_hierarchyId."' AND child.fk_child = '".addslashes($idValue)."'";
-			$query->addWhere($where);
+			$query->addWhereEqual("child.fk_hierarchy", $this->_hierarchyId);
+			$query->addWhereEqual("child.fk_child", $idValue);
 			$query->addOrderBy("node_id");
 			
 			if (count($nodesToExclude) > 0) {
-				$idsToExclude = array_keys($nodesToExclude);
-				foreach ($idsToExclude as $key => $id)
-					$idsToExclude[$key] = "'".addslashes($id)."'";
-				$where = implode(", ",$idsToExclude);
-				$where = "parents.node_id NOT IN ({$where})";
-				$query->addWhere($where);
+				$query->addWhereNotIn("parents.node_id", array_keys($nodesToExclude));
 			}
 			
 //			echo "<pre>\n";
@@ -982,10 +966,7 @@ class HierarchyCache {
 	 * @param object node The node object whose parents we must cache.
 	 * @return ref array An array of the parent nodes of the given node.
 	 **/
-	function getParents_Harmoni_Db($node) {
-		// ** parameter validation
-		ArgumentValidator::validate($node, ExtendsValidatorRule::getRule("HarmoniNode"), true);
-		// ** end of parameter validation
+	function getParents_Harmoni_Db(Node $node) {
 		
 		$idValue = $node->_id->getIdString();
 
@@ -1106,10 +1087,7 @@ class HierarchyCache {
 	 * @param object node The node object whose children we must cache.
 	 * @return ref array An array of the children nodes of the given node.
 	 **/
-	function getChildren($node) {
-		// ** parameter validation
-		ArgumentValidator::validate($node, ExtendsValidatorRule::getRule("HarmoniNode"), true);
-		// ** end of parameter validation
+	function getChildren(Node $node) {
 		
 		$idValue = $node->_id->getIdString();
 
@@ -1216,10 +1194,7 @@ class HierarchyCache {
 	 * @param object node The node object to check.
 	 * @return boolean
 	 **/
-	function isLeaf($node) {
-		// ** parameter validation
-		ArgumentValidator::validate($node, ExtendsValidatorRule::getRule("HarmoniNode"), true);
-		// ** end of parameter validation
+	function isLeaf(Node $node) {
 		
 		$idValue = $node->_id->getIdString();
 
@@ -1243,9 +1218,8 @@ class HierarchyCache {
 	
 			// set the tables
 			$query->addTable("j_node_node");
-			
-			$where = "j_node_node.fk_hierarchy = '".$this->_hierarchyId."' AND fk_parent = '".addslashes($idValue)."'";
-			$query->addWhere($where);
+			$query->addWhereEqual("j_node_node.fk_hierarchy", $this->_hierarchyId);
+			$query->addWhereEqual("fk_parent", $idValue);
 			
 // 			echo "<pre>\n";
 // 			echo MySQL_SQLGenerator::generateSQLQuery($query);
@@ -1917,13 +1891,10 @@ class HierarchyCache {
 		$query = new SelectQuery();
 		$query->addTable("type");
 		$query->addColumn("type_id", "id", "type");
-		$where = "type_domain = '".addslashes($domain)."'";
-		$where .= " AND type_authority = '".addslashes($authority)."'";
-		$where .= " AND type_keyword = '".addslashes($keyword)."'";
-		$where .= " AND type_description = '".addslashes($typeDescription)."'";
-											  
-		$query->addWhere($where);
-
+		$query->addWhereEqual("type_domain", $domain);
+		$query->addWhereEqual("type_authority", $authority);
+		$query->addWhereEqual("type_keyword", $keyword);
+		
 		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 		if ($queryResult->getNumberOfRows() > 0) {// if the type is already in the database
 			$typeIdValue = $queryResult->field("id"); // get the id
@@ -1934,18 +1905,10 @@ class HierarchyCache {
 			$query = new InsertQuery();
 			$query->setTable("type");
 			$query->setAutoIncrementColumn("type_id", "type_type_id_seq");
-			$columns = array();
-			$columns[] = "type_domain";
-			$columns[] = "type_authority";
-			$columns[] = "type_keyword";
-			$columns[] = "type_description";
-			$query->setColumns($columns);
-			$values = array();
-			$values[] = "'".addslashes($domain)."'";
-			$values[] = "'".addslashes($authority)."'";
-			$values[] = "'".addslashes($keyword)."'";
-			$values[] = "'".addslashes($typeDescription)."'";
-			$query->setValues($values);
+			$query->addValue("type_domain", $domain);
+			$query->addValue("type_authority", $authority);
+			$query->addValue("type_keyword", $keyword);
+			$query->addValue("type_description", $typeDescription);
 
 			$queryResult =$dbHandler->query($query, $this->_dbIndex);
 			$typeIdValue = $queryResult->getLastAutoIncrementValue();
@@ -1954,20 +1917,11 @@ class HierarchyCache {
 		// 2. Now that we know the id of the type, insert the node itself
 		$query = new InsertQuery();
 		$query->setTable("node");
-		$columns = array();
-		$columns[] = "node_id";
-		$columns[] = "node_display_name";
-		$columns[] = "node_description";
-		$columns[] = "fk_hierarchy";
-		$columns[] = "fk_type";
-		$query->setColumns($columns);
-		$values = array();
-		$values[] = "'".addslashes($idValue)."'";
-		$values[] = "'".addslashes($displayName)."'";
-		$values[] = "'".addslashes($description)."'";
-		$values[] = "'".addslashes($this->_hierarchyId)."'";
-		$values[] = "'".addslashes($typeIdValue)."'";
-		$query->setValues($values);
+		$query->addValue("node_id", $idValue);
+		$query->addValue("node_display_name", $displayName);
+		$query->addValue("node_description", $description);
+		$query->addValue("fk_hierarchy", $this->_hierarchyId);
+		$query->addValue("fk_type", $typeIdValue);
 
 		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 		
@@ -2062,7 +2016,7 @@ class HierarchyCache {
 		
 		$query->addTable("node");
 		$query->addColumn("fk_type", "type_id", "node");
-		$query->addWhere("node_id = '".addslashes($idValue)."'");
+		$query->addWhereEqual("node_id", $idValue);
 
 		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0) {
@@ -2079,7 +2033,7 @@ class HierarchyCache {
 		// 2. Now delete the node
 		$query = new DeleteQuery();
 		$query->setTable("node");
-		$query->addWhere("node_id = '".addslashes($idValue)."'");
+		$query->addWhereEqual("node_id", $idValue);
 		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 		
 		// 3. Now see if any other nodes have the same type
@@ -2088,7 +2042,7 @@ class HierarchyCache {
 		$query->addTable("node");
 		// count the number of nodes using the same type
 		$query->addColumn("COUNT(fk_type)", "num");
-		$query->addWhere("fk_type = '".addslashes($typeIdValue)."'");
+		$query->addWhereEqual("fk_type", $typeIdValue);
 
 		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 		$num = $queryResult->field("num");
@@ -2096,7 +2050,7 @@ class HierarchyCache {
 		if ($num == 0) { // if no other nodes use this type, then delete the type
 			$query = new DeleteQuery();
 			$query->setTable("type");
-			$query->addWhere("type_id = '".addslashes($typeIdValue)."'");
+			$query->addWhereEqual("type_id", $typeIdValue);
 			$queryResult =$dbHandler->query($query, $this->_dbIndex);
 		}
 		
@@ -2231,8 +2185,8 @@ class HierarchyCache {
 		// Delete the old ancestory
 		$query = new DeleteQuery;
 		$query->setTable("node_ancestry");
-		$query->addWhere("node_ancestry.fk_hierarchy = '".addslashes($this->_hierarchyId)."'");
-		$query->addWhere("node_ancestry.fk_node = '".addslashes($idString)."'");
+		$query->addWhereEqual("fk_hierarchy", $this->_hierarchyId);
+		$query->addWhereEqual("fk_node", $idString);
 		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 // 		$queryResult->free();
 	}

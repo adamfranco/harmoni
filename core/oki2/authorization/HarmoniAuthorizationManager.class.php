@@ -1,12 +1,12 @@
 <?php
 
 require_once(OKI2."/osid/authorization/AuthorizationManager.php");
-require_once(HARMONI.'oki2/authorization/AuthorizationCache.class.php');
-require_once(HARMONI.'oki2/authorization/HarmoniFunction.class.php');
-require_once(HARMONI.'oki2/authorization/HarmoniAuthorization.class.php');
-require_once(HARMONI.'oki2/authorization/HarmoniAuthorizationIterator.class.php');
-require_once(HARMONI.'oki2/authorization/HarmoniQualifier.class.php');
-require_once(HARMONI.'oki2/authorization/IsAuthorizedCache.class.php');
+require_once(dirname(__FILE__).'/AuthorizationCache.class.php');
+require_once(dirname(__FILE__).'/HarmoniFunction.class.php');
+require_once(dirname(__FILE__).'/HarmoniAuthorization.class.php');
+require_once(dirname(__FILE__).'/HarmoniAuthorizationIterator.class.php');
+require_once(dirname(__FILE__).'/HarmoniQualifier.class.php');
+require_once(dirname(__FILE__).'/IsAuthorizedCache.class.php');
 require_once(HARMONI.'oki2/shared/HarmoniIdIterator.class.php');
 
 /**
@@ -60,7 +60,7 @@ require_once(HARMONI.'oki2/shared/HarmoniIdIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthorizationManager.class.php,v 1.44 2008/02/07 20:11:31 adamfranco Exp $
+ * @version $Id: HarmoniAuthorizationManager.class.php,v 1.45 2008/04/21 18:01:40 adamfranco Exp $
  */
 class HarmoniAuthorizationManager 
 	implements AuthorizationManager 
@@ -80,7 +80,7 @@ class HarmoniAuthorizationManager
 	 * manager.
 	 * @access public
 	 */
-	function HarmoniAuthorizationManager() {
+	function __construct() {
 		$this->_groupAncestorsCache = array();
 	}
 	
@@ -107,15 +107,27 @@ class HarmoniAuthorizationManager
 	function assignConfiguration ( Properties $configuration ) { 
 		$this->_configuration =$configuration;
 		
-		$dbIndex =$configuration->getProperty('database_index');
-		$authzDB =$configuration->getProperty('database_name');
+		$dbIndex = $configuration->getProperty('database_index');
+		$authzDB = $configuration->getProperty('database_name');
 		
 		// ** parameter validation
 		ArgumentValidator::validate($dbIndex, IntegerValidatorRule::getRule(), true);
 		ArgumentValidator::validate($authzDB, StringValidatorRule::getRule(), true);
 		// ** end of parameter validation
 		
-		$this->_cache = new AuthorizationCache($dbIndex, $authzDB);
+		// Store the Harmoni_Db adapter if it is configured.
+        $harmoni_db_name = $this->_configuration->getProperty('harmoni_db_name');
+        if (!is_null($harmoni_db_name)) {
+			try {
+				$this->harmoni_db = Harmoni_Db::getDatabase($harmoni_db_name);
+			} catch (UnknownIdException $e) {
+			}
+        }
+		
+		if (isset($this->harmoni_db))
+			$this->_cache = new AuthorizationCache($dbIndex, $this->harmoni_db);
+		else
+			$this->_cache = new AuthorizationCache($dbIndex);
 	}
 
 	/**
@@ -218,10 +230,16 @@ class HarmoniAuthorizationManager
 	 * @access public
 	 */
 	function createAuthorization ( Id $agentId, Id $functionId, Id $qualifierId ) { 
-		$authorization =$this->_cache->createAuthorization($agentId, $functionId, $qualifierId);
+		try {
+			$authorization =$this->_cache->createAuthorization($agentId, $functionId, $qualifierId);
 		
-		$isAuthorizedCache = IsAuthorizedCache::instance();
-		$isAuthorizedCache->dirtyNode($qualifierId);
+			$isAuthorizedCache = IsAuthorizedCache::instance();
+			$isAuthorizedCache->dirtyNode($qualifierId);
+		} catch (DuplucateKeyDatabaseException $e) {
+			throw new OperationFailedException("An Explicit Authorization already exists for '$agentId' to '$functionId' at '$qualifierId'");
+		} catch (Zend_Db_Statement_Exception $e) {
+			throw new OperationFailedException("An Explicit Authorization already exists for '$agentId' to '$functionId' at '$qualifierId'");
+		}
 		
 		return $authorization;
 	}
@@ -258,7 +276,11 @@ class HarmoniAuthorizationManager
 	 * @access public
 	 */
 	function createFunction ( Id $functionId, $displayName, $description, Type $functionType, Id $qualifierHierarchyId ) { 
-		$function =$this->_cache->createFunction($functionId, $displayName, $description, $functionType, $qualifierHierarchyId);
+		try {
+			$function = $this->_cache->createFunction($functionId, $displayName, $description, $functionType, $qualifierHierarchyId);
+		} catch (DuplucateKeyDatabaseException $e) {
+			throw new OperationFailedException("AuthorizationFunction, $functionId, already exists.");
+		}
 		return $function;
 	}
 
@@ -1697,6 +1719,19 @@ class HarmoniAuthorizationManager
      * @access public
      */
     public function osidVersion_2_0 (){}
+    
+    /**
+     * Answer the authorization cache used by this manager.
+     *
+     * WARNING: NOT IN OSID
+     * 
+     * @return object IsAuthorizedCache
+     * @access public
+     * @since 4/21/08
+     */
+    public function getIsAuthorizedCache () {
+    	return IsAuthorizedCache::instance();
+    }
 }
 
 

@@ -15,11 +15,11 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniQualifierIterator.class.php,v 1.8 2007/09/04 20:25:38 adamfranco Exp $
+ * @version $Id: HarmoniQualifierIterator.class.php,v 1.9 2008/04/21 18:01:41 adamfranco Exp $
  */
 class HarmoniQualifierIterator
 	extends HarmoniIterator
-//	implements QualifierIterator
+	implements QualifierIterator
 {
 	/**
 	 * Return true if there is an additional  Qualifier ; false otherwise.

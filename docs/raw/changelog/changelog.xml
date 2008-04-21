@@ -4,21 +4,42 @@
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 <<<<<<< changelog.xml
- @version $Id: changelog.xml,v 1.277 2008/04/18 15:43:14 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.278 2008/04/21 18:01:44 adamfranco Exp $
 =======
- @version $Id: changelog.xml,v 1.277 2008/04/18 15:43:14 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.278 2008/04/21 18:01:44 adamfranco Exp $
 >>>>>>> 1.268.2.5
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
-	<version number="1.1.1" date="The Future">
+	<version number="1.2.0" date="The Future">
 		<releaseNotes>
 			
 		</releaseNotes>
 		<new author='adam' date='2008-04-18'>
 			IdManager: Now can be configured to use Harmoni_Db.
 		</new>
+		<new author='adam' date='2008-04-18'>
+			AuthorizationManager: Now can be configured to use Harmoni_Db.
+		</new>
+		<change author='adam' date='2008-04-21'>
+			Authorization: Cleaned up query syntax to do use addWhereEqual(), addWhereLike(), etc
+			methods rather than manually building WHERE strings.
+		</change>
+		<change author='adam' date='2008-04-21'>
+			Authorization: Added AuthorizationManager::getIsAuthorizedCache() method
+			to access the IsAuthorizedCache used by the current AuthorizationManager
+			for queueing of qualifier-ids. This new method and its usage by the Repository
+			and Authentication systems allows swapping of the Authorization-Hierarchy implementation.
+		</change>
+		<change author='adam' date='2008-04-21'>
+			Hierarchy: Cleaned up query syntax to do use addWhereEqual(), addWhereLike(), etc
+			methods rather than manually building WHERE strings.
+		</change>
+		<change author='adam' date='2008-04-21'>
+			Authorization/Hierarchy: Now relying on type-hinting for validation of object
+			parameters rather than using the ArguementValidator.
+		</change>
 		<fix author='adam' date='2008-04-18'>
 			Harmoni_Db: Insert now esures that at least one row of values exists.
 		</fix>

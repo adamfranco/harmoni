@@ -24,7 +24,7 @@ require_once(HARMONI.'/oki2/hierarchy/DefaultNodeType.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniHierarchy.class.php,v 1.26 2008/04/08 20:02:43 adamfranco Exp $
+ * @version $Id: HarmoniHierarchy.class.php,v 1.27 2008/04/21 18:01:42 adamfranco Exp $
  */
 
 class HarmoniHierarchy 
@@ -157,16 +157,11 @@ class HarmoniHierarchy
 
 		// update the database
 		$dbHandler = Services::getService("DatabaseManager");
-		$db = $this->_cache->_hyDB.".";
-		
+				
 		$query = new UpdateQuery();
-		$query->setTable($db."hierarchy");
-		$id =$this->getId();
-		$idValue = $id->getIdString();
-		$where = "{$db}hierarchy.hierarchy_id = '{$idValue}'";
-		$query->setWhere($where);
-		$query->setColumns(array("{$db}hierarchy.hierarchy_display_name"));
-		$query->setValues(array("'".addslashes($displayName)."'"));
+		$query->setTable("hierarchy");
+		$query->addWhereEqual('hierarchy_id', $this->getId()->getIdString());
+		$query->addValue('hierarchy_display_name', $displayName);
 		
 		$queryResult =$dbHandler->query($query, $this->_cache->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0)
@@ -232,16 +227,11 @@ class HarmoniHierarchy
 
 		// update the database
 		$dbHandler = Services::getService("DatabaseManager");
-		$db = $this->_cache->_hyDB.".";
 		
 		$query = new UpdateQuery();
-		$query->setTable($db."hierarchy");
-		$id =$this->getId();
-		$idValue = $id->getIdString();
-		$where = "{$db}hierarchy.hierarchy_id = '{$idValue}'";
-		$query->setWhere($where);
-		$query->setColumns(array("{$db}hierarchy.hierarchy_description"));
-		$query->setValues(array("'".addslashes($description)."'"));
+		$query->setTable("hierarchy");
+		$query->addWhereEqual('hierarchy_id', $this->getId()->getIdString());
+		$query->addValue('hierarchy_description', $description);
 		
 		$queryResult =$dbHandler->query($query, $this->_cache->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0)
@@ -557,21 +547,20 @@ class HarmoniHierarchy
 		$dbHandler = Services::getService("DatabaseManager");
 		$query = new SelectQuery();
 		
-		$db = $this->_cache->_hyDB.".";
 		// set the tables
-		$query->addTable($db."node");
-		$joinc = $db."node.fk_type = ".$db."type.type_id";
-		$query->addTable($db."type", INNER_JOIN, $joinc);
+		$query->addTable("node");
+		$joinc = "node.fk_type = "."type.type_id";
+		$query->addTable("type", INNER_JOIN, $joinc);
 		$hierarchyIdValue = $this->_id->getIdString();
-		$query->addWhere($db."node.fk_hierarchy = '{$hierarchyIdValue}'");
-
+		$query->addWhereEqual("node.fk_hierarchy", $hierarchyIdValue);
+		
 		// set the columns to select
 		$query->setDistinct(true);
-		$query->addColumn("type_id", "id", $db."type");
-		$query->addColumn("type_domain", "domain", $db."type");
-		$query->addColumn("type_authority", "authority", $db."type");
-		$query->addColumn("type_keyword", "keyword", $db."type");
-		$query->addColumn("type_description", "description", $db."type");
+		$query->addColumn("type_id", "id", "type");
+		$query->addColumn("type_domain", "domain", "type");
+		$query->addColumn("type_authority", "authority", "type");
+		$query->addColumn("type_keyword", "keyword", "type");
+		$query->addColumn("type_description", "description", "type");
 		$queryResult =$dbHandler->query($query, $this->_cache->_dbIndex);
 
 		$types = array();

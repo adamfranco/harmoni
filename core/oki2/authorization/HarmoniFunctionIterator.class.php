@@ -15,11 +15,11 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniFunctionIterator.class.php,v 1.7 2007/09/04 20:25:38 adamfranco Exp $
+ * @version $Id: HarmoniFunctionIterator.class.php,v 1.8 2008/04/21 18:01:40 adamfranco Exp $
  */
 class HarmoniFunctionIterator
 	extends HarmoniIterator
-//	implements AuthorizationIterator
+	implements FunctionIterator
 {
 
 	/**

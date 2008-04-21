@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAssetIterator.class.php,v 1.14 2007/09/04 20:25:43 adamfranco Exp $
+ * @version $Id: HarmoniAssetIterator.class.php,v 1.15 2008/04/21 18:01:43 adamfranco Exp $
  */
 
 //require_once(OKI2."osid/repository/AssetIterator.interface.php");
@@ -32,7 +32,7 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy;2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  *
- * @version $Id: HarmoniAssetIterator.class.php,v 1.14 2007/09/04 20:25:43 adamfranco Exp $ 
+ * @version $Id: HarmoniAssetIterator.class.php,v 1.15 2008/04/21 18:01:43 adamfranco Exp $ 
  */
 class HarmoniAssetIterator
 	extends HarmoniIterator
@@ -113,7 +113,8 @@ class HarmoniAssetIterator
 		// working with this set of nodes so that it can fetch AZs for all of 
 		// them at once.
 		if ($this->_i == -1) {
-			$isAuthorizedCache = IsAuthorizedCache::instance();
+			$authZ = Services::getService("AuthZ");
+			$isAuthorizedCache = $authZ->getIsAuthorizedCache();
 			$isAuthorizedCache->queueAssetArray($this->_elements);
 		}
 		

@@ -22,11 +22,11 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniNodeIterator.class.php,v 1.7 2007/09/04 20:25:41 adamfranco Exp $
+ * @version $Id: HarmoniNodeIterator.class.php,v 1.8 2008/04/21 18:01:42 adamfranco Exp $
  */
 class HarmoniNodeIterator
 	extends HarmoniIterator
-//	implements NodeIterator
+	implements NodeIterator
 {
 	/**
 	 * Return true if there is an additional  Node ; false otherwise.

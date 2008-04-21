@@ -16,7 +16,7 @@ require_once(HARMONI."Primitives/Chronology/include.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthorization.class.php,v 1.19 2008/02/06 15:37:48 adamfranco Exp $
+ * @version $Id: HarmoniAuthorization.class.php,v 1.20 2008/04/21 18:01:40 adamfranco Exp $
  */
 class HarmoniAuthorization 
 	implements Authorization 
@@ -97,18 +97,13 @@ class HarmoniAuthorization
 	 * @param boolean explicit Specifies whether this Authorization is explicit or not.
 	 * @access public
 	 */
-	function HarmoniAuthorization($id, $agentId, $functionId, $qualifierId, $explicit, $cache, $effectiveDate = NULL, $expirationDate = NULL) {
+	function __construct($id, Id $agentId, Id $functionId, Id $qualifierId, $explicit, AuthorizationCache $cache, $effectiveDate = NULL, $expirationDate = NULL) {
 
 		// ** parameter validation
-		$extendsRule = ExtendsValidatorRule::getRule("Id");
 		ArgumentValidator::validate($id, OptionalRule::getRule(StringValidatorRule::getRule()), true);
-		ArgumentValidator::validate($agentId, $extendsRule, true);
-		ArgumentValidator::validate($functionId, $extendsRule, true);
-		ArgumentValidator::validate($qualifierId, $extendsRule, true);
 		ArgumentValidator::validate($effectiveDate, OptionalRule::getRule(HasMethodsValidatorRule::getRule('asDateAndTime')), true);
 		ArgumentValidator::validate($expirationDate, OptionalRule::getRule(HasMethodsValidatorRule::getRule('asDateAndTime')), true);
 		ArgumentValidator::validate($explicit, BooleanValidatorRule::getRule(), true);
-		ArgumentValidator::validate($cache, ExtendsValidatorRule::getRule("AuthorizationCache"), true);
 		// ** end of parameter validation
 		
 		// make sure effective date is before expiration date
@@ -413,16 +408,12 @@ class HarmoniAuthorization
 
 		// update the database
 		$dbHandler = Services::getService("DatabaseManager");
-		$dbPrefix = $this->_cache->_authzDB.".az_authorization";
 		
 		$query = new UpdateQuery();
-		$query->setTable($dbPrefix);
-		$idValue = $this->_id;
-		$where = "{$dbPrefix}.authorization_id = '{$idValue}'";
-		$query->setWhere($where);
-		$query->setColumns(array("{$dbPrefix}.authorization_expiration_date"));
+		$query->setTable("az_authorization");
+		$query->addWhereEqual("authorization_id", $this->_id);
 		$timestamp = $dbHandler->toDBDate($expirationDate, $this->_cache->_dbIndex);
-		$query->setValues(array($timestamp));
+		$query->addValue("authorization_expiration_date", $timestamp);
 		
 		$queryResult =$dbHandler->query($query, $this->_cache->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0)
@@ -480,16 +471,12 @@ class HarmoniAuthorization
 
 		// update the database
 		$dbHandler = Services::getService("DatabaseManager");
-		$dbPrefix = $this->_cache->_authzDB.".az_authorization";
 		
 		$query = new UpdateQuery();
-		$query->setTable($dbPrefix);
-		$idValue = $this->_id;
-		$where = "{$dbPrefix}.authorization_id = '{$idValue}'";
-		$query->setWhere($where);
-		$query->setColumns(array("{$dbPrefix}.authorization_effective_date"));
+		$query->setTable("az_authorization");
+		$query->addWhereEqual("authorization_id", $this->_id);
 		$timestamp = $dbHandler->toDBDate($effectiveDate, $this->_cache->_dbIndex);
-		$query->setValues(array($timestamp));
+		$query->addValue("authorization_effective_date", $timestamp);
 		
 		$queryResult =$dbHandler->query($query, $this->_cache->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0)

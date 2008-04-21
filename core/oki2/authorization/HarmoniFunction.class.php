@@ -16,7 +16,7 @@ require_once(OKI2."/osid/authorization/Function.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniFunction.class.php,v 1.14 2008/02/06 15:37:48 adamfranco Exp $
+ * @version $Id: HarmoniFunction.class.php,v 1.15 2008/04/21 18:01:40 adamfranco Exp $
  */
 class HarmoniFunction
 	implements FunctionInterface 
@@ -88,17 +88,12 @@ class HarmoniFunction
 	 * @param  string authzDB The name of the Authorization database.
 	 * @access public
 	 */
-	function HarmoniFunction($id, $referenceName, $description, $functionType, 
-							 $qualifierHierarchyId, $dbIndex) {
+	function __construct(Id $id, $referenceName, $description, Type $functionType, 
+							 Id $qualifierHierarchyId, $dbIndex) {
 		// ** parameter validation
 		$stringRule = StringValidatorRule::getRule();
 		ArgumentValidator::validate($referenceName, $stringRule, true);
 		ArgumentValidator::validate($description, $stringRule, true);
-		$extendsRule = ExtendsValidatorRule::getRule("Id");
-		ArgumentValidator::validate($id, $extendsRule, true);
-		ArgumentValidator::validate($qualifierHierarchyId, $extendsRule, true);
-		$extendsRule = ExtendsValidatorRule::getRule("Type");
-		ArgumentValidator::validate($functionType, $extendsRule, true);
 		$integerRule = IntegerValidatorRule::getRule();
 		ArgumentValidator::validate($dbIndex, $integerRule, true);
 		// ** end of parameter validation
@@ -270,14 +265,10 @@ class HarmoniFunction
 		
 		$query = new UpdateQuery();
 		$query->setTable("az_function");
-		$id =$this->getId();
-		$idValue = $id->getIdString();
-		$where = "function_id = '".addslashes($idValue)."'";
-		$query->setWhere($where);
-		$query->setColumns(array("function_description"));
-		$query->setValues(array("'".addslashes($description)."'"));
+		$query->addWhereEqual("function_id", $this->getId()->getIdString());
+		$query->addValue("function_description", $description);
 		
-		$queryResult =$dbHandler->query($query, $this->_dbIndex);
+		$queryResult = $dbHandler->query($query, $this->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0)
 			throwError(new Error(AuthorizationExeption::OPERATION_FAILED(),"AuthorizationFunction",true));
 		if ($queryResult->getNumberOfRows() > 1)
@@ -325,12 +316,8 @@ class HarmoniFunction
 		
 		$query = new UpdateQuery();
 		$query->setTable("az_function");
-		$id =$this->getId();
-		$idValue = $id->getIdString();
-		$where = "function_id = '".addslashes($idValue)."'";
-		$query->setWhere($where);
-		$query->setColumns(array("function_reference_name"));
-		$query->setValues(array("'".addslashes($referenceName)."'"));
+		$query->addWhereEqual("function_id", $this->getId()->getIdString());
+		$query->addValue("function_reference_name", $referenceName);
 		
 		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0)

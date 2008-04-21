@@ -20,7 +20,7 @@ require_once(HARMONI."oki2/hierarchy/DefaultNodeType.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniNode.class.php,v 1.22 2008/02/06 15:37:50 adamfranco Exp $
+ * @version $Id: HarmoniNode.class.php,v 1.23 2008/04/21 18:01:42 adamfranco Exp $
  */
 
 class HarmoniNode 
@@ -76,13 +76,10 @@ class HarmoniNode
 	 * @param ref object cache This is the HierarchyCache object. Must be the same
 	 * one that all other nodes in the Hierarchy are using.
 	 */
-	function HarmoniNode($id, $type, $displayName, $description, $cache) {
+	function __construct(Id $id, Type $type, $displayName, $description, HierarchyCache $cache) {
 		// ** parameter validation
-		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"), true);
-		ArgumentValidator::validate($type, ExtendsValidatorRule::getRule("Type"), true);
 		ArgumentValidator::validate($displayName, StringValidatorRule::getRule(), true);
 		ArgumentValidator::validate($description, StringValidatorRule::getRule(), true);
-		ArgumentValidator::validate($cache, ExtendsValidatorRule::getRule("HierarchyCache"), true);
 		// ** end of parameter validation
 		
 		// set the private variables
@@ -283,12 +280,8 @@ class HarmoniNode
 		
 		$query = new UpdateQuery();
 		$query->setTable("node");
-		$id =$this->getId();
-		$idValue = $id->getIdString();
-		$where = "node_id = '".addslashes($idValue)."'";
-		$query->setWhere($where);
-		$query->setColumns(array("node_description"));
-		$query->setValues(array("'".addslashes($description)."'"));
+		$query->addWhereEqual("node_id", $this->getId()->getIdString());
+		$query->addValue("node_description", $description);
 		
 		$queryResult =$dbHandler->query($query, $this->_cache->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0)
@@ -336,12 +329,8 @@ class HarmoniNode
 		
 		$query = new UpdateQuery();
 		$query->setTable("node");
-		$id =$this->getId();
-		$idValue = $id->getIdString();
-		$where = "node_id = '".addslashes($idValue)."'";
-		$query->setWhere($where);
-		$query->setColumns(array("node_display_name"));
-		$query->setValues(array("'".addslashes($displayName)."'"));
+		$query->addWhereEqual("node_id", $this->getId()->getIdString());
+		$query->addValue("node_display_name", $displayName);
 		
 		$queryResult =$dbHandler->query($query, $this->_cache->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0)
@@ -430,9 +419,6 @@ class HarmoniNode
 	 * @access public
 	 */
 	function addParent ( Id $nodeId ) { 
-		// ** parameter validation
-		ArgumentValidator::validate($nodeId, ExtendsValidatorRule::getRule("Id"), true);
-		// ** end of parameter validation
 		
 		$isAuthorizedCache = IsAuthorizedCache::instance();
 		$isAuthorizedCache->dirtyNode($this->_id);
@@ -468,9 +454,6 @@ class HarmoniNode
 	 * @access public
 	 */
 	function removeParent ( Id $parentId ) { 
-		// ** parameter validation
-		ArgumentValidator::validate($parentId, ExtendsValidatorRule::getRule("Id"), true);
-		// ** end of parameter validation
 		
 		$isAuthorizedCache = IsAuthorizedCache::instance();
 		$isAuthorizedCache->dirtyNode($this->_id);
@@ -506,11 +489,6 @@ class HarmoniNode
 	 * @access public
 	 */
 	function changeParent ( Id $oldParentId, Id $newParentId ) { 
-		// ** parameter validation
-		ArgumentValidator::validate($oldParentId, ExtendsValidatorRule::getRule("Id"), true);
-		ArgumentValidator::validate($newParentId, ExtendsValidatorRule::getRule("Id"), true);
-		// ** end of parameter validation
-		
 		if ($oldParentId->isEqual($newParentId))
 			return;
 		

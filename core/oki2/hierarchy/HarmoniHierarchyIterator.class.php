@@ -22,11 +22,11 @@ require_once(HARMONI."oki2/shared/HarmoniIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniHierarchyIterator.class.php,v 1.8 2007/09/04 20:25:41 adamfranco Exp $
+ * @version $Id: HarmoniHierarchyIterator.class.php,v 1.9 2008/04/21 18:01:42 adamfranco Exp $
  */
 class HarmoniHierarchyIterator
 	extends HarmoniIterator
-//	implements HierarchyIterator
+	implements HierarchyIterator
 {
 
 	/**

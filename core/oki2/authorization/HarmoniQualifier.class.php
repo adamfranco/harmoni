@@ -2,9 +2,9 @@
 
 require_once(OKI2."/osid/authorization/Qualifier.php");
 require_once(HARMONI.'oki2/hierarchy/HarmoniNode.class.php');
-require_once(HARMONI.'oki2/authorization/AuthorizationCache.class.php');
-require_once(HARMONI.'oki2/authorization/DefaultQualifierType.class.php');
-require_once(HARMONI.'oki2/authorization/HarmoniQualifierIterator.class.php');
+require_once(dirname(__FILE__).'/AuthorizationCache.class.php');
+require_once(dirname(__FILE__).'/DefaultQualifierType.class.php');
+require_once(dirname(__FILE__).'/HarmoniQualifierIterator.class.php');
 
 /**
  * Qualifier is the context in which an Authorization is valid and consists of
@@ -20,7 +20,7 @@ require_once(HARMONI.'oki2/authorization/HarmoniQualifierIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniQualifier.class.php,v 1.13 2008/02/06 15:37:48 adamfranco Exp $
+ * @version $Id: HarmoniQualifier.class.php,v 1.14 2008/04/21 18:01:41 adamfranco Exp $
  */
 class HarmoniQualifier 
 	implements Qualifier 
@@ -48,7 +48,7 @@ class HarmoniQualifier
 	 * @param ref object cache The AuthorizationCache object.
 	 * @access public
 	 */
-	function HarmoniQualifier(Node $node, AuthorizationCache $cache) {
+	function __construct(Node $node, AuthorizationCache $cache) {
 		$this->_node =$node;
 		$this->_cache =$cache;
 	}

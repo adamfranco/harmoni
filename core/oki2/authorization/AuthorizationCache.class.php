@@ -11,7 +11,7 @@ require_once(HARMONI.'oki2/authorization/HarmoniFunctionIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthorizationCache.class.php,v 1.35 2008/02/06 15:37:48 adamfranco Exp $
+ * @version $Id: AuthorizationCache.class.php,v 1.36 2008/04/21 18:01:40 adamfranco Exp $
  */
 class AuthorizationCache {
 
@@ -53,7 +53,7 @@ class AuthorizationCache {
 	 * Constructor
 	 * @access protected
 	 */
-	function AuthorizationCache($dbIndex) {
+	function __construct($dbIndex, $harmoni_db = null) {
 		// ** argument validation **
 		ArgumentValidator::validate($dbIndex, IntegerValidatorRule::getRule(), true);
 		// ** end of argument validation **
@@ -62,6 +62,11 @@ class AuthorizationCache {
 		$this->_qualifiers = array();
 		$this->_functions = array();
 		$this->_authorizations = array();
+		
+		if (!is_null($harmoni_db)) {
+			ArgumentValidator::validate($harmoni_db, ExtendsValidatorRule::getRule('Zend_Db_Adapter_Abstract'));
+			$this->harmoni_db = $harmoni_db;
+		}
 	}
 	
 	
@@ -76,11 +81,8 @@ class AuthorizationCache {
 	 * @param object DateAndTime expirationDate when the Authorization stops being effective
 	 * @return ref object Authorization
 	 **/
-	function createAuthorization($agentId, $functionId, $qualifierId, $effectiveDate = NULL, $expirationDate = NULL) {
+	function createAuthorization(Id $agentId, Id $functionId, Id $qualifierId, $effectiveDate = NULL, $expirationDate = NULL) {
 		// ** parameter validation
-		ArgumentValidator::validate($agentId, ExtendsValidatorRule::getRule("Id"), true);
-		ArgumentValidator::validate($functionId, ExtendsValidatorRule::getRule("Id"), true);
-		ArgumentValidator::validate($qualifierId, ExtendsValidatorRule::getRule("Id"), true);
 		ArgumentValidator::validate($effectiveDate, OptionalRule::getRule(IntegerValidatorRule::getRule()), true);
 		ArgumentValidator::validate($expirationDate, OptionalRule::getRule(IntegerValidatorRule::getRule()), true);
 		// ** end of parameter validation
@@ -96,47 +98,75 @@ class AuthorizationCache {
 		else													 
 			$authorization = new HarmoniAuthorization($idValue, $agentId, $functionId, $qualifierId,true, $this);
 		
-		// now insert into database
 		$dbHandler = Services::getService("DatabaseManager");
-
-		$query = new InsertQuery();
-		$query->setTable("az_authorization");
-		$columns = array();
-		$columns[] = "authorization_id";
-		$columns[] = "fk_agent";
-		$columns[] = "fk_function";
-		$columns[] = "fk_qualifier";
-		if ($dated) {
-			$columns[] = "authorization_effective_date";
-			$columns[] = "authorization_expiration_date";
-		}
-		$query->setColumns($columns);
-		$values = array();
-		$values[] = "'".addslashes($idValue)."'";
-		$values[] = "'".addslashes($agentId->getIdString())."'";
-		$values[] = "'".addslashes($functionId->getIdString())."'";
-		$values[] = "'".addslashes($qualifierId->getIdString())."'";
 		
-		if ($dated) {
+		if (isset($this->harmoni_db)) {
+			if (!isset($this->createAZ_stmt)) {
+				$query = $this->harmoni_db->insert();
+				$query->setTable("az_authorization");
+				$query->addRawValue("authorization_id", "?");
+				$query->addRawValue("fk_agent", "?");
+				$query->addRawValue("fk_function", "?");
+				$query->addRawValue("fk_qualifier", "?");
+				$query->addRawValue("effective_date", "?");
+				$query->addRawValue("expiration_date", "?");
+				$this->createAZ_stmt = $query->prepare();
+			}
+			$this->createAZ_stmt->bindValue(1, $idValue);
+			$this->createAZ_stmt->bindValue(2, $agentId->getIdString());
+			$this->createAZ_stmt->bindValue(3, $functionId->getIdString());
+			$this->createAZ_stmt->bindValue(4, $qualifierId->getIdString());
 			if (is_object($effectiveDate))
-				$values[] = 
-					$dbHandler->toDBDate($effectiveDate, $this->_dbIndex);
+				$this->createAZ_stmt->bindValue(5, 
+					$dbHandler->toDBDate($effectiveDate, $this->_dbIndex));
 			else
-				$values[] = "NULL";
-			
+				$this->createAZ_stmt->bindValue(5, 'NULL');
 			if (is_object($expirationDate))
-				$values[] = 
-					$dbHandler->toDBDate($expirationDate, $this->_dbIndex);
+				$this->createAZ_stmt->bindValue(6, 
+					$dbHandler->toDBDate($expirationDate, $this->_dbIndex));
 			else
-				$values[] = "NULL";
-		}
-		
-		$query->setValues($values);
-		
-		$queryResult =$dbHandler->query($query, $this->_dbIndex);
-		if ($queryResult->getNumberOfRows() != 1) {
-			$err = "Could not insert into database.";
-			throwError(new Error($err, "authorization", true));
+				$this->createAZ_stmt->bindValue(6, 'NULL');
+			
+			$this->createAZ_stmt->execute();
+		} else {
+			// now insert into database
+			$dbHandler = Services::getService("DatabaseManager");
+			
+			$query = new InsertQuery();
+			$query->setTable("az_authorization");
+			$columns = array();
+			$columns[] = "authorization_id";
+			$columns[] = "fk_agent";
+			$columns[] = "fk_function";
+			$columns[] = "fk_qualifier";
+			if ($dated) {
+				$columns[] = "authorization_effective_date";
+				$columns[] = "authorization_expiration_date";
+			}
+			$query->setColumns($columns);
+			$values = array();
+			$values[] = "'".addslashes($idValue)."'";
+			$values[] = "'".addslashes($agentId->getIdString())."'";
+			$values[] = "'".addslashes($functionId->getIdString())."'";
+			$values[] = "'".addslashes($qualifierId->getIdString())."'";
+			
+			if ($dated) {
+				if (is_object($effectiveDate))
+					$values[] = 
+						$dbHandler->toDBDate($effectiveDate, $this->_dbIndex);
+				else
+					$values[] = "NULL";
+				
+				if (is_object($expirationDate))
+					$values[] = 
+						$dbHandler->toDBDate($expirationDate, $this->_dbIndex);
+				else
+					$values[] = "NULL";
+			}
+			
+			$query->setValues($values);
+			
+			$dbHandler->query($query, $this->_dbIndex);
 		}
 
 		$this->_authorizations[$idValue] =$authorization;
@@ -184,12 +214,9 @@ class AuthorizationCache {
 		$query = new SelectQuery();
 		$query->addTable("type");
 		$query->addColumn("type_id", "id", "type");
-		$where = "type.type_domain = '".addslashes($domain)."'";
-		$where .= " AND type.type_authority = '".addslashes($authority)."'";
-		$where .= " AND type.type_keyword = '".addslashes($keyword)."'";
-// 		$where .= " AND type.type_description = '".addslashes($functionTypeDescription)."'";
-											  
-		$query->addWhere($where);
+		$query->addWhereEqual('type.type_domain', $domain);
+		$query->addWhereEqual('type.type_authority', $authority);
+		$query->addWhereEqual('type.type_keyword', $keyword);
 
 		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 		if ($queryResult->getNumberOfRows() > 0) {// if the type is already in the database
@@ -199,18 +226,10 @@ class AuthorizationCache {
 			$query = new InsertQuery();
 			$query->setTable("type");
 			$query->setAutoIncrementColumn("type_id", "type_type_id_seq");
-			$columns = array();
-			$columns[] = "type_domain";
-			$columns[] = "type_authority";
-			$columns[] = "type_keyword";
-			$columns[] = "type_description";
-			$query->setColumns($columns);
-			$values = array();
-			$values[] = "'".addslashes($domain)."'";
-			$values[] = "'".addslashes($authority)."'";
-			$values[] = "'".addslashes($keyword)."'";
-			$values[] = "'".addslashes($functionTypeDescription)."'";
-			$query->setValues($values);
+			$query->addValue("type_domain", $domain);
+			$query->addValue("type_authority", $domain);
+			$query->addValue("type_keyword", $keyword);
+			$query->addValue("type_description", $functionTypeDescription);
 
 			$queryResult =$dbHandler->query($query, $this->_dbIndex);
 			$functionTypeIdValue = $queryResult->getLastAutoIncrementValue();
@@ -219,20 +238,11 @@ class AuthorizationCache {
 		// 2. Now that we know the id of the type, insert in the DB
 		$query = new InsertQuery();
 		$query->setTable("az_function");
-		$columns = array();
-		$columns[] = "function_id";
-		$columns[] = "function_reference_name";
-		$columns[] = "function_description";
-		$columns[] = "fk_qualifier_hierarchy";
-		$columns[] = "fk_type";
-		$query->setColumns($columns);
-		$values = array();
-		$values[] = "'".addslashes($idValue)."'";
-		$values[] = "'".addslashes($displayName)."'";
-		$values[] = "'".addslashes($description)."'";
-		$values[] = "'".addslashes($qualifierHierarchyId->getIdString())."'";
-		$values[] = "'".addslashes($functionTypeIdValue)."'";
-		$query->setValues($values);
+		$query->addValue("function_id", $idValue);
+		$query->addValue("function_reference_name", $displayName);
+		$query->addValue("function_description", $description);
+		$query->addValue("fk_qualifier_hierarchy", $qualifierHierarchyId->getIdString());
+		$query->addValue("fk_type", $functionTypeIdValue);
 		
 		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 		if ($queryResult->getNumberOfRows() != 1) {
@@ -392,12 +402,9 @@ class AuthorizationCache {
 			$query->addTable("az_function");
 			$joinc = "fk_type = "."type.type_id";
 			$query->addTable("type", INNER_JOIN, $joinc);
-			$where = "type.type_domain = '".addslashes($functionType->getDomain())."'";
-			$query->addWhere($where);
-			$where = "type.type_authority = '".addslashes($functionType->getAuthority())."'";
-			$query->addWhere($where);
-			$where = "type.type_keyword = '".addslashes($functionType->getKeyword())."'";
-			$query->addWhere($where);
+			$query->addWhereEqual("type.type_domain", $functionType->getDomain());
+			$query->addWhereEqual("type.type_authority", $functionType->getAuthority());
+			$query->addWhereEqual("type.type_keyword", $functionType->getKeyword());
 			
 			$queryResult =$dbHandler->query($query, $this->_dbIndex);
 
@@ -463,8 +470,7 @@ class AuthorizationCache {
 		$query->addTable("az_function");
 		$joinc = "fk_type = type.type_id";
 		$query->addTable("type", INNER_JOIN, $joinc);
-		$where = "function_id = '".addslashes($idValue)."'";
-		$query->addWhere($where);
+		$query->addWhereEqual("function_id", $idValue);
 		
 		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 		
@@ -623,7 +629,7 @@ class AuthorizationCache {
 
 		$query = new DeleteQuery();
 		$query->setTable("az_authorization");
-		$query->addWhere("authorization_id = '".addslashes($idValue)."'");
+		$query->addWhereEqual("authorization_id", $idValue);
 		
 		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 		
@@ -683,7 +689,7 @@ class AuthorizationCache {
 
 		$query = new DeleteQuery();
 		$query->setTable("az_function");
-		$query->addWhere("function_id = '".addslashes($idValue)."'");
+		$query->addWhereEqual("function_id", $idValue);
 		
 		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 		
@@ -779,41 +785,27 @@ class AuthorizationCache {
 		// now include criteria
 		
 		// the qualifiers criteria
-		if (isset($qId)) {
-			foreach (array_keys($qualifiers) as $key) {
-				$qualifiers[$key] = addslashes($qualifiers[$key]);
-			}
-			$list = implode("','", $qualifiers);
-			$list = "'".$list."'";
-				
-			$where = "az_authorization.fk_qualifier IN ($list)";
-			$query->addWhere($where);
+		if (isset($qualifiers) && count($qualifiers)) {
+			$query->addWhereIn('az_authorization.fk_qualifier', $qualifiers);
 		}
 		
-		foreach (array_keys($groupIds) as $key) {
-			$groupIds[$key] = addslashes($groupIds[$key]);
-		}
-		
-		if (count($groupIds)) {
-			$agentList = implode("','", $groupIds);
-			$agentList = "'".addslashes($aId)."','".$agentList."'";
-		} else {
-			$agentList = "'".addslashes($aId)."'";
-		}
+		// Agents/Groups
+		if (isset($aId))
+			$agentIds = array($aId);
+		else
+			$agentIds = array();
+		$allAgentIds = array_merge($agentIds, $groupIds);
 		
 		// the agent criteria
-		if (isset($aId) || count($groupIds)) {
-//			$joinc = "az_authorization.fk_agent = agent.agent_id";
-//			$query->addTable("agent", INNER_JOIN, $joinc);
-			$where = "az_authorization.fk_agent IN ($agentList)";
-			$query->addWhere($where);
+		if (count($allAgentIds)) {	
+			$query->addWhereIn('az_authorization.fk_agent', $allAgentIds);
 		}
+		
 		// the function criteria
 		if (isset($fId)) {
 			$joinc = "az_authorization.fk_function = az_function.function_id";
 			$query->addTable("az_function", INNER_JOIN, $joinc);
-			$where = "az_authorization.fk_function = '".addslashes($fId)."'";
-			$query->addWhere($where);
+			$query->addWhereEqual("az_authorization.fk_function", $fId);
 		}
 		// the function type criteria
 		if (isset($fType)) {
@@ -826,16 +818,9 @@ class AuthorizationCache {
 			$joinc = "az_function.fk_type = type.type_id";
 			$query->addTable("type", INNER_JOIN, $joinc);
 			
-			$domain = $fType->getDomain();
-			$authority = $fType->getAuthority();
-			$keyword = $fType->getKeyword();
-			
-			$where = "type.type_domain = '".addslashes($domain)."'";
-			$query->addWhere($where);
-			$where = "type.type_authority = '".addslashes($authority)."'";
-			$query->addWhere($where);
-			$where = "type.type_keyword = '".addslashes($keyword)."'";
-			$query->addWhere($where);
+			$query->addWhereEqual("type.type_domain", $fType->getDomain());
+			$query->addWhereEqual("type.type_authority", $fType->getAuthority());
+			$query->addWhereEqual("type.type_keyword", $fType->getKeyword());
 		}
 		// the isActiveNow criteria
 		if ($isActiveNow) {

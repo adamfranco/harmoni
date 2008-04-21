@@ -44,7 +44,7 @@ require_once(HARMONI.'/oki2/id/HarmoniIdManager.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniHierarchyManager.class.php,v 1.31 2008/04/08 20:02:43 adamfranco Exp $
+ * @version $Id: HarmoniHierarchyManager.class.php,v 1.32 2008/04/21 18:01:42 adamfranco Exp $
  */
 class HarmoniHierarchyManager 
 	implements HierarchyManager 
@@ -82,7 +82,7 @@ class HarmoniHierarchyManager
 	 * manager.
 	 * @access public
 	 */
-	function HarmoniHierarchyManager () {
+	function __construct () {
 		$this->_hierarchies = array();
 		$this->_allHierarchiesCached = FALSE;
 	}
@@ -215,26 +215,17 @@ class HarmoniHierarchyManager
 
 		$query = new InsertQuery();
 		$query->setTable("hierarchy");
-		$columns = array();
-		$columns[] = "hierarchy_id";
-		$columns[] = "hierarchy_display_name";
-		$columns[] = "hierarchy_description";
-		$columns[] = "hierarchy_multiparent";
-		$query->setColumns($columns);
-		$values = array();
-		$values[] = "'".addslashes($idValue)."'";
-		$values[] = "'".addslashes($displayName)."'";
-		$values[] = "'".addslashes($description)."'";
-		$multiparent = ($allowsMultipleParents) ? '1' : '0';
-		$values[] = "'".$multiparent."'";
-		$query->setValues($values);
+		$query->addValue("hierarchy_id", $idValue);
+		$query->addValue("hierarchy_display_name", $displayName);
+		$query->addValue("hierarchy_description", $description);
+		$query->addValue("hierarchy_multiparent", ($allowsMultipleParents) ? '1' : '0');
 
 		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 		
 		// Create a new hierarchy and insert it into the database
 		$hierarchy = new HarmoniHierarchy($id, $displayName, $description,
 			new HierarchyCache($idValue, $allowsMultipleParents, $this->_dbIndex, 
-		   		DateAndTime::now()));
+		   		$this->harmoni_db));
 		
 		// then cache it
 		$this->_hierarchies[$idValue] =$hierarchy;
@@ -287,13 +278,13 @@ class HarmoniHierarchyManager
 		$query->addColumn("hierarchy_description", "description", "hierarchy");
 		$query->addColumn("hierarchy_multiparent", "multiparent", "hierarchy");
 		$query->addTable("hierarchy");
-		$query->addWhere("hierarchy.hierarchy_id = '{$idValue}'");
-
+		$query->addWhereEqual("hierarchy_id", $hierarchyId->getIdString());
+		
 		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 		
 		if ($queryResult->getNumberOfRows() != 1) {
 			$queryResult->free();
-			throwError(new Error(HierarchyException::UNKNOWN_ID(), "Hierarchy", 1));
+			throw new UnknownIdException("No Hierarchy found with Id, '$hierarchyId'");
 		}		
 		$row = $queryResult->getCurrentrow();
 		$queryResult->free();
@@ -420,9 +411,9 @@ class HarmoniHierarchyManager
 		// see if there are any nodes remaining that have to removed
 		$query = new SelectQuery();
 		$query->addTable("node");
-		$query->addColumn("COUNT({$db}node.node_id)", "num");
-		$query->addWhere("{$db}node.fk_hierarchy = '{$idValue}'");
-
+		$query->addColumn("COUNT(node.node_id)", "num");
+		$query->addWhereEqual("node.fk_hierarchy", $idValue);
+		
 		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 		$row = $queryResult->getCurrentRow();
 		$queryResult->free();
@@ -436,7 +427,7 @@ class HarmoniHierarchyManager
 		// now delete it
 		$query = new DeleteQuery();
 		$query->setTable("hierarchy");
-		$query->addWhere("{$db}hierarchy.hierarchy_id = '{$idValue}'");
+		$query->addWhereEqual("hierarchy_id", $idValue);
 		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 		if ($queryResult->getNumberOfRows() != 1) {
 			throwError(new Error(HierarchyException::OPERATION_FAILED(), "Hierarchy", true));
@@ -503,8 +494,7 @@ class HarmoniHierarchyManager
 		$query->addTable("node");
 		$joinc = "node.fk_hierarchy = "."hierarchy.hierarchy_id";
 		$query->addTable("hierarchy", INNER_JOIN, $joinc);
-		$where = "node.node_id = '".addslashes($idValue)."'";
-		$query->addWhere($where);
+		$query->addWhereEqual("node.node_id", $idValue);
 		
 		$nodeQueryResult =$dbHandler->query($query, $this->_dbIndex);
 		
