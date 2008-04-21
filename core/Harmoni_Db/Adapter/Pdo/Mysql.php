@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Mysql.php,v 1.2 2008/04/08 20:02:33 adamfranco Exp $
+ * @version $Id: Mysql.php,v 1.3 2008/04/21 17:50:27 adamfranco Exp $
  */ 
 
 require_once 'Zend/Db/Adapter/Pdo/Mysql.php';
@@ -22,7 +22,7 @@ require_once 'Zend/Db/Adapter/Pdo/Mysql.php';
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Mysql.php,v 1.2 2008/04/08 20:02:33 adamfranco Exp $
+ * @version $Id: Mysql.php,v 1.3 2008/04/21 17:50:27 adamfranco Exp $
  */
 class Harmoni_Db_Adapter_Pdo_Mysql
 	extends Zend_Db_Adapter_Pdo_Mysql
@@ -155,7 +155,7 @@ class Harmoni_Db_Adapter_Pdo_Mysql
 			$callers = array_keys($this->queryCallers);
 			$numbers = array_values($this->queryCallers);
 			array_multisort($numbers, SORT_DESC, $callers);
-			print "\n<pre>Statement Executions by Caller:\n";
+			print "\n<pre>Statement Executions by Preparer:\n";
 			for ($i = 0; $i < count ($callers); $i++) {
 				print "\n".$numbers[$i]."\t".$callers[$i];
 			}
