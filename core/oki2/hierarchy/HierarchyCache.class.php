@@ -33,7 +33,7 @@ require_once(HARMONI."oki2/hierarchy/HarmoniTraversalInfoIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HierarchyCache.class.php,v 1.43 2008/04/21 18:01:42 adamfranco Exp $
+ * @version $Id: HierarchyCache.class.php,v 1.44 2008/04/24 13:28:26 adamfranco Exp $
  **/
 
 class HierarchyCache {
@@ -1023,7 +1023,7 @@ class HierarchyCache {
 			if (count($idsToExclude) > 10)
 				throw new OperationFailedException("Current implementation doesn't support more than 10 exclusions, ".count($idsToExclude)." given.");
 			for ($i = count($idsToExclude); $i < 10; $i++) {
-				$idsToExclude[] = 'NULL';
+				$idsToExclude[] = NULL;
 			}
 			$j = 0;
 			for ($i = $this->getParents_nodeId_key + 1; $i < $this->getParents_nodeId_key + 11; $i++) {
