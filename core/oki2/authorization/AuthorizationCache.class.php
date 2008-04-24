@@ -11,7 +11,7 @@ require_once(HARMONI.'oki2/authorization/HarmoniFunctionIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthorizationCache.class.php,v 1.36 2008/04/21 18:01:40 adamfranco Exp $
+ * @version $Id: AuthorizationCache.class.php,v 1.37 2008/04/24 13:27:19 adamfranco Exp $
  */
 class AuthorizationCache {
 
@@ -120,12 +120,12 @@ class AuthorizationCache {
 				$this->createAZ_stmt->bindValue(5, 
 					$dbHandler->toDBDate($effectiveDate, $this->_dbIndex));
 			else
-				$this->createAZ_stmt->bindValue(5, 'NULL');
+				$this->createAZ_stmt->bindValue(5, null);
 			if (is_object($expirationDate))
 				$this->createAZ_stmt->bindValue(6, 
 					$dbHandler->toDBDate($expirationDate, $this->_dbIndex));
 			else
-				$this->createAZ_stmt->bindValue(6, 'NULL');
+				$this->createAZ_stmt->bindValue(6, null);
 			
 			$this->createAZ_stmt->execute();
 		} else {
@@ -889,7 +889,7 @@ class AuthorizationCache {
 			// If the row's qualifier and agent are what we asked for however,
 			// then the AZ is explicit and doesn't need an implicit AZ as well.
 			if ((!$returnExplicitOnly || $searchUp)
-				&& !($row['qid'] == $qId && $row['aid'] == $aId))
+				&& ($row['qid'] != $qId || ($aId && $row['aid'] != $aId)))
 			{
 // 				printpre("Building Implicit AZs...");
 // 				var_dump($returnExplicitOnly);
