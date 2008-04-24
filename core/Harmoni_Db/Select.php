@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Select.php,v 1.2 2008/04/08 20:02:27 adamfranco Exp $
+ * @version $Id: Select.php,v 1.3 2008/04/24 13:44:51 adamfranco Exp $
  */ 
 
 /**
@@ -18,7 +18,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Select.php,v 1.2 2008/04/08 20:02:27 adamfranco Exp $
+ * @version $Id: Select.php,v 1.3 2008/04/24 13:44:51 adamfranco Exp $
  */
 class Harmoni_Db_Select
 	extends Zend_Db_Select
@@ -706,8 +706,8 @@ class Harmoni_Db_Select
 	 * @access public
 	 * @since 4/3/08
 	 */
-	public function prepare () {
-		$stmt = $this->_adapter->prepare($this->__toString());
+	public function prepare ($caller = null) {
+		$stmt = $this->_adapter->prepare($this->__toString(), $caller);
 		foreach ($this->placeholderValues as $i => $value)
 			$stmt->bindValue($i + 1, $value);
 		return $stmt;
@@ -727,6 +727,17 @@ class Harmoni_Db_Select
         }
         $stmt->setFetchMode($fetchMode);
         return $stmt;
+    }
+    
+    /**
+     * Answer the string version of the query.
+     * 
+     * @return string
+     * @access public
+     * @since 4/22/08
+     */
+    public function asString () {
+    	return $this->__toString();
     }
 }
 

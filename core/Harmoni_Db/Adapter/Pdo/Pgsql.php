@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Pgsql.php,v 1.3 2008/04/21 17:50:28 adamfranco Exp $
+ * @version $Id: Pgsql.php,v 1.4 2008/04/24 13:44:51 adamfranco Exp $
  */ 
 
 require_once 'Zend/Db/Adapter/Pdo/Pgsql.php';
@@ -22,7 +22,7 @@ require_once 'Zend/Db/Adapter/Pdo/Pgsql.php';
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Pgsql.php,v 1.3 2008/04/21 17:50:28 adamfranco Exp $
+ * @version $Id: Pgsql.php,v 1.4 2008/04/24 13:44:51 adamfranco Exp $
  */
 class Harmoni_Db_Adapter_Pdo_Pgsql
 	extends Zend_Db_Adapter_Pdo_Pgsql
@@ -106,11 +106,14 @@ class Harmoni_Db_Adapter_Pdo_Pgsql
         if (isset($this->recordQueryCallers) && $this->recordQueryCallers) {
 			if (!isset($this->queryCallers))
 				$this->queryCallers = array();
-			$backtrace = debug_backtrace();
-			if (isset($backtrace[2]['class']))
-				$caller = $backtrace[2]['class'].$backtrace[2]['type'].$backtrace[2]['function']."()";
-			else
-				$caller = $backtrace[2]['function']."()";
+			
+			if (is_null($caller)) {
+				$backtrace = debug_backtrace();
+				if (isset($backtrace[2]['class']))
+					$caller = $backtrace[2]['class'].$backtrace[2]['type'].$backtrace[2]['function']."()";
+				else
+					$caller = $backtrace[2]['function']."()";
+			}
 			$this->queryCallers[$caller] = 0;
 			$stmt->caller = $caller;
 		}

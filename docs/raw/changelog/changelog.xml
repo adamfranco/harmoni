@@ -4,9 +4,9 @@
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 <<<<<<< changelog.xml
- @version $Id: changelog.xml,v 1.278 2008/04/21 18:01:44 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.279 2008/04/24 13:44:52 adamfranco Exp $
 =======
- @version $Id: changelog.xml,v 1.278 2008/04/21 18:01:44 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.279 2008/04/24 13:44:52 adamfranco Exp $
 >>>>>>> 1.268.2.5
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
@@ -26,6 +26,10 @@
 			Authorization: Cleaned up query syntax to do use addWhereEqual(), addWhereLike(), etc
 			methods rather than manually building WHERE strings.
 		</change>
+		<fix author='adam' date='2008-04-24'>
+			Authorization: Now explicit AZs do not create identical duplicate implicit AZs when
+			searching for AZs for any agent.
+		</fix>
 		<change author='adam' date='2008-04-21'>
 			Authorization: Added AuthorizationManager::getIsAuthorizedCache() method
 			to access the IsAuthorizedCache used by the current AuthorizationManager
@@ -42,6 +46,10 @@
 		</change>
 		<fix author='adam' date='2008-04-18'>
 			Harmoni_Db: Insert now esures that at least one row of values exists.
+		</fix>
+		<fix author='adam' date='2008-04-24'>
+			Harmoni_Db: Can now set Auto-Increment table/key for retrieving the
+			last insert id from INSERT query executions.
 		</fix>
 		<fix author='adam' date='2008-04-18'>
 			DatabaseManager: InsertQueries will now convert numeric parameters to

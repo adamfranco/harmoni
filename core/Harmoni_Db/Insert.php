@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Insert.php,v 1.3 2008/04/18 15:12:50 adamfranco Exp $
+ * @version $Id: Insert.php,v 1.4 2008/04/24 13:44:51 adamfranco Exp $
  */ 
 
 /**
@@ -18,7 +18,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Insert.php,v 1.3 2008/04/18 15:12:50 adamfranco Exp $
+ * @version $Id: Insert.php,v 1.4 2008/04/24 13:44:51 adamfranco Exp $
  */
 class Harmoni_Db_Insert
 	extends Harmoni_Db_Select
@@ -36,6 +36,20 @@ class Harmoni_Db_Insert
 	 * @since 4/3/08
 	 */
 	private $values = array();
+	
+	/**
+	 * @var string $autoIncrementTable;  
+	 * @access private
+	 * @since 4/23/08
+	 */
+	private $autoIncrementTable = null;
+	
+	/**
+	 * @var string $autoIncrementKey;  
+	 * @access private
+	 * @since 4/23/08
+	 */
+	private $autoIncrementKey = null;
 
 	/*********************************************************
 	 * Query-building methods
@@ -137,6 +151,8 @@ class Harmoni_Db_Insert
 	function setTable($table) {
 		$this->reset(self::FROM);
 		$this->from($table, null);
+		
+		$this->autoIncrementTable = $table;
 	}
 	
 	/**
@@ -160,6 +176,19 @@ class Harmoni_Db_Insert
 	 */
 	function addTable($table, $joinType = NO_JOIN, $joinCondition = "", $alias = "") {
 		$this->setTable($table);
+	}
+	
+	/**
+	 * Sets the autoincrement column.
+	 * Sets the autoincrement column. This could be useful with Oracle, for example.
+	 * Do not include this column with the setColumns() method - it will be added
+	 * automatically.
+	 * @param string $column The autoincrement column.
+	 * @param string $sequence The sequence to use for generating new ids.
+	 * @access public
+	 */ 
+	function setAutoIncrementColumn($column, $sequence) {
+		$this->autoIncrementKey = $sequence;
 	}
 	
 	/**
@@ -630,6 +659,28 @@ class Harmoni_Db_Insert
 
         return $sql;
     }
+    
+    /**
+	 * Prepare the statement and return a PDOStatement-like object.
+	 *
+	 * @return Zend_Db_Statment|PDOStatement
+	 * @access public
+	 * @since 4/3/08
+	 */
+	public function prepare ($caller = null) {
+		if (is_null($caller) && isset($this->_adapter->recordQueryCallers) && $this->_adapter->recordQueryCallers) 
+		{
+			$backtrace = debug_backtrace();
+			if (isset($backtrace[2]['class']))
+				$caller = $backtrace[2]['class'].$backtrace[2]['type'].$backtrace[2]['function']."()";
+			else
+				$caller = $backtrace[2]['function']."()";
+		}
+		$stmt = parent::prepare($caller);
+		$stmt->autoIncrementTable = $this->autoIncrementTable;
+		$stmt->autoIncrementKey = $this->autoIncrementKey;
+		return $stmt;
+	}
 	
 }
 

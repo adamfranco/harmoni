@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Pdo.php,v 1.2 2008/04/08 20:02:38 adamfranco Exp $
+ * @version $Id: Pdo.php,v 1.3 2008/04/24 13:44:52 adamfranco Exp $
  */ 
 
 /**
@@ -18,7 +18,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Pdo.php,v 1.2 2008/04/08 20:02:38 adamfranco Exp $
+ * @version $Id: Pdo.php,v 1.3 2008/04/24 13:44:52 adamfranco Exp $
  */
 class Harmoni_Db_Statement_Pdo
 	extends Zend_Db_Statement_Pdo
@@ -29,6 +29,20 @@ class Harmoni_Db_Statement_Pdo
 	 * @since 4/4/08
 	 */
 	public $caller = null;
+	
+	/**
+	 * @var string $autoIncrementTable;  
+	 * @access public
+	 * @since 4/23/08
+	 */
+	public $autoIncrementTable = null;
+	
+	/**
+	 * @var string $autoIncrementKey;  
+	 * @access public
+	 * @since 4/23/08
+	 */
+	public $autoIncrementKey = null;
 	
 	/**
 	 * Executes a prepared statement.
@@ -50,7 +64,7 @@ class Harmoni_Db_Statement_Pdo
 	 * @since 4/4/08
 	 */
 	public function getResult () {
-		return new Harmoni_Db_SelectResult($this);
+		return new Harmoni_Db_SelectResult($this, $this->_adapter);
 	}
 }
 
