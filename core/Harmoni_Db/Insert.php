@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Insert.php,v 1.4 2008/04/24 13:44:51 adamfranco Exp $
+ * @version $Id: Insert.php,v 1.5 2008/04/25 14:24:56 adamfranco Exp $
  */ 
 
 /**
@@ -18,7 +18,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Insert.php,v 1.4 2008/04/24 13:44:51 adamfranco Exp $
+ * @version $Id: Insert.php,v 1.5 2008/04/25 14:24:56 adamfranco Exp $
  */
 class Harmoni_Db_Insert
 	extends Harmoni_Db_Select
@@ -671,10 +671,10 @@ class Harmoni_Db_Insert
 		if (is_null($caller) && isset($this->_adapter->recordQueryCallers) && $this->_adapter->recordQueryCallers) 
 		{
 			$backtrace = debug_backtrace();
-			if (isset($backtrace[2]['class']))
-				$caller = $backtrace[2]['class'].$backtrace[2]['type'].$backtrace[2]['function']."()";
+			if (isset($backtrace[1]['class']))
+				$caller = $backtrace[1]['class'].$backtrace[1]['type'].$backtrace[1]['function']."()";
 			else
-				$caller = $backtrace[2]['function']."()";
+				$caller = $backtrace[1]['function']."()";
 		}
 		$stmt = parent::prepare($caller);
 		$stmt->autoIncrementTable = $this->autoIncrementTable;

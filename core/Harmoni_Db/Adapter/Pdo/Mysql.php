@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Mysql.php,v 1.4 2008/04/24 13:44:51 adamfranco Exp $
+ * @version $Id: Mysql.php,v 1.5 2008/04/25 14:25:08 adamfranco Exp $
  */ 
 
 require_once 'Zend/Db/Adapter/Pdo/Mysql.php';
@@ -22,7 +22,7 @@ require_once 'Zend/Db/Adapter/Pdo/Mysql.php';
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Mysql.php,v 1.4 2008/04/24 13:44:51 adamfranco Exp $
+ * @version $Id: Mysql.php,v 1.5 2008/04/25 14:25:08 adamfranco Exp $
  */
 class Harmoni_Db_Adapter_Pdo_Mysql
 	extends Zend_Db_Adapter_Pdo_Mysql
@@ -109,10 +109,10 @@ class Harmoni_Db_Adapter_Pdo_Mysql
 			
 			if (is_null($caller)) {
 				$backtrace = debug_backtrace();
-				if (isset($backtrace[2]['class']))
-					$caller = $backtrace[2]['class'].$backtrace[2]['type'].$backtrace[2]['function']."()";
+				if (isset($backtrace[1]['class']))
+					$caller = $backtrace[1]['class'].$backtrace[1]['type'].$backtrace[1]['function']."()";
 				else
-					$caller = $backtrace[2]['function']."()";
+					$caller = $backtrace[1]['function']."()";
 			}
 			$this->queryCallers[$caller] = 0;
 			$stmt->caller = $caller;

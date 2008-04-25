@@ -6,7 +6,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Select.php,v 1.3 2008/04/24 13:44:51 adamfranco Exp $
+ * @version $Id: Select.php,v 1.4 2008/04/25 14:24:56 adamfranco Exp $
  */ 
 
 /**
@@ -18,7 +18,7 @@
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: Select.php,v 1.3 2008/04/24 13:44:51 adamfranco Exp $
+ * @version $Id: Select.php,v 1.4 2008/04/25 14:24:56 adamfranco Exp $
  */
 class Harmoni_Db_Select
 	extends Zend_Db_Select
@@ -707,6 +707,15 @@ class Harmoni_Db_Select
 	 * @since 4/3/08
 	 */
 	public function prepare ($caller = null) {
+		if (is_null($caller) && isset($this->_adapter->recordQueryCallers) && $this->_adapter->recordQueryCallers) 
+		{
+			$backtrace = debug_backtrace();
+			if (isset($backtrace[1]['class']))
+				$caller = $backtrace[1]['class'].$backtrace[1]['type'].$backtrace[1]['function']."()";
+			else
+				$caller = $backtrace[1]['function']."()";
+		}
+		
 		$stmt = $this->_adapter->prepare($this->__toString(), $caller);
 		foreach ($this->placeholderValues as $i => $value)
 			$stmt->bindValue($i + 1, $value);
