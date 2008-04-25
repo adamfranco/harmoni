@@ -3,14 +3,15 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- @version $Id: changelog.xml,v 1.283 2008/04/25 22:59:17 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.285 2008/04/25 23:45:07 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
 	<version number="1.2.0" date="The Future">
 		<releaseNotes>
-			
+			Testing.
+			Hello World.
 		</releaseNotes>
 		<new author='adam' date='2008-04-24' ref='1951075' reftype='fr'>
 			AuthZ2: New Authorization/Hierarchy package stores implicit authorizations
