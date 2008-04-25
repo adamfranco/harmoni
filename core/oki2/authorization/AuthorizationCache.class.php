@@ -11,7 +11,7 @@ require_once(HARMONI.'oki2/authorization/HarmoniFunctionIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthorizationCache.class.php,v 1.37 2008/04/24 13:27:19 adamfranco Exp $
+ * @version $Id: AuthorizationCache.class.php,v 1.38 2008/04/25 20:18:02 adamfranco Exp $
  */
 class AuthorizationCache {
 
@@ -108,8 +108,8 @@ class AuthorizationCache {
 				$query->addRawValue("fk_agent", "?");
 				$query->addRawValue("fk_function", "?");
 				$query->addRawValue("fk_qualifier", "?");
-				$query->addRawValue("effective_date", "?");
-				$query->addRawValue("expiration_date", "?");
+				$query->addRawValue("authorization_effective_date", "?");
+				$query->addRawValue("authorization_expiration_date", "?");
 				$this->createAZ_stmt = $query->prepare();
 			}
 			$this->createAZ_stmt->bindValue(1, $idValue);
@@ -127,7 +127,11 @@ class AuthorizationCache {
 			else
 				$this->createAZ_stmt->bindValue(6, null);
 			
-			$this->createAZ_stmt->execute();
+// 			try {
+				$this->createAZ_stmt->execute();
+// 			} catch (Zend_Db_Statement_Exception $e) {
+// 				throw new OperationFailedException("An Explicit Authorization already exists for '$agentId' to '$functionId' at '$qualifierId'");
+// 			}
 		} else {
 			// now insert into database
 			$dbHandler = Services::getService("DatabaseManager");
@@ -166,7 +170,11 @@ class AuthorizationCache {
 			
 			$query->setValues($values);
 			
-			$dbHandler->query($query, $this->_dbIndex);
+			try {
+				$dbHandler->query($query, $this->_dbIndex);
+			} catch (DuplucateKeyDatabaseException $e) {
+				throw new OperationFailedException("An Explicit Authorization already exists for '$agentId' to '$functionId' at '$qualifierId'");
+			}
 		}
 
 		$this->_authorizations[$idValue] =$authorization;

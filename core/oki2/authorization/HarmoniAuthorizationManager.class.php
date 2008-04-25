@@ -60,7 +60,7 @@ require_once(HARMONI.'oki2/shared/HarmoniIdIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthorizationManager.class.php,v 1.45 2008/04/21 18:01:40 adamfranco Exp $
+ * @version $Id: HarmoniAuthorizationManager.class.php,v 1.46 2008/04/25 20:18:02 adamfranco Exp $
  */
 class HarmoniAuthorizationManager 
 	implements AuthorizationManager 
@@ -193,7 +193,7 @@ class HarmoniAuthorizationManager
 	function createDatedAuthorization ( Id $agentId, Id $functionId, Id $qualifierId, $effectiveDate, $expirationDate ) { 
 		$authorization =$this->_cache->createAuthorization($agentId, $functionId, $qualifierId, $effectiveDate, $expirationDate);
 		
-		$isAuthorizedCache = IsAuthorizedCache::instance();
+		$isAuthorizedCache = $this->getIsAuthorizedCache();
 		$isAuthorizedCache->dirtyNode($qualifierId);
 		
 		return $authorization;
@@ -233,7 +233,7 @@ class HarmoniAuthorizationManager
 		try {
 			$authorization =$this->_cache->createAuthorization($agentId, $functionId, $qualifierId);
 		
-			$isAuthorizedCache = IsAuthorizedCache::instance();
+			$isAuthorizedCache = $this->getIsAuthorizedCache();
 			$isAuthorizedCache->dirtyNode($qualifierId);
 		} catch (DuplucateKeyDatabaseException $e) {
 			throw new OperationFailedException("An Explicit Authorization already exists for '$agentId' to '$functionId' at '$qualifierId'");
@@ -394,7 +394,7 @@ class HarmoniAuthorizationManager
 		$qualifierId =$qualifier->getId();
 		$this->_cache->deleteAuthorization($authorization);
 		
-		$isAuthorizedCache = IsAuthorizedCache::instance();
+		$isAuthorizedCache = $this->getIsAuthorizedCache();
 		$isAuthorizedCache->dirtyNode($qualifierId);
 	}
 
@@ -489,7 +489,7 @@ class HarmoniAuthorizationManager
 // 		$authorizations =$this->getAllAZs($agentId, $functionId, $qualifierId, true);
 // 		return ($authorizations->hasNext());
 		
-		$isAuthorizedCache = IsAuthorizedCache::instance();
+		$isAuthorizedCache = $this->getIsAuthorizedCache();
 		return $isAuthorizedCache->isAuthorized($agentId, $functionId, $qualifierId);
 	}
 
@@ -525,7 +525,7 @@ class HarmoniAuthorizationManager
 // 		$authorizations =$this->getAllUserAZs($functionId, $qualifierId, true);
 // 		return ($authorizations->hasNext());
 				
-		$isAuthorizedCache = IsAuthorizedCache::instance();
+		$isAuthorizedCache = $this->getIsAuthorizedCache();
 				
 		return $isAuthorizedCache->isUserAuthorized($functionId, $qualifierId);
 	}
@@ -550,7 +550,7 @@ class HarmoniAuthorizationManager
 	 * @since 2/27/07
 	 */
 	function isAuthorizedBelow ( Id $agentId, Id $functionId, Id $qualifierId ) {
-		$isAuthorizedCache = IsAuthorizedCache::instance();
+		$isAuthorizedCache = $this->getIsAuthorizedCache();
 		
 		// First check if the authorization exists for the qualifier. If so,
 		// it will by definition cascade to the descendents.
@@ -590,7 +590,7 @@ class HarmoniAuthorizationManager
 	 * @since 2/27/07
 	 */
 	function isUserAuthorizedBelow ( Id $functionId, Id $qualifierId ) {
-		$isAuthorizedCache = IsAuthorizedCache::instance();
+		$isAuthorizedCache = $this->getIsAuthorizedCache();
 		
 		// First check if the authorization exists for the qualifier. If so,
 		// it will by definition cascade to the descendents.

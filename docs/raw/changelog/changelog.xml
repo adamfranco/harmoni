@@ -4,9 +4,9 @@
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 <<<<<<< changelog.xml
- @version $Id: changelog.xml,v 1.279 2008/04/24 13:44:52 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.280 2008/04/25 20:18:03 adamfranco Exp $
 =======
- @version $Id: changelog.xml,v 1.279 2008/04/24 13:44:52 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.280 2008/04/25 20:18:03 adamfranco Exp $
 >>>>>>> 1.268.2.5
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
@@ -16,6 +16,17 @@
 		<releaseNotes>
 			
 		</releaseNotes>
+		<new author='adam' date='2008-04-24' ref='1951075' reftype='fr'>
+			AuthZ2: New Authorization/Hierarchy package stores implicit authorizations
+			as rows in their own table so that they can be quickly read at the
+			expense of a small increase in writing time and storage space.
+			
+			Either AuthZ2 or the original Authorization and Hierarchy implementations
+			can be used by Harmoni applications as these implementations are independent
+			of one another. A migration script for moving hierarchy and authorization
+			information out of The original tables and into the AuthZ2 tables can be
+			found at harmoni/core/oki2/AuthZ2/migration.php
+		</new>
 		<new author='adam' date='2008-04-18'>
 			IdManager: Now can be configured to use Harmoni_Db.
 		</new>
@@ -51,10 +62,18 @@
 			Harmoni_Db: Can now set Auto-Increment table/key for retrieving the
 			last insert id from INSERT query executions.
 		</fix>
+		<fix author='adam' date='2008-04-25' ref='' reftype='bug'>
+			Harmoni_Db: Backtrace collection now works when preparing queries directly
+			as well as from query-building objects.
+		</fix>
 		<fix author='adam' date='2008-04-18'>
 			DatabaseManager: InsertQueries will now convert numeric parameters to
 			strings rather than throwing InvalidArgumentExceptions.
 		</fix>
+		<change author='adam' date='2008-04-25' ref='' reftype='fr'>
+			DatbasManager: Now sends null instead of NULL for auto-increment columns 
+			for better compatability.
+		</change>
 		<new author='adam' date='2008-04-18'>
 			ErrorHandler: Exceptions can now define a getHtmlMessage() method and have
 			this HTML-formatted message printed without entity conversion.

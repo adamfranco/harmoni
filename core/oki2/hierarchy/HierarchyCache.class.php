@@ -33,7 +33,7 @@ require_once(HARMONI."oki2/hierarchy/HarmoniTraversalInfoIterator.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HierarchyCache.class.php,v 1.44 2008/04/24 13:28:26 adamfranco Exp $
+ * @version $Id: HierarchyCache.class.php,v 1.45 2008/04/25 20:18:02 adamfranco Exp $
  **/
 
 class HierarchyCache {
@@ -584,7 +584,7 @@ class HierarchyCache {
 		$idManager = Services::getService("Id");
 		
 		if (!count($nodeQueryResult)) {
-			throw new UnknownIdException("No nodes found for id ".$nodeId);
+			throw new UnknownIdException("No nodes found for type ".$type->asString());
 		}
 		foreach ($nodeQueryResult as $nodeRow) {
 			$idValue = $nodeRow['id'];

@@ -63,7 +63,7 @@ require_once(dirname(__FILE__)."/FormActionNamePassTokenCollector.class.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: HarmoniAuthenticationManager.class.php,v 1.32 2008/04/21 18:01:39 adamfranco Exp $
+ * @version $Id: HarmoniAuthenticationManager.class.php,v 1.33 2008/04/25 20:18:01 adamfranco Exp $
  */
 class HarmoniAuthenticationManager 
 	implements AuthenticationManager
@@ -672,7 +672,8 @@ class HarmoniAuthenticationManager
 					=$agentId;
 				
 				// Ensure that the Authorization Cache gets the new users
-				$isAuthorizedCache = IsAuthorizedCache::instance();
+				$authorizationMgr = Services::getService("AuthZ");
+				$isAuthorizedCache = $authorizationMgr->getIsAuthorizedCache();
 				$isAuthorizedCache->dirtyUser();
 			}
 			
