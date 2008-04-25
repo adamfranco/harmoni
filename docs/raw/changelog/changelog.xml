@@ -4,9 +4,9 @@
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
 <<<<<<< changelog.xml
- @version $Id: changelog.xml,v 1.280 2008/04/25 20:18:03 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.281 2008/04/25 20:35:33 adamfranco Exp $
 =======
- @version $Id: changelog.xml,v 1.280 2008/04/25 20:18:03 adamfranco Exp $
+ @version $Id: changelog.xml,v 1.281 2008/04/25 20:35:33 adamfranco Exp $
 >>>>>>> 1.268.2.5
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
@@ -14,7 +14,7 @@
 <changelog name="Harmoni">
 	<version number="1.2.0" date="The Future">
 		<releaseNotes>
-			
+			test
 		</releaseNotes>
 		<new author='adam' date='2008-04-24' ref='1951075' reftype='fr'>
 			AuthZ2: New Authorization/Hierarchy package stores implicit authorizations
