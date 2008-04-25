@@ -3,11 +3,7 @@
  @package harmoni.docs
  @copyright Copyright &copy; 2005, Middlebury College
  @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
-<<<<<<< changelog.xml
- @version $Id: changelog.xml,v 1.282 2008/04/25 21:04:54 adamfranco Exp $
-=======
- @version $Id: changelog.xml,v 1.282 2008/04/25 21:04:54 adamfranco Exp $
->>>>>>> 1.268.2.5
+ @version $Id: changelog.xml,v 1.283 2008/04/25 22:59:17 adamfranco Exp $
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
