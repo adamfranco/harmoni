@@ -5,7 +5,7 @@
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQL_SQLGenerator.class.php,v 1.16 2007/10/11 19:58:36 adamfranco Exp $
+ * @version $Id: MySQL_SQLGenerator.class.php,v 1.17 2008/04/25 13:12:09 adamfranco Exp $
  */
  
 require_once(HARMONI."DBHandler/SQLGenerator.interface.php");
@@ -19,7 +19,7 @@ require_once(HARMONI."DBHandler/SQLGenerator.interface.php");
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: MySQL_SQLGenerator.class.php,v 1.16 2007/10/11 19:58:36 adamfranco Exp $
+ * @version $Id: MySQL_SQLGenerator.class.php,v 1.17 2008/04/25 13:12:09 adamfranco Exp $
  */
 
 class MySQL_SQLGenerator extends SQLGeneratorInterface {
@@ -132,7 +132,7 @@ class MySQL_SQLGenerator extends SQLGeneratorInterface {
 			
 			// include autoincrement column if necessary
 			if ($query->_autoIncrementColumn)
-				$rowOfValues[] = "''";
+				$rowOfValues[] = "NULL";
 			
 			$allRows[] = implode(", ", $rowOfValues);
 		}
