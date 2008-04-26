@@ -964,14 +964,14 @@ class AuthZ2_HierarchyCache {
 	
 			// set the tables
 			$query->addTable("az2_j_node_node", NO_JOIN, "", "child");
-			$joinc = "child.fk_parent = "."parents.node_id";
+			$joinc = "child.fk_parent = "."parents.id";
 			$query->addTable("az2_node", INNER_JOIN, $joinc, "parents");
 			$joinc = "parents.fk_type = "."az2_node_type.id";
 			$query->addTable("az2_node_type", INNER_JOIN, $joinc);
 			
 			$query->addWhereEqual("child.fk_hierarchy", $this->_hierarchyId);
 			$query->addWhereEqual("child.fk_child", $idValue);
-			$query->addOrderBy("az2_node.id");
+			$query->addOrderBy("parents.id");
 			
 			if (count($nodesToExclude) > 0) {
 				$query->addWhereNotIn("parents.id", array_keys($nodesToExclude));
