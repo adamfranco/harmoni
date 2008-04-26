@@ -131,7 +131,14 @@ class AuthZ2_HierarchyManager
         
         // do a test to see if our configuration worked.
         try {
-	        $this->getHierarchies();
+			$dbHandler = Services::getService("DatabaseManager");
+			
+			$query = new SelectQuery();
+			$query->addColumn("id");
+			$query->addTable("az2_hierarchy");
+			$query->limitNumberOfRows(1);
+	
+			$queryResult =$dbHandler->query($query, $this->_dbIndex);
 	    } catch (QueryDatabaseException $e) {
 	    	throw new ConfigurationErrorException("Database is not properly set up for AuthZ2.");
 	    }
