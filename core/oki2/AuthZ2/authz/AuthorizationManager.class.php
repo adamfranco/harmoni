@@ -1385,10 +1385,6 @@ class AuthZ2_AuthorizationManager
 		else
 			$qualifierIdString = $qualifierId->getIdString();		
 		
-// 		printpre("a: $agentIdString \nf: $functionIdString \nq: $qualifierIdString");
-// 		printpre($containingGroups);
-// 		throwError(new Error("failed"));
-		
 		
 		// We need to check all of the groups that may contain $aId as well as
 		// aId itsself.
