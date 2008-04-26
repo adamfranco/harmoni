@@ -138,7 +138,7 @@ class AuthZ2_HierarchyCache {
 		$this->_nodeQuery = new SelectQuery();
 		$this->_nodeQuery->addColumn("id", "id", "az2_node");
 		$this->_nodeQuery->addColumn("display_name", "display_name", "az2_node");
-		$this->_nodeQuery->addColumn("node_description", "description", "az2_node");
+		$this->_nodeQuery->addColumn("description", "description", "az2_node");
 		$this->_nodeQuery->addColumn("fk_hierarchy", "hierarchy_id", "az2_node");
 		$this->_nodeQuery->addColumn("domain", "domain", "az2_node_type");
 		$this->_nodeQuery->addColumn("authority", "authority", "az2_node_type");

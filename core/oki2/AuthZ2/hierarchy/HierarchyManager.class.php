@@ -224,7 +224,7 @@ class AuthZ2_HierarchyManager
 		
 		// Create a new hierarchy and insert it into the database
 		$cache = new AuthZ2_HierarchyCache($idValue, $allowsMultipleParents, $this->_dbIndex, 
-		   		$this->harmoni_db);
+		   		((isset($this->harmoni_db))?$this->harmoni_db:null));
 		$cache->setAuthorizationManager($this->getAuthorizationManager());
 		$hierarchy = new AuthZ2_Hierarchy($id, $displayName, $description, $cache);
 		
@@ -495,8 +495,8 @@ class AuthZ2_HierarchyManager
 		$query = new SelectQuery();
 		$query->addColumn("fk_hierarchy", "hierarchy_id", "az2_node");
 		$query->addTable("az2_node");
-		$joinc = "fk_hierarchy = "."az2_hierarchy.id";
-		$query->addTable("hierarchy", INNER_JOIN, $joinc);
+		$joinc = "fk_hierarchy = az2_hierarchy.id";
+		$query->addTable("az2_hierarchy", INNER_JOIN, $joinc);
 		$query->addWhereEqual("az2_node.id", $idValue);
 		
 		$nodeQueryResult =$dbHandler->query($query, $this->_dbIndex);
