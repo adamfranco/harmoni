@@ -60,7 +60,7 @@ require_once(HARMONI.'oki2/shared/HarmoniIdIterator.class.php');
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
- * @version $Id: AuthorizationManager.class.php,v 1.1 2008/04/24 20:51:42 adamfranco Exp $
+ * @version $Id: AuthorizationManager.class.php,v 1.2 2008/04/26 01:00:30 adamfranco Exp $
  */
 class AuthZ2_AuthorizationManager 
 	implements AuthorizationManager 
