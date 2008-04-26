@@ -543,7 +543,7 @@ class HierarchyCache {
 		$idManager = Services::getService("Id");
 		
 		if (!$nodeQueryResult->hasMoreRows()) {
-			throw new UnknownIdException("No nodes found with Id ".$nodeId);
+			throw new UnknownIdException("No nodes found with Type ".$type->asString());
 		}
 		while ($nodeQueryResult->hasMoreRows()) {
 			$nodeRow = $nodeQueryResult->getCurrentRow();
