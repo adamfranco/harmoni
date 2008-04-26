@@ -10,7 +10,7 @@
 <changelog name="Harmoni">
 	<version number="1.2.0" date="The Future">
 		<releaseNotes>
-			Testing.
+			
 		</releaseNotes>
 		<new author='adam' date='2008-04-24' ref='1951075' reftype='fr'>
 			AuthZ2: New Authorization/Hierarchy package stores implicit authorizations
