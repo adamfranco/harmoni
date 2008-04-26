@@ -128,6 +128,13 @@ class AuthZ2_HierarchyManager
 			} catch (UnknownIdException $e) {
 			}
         }
+        
+        // do a test to see if our configuration worked.
+        try {
+	        $this->getHierarchies();
+	    } catch (QueryDatabaseException $e) {
+	    	throw new ConfigurationErrorException("Database is not properly set up for AuthZ2.");
+	    }
 	}
 
 	/**

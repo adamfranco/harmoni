@@ -128,6 +128,13 @@ class AuthZ2_AuthorizationManager
 			$this->_cache = new AuthZ2_AuthorizationCache($this, $dbIndex, $this->harmoni_db);
 		else
 			$this->_cache = new AuthZ2_AuthorizationCache($this, $dbIndex);
+		
+		// do a test to see if our configuration worked.
+        try {
+	        $this->getFunctionTypes();
+	    } catch (QueryDatabaseException $e) {
+	    	throw new ConfigurationErrorException("Database is not properly set up for AuthZ2.");
+	    }
 	}
 
 	/**
