@@ -576,7 +576,7 @@ class MySQLDatabase
 	 */
 	function beginTransaction () {
 		if ($this->_startedTransactions < 0 )
-			throw new TransactionException("Error: Negative number of BEGIN statements.");
+			throw new TransactionDatabaseException("Error: Negative number of BEGIN statements.");
 
 		if ($this->supportsTransactions()
 			&& $this->_startedTransactions == 0) 
@@ -597,7 +597,7 @@ class MySQLDatabase
 	 */
 	function commitTransaction () {
 		if ($this->_startedTransactions < 1 )
-			throw new TransactionException("Error: More COMMIT/ROLLBACK statements than BEGIN statements.");
+			throw new TransactionDatabaseException("Error: More COMMIT/ROLLBACK statements than BEGIN statements.");
 		
 		if ($this->supportsTransactions()
 			&& $this->_startedTransactions == 1) 
@@ -617,7 +617,7 @@ class MySQLDatabase
 	 */
 	function rollbackTransaction () {
 		if ($this->_startedTransactions < 1 )
-			throw new TransactionException("Error: More COMMIT/ROLLBACK statements than BEGIN statements.");
+			throw new TransactionDatabaseException("Error: More COMMIT/ROLLBACK statements than BEGIN statements.");
 		
 		if ($this->supportsTransactions()) {
 		
@@ -627,7 +627,7 @@ class MySQLDatabase
 			// If rollback is called inside a nested set of transactions, then the
 			// resulting state of the the database is undefined. 
 			if ($this->_startedTransactions > 1) {
-				throw new TransactionException("Error: Unsuported attempt to roll-back a nested transaction. Nested transaction support for MySQL removes all but the outside begin/commit/rollback statements. Rolling-back from an interior transaction would leave the database in an undefined state.");
+				throw new TransactionDatabaseException("Error: Unsuported attempt to roll-back a nested transaction. Nested transaction support for MySQL removes all but the outside begin/commit/rollback statements. Rolling-back from an interior transaction would leave the database in an undefined state.");
 			}
 		}
 		

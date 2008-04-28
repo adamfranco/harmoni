@@ -67,9 +67,12 @@
 			strings rather than throwing InvalidArgumentExceptions.
 		</fix>
 		<change author='adam' date='2008-04-25' ref='' reftype='fr'>
-			DatbasManager: Now sends null instead of NULL for auto-increment columns 
+			DatabaseManager: Now sends null instead of NULL for auto-increment columns 
 			for better compatability.
 		</change>
+		<fix author='adam' date='2008-04-28' ref='' reftype='bug'>
+			DatabaseManager: Fix to transaction exception class name.
+		</fix>
 		<new author='adam' date='2008-04-18'>
 			ErrorHandler: Exceptions can now define a getHtmlMessage() method and have
 			this HTML-formatted message printed without entity conversion.
