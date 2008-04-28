@@ -144,5 +144,43 @@ class SQLUtils {
 		foreach ($sqlFiles as $path)
 			self::runSQLfile($path, $dbIndex);
 	}
+	
+	/**
+	 * Run all of the files with a given extention in a directory as SQL files.
+	 * 
+	 * @param string $dir
+	 * @param array $exceptions An array of filenames to exclude.
+	 * @param integer $dbIndex The index of the database to run the queries on.
+	 * @param optional string $extn The file extention to execute, default: 'sql'.
+	 * @return void
+	 * @access public
+	 * @since 04/28/08
+	 * @static
+	 */
+	public static function runSQLdirWithExceptions ($dir, array $exceptions = array(), $dbIndex, $extn = 'sql') {
+		$sqlFiles = array();
+		if ($handle = opendir($dir)) {
+			while (false !== ($file = readdir($handle))) {
+				if ($file != "." && $file != "..") {
+					$path = $dir."/".$file;
+					// Recurse into sub directories
+					if (is_dir($path))
+						self::runSQLdir($path, $dbIndex, $extn);
+					// Run any SQL files
+					else if (preg_match('/.+\.'.$extn.'$/i', $file)
+							&& !in_array($file, $exceptions))
+						$sqlFiles[] = $path;
+					// Ignore any other files.
+				}
+			}
+			closedir($handle);
+		} else {
+			throw new Exception ("Could not open SQL directory, '$dir', for reading.");
+		}
+		
+		sort ($sqlFiles);
+		foreach ($sqlFiles as $path)
+			self::runSQLfile($path, $dbIndex);
+	}
 }
 ?>
