@@ -467,15 +467,14 @@ class AuthZ2_IsAuthorizedCache {
 		
 		$dbHandler = Services::getService("DatabaseManager");
 		$dbIndex = $this->_configuration->getProperty('database_index');
-		$idManager = Services::getService("Id");
-		
-		$functions = array();	//used by Algorithm A
 		
 // 		$timer = new Timer;
 // 		$timer->start();
 // 		$startingQueries = $dbHandler->getTotalNumberOfQueries();
 		
-	// Explicit AZs
+	/*********************************************************
+	 * Explicit AZs
+	 *********************************************************/
 		// Select and create all of the explicit AZs
 		$query = new SelectQuery();
 		$query->addColumn("*");
@@ -486,6 +485,7 @@ class AuthZ2_IsAuthorizedCache {
 		$query->addWhere("fk_agent IN(".implode(", ", $agentIdStrings).")");
 		$query->addWhere("(effective_date IS NULL OR effective_date < NOW())");
 		$query->addWhere("(expiration_date IS NULL OR expiration_date > NOW())");
+		$query->addWhereIn("fk_qualifier", $this->_queue[$agentIdString]);
 		
 // 		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
 		$result =$dbHandler->query(
@@ -494,26 +494,6 @@ class AuthZ2_IsAuthorizedCache {
 		
 		// Create the explicit AZs
 		while ($result->hasMoreRows()) {
-			$az = new AuthZ2_Authorization(
-						$result->field("id"),
-						$idManager->getId($result->field("fk_agent")),
-						$idManager->getId($result->field("fk_function")),
-						$idManager->getId($result->field("fk_qualifier")),
-						true,
-						$this->_authorizationManagerObjectCache,
-						$dbHandler->fromDBDate(
-								$result->field("effective_date"),
-								$dbIndex),
-						$dbHandler->fromDBDate(
-								$result->field("expiration_date"), 
-								$dbIndex));
-			
-			// cache in our explictAZ cache for referencing by implicit AZs
-			$explicitAZs[$result->field("id")] =$az;
-			
-			// Build a list of functions for AlogrithmA to use when setting implicitAZs
-			$functions[] = $result->field("fk_function");
-			
 			// Set a boolean for the AZ.
 			if(!isset($_SESSION['__isAuthorizedCache'][$agentIdString][$result->field("fk_qualifier")]))
 				$_SESSION['__isAuthorizedCache'][$agentIdString][$result->field("fk_qualifier")] = array();
@@ -531,63 +511,9 @@ class AuthZ2_IsAuthorizedCache {
 		
 	/*********************************************************
 	 * Implicit AZs	
-	 *********************************************************/
-		// Algorithm A:
-		// For this algorithm we will do a single traversal of the hierarchy
-		// and set implicit authorization bits on the way down as we pass
-		// explicit AZs.
-// 		$hierarchyManager = $this->authorizationManager->getHierarchyManager();
-// 		$hierarchies =$hierarchyManager->getHierarchies();
-// 		while ($hierarchies->hasNext()) {
-// 			$hierarchy =$hierarchies->next();
-// 			$rootNodes =$hierarchy->getRootNodes();
-// 			while ($rootNodes->hasNext()) {
-// 				$rootNode =$rootNodes->next();
-// 				
-// 				$rootNodeId =$rootNode->getId();
-// // 				print "\n<h1>Traversing from RootNode: ".$rootNodeId->getIdString()."</h1>";
-// 				
-// 				$timer2 = new Timer;
-// 				$timer2->start();
-// 				$traversal =$hierarchy->traverse(
-// 					$rootNode->getId(),
-// 					Hierarchy::TRAVERSE_MODE_DEPTH_FIRST,
-// 					Hierarchy::TRAVERSE_DIRECTION_DOWN,
-// 					Hierarchy::TRAVERSE_LEVELS_ALL);
-// 				$timer2->end();
-// 				printf("<br/>CacheAZ Traversal Time: %1.6f", $timer2->printTime());
-// 				
-// 				$explicitAZLevels = array();
-// 				
-// 				while ($traversal->hasNext()) {
-// 					$info =$traversal->next();
-// 					$id =$info->getNodeId();
-// 					$idString = $id->getIdString();
-// 					$level = $info->getLevel();
-// // 					printpre("<strong>$level\t$idString</strong>");
-// 					
-// 					foreach($functions as $functionId) {
-// 						if (!isset($explicitAZLevels[$functionId])) {
-// 							if (isset($_SESSION['__isAuthorizedCache'][$agentIdString][$idString][$functionId])) {
-// 								$explicitAZLevels[$functionId] = $level;
-// // 								printpre("\tFound Explicit $functionId at level $level");
-// 							}
-// 						} else {
-// 							if ($level <= $explicitAZLevels[$functionId]) {
-// 								unset($explicitAZLevels[$functionId]);
-// // 								printpre("\tUnsetting ExplicitAZ $functionId at $level");
-// 							} else {
-// 								$_SESSION['__isAuthorizedCache'][$agentIdString][$idString][$functionId] = true;
-// // 								printpre("\tSetting Implicit $functionId at level $level");
-// 							}
-// 						}
-// 					}
-// 				}
-// 			}
-// 		}
-		
-		
-		// Before we do the big work to find the implicit AZs, first check that the
+	 *********************************************************/	
+	 
+	 	// Before we do the big work to find the implicit AZs, first check that the
 		// node Ids we are looking for exist. If not, make note of this and do not search
 		// for them.
 		$query = new SelectQuery();
@@ -610,55 +536,43 @@ class AuthZ2_IsAuthorizedCache {
 			$_SESSION['__isAuthorizedCacheUnknownIds'][] = $nodeId;
 		}
 		
-		// Algorithm B:
-		// For this algorithm we want to join all of the explicit AZs to all 
-		// nodes who have the qulifier as an ancestor. These will be the implicit AZs
-		if (count($foundNodes)) {
-			$query = new SelectQuery();
-			$query->addColumn("id");
-			$query->addColumn("fk_node");
-			$query->addTable("az2_explicit_az");
-			$query->addTable("az2_node_ancestry", LEFT_JOIN, "fk_qualifier = fk_ancestor");
-			$query->addWhereIn("fk_node", $foundNodes);
-			$agentIdStrings = $this->getAgentIdStringArray($agentIdString);
-			foreach($agentIdStrings as $key => $val)
-				$agentIdStrings[$key] = "'".addslashes($val)."'";
-			$query->addWhere("fk_agent IN(".implode(", ", $agentIdStrings).")");
-			$query->addWhere("(effective_date IS NULL OR effective_date < NOW())");
-			$query->addWhere("(expiration_date IS NULL OR expiration_date > NOW())");
-			
-	// 		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
-			$result =$dbHandler->query(
-							$query, 
-							$this->_configuration->getProperty('database_index'));
-			
-			while ($result->hasMoreRows()) {			
-				$explicitAZ =$explicitAZs[$result->field("id")];
-				$explicitFunction =$explicitAZ->getFunction();
-				$explicitFunctionId =$explicitFunction->getId();
-				
-				// cache in our user AZ cache
-				if(!isset($_SESSION['__isAuthorizedCache'][$agentIdString][$result->field("fk_node")]))
-					$_SESSION['__isAuthorizedCache'][$agentIdString][$result->field("fk_node")] = array();
-				
-				$_SESSION['__isAuthorizedCache']
-					[$agentIdString]
-					[$result->field("fk_node")]
-					[$explicitFunctionId->getIdString()] = true;
-				
-				$result->advanceRow();
-			}
-			$result->free();
-			
-			// Set flags that each Qualifier in the queue has had its implicit AZs cached.
-			foreach ($this->_queue[$agentIdString] as $qualifierIdString) {
-				$_SESSION['__isAuthorizedCache']
-					[$agentIdString]
-					[$qualifierIdString]
-					['__IMPLICIT_CACHED'] = true;
-			}
-		}
+		// Select and create all of the explicit AZs
+		$query = new SelectQuery();
+		$query->addColumn("*");
+		$query->addTable("az2_implicit_az");
+		$agentIdStrings = $this->getAgentIdStringArray($agentIdString);
+		foreach($agentIdStrings as $key => $val)
+			$agentIdStrings[$key] = "'".addslashes($val)."'";
+		$query->addWhere("fk_agent IN(".implode(", ", $agentIdStrings).")");
+		$query->addWhere("(effective_date IS NULL OR effective_date < NOW())");
+		$query->addWhere("(expiration_date IS NULL OR expiration_date > NOW())");
+		$query->addWhereIn("fk_qualifier", $this->_queue[$agentIdString]);
 		
+// 		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
+		$result =$dbHandler->query(
+						$query, 
+						$dbIndex);
+		
+		// Create the explicit AZs
+		while ($result->hasMoreRows()) {
+			// Set a boolean for the AZ.
+			if(!isset($_SESSION['__isAuthorizedCache'][$agentIdString][$result->field("fk_qualifier")]))
+				$_SESSION['__isAuthorizedCache'][$agentIdString][$result->field("fk_qualifier")] = array();
+			
+			$_SESSION['__isAuthorizedCache']
+				[$agentIdString]
+				[$result->field("fk_qualifier")]
+				[$result->field("fk_function")] = true;
+			
+			
+			$result->advanceRow();
+		}
+		$result->free();
+		
+		/*********************************************************
+		 * Clear the Queue
+		 *********************************************************/
+		 
 // 		$timer->end();
 // 		printf("<br/>CacheAZTime: %1.6f", $timer->printTime());
 // 		print "<br/>Num Queries: ".($dbHandler->getTotalNumberOfQueries() - $startingQueries);
