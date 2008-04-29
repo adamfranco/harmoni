@@ -65,6 +65,8 @@ class Harmoni_Db_SelectResult
 	 * @access public
 	 */ 
 	function getNumberOfRows() {
+		throw new UnimplementedException("Currently cannot get number of selected rows from a PDO SELECT statment.");
+		// The rowCount is only good for update and delete queries.
 		return $this->stmt->rowCount();
 	}
 	
