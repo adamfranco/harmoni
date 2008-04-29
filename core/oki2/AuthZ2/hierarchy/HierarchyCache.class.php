@@ -1413,7 +1413,7 @@ class AuthZ2_HierarchyCache {
 // $timer1->end();
 // printf("<br/>Traversal Query Time: %1.6f", $timer1->printTime());
 
-		if ($queryResult->getNumberOfRows() == 0) {
+		if (!$queryResult->hasNext()) {
 			$queryResult->free();
 			return;
 		}
@@ -1644,7 +1644,7 @@ class AuthZ2_HierarchyCache {
 		// execute the query
 		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 		
-		if ($queryResult->getNumberOfRows() == 0) {
+		if ($queryResult->hasNext() == 0) {
 			$queryResult->free();
 			return;
 		}
@@ -1813,7 +1813,7 @@ class AuthZ2_HierarchyCache {
 		// execute the query
 		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 		
-		if ($queryResult->getNumberOfRows() == 0) {
+		if ($queryResult->hasNext() == 0) {
 			$queryResult->free();
 			return;
 		}
@@ -1981,7 +1981,7 @@ class AuthZ2_HierarchyCache {
 	
 			$queryResult =$dbHandler->query($query, $this->_dbIndex);
 		}
-		if ($queryResult->getNumberOfRows() > 0) {// if the type is already in the database
+		if ($queryResult->hasNext()) {// if the type is already in the database
 			$typeIdValue = $queryResult->field("id"); // get the id
 			$queryResult->free();
 		} else { // if not, insert it
@@ -2145,13 +2145,9 @@ class AuthZ2_HierarchyCache {
 		$query->addWhereEqual("id", $idValue);
 
 		$queryResult =$dbHandler->query($query, $this->_dbIndex);
-		if ($queryResult->getNumberOfRows() == 0) {
+		if (!$queryResult->hasNext()) {
 			$queryResult->free();
 			throw new OperationFailedException("No type found for node, '$idValue'.");
-		}
-		if ($queryResult->getNumberOfRows() > 1) {
-			$queryResult->free();		
-			throw new OperationFailedException("Multiple types found for node, '$idValue'.");
 		}
 		$typeIdValue = $queryResult->field("type_id");
 		$queryResult->free();
