@@ -614,7 +614,7 @@ class AuthZ2_IsAuthorizedCache {
 	 * @since 4/29/08
 	 */
 	public function _loadSingle ($agentIdString, $qualifierIdString) {
-		if (!isset($this->authorizationManager) && !isset($this->authorizationManager->harmoni_db))
+		if (!isset($this->authorizationManager) || !isset($this->authorizationManager->harmoni_db))
 			return $this->_loadMultiple($agentIdString, array($qualifierIdString));
 		
 		if (!isset($this->loadSingleAz_stmts[$agentIdString])) {
