@@ -275,9 +275,6 @@ class AuthZ2_HierarchyManager
 	 * @access public
 	 */
 	function getHierarchy ( Id $hierarchyId ) { 
-		// ** parameter validation
-		ArgumentValidator::validate($hierarchyId, ExtendsValidatorRule::getRule("Id"), true);
-		// ** end of parameter validation
 
 		$idValue = $hierarchyId->getIdString();
 		
