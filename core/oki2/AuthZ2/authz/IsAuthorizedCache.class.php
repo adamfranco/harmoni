@@ -189,6 +189,7 @@ class AuthZ2_IsAuthorizedCache {
 		// Initialize our paremeters
 		$this->_queue = array();
 		$this->_agentIdStrings = array();
+		$this->loadSingleAz_stmts = array();
 		
 		// get our configuration
 		$this->authorizationManager = $manager;
@@ -471,6 +472,66 @@ class AuthZ2_IsAuthorizedCache {
 // 		$timer = new Timer;
 // 		$timer->start();
 // 		$startingQueries = $dbHandler->getTotalNumberOfQueries();
+
+		// Before we do the big work to find the implicit AZs, first check that the
+		// node Ids we are looking for exist. If not, make note of this and do not search
+		// for them.
+		$query = new SelectQuery();
+		$query->addColumn("DISTINCT id");
+		$query->addTable("az2_node");
+		$query->addWhereIn("id", $this->_queue[$agentIdString]);
+		$result = $dbHandler->query(
+						$query, 
+						$this->_configuration->getProperty('database_index'));
+		$foundNodes = array();
+		while ($result->hasMoreRows()) {
+			$foundNodes[] = $result->field('id');
+			$result->advanceRow();
+		}
+		$result->free();
+		
+		// Get a list of missing nodes
+		$missing = array_diff($this->_queue[$agentIdString], $foundNodes);
+		foreach ($missing as $nodeId) {
+			$_SESSION['__isAuthorizedCacheUnknownIds'][] = $nodeId;
+		}
+		$this->_queue[$agentIdString] = $foundNodes;
+		
+		if (count($this->_queue[$agentIdString]) > 1)
+			$this->_loadMultiple($agentIdString, $this->_queue[$agentIdString]);
+		else if (count($this->_queue[$agentIdString]) == 1)
+			$this->_loadSingle($agentIdString, current($this->_queue[$agentIdString]));
+		
+		/*********************************************************
+		 * Clear the Queue
+		 *********************************************************/
+		 
+// 		$timer->end();
+// 		printf("<br/>CacheAZTime: %1.6f", $timer->printTime());
+// 		print "<br/>Num Queries: ".($dbHandler->getTotalNumberOfQueries() - $startingQueries);
+		
+		$this->_queue[$agentIdString] = array();
+		
+// 		@$this->ticker++;
+// 		if ($this->ticker > 100) {
+// 			printpre($_SESSION['__isAuthorizedCache'][$agentIdString]);
+// 			exit;
+// 		}
+	}
+	
+	/**
+	 * Load authorizations for multiple qualifiers
+	 * 
+	 * @param string $agentIdString
+	 * @param array $qualifierIdStrings
+	 * @return void
+	 * @access public
+	 * @since 4/29/08
+	 */
+	public function _loadMultiple ($agentIdString, array $qualifierIdStrings) {
+		$dbHandler = Services::getService("DatabaseManager");
+		$dbIndex = $this->_configuration->getProperty('database_index');
+		$agentIdStrings = $this->getAgentIdStringArray($agentIdString);
 		
 	/*********************************************************
 	 * Explicit AZs
@@ -479,13 +540,10 @@ class AuthZ2_IsAuthorizedCache {
 		$query = new SelectQuery();
 		$query->addColumn("*");
 		$query->addTable("az2_explicit_az");
-		$agentIdStrings = $this->getAgentIdStringArray($agentIdString);
-		foreach($agentIdStrings as $key => $val)
-			$agentIdStrings[$key] = "'".addslashes($val)."'";
-		$query->addWhere("fk_agent IN(".implode(", ", $agentIdStrings).")");
+		$query->addWhereIn("fk_agent", $agentIdStrings);
 		$query->addWhere("(effective_date IS NULL OR effective_date < NOW())");
 		$query->addWhere("(expiration_date IS NULL OR expiration_date > NOW())");
-		$query->addWhereIn("fk_qualifier", $this->_queue[$agentIdString]);
+		$query->addWhereIn("fk_qualifier", $qualifierIdStrings);
 		
 // 		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
 		$result =$dbHandler->query(
@@ -513,40 +571,16 @@ class AuthZ2_IsAuthorizedCache {
 	 * Implicit AZs	
 	 *********************************************************/	
 	 
-	 	// Before we do the big work to find the implicit AZs, first check that the
-		// node Ids we are looking for exist. If not, make note of this and do not search
-		// for them.
-		$query = new SelectQuery();
-		$query->addColumn("DISTINCT id");
-		$query->addTable("az2_node");
-		$query->addWhereIn("id", $this->_queue[$agentIdString]);
-		$result = $dbHandler->query(
-						$query, 
-						$this->_configuration->getProperty('database_index'));
-		$foundNodes = array();
-		while ($result->hasMoreRows()) {
-			$foundNodes[] = $result->field('id');
-			$result->advanceRow();
-		}
-		$result->free();
-		
-		// Get a list of missing nodes
-		$missing = array_diff($this->_queue[$agentIdString], $foundNodes);
-		foreach ($missing as $nodeId) {
-			$_SESSION['__isAuthorizedCacheUnknownIds'][] = $nodeId;
-		}
+	 	
 		
 		// Select and create all of the explicit AZs
 		$query = new SelectQuery();
 		$query->addColumn("*");
 		$query->addTable("az2_implicit_az");
-		$agentIdStrings = $this->getAgentIdStringArray($agentIdString);
-		foreach($agentIdStrings as $key => $val)
-			$agentIdStrings[$key] = "'".addslashes($val)."'";
-		$query->addWhere("fk_agent IN(".implode(", ", $agentIdStrings).")");
+		$query->addWhereIn("fk_agent", $agentIdStrings);
 		$query->addWhere("(effective_date IS NULL OR effective_date < NOW())");
 		$query->addWhere("(expiration_date IS NULL OR expiration_date > NOW())");
-		$query->addWhereIn("fk_qualifier", $this->_queue[$agentIdString]);
+		$query->addWhereIn("fk_qualifier", $qualifierIdStrings);
 		
 // 		printpre(MySQL_SQLGenerator::generateSQLQuery($query));
 		$result =$dbHandler->query(
@@ -568,22 +602,81 @@ class AuthZ2_IsAuthorizedCache {
 			$result->advanceRow();
 		}
 		$result->free();
+	}
+	
+	/**
+	 * Load authorizations for multiple qualifiers
+	 * 
+	 * @param string $agentIdString
+	 * @param string $qualifierIdString
+	 * @return void
+	 * @access public
+	 * @since 4/29/08
+	 */
+	public function _loadSingle ($agentIdString, $qualifierIdString) {
+		if (!isset($this->authorizationManager) && !isset($this->authorizationManager->harmoni_db))
+			return $this->_loadMultiple($agentIdString, array($qualifierIdString));
 		
-		/*********************************************************
-		 * Clear the Queue
-		 *********************************************************/
-		 
-// 		$timer->end();
-// 		printf("<br/>CacheAZTime: %1.6f", $timer->printTime());
-// 		print "<br/>Num Queries: ".($dbHandler->getTotalNumberOfQueries() - $startingQueries);
+		if (!isset($this->loadSingleAz_stmts[$agentIdString])) {
+			$this->loadSingleAz_stmts[$agentIdString] = array();
+			$agentIdStrings = $this->getAgentIdStringArray($agentIdString);
+			
+			 // Explicit AZs
+			$query = $this->authorizationManager->harmoni_db->select();
+			$query->addColumn("*");
+			$query->addTable("az2_explicit_az");
+			$query->addWhereIN("fk_agent", $agentIdStrings);
+			$query->addWhere("(effective_date IS NULL OR effective_date < NOW())");
+			$query->addWhere("(expiration_date IS NULL OR expiration_date > NOW())");
+			$this->loadSingleAz_qId = $query->addWhereEqual("fk_qualifier", $qualifierIdString);
 		
-		$this->_queue[$agentIdString] = array();
+			$this->loadSingleAz_stmts[$agentIdString]['explicit'] = $query->prepare();
+			
+			 // Implicit AZs
+			$query = $this->authorizationManager->harmoni_db->select();
+			$query->addColumn("*");
+			$query->addTable("az2_implicit_az");
+			$query->addWhereIN("fk_agent", $agentIdStrings);
+			$query->addWhere("(effective_date IS NULL OR effective_date < NOW())");
+			$query->addWhere("(expiration_date IS NULL OR expiration_date > NOW())");
+			$this->loadSingleAz_qId = $query->addWhereEqual("fk_qualifier", $qualifierIdString);
 		
-// 		@$this->ticker++;
-// 		if ($this->ticker > 100) {
-// 			printpre($_SESSION['__isAuthorizedCache'][$agentIdString]);
-// 			exit;
-// 		}
+			$this->loadSingleAz_stmts[$agentIdString]['implicit'] = $query->prepare();
+		}
+		
+		
+		// Create the explicit AZs
+		$this->loadSingleAz_stmts[$agentIdString]['explicit']->bindParam($this->loadSingleAz_qId, $qualifierIdString);
+		$this->loadSingleAz_stmts[$agentIdString]['explicit']->execute();
+		$this->loadSingleAz_stmts[$agentIdString]['explicit']->setFetchMode(Zend_Db::FETCH_ASSOC);
+		foreach($this->loadSingleAz_stmts[$agentIdString]['explicit']->fetchAll() as $row) {
+			// Set a boolean for the AZ.
+			if(!isset($_SESSION['__isAuthorizedCache'][$agentIdString][$row["fk_qualifier"]]))
+				$_SESSION['__isAuthorizedCache'][$agentIdString][$row["fk_qualifier"]] = array();
+			
+			$_SESSION['__isAuthorizedCache']
+				[$agentIdString]
+				[$row["fk_qualifier"]]
+				[$row["fk_function"]] = true;
+		}
+		$this->loadSingleAz_stmts[$agentIdString]['explicit']->closeCursor();
+		
+		
+		// Create the implicit AZs
+		$this->loadSingleAz_stmts[$agentIdString]['implicit']->bindParam($this->loadSingleAz_qId, $qualifierIdString);
+		$this->loadSingleAz_stmts[$agentIdString]['implicit']->execute();
+		$this->loadSingleAz_stmts[$agentIdString]['implicit']->setFetchMode(Zend_Db::FETCH_ASSOC);
+		foreach($this->loadSingleAz_stmts[$agentIdString]['implicit']->fetchAll() as $row) {
+			// Set a boolean for the AZ.
+			if(!isset($_SESSION['__isAuthorizedCache'][$agentIdString][$row["fk_qualifier"]]))
+				$_SESSION['__isAuthorizedCache'][$agentIdString][$row["fk_qualifier"]] = array();
+			
+			$_SESSION['__isAuthorizedCache']
+				[$agentIdString]
+				[$row["fk_qualifier"]]
+				[$row["fk_function"]] = true;
+		}
+		$this->loadSingleAz_stmts[$agentIdString]['implicit']->closeCursor();
 	}
 	
 	
