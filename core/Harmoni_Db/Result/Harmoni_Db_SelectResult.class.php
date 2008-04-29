@@ -24,18 +24,11 @@ class Harmoni_Db_SelectResult
 	private $stmt;
 	
 	/**
-	 * @var int $currentRowIndex;  
+	 * @var array $rows;  
 	 * @access private
-	 * @since 4/4/08
+	 * @since 4/29/08
 	 */
-	private $currentRowIndex = 0;
-	
-	/**
-	 * @var array $currentRow; The values in the current row. 
-	 * @access private
-	 * @since 4/4/08
-	 */
-	private $currentRow = null;
+	private $rows;
 	
 	/**
 	 * @var object Zend_Db_Adapter $adapter;  
@@ -55,7 +48,15 @@ class Harmoni_Db_SelectResult
 	public function __construct (Zend_Db_Statement $stmt, $adapter) {
 		$this->stmt = $stmt;
 		$this->adapter = $adapter;
+		
+		// It seems that PDO only supports buffered queries on MySQL and it is 
+		// not recommended to use them even there. buffering therefore must be done
+		// here rather than in the adapter layer.
+		$this->stmt->setFetchMode(Zend_Db::FETCH_ASSOC);
+		$this->rows = $this->stmt->fetchAll();
+		$this->stmt->closeCursor();
 	}
+	
 	/**
 	 * Returns the number of rows that the query processed.
 	 * Returns the number of rows that the query processed. For a SELECT query,
@@ -65,9 +66,7 @@ class Harmoni_Db_SelectResult
 	 * @access public
 	 */ 
 	function getNumberOfRows() {
-		throw new UnimplementedException("Currently cannot get number of selected rows from a PDO SELECT statment.");
-		// The rowCount is only good for update and delete queries.
-		return $this->stmt->rowCount();
+		return count($this->rows);
 	}
 	
 	/**
@@ -89,7 +88,7 @@ class Harmoni_Db_SelectResult
 	 * @return boolean True, if there are some rows left; False, otherwise.
 	 **/
 	function hasNext() {
-		return ($this->currentRowIndex < $this->getNumberOfRows());
+		return is_array($this->rows[key($this->rows) + 1]);
 	}
 
 	/**
@@ -102,14 +101,10 @@ class Harmoni_Db_SelectResult
 	 * @return array An associative array of the current row.
 	 **/
 	function next() {
-		try {
-			$this->currentRow = $this->stmt->fetch();
-			$this->currentRowIndex++;
-		} catch (Zend_Db_Statement_Exception $e) {
-			$this->currentRow = null;
-			throw $e;
-		}
-		return $this->currentRow;
+		$row = next($this->rows);
+		if ($row === false)
+			throw new DatabaseException("No more rows.");
+		return $row;
 	}
 	
 	/**
@@ -120,14 +115,7 @@ class Harmoni_Db_SelectResult
 	 * @return boolean True, if successful; False, otherwise.
 	 */ 
 	function advanceRow() {
-		try {
-			$this->currentRow = $this->stmt->fetch();
-			$this->currentRowIndex++;
-		} catch (Zend_Db_Statement_Exception $e) {
-			$this->currentRow = null;
-			throw $e;
-		}
-		return (is_array($this->currentRow));
+		return (is_array(next($this->rows)));
 	}
 	
 
@@ -138,7 +126,7 @@ class Harmoni_Db_SelectResult
 	 * @return boolean True, if there are some rows left; False, otherwise.
 	 **/
 	function hasMoreRows() {
-		return ((is_array($this->currentRow)) || $this->hasNext());
+		return is_array(current($this->rows));
 	}
 
 			
@@ -150,16 +138,10 @@ class Harmoni_Db_SelectResult
 	 * @return mixed The value that was requested.
 	 **/
 	function field($field) {
-		if (!is_array($this->currentRow)) {
-			if ($this->hasNext()) {
-				$this->next();
-			} else {
-				throw new DatabaseException("No more rows.");
-			}
-		}
-		if (!array_key_exists($field, $this->currentRow))
+		$row = current($this->rows);
+		if (!array_key_exists($field, $row))
 			throw new DatabaseException("Unknown field, '$field'.");
-		return $this->currentRow[$field];
+		return $row[$field];
 	}
 	
 	
@@ -170,7 +152,7 @@ class Harmoni_Db_SelectResult
 	 * @return integer The number of fields.
 	 **/
 	function getNumberOfFields() {
-		throw new UnimplementedException();
+		return count($this->getCurrentRow());
 	}
 	
 
@@ -197,11 +179,7 @@ class Harmoni_Db_SelectResult
 		if ($arrayType != ASSOC)
 			throw new InvalidArgumentException("Not allowing setting of fetch mode here.");
 		
-		if (!$this->currentRow) {
-			$this->currentRow = $this->stmt->fetch();
-			$this->currentRowIndex++;
-		}
-		return $this->currentRow;
+		return current($this->rows);
 	}
 	
 	
@@ -255,7 +233,7 @@ class Harmoni_Db_SelectResult
 	 * @return void
 	 */
 	function free() {
-		$this->stmt->closeCursor();
+		$rows = array();
 	}
 	
 	/**
