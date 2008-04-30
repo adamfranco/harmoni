@@ -22,6 +22,7 @@ require_once(dirname(__FILE__).'/Delete.php');
 require_once(dirname(__FILE__).'/Insert.php');
 
 require_once(dirname(__FILE__).'/Result/Harmoni_Db_SelectResult.class.php');
+require_once(dirname(__FILE__).'/Result/Harmoni_Db_InUpDeResult.class.php');
 
 /**
  * Class for connecting to SQL databases and performing common operations.

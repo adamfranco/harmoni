@@ -64,7 +64,11 @@ class Harmoni_Db_Statement_Pdo
 	 * @since 4/4/08
 	 */
 	public function getResult () {
-		return new Harmoni_Db_SelectResult($this, $this->_adapter);
+		// SELECT queries
+		if ($this->columnCount()) 
+			return new Harmoni_Db_SelectResult($this, $this->_adapter);
+		else
+			return new Harmoni_Db_InUpDeResult($this, $this->_adapter);
 	}
 }
 
