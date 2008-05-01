@@ -476,26 +476,26 @@ class AuthZ2_IsAuthorizedCache {
 		// Before we do the big work to find the implicit AZs, first check that the
 		// node Ids we are looking for exist. If not, make note of this and do not search
 		// for them.
-		$query = new SelectQuery();
-		$query->addColumn("DISTINCT id");
-		$query->addTable("az2_node");
-		$query->addWhereIn("id", $this->_queue[$agentIdString]);
-		$result = $dbHandler->query(
-						$query, 
-						$this->_configuration->getProperty('database_index'));
-		$foundNodes = array();
-		while ($result->hasMoreRows()) {
-			$foundNodes[] = $result->field('id');
-			$result->advanceRow();
-		}
-		$result->free();
-		
-		// Get a list of missing nodes
-		$missing = array_diff($this->_queue[$agentIdString], $foundNodes);
-		foreach ($missing as $nodeId) {
-			$_SESSION['__isAuthorizedCacheUnknownIds'][] = $nodeId;
-		}
-		$this->_queue[$agentIdString] = $foundNodes;
+// 		$query = new SelectQuery();
+// 		$query->addColumn("DISTINCT id");
+// 		$query->addTable("az2_node");
+// 		$query->addWhereIn("id", $this->_queue[$agentIdString]);
+// 		$result = $dbHandler->query(
+// 						$query, 
+// 						$this->_configuration->getProperty('database_index'));
+// 		$foundNodes = array();
+// 		while ($result->hasMoreRows()) {
+// 			$foundNodes[] = $result->field('id');
+// 			$result->advanceRow();
+// 		}
+// 		$result->free();
+// 		
+// 		// Get a list of missing nodes
+// 		$missing = array_diff($this->_queue[$agentIdString], $foundNodes);
+// 		foreach ($missing as $nodeId) {
+// 			$_SESSION['__isAuthorizedCacheUnknownIds'][] = $nodeId;
+// 		}
+// 		$this->_queue[$agentIdString] = $foundNodes;
 		
 		if (count($this->_queue[$agentIdString]) > 1)
 			$this->_loadMultiple($agentIdString, $this->_queue[$agentIdString]);
