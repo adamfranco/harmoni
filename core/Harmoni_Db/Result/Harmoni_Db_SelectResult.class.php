@@ -235,7 +235,7 @@ class Harmoni_Db_SelectResult
 	 * @return void
 	 */
 	function free() {
-		$rows = array();
+		$this->rows = array();
 	}
 
 }
