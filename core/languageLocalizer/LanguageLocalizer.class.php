@@ -217,7 +217,12 @@ class LanguageLocalizer {
 		
 		// If gettext support is availible, use it.
 		if (hasGettext()) {
-			putenv("LANG=".$this->_lang);
+			// Safe-Mode will restrict usage of putenv, so suppress errros for those
+			// environments 
+			if (!ini_get('safe_mode') || (ini_get('safe_mode') && preg_match('/LANG/', ini_get('safe_mode_allowed_env_vars')))) 
+				putenv("LANG=".$this->_lang);
+			else
+				@ putenv("LANG=".$this->_lang);
 			$result = setlocale(LC_ALL, $this->_lang);
 			
 			debug::output( "Setting Lang to ".$this->_lang." => '$result'.",DEBUG_SYS5,"LanguageLocalizer");

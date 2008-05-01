@@ -68,6 +68,13 @@
 			than in the adapter. Hopefully performance won't take too much of a hit
 			and portability will be preserved.
 		</change>
+		<fix author='adam' date='2008-05-01' ref='' reftype='bug'>
+			Harmoni_Db: New Harmoni_Db query result class for INSERT, UPDATE, and DELETE queries.
+			
+			Harmoni_Db_SelectResult is now only for SELECT results. Other modes of
+			operation for INSERT, UPDATE, and DELETE queries have been moved to a new
+			class, Harmoni_Db_InUpDeResult.
+		</fix>
 		<fix author='adam' date='2008-04-18'>
 			DatabaseManager: InsertQueries will now convert numeric parameters to
 			strings rather than throwing InvalidArgumentExceptions.
@@ -95,6 +102,11 @@
 			Tagging: Can now specify a timestamp when setting a tag for a particular
 			agent.
 		</change>
+		<fix author='adam' date='2008-05-01' ref='' reftype='bug'>
+			Language: Since putenv() is restricted in safe-mode, errors are now
+			suppressed when calling it with safe-mode on as it is not needed in 
+			many systems.
+		</fix>
 	</version>
 	<version number="1.1.0" date="2008-04-11">
 		<releaseNotes>
