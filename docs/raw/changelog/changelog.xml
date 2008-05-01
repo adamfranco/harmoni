@@ -68,6 +68,13 @@
 			than in the adapter. Hopefully performance won't take too much of a hit
 			and portability will be preserved.
 		</change>
+		<fix author='adam' date='2008-05-01' ref='' reftype='bug'>
+			Harmoni_Db: New Harmoni_Db query result class for INSERT, UPDATE, and DELETE queries.
+			
+			Harmoni_Db_SelectResult is now only for SELECT results. Other modes of
+			operation for INSERT, UPDATE, and DELETE queries have been moved to a new
+			class, Harmoni_Db_InUpDeResult.
+		</fix>
 		<fix author='adam' date='2008-04-18'>
 			DatabaseManager: InsertQueries will now convert numeric parameters to
 			strings rather than throwing InvalidArgumentExceptions.
