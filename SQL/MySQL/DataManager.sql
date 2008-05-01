@@ -14,7 +14,7 @@
 
 CREATE TABLE dm_blob (
   id varchar(75) NOT NULL default '0',
-  data blob NOT NULL,
+  data longblob NOT NULL,
   PRIMARY KEY  (id)
 )
 CHARACTER SET utf8
