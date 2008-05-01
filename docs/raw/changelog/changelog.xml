@@ -95,6 +95,11 @@
 			Tagging: Can now specify a timestamp when setting a tag for a particular
 			agent.
 		</change>
+		<fix author='adam' date='2008-05-01' ref='' reftype='bug'>
+			Language: Since putenv() is restricted in safe-mode, errors are now
+			suppressed when calling it with safe-mode on as it is not needed in 
+			many systems.
+		</fix>
 	</version>
 	<version number="1.1.0" date="2008-04-11">
 		<releaseNotes>
