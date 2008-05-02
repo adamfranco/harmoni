@@ -340,8 +340,7 @@ class AuthZ2_IsAuthorizedCache {
 	 * @access public
 	 * @since 12/20/05
 	 */
-	function queueId ( $id ) {
-		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"));
+	function queueId (Id $id ) {
 		$this->queueIdString($id->getIdString());
 	}
 	
