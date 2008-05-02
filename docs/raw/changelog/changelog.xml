@@ -10,7 +10,17 @@
 <changelog name="Harmoni">
 	<version number="1.2.0" date="The Future">
 		<releaseNotes>
+			This release includes a new implementation of the Authorization and Hierarchy
+			services along side of the original implimentations. This new 'AuthZ2' implimentation
+			stores hierarchy and authorization data in a set of tables with foreign-key
+			constraints/triggers to manage the removal of authorizations when nodes
+			in the hierarchy are dropped. As well, AuthZ2 stores implicit authorizations
+			as rows in an implicit_azs table to allow simple lookups without the need of
+			traversing the hierarchy at read-time. AuthZ2 enables Segue to run approximately
+			600% faster, with some operations seeing 2000% decreases in execution time.
 			
+			Additional improvements in this release include more robust Harmoni_Db support,
+			as well as fixes to Tagging, Language, and Database services.
 		</releaseNotes>
 		<new author='adam' date='2008-04-24' ref='1951075' reftype='fr'>
 			AuthZ2: New Authorization/Hierarchy package stores implicit authorizations
@@ -22,9 +32,12 @@
 			of one another. A migration script for moving hierarchy and authorization
 			information out of The original tables and into the AuthZ2 tables can be
 			found at harmoni/core/oki2/AuthZ2/migration.php
-		</new>
-		<new author='adam' date='2008-04-18'>
-			IdManager: Now can be configured to use Harmoni_Db.
+			
+			Please note that in AuthZ2 the 'edu.middlebury.authorization.view' function
+			has the property of cascading up the hierarchy as well as down. This property
+			is needed by our Segue and Concerto applications and the lack of it in 
+			the original implimentations required the use of the isAuthorizedBelow()
+			function. All other authorization functions cascade down only.
 		</new>
 		<new author='adam' date='2008-04-18'>
 			AuthorizationManager: Now can be configured to use Harmoni_Db.
@@ -44,13 +57,16 @@
 			and Authentication systems allows swapping of the Authorization-Hierarchy implementation.
 		</change>
 		<change author='adam' date='2008-04-21'>
-			Hierarchy: Cleaned up query syntax to do use addWhereEqual(), addWhereLike(), etc
-			methods rather than manually building WHERE strings.
-		</change>
-		<change author='adam' date='2008-04-21'>
 			Authorization/Hierarchy: Now relying on type-hinting for validation of object
 			parameters rather than using the ArguementValidator.
 		</change>
+		<change author='adam' date='2008-04-21'>
+			Hierarchy: Cleaned up query syntax to do use addWhereEqual(), addWhereLike(), etc
+			methods rather than manually building WHERE strings.
+		</change>
+		<new author='adam' date='2008-04-18'>
+			IdManager: Now can be configured to use Harmoni_Db.
+		</new>
 		<fix author='adam' date='2008-04-18'>
 			Harmoni_Db: Insert now esures that at least one row of values exists.
 		</fix>
