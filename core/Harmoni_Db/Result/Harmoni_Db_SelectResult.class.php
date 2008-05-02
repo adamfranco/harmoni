@@ -90,7 +90,8 @@ class Harmoni_Db_SelectResult
 	 * @return boolean True, if there are some rows left; False, otherwise.
 	 **/
 	function hasNext() {
-		return is_array($this->rows[key($this->rows) + 1]);
+		return isset($this->rows[key($this->rows) + 1]) 
+			&& is_array($this->rows[key($this->rows) + 1]);
 	}
 
 	/**
