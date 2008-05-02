@@ -497,10 +497,17 @@ class AuthZ2_IsAuthorizedCache {
 // 		}
 // 		$this->_queue[$agentIdString] = $foundNodes;
 		
-		if (count($this->_queue[$agentIdString]) > 1)
+		// Based on my testing, it seems like loading 4 or less with prepared statements
+		// is faster is the speediest point
+		if (count($this->_queue[$agentIdString]) <= 4
+			&& isset($this->authorizationManager) && isset($this->authorizationManager->harmoni_db))
+		{
+			foreach ($this->_queue[$agentIdString] as $qualifier) {
+				$this->_loadSingle($agentIdString, $qualifier);
+			}
+		} else {
 			$this->_loadMultiple($agentIdString, $this->_queue[$agentIdString]);
-		else if (count($this->_queue[$agentIdString]) == 1)
-			$this->_loadSingle($agentIdString, current($this->_queue[$agentIdString]));
+		}
 		
 		/*********************************************************
 		 * Clear the Queue
