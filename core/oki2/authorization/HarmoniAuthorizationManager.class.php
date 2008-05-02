@@ -8,6 +8,7 @@ require_once(dirname(__FILE__).'/HarmoniAuthorizationIterator.class.php');
 require_once(dirname(__FILE__).'/HarmoniQualifier.class.php');
 require_once(dirname(__FILE__).'/IsAuthorizedCache.class.php');
 require_once(HARMONI.'oki2/shared/HarmoniIdIterator.class.php');
+require_once(HARMONI.'oki2/shared/MultiIteratorIterator.class.php');
 
 /**
  * AuthorizationManager allows an application to create Authorizations, get
