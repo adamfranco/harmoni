@@ -31,7 +31,7 @@
 <ul>
 		
 		<li>
-<b>New feature:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1951075&amp;group_id=&amp;atid=">
+<b>New feature:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1951075&amp;group_id=82873&amp;atid=567476">
         			#1951075</a> AuthZ2: New Authorization/Hierarchy package stores implicit authorizations as rows in their own table so that they can be quickly read at the expense of a small increase in writing time and storage space.
 <br>
 <br>Either AuthZ2 or the original Authorization and Hierarchy implementations can be used by Harmoni applications as these implementations are independent of one another. A migration script for moving hierarchy and authorization information out of The original tables and into the AuthZ2 tables can be found at harmoni/core/oki2/AuthZ2/migration.php
@@ -56,36 +56,36 @@
 		<li>
 <b>Bug Fix:</b> Harmoni_Db: Can now set Auto-Increment table/key for retrieving the last insert id from INSERT query executions. (<em>2008-04-24 - Adam Franco</em>)</li>
 		<li>
-<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=&amp;group_id=&amp;atid=">
+<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=&amp;group_id=82873&amp;atid=567473">
         			#</a> Harmoni_Db: Backtrace collection now works when preparing queries directly as well as from query-building objects. (<em>2008-04-25 - Adam Franco</em>)</li>
 		<li>
-<b>Change:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=&amp;group_id=&amp;atid=">
+<b>Change:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=&amp;group_id=82873&amp;atid=567476">
         			#</a> Harmoni_Db: It seems that only the MySQL PDO adapter supports buffered queries, so result buffering is now done in PHP in Harmoni_Db rather than in the adapter. Hopefully performance won't take too much of a hit and portability will be preserved. (<em>2008-04-29 - Adam Franco</em>)</li>
 		<li>
-<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=&amp;group_id=&amp;atid=">
+<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=&amp;group_id=82873&amp;atid=567473">
         			#</a> Harmoni_Db: New Harmoni_Db query result class for INSERT, UPDATE, and DELETE queries.
 <br>
 <br>Harmoni_Db_SelectResult is now only for SELECT results. Other modes of operation for INSERT, UPDATE, and DELETE queries have been moved to a new class, Harmoni_Db_InUpDeResult. (<em>2008-05-01 - Adam Franco</em>)</li>
 		<li>
 <b>Bug Fix:</b> DatabaseManager: InsertQueries will now convert numeric parameters to strings rather than throwing InvalidArgumentExceptions. (<em>2008-04-18 - Adam Franco</em>)</li>
 		<li>
-<b>Change:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=&amp;group_id=&amp;atid=">
+<b>Change:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=&amp;group_id=82873&amp;atid=567476">
         			#</a> DatabaseManager: Now sends null instead of NULL for auto-increment columns for better compatability. (<em>2008-04-25 - Adam Franco</em>)</li>
 		<li>
-<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=&amp;group_id=&amp;atid=">
+<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=&amp;group_id=82873&amp;atid=567473">
         			#</a> DatabaseManager: Fix to transaction exception class name. (<em>2008-04-28 - Adam Franco</em>)</li>
 		<li>
 <b>New feature:</b> ErrorHandler: Exceptions can now define a getHtmlMessage() method and have this HTML-formatted message printed without entity conversion. (<em>2008-04-18 - Adam Franco</em>)</li>
 		<li>
 <b>Change:</b> Harmoni_DOMDocument: Now defines getHtmlMessage() in its ValidationException to print more ledgible messages. (<em>2008-04-18 - Adam Franco</em>)</li>
 		<li>
-<b>New feature:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1940489&amp;group_id=&amp;atid=">
+<b>New feature:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1940489&amp;group_id=82171&amp;atid=565237">
         			#1940489</a> Tagging: Can now access information about individual applications of a tag via TagManager::getTagInfoForItem(). (<em>2008-04-18 - Adam Franco</em>)</li>
 		<li>
-<b>Change:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1940489&amp;group_id=&amp;atid=">
+<b>Change:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1940489&amp;group_id=82171&amp;atid=565237">
         			#1940489</a> Tagging: Can now specify a timestamp when setting a tag for a particular agent. (<em>2008-04-18 - Adam Franco</em>)</li>
 		<li>
-<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=&amp;group_id=&amp;atid=">
+<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=&amp;group_id=82873&amp;atid=567473">
         			#</a> Language: Since putenv() is restricted in safe-mode, errors are now suppressed when calling it with safe-mode on as it is not needed in many systems. (<em>2008-05-01 - Adam Franco</em>)</li>
 	</ul>
 <br><h2>Version 1.1.0</h2>
@@ -96,32 +96,32 @@
 <ul>
 		
 		<li>
-<b>New feature:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1814119&amp;group_id=&amp;atid=">
+<b>New feature:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1814119&amp;group_id=82873&amp;atid=567476">
         			#1814119</a> Harmoni_Db: New Zend_Db and PDO-based database abstraction and query writing system.
 <br>
 <br>See the following page for more information: http://harmoni.sourceforge.net/wiki/index.php/Harmoni_Db (<em>2008-04-03 - Adam Franco</em>)</li>
 		<li>
-<b>New feature:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1814119&amp;group_id=&amp;atid=">
+<b>New feature:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1814119&amp;group_id=82873&amp;atid=567476">
         			#1814119</a> Harmoni_Db: Required Zend_Db sources are now included with Harmoni. No extra installation is needed. (<em>2008-04-03 - Adam Franco</em>)</li>
 		<li>
 <b>Change:</b> DatabaseManager: Can now trace query-calling functions. (<em>2008-04-04 - Adam Franco</em>)</li>
 		<li>
-<b>New feature:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1814119&amp;group_id=&amp;atid=">
+<b>New feature:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1814119&amp;group_id=82873&amp;atid=567476">
         			#1814119</a> Hierarchy: Can now optionally use Harmoni_Db for some common queries. (<em>2008-04-08 - Adam Franco</em>)</li>
 		<li>
 <b>Change:</b> Hierarchy: Now only catches UnknownIdExceptions to allow database exceptions to bubble up. (<em>2008-04-08 - Adam Franco</em>)</li>
 		<li>
-<b>New feature:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1814119&amp;group_id=&amp;atid=">
+<b>New feature:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1814119&amp;group_id=82873&amp;atid=567476">
         			#1814119</a> AgentManagement: Can now optionally use Harmoni_Db for some common queries. (<em>2008-04-08 - Adam Franco</em>)</li>
 		<li>
-<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1934661&amp;group_id=&amp;atid=">
+<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1934661&amp;group_id=82171&amp;atid=565234">
         			#1934661</a> AgentManagement: LDAP search cache now is per baseDN. (<em>2008-04-04 - Alex Chapin, Adam Franco</em>)</li>
 		<li>
 <b>Change:</b> Debug: added var_dump_pre() function for doing a var_dump() with pre-format tags. (<em>2008-04-08 - Adam Franco</em>)</li>
 		<li>
 <b>Bug Fix:</b> ErrorHandler: now prints the full file path in the backtrace file title. (<em>2008-04-03 - Adam Franco</em>)</li>		
 		<li>
-<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1938748&amp;group_id=&amp;atid=">
+<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1938748&amp;group_id=82171&amp;atid=565234">
         			#1938748</a> ErrorHandler: Now filters request values whose names contain 'password' and other configurable request values out of logs, inserting a placeholder. (<em>2008-04-09 - Adam Franco</em>)</li>
 		<li>
 <b>New feature:</b> Request: Can now set or override a request parameter through a new setRequestParam() method. (<em>2008-04-10 - Adam Franco</em>)</li>
@@ -134,18 +134,18 @@
 		<li>
 <b>Change:</b> Request: Can now pass additional variables to mkURLWithPassthrough(). (<em>2008-04-02 - Adam Franco</em>)</li>
 		<li>
-<b>Change:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1897447&amp;group_id=&amp;atid=">
+<b>Change:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1897447&amp;group_id=82171&amp;atid=565237">
         			#1897447</a> AgentManagement: LDAP connector now caches returned info in the session to dramaticallyimprove speed of repeated data access. (about 3x) (<em>2008-04-02 - Adam Franco</em>)</li>
 		<li>
-<b>Change:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1931215&amp;group_id=&amp;atid=">
+<b>Change:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1931215&amp;group_id=82171&amp;atid=565237">
         			#1931215</a> Hierarchy: HierarchyCache now throws classed exceptions rather than generic ones. (<em>2008-04-02 - Adam Franco</em>)</li>
 		<li>
-<b>Change:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1930276&amp;group_id=&amp;atid=">
+<b>Change:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1930276&amp;group_id=82873&amp;atid=567473">
         			#1930276</a> Language: Now supports three-letter language codes such as 'ave_VE'. Also supports secondary three-letter codes such as 'cym', 'wel', and 'cy' for 'Welsh'. (<em>2008-04-02 - Adam Franco</em>)<br> (<em>reported by José Alfonso Accino of University of Málaga</em>)</li>
 		<li>
 <b>Change:</b> Language: Country names are now nicely mixed-case rather than all upper. (<em>2008-04-02 - Adam Franco</em>)</li>
 		<li>
-<b>Change:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1930280&amp;group_id=&amp;atid=">
+<b>Change:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1930280&amp;group_id=82873&amp;atid=567473">
         			#1930280</a> Language: Now does a 
 <br>
 <br>putenv('LANG='.$this-&gt;_lang); 
@@ -154,7 +154,7 @@
 <br>
 <br>setlocale(LC_ALL, $this-&gt;_lang); (<em>2008-04-02 - Adam Franco</em>)<br> (<em>reported by José Alfonso Accino of University of Málaga</em>)</li>
 		<li>
-<b>New feature:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1930291&amp;group_id=&amp;atid=">
+<b>New feature:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1930291&amp;group_id=82873&amp;atid=567476">
         			#1930291</a> Language: New methods LanguageLocalizer::getCurrentLanguageCode() and LanguageLocalizer::getCurrentCountryCode() to provide access to the simple versions of the current codes. (<em>2008-04-02 - Adam Franco</em>)<br> (<em>reported by José Alfonso Accino of University of Málaga</em>)</li>
 		<li>
 <b>Change:</b> Language: Added new ISO 639-3 language list. Added language-name translation table from Wikipedia.org. Can now return language names in native form or in specified translation order. (<em>2008-04-02 - Adam Franco</em>)</li>
@@ -191,20 +191,20 @@
 <ul>
 		
 		<li>
-<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1908762&amp;group_id=&amp;atid=">
+<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1908762&amp;group_id=82171&amp;atid=565234">
         			#1908762</a> Request: PathInfo Request variables are now encoded with rawurlencode() instead of urlenced() to encode spaces with '%20' instead of '+'. This prevents some decoding issues when values contain spaces. (<em>2008-03-06 - Adam Franco</em>)<br> (<em>reported by Bryan Carson of Middlebury College</em>)</li>
 		<li>
-<b>Change:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1907111&amp;group_id=&amp;atid=">
+<b>Change:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1907111&amp;group_id=82873&amp;atid=567476">
         			#1907111</a> ArgumentValidator: Now throws an InvalidArgumentException on validation fail to allow for easier catching of this type of error. (<em>2008-03-06 - Adam Franco</em>)</li>
 		<li>
-<b>Change:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1907239&amp;group_id=&amp;atid=">
+<b>Change:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1907239&amp;group_id=82873&amp;atid=567476">
         			#1907239</a> Logging: Logging Items must now implement a new AgentNodeEntryItemInterface. (<em>2008-03-06 - Adam Franco</em>)</li>
 		<li>
 <b>Bug Fix:</b> Logging: HarmoniWritableLog now correctly implements the WritableLog interface. (<em>2008-03-06 - Adam Franco</em>)</li>
 		<li>
 <b>Bug Fix:</b> SimpleTableRepository: Internal IdManager now implements IdManager. (<em>2008-03-06 - Adam Franco</em>)</li>
 		<li>
-<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1824819&amp;group_id=&amp;atid=">
+<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1824819&amp;group_id=82873&amp;atid=567473">
         			#1824819</a> SimpleTableRepository: Now converts search criteria to the proper character set. (<em>2008-03-06 - Adam Franco</em>)</li>
 	</ul>
 <br><h2>Version 1.0.2</h2>
@@ -217,7 +217,7 @@
 		<li>
 <b>Bug Fix:</b> GUI: Fixed error in Blank component constructor. (<em>2008-02-28 - Adam Franco</em>)</li>
 		<li>
-<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1899163&amp;group_id=&amp;atid=">
+<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1899163&amp;group_id=82171&amp;atid=565234">
         			#1899163</a> Request: Path-info handler now doesn't raise a notice when no action is passed. (<em>2008-02-26 - Adam Franco</em>)</li>
 		<li>
 <b>Change:</b> AuthN: Removed legacy class HarmoniAuthenticationType. (<em>2008-02-26 - Adam Franco</em>)<br> (<em>reported by José Alfonso Accino of University of Málaga</em>)</li>
@@ -228,7 +228,7 @@
 <ul>
 		
 		<li>
-<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1896959&amp;group_id=&amp;atid=">
+<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1896959&amp;group_id=82171&amp;atid=565234">
         			#1896959</a> Request: Cookie values are now stripped out of URLs made with mkURLWithPassthrough(). (<em>2008-02-19 - Adam Franco</em>)</li>
 		<li>
 <b>Bug Fix:</b> AuthZ: Fixed issue in default Type constuctors. (<em>2008-02-19 - Adam Franco</em>)</li>
@@ -265,18 +265,18 @@
 		<li>
 <b>New feature:</b> RequestContext: Now provides help methods to interpret URLs written by the system. (<em>2008-01-25 - Adam Franco</em>)</li>
 		<li>
-<b>Change:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1891413&amp;group_id=&amp;atid=">
+<b>Change:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1891413&amp;group_id=82171&amp;atid=565234">
         			#1891413</a> Repository: When updating to null values in the FILE record, data rows are now deleted directly rather than updated to null values. (<em>2008-01-24 - Adam Franco</em>)</li>
 		<li>
-<b>New feature:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1815898&amp;group_id=&amp;atid=">
+<b>New feature:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1815898&amp;group_id=82873&amp;atid=567476">
         			#1815898</a> New Harmoni_DOMDocument that adds on a few helper methods and work-arounds to the default PHP5 DOM implementation. (<em>2008-01-23 - Adam Franco</em>)</li>
 		<li>
 <b>Bug Fix:</b> Agent now requires needed HtmlString class. (<em>2008-01-23 - Adam Franco</em>)</li>
 		<li>
-<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1854967&amp;group_id=&amp;atid=">
+<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1854967&amp;group_id=82171&amp;atid=565234">
         			#1854967</a> ImageProcessor: Multi-page PDF files seem to not give an exit code when thumbnail generation fails. Thumbnail existence is now manually checked with file_exists() to prevent errors from coming through. (<em>2008-02-15 - Adam Franco</em>)</li>
 		<li>
-<b>Change:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1871570&amp;group_id=&amp;atid=">
+<b>Change:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1871570&amp;group_id=82171&amp;atid=565234">
         			#1871570</a> RequestContext: Can now get the module and action listed in a url. (<em>2008-02-15 - Adam Franco</em>)</li>
 	</ul>
 <br><h2>Version 0.13.8</h2>
@@ -285,7 +285,7 @@
 <ul>
 		
 		<li>
-<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1872249&amp;group_id=&amp;atid=">
+<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1872249&amp;group_id=82171&amp;atid=565234">
         			#1872249</a> Agent: Token search now ensures uniqueness of Ids. (<em>2008-01-15 - Adam Franco</em>)</li>
 	</ul>
 <br><h2>Version 0.13.7</h2>
@@ -304,7 +304,7 @@
 <ul>
 		
 		<li>
-<b>Change:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1854956&amp;group_id=&amp;atid=">
+<b>Change:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1854956&amp;group_id=82171&amp;atid=565234">
         			#1854956</a> GUI: Can now pass in components to use as non-blank placeholders in case the placeholder never gets replaced. (<em>2007-12-20 - Adam Franco</em>)</li>
 		<li>
 <b>Bug Fix:</b> GUI: Moving table-width definitions to style tags to aid validation. (<em>2007-12-17 - Adam Franco</em>)</li>
@@ -321,10 +321,10 @@
 <ul>
 		
 		<li>
-<b>Change:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1845759&amp;group_id=&amp;atid=">
+<b>Change:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1845759&amp;group_id=82171&amp;atid=565234">
         			#1845759</a> Agents: Agent display names are now stripped of XSS-vulnerable-markup. (<em>2007-12-07 - Adam Franco</em>)</li>
 		<li>
-<b>New feature:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1845757&amp;group_id=&amp;atid=">
+<b>New feature:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1845757&amp;group_id=82171&amp;atid=565234">
         			#1845757</a> Primitives: HtmlString now allows cleaning of potential cross-site-scripting (XSS) markup from html. 
 <br>
 <br>Cleaning is done using the safehtml libraryby Roman Ivanov (http://pixel-apes.com/safehtml/?page=safehtml).
@@ -337,7 +337,7 @@
 		<li>
 <b>Bug Fix:</b> Hierarchy: Now more reliably throws an UnknownIdException when no node is found. (<em>2007-12-03 - Adam Franco</em>)</li>
 		<li>
-<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1841763&amp;group_id=&amp;atid=">
+<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1841763&amp;group_id=82873&amp;atid=567473">
         			#1841763</a> Agent: Fixed an error in the display name update implementation. (<em>2007-11-30 - Adam Franco</em>)</li>
 	</ul>
 <br><h2>Version 0.13.4</h2>
@@ -346,14 +346,14 @@
 <ul>
 		
 		<li>
-<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1829095&amp;group_id=&amp;atid=">
+<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1829095&amp;group_id=82873&amp;atid=567473">
         			#1829095</a> ErrorHandler: Categories and priority types are now separate logging fields.
 <br>
 <br>Uncaught Exceptions all have priority 'Uncaught Exception' and a category which is their type or class-name as applicable.
 <br>
 <br>Errors use their type as their priority and have no category. (<em>2007-11-12 - Adam Franco</em>)</li>
 		<li>
-<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1827143&amp;group_id=&amp;atid=">
+<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1827143&amp;group_id=82873&amp;atid=567473">
         			#1827143</a> ErrorHandler: Backtrace arguments are now escaped to prevent invalid characters from killing log-browsing HTML or causing XSS injections. (<em>2007-11-12 - Adam Franco</em>)</li>
 	</ul>
 <br><h2>Version 0.13.3</h2>
@@ -366,7 +366,7 @@
 		<li>
 <b>Bug Fix:</b> Authorization: The HarmoniAuthorizationManager now accepts null arguments to getExplicitAZs() as per the OSID. (<em>2007-11-05 - Adam Franco</em>)</li>
 		<li>
-<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1824880&amp;group_id=&amp;atid=">
+<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1824880&amp;group_id=82171&amp;atid=565237">
         			#1824880</a> Agent: The OSID Agent implementation now supports the addition of externally defined groups (such as from LDAP) as subgroups under locally defined groups. This allows for locally defined amalgamations of externally defined groups into one entity.
 <br>
 <br>This relationship is stored outside of the hierarchy in a new database table and requires a database update. (<em>2007-11-07 - Adam Franco</em>)</li>
@@ -377,7 +377,7 @@
 		<li>
 <b>Bug Fix:</b> ErrorHandler: Now checks for trace elements to be set to prevent notices. (<em>2007-11-07 - Adam Franco</em>)</li>
 		<li>
-<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1828488&amp;group_id=&amp;atid=">
+<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1828488&amp;group_id=82171&amp;atid=565234">
         			#1828488</a> Repository: Asset create-date now properly set. (<em>2007-11-08 - Adam Franco</em>)</li>
 	</ul>
 <br><h2>Version 0.13.2</h2>
@@ -440,7 +440,7 @@
 		<li>
 <b>New feature:</b> Custom error_handling function. (<em>2007-10-09 - Adam Franco</em>)</li>
 		<li>
-<b>Change:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1810364&amp;group_id=&amp;atid=">
+<b>Change:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1810364&amp;group_id=82873&amp;atid=567473">
         			#1810364</a> The HarmoniRepositoryManager object is now passed to the objects it creates rather than being accessed globally from within its implementation peventing conflicts when multiple RepositoryManager implementations exist. (<em>2007-10-09 - Adam Franco</em>)</li>
 		<li>
 <b>Bug Fix:</b> Fixing a number of E_STRICT notices and improving the class and interface hierarchies. (<em>2007-10-10 - Adam Franco</em>)</li>
@@ -961,7 +961,7 @@
 		<li>
 <b>Change:</b> Updated DR module to use new DataManager. (<em>Gabe Schine</em>)</li>
 		<li>
-<b>Change:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=890779&amp;group_id=&amp;atid=">
+<b>Change:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=890779&amp;group_id=82873&amp;atid=567473">
         			#890779</a> DataManager now uses unique ids to reference fields instead of purely by label. (<em>Gabe Schine</em>)</li>
 		<li>
 <b>Bug Fix:</b> Fixed a number of bugs in the Primitive and StorablePrimitive classes. (<em>Gabe Schine</em>)</li>
