@@ -2092,6 +2092,33 @@
 		</change>
 	</version>
 	
+	<about>
+		The Harmoni Project is an effort led by the Curricular Technologies group at Middlebury College to build an application framework and standards-based infrastructure bus to support the rapid development and easy maintenance of curricular it projects. The project is built entirely using PHP's OOP (Object Oriented Programming) model, allowing the framework code to be easily extended and enhanced.
+		
+		At the core of the Harmoni Application Framework is an implementation of The Open Knowledge Initiative's (O.K.I) Open Service Interface Definitions (OSIDs). The OSIDs are a standard service-oriented API that defines a broad set of services that are germane to IT projects in the education field yet also fitting for broader uses.
+		
+		Sitting alongside of the Harmoni services is the "Harmoni Architecture". The "architecture" is a set of controllers and templates that coordinate configuration of services, the proper execution of application actions, and any post-processing of application output. The architecture is built on a popular module/action model, in which your PHP program contains multiple modules, each of which contain multiple executable actions. All you, as an application developer, need to write are the action files, not the controller logic.
+
+		The "Harmoni Architecture" is separate from the Harmoni Services and either can be used independently of the other. 
+	</about>
+	
+	<info>
+		<title>Downloads</title>
+		<description>For the latested and archived versions, please download from SourceForge:</description>
+		<url>http://sourceforge.net/project/showfiles.php?group_id=82873</url>
+	</info>
+	<info>
+		<title>Documentation</title>
+		<description>
+			See the Harmoni wiki for online documentation:
+		</description>
+		<url>http://harmoni.sf.net/</url>
+	</info>
+	<info>
+		<title>Bug Tracker</title>
+		<url>https://sourceforge.net/tracker/?group_id=82873&amp;atid=567473</url>
+	</info>
+	
 	<authors>
 		<name short="adam">Adam Franco</name>
 		<name short="gabe">Gabe Schine</name>
