@@ -23,7 +23,72 @@
 </head>
 <body>
 <h1>Harmoni Change Log</h1>
-<h2>Version 1.1.0</h2>
+<h2>Version 1.2.0</h2>
+<h3>2008-05-05</h3>
+<p>This release includes a new implementation of the Authorization and Hierarchy services along side of the original implimentations. This new 'AuthZ2' implimentation stores hierarchy and authorization data in a set of tables with foreign-key constraints/triggers to manage the removal of authorizations when nodes in the hierarchy are dropped. As well, AuthZ2 stores implicit authorizations as rows in an implicit_azs table to allow simple lookups without the need of traversing the hierarchy at read-time. AuthZ2 enables Segue to run approximately 600% faster, with some operations seeing 2000% decreases in execution time.
+<br>
+<br>Additional improvements in this release include more robust Harmoni_Db support, as well as fixes to Tagging, Language, and Database services.</p>
+<ul>
+		
+		<li>
+<b>New feature:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1951075&amp;group_id=&amp;atid=">
+        			#1951075</a> AuthZ2: New Authorization/Hierarchy package stores implicit authorizations as rows in their own table so that they can be quickly read at the expense of a small increase in writing time and storage space.
+<br>
+<br>Either AuthZ2 or the original Authorization and Hierarchy implementations can be used by Harmoni applications as these implementations are independent of one another. A migration script for moving hierarchy and authorization information out of The original tables and into the AuthZ2 tables can be found at harmoni/core/oki2/AuthZ2/migration.php
+<br>
+<br>Please note that in AuthZ2 the 'edu.middlebury.authorization.view' function has the property of cascading up the hierarchy as well as down. This property is needed by our Segue and Concerto applications and the lack of it in the original implimentations required the use of the isAuthorizedBelow() function. All other authorization functions cascade down only. (<em>2008-04-24 - Adam Franco</em>)</li>
+		<li>
+<b>New feature:</b> AuthorizationManager: Now can be configured to use Harmoni_Db. (<em>2008-04-18 - Adam Franco</em>)</li>
+		<li>
+<b>Change:</b> Authorization: Cleaned up query syntax to do use addWhereEqual(), addWhereLike(), etc methods rather than manually building WHERE strings. (<em>2008-04-21 - Adam Franco</em>)</li>
+		<li>
+<b>Bug Fix:</b> Authorization: Now explicit AZs do not create identical duplicate implicit AZs when searching for AZs for any agent. (<em>2008-04-24 - Adam Franco</em>)</li>
+		<li>
+<b>Change:</b> Authorization: Added AuthorizationManager::getIsAuthorizedCache() method to access the IsAuthorizedCache used by the current AuthorizationManager for queueing of qualifier-ids. This new method and its usage by the Repository and Authentication systems allows swapping of the Authorization-Hierarchy implementation. (<em>2008-04-21 - Adam Franco</em>)</li>
+		<li>
+<b>Change:</b> Authorization/Hierarchy: Now relying on type-hinting for validation of object parameters rather than using the ArguementValidator. (<em>2008-04-21 - Adam Franco</em>)</li>
+		<li>
+<b>Change:</b> Hierarchy: Cleaned up query syntax to do use addWhereEqual(), addWhereLike(), etc methods rather than manually building WHERE strings. (<em>2008-04-21 - Adam Franco</em>)</li>
+		<li>
+<b>New feature:</b> IdManager: Now can be configured to use Harmoni_Db. (<em>2008-04-18 - Adam Franco</em>)</li>
+		<li>
+<b>Bug Fix:</b> Harmoni_Db: Insert now esures that at least one row of values exists. (<em>2008-04-18 - Adam Franco</em>)</li>
+		<li>
+<b>Bug Fix:</b> Harmoni_Db: Can now set Auto-Increment table/key for retrieving the last insert id from INSERT query executions. (<em>2008-04-24 - Adam Franco</em>)</li>
+		<li>
+<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=&amp;group_id=&amp;atid=">
+        			#</a> Harmoni_Db: Backtrace collection now works when preparing queries directly as well as from query-building objects. (<em>2008-04-25 - Adam Franco</em>)</li>
+		<li>
+<b>Change:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=&amp;group_id=&amp;atid=">
+        			#</a> Harmoni_Db: It seems that only the MySQL PDO adapter supports buffered queries, so result buffering is now done in PHP in Harmoni_Db rather than in the adapter. Hopefully performance won't take too much of a hit and portability will be preserved. (<em>2008-04-29 - Adam Franco</em>)</li>
+		<li>
+<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=&amp;group_id=&amp;atid=">
+        			#</a> Harmoni_Db: New Harmoni_Db query result class for INSERT, UPDATE, and DELETE queries.
+<br>
+<br>Harmoni_Db_SelectResult is now only for SELECT results. Other modes of operation for INSERT, UPDATE, and DELETE queries have been moved to a new class, Harmoni_Db_InUpDeResult. (<em>2008-05-01 - Adam Franco</em>)</li>
+		<li>
+<b>Bug Fix:</b> DatabaseManager: InsertQueries will now convert numeric parameters to strings rather than throwing InvalidArgumentExceptions. (<em>2008-04-18 - Adam Franco</em>)</li>
+		<li>
+<b>Change:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=&amp;group_id=&amp;atid=">
+        			#</a> DatabaseManager: Now sends null instead of NULL for auto-increment columns for better compatability. (<em>2008-04-25 - Adam Franco</em>)</li>
+		<li>
+<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=&amp;group_id=&amp;atid=">
+        			#</a> DatabaseManager: Fix to transaction exception class name. (<em>2008-04-28 - Adam Franco</em>)</li>
+		<li>
+<b>New feature:</b> ErrorHandler: Exceptions can now define a getHtmlMessage() method and have this HTML-formatted message printed without entity conversion. (<em>2008-04-18 - Adam Franco</em>)</li>
+		<li>
+<b>Change:</b> Harmoni_DOMDocument: Now defines getHtmlMessage() in its ValidationException to print more ledgible messages. (<em>2008-04-18 - Adam Franco</em>)</li>
+		<li>
+<b>New feature:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1940489&amp;group_id=&amp;atid=">
+        			#1940489</a> Tagging: Can now access information about individual applications of a tag via TagManager::getTagInfoForItem(). (<em>2008-04-18 - Adam Franco</em>)</li>
+		<li>
+<b>Change:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1940489&amp;group_id=&amp;atid=">
+        			#1940489</a> Tagging: Can now specify a timestamp when setting a tag for a particular agent. (<em>2008-04-18 - Adam Franco</em>)</li>
+		<li>
+<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=&amp;group_id=&amp;atid=">
+        			#</a> Language: Since putenv() is restricted in safe-mode, errors are now suppressed when calling it with safe-mode on as it is not needed in many systems. (<em>2008-05-01 - Adam Franco</em>)</li>
+	</ul>
+<br><h2>Version 1.1.0</h2>
 <h3>2008-04-11</h3>
 <p>This release adds a new database access and SQL query system, Harmoni_Db. Harmoni_Db is an extension of Zend_Db and adds Harmoni query-building syntax to the Zend_Db system. Through Harmoni_Db, prepared SQL statements are now supported and can be configured for use in the Hierarchy and AgentManagement services for increased performance.
 <br>

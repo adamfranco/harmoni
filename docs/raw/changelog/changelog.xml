@@ -8,7 +8,7 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
-	<version number="1.2.0" date="The Future">
+	<version number="1.2.0" date="2008-05-05">
 		<releaseNotes>
 			This release includes a new implementation of the Authorization and Hierarchy
 			services along side of the original implimentations. This new 'AuthZ2' implimentation

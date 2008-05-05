@@ -3,6 +3,21 @@ Name: Harmoni Release Notes
 (See the Harmoni change log for more details)
 
 
+v. 1.2.0 (2008-05-05)
+----------------------------------------------------
+This release includes a new implementation of the Authorization and Hierarchy
+services along side of the original implimentations. This new 'AuthZ2'
+implimentation stores hierarchy and authorization data in a set of tables with
+foreign-key constraints/triggers to manage the removal of authorizations when nodes
+in the hierarchy are dropped. As well, AuthZ2 stores implicit authorizations as rows
+in an implicit_azs table to allow simple lookups without the need of traversing the
+hierarchy at read-time. AuthZ2 enables Segue to run approximately 600% faster, with
+some operations seeing 2000% decreases in execution time.
+
+Additional improvements in this release include more robust Harmoni_Db support, as
+well as fixes to Tagging, Language, and Database services.
+
+
 v. 1.1.0 (2008-04-11)
 ----------------------------------------------------
 This release adds a new database access and SQL query system, Harmoni_Db. Harmoni_Db
