@@ -22,8 +22,8 @@ require_once(dirname(__FILE__)."/File.interface.php");
  *
  * @version $Id$
  */
-class Harmoni_Filing_FileSytemFile
-	implements Harmoni_FileInterface 
+class Harmoni_Filing_FileSystemFile
+	implements Harmoni_Filing_FileInterface 
 {
 
 	/**

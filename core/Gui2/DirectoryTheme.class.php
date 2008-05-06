@@ -10,6 +10,7 @@
  */ 
 
 require_once(dirname(__FILE__).'/Theme.Interface.php');
+require_once(HARMONI.'/Utilities/Filing/FileSystemFile.class.php');
 
 /**
  * All GUI 2 themes must implement this interface
@@ -146,7 +147,7 @@ class Harmoni_Gui2_DirectoryTheme
 		if (!file_exists($path))
 			throw new UnknownIdException("No image found with name '$filename' in theme '".$this->getIdString()."'");
 		
-		return new Harmoni_FileSytemFile($path);
+		return new Harmoni_Filing_FileSystemFile($path);
 	}
 	
 	/*********************************************************

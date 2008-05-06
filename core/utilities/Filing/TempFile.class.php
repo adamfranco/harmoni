@@ -23,7 +23,7 @@ require_once(dirname(__FILE__)."/File.interface.php");
  * @version $Id$
  */
 class Harmoni_Filing_TempFile
-	implements Harmoni_FileInterface 
+	implements Harmoni_Filing_FileInterface 
 {
 
 	/**
