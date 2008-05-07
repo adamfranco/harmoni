@@ -173,7 +173,13 @@ class Harmoni_Gui2_DirectoryTheme
 	 * @since 5/6/08
 	 */
 	public function getDisplayName () {
-		throw new UnimplementedException();
+		if (!isset($this->info))
+			$this->loadInfo();
+		if (is_null($this->info))
+			return _("Untitled");
+		
+		$xpath = new DOMXPath($this->info);
+		return $xpath->query('/ThemeInfo/DisplayName')->item(0)->nodeValue;
 	}
 	
 	/**
@@ -228,6 +234,23 @@ class Harmoni_Gui2_DirectoryTheme
 	/*********************************************************
 	 * internal
 	 *********************************************************/
+	
+	/**
+	 * Load the information XML file
+	 * 
+	 * @return null
+	 * @access protected
+	 * @since 5/7/08
+	 */
+	protected function loadInfo () {
+		$path = $this->path.'/info.xml';
+		if (!file_exists($path))
+			throw new OperationFailedException("Theme '".$this->getIdString()."' is missing its info.xml file.");
+		
+		$this->info = new DOMDocument;
+		$this->info->load($path);
+	}
+	
 	/**
 	 * Answer a list of required CSS files
 	 * 
