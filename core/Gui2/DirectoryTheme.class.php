@@ -280,6 +280,7 @@ class Harmoni_Gui2_DirectoryTheme
 						'Heading_1',
 						'Heading_2',
 						'Heading_3',
+						'Heading_4',
 						
 						'Header',
 						'Footer'
@@ -457,10 +458,8 @@ images\/
 						return 'Block_Standard';
 					case 3:
 						return 'Block_Emphasized';
-					case 4:
-						return 'Block_Alert';
 					default:
-						throw new InvalidArgumentException("Unsupported block index, $index");
+						return 'Block_Alert';
 				}
 			
 			case MENU:
@@ -482,11 +481,9 @@ images\/
 						return 'Heading_2';
 					case 3:
 						return 'Heading_3';
-					case 4:
-						return 'Heading_4';
 					default:
-						throw new InvalidArgumentException("Unsupported heading index, $index");
-				}
+						return 'Heading_4';
+			}
 			
 			case HEADER:
 				return 'Header';
