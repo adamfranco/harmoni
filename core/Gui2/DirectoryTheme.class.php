@@ -293,8 +293,9 @@ class Harmoni_Gui2_DirectoryTheme
 		if (!file_exists($path))
 			throw new OperationFailedException("Theme '".$this->getIdString()."' is missing its info.xml file.");
 		
-		$this->info = new DOMDocument;
+		$this->info = new Harmoni_DOMDocument;
 		$this->info->load($path);
+		$this->info->schemaValidateWithException(dirname(__FILE__).'/theme_info.xsd');
 	}
 	
 	/**
