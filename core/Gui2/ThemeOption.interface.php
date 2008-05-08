@@ -66,7 +66,7 @@ interface Harmoni_Gui2_ThemeOptionInterface {
 	 * @access public
 	 * @since 5/6/08
 	 */
-	public function setValue ();
+	public function setValue ($value);
 	
 	/**
 	 * Set the value of this option to be the default.
