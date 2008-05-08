@@ -32,6 +32,15 @@ interface Harmoni_Gui2_ThemeOptionsInterface {
 	public function getOptions ();
 	
 	/**
+	 * Answer true if the current options value is to use defaults.
+	 * 
+	 * @return boolean
+	 * @access public
+	 * @since 5/6/08
+	 */
+	public function usesDefaults ();
+	
+	/**
 	 * Answer a string version of the current option-values that
 	 * can be fed back into setOptions() to return to the current
 	 * state.
