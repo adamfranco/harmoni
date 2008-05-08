@@ -182,7 +182,7 @@ END;
 	/**
 	 * Answer the current Theme
 	 * 
-	 * @return object ThemeInterface
+	 * @return object Harmoni_Gui2_ThemeInterface
 	 * @access public
 	 * @since 5/5/08
 	 */
@@ -194,9 +194,24 @@ END;
 	}
 	
 	/**
+	 * Answer the default theme
+	 * 
+	 * @return object Harmoni_Gui2_ThemeInterface
+	 * @access public
+	 * @since 5/8/08
+	 */
+	public function getDefaultTheme () {
+			$default = $this->_configuration->getProperty('default_theme');
+		if (!$default)
+			throw new ConfigurationErrorException("'default_theme' not specified.");
+
+		return $this->getTheme($default);
+	}
+	
+	/**
 	 * Set the current theme
 	 * 
-	 * @param object ThemeInterface $theme
+	 * @param object Harmoni_Gui2_ThemeInterface $theme
 	 * @return null
 	 * @access public
 	 * @since 5/5/08
@@ -213,11 +228,7 @@ END;
 	 * @since 5/6/08
 	 */
 	public function useDefaultTheme () {
-		$default = $this->_configuration->getProperty('default_theme');
-		if (!$default)
-			throw new ConfigurationErrorException("'default_theme' not specified.");
-
-		$this->setCurrentTheme($this->getTheme($default));
+		$this->setCurrentTheme($this->getDefaultTheme());
 	}
 	
 	/**
