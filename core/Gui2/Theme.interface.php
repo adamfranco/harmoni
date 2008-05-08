@@ -134,6 +134,15 @@ interface Harmoni_Gui2_ThemeInterface {
 	 */
 	public function getThumbnail ();
 	
+	/**
+	 * Answer an array of ThemeHistory items, in reverse chronological order.
+	 * 
+	 * @return array
+	 * @access public
+	 * @since 5/8/08
+	 */
+	public function getHistory ();
+	
 	/*********************************************************
 	 * Theme options
 	 *********************************************************/

@@ -11,6 +11,7 @@
 
 require_once(dirname(__FILE__).'/Theme.interface.php');
 require_once(HARMONI.'/utilities/Filing/FileSystemFile.class.php');
+require_once(dirname(__FILE__).'/HistoryEntry.class.php');
 
 /**
  * All GUI 2 themes must implement this interface
@@ -190,7 +191,13 @@ class Harmoni_Gui2_DirectoryTheme
 	 * @since 5/6/08
 	 */
 	public function getDescription () {
-		throw new UnimplementedException();
+		if (!isset($this->info))
+			$this->loadInfo();
+		if (is_null($this->info))
+			return '';
+		
+		$xpath = new DOMXPath($this->info);
+		return $xpath->query('/ThemeInfo/Description')->item(0)->nodeValue;
 	}
 	
 	/**
@@ -201,7 +208,46 @@ class Harmoni_Gui2_DirectoryTheme
 	 * @since 5/6/08
 	 */
 	public function getThumbnail () {
-		throw new UnimplementedException();
+		$file = $this->path.'/thumbnail.png';
+		if (!file_exists($file))
+			throw new OperationFailedException("Required thumbnail file, 'thumbnail.png' is missing from theme '".$this->getIdString()."'.");
+		if (!is_readable($file))
+			throw new OperationFailedException("Required thumbnail file, 'thumbnail.png' is not readable in theme '".$this->getIdString()."'.");
+		
+		return new Harmoni_Filing_FileSystemFile($file);
+	}
+	
+	/**
+	 * Answer an array of ThemeHistory items, in reverse chronological order.
+	 * 
+	 * @return array
+	 * @access public
+	 * @since 5/8/08
+	 */
+	public function getHistory () {
+		if (!isset($this->info))
+			$this->loadInfo();
+		if (is_null($this->info))
+			return array();
+		
+		
+		$xpath = new DOMXPath($this->info);
+		$entryElements = $xpath->query('/ThemeInfo/History/Entry');
+		$history = array();
+		$dates = array();
+		foreach ($entryElements as $entryElement) {
+			$comment = $xpath->query('Comment', $entryElement)->item(0)->nodeValue;
+			$name = $xpath->query('Name', $entryElement)->item(0)->nodeValue;
+			$email = $xpath->query('EMail', $entryElement)->item(0)->nodeValue;
+			$date = DateAndTime::fromString($entryElement->getAttribute('date'));
+			
+			$history[] = new Harmoni_Gui2_HistoryEntry($date, $comment, $name, $email);
+			$dates[] = $date->asString();
+		}
+		$unique = array_keys($history);
+		array_multisort($dates, SORT_DESC, $unique, $history);
+		
+		return $history;
 	}
 	
 	/*********************************************************
