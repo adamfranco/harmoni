@@ -262,7 +262,7 @@ class Harmoni_Gui2_DirectoryTheme
 	 * @since 5/6/08
 	 */
 	public function supportsOptions () {
-		throw new UnimplementedException();
+		return false;
 	}
 	
 	/**
