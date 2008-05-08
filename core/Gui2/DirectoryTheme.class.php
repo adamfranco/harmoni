@@ -9,8 +9,8 @@
  * @version $Id$
  */ 
 
-require_once(dirname(__FILE__).'/Theme.Interface.php');
-require_once(HARMONI.'/Utilities/Filing/FileSystemFile.class.php');
+require_once(dirname(__FILE__).'/Theme.interface.php');
+require_once(HARMONI.'/utilities/Filing/FileSystemFile.class.php');
 
 /**
  * All GUI 2 themes must implement this interface
