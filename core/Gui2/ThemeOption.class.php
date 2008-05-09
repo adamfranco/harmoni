@@ -173,6 +173,23 @@ class Harmoni_Gui2_ThemeOption
 		return $this->choices[0]->key;
 	}
 	
+	/**
+	 * Answer the current choice for this option.
+	 * 
+	 * @return Harmoni_Gui2_Choice
+	 * @access public
+	 * @since 5/9/08
+	 */
+	public function getCurrentChoice () {
+		$currentValue = $this->getValue();
+		foreach ($this->choices as $choice) {
+			if ($choice->key == $currentValue) {
+				return $choice;
+			}
+		}
+		throw new OperationFailedException("Could not return a current choice.");
+	}
+	
 }
 
 /**
@@ -188,7 +205,16 @@ class Harmoni_Gui2_ThemeOption
  */
 class Harmoni_Gui2_Choice {
 		
-	
+	/**
+	 * Answer an associative array of settings with marker => replacement
+	 * 
+	 * @return array
+	 * @access public
+	 * @since 5/9/08
+	 */
+	public function getSettings () {
+		return $this->settings;
+	}
 	
 }
 

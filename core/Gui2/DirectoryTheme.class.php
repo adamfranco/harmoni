@@ -61,13 +61,23 @@ class Harmoni_Gui2_DirectoryTheme
 	 * @since 5/6/08
 	 */
 	public function getCss () {
-		$css = '';
+		$allCss = '';
 		foreach ($this->getCssFiles() as $cssFile) {
 			if (!file_exists($this->path.'/'.$cssFile)) 
 				throw new OperationFailedException("Required CSS file  '$cssFile' was not found in the '".$this->getIdString()."' theme.");
-			$css .= trim (file_get_contents($this->path.'/'.$cssFile));
+			$css = trim (file_get_contents($this->path.'/'.$cssFile));
+
+			// Replace any option-markers
+			foreach($this->getOptions() as $option) {
+				$choice = $option->getCurrentChoice();
+				foreach($choice->getSettings() as $marker => $replacement) {
+					$css = str_replace($marker, $replacement, $css);
+				}
+			}
+			
+			$allCss .= $css;
 		}
-		return $css;
+		return $allCss;
 	}
 	
 	/**
@@ -146,6 +156,13 @@ class Harmoni_Gui2_DirectoryTheme
 	 * @since 5/6/08
 	 */
 	public function getImage ($filename) {
+		// Ensure that no directory traversal requested
+		$relPathParts = explode('/', $filename);
+		foreach ($relPathParts as $part) {
+			if ($part == '..')
+				throw new InvalidArgumentException("Directory traversal is not allowed.");
+		}
+		
 		$path = $this->path.'/images/'.$filename;
 		if (!file_exists($path))
 			throw new UnknownIdException("No image found with name '$filename' in theme '".$this->getIdString()."'");
@@ -422,14 +439,13 @@ class Harmoni_Gui2_DirectoryTheme
 				else
 					$choice->isDefault = false;
 				
-				$settings = array();
-				foreach ($xpath->query('./setting', $optionElement) as $settingElement) {
-					$settings[$settingElement->getAttribute('marker')] = $settingElement->nodeValue;
+				$choice->settings = array();
+				foreach ($xpath->query('./setting', $choiceElement) as $settingElement) {
+					$choice->settings[$settingElement->getAttribute('marker')] = $settingElement->nodeValue;
 				}
 				
 				$choices[] = $choice;
 			}
-			
 			$this->options[] = new Harmoni_Gui2_ThemeOption($optionElement->getAttribute('id'), $displayName, $description, $choices);
 		}
 	}
@@ -637,6 +653,14 @@ class Harmoni_Gui2_DirectoryTheme
 		if (strpos($contents, '[[CONTENT]]') === false)
 			throw new OperationFailedException("Required template file, '{$type}.html' is missing a '[[CONTENT]]' placeholder in theme '".$this->getIdString()."'.");
 		
+		// Replace any option-markers
+		foreach($this->getOptions() as $option) {
+			$choice = $option->getCurrentChoice();
+			foreach($choice->getSettings() as $marker => $replacement) {
+				$contents = str_replace($marker, $replacement, $contents);
+			}
+		}
+		
 		// Replace image urls
 		$contents = $this->replaceRelativeUrls($contents);
 		
@@ -659,7 +683,7 @@ src=[\'"]
 
 (?: \.\/ )?	# Optional current directy marker
 images\/
-([a-z0-9\._-]+)
+([a-z0-9\.\/_-]+)
 
 [\'"]
 
@@ -669,7 +693,7 @@ url\(
 
 (?: \.\/ )?	# Optional current directy marker
 images\/
-([a-z0-9\._-]+)
+([a-z0-9\.\/_-]+)
 
 \)
 
