@@ -75,6 +75,9 @@ class Harmoni_Gui2_DirectoryTheme
 				}
 			}
 			
+			// Replace image urls
+			$css = $this->replaceRelativeUrls($css);
+			
 			$allCss .= $css;
 		}
 		return $allCss;
@@ -689,13 +692,13 @@ images\/
 
 /ix';
 		$urlRegex = '/
-url\(
+url\([\'"]?
 
 (?: \.\/ )?	# Optional current directy marker
 images\/
 ([a-z0-9\.\/_-]+)
 
-\)
+[\'"]?\)
 
 /ix';
 
@@ -711,10 +714,10 @@ images\/
 		
 		preg_match_all($urlRegex, $templateContent, $matches);
 		for ($i = 0; $i < count($matches[0]); $i++) {
-			$replacement = 'src="'
-				.$harmoni->request->quickURL('gui2', 'theme_image', 
-					array('theme' => $this->getIdString(), 'file' => $matches[1][$i]))
-				.'"';
+			$replacement = "url('"
+				.str_replace('&amp;', '&', $harmoni->request->quickURL('gui2', 'theme_image', 
+					array('theme' => $this->getIdString(), 'file' => $matches[1][$i])))
+				."')";
 			$templateContent = str_replace($matches[0][$i], $replacement, $templateContent);
 		}
 		
