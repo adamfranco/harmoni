@@ -21,7 +21,16 @@
  * @version $Id$
  */
 interface Harmoni_Gui2_ThemeOptionInterface {
-		
+	
+	/**
+	 * Answer the id string of this Option
+	 * 
+	 * @return string
+	 * @access public
+	 * @since 5/9/08
+	 */
+	public function getIdString ();
+	
 	/**
 	 * Answer the display name of this option
 	 * 
@@ -69,6 +78,15 @@ interface Harmoni_Gui2_ThemeOptionInterface {
 	public function setValue ($value);
 	
 	/**
+	 * Answer the current Value
+	 * 
+	 * @return string
+	 * @access public
+	 * @since 5/9/08
+	 */
+	public function getValue ();
+	
+	/**
 	 * Set the value of this option to be the default.
 	 * 
 	 * @return null
@@ -76,6 +94,15 @@ interface Harmoni_Gui2_ThemeOptionInterface {
 	 * @since 5/6/08
 	 */
 	public function useDefault ();
+	
+	/**
+	 * Answer the default value
+	 * 
+	 * @return string
+	 * @access public
+	 * @since 5/9/08
+	 */
+	public function getDefaultValue ();
 }
 
 ?>

@@ -12,6 +12,7 @@
 require_once(dirname(__FILE__).'/Theme.interface.php');
 require_once(HARMONI.'/utilities/Filing/FileSystemFile.class.php');
 require_once(dirname(__FILE__).'/HistoryEntry.class.php');
+require_once(dirname(__FILE__).'/ThemeOption.class.php');
 
 /**
  * All GUI 2 themes must implement this interface
@@ -42,6 +43,7 @@ class Harmoni_Gui2_DirectoryTheme
 			throw new ConfigurationErrorException("'$path' is not a readable theme directory.");
 		
 		$this->path = $path;
+		$this->optionsPath = $this->path.'/options.xml';
 		
 		$this->preHtml = array();
 		$this->postHtml = array();
@@ -262,7 +264,7 @@ class Harmoni_Gui2_DirectoryTheme
 	 * @since 5/6/08
 	 */
 	public function supportsOptions () {
-		return false;
+		return true;
 	}
 	
 	/**
@@ -274,8 +276,205 @@ class Harmoni_Gui2_DirectoryTheme
 	 * @since 5/6/08
 	 */
 	public function getOptionsSession () {
-		throw new UnimplementedException();
+		return $this;
 	}
+	
+	/*********************************************************
+	 * Theme Options Session methods
+	 *********************************************************/
+	/**
+	 * Answer an array of ThemeOption objects
+	 * 
+	 * @return array of Harmoni_Gui2_ThemeOptionInterface
+	 * @access public
+	 * @since 5/6/08
+	 */
+	public function getOptions () {
+		if (!isset($this->options))
+			$this->loadOptions();
+		return $this->options;
+	}
+	
+	/**
+	 * Answer an option by Id-string
+	 * 
+	 * @param string $id
+	 * @return Harmoni_Gui2_ThemeOptionInterface
+	 * @access public
+	 * @since 5/9/08
+	 */
+	public function getOption ($id) {
+		foreach ($this->getOptions() as $option) {
+			if ($option->getIdString() == $id)
+				return $option;
+		}
+		
+		throw new UnknownIdException("No option known with id '$id' in theme '".$this->getIdString()."'.");
+	}
+	
+	/**
+	 * Answer true if the current options value is to use defaults.
+	 * 
+	 * @return boolean
+	 * @access public
+	 * @since 5/6/08
+	 */
+	public function usesDefaults () {
+		foreach ($this->getOptions() as $option) {
+			if ($option->getValue() != $option->getDefaultValue())
+				return false;
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * Answer a string version of the current option-values that
+	 * can be fed back into setOptions() to return to the current
+	 * state.
+	 * 
+	 * @return string
+	 * @access public
+	 * @since 5/6/08
+	 */
+	public function getOptionsValue () {
+		$value = '';
+		
+		foreach ($this->getOptions() as $option) {
+			if ($option->getValue() != $option->getDefaultValue())
+				$value .= '&amp;'.$option->getIdString().'='.$option->getValue();
+		}
+		
+		return $value;
+	}
+	
+	/**
+	 * Given a string created by getOptionsValue(), set the current
+	 * state of the options to match.
+	 * 
+	 * @param string $optionsValue
+	 * @return null
+	 * @access public
+	 * @since 5/6/08
+	 */
+	public function setOptionsValue ($optionsValue) {
+		$options = $this->getOptions();
+		if (!count($options)) {
+			if (strlen($optionsValue))
+				throw new OperationFailedException("No options to accept the value passed.");
+			return;	
+		}
+		
+		if (!preg_match_all('/&amp;([a-zA-Z_-]{1,50})=([a-zA-Z_-]{1,50})/', $optionsValue, $matches))
+			throw new InvalidArgumentException("'$optionsValue' is not a valid options value.");
+		
+		for ($i = 0; $i < count($matches[1]); $i++) {
+			$option = $this->getOption($matches[1][$i]);
+			$option->setValue($matches[2][$i]);
+		}
+	}
+	
+	/**
+	 * Set all options to use their defaults
+	 * 
+	 * @return null
+	 * @access public
+	 * @since 5/6/08
+	 */
+	public function useDefaults () {
+		$this->loadOptions();
+	}
+	
+	/*********************************************************
+	 * Options - Internal
+	 *********************************************************/
+	/**
+	 * Load the options.xml file if it exists
+	 * 
+	 * @return null
+	 * @access protected
+	 * @since 5/9/08
+	 */
+	protected function loadOptions () {
+		if (!file_exists($this->optionsPath)) {
+			$this->options = array();
+			return;
+		}
+		
+		$options = new Harmoni_DOMDocument;
+		$options->load($this->optionsPath);
+		$options->schemaValidateWithException(dirname(__FILE__).'/theme_options.xsd');
+		$xpath = new DOMXPath($options);
+		
+		$this->options = array();
+		foreach ($xpath->query('/options/option') as $optionElement) {
+			$displayName = $this->getPathLangVersion($xpath, './displayName', $optionElement);
+			$description = $this->getPathLangVersion($xpath, './description', $optionElement);
+			
+			$choices = array();
+			foreach ($xpath->query('./choice', $optionElement) as $choiceElement) {
+				$choice = new Harmoni_Gui2_Choice;
+				$choice->key = $xpath->query('./key', $choiceElement)->item(0)->nodeValue;
+				$choice->label = $this->getPathLangVersion($xpath, './label', $choiceElement);
+				if ($choiceElement->hasAttribute('isDefault') 
+						&& $choiceElement->getAttribute('isDefault') == 'true')
+					$choice->isDefault = true;
+				else
+					$choice->isDefault = false;
+				
+				$settings = array();
+				foreach ($xpath->query('./setting', $optionElement) as $settingElement) {
+					$settings[$settingElement->getAttribute('marker')] = $settingElement->nodeValue;
+				}
+				
+				$choices[] = $choice;
+			}
+			
+			$this->options[] = new Harmoni_Gui2_ThemeOption($optionElement->getAttribute('id'), $displayName, $description, $choices);
+		}
+	}
+	
+	/**
+	 * Get the version of an element in the best language available
+	 * 
+	 * @param object DOMXPath $xpath
+	 * @param string $path
+	 * @param object DOMElement $element
+	 * @return string
+	 * @access protected
+	 * @since 5/9/08
+	 */
+	protected function getPathLangVersion (DOMXPath $xpath, $path, DOMElement $element) {
+			$langMgr = Services::getService("LanguageManager");
+			$lang = $langMgr->getLanguage();
+			
+			// Current language
+			if ($xpath->query($path."[@lang = '$lang']", $element)->length) {
+				return $xpath->query($path."[@lang = '$lang']", $element)->item(0)->nodeValue;
+			}
+			
+			// Try another country's version of the same language
+			$langOnly = substr($lang, 0, strpos($lang, '_'));
+			$regex = '/'.$langOnly.'_.+/';
+			foreach ($xpath->query($path, $element) as $elem) {
+				if (preg_match($regex, $elem->getAttribute('lang'))) {
+					return $elem->nodeValue;
+				}
+			}
+			
+			// Default to english if available
+			if ($xpath->query($path."[@lang = 'en_US']", $element)->length) {
+				return  $xpath->query($path."[@lang = 'en_US']", $element)->item(0)->nodeValue;
+			}
+			
+			// Answer the first one
+			if ($xpath->query($path, $element)->length) {
+				return  $xpath->query($path, $element)->item(0)->nodeValue;
+			}
+			
+			throw new OperationFailedException("No elements found that match '$path'.");
+	}
+	
 	
 	/*********************************************************
 	 * internal

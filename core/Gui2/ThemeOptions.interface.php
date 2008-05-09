@@ -32,6 +32,16 @@ interface Harmoni_Gui2_ThemeOptionsInterface {
 	public function getOptions ();
 	
 	/**
+	 * Answer an option by Id-string
+	 * 
+	 * @param string $id
+	 * @return Harmoni_Gui2_ThemeOptionInterface
+	 * @access public
+	 * @since 5/9/08
+	 */
+	public function getOption ($id);
+	
+	/**
 	 * Answer true if the current options value is to use defaults.
 	 * 
 	 * @return boolean

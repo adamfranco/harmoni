@@ -1,0 +1,145 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+elementFormDefault="qualified">
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+<!-- definition of data types         -->
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+<!-- This type defines a string value in the ISO 8601 date format. -->
+<!-- The regular expression is a condensed form of the expression found in -->
+<!-- harmoni/core/Primitives/Chronology/StringParsers/ISO8601StringParser.class.php -->
+<xs:simpleType name="iso8601">
+	<xs:restriction base="xs:string">
+		<xs:pattern value="(([0-9]{4})[\-/:](((0[1-9])|(1[0-2]))[\-/:]?(((0[1-9])|((1|2)[0-9])|(3[0-1]))[\sT]?((([0-1][0-9])|(2[0-4]))(:?([0-5][0-9])?(:?([0-5][0-9](\.[0-9]+)?)?(Z|(([+\-])(([0-1][0-9])|(2[0-4])):?([0-5][0-9])?))?)?)?)?)?)?)?"/>
+	</xs:restriction>
+</xs:simpleType>
+
+<!-- This type defines a string value in the ISO 639 language code plus a country code -->
+<xs:simpleType name="iso639">
+	<xs:restriction base="xs:string">
+		<xs:pattern value="([a-z]{2,3})_([A-Z]{2})"/>
+	</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name='non_empty_content'>
+	<xs:restriction base="xs:string">
+		<xs:minLength value="1"/>
+	</xs:restriction>
+</xs:simpleType>
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+<!-- definition of attributes         -->
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+<xs:attribute name="lang" type="iso639"/>
+
+<xs:attribute name='marker'>
+	<xs:simpleType>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:attribute>
+
+<xs:attribute name="isDefault">
+	<xs:simpleType>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="true"/>
+			<xs:enumeration value="false"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:attribute>
+
+<xs:attribute name="id">
+	<xs:simpleType>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[a-zA-Z_-]{1,50}"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:attribute>
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+<!-- Elements                         -->
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+<xs:element name="options">
+	<xs:complexType>
+		<xs:sequence>
+			<xs:element ref="option" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:element>
+
+<xs:element name="option">
+	<xs:complexType>
+		<xs:sequence>
+			<xs:element ref="displayName" maxOccurs="unbounded"/>
+			<xs:element ref="description" maxOccurs="unbounded"/>
+			<xs:element ref="choice" maxOccurs="unbounded"/>
+		</xs:sequence>
+		
+		<xs:attribute ref="id" use="required"/>
+	</xs:complexType>
+</xs:element>
+
+<xs:element name="displayName">
+	<xs:complexType>
+		<xs:simpleContent>
+			<xs:extension base="non_empty_content">
+				<xs:attribute ref="lang" use="required"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+</xs:element>
+
+<xs:element name="description">
+	<xs:complexType>
+		<xs:simpleContent>
+			<xs:extension base="non_empty_content">
+				<xs:attribute ref="lang" use="required"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+</xs:element>
+
+<xs:element name="choice">
+	<xs:complexType>
+		<xs:sequence>
+			<xs:element ref="key"/>
+			<xs:element ref="label" maxOccurs="unbounded"/>
+			<xs:element ref="setting" maxOccurs="unbounded"/>
+		</xs:sequence>
+		
+		<xs:attribute ref="isDefault"/>
+	</xs:complexType>
+</xs:element>
+
+<xs:element name="key">
+	<xs:simpleType>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[a-zA-Z_-]{1,50}"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:element>
+
+<xs:element name="label">
+	<xs:complexType>
+		<xs:simpleContent>
+			<xs:extension base="non_empty_content">
+				<xs:attribute ref="lang" use="required"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+</xs:element>
+
+<xs:element name="setting">
+	<xs:complexType>
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute ref="marker" use="required"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+</xs:element>
+
+</xs:schema>
