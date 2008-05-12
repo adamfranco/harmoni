@@ -82,6 +82,37 @@ define("OTHER", 13);
 /*********************************************************/
 
 /**
+ * A constant defining the MENU indexes.
+ * @const integer MENU_LEFT
+ * @package harmoni.gui
+ */
+define("MENU_LEFT", 1);
+
+/**
+ * A constant defining the MENU indexes.
+ * @const integer MENU_RIGHT
+ * @package harmoni.gui
+ */
+define("MENU_RIGHT", 2);
+
+/**
+ * A constant defining the MENU indexes.
+ * @const integer MENU_TOP
+ * @package harmoni.gui
+ */
+define("MENU_TOP", 3);
+
+/**
+ * A constant defining the MENU indexes.
+ * @const integer MENU_BOTTOM
+ * @package harmoni.gui
+ */
+define("MENU_BOTTOM", 3);
+
+
+/*********************************************************/
+
+/**
  * A constant defining the BLOCK indexes.
  * @const integer BACKGROUND_BLOCK
  * @package harmoni.gui

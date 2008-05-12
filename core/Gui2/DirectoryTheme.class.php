@@ -559,7 +559,11 @@ class Harmoni_Gui2_DirectoryTheme
 						'Block_Emphasized',
 						'Block_Alert',
 						
-						'Menu',
+						'Menu_Left',
+						'Menu_Right',
+						'Menu_Top',
+						'Menu_Bottom',
+						
 						'Menu_Sub',
 						'MenuItem_Link_Selected',
 						'MenuItem_Link_Unselected',
@@ -759,7 +763,16 @@ images\/
 				}
 			
 			case MENU:
-				return 'Menu';
+				switch ($index) {
+					case 1:
+						return 'Menu_Left';
+					case 2:
+						return 'Menu_Right';
+					case 3:
+						return 'Menu_Top';
+					default:
+						return 'Menu_Bottom';
+				}
 			case SUB_MENU:
 				return 'Menu_Sub';
 			case MENU_ITEM_LINK_UNSELECTED:
@@ -779,7 +792,7 @@ images\/
 						return 'Heading_3';
 					default:
 						return 'Heading_4';
-			}
+				}
 			
 			case HEADER:
 				return 'Header';
