@@ -30,15 +30,17 @@ class Harmoni_Filing_TempFile
 	 * Constructor.
 	 * 
 	 * @param string $baseName A name for the file.
+	 * @param optional DateAndTime $timestamp The Modification date/time
 	 * @return null
 	 * @access public
 	 * @since 5/6/08
 	 */
-	public function __construct ($baseName) {
+	public function __construct ($baseName, DateAndTime $timestamp = null) {
 		ArgumentValidator::validate($baseName, NonzeroLengthStringValidatorRule::getRule());
 		
 		$this->baseName = $baseName;
 		$this->contents = '';
+		$this->timestamp = $timestamp;
 	}
 		
 	/**
@@ -133,6 +135,19 @@ class Harmoni_Filing_TempFile
 	 */
 	public function delete () {
 		$this->contents = '';
+	}
+	
+	/**
+	 * Answer the modification date/time
+	 * 
+	 * @return object DateAndTime
+	 * @access public
+	 * @since 5/13/08
+	 */
+	public function getModificationDate () {
+		if (is_null($this->timestamp))
+			throw new OperationFailedException("Could not get timestamp of '".$this->getBaseName()."'.");
+		return $this->timestamp;
 	}
 }
 
