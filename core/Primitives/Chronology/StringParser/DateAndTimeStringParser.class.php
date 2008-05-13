@@ -47,8 +47,9 @@ class DateAndTimeStringParser
 	 * @access protected
 	 * @since 5/24/05
 	 */
-	function getRegex () {	
-		$timeRegex = TimeStringParser::getRegex();
+	function getRegex () {
+		$timeParser = new TimeStringParser;
+		$timeRegex = $timeParser->getRegex();
 		
 		// Remove a line-beginning anchor from the time expression
 		return preg_replace('/\/[\s\r]*\^/', '/', $timeRegex);

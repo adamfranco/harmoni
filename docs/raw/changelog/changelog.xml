@@ -8,6 +8,14 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
+	<version number="1.2.1" date="The Future">
+		<releaseNotes>
+			
+		</releaseNotes>
+		<fix author='adam' date='2008-05-13' ref='' reftype='bug'>
+			Primitives: Fixed static/non-static method access in Chronology.
+		</fix>
+	</version>
 	<version number="1.2.0" date="2008-05-05">
 		<releaseNotes>
 			This release includes a new implementation of the Authorization and Hierarchy
