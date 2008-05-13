@@ -240,6 +240,17 @@ class Harmoni_Gui2_DirectoryTheme
 	}
 	
 	/**
+	 * Answer the date when this theme was last modified.
+	 * 
+	 * @return object DateAndTime
+	 * @access public
+	 * @since 5/13/08
+	 */
+	public function getModificationDate () {
+		return TimeStamp::fromUnixTimeStamp($this->getRecentModTime($this->path));
+	}
+	
+	/**
 	 * Answer an array of ThemeHistory items, in reverse chronological order.
 	 * 
 	 * @return array
@@ -802,6 +813,27 @@ images\/
 			default:
 				throw new InvalidArgumentException("Usuported type, $type.");
 		}
+	}
+	
+	/**
+	 * Answer the most recent modification time in the directory passed
+	 * 
+	 * @param string $dirPath
+	 * @return int
+	 * @access private
+	 * @since 5/13/08
+	 */
+	private function getRecentModTime ($dirPath) {
+		$latest = 0;
+		foreach (scandir($dirPath) as $fname) {
+			if (is_dir($fname)) {
+				if ($fname != '.' && $fname != '..')
+					$latest = max($latest, $this->getRecentModTime($dirPath.'/'.$fname));
+			} else {
+				$latest = max($latest, filemtime($dirPath.'/'.$fname));
+			}	
+		}
+		return $latest;
 	}
 }
 
