@@ -12,6 +12,16 @@
 		<releaseNotes>
 			
 		</releaseNotes>
+		<change author='adam' date='2008-05-13' ref='' reftype='fr'>
+			Request: Replacing slashes in path-info URLs.
+
+			Apache denies requests where the path-info includes %2F, the encoded version
+			of the forward slash, /. This is done to aid the security of CGI scripts,
+			but means that we can't pass encoded slashes in PATH_INFO parameters.
+			
+			This fix replaces slashes with the string, '_slash_', when writing the
+			path info urls and reverses that replacement on read.
+		</change>
 		<fix author='adam' date='2008-05-13' ref='' reftype='bug'>
 			Primitives: Fixed static/non-static method access in Chronology.
 		</fix>
