@@ -12,6 +12,14 @@
 		<releaseNotes>
 			
 		</releaseNotes>
+		<new author='adam' date='2008-05-14' ref='1820834' reftype='segue_fr'>
+			Gui2: New Gui2 system re-envisions the way themes are defined and accessed.
+			Rather than forcing themes to be concrete classes, a variety of theme
+			sources can be defined that can each determine how their themes are
+			stored and retrieved. Themes may have options for varying their
+			color scheme or other attributes, but this is an optional level of 
+			compliance, not forced.
+		</new>
 		<change author='adam' date='2008-05-13' ref='' reftype='fr'>
 			AuthNMethods: HttpAuth-token collector now can accept a userfunction
 			array instead of just a string.
