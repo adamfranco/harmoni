@@ -583,7 +583,7 @@ class Harmoni_Gui2_DirectoryTheme
 						'Heading_1',
 						'Heading_2',
 						'Heading_3',
-						'Heading_4',
+						'Heading_Sidebar',
 						
 						'Header',
 						'Footer'
@@ -801,10 +801,10 @@ images\/
 						return 'Heading_1';
 					case 2:
 						return 'Heading_2';
-					case 3:
-						return 'Heading_3';
+					case 4:
+						return 'Heading_Sidebar';
 					default:
-						return 'Heading_4';
+						return 'Heading_3';
 				}
 			
 			case HEADER:
