@@ -36,7 +36,7 @@ class DateAndTimeStringParser
 {
 
 /*********************************************************
- * Instance Methods
+ * Static Methods
  *********************************************************/
 	
 	/**
@@ -46,15 +46,17 @@ class DateAndTimeStringParser
 	 * @return string
 	 * @access protected
 	 * @since 5/24/05
+	 * @static
 	 */
-	function getRegex () {
-		$timeParser = new TimeStringParser;
-		$timeRegex = $timeParser->getRegex();
-		
+	public static function getRegex () {
 		// Remove a line-beginning anchor from the time expression
-		return preg_replace('/\/[\s\r]*\^/', '/', $timeRegex);
+		return preg_replace('/\/[\s\r]*\^/', '/', TimeStringParser::getRegex());
 	}
 	
+/*********************************************************
+ * Instance Methods
+ *********************************************************/
+ 	
 	/**
 	 * Parse the input string and set our elements based on the contents of the
 	 * input string. Elements not found in the string will be null.
@@ -64,7 +66,7 @@ class DateAndTimeStringParser
 	 * @since 5/24/05
 	 */
 	function parse () {
-		preg_match($this->getRegex(), $this->input, $timeMatches);
+		preg_match(self::getRegex(), $this->input, $timeMatches);
 		$timeComponent = $timeMatches[0];
 		
 		// The date is anything before the time

@@ -36,7 +36,7 @@ require_once(dirname(__FILE__)."/StringParser.class.php");
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
  */
-class TwoDigitYearStringParser
+abstract class TwoDigitYearStringParser
 	extends RegexStringParser
 {
 

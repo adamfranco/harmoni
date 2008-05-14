@@ -40,7 +40,7 @@ class MonthNumberDayYearStringParser
 {
 
 /*********************************************************
- * Instance Methods
+ * Static Methods
  *********************************************************/
  	
 	/**
@@ -49,8 +49,9 @@ class MonthNumberDayYearStringParser
 	 * @return string
 	 * @access public
 	 * @since 5/24/05
+	 * @static
 	 */
-	function getRegex () {
+	public static function getRegex () {
 		return
 "/
 ^
@@ -77,6 +78,10 @@ $
 /x";
  	}
 	
+/*********************************************************
+ * Instance Methods
+ *********************************************************/
+ 	
 	/**
 	 * Parse the input string and set our elements based on the contents of the
 	 * input string. Elements not found in the string will be null.
@@ -86,7 +91,7 @@ $
 	 * @since 5/23/05
 	 */
 	function parse () {
-		preg_match($this->getRegex(), $this->input, $matches);
+		preg_match(self::getRegex(), $this->input, $matches);
 		
 		// Matches:
 		//     [0] => 04/05/1982
