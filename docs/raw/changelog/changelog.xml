@@ -13,6 +13,10 @@
 			
 		</releaseNotes>
 		<change author='adam' date='2008-05-13' ref='' reftype='fr'>
+			AuthNMethods: HttpAuth-token collector now can accept a userfunction
+			array instead of just a string.
+		</change>
+		<change author='adam' date='2008-05-13' ref='' reftype='fr'>
 			Request: Replacing slashes in path-info URLs.
 
 			Apache denies requests where the path-info includes %2F, the encoded version
