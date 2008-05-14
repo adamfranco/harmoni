@@ -567,7 +567,7 @@ class Harmoni_Gui2_DirectoryTheme
 	protected function getComponentTypes () {
 		return array (	'Block_Background',
 						'Block_Standard',
-						'Block_Emphasized',
+						'Block_Sidebar',
 						'Block_Alert',
 						
 						'Menu_Left',
@@ -763,23 +763,25 @@ images\/
 			
 			case BLOCK:
 				switch ($index) {
-					case 1:
+					case BACKGROUND_BLOCK:
 						return 'Block_Background';
-					case 2:
+					case STANDARD_BLOCK:
+					case WIZARD_BLOCK:
+					case EMPHASIZED_BLOCK:
 						return 'Block_Standard';
-					case 3:
-						return 'Block_Emphasized';
+					case SIDEBAR_BLOCK:
+						return 'Block_Sidebar';
 					default:
 						return 'Block_Alert';
 				}
 			
 			case MENU:
 				switch ($index) {
-					case 1:
+					case MENU_LEFT:
 						return 'Menu_Left';
-					case 2:
+					case MENU_RIGHT:
 						return 'Menu_Right';
-					case 3:
+					case MENU_TOP:
 						return 'Menu_Top';
 					default:
 						return 'Menu_Bottom';
