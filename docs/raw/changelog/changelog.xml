@@ -37,6 +37,15 @@
 		<fix author='adam' date='2008-05-13' ref='' reftype='bug'>
 			Primitives: Fixed static/non-static method access in Chronology.
 		</fix>
+		<fix author='adam' date='2008-05-14' ref='' reftype='bug'>
+			Adding in a pass by reference to fix an Chronology bug.
+			
+			The _normalize() method needed an array passed by reference to act on.
+			In the PHP 5 migration the reference got deleted by accident, so the
+			normalization wasn't being done. This had the effect of not rolling over
+			days when adding durations that bumped a date and time over the length of
+			a day.
+		</fix>
 	</version>
 	<version number="1.2.0" date="2008-05-05">
 		<releaseNotes>
