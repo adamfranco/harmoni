@@ -33,6 +33,16 @@ interface Harmoni_Filing_FileInterface {
 	public function getMimeType ();
 	
 	/**
+	 * Set the MIME type of the file
+	 * 
+	 * @param string $mimeType
+	 * @return null
+	 * @access public
+	 * @since 5/15/08
+	 */
+	public function setMimeType ($mimeType);
+	
+	/**
 	 * Answer the file name (base-name), including any extension.
 	 * 
 	 * @return string
@@ -42,6 +52,16 @@ interface Harmoni_Filing_FileInterface {
 	public function getBaseName ();
 	
 	/**
+	 * [Re]Set the base name for the file
+	 * 
+	 * @param string $baseName
+	 * @return null
+	 * @access public
+	 * @since 5/15/08
+	 */
+	public function setBaseName ($baseName);
+	
+	/**
 	 * Answer a full path to the file, including the file name.
 	 * 
 	 * @return string
@@ -49,6 +69,16 @@ interface Harmoni_Filing_FileInterface {
 	 * @since 5/6/08
 	 */
 	public function getPath ();
+	
+	/**
+	 * [Re]Set a full path to the file, including the file name.
+	 * 
+	 * @param string $path
+	 * @return null
+	 * @access public
+	 * @since 5/6/08
+	 */
+	public function setPath ();
 	
 	/**
 	 * Answer the size (bytes) of the file
