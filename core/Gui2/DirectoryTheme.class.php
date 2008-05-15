@@ -240,6 +240,17 @@ class Harmoni_Gui2_DirectoryTheme
 	}
 	
 	/**
+	 * Answer the date when this theme was last modified.
+	 * 
+	 * @return object DateAndTime
+	 * @access public
+	 * @since 5/13/08
+	 */
+	public function getModificationDate () {
+		return TimeStamp::fromUnixTimeStamp($this->getRecentModTime($this->path));
+	}
+	
+	/**
 	 * Answer an array of ThemeHistory items, in reverse chronological order.
 	 * 
 	 * @return array
@@ -583,10 +594,14 @@ class Harmoni_Gui2_DirectoryTheme
 	protected function getComponentTypes () {
 		return array (	'Block_Background',
 						'Block_Standard',
-						'Block_Emphasized',
+						'Block_Sidebar',
 						'Block_Alert',
 						
-						'Menu',
+						'Menu_Left',
+						'Menu_Right',
+						'Menu_Top',
+						'Menu_Bottom',
+						
 						'Menu_Sub',
 						'MenuItem_Link_Selected',
 						'MenuItem_Link_Unselected',
@@ -595,7 +610,7 @@ class Harmoni_Gui2_DirectoryTheme
 						'Heading_1',
 						'Heading_2',
 						'Heading_3',
-						'Heading_4',
+						'Heading_Sidebar',
 						
 						'Header',
 						'Footer'
@@ -732,19 +747,17 @@ images\/
 		$harmoni = Harmoni::instance();
 		preg_match_all($srcRegex, $templateContent, $matches);
 		for ($i = 0; $i < count($matches[0]); $i++) {
-			$replacement = 'src="'
-				.$harmoni->request->quickURL('gui2', 'theme_image', 
-					array('theme' => $this->getIdString(), 'file' => $matches[1][$i]))
-				.'"';
+			$url = $harmoni->request->mkURLWithoutContext('gui2', 'theme_image', 
+					array('theme' => $this->getIdString(), 'file' => $matches[1][$i]));
+			$replacement = 'src="'.$url->write().'"';
 			$templateContent = str_replace($matches[0][$i], $replacement, $templateContent);
 		}
 		
 		preg_match_all($urlRegex, $templateContent, $matches);
 		for ($i = 0; $i < count($matches[0]); $i++) {
-			$replacement = "url('"
-				.str_replace('&amp;', '&', $harmoni->request->quickURL('gui2', 'theme_image', 
-					array('theme' => $this->getIdString(), 'file' => $matches[1][$i])))
-				."')";
+			$url = $harmoni->request->mkURLWithoutContext('gui2', 'theme_image', 
+					array('theme' => $this->getIdString(), 'file' => $matches[1][$i]));
+			$replacement = "url('".str_replace('&amp;', '&', $url->write())."')";
 			$templateContent = str_replace($matches[0][$i], $replacement, $templateContent);
 		}
 		
@@ -775,18 +788,29 @@ images\/
 			
 			case BLOCK:
 				switch ($index) {
-					case 1:
+					case BACKGROUND_BLOCK:
 						return 'Block_Background';
-					case 2:
+					case STANDARD_BLOCK:
+					case WIZARD_BLOCK:
+					case EMPHASIZED_BLOCK:
 						return 'Block_Standard';
-					case 3:
-						return 'Block_Emphasized';
+					case SIDEBAR_BLOCK:
+						return 'Block_Sidebar';
 					default:
 						return 'Block_Alert';
 				}
 			
 			case MENU:
-				return 'Menu';
+				switch ($index) {
+					case MENU_LEFT:
+						return 'Menu_Left';
+					case MENU_RIGHT:
+						return 'Menu_Right';
+					case MENU_TOP:
+						return 'Menu_Top';
+					default:
+						return 'Menu_Bottom';
+				}
 			case SUB_MENU:
 				return 'Menu_Sub';
 			case MENU_ITEM_LINK_UNSELECTED:
@@ -802,11 +826,11 @@ images\/
 						return 'Heading_1';
 					case 2:
 						return 'Heading_2';
-					case 3:
-						return 'Heading_3';
+					case 4:
+						return 'Heading_Sidebar';
 					default:
-						return 'Heading_4';
-			}
+						return 'Heading_3';
+				}
 			
 			case HEADER:
 				return 'Header';
@@ -816,6 +840,27 @@ images\/
 			default:
 				throw new InvalidArgumentException("Usuported type, $type.");
 		}
+	}
+	
+	/**
+	 * Answer the most recent modification time in the directory passed
+	 * 
+	 * @param string $dirPath
+	 * @return int
+	 * @access private
+	 * @since 5/13/08
+	 */
+	private function getRecentModTime ($dirPath) {
+		$latest = 0;
+		foreach (scandir($dirPath) as $fname) {
+			if (is_dir($fname)) {
+				if ($fname != '.' && $fname != '..')
+					$latest = max($latest, $this->getRecentModTime($dirPath.'/'.$fname));
+			} else {
+				$latest = max($latest, filemtime($dirPath.'/'.$fname));
+			}	
+		}
+		return $latest;
 	}
 }
 

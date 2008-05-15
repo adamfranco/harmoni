@@ -41,7 +41,7 @@ class HTTPAuthNamePassTokenCollector
 			$this->relm = $relm;
 		
 		if (is_null($cancelFunction))
-			$this->cancelFunction = '$this->printCancelMessage();';
+			$this->cancelFunction = array($this, 'printCancelMessage');
 		else
 			$this->cancelFunction = $cancelFunction;
 	}
@@ -83,7 +83,10 @@ class HTTPAuthNamePassTokenCollector
 	function prompt () {
 		header("WWW-Authenticate: Basic realm=\"".$this->relm."\"");
 		header('HTTP/1.0 401 Unauthorized');
-		eval($this->cancelFunction);
+		if (is_array($this->cancelFunction))
+			call_user_func($this->cancelFunction);
+		else if (is_string($this->cancelFunction))
+			eval($this->cancelFunction);
 		exit;
 	}
 	

@@ -68,12 +68,21 @@ class Harmoni_Gui2_GuiManager
 		
 		$this->themeSources = array();
 		foreach ($sources as $sourceConfig) {
-			switch ($sourceConfig['type']) {
-				case 'directory':
-					$this->themeSources[] = new Harmoni_Gui2_DirectoryThemeSource($sourceConfig);
-					break;
-				default:
-					throw new ConfigurationErrorException("Unknown theme source type, '".$sourceConfig['type']."'.");
+			// Already created Theme Source objects.
+			if (is_object($sourceConfig) 
+				&& $sourceConfig instanceof Harmoni_Gui2_ThemeSourceInterface) 
+			{
+				$this->themeSources[] = $sourceConfig;
+			}
+			// Config arrays
+			else {
+				switch ($sourceConfig['type']) {
+					case 'directory':
+						$this->themeSources[] = new Harmoni_Gui2_DirectoryThemeSource($sourceConfig);
+						break;
+					default:
+						throw new ConfigurationErrorException("Unknown theme source type, '".$sourceConfig['type']."'.");
+				}
 			}
 		}
 	}

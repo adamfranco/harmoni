@@ -59,7 +59,7 @@ require_once(dirname(__FILE__)."/../Month.class.php");
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
  */
-class StringParser 
+abstract class StringParser 
 	extends SObject {
 
 /*********************************************************
@@ -193,11 +193,12 @@ class StringParser
 	 * Create a new parser with the given input string.
 	 *
 	 * @param string $aString
-	 * @return object StringParser
+	 * @return null
 	 * @access public
 	 * @since 5/23/05
 	 */
-	function StringParser ( $aString ) {
+	function __construct ( $aString ) {
+		ArgumentValidator::validate($aString, StringValidatorRule::getRule());
 		$this->input = $aString;
 		
 		if ($this->canHandle())
@@ -211,9 +212,7 @@ class StringParser
 	 * @access public
 	 * @since 5/23/05
 	 */
-	function canHandle () {
-		die(__CLASS__.'::'.__FUNCTION__.'() was not overridden by a child class.');
-	}
+	abstract function canHandle ();
 	
 	/**
 	 * Parse the input string and set our elements based on the contents of the
@@ -223,9 +222,7 @@ class StringParser
 	 * @access private
 	 * @since 5/23/05
 	 */
-	function parse () {
-		die(__CLASS__.'::'.__FUNCTION__.'() was not overridden by a child class.');
-	}
+	abstract function parse ();
 
 /*********************************************************
  * Instance Methods - Accessing

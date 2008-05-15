@@ -135,6 +135,15 @@ interface Harmoni_Gui2_ThemeInterface {
 	public function getThumbnail ();
 	
 	/**
+	 * Answer the date when this theme was last modified.
+	 * 
+	 * @return object DateAndTime
+	 * @access public
+	 * @since 5/13/08
+	 */
+	public function getModificationDate ();
+	
+	/**
 	 * Answer an array of ThemeHistory items, in reverse chronological order.
 	 * 
 	 * @return array

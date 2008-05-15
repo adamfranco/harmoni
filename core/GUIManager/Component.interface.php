@@ -82,6 +82,37 @@ define("OTHER", 13);
 /*********************************************************/
 
 /**
+ * A constant defining the MENU indexes.
+ * @const integer MENU_LEFT
+ * @package harmoni.gui
+ */
+define("MENU_LEFT", 1);
+
+/**
+ * A constant defining the MENU indexes.
+ * @const integer MENU_RIGHT
+ * @package harmoni.gui
+ */
+define("MENU_RIGHT", 2);
+
+/**
+ * A constant defining the MENU indexes.
+ * @const integer MENU_TOP
+ * @package harmoni.gui
+ */
+define("MENU_TOP", 3);
+
+/**
+ * A constant defining the MENU indexes.
+ * @const integer MENU_BOTTOM
+ * @package harmoni.gui
+ */
+define("MENU_BOTTOM", 3);
+
+
+/*********************************************************/
+
+/**
  * A constant defining the BLOCK indexes.
  * @const integer BACKGROUND_BLOCK
  * @package harmoni.gui
@@ -100,14 +131,28 @@ define("STANDARD_BLOCK", 2);
  * @const integer EMPHASIZED_BLOCK
  * @package harmoni.gui
  */
-define("EMPHASIZED_BLOCK", 3);
+define("EMPHASIZED_BLOCK", 2);
 
 /**
  * A constant defining the BLOCK indexes.
  * @const integer WIZARD_BLOCK
  * @package harmoni.gui
  */
-define("WIZARD_BLOCK", 3);
+define("WIZARD_BLOCK", 2);
+
+/**
+ * A constant defining the BLOCK indexes.
+ * @const integer HIGHLIT_BLOCK
+ * @package harmoni.gui
+ */
+define("SIDEBAR_BLOCK", 3);
+
+/**
+ * A constant defining the BLOCK indexes.
+ * @const integer ALERT_BLOCK
+ * @package harmoni.gui
+ */
+define("ALERT_BLOCK", 4);
 
 /**
  * A constant defining the BLOCK indexes.
@@ -116,12 +161,6 @@ define("WIZARD_BLOCK", 3);
  */
 define("HIGHLIT_BLOCK", 4);
 
-/**
- * A constant defining the BLOCK indexes.
- * @const integer ALERT_BLOCK
- * @package harmoni.gui
- */
-define("ALERT_BLOCK", 4);
 
  
 /**

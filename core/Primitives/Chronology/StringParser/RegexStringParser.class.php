@@ -30,9 +30,22 @@ require_once(dirname(__FILE__)."/StringParser.class.php");
  * @link http://harmoni.sourceforge.net/
  * @author Adam Franco <adam AT adamfranco DOT com> <afranco AT middlebury DOT edu>
  */
-class RegexStringParser
+abstract class RegexStringParser
 	extends StringParser
 {
+
+/*********************************************************
+ * Class methods
+ *********************************************************/
+	/**
+	 * Return the regular expression used by this parser
+	 * 
+	 * @return string
+	 * @access protected
+	 * @since 5/24/05
+	 * @static
+	 */
+	abstract public static function getRegex ();
 
 /*********************************************************
  * Instance Methods
@@ -45,21 +58,10 @@ class RegexStringParser
 	 * @access public
 	 * @since 5/24/05
 	 */
-	function canHandle () {
-		return preg_match($this->getRegex(), $this->input);
+	public function canHandle () {
+		$regex = call_user_func(array(get_class($this), 'getRegex'));
+		return preg_match($regex, $this->input);
 	}
-	
-	/**
-	 * Return the regular expression used by this parser
-	 * 
-	 * @return string
-	 * @access protected
-	 * @since 5/24/05
-	 */
-	function getRegex () {
-		die(__CLASS__.'::'.__FUNCTION__.'() was not overridden by a child class.');
-	}
-	
 }
 
 ?>

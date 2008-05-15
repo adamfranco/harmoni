@@ -115,7 +115,7 @@ class PathInfoRequestHandler
 					for ($i = 2; $i < count ($pathInfoParts); $i = $i + 2) {
 						$key = $pathInfoParts[$i];
 						if (isset($pathInfoParts[$i+1]))
-							$val = $pathInfoParts[$i+1];
+							$val = str_replace('_slash_', '/', $pathInfoParts[$i+1]);
 						else
 							$val = null;
 						
@@ -249,11 +249,11 @@ class PathInfoURLWriter
 			// For multi-select form elements
 			if (is_array($val)) {
 				foreach ($val as $arrayVal)
-					$pairs[] = $key . "/" . rawurlencode($arrayVal);
+					$pairs[] = $key . "/" . str_replace('%2F', '_slash_', rawurlencode($arrayVal));
 			} 
 			// normal single-string values
 			else {
-				$pairs[] = $key . "/" . rawurlencode($val);
+				$pairs[] = $key . "/" . str_replace('%2F', '_slash_', rawurlencode($val));
 			}
 		}
 		

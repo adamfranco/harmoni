@@ -153,8 +153,9 @@ class TimeStamp
 	 * @return object Timestamp
 	 * @access public
 	 * @since 5/27/05
+	 * @static
 	 */
-	function fromUnixTimeStamp ( $aUnixTimeStamp, $class = 'TimeStamp' ) {
+	static function fromUnixTimeStamp ( $aUnixTimeStamp, $class = 'TimeStamp' ) {
 		$sinceUnixEpoch = Duration::withSeconds($aUnixTimeStamp);
 		
 		eval('$unixEpoch = '.$class.'::withYearMonthDayHourMinuteSecondOffset(

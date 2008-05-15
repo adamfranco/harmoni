@@ -134,6 +134,20 @@ class Harmoni_Filing_FileSystemFile
 	public function delete () {
 		unlink($this->path);
 	}
+	
+	/**
+	 * Answer the modification date/time
+	 * 
+	 * @return object DateAndTime
+	 * @access public
+	 * @since 5/13/08
+	 */
+	public function getModificationDate () {
+		$tstamp = filemtime($this->path);
+		if ($tstamp === false)
+			throw new OperationFailedException("Could not get timestamp of '".$this->getBaseName()."'.");
+		return TimeStamp::fromUnixTimeStamp($tstamp);
+	}
 }
 
 ?>

@@ -8,6 +8,45 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
+	<version number="1.2.1" date="The Future">
+		<releaseNotes>
+			
+		</releaseNotes>
+		<new author='adam' date='2008-05-14' ref='1820834' reftype='segue_fr'>
+			Gui2: New Gui2 system re-envisions the way themes are defined and accessed.
+			Rather than forcing themes to be concrete classes, a variety of theme
+			sources can be defined that can each determine how their themes are
+			stored and retrieved. Themes may have options for varying their
+			color scheme or other attributes, but this is an optional level of 
+			compliance, not forced.
+		</new>
+		<change author='adam' date='2008-05-13' ref='' reftype='fr'>
+			AuthNMethods: HttpAuth-token collector now can accept a userfunction
+			array instead of just a string.
+		</change>
+		<change author='adam' date='2008-05-13' ref='' reftype='fr'>
+			Request: Replacing slashes in path-info URLs.
+
+			Apache denies requests where the path-info includes %2F, the encoded version
+			of the forward slash, /. This is done to aid the security of CGI scripts,
+			but means that we can't pass encoded slashes in PATH_INFO parameters.
+			
+			This fix replaces slashes with the string, '_slash_', when writing the
+			path info urls and reverses that replacement on read.
+		</change>
+		<fix author='adam' date='2008-05-13' ref='' reftype='bug'>
+			Primitives: Fixed static/non-static method access in Chronology.
+		</fix>
+		<fix author='adam' date='2008-05-14' ref='' reftype='bug'>
+			Adding in a pass by reference to fix an Chronology bug.
+			
+			The _normalize() method needed an array passed by reference to act on.
+			In the PHP 5 migration the reference got deleted by accident, so the
+			normalization wasn't being done. This had the effect of not rolling over
+			days when adding durations that bumped a date and time over the length of
+			a day.
+		</fix>
+	</version>
 	<version number="1.2.0" date="2008-05-05">
 		<releaseNotes>
 			This release includes a new implementation of the Authorization and Hierarchy

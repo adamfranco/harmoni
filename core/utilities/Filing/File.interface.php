@@ -97,6 +97,14 @@ interface Harmoni_Filing_FileInterface {
 	 */
 	public function delete ();
 	
+	/**
+	 * Answer the modification date/time
+	 * 
+	 * @return object DateAndTime
+	 * @access public
+	 * @since 5/13/08
+	 */
+	public function getModificationDate ();
 }
 
 ?>
