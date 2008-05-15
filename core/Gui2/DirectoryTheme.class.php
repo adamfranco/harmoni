@@ -720,19 +720,17 @@ images\/
 		$harmoni = Harmoni::instance();
 		preg_match_all($srcRegex, $templateContent, $matches);
 		for ($i = 0; $i < count($matches[0]); $i++) {
-			$replacement = 'src="'
-				.$harmoni->request->quickURL('gui2', 'theme_image', 
-					array('theme' => $this->getIdString(), 'file' => $matches[1][$i]))
-				.'"';
+			$url = $harmoni->request->mkURLWithoutContext('gui2', 'theme_image', 
+					array('theme' => $this->getIdString(), 'file' => $matches[1][$i]));
+			$replacement = 'src="'.$url->write().'"';
 			$templateContent = str_replace($matches[0][$i], $replacement, $templateContent);
 		}
 		
 		preg_match_all($urlRegex, $templateContent, $matches);
 		for ($i = 0; $i < count($matches[0]); $i++) {
-			$replacement = "url('"
-				.str_replace('&amp;', '&', $harmoni->request->quickURL('gui2', 'theme_image', 
-					array('theme' => $this->getIdString(), 'file' => $matches[1][$i])))
-				."')";
+			$url = $harmoni->request->mkURLWithoutContext('gui2', 'theme_image', 
+					array('theme' => $this->getIdString(), 'file' => $matches[1][$i]));
+			$replacement = "url('".str_replace('&amp;', '&', $url->write())."')";
 			$templateContent = str_replace($matches[0][$i], $replacement, $templateContent);
 		}
 		
