@@ -686,14 +686,14 @@ class DateAndTime
 	 * Normalize tick values to make things like "2 days, 35 hours" into
 	 * "3 days, 9 hours".
 	 * 
-	 * @param array $ticks
+	 * @param ref array $ticks
 	 * @param integer $i The index of the array to normalize.
 	 * @param integer $base The base to normalize to.
 	 * @return void
 	 * @access private
 	 * @since 5/3/05
 	 */
-	function _normalize ($ticks, $i, $base) {
+	function _normalize (&$ticks, $i, $base) {
 		$tick = $ticks[$i];
 		$quo = floor(abs($tick)/$base);
 		$rem = $tick % $base;
