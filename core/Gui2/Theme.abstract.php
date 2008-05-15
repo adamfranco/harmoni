@@ -249,10 +249,10 @@ abstract class Harmoni_Gui2_ThemeAbstract {
 	 * Answer an array of Component types
 	 * 
 	 * @return array
-	 * @access protected
+	 * @access public
 	 * @since 5/6/08
 	 */
-	protected function getComponentTypes () {
+	public function getComponentTypes () {
 		return array (	'Block_Background',
 						'Block_Standard',
 						'Block_Sidebar',

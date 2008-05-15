@@ -14,6 +14,7 @@ require_once(dirname(__FILE__).'/Theme.abstract.php');
 require_once(HARMONI.'/utilities/Filing/FileSystemFile.class.php');
 require_once(dirname(__FILE__).'/HistoryEntry.class.php');
 require_once(dirname(__FILE__).'/ThemeOption.class.php');
+require_once(HARMONI.'/Gui2/ThemeOptions.interface.php');
 
 /**
  * All GUI 2 themes must implement this interface
@@ -28,7 +29,7 @@ require_once(dirname(__FILE__).'/ThemeOption.class.php');
  */
 class Harmoni_Gui2_DirectoryTheme
 	extends Harmoni_Gui2_ThemeAbstract
-	implements Harmoni_Gui2_ThemeInterface 
+	implements Harmoni_Gui2_ThemeInterface, Harmoni_Gui2_ThemeOptionsInterface
 {
 	/**
 	 * Constructor
