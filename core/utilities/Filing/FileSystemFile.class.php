@@ -65,7 +65,7 @@ class Harmoni_Filing_FileSystemFile
 	 * @since 5/15/08
 	 */
 	public function setMimeType ($mimeType) {
-		if (!preg_match('/^(text|image|audio|video|application)/[a-z0-9_-]+$', $mimeType))
+		if (!preg_match('/^(text|image|audio|video|application)\/[a-z0-9_-]+$/', $mimeType))
 			throw new OperationFailedException("Invalid MIME Type '$mimeType'.");
 		$this->mimeType = $mimeType;
 	}
