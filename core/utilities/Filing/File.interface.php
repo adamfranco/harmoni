@@ -78,7 +78,7 @@ interface Harmoni_Filing_FileInterface {
 	 * @access public
 	 * @since 5/6/08
 	 */
-	public function setPath ();
+	public function setPath ($path);
 	
 	/**
 	 * Answer the size (bytes) of the file

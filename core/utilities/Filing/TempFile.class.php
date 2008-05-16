@@ -117,7 +117,7 @@ class Harmoni_Filing_TempFile
 	 * @access public
 	 * @since 5/6/08
 	 */
-	public function setPath () {
+	public function setPath ($path) {
 		throw new UnimplementedException();
 	}
 	
