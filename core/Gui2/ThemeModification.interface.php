@@ -170,12 +170,13 @@ interface Harmoni_Gui2_ThemeModificationInterface {
 	 * Add a new image at the path specified.
 	 * 
 	 * @param object Harmoni_Filing_FileInterface $image
-	 * @param string $destinationPath
+	 * @param string $filename
+	 * @param optional string $prefixPath
 	 * @return null
 	 * @access public
 	 * @since 5/15/08
 	 */
-	public function addImage (Harmoni_Filing_FileInterface $image, $destinationPath);
+	public function addImage (Harmoni_Filing_FileInterface $image, $filename, $prefixPath = '');
 	
 	/**
 	 * Delete an image at the path specified.
