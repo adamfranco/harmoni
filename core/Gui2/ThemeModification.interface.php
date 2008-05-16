@@ -63,7 +63,7 @@ interface Harmoni_Gui2_ThemeModificationInterface {
 	/**
 	 * Answer an XML document for the options for this theme
 	 * 
-	 * @return object DOMDocument
+	 * @return object Harmoni_DOMDocument
 	 * @access public
 	 * @since 5/15/08
 	 */
@@ -72,12 +72,12 @@ interface Harmoni_Gui2_ThemeModificationInterface {
 	/**
 	 * Update the options XML with a new document
 	 * 
-	 * @param object DOMDocument $optionsDocument
+	 * @param object Harmoni_DOMDocument $optionsDocument
 	 * @return null
 	 * @access public
 	 * @since 5/15/08
 	 */
-	public function updateOptionsDocument (DOMDocument $optionsDocument);
+	public function updateOptionsDocument (Harmoni_DOMDocument $optionsDocument);
 	
 	/*********************************************************
 	 * CSS and HTML Templates
