@@ -153,6 +153,56 @@ interface Harmoni_Gui2_ThemeInterface {
 	public function getHistory ();
 	
 	/*********************************************************
+	 * Accessing Theme Data
+	 *********************************************************/
+	/**
+	 * Answer the global CSS string.
+	 * 
+	 * @return string
+	 * @access public
+	 * @since 5/15/08
+	 */
+	public function getGlobalCss ();
+	
+	/**
+	 * Answer the component types supported.
+	 * 
+	 * @return array of strings
+	 * @access public
+	 * @since 5/15/08
+	 */
+	public function getComponentTypes ();
+	
+	/**
+	 * Get the CSS for a component Type.
+	 * 
+	 * @param string $componentType
+	 * @return string
+	 * @access public
+	 * @since 5/15/08
+	 */
+	public function getCssForType ($componentType);
+	
+	/**
+	 * Get the HTML template for a component Type.
+	 * 
+	 * @param string $componentType
+	 * @return string
+	 * @access public
+	 * @since 5/15/08
+	 */
+	public function getTemplateForType ($componentType);
+	
+	/**
+	 * Answer the images for this theme
+	 * 
+	 * @return array of Harmoni_Filing_FileInterface objects
+	 * @access public
+	 * @since 5/15/08
+	 */
+	public function getImages ();
+	
+	/*********************************************************
 	 * Theme options
 	 *********************************************************/
 	

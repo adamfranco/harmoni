@@ -161,9 +161,16 @@ abstract class Harmoni_Gui2_ThemeAbstract {
 	 * 
 	 * @return null
 	 * @access protected
-	 * @since 5/15/08
+	 * @since 5/9/08
 	 */
-	abstract protected function loadOptions ();
+	protected function loadOptions () {
+		$doc = $this->getOptionsDocument();
+		if (!isset($doc->documentElement)) {
+			$this->options = array();
+			return;
+		}
+		$this->options = $this->buildOptionsFromDocument($doc);
+	}
 	
 	
 	/**

@@ -205,7 +205,7 @@ class Harmoni_Gui2_DirectoryTheme
 			return _("Untitled");
 		
 		$xpath = new DOMXPath($this->info);
-		return $xpath->query('/ThemeInfo/DisplayName')->item(0)->nodeValue;
+		return trim($xpath->query('/ThemeInfo/DisplayName')->item(0)->nodeValue);
 	}
 	
 	/**
@@ -222,7 +222,7 @@ class Harmoni_Gui2_DirectoryTheme
 			return '';
 		
 		$xpath = new DOMXPath($this->info);
-		return $xpath->query('/ThemeInfo/Description')->item(0)->nodeValue;
+		return trim($xpath->query('/ThemeInfo/Description')->item(0)->nodeValue);
 	}
 	
 	/**
@@ -287,27 +287,108 @@ class Harmoni_Gui2_DirectoryTheme
 	}
 	
 	/*********************************************************
-	 * Options - Internal
+	 * Options
 	 *********************************************************/
 	/**
-	 * Load the options.xml file if it exists
+	 * Answer an XML document for the options for this theme
 	 * 
-	 * @return null
-	 * @access protected
-	 * @since 5/9/08
+	 * @return object Harmoni_DOMDocument
+	 * @access public
+	 * @since 5/15/08
 	 */
-	protected function loadOptions () {
-		if (!file_exists($this->optionsPath)) {
-			$this->options = array();
-			return;
+	public function getOptionsDocument () {
+		$options = new Harmoni_DOMDocument;
+		
+		if (file_exists($this->optionsPath)) {
+			$options->preserveWhiteSpace = false;
+			$options->load($this->optionsPath);
+			$options->schemaValidateWithException(dirname(__FILE__).'/theme_options.xsd');
 		}
 		
-		$options = new Harmoni_DOMDocument;
-		$options->load($this->optionsPath);
-		$options->schemaValidateWithException(dirname(__FILE__).'/theme_options.xsd');
-		
-		
-		$this->options = $this->buildOptionsFromDocument($options);
+		return $options;
+	}
+	
+	/*********************************************************
+	 * Accessing Theme Data
+	 *********************************************************/
+	/**
+	 * Answer the global CSS string.
+	 * 
+	 * @return string
+	 * @access public
+	 * @since 5/15/08
+	 */
+	public function getGlobalCss () {
+		$path = $this->path.'/Global.css';
+		if (file_exists($path))
+			return file_get_contents($path);
+		else
+			return '';
+	}
+	
+	/**
+	 * Get the CSS for a component Type.
+	 * 
+	 * @param string $componentType
+	 * @return string
+	 * @access public
+	 * @since 5/15/08
+	 */
+	public function getCssForType ($componentType) {
+		$path = $this->path.'/'.$componentType.'.css';
+		if (file_exists($path))
+			return file_get_contents($path);
+		else
+			return '';
+	}
+	
+	/**
+	 * Get the HTML template for a component Type.
+	 * 
+	 * @param string $componentType
+	 * @return string
+	 * @access public
+	 * @since 5/15/08
+	 */
+	public function getTemplateForType ($componentType) {
+		$path = $this->path.'/'.$componentType.'.html';
+		if (file_exists($path))
+			return file_get_contents($path);
+		else
+			return '';
+	}
+	
+	/**
+	 * Answer the images for this theme
+	 * 
+	 * @return array of Harmoni_Filing_FileInterface objects
+	 * @access public
+	 * @since 5/15/08
+	 */
+	public function getImages () {
+		return $this->getImagesIn($this->path.'/images');
+	}
+	
+	/**
+	 * Answer the images in the path specified.
+	 * 
+	 * @param string $path
+	 * @return array of Harmoni_Filing_FileInterface objects
+	 * @access private
+	 * @since 5/16/08
+	 */
+	private function getImagesIn ($path) {
+		$images = array();
+		if (file_exists($path) && is_dir($path)) {
+			foreach (scandir($path) as $filename) {
+				if (is_dir($path.'/'.$filename)) {
+					if ($filename != '.' && $filename != '..')
+						$images = array_merge($images, $this->getImagesIn($path.'/'.$filename));
+				} else
+					$images[] = new Harmoni_Filing_FileSystemFile($path.'/'.$filename);
+			}
+		}
+		return $images;
 	}
 	
 	/*********************************************************

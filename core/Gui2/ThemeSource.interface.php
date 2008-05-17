@@ -53,10 +53,10 @@ interface Harmoni_Gui2_ThemeSourceInterface {
 	public function supportsThemeAdmin ();
 	
 	/**
-	 * Answer an object that implements the ThemeAdminSessionInterface
+	 * Answer an object that implements the Harmoni_Gui2_ThemeAdminInterface
 	 * for this theme source. This could be the same or a different object.
 	 * 
-	 * @return object Harmoni_Gui2_ThemeAdminSessionInterface
+	 * @return object Harmoni_Gui2_ThemeAdminInterface
 	 * @access public
 	 * @since 5/6/08
 	 */
