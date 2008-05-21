@@ -2,11 +2,75 @@
 Harmoni Change Log
 
 
+v. 1.2.1 (The Future)
+----------------------------------------------------
+This release adds support for a new Theming system, Gui2. Gui2 simplifies the
+expectations of themes to allow a wider range of possible implementations and
+storage techniques.
+
+As well, a number of minor bugs have been fixed.
+		
+		
+	* New feature: #1820834 
+		Gui2: New Gui2 system re-envisions the way themes are defined and accessed.
+		Rather than forcing themes to be concrete classes, a variety of theme
+		sources can be defined that can each determine how their themes are stored
+		and retrieved. 
+		
+		Themes may have options for varying their color scheme or other
+		attributes, but this is an optional level of compliance, not forced.
+		Similarly, themes may optionally support modification.
+		(2008-05-14 - Adam Franco)
+		
+	* Change: # 
+		Gui/Gui2: The EMPHASIZED_BLOCK has be deprecated and a SIDEBAR_BLOCK added
+		to enable better syntactical alignment between usage and theme definition.
+		(2008-05-20 - Adam Franco)
+		
+	* New feature: 
+		Utilities/Filing: A simple Filing interface has been added to provide an
+		abstraction on 'files'. These are currently used in the new Gui2 system to
+		get and set Thumbnails and theme images.
+		(2008-05-20 - Adam Franco)
+		
+	* Change: # 
+		AuthNMethods: HttpAuth-token collector now can accept a user-function array
+		instead of just a string.
+		(2008-05-13 - Adam Franco)
+		
+	* Change: # 
+		Request: Replacing slashes in path-info URLs.
+		
+		Apache denies requests where the path-info includes %2F, the encoded
+		version of the forward slash, /. This is done to aid the security of CGI
+		scripts, but means that we can't pass encoded slashes in PATH_INFO parameters.
+		
+		This fix replaces slashes with the string, '_slash_', when writing the
+		path info urls and reverses that replacement on read.
+		(2008-05-13 - Adam Franco)
+		
+	* Bug Fix: # 
+		Primitives: Fixed static/non-static method access in Chronology.
+		(2008-05-13 - Adam Franco)
+		
+	* Bug Fix: # 
+		Primitives: Adding in a pass by reference to fix an Chronology bug.
+		
+		The _normalize() method needed an array passed by reference to act on. In
+		the PHP 5 migration the reference got deleted by accident, so the
+		normalization wasn't being done. This had the effect of not rolling over
+		days when adding durations that bumped a date and time over the length of a
+		day. 
+		(2008-05-14 - Adam Franco)
+	
+
+
+
 v. 1.2.0 (2008-05-05)
 ----------------------------------------------------
 This release includes a new implementation of the Authorization and Hierarchy
-services along side of the original implimentations. This new 'AuthZ2'
-implimentation stores hierarchy and authorization data in a set of tables with
+services along side of the original implementations. This new 'AuthZ2'
+implementation stores hierarchy and authorization data in a set of tables with
 foreign-key constraints/triggers to manage the removal of authorizations when nodes
 in the hierarchy are dropped. As well, AuthZ2 stores implicit authorizations as rows
 in an implicit_azs table to allow simple lookups without the need of traversing the
@@ -31,7 +95,7 @@ well as fixes to Tagging, Language, and Database services.
 		Please note that in AuthZ2 the 'edu.middlebury.authorization.view'
 		function has the property of cascading up the hierarchy as well as down.
 		This property is needed by our Segue and Concerto applications and the lack
-		of it in the original implimentations required the use of the
+		of it in the original implementations required the use of the
 		isAuthorizedBelow() function. All other authorization functions cascade down
 		only. 
 		(2008-04-24 - Adam Franco)
@@ -60,7 +124,7 @@ well as fixes to Tagging, Language, and Database services.
 		
 	* Change: 
 		Authorization/Hierarchy: Now relying on type-hinting for validation of
-		object parameters rather than using the ArguementValidator.
+		object parameters rather than using the ArgumentValidator.
 		(2008-04-21 - Adam Franco)
 		
 	* Change: 
@@ -73,7 +137,7 @@ well as fixes to Tagging, Language, and Database services.
 		(2008-04-18 - Adam Franco)
 		
 	* Bug Fix: 
-		Harmoni_Db: Insert now esures that at least one row of values exists.
+		Harmoni_Db: Insert now ensures that at least one row of values exists.
 		(2008-04-18 - Adam Franco)
 		
 	* Bug Fix: 
@@ -108,7 +172,7 @@ well as fixes to Tagging, Language, and Database services.
 		
 	* Change: # 
 		DatabaseManager: Now sends null instead of NULL for auto-increment columns
-		for better compatability.
+		for better compatibility.
 		(2008-04-25 - Adam Franco)
 		
 	* Bug Fix: # 
@@ -122,7 +186,7 @@ well as fixes to Tagging, Language, and Database services.
 		
 	* Change: 
 		Harmoni_DOMDocument: Now defines getHtmlMessage() in its ValidationException
-		to print more ledgible messages.
+		to print more legible messages.
 		(2008-04-18 - Adam Franco)
 		
 	* New feature: #1940489 
@@ -131,7 +195,7 @@ well as fixes to Tagging, Language, and Database services.
 		(2008-04-18 - Adam Franco)
 		
 	* Change: #1940489 
-		Tagging: Can now specify a timestamp when setting a tag for a particular
+		Tagging: Can now specify a time-stamp when setting a tag for a particular
 		agent. 
 		(2008-04-18 - Adam Franco)
 		
@@ -235,7 +299,7 @@ translation of language names from Wikipedia.org.
 		supports secondary three-letter codes such as 'cym', 'wel', and 'cy' for
 		'Welsh'. 
 		(2008-04-02 - Adam Franco)
-		(reported by Jos&#xE9; Alfonso Accino of University of M&#xE1;laga)
+		(reported by José Alfonso Accino of University of Málaga)
 		
 	* Change: 
 		Language: Country names are now nicely mixed-case rather than all upper.
@@ -250,14 +314,14 @@ translation of language names from Wikipedia.org.
 
 setlocale(LC_ALL, $this->_lang);
 		(2008-04-02 - Adam Franco)
-		(reported by Jos&#xE9; Alfonso Accino of University of M&#xE1;laga)
+		(reported by José Alfonso Accino of University of Málaga)
 		
 	* New feature: #1930291 
 		Language: New methods LanguageLocalizer::getCurrentLanguageCode() and
 		LanguageLocalizer::getCurrentCountryCode() to provide access to the simple
 		versions of the current codes.
 		(2008-04-02 - Adam Franco)
-		(reported by Jos&#xE9; Alfonso Accino of University of M&#xE1;laga)
+		(reported by José Alfonso Accino of University of Málaga)
 		
 	* Change: 
 		Language: Added new ISO 639-3 language list. Added language-name translation
@@ -284,7 +348,7 @@ system as well as fixes a few minor issues.
 		(2008-03-20 - Adam Franco)
 		
 	* New feature: 
-		Request: Can now retrieve namespaced parameters from a url string.
+		Request: Can now retrieve name-spaced parameters from a url string.
 		(2008-03-20 - Adam Franco)
 		
 	* Bug Fix: 
@@ -376,14 +440,14 @@ This release fixes a few minor bugs.
 	* Change: 
 		AuthN: Removed legacy class HarmoniAuthenticationType.
 		(2008-02-26 - Adam Franco)
-		(reported by Jos&#xE9; Alfonso Accino of University of M&#xE1;laga)
+		(reported by José Alfonso Accino of University of Málaga)
 	
 
 
 
 v. 1.0.1 (2008-02-21)
 ----------------------------------------------------
-This release fixes an issue in which Cookie values were bing appended to some URLs.
+This release fixes an issue in which Cookie values were being appended to some URLs.
 Also fixes a few other typos and bugs.
 		
 		
@@ -393,7 +457,7 @@ Also fixes a few other typos and bugs.
 		(2008-02-19 - Adam Franco)
 		
 	* Bug Fix: 
-		AuthZ: Fixed issue in default Type constuctors.
+		AuthZ: Fixed issue in default Type constructors.
 		(2008-02-19 - Adam Franco)
 		
 	* Change: 
@@ -432,7 +496,7 @@ reliability of PATH_INFO-based urls has been improved.
 		(2008-02-06 - Adam Franco)
 		
 	* Bug Fix: 
-		Primitives: HtmlString can now take additional protocals to pass unchanged
+		Primitives: HtmlString can now take additional protocols to pass unchanged
 		through the cleanXSS() method.
 		(2008-02-14 - Adam Franco)
 		
@@ -549,7 +613,7 @@ This release fixes a few minor bugs.
 v. 0.13.5 (2007-12-12)
 ----------------------------------------------------
 This release adds a few minor fixes and a few minor cleanup changes. It also
-includes the addition of HTML cleaning support, availible throught the HtmlString
+includes the addition of HTML cleaning support, available through the HtmlString
 'primitive' class. This support can be used by client applications to strip HTML
 markup of tags and attributes that might result in XSS attacks.
 		
@@ -569,7 +633,7 @@ markup of tags and attributes that might result in XSS attacks.
 		(2007-12-06 - Adam Franco)
 		
 	* Change: 
-		Shared: A new inteface, Harmoni_Iterator, defines the additional methods
+		Shared: A new interface, Harmoni_Iterator, defines the additional methods
 		beyond those in OSID v2 that Harmoni's iterators provide and use.
 		(2007-12-06 - Adam Franco)
 		
@@ -614,7 +678,7 @@ This release fixes a few minor issues with the Error Handler.
 v. 0.13.3 (2007-11-09)
 ----------------------------------------------------
 This release fixes a few minor bugs and adds the ability to attach
-externally-defined groups (such as from LDAP) underneith locally defined groups.
+externally-defined groups (such as from LDAP) underneath locally defined groups.
 
 Changes to the Agent tables require running a database updater script:
 harmoni/core/DBHandler/db_updater.php 
@@ -667,7 +731,8 @@ Architecture via a command line interface.
 		(2007-10-25 - Adam Franco)
 		
 	* Bug Fix: 
-		Logging:Fixed error that occured when browsing to more than 50 log entries.
+		Logging: Fixed error that occurred when browsing to more than 50 log
+		entries. 
 		(2007-10-25 - Adam Franco)
 		
 	* New feature: 
@@ -680,7 +745,7 @@ Architecture via a command line interface.
 		(2007-10-30 - Adam Franco)
 		
 	* Bug Fix: 
-		ErrorHandler: Now checks for the existance of various $_SERVER properties as
+		ErrorHandler: Now checks for the existence of various $_SERVER properties as
 		they won't be available when running in CLI.
 		(2007-11-01 - Adam Franco)
 		
@@ -729,7 +794,7 @@ This release fixes a few issues that were missed in the last point release.
 
 v. 0.13.0 (2007-10-22)
 ----------------------------------------------------
-New in this relase include the addition of alternate repository implementations for
+New in this release include the addition of alternate repository implementations for
 reading from simple database tables and federating together several different
 repository implementations.
 
@@ -759,7 +824,7 @@ harmoni/core/DBHandler/db_updater.php
 		
 	* Change: 
 		AuthZ: The Authorization caching system now searches for and verifies the
-		existance of qualifier Ids passed to it. It caches a list of unknown ids and
+		existence of qualifier Ids passed to it. It caches a list of unknown ids and
 		throws an UnknownId Exception when asked about that qualifier. This change
 		prevents the AuthorizationCache from continually rechecking authorizations
 		for qualifiers it will never match, such as those in non-HarmoniRepository
@@ -772,7 +837,7 @@ harmoni/core/DBHandler/db_updater.php
 		(2007-10-05 - Adam Franco)
 		
 	* Bug Fix: 
-		SQL: Adding a harmoni-0.11.0 database updator that will add the 'creator'
+		SQL: Adding a harmoni-0.11.0 database updater that will add the 'creator'
 		field to the dr_asset_info table.
 		(2007-10-08 - Adam Franco)
 		
@@ -782,8 +847,8 @@ harmoni/core/DBHandler/db_updater.php
 		
 	* Change: #1810364 
 		The HarmoniRepositoryManager object is now passed to the objects it creates
-		rather than being accessed globally from within its implementation peventing
-		conflicts when multiple RepositoryManager implementations exist.
+		rather than being accessed globally from within its implementation
+		preventing conflicts when multiple RepositoryManager implementations exist.
 		(2007-10-09 - Adam Franco)
 		
 	* Bug Fix: 
@@ -806,7 +871,7 @@ harmoni/core/DBHandler/db_updater.php
 		(2007-10-11 - Adam Franco)
 		
 	* Bug Fix: 
-		Logging: Log-browsing has been dramatically speeded up by refactoring its
+		Logging: Log-browsing has been dramatically speeded up by re-factoring its
 		queries and indexes.
 		(2007-10-11 - Adam Franco)
 		
@@ -833,7 +898,7 @@ harmoni/core/DBHandler/db_updater.php
 		(2007-10-12 - Adam Franco)
 		
 	* Change: 
-		Removing unneeded $harmoni paramaters from Action Source methods.
+		Removing unneeded $harmoni parameters from Action Source methods.
 		(2007-10-17 - Adam Franco)
 		
 	* Bug Fix: 
@@ -890,7 +955,7 @@ v. 0.12.2 (2007-09-20)
 		DBHandler: SQLUtils::runSQLdir() now explicitly sorts SQL files and runs
 		them in alphabetical order.
 		(2007-09-17 - Adam Franco)
-		(reported by Jos&#xE9; Alfonso Accino of University of M&#xE1;laga)
+		(reported by José Alfonso Accino of University of Málaga)
 		
 	* Bug Fix: 
 		Repository: Fixing PHP notices.
@@ -920,7 +985,7 @@ v. 0.12.0 (2007-09-13)
 
 		
 	**** IMPORTANT *** Change: 
-		In order to support PostgreSQL without refactoring of the Database Handler,
+		In order to support PostgreSQL without re-factoring of the Database Handler,
 		column names have been all made lowercase. To update a currently populated
 		harmoni database to the new names, run the following updater script:
 		harmoni/core/DBHandler/db_updater.php 
@@ -928,10 +993,10 @@ v. 0.12.0 (2007-09-13)
 		
 		
 	**** IMPORTANT *** Change: 
-		Hierarchy: The node relation and ancestory tables, j_node_node and
-		node_ancestory were both missing a reference to the hierarchy for which the
+		Hierarchy: The node relation and ancestry tables, j_node_node and
+		node_ancestry were both missing a reference to the hierarchy for which the
 		node id was valid. This could cause conflicts if node ids are repeated in
-		separate hiearchies. Existing Harmoni databases will need to have these
+		separate hierarchies. Existing Harmoni databases will need to have these
 		columns added and the data updated.
 		(2007-09-13 - Adam Franco)
 		
@@ -964,7 +1029,7 @@ v. 0.12.0 (2007-09-13)
 		(2007-09-13 - Adam Franco)
 		
 	* New feature: 
-		DBHandler: Can now run an entire directory tree full of sql files.
+		DBHandler: Can now run an entire directory tree full of SQL files.
 		(2007-09-11 - Adam Franco)
 		
 	* Bug Fix: 
@@ -1007,7 +1072,7 @@ v. 0.11.0 (2007-09-07)
 		(Adam Franco)
 		
 	* Change: 
-		Removing ampersands for compatability with other PHP5 code. The BBEdit-grep
+		Removing ampersands for compatibility with other PHP5 code. The BBEdit-grep
 		string used for the find and replace was:
 		
 		(function )&|(=\s?)&([^a-z#])|([^&])&\s?(\$)
@@ -1019,7 +1084,7 @@ v. 0.11.0 (2007-09-07)
 		
 		
 		Special Changes were made to the following files to
-		fix problems introduced in the search and repace for ampersands:
+		fix problems introduced in the search and replace for ampersands:
 		
 		polyphony/main/library/ResultPrinter/ArrayResultPrinter.class.php - getLayout()
 		
@@ -1140,12 +1205,12 @@ v. 0.10.0 (2007-04-05)
 	* New feature: 
 		DBHandler: Added methods to query objects allow the addition of values to
 		queries without requiring the user to add quotes and escaping. Quoting and
-		escaping is handled withing these methods.
+		escaping is handled within these methods.
 		(Adam Franco)
 		
 	* New feature: 
 		Authorization: Added isAuthorizedBelow() and isUserAuthorizedBelow() methods
-		to allow determination as to the availibility of the contents of a node.
+		to allow determination as to the availability of the contents of a node.
 		(Adam Franco)
 		
 	* New feature: 
@@ -1254,7 +1319,7 @@ v. 0.8.0 (2006-12-01)
 		(Tim Bahls)
 		
 	* Change: 
-		ValidatorRules: Additions to support GUI theme managment needs.
+		ValidatorRules: Additions to support GUI theme management needs.
 		(Tim Bahls)
 	
 
@@ -1282,7 +1347,7 @@ v. 0.7.9 (2006-11-28)
 		
 	* New feature: 
 		Database: Can now generate the appropriate query string for use in building
-		complex subqueries.
+		complex sub-queries.
 		(Adam Franco)
 		
 	* Change: 
@@ -1319,7 +1384,7 @@ v. 0.7.8 (2006-10-25)
 		(Adam Franco)
 		
 	* Bug Fix: 
-		Chronology: Fixed a number of PHP notices that were occuring in PHP 4.4.
+		Chronology: Fixed a number of PHP notices that were occurring in PHP 4.4.
 		(Adam Franco)
 		
 	* Bug Fix: 
@@ -1341,7 +1406,7 @@ v. 0.7.7 (2006-08-28)
 		(Adam Franco)
 		
 	* Bug Fix: 
-		UnitTests: Removed depricated pass-by-reference call.
+		UnitTests: Removed deprecated pass-by-reference call.
 		(Adam Franco)
 		
 	* Bug Fix: 
@@ -1406,8 +1471,8 @@ v. 0.7.5 (2006-08-11)
 		(Adam Franco)
 		
 	* Change: 
-		Authentication: Now can pass custom relm and callback function to execute on
-		cancel for the HTTP authentication.
+		Authentication: Now can pass custom realm and callback function to execute
+		on cancel for the HTTP authentication.
 		(Adam Franco)
 		
 	* Bug Fix: 
@@ -1445,7 +1510,7 @@ v. 0.7.3 (2006-08-02)
 		
 	* Bug Fix: 
 		Repository: Now enforces deleting of file/thumbnail data properly.
-		Previously, file records were being orphened when assets were deleted.
+		Previously, file records were being orphaned when assets were deleted.
 		(Adam Franco)
 		
 	* Bug Fix: 
@@ -1455,11 +1520,11 @@ v. 0.7.3 (2006-08-02)
 		
 	* Bug Fix: 
 		Logging: Improved performance of the LogEntryIterator to make a more
-		reponsive interface.
+		responsive interface.
 		(Adam Franco)
 		
 	* Change: 
-		Logging: Errors now log the query string as well as the referer to better
+		Logging: Errors now log the query string as well as the referrer to better
 		trace errors.
 		(Adam Franco)
 	
@@ -1566,7 +1631,7 @@ v. 0.7.0 (2006-06-16)
 		(Adam Franco)
 		
 	* Change: 
-		GUIManager has been updated to reflect the original design in its backend.
+		GUIManager has been updated to reflect the original design in its back-end.
 		All Style objects are streamlined for programatic interfacing.
 		(Christopher Shubert)
 		
@@ -1633,7 +1698,7 @@ v. 0.6.0 (2006-05-05)
 		
 	* Change: 
 		Asset::getAssets() now loads assets only on calls to next() rather than
-		right away, saving time and queries when just checking for the existance of
+		right away, saving time and queries when just checking for the existence of
 		children. 
 		(Adam Franco)
 		
@@ -1649,7 +1714,7 @@ v. 0.6.0 (2006-05-05)
 		(Adam Franco)
 		
 	* Bug Fix: 
-		Argument validation for idStrings must allow integers as well, fixed in
+		Argument validation for id-strings must allow integers as well, fixed in
 		HarmoniId, HierarchyCache, Tree.
 		(Christopher Shubert)
 		
@@ -1727,7 +1792,7 @@ v. 0.5.0 (2005-01-10)
 
 		
 	* New feature: 
-		Authz: IsUserAuthorized caching system to dramatically speed authorization
+		AuthZ: IsUserAuthorized caching system to dramatically speed authorization
 		checking. Look-ahead is currently implemented in the AssetIterator: if any
 		assets are returned from the iterator, all elements of the iterator are
 		queued for AuthZ caching.
@@ -1739,7 +1804,7 @@ v. 0.5.0 (2005-01-10)
 		(Adam Franco)
 		
 	* Change: 
-		Repository: Cleaned up the caching that was taking place with filedata.
+		Repository: Cleaned up the caching that was taking place with file data.
 		(Christopher Shubert)
 		
 	* Change: 
@@ -1775,7 +1840,7 @@ v. 0.5.0 (2005-01-10)
 		(Adam Franco)
 		
 	* Change: 
-		Removed error supression from the ActionHandler to allow errors to be shown
+		Removed error suppression from the ActionHandler to allow errors to be shown
 		during action-class instantiation.
 		(Adam Franco)
 		
@@ -1793,12 +1858,12 @@ v. 0.5.0 (2005-01-10)
 		
 	* Change: 
 		Repository: FileRecords now only have their data fetched on access, while
-		their metadata (filename, size, mimetype) are fetched together.
+		their metadata (filename, size, mime-type) are fetched together.
 		(Adam Franco)
 		
 	* Bug Fix: 
 		Repository: Repository->getAsset() was doing extra work verifying the
-		existance of Assets it had just found in its search results.
+		existence of Assets it had just found in its search results.
 		(Adam Franco)
 		
 	* Change: 
@@ -1862,7 +1927,7 @@ v. 0.4.0 (2005-10-12)
 		(Gabe Schine)
 		
 	* New feature: #102459 
-		Added task-manager linkability to the changelog.
+		Added task-manager link-ability to the change-log.
 		(Gabe Schine)
 		
 	* Change: 
@@ -1913,7 +1978,7 @@ v. 0.4.0 (2005-10-12)
 		
 	* New feature: 
 		GUIManager now allows for the setting of pre and post HTML. These are HTML
-		tags that need to surround a compontent. This is primarily used to properly
+		tags that need to surround a component. This is primarily used to properly
 		nest form-tags around tables/divs to generate valid XHTML.
 		(Adam Franco)
 		
@@ -1931,7 +1996,7 @@ v. 0.4.0 (2005-10-12)
 		
 	* Bug Fix: 
 		The hierarchy cache had a problem where _isCached() was called as a property
-		instead of a method, square brackets [] versus parenthasis (), and was
+		instead of a method, square brackets [] versus parenthesis (), and was
 		breaking the cache by creating nodes that were listed as children of other
 		nodes, but did not have their parents listed.
 		(Adam Franco)
@@ -1962,15 +2027,15 @@ v. 0.4.0 (2005-10-12)
 		(Gabe Schine)
 		
 	* New feature: 
-		Added the chronology library, a PHP implemenation of the Squeak (Smalltalk)
+		Added the chronology library, a PHP implementation of the Squeak (Smalltalk)
 		Kernel-Chronology package and aims to serve as a general PHP class-library
 		for handling, comparing, and operating on chronological objects. The
 		original Smalltalk implementation is licensed under the Squeak License http://squeak.org/download/license.html.
 		
 		This library includes classes that represent instants in time
 		(DateAndTime, TimeStamp), lengths of time (Duration), spans of time anchored
-		at certain instants (Timespan, Year, Month, Week, Date), as well as recuring
-		instants across a span of time (Schedule).
+		at certain instants (Timespan, Year, Month, Week, Date), as well as
+		recurring instants across a span of time (Schedule).
 		
 		This library has been designed to support all possible dates, times, and
 		durations, not just those since the UNIX epoch (1970). dates can have
@@ -1992,9 +2057,9 @@ v. 0.4.0 (2005-10-12)
 	* Change: 
 		In order to allow for globally unique ids from the IdManager, the IdManager
 		now allows for an Id prefix to place on ids. The prefix 'id.middlebury.edu-'
-		would lead to ids simmilar to 'id.middlebury.edu-1234567890'. This will
-		allow for multiple IdManagers to be used together without each giving out
-		the same Id strings.
+		would lead to ids similar to 'id.middlebury.edu-1234567890'. This will allow
+		for multiple IdManagers to be used together without each giving out the same
+		Id strings.
 		(Adam Franco)
 		
 	* Change: 
@@ -2029,7 +2094,7 @@ v. 0.3.2 (2005-04-14)
 
 		
 	* Bug Fix: 
-		Existance of a try() function in the ErrorHandler was throwing parse errors
+		Existence of a try() function in the ErrorHandler was throwing parse errors
 		PHP5. 
 		(Adam Franco)
 		
@@ -2167,7 +2232,7 @@ v. 0.3.0 (2005-04-07)
 		DBHandler now provides methods for transaction handling. Applications can be
 		coded to use transactions to ensure atomic writes. Databases that do not
 		support transactions will simply ignore the calls. Nested transaction calls
-		in MySQL are interperated so that only the outer transaction is run allowing
+		in MySQL are interpreted so that only the outer transaction is run allowing
 		applications coded to use nested transactions to often operate on MySQL
 		4.0.11+. 
 		(Adam Franco)
@@ -2186,7 +2251,7 @@ v. 0.3.0 (2005-04-07)
 		
 	* Change: 
 		AuthorizationManager now properly returns implicit AZ corresponding to
-		explicit AZs at a parent instead of returning the explict AZs themselves.
+		explicit AZs at a parent instead of returning the explicit AZs themselves.
 		(Adam Franco)
 		
 	* Change: 
@@ -2207,7 +2272,7 @@ v. 0.3.0 (2005-04-07)
 		
 	* Change: 
 		DBHandler improvements: SQL strings are prettier now. Also added variable
-		binding functionallity.
+		binding functionality.
 		(Dobo Radichkov)
 	
 
@@ -2225,7 +2290,7 @@ v. 0.2.0 (2004-10-26)
 		Added an ImageProcessor service for the resizing of images, generation of
 		thumbnails, and other common image processing functions. This service can be
 		configured to use multiple modules to handle different file types, as
-		availible. An example would be using PHP's GD libraries for handling jpegs
+		available. An example would be using PHP's GD libraries for handling jpegs
 		and pngs, while using ImageMagick (via shell_exec()) for tiff, psd, pdf,
 		etc. files.
 		(Adam Franco)
@@ -2302,7 +2367,7 @@ v. 0.2.0 (2004-10-26)
 		
 	* New feature: 
 		A new "Sets" service provides an easy system for the creation, ordering, and
-		maintaining of persistant collections of Ids.
+		maintaining of persistent collections of Ids.
 		(Adam Franco)
 		
 	* New feature: 
@@ -2344,11 +2409,11 @@ v. 0.1.0 (2004-06-11)
 
 		
 	* New feature: 
-		Added a new OKI-Hiearchy implementation (hierarchy2).
+		Added a new OKI-Hierarchy implementation (hierarchy2).
 		(Dobo Radichkov)
 		
 	* New feature: 
-		DataManager: added a datatype to store OKI-style types.
+		DataManager: added a data type to store OKI-style types.
 		(Gabe Schine)
 		
 	* Bug Fix: 
@@ -2372,19 +2437,19 @@ v. 0.1.0 (2004-06-11)
 		(Adam Franco)
 		
 	* Change: 
-		Argument Validator now dosn't fail on string representations of integers;
+		Argument Validator now doesn't fail on string representations of integers;
 		i.e. "100" as well as 100 will validate.
 		(Adam Franco)
 		
 	* New feature: 
-		Implimented the Digital Repository OSID in Harmoni. The DR uses the
+		Implemented the Digital Repository OSID in Harmoni. The DR uses the
 		Hierarchy OSID, the DataManager, and the Shared OSID to provide for
 		high-level access and browsing of Assets and their associated data/metadata.
 		(Adam Franco)
 		
 	* Change: 
 		Services: The Harmoni Services now check for the Error Handler and use that
-		to print out errors if it is availible. This makes for easier to read
+		to print out errors if it is available. This makes for easier to read
 		backtraces. 
 		(Adam Franco)
 		
@@ -2394,11 +2459,11 @@ v. 0.1.0 (2004-06-11)
 		(Adam Franco)
 		
 	* New feature: 
-		Hierarchy: Implimented the Hierarchy OSID. The Hiearchy supports the storing
-		of multiple hierarchies and their nodes in one database. In the current
-		implimentation, the entire hierarchy is pulled from the database each load.
-		This needs to be re-written to optimize it for fast reads from 100,000+ node
-		hierarchy (current Segue at Middlebury has ~50,000 nodes).
+		Hierarchy: Implemented the Hierarchy OSID. The Hierarchy supports the
+		storing of multiple hierarchies and their nodes in one database. In the
+		current implementation, the entire hierarchy is pulled from the database
+		each load. This needs to be re-written to optimize it for fast reads from
+		100,000+ node hierarchy (current Segue at Middlebury has ~50,000 nodes).
 		(Adam Franco)
 		
 	* New feature: 
@@ -2670,13 +2735,13 @@ v. 0.0.3 (2003-11-26)
 		(Adam Franco)
 		
 	* New feature: 
-		Laid out a skeleton Shared Service implimentation. Currently the shared
-		manager only provides for the generation of unique IDs using a databse.
+		Laid out a skeleton Shared Service implementation. Currently the shared
+		manager only provides for the generation of unique IDs using a database.
 		(Adam Franco)
 		
 	* New feature: 
-		Fully implimented the Hierarchy Service, the first of the OKI OSIDs to be
-		implimented. The Hierarchy Service supports saving to a database as well as
+		Fully implemented the Hierarchy Service, the first of the OKI OSIDs to be
+		implemented. The Hierarchy Service supports saving to a database as well as
 		memory-only usage.
 		(Adam Franco)
 		
@@ -2821,7 +2886,7 @@ v. 0.0.2 (2003-09-28)
 		(Gabe Schine)
 		
 	* New feature: 
-		ChangeLog now held in an XML file and translated by XSL!
+		Change-Log now held in an XML file and translated by XSL!
 		(Gabe Schine)
 	
 

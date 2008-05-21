@@ -1,5 +1,5 @@
 
-Harmoni v. 1.2.0 (2008-05-05)
+Harmoni v. 1.2.1 (The Future)
 =================================
 
 What is Harmoni?
@@ -29,22 +29,16 @@ used independently of the other.
 
 Current Version Notes
 ---------------------
-This release includes a new implementation of the Authorization and Hierarchy
-services along side of the original implimentations. This new 'AuthZ2'
-implimentation stores hierarchy and authorization data in a set of tables with
-foreign-key constraints/triggers to manage the removal of authorizations when nodes
-in the hierarchy are dropped. As well, AuthZ2 stores implicit authorizations as rows
-in an implicit_azs table to allow simple lookups without the need of traversing the
-hierarchy at read-time. AuthZ2 enables Segue to run approximately 600% faster, with
-some operations seeing 2000% decreases in execution time.
+This release adds support for a new Theming system, Gui2. Gui2 simplifies the
+expectations of themes to allow a wider range of possible implementations and
+storage techniques.
 
-Additional improvements in this release include more robust Harmoni_Db support, as
-well as fixes to Tagging, Language, and Database services.
+As well, a number of minor bugs have been fixed.
 
 
 Downloads
 ---------------------
-For the latested and archived versions, please download from SourceForge:
+For the latest and archived versions, please download from SourceForge:
 
 http://sourceforge.net/project/showfiles.php?group_id=82873
 
@@ -72,11 +66,21 @@ https://sourceforge.net/tracker/?group_id=82873&atid=567473
 ===================================================================
 
 
+v. 1.2.1 (The Future)
+----------------------------------------------------
+This release adds support for a new Theming system, Gui2. Gui2 simplifies the
+expectations of themes to allow a wider range of possible implementations and
+storage techniques.
+
+As well, a number of minor bugs have been fixed.
+
+
+
 v. 1.2.0 (2008-05-05)
 ----------------------------------------------------
 This release includes a new implementation of the Authorization and Hierarchy
-services along side of the original implimentations. This new 'AuthZ2'
-implimentation stores hierarchy and authorization data in a set of tables with
+services along side of the original implementations. This new 'AuthZ2'
+implementation stores hierarchy and authorization data in a set of tables with
 foreign-key constraints/triggers to manage the removal of authorizations when nodes
 in the hierarchy are dropped. As well, AuthZ2 stores implicit authorizations as rows
 in an implicit_azs table to allow simple lookups without the need of traversing the
@@ -135,7 +139,7 @@ This release fixes a few minor bugs.
 
 v. 1.0.1 (2008-02-21)
 ----------------------------------------------------
-This release fixes an issue in which Cookie values were bing appended to some URLs.
+This release fixes an issue in which Cookie values were being appended to some URLs.
 Also fixes a few other typos and bugs.
 
 
@@ -169,7 +173,7 @@ This release fixes a few minor bugs.
 v. 0.13.5 (2007-12-12)
 ----------------------------------------------------
 This release adds a few minor fixes and a few minor cleanup changes. It also
-includes the addition of HTML cleaning support, availible throught the HtmlString
+includes the addition of HTML cleaning support, available through the HtmlString
 'primitive' class. This support can be used by client applications to strip HTML
 markup of tags and attributes that might result in XSS attacks.
 
@@ -184,7 +188,7 @@ This release fixes a few minor issues with the Error Handler.
 v. 0.13.3 (2007-11-09)
 ----------------------------------------------------
 This release fixes a few minor bugs and adds the ability to attach
-externally-defined groups (such as from LDAP) underneith locally defined groups.
+externally-defined groups (such as from LDAP) underneath locally defined groups.
 
 Changes to the Agent tables require running a database updater script:
 harmoni/core/DBHandler/db_updater.php 
@@ -206,7 +210,7 @@ This release fixes a few issues that were missed in the last point release.
 
 v. 0.13.0 (2007-10-22)
 ----------------------------------------------------
-New in this relase include the addition of alternate repository implementations for
+New in this release include the addition of alternate repository implementations for
 reading from simple database tables and federating together several different
 repository implementations.
 
