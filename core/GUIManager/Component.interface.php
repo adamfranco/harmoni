@@ -107,7 +107,7 @@ define("MENU_TOP", 3);
  * @const integer MENU_BOTTOM
  * @package harmoni.gui
  */
-define("MENU_BOTTOM", 3);
+define("MENU_BOTTOM", 4);
 
 
 /*********************************************************/
