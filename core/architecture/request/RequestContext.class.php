@@ -406,8 +406,7 @@ END;
 	function startNamespace($name) {
 		if (!is_null($name))
 			$this->_checkName($name);
-		if ($this->_currentNamespace) 
-			$this->_namespaces[] = $this->_currentNamespace;
+		$this->_namespaces[] = $this->_currentNamespace;
 		$this->_currentNamespace = $name;
 	}
 	
