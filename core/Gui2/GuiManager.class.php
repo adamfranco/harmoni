@@ -152,7 +152,8 @@ class Harmoni_Gui2_GuiManager
 		
 		$css = str_replace("\n", "\n\t\t\t", $this->getCurrentTheme()->getCss());
 		
-		header("Content-type: $doctype; charset=$characterSet");
+		if (!headers_sent())
+			header("Content-type: $doctype; charset=$characterSet");
 		
 		print<<<END
 $doctypeDef
