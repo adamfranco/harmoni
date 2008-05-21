@@ -159,11 +159,12 @@ $doctypeDef
 <html{$xmlns}>
 	<head>
 		<meta http-equiv="Content-Type" content="$doctype; charset=$characterSet" />
+		
+		$head
+		
 		<style type="text/css">
 $css
 		</style>
-		
-		$head
 	</head>
 	<body>
 		$printedContent
