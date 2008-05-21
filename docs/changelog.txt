@@ -2,7 +2,7 @@
 Harmoni Change Log
 
 
-v. 1.2.1 (The Future)
+v. 1.3.0 (2008-05-20)
 ----------------------------------------------------
 This release adds support for a new Theming system, Gui2. Gui2 simplifies the
 expectations of themes to allow a wider range of possible implementations and
@@ -37,6 +37,13 @@ As well, a number of minor bugs have been fixed.
 		AuthNMethods: HttpAuth-token collector now can accept a user-function array
 		instead of just a string.
 		(2008-05-13 - Adam Franco)
+		
+	* Bug Fix: #1964729 
+		Request: Multiple calls to startNamespace(null) were not filling the
+		name-space stack with null name-spaces, so when endNamespace() was then
+		called, extra non-null name-spaces were removed from the stack.
+		(2008-05-20 - Adam Franco)
+		(reported by Jeff Merriman of MIT)
 		
 	* Change: # 
 		Request: Replacing slashes in path-info URLs.

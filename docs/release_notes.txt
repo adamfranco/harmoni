@@ -1,5 +1,5 @@
 
-Harmoni v. 1.2.1 (The Future)
+Harmoni v. 1.3.0 (2008-05-20)
 =================================
 
 What is Harmoni?
@@ -66,7 +66,7 @@ https://sourceforge.net/tracker/?group_id=82873&atid=567473
 ===================================================================
 
 
-v. 1.2.1 (The Future)
+v. 1.3.0 (2008-05-20)
 ----------------------------------------------------
 This release adds support for a new Theming system, Gui2. Gui2 simplifies the
 expectations of themes to allow a wider range of possible implementations and
