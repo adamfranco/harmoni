@@ -153,6 +153,56 @@ interface Harmoni_Gui2_ThemeInterface {
 	public function getHistory ();
 	
 	/*********************************************************
+	 * Accessing Theme Data
+	 *********************************************************/
+	/**
+	 * Answer the global CSS string.
+	 * 
+	 * @return string
+	 * @access public
+	 * @since 5/15/08
+	 */
+	public function getGlobalCss ();
+	
+	/**
+	 * Answer the component types supported.
+	 * 
+	 * @return array of strings
+	 * @access public
+	 * @since 5/15/08
+	 */
+	public function getComponentTypes ();
+	
+	/**
+	 * Get the CSS for a component Type.
+	 * 
+	 * @param string $componentType
+	 * @return string
+	 * @access public
+	 * @since 5/15/08
+	 */
+	public function getCssForType ($componentType);
+	
+	/**
+	 * Get the HTML template for a component Type.
+	 * 
+	 * @param string $componentType
+	 * @return string
+	 * @access public
+	 * @since 5/15/08
+	 */
+	public function getTemplateForType ($componentType);
+	
+	/**
+	 * Answer the images for this theme
+	 * 
+	 * @return array of Harmoni_Filing_FileInterface objects
+	 * @access public
+	 * @since 5/15/08
+	 */
+	public function getImages ();
+	
+	/*********************************************************
 	 * Theme options
 	 *********************************************************/
 	
@@ -174,6 +224,29 @@ interface Harmoni_Gui2_ThemeInterface {
 	 * @since 5/6/08
 	 */
 	public function getOptionsSession ();
+	
+	/*********************************************************
+	 * Theme Modification
+	 *********************************************************/
+	
+	/**
+	 * Answer true if this theme supports modification.
+	 * 
+	 * @return boolean
+	 * @access public
+	 * @since 5/15/08
+	 */
+	public function supportsModification ();
+	
+	/**
+	 * Answer an object that implements the ThemeModificationInterface
+	 * for this theme. This could be the same or a different object.
+	 * 
+	 * @return object Harmoni_Gui2_ThemeModificationInterface
+	 * @access public
+	 * @since 5/15/08
+	 */
+	public function getModificationSession ();
 }
 
 ?>

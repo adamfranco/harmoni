@@ -80,6 +80,19 @@ interface Harmoni_Gui2_ThemeOptionsInterface {
 	 * @since 5/6/08
 	 */
 	public function useDefaults ();
+	
+	/*********************************************************
+	 * Export of options.
+	 *********************************************************/
+	
+	/**
+	 * Answer an XML document for the options for this theme
+	 * 
+	 * @return object Harmoni_DOMDocument
+	 * @access public
+	 * @since 5/15/08
+	 */
+	public function getOptionsDocument ();
 }
 
 ?>

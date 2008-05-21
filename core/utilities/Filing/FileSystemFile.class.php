@@ -57,6 +57,20 @@ class Harmoni_Filing_FileSystemFile
 	}
 	
 	/**
+	 * Set the MIME type of the file
+	 * 
+	 * @param string $mimeType
+	 * @return null
+	 * @access public
+	 * @since 5/15/08
+	 */
+	public function setMimeType ($mimeType) {
+		if (!preg_match('/^(text|image|audio|video|application)\/[a-z0-9_-]+$/', $mimeType))
+			throw new OperationFailedException("Invalid MIME Type '$mimeType'.");
+		$this->mimeType = $mimeType;
+	}
+	
+	/**
 	 * Answer the file name (base-name), including any extension.
 	 * 
 	 * @return string
@@ -68,6 +82,22 @@ class Harmoni_Filing_FileSystemFile
 	}
 	
 	/**
+	 * [Re]Set the base name for the file
+	 * 
+	 * @param string $baseName
+	 * @return null
+	 * @access public
+	 * @since 5/15/08
+	 */
+	public function setBaseName ($baseName) {
+		throw new UnimplementedException();
+		
+		if (!preg_match('/^[a-z0-9_\.-]+$/i', $baseName))
+			throw new OperationFailedException("'$basename' is not an allowed file name.");
+		
+	}
+	
+	/**
 	 * Answer a full path to the file, including the file name.
 	 * 
 	 * @return string
@@ -76,6 +106,18 @@ class Harmoni_Filing_FileSystemFile
 	 */
 	public function getPath () {
 		return $this->path;
+	}
+	
+	/**
+	 * [Re]Set a full path to the file, including the file name.
+	 * 
+	 * @param string $path
+	 * @return null
+	 * @access public
+	 * @since 5/6/08
+	 */
+	public function setPath ($path) {
+		throw new UnimplementedException();
 	}
 	
 	/**
