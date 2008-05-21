@@ -654,7 +654,7 @@ class AuthZ2_HierarchyCache {
 		$idManager = Services::getService("Id");
 		
 		if (!count($nodeQueryResult)) {
-			throw new UnknownIdException("No nodes found for id ".$nodeId);
+			throw new UnknownIdException("No nodes found for type ".$type->asString());
 		}
 		foreach ($nodeQueryResult as $nodeRow) {
 			$idValue = $nodeRow['id'];
