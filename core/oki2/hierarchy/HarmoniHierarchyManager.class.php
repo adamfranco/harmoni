@@ -126,8 +126,10 @@ class HarmoniHierarchyManager
 			try {
 				$this->harmoni_db = Harmoni_Db::getDatabase($harmoni_db_name);
 			} catch (UnknownIdException $e) {
+				$this->harmoni_db = null;
 			}
-        }
+        } else
+        	$this->harmoni_db = null;
 	}
 
 	/**

@@ -8,6 +8,15 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
+	<version number="1.3.2" date="The Future">
+		<releaseNotes>
+			
+		</releaseNotes>
+		<fix author='adam' date='2008-05-22' ref='' reftype='bug'>
+			Hierarchy: Fix to the older Hierarchy implementation to prevent errors
+			when not using Harmoni_Db.
+		</fix>
+	</version>
 	<version number="1.3.1" date="2008-05-22">
 		<releaseNotes>
 			This release fixes a minor theming issue that was affecting the Polyphony
