@@ -316,6 +316,7 @@ images\/
 /ix';
 
 		$harmoni = Harmoni::instance();
+		$harmoni->request->startNamespace(null);
 		preg_match_all($srcRegex, $templateContent, $matches);
 		for ($i = 0; $i < count($matches[0]); $i++) {
 			$url = $harmoni->request->mkURLWithoutContext('gui2', 'theme_image', 
@@ -332,6 +333,7 @@ images\/
 			$templateContent = str_replace($matches[0][$i], $replacement, $templateContent);
 		}
 		
+		$harmoni->request->endNamespace();
 		return $templateContent;
 	}
 	
