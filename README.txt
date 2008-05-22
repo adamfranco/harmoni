@@ -1,5 +1,5 @@
 
-Harmoni v. 1.3.0 (2008-05-20)
+Harmoni v. 1.3.1 (2008-05-22)
 =================================
 
 What is Harmoni?
@@ -29,11 +29,8 @@ used independently of the other.
 
 Current Version Notes
 ---------------------
-This release adds support for a new Theming system, Gui2. Gui2 simplifies the
-expectations of themes to allow a wider range of possible implementations and
-storage techniques.
-
-As well, a number of minor bugs have been fixed.
+This release fixes a minor theming issue that was affecting the Polyphony
+log-browsing actions.
 
 
 Downloads
@@ -64,6 +61,13 @@ https://sourceforge.net/tracker/?group_id=82873&atid=567473
 | Prior Harmoni Release Notes
 | (See the Harmoni change log for more details)
 ===================================================================
+
+
+v. 1.3.1 (2008-05-22)
+----------------------------------------------------
+This release fixes a minor theming issue that was affecting the Polyphony
+log-browsing actions.
+
 
 
 v. 1.3.0 (2008-05-20)

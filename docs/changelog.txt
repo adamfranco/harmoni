@@ -2,6 +2,20 @@
 Harmoni Change Log
 
 
+v. 1.3.1 (2008-05-22)
+----------------------------------------------------
+This release fixes a minor theming issue that was affecting the Polyphony
+log-browsing actions.
+		
+		
+	* Bug Fix: # 
+		Gui2: Theme URLs now do not get messed up in names-spaced actions like
+		log-browsing. 
+		(2008-05-21 - Adam Franco)
+	
+
+
+
 v. 1.3.0 (2008-05-20)
 ----------------------------------------------------
 This release adds support for a new Theming system, Gui2. Gui2 simplifies the
