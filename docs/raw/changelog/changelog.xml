@@ -8,10 +8,26 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
-	<version number="1.3.2" date="The Future">
+	<version number="1.3.2" date="2008-05-23">
 		<releaseNotes>
-			
+			This release fixes a few errors affected a few users, notably a work-around
+			for a PHP/PDO bug that results in segmentation faults when escaped quotes 
+			exist in an SQL	string that is then prepared. This is occurring when
+			checking authorization for users who are members of groups that have a 
+			quote in their LDAP DN.
 		</releaseNotes>
+		<fix author='adam' date='2008-05-23' ref='1970447' reftype='bug'>
+			PDO: Adding temporary work-around for bug 1970447/ PHP bug 41125
+			
+			A PHP/PDO bug is resulting in problems when escaped quotes exist in an SQL
+			string that is then prepared. This is occurring for users who are members
+			of groups that have a quote in their LDAP DN.
+			
+			
+			See: https://sourceforge.net/tracker/index.php?func=detail&aid=1970447&group_id=82171&atid=565234
+			See: http://slug.middlebury.edu/~afranco/PHP_PDO_segfault/
+			See: http://bugs.php.net/bug.php?id=41125
+		</fix>
 		<fix author='adam' date='2008-05-22' ref='' reftype='bug'>
 			Hierarchy: Fix to the older Hierarchy implementation to prevent errors
 			when not using Harmoni_Db.

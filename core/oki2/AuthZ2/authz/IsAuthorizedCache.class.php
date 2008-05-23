@@ -496,16 +496,33 @@ class AuthZ2_IsAuthorizedCache {
 // 		}
 // 		$this->_queue[$agentIdString] = $foundNodes;
 		
-		// Based on my testing, it seems like loading 4 or less with prepared statements
-		// is faster is the speediest point
-		if (count($this->_queue[$agentIdString]) <= 4
-			&& isset($this->authorizationManager) && isset($this->authorizationManager->harmoni_db))
-		{
-			foreach ($this->_queue[$agentIdString] as $qualifier) {
-				$this->_loadSingle($agentIdString, $qualifier);
-			}
-		} else {
+		
+		// This is a temporary work-around for bug 1970447:
+		// https://sourceforge.net/tracker/index.php?func=detail&aid=1970447&group_id=82171&atid=565234
+		// 
+		// A PHP/PDO bug is resulting in problems when escaped quotes exist in an SQL 
+		// tring that is then prepared.
+		// 
+		// See: http://slug.middlebury.edu/~afranco/PHP_PDO_segfault/
+		// See: http://bugs.php.net/bug.php?id=41125
+		if ($this->avoidPdoBug($agentIdString)) {
 			$this->_loadMultiple($agentIdString, $this->_queue[$agentIdString]);
+		}
+		// Normal Case
+		else {
+		
+			// Based on my testing, it seems like loading 4 or less with prepared statements
+			// is faster is the speediest point
+			if (count($this->_queue[$agentIdString]) <= 4
+				&& isset($this->authorizationManager) && isset($this->authorizationManager->harmoni_db))
+			{
+				foreach ($this->_queue[$agentIdString] as $qualifier) {
+					$this->_loadSingle($agentIdString, $qualifier);
+				}
+			} else {
+				$this->_loadMultiple($agentIdString, $this->_queue[$agentIdString]);
+			}
+		
 		}
 		
 		/*********************************************************
@@ -523,6 +540,36 @@ class AuthZ2_IsAuthorizedCache {
 // 			printpre($_SESSION['__isAuthorizedCache'][$agentIdString]);
 // 			exit;
 // 		}
+	}
+	
+	var $shouldAvoidPdoBug = array();
+	/**
+	 * This is a temporary work-around for bug 1970447:
+	 * https://sourceforge.net/tracker/index.php?func=detail&aid=1970447&group_id=82171&atid=565234
+	 * 
+	 *  A PHP/PDO bug is resulting in problems when escaped quotes exist in an SQL 
+	 *  tring that is then prepared.
+	 *  
+	 *  See: http://slug.middlebury.edu/~afranco/PHP_PDO_segfault/
+	 *  See: http://bugs.php.net/bug.php?id=41125
+	 * 
+	 * @param string $agentIdString
+	 * @return boolean
+	 * @access private
+	 * @since 5/23/08
+	 */
+	private function avoidPdoBug ($agentIdString) {
+		if (!isset($this->shouldAvoidPdoBug[$agentIdString])) {
+			$ids = $this->getAgentIdStringArray($agentIdString);
+			$this->shouldAvoidPdoBug[$agentIdString] = false;
+			foreach ($ids as $id) {
+				if (strpos($id, "'") !== false) {
+					$this->shouldAvoidPdoBug[$agentIdString] = true;
+					break;
+				}
+			}
+		}
+		return $this->shouldAvoidPdoBug[$agentIdString];
 	}
 	
 	/**
