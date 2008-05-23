@@ -1,5 +1,5 @@
 
-Harmoni v. 1.3.1 (2008-05-22)
+Harmoni v. 1.3.2 (2008-05-23)
 =================================
 
 What is Harmoni?
@@ -29,8 +29,10 @@ used independently of the other.
 
 Current Version Notes
 ---------------------
-This release fixes a minor theming issue that was affecting the Polyphony
-log-browsing actions.
+This release fixes a few errors affected a few users, notably a work-around for a
+PHP/PDO bug that results in segmentation faults when escaped quotes exist in an
+SQLstring that is then prepared. This is occurring when checking authorization for
+users who are members of groups that have a quote in their LDAP DN.
 
 
 Downloads
@@ -61,6 +63,15 @@ https://sourceforge.net/tracker/?group_id=82873&atid=567473
 | Prior Harmoni Release Notes
 | (See the Harmoni change log for more details)
 ===================================================================
+
+
+v. 1.3.2 (2008-05-23)
+----------------------------------------------------
+This release fixes a few errors affected a few users, notably a work-around for a
+PHP/PDO bug that results in segmentation faults when escaped quotes exist in an
+SQLstring that is then prepared. This is occurring when checking authorization for
+users who are members of groups that have a quote in their LDAP DN.
+
 
 
 v. 1.3.1 (2008-05-22)

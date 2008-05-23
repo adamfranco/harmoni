@@ -24,7 +24,7 @@
 			of groups that have a quote in their LDAP DN.
 			
 			
-			See: https://sourceforge.net/tracker/index.php?func=detail&aid=1970447&group_id=82171&atid=565234
+			See: https://sourceforge.net/tracker/index.php?func=detail&amp;aid=1970447&amp;group_id=82171&amp;atid=565234
 			See: http://slug.middlebury.edu/~afranco/PHP_PDO_segfault/
 			See: http://bugs.php.net/bug.php?id=41125
 		</fix>
