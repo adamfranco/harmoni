@@ -67,10 +67,11 @@ class debug {
 		ArgumentValidator::validate($debugPrinter, OptionalRule::getRule($extendsRule), true);
 		// ** end of parameter validation
 	
-		if (is_null($debugPrinter))
-			NewWindowDebugHandlerPrinter::printDebugHandler(Services::getService("Debug"));
-		else
-			$debugPrinter->printDebugHandler(Services::getService("Debug"));
+		if (is_null($debugPrinter)) {
+			$debugPrinter = new NewWindowDebugHandlerPrinter();
+		}
+		
+		$debugPrinter->printDebugHandler(Services::getService("Debug"));
 	}
 	
 	/**
