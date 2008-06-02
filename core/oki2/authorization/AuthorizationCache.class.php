@@ -235,7 +235,7 @@ class AuthorizationCache {
 			$query->setTable("type");
 			$query->setAutoIncrementColumn("type_id", "type_type_id_seq");
 			$query->addValue("type_domain", $domain);
-			$query->addValue("type_authority", $domain);
+			$query->addValue("type_authority", $authority);
 			$query->addValue("type_keyword", $keyword);
 			$query->addValue("type_description", $functionTypeDescription);
 
@@ -414,7 +414,7 @@ class AuthorizationCache {
 			$query->addWhereEqual("type.type_authority", $functionType->getAuthority());
 			$query->addWhereEqual("type.type_keyword", $functionType->getKeyword());
 			
-			$queryResult =$dbHandler->query($query, $this->_dbIndex);
+			$queryResult = $dbHandler->query($query, $this->_dbIndex);
 
 			
 			while ($queryResult->hasMoreRows()) {

@@ -8,6 +8,15 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
+	<version number="1.3.3" date="The Future">
+		<releaseNotes>
+			
+		</releaseNotes>
+		<fix author='adam' date='2008-06-02' ref='' reftype='bug'>
+			AuthZ: Fix to old authorization implementation that was causing function
+			types to get messed up on installation of Concerto.
+		</fix>
+	</version>
 	<version number="1.3.2" date="2008-05-23">
 		<releaseNotes>
 			This release fixes a few errors affected a few users, notably a work-around
