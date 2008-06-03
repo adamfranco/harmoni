@@ -1107,8 +1107,9 @@ class HarmoniRepository
 	 * @access public
 	 */
 	function getAssetsBySearch ( $searchCriteria, Type $searchType, Properties $searchProperties ) {
-		ArgumentValidator::validate($searchProperties, OptionalRule::getRule(
-			ExtendsValidatorRule::getRule("Properties")));
+	
+		if ($searchProperties->getType()->isEqual(new Type('Repository', 'edu.middlebury', 'null')))
+			$searchProperties = null;
 		
 		// Check that we support the searchType
 		$supported = FALSE;

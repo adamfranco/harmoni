@@ -23,6 +23,9 @@
 			
 			http://pear.php.net/bugs/bug.php?id=14058
 		</change>
+		<change author='adam' date='2008-06-03' ref='' reftype='fr'>
+			Repository: Repository::getAssetsBySearch() now recognizes a null-type properties object.
+		</change>
 	</version>
 	<version number="1.3.2" date="2008-05-23">
 		<releaseNotes>

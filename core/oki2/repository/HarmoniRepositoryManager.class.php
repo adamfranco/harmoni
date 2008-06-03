@@ -333,7 +333,7 @@ class HarmoniRepositoryManager
 			if ($hasRootSearch) {
 				$criteria = NULL;
 				$rootAssets =$repository->getAssetsBySearch($criteria,
-					$rootSearchType, $searchProperties = NULL);
+					$rootSearchType, new HarmoniProperties(new Type('Repository', 'edu.middlebury', 'null')));
 				
 				while ($rootAssets->hasNext()) {
 					$asset =$rootAssets->next();
