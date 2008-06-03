@@ -33,7 +33,12 @@ $tmpFatal = $handler->fatalErrors();
 if ($tmpFatal & E_STRICT)
 	$handler->fatalErrors(E_ALL & ~ E_STRICT);
 
-require_once("Archive/Tar.php");
+// Use a custom version of Archive/Tar if requested.
+if (defined('ARCHIVE_TAR_PATH'))
+	require_once(ARCHIVE_TAR_PATH);
+else
+	require_once("Archive/Tar.php");
+
 
 if ($tmpReporting & E_STRICT)
 	error_reporting($tmpReporting);

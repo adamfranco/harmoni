@@ -25,3 +25,11 @@ if (LOAD_ARCHITECTURE) require_once(HARMONI."architecture/harmoni/Harmoni.class.
  * load ArgumentValidator
  */
 require_once(HARMONI."utilities/ArgumentValidator.class.php");
+
+/**
+ * Define the path of our custom version of Archive/Tar with a fix for
+ * bug #14058
+ *		http://pear.php.net/bugs/bug.php?id=14058
+ */
+if (!defined('ARCHIVE_TAR_PATH'))
+	define('ARCHIVE_TAR_PATH', HARMONI_BASE.'/Pear/Archive/Tar.php');

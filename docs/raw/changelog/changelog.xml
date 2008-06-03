@@ -16,6 +16,13 @@
 			AuthZ: Fix to old authorization implementation that was causing function
 			types to get messed up on installation of Concerto.
 		</fix>
+		<change author='adam' date='2008-06-03' ref='1912944' reftype='concerto_bug'>
+			Archiving: Harmoni now includes a custom version of Archive/Tar with a fix for
+			bug #14058 that was preventing decompression of tar files that have a
+			directory hierarchy when in PHP 5.2+ with Safe Mode on.
+			
+			http://pear.php.net/bugs/bug.php?id=14058
+		</change>
 	</version>
 	<version number="1.3.2" date="2008-05-23">
 		<releaseNotes>
