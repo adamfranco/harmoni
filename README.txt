@@ -1,5 +1,5 @@
 
-Harmoni v. 1.3.2 (2008-05-23)
+Harmoni v. 1.3.3 (2008-06-03)
 =================================
 
 What is Harmoni?
@@ -29,10 +29,11 @@ used independently of the other.
 
 Current Version Notes
 ---------------------
-This release fixes a few errors affected a few users, notably a work-around for a
-PHP/PDO bug that results in segmentation faults when escaped quotes exist in an
-SQLstring that is then prepared. This is occurring when checking authorization for
-users who are members of groups that have a quote in their LDAP DN.
+This release fixes a few issues that were affecting Concerto, most notably, several
+issues with safe-mode restrictions when creating or extracting tar archives. 
+
+Harmoni now includes a custom version of the Archive/Tar PEAR library with a fix
+for bug #14058 that prevents proper extraction of archives with Safe Mode on.
 
 
 Downloads
@@ -63,6 +64,16 @@ https://sourceforge.net/tracker/?group_id=82873&atid=567473
 | Prior Harmoni Release Notes
 | (See the Harmoni change log for more details)
 ===================================================================
+
+
+v. 1.3.3 (2008-06-03)
+----------------------------------------------------
+This release fixes a few issues that were affecting Concerto, most notably, several
+issues with safe-mode restrictions when creating or extracting tar archives. 
+
+Harmoni now includes a custom version of the Archive/Tar PEAR library with a fix
+for bug #14058 that prevents proper extraction of archives with Safe Mode on.
+
 
 
 v. 1.3.2 (2008-05-23)

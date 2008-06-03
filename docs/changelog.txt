@@ -2,6 +2,36 @@
 Harmoni Change Log
 
 
+v. 1.3.3 (2008-06-03)
+----------------------------------------------------
+This release fixes a few issues that were affecting Concerto, most notably, several
+issues with safe-mode restrictions when creating or extracting tar archives. 
+
+Harmoni now includes a custom version of the Archive/Tar PEAR library with a fix
+for bug #14058 that prevents proper extraction of archives with Safe Mode on.
+		
+		
+	* Bug Fix: # 
+		AuthZ: Fix to old authorization implementation that was causing function
+		types to get messed up on installation of Concerto.
+		(2008-06-02 - Adam Franco)
+		
+	* Change: #1912944 
+		Archiving: Harmoni now includes a custom version of Archive/Tar with a fix
+		for bug #14058 that was preventing decompression of tar files that have a
+		directory hierarchy when in PHP 5.2+ with Safe Mode on.
+		
+		http://pear.php.net/bugs/bug.php?id=14058 
+		(2008-06-03 - Adam Franco)
+		
+	* Change: # 
+		Repository: Repository::getAssetsBySearch() now recognizes a null-type
+		properties object.
+		(2008-06-03 - Adam Franco)
+	
+
+
+
 v. 1.3.2 (2008-05-23)
 ----------------------------------------------------
 This release fixes a few errors affected a few users, notably a work-around for a

@@ -8,9 +8,15 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
-	<version number="1.3.3" date="The Future">
+	<version number="1.3.3" date="2008-06-03">
 		<releaseNotes>
+			This release fixes a few issues that were affecting Concerto, most
+			notably, several issues with safe-mode restrictions when creating
+			or extracting tar archives. 
 			
+			Harmoni now includes a custom version of the Archive/Tar PEAR library 
+			with a fix for bug #14058 that prevents proper extraction of archives
+			with Safe Mode on.
 		</releaseNotes>
 		<fix author='adam' date='2008-06-02' ref='' reftype='bug'>
 			AuthZ: Fix to old authorization implementation that was causing function
