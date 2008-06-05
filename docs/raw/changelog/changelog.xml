@@ -8,6 +8,15 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
+	<version number="1.3.4" date="The Future">
+		<releaseNotes>
+			
+		</releaseNotes>
+		<new author='adam' date='2008-06-05' ref='1820894' reftype='segue_fr'>
+			AuthNMethods: New Visitor Authentication method that allows for
+			visitor registration.
+		</new>
+	</version>
 	<version number="1.3.3" date="2008-06-03">
 		<releaseNotes>
 			This release fixes a few issues that were affecting Concerto, most
