@@ -104,11 +104,12 @@ class VisitorSQLDatabaseAuthNMethod
 	 * Send out a confirmation email
 	 * 
 	 * @param object AuthNTokens $email
+	 * @param object URLWriter $url
 	 * @return void
 	 * @access public
 	 * @since 6/4/08
 	 */
-	public function sendConfirmationEmail (AuthNTokens $authNTokens) {
+	public function sendConfirmationEmail (AuthNTokens $authNTokens, URLWriter $url) {
 		$dbc = Services::getService("DatabaseManager");
 		$dbId = $this->_configuration->getProperty('database_id');
 		$authenticationTable = $this->_configuration->getProperty('authentication_table');
@@ -130,12 +131,11 @@ class VisitorSQLDatabaseAuthNMethod
 				throw new OperationFailedException("Email already confirmed.");
 			}
 			
-			$harmoni = Harmoni::instance();
 			$subject = _("Segue Visitor Registration Confirmation.");
 			$instructions =  _("Please click on the link below to confirm your Segue Visitor Registration:");
-			$url = $harmoni->request->quickURL('user', 'confirm_email', 
-						array('email' => $authNTokens->getUsername(),
-							'confirmation_code' => $row['confirmation_code']));
+			$url->setValue('email', $authNTokens->getUsername());
+			$url->setValue('confirmation_code', $row['confirmation_code']);
+			$urlString = $url->write();
 			ob_start();
 			print "
 <html>
@@ -144,7 +144,7 @@ class VisitorSQLDatabaseAuthNMethod
 </head>
 <body>
 	<p>$instructions
-		<br/>&nbsp; &nbsp; &nbsp; <a href='$url'>$url</a>
+		<br/>&nbsp; &nbsp; &nbsp; <a href='$urlString'>$urlString</a>
 	</p>
 </body>
 </html>";
