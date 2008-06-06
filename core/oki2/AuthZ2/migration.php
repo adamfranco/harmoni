@@ -187,7 +187,6 @@ class AuthZ2Updater
 				
 			$configuration->addProperty($dbAuthType, $dbAuthNMethod);
 			
-			$GLOBALS["NewUserAuthNType"] = $dbAuthType;	
 			Services::startManagerAsService("AuthNMethodManager", $context, $configuration);
 			
 			
