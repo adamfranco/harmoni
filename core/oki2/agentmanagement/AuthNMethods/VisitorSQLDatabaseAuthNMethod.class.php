@@ -115,28 +115,81 @@ class VisitorSQLDatabaseAuthNMethod
 	 * @since 3/1/05
 	 */
 	function addTokens ( $authNTokens ) {
+		/*********************************************************
+		 * Check validity
+		 *********************************************************/
+		
 		ArgumentValidator::validate($authNTokens, ExtendsValidatorRule::getRule("AuthNTokens"));
 		
 		if ($this->tokensExist($authNTokens)) {
-			throwError( new Error("Token Addition Error: ".
-							"'".$authNTokens->getUsername()."' already exists.",
-									 "SQLDatabaseAuthNMethod", true));
-		} else {
-			$dbc = Services::getService("DatabaseManager");
-			$dbId = $this->_configuration->getProperty('database_id');
-			$authenticationTable = $this->_configuration->getProperty('authentication_table');
-			$usernameField = $this->_configuration->getProperty('username_field');
-			$passwordField = $this->_configuration->getProperty('password_field');
-			
-			$query =  new InsertQuery;
-			$query->setTable($authenticationTable);
-			$query->addValue($usernameField, $authNTokens->getUsername());
-			$query->addValue($passwordField, $authNTokens->getPassword());
-			$query->addValue('display_name', $authNTokens->getUsername());
-			$query->addValue('email_confirmed', '0');
-			$query->addValue('confirmation_code', md5(rand()));
-			$result =  $dbc->query($query, $dbId);
+			throw new OperationFailedException("Cannot create tokens: '".$authNTokens->getUsername()."' already exists.");
+		} 
+		
+		$email = $authNTokens->getUsername();
+		
+		// Check that the email is in a whitelisted domain if a whitelist is set.
+		if (is_array($this->_configuration->getProperty('domain_whitelist'))) {
+			$allowed = false;
+			foreach ($this->_configuration->getProperty('domain_whitelist') as $domain) {
+				if (preg_match('/'.str_replace('.', '\.', $domain).'$/i', $email)) {
+					$allowed = true;
+					break;
+				}
+			}
+			if (!$allowed) {
+				preg_match('/@([^@]+)$/', $email, $matches);
+				throw new OperationFailedException("Cannot create visitor registrations from ".$matches[1].". Not in list of allowed domains.");
+			}
 		}
+		
+		// Check that the email is not in a blacklisted domain if a blacklist is set.
+		if (is_array($this->_configuration->getProperty('domain_blacklist'))) {
+			
+			foreach ($this->_configuration->getProperty('domain_blacklist') as $domain) {
+				if (preg_match('/'.str_replace('.', '\.', $domain).'$/i', $email))
+					throw new OperationFailedException("Cannot create visitor registration from $domain. Domain is black-listed.");
+			}
+		}
+		
+		// Check that the email is not for someone with an account already in the 
+		// system through another authentication method.
+		$methodMgr = Services::getService("AuthNMethodManager");
+		$types = $methodMgr->getAuthNTypes();
+		while($types->hasNext()) {
+			$method = $methodMgr->getAuthNMethodForType($types->next());
+			$matching = $method->getTokensBySearch($email);
+			while ($matching->hasNext()) {
+				$properties = $method->getPropertiesForTokens($matching->next());
+				if ($properties->getProperty('email')
+					&& strtolower($email) == strtolower($properties->getProperty('email')))
+				{
+					$message = dgettext("polyphony", "Cannot create visitor registration for %1. An account already exists in the %2 system. Please log in with your %2 username and password.");
+					$message = str_replace("%1", $email, $message);
+					$message = str_replace("%2", $method->getType()->getKeyword(), $message);
+					throw new OperationFailedException($message);
+				}
+			}
+		}		
+		
+		
+		/*********************************************************
+		 * Add the tokens
+		 *********************************************************/
+
+		$dbc = Services::getService("DatabaseManager");
+		$dbId = $this->_configuration->getProperty('database_id');
+		$authenticationTable = $this->_configuration->getProperty('authentication_table');
+		$usernameField = $this->_configuration->getProperty('username_field');
+		$passwordField = $this->_configuration->getProperty('password_field');
+		
+		$query =  new InsertQuery;
+		$query->setTable($authenticationTable);
+		$query->addValue($usernameField, $authNTokens->getUsername());
+		$query->addValue($passwordField, $authNTokens->getPassword());
+		$query->addValue('display_name', $authNTokens->getUsername());
+		$query->addValue('email_confirmed', '0');
+		$query->addValue('confirmation_code', md5(rand()));
+		$result =  $dbc->query($query, $dbId);
 	}
 	
 	/**
