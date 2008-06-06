@@ -44,8 +44,39 @@ class VisitorSQLDatabaseAuthNMethod
 				'email' => 'email'
 		);
 		$configuration->addProperty('properties_fields', $propertiesFields);
+		
+		try {
+			ArgumentValidator::validate(
+				$configuration->getProperty('email_from_name'),
+				NonzeroLengthStringValidatorRule::getRule());
+		} catch (InvalidArgumentException $e) {
+			throw new ConfigurationErrorException("'email_from_name' must be a string. ".$e->getMessage());
+		}
+		try {
+			ArgumentValidator::validate(
+				$configuration->getProperty('email_from_address'),
+				RegexValidatorRule::getRule('^.+@.+$'));
+		} catch (InvalidArgumentException $e) {
+			throw new ConfigurationErrorException("'email_from_address' must be an email address. ".$e->getMessage());
+		}
 			
+		try {
+				ArgumentValidator::validate(
+				$configuration->getProperty('domain_blacklist'),
+				OptionalRule::getRule(
+					ArrayValidatorRuleWithRule::getRule(
+						NonzeroLengthStringValidatorRule::getRule())));
+			ArgumentValidator::validate(
+				$configuration->getProperty('domain_whitelist'),
+				OptionalRule::getRule(
+					ArrayValidatorRuleWithRule::getRule(
+						NonzeroLengthStringValidatorRule::getRule())));
+		} catch (InvalidArgumentException $e) {
+			throw new ConfigurationErrorException("'domain_blacklist' and 'domain_whitelist' if specified must be arrays of domain name strings. ".$e->getMessage());
+		}
+		
 		parent::assignConfiguration($configuration);
+		
 	}
 	
 	/**
