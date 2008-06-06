@@ -24,7 +24,46 @@
 class VisitorSQLDatabaseAuthNMethod
 	extends SQLDatabaseAuthNMethod
 {
-		
+
+	/**
+	 * Stores the configuration. Calls the parent configuration first,
+	 * then does additional operations.
+	 * 
+	 * @param object Properties $configuration
+	 * @return object
+	 * @access public
+	 * @since 3/24/05
+	 */
+	function assignConfiguration ( Properties $configuration ) {
+		// Set the configuration values to our custom values.
+		$configuration->addProperty('authentication_table', 'auth_visitor');
+		$configuration->addProperty('username_field', 'email');
+		$configuration->addProperty('password_field', 'password');
+		$propertiesFields = array(
+				'name' => 'display_name',
+				'email' => 'email'
+		);
+		$configuration->addProperty('properties_fields', $propertiesFields);
+			
+		parent::assignConfiguration($configuration);
+	}
+	
+	/**
+	 * Should return the 'display_name_property' value for tokens
+	 * 
+	 * @param object AuthNTokens
+	 * @return string
+	 * @access public
+	 * @since 10/25/05
+	 */
+	function getDisplayNameForTokens ($authNTokens) {
+		$properties =$this->getPropertiesForTokens($authNTokens);
+
+		if (!preg_match('/^.+@([^@]+)$/', $properties->getProperty('email'), $matches))
+			throw new OperationFailedException("No email specified.");
+		return $properties->getProperty('name')." (".$matches[1].")";
+	}
+	
 	/**
 	 * Authenticate an AuthNTokens object
 	 * 
