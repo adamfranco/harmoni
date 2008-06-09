@@ -1,5 +1,5 @@
 
-Harmoni v. 1.3.3 (2008-06-03)
+Harmoni v. 1.3.4 (2008-06-09)
 =================================
 
 What is Harmoni?
@@ -29,11 +29,7 @@ used independently of the other.
 
 Current Version Notes
 ---------------------
-This release fixes a few issues that were affecting Concerto, most notably, several
-issues with safe-mode restrictions when creating or extracting tar archives. 
-
-Harmoni now includes a custom version of the Archive/Tar PEAR library with a fix
-for bug #14058 that prevents proper extraction of archives with Safe Mode on.
+This release adds support for a visitor registration authentication method.
 
 
 Downloads
@@ -64,6 +60,12 @@ https://sourceforge.net/tracker/?group_id=82873&atid=567473
 | Prior Harmoni Release Notes
 | (See the Harmoni change log for more details)
 ===================================================================
+
+
+v. 1.3.4 (2008-06-09)
+----------------------------------------------------
+This release adds support for a visitor registration authentication method.
+
 
 
 v. 1.3.3 (2008-06-03)
