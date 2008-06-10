@@ -133,7 +133,34 @@ class HarmoniReadableLog
 		
 		$iterator = new SearchEntryIterator($this->_name, $searchCriteria, $formatType, $priorityType, $this->_dbIndex);
 		return $iterator;
-	} 
+	}
+	
+	/**
+	 * Answer a list of categories in this log.
+	 * 
+	 * Warning: NOT IN OSID
+	 * 
+	 * @return array
+	 * @access public
+	 * @since 6/10/08
+	 */
+	public function getCategories () {
+		$query = new SelectQuery();
+		$query->addTable('log_entry');
+		$query->addColumn('DISTINCT (category)', 'cat');
+		$query->addWhereEqual('log_name', $this->_name);
+		$query->addOrderBy('category');
+		
+		$dbc = Services::getService('DatabaseManager');
+		$result = $dbc->query($query, $this->_dbIndex);
+		$categories = array();
+		while ($result->hasNext()) {
+			$row = $result->next();
+			$categories[] = $row['cat'];
+		}
+		
+		return $categories;
+	}
 }
 
 ?>
