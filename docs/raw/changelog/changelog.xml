@@ -13,6 +13,13 @@
 			
 		</releaseNotes>
 		<change author='adam' date='2008-06-10'>
+			Request: Specifying null for a URL value will now remove the key rather
+			than setting the value to an empty string.
+		</change>
+		<new author='adam' date='2008-06-10'>
+			Logging: Can now return a list of existing categories.
+		</new>
+		<change author='adam' date='2008-06-10'>
 			AuthNMethods: Visitor registration system now logs registration and
 			email confirmation steps.
 		</change>

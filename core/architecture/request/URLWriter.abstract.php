@@ -117,7 +117,10 @@ abstract class URLWriter
 	 */
 	function setValue($key, $value) {
 		$key = RequestContext::name($key);
-		$this->_vars[$key] = $value;
+		if (is_null($value))
+			unset($this->_vars[$key]);
+		else
+			$this->_vars[$key] = $value;
 	}
 	
 	/**
