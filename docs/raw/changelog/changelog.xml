@@ -12,7 +12,11 @@
 		<releaseNotes>
 			
 		</releaseNotes>
-		<change author='adam' date='2008-06-10' ref='' reftype='fr'>
+		<change author='adam' date='2008-06-10'>
+			AuthNMethods: Visitor registration system now logs registration and
+			email confirmation steps.
+		</change>
+		<change author='adam' date='2008-06-10'>
 			AuthNMethods: Visitor registration email now informs the user that 
 			their username is their email address.
 		</change>

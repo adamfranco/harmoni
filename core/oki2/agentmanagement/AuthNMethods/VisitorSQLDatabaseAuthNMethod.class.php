@@ -221,6 +221,22 @@ class VisitorSQLDatabaseAuthNMethod
 		$query->addValue('email_confirmed', '0');
 		$query->addValue('confirmation_code', md5(rand()));
 		$result =  $dbc->query($query, $dbId);
+		
+		// Log the success
+		if (Services::serviceRunning("Logging")) {
+			$loggingManager = Services::getService("Logging");
+			$log =$loggingManager->getLogForWriting("Authentication");
+			$formatType = new Type("logging", "edu.middlebury", "AgentsAndNodes",
+							"A format in which the acting Agent[s] and the target nodes affected are specified.");
+			$priorityType = new Type("logging", "edu.middlebury", "Event_Notice",
+							"Normal events.");
+			
+			$properties = $this->getPropertiesForTokens($authNTokens);
+			$item = new AgentNodeEntryItem("Visitor Registration", 
+					"Visitor Registration entered: <br/>&nbsp;&nbsp;&nbsp;&nbsp;Email: ".$authNTokens->getIdentifier()." <br/>Still need to confirm email.");
+			
+			$log->appendLogWithTypes($item,	$formatType, $priorityType);
+		}
 	}
 	
 	/**
@@ -353,9 +369,34 @@ class VisitorSQLDatabaseAuthNMethod
 		$result =  $dbc->query($query, $dbId);
 		
 		if ($result->getNumberOfRows())
-			return TRUE;
+			$confirmed = TRUE;
 		else
-			return FALSE;
+			$confirmed = FALSE;
+		
+		// Log the success or failure
+		if (Services::serviceRunning("Logging")) {
+			$loggingManager = Services::getService("Logging");
+			$log =$loggingManager->getLogForWriting("Authentication");
+			$formatType = new Type("logging", "edu.middlebury", "AgentsAndNodes",
+							"A format in which the acting Agent[s] and the target nodes affected are specified.");
+			$priorityType = new Type("logging", "edu.middlebury", "Event_Notice",
+							"Normal events.");
+			
+			$properties = $this->getPropertiesForTokens($authNTokens);
+			if ($confirmed) {
+				$item = new AgentNodeEntryItem("Visitor Registration Confirmed", 
+					"Visitor Registration Confirmed: <br/>&nbsp;&nbsp;&nbsp;&nbsp;Name: ".$properties->getProperty('name')." <br/>&nbsp;&nbsp;&nbsp;&nbsp;Email: ".$authNTokens->getIdentifier());
+			} else {
+				$priorityType = new Type("logging", "edu.middlebury", "User_Error",
+							"Events that indicate errors in user supplied data.");
+				$item = new AgentNodeEntryItem("Visitor Registration Failed", 
+					"Visitor Registration email confirmation failed. Confirmation code/email mis-match: <br/>&nbsp;&nbsp;&nbsp;&nbsp;Name: ".$properties->getProperty('name')." <br/>&nbsp;&nbsp;&nbsp;&nbsp;Email: ".$authNTokens->getIdentifier());
+			}
+			
+			$log->appendLogWithTypes($item,	$formatType, $priorityType);
+		}
+		
+		return $confirmed;
 	}
 	
 }
