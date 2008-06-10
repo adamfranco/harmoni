@@ -255,7 +255,8 @@ class VisitorSQLDatabaseAuthNMethod
 			}
 			
 			$subject = _("Segue Visitor Registration Confirmation.");
-			$instructions =  _("Please click on the link below to confirm your Segue Visitor Registration:");
+			$instructions =  _("Please click on the link below to confirm your Segue Visitor Registration. Your username is this email address, '%1', and your password is the one you chose in the registration form.");
+			$instructions = str_replace('%1', $authNTokens->getUsername(), $instructions);
 			$url->setValue('email', $authNTokens->getUsername());
 			$url->setValue('confirmation_code', $row['confirmation_code']);
 			$urlString = $url->write();

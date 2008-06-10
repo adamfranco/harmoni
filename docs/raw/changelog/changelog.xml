@@ -8,6 +8,15 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
+	<version number="1.3.5" date="The Future">
+		<releaseNotes>
+			
+		</releaseNotes>
+		<change author='adam' date='2008-06-10' ref='' reftype='fr'>
+			AuthNMethods: Visitor registration email now informs the user that 
+			their username is their email address.
+		</change>
+	</version>
 	<version number="1.3.4" date="2008-06-09">
 		<releaseNotes>
 			This release adds support for a visitor registration authentication
