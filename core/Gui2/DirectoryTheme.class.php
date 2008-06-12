@@ -205,7 +205,7 @@ class Harmoni_Gui2_DirectoryTheme
 			return _("Untitled");
 		
 		$xpath = new DOMXPath($this->info);
-		return trim($xpath->query('/ThemeInfo/DisplayName')->item(0)->nodeValue);
+		return trim($this->getPathLangVersion($xpath, '/ThemeInfo/DisplayName', $this->info->documentElement));
 	}
 	
 	/**
@@ -222,7 +222,7 @@ class Harmoni_Gui2_DirectoryTheme
 			return '';
 		
 		$xpath = new DOMXPath($this->info);
-		return trim($xpath->query('/ThemeInfo/Description')->item(0)->nodeValue);
+		return trim($this->getPathLangVersion($xpath, '/ThemeInfo/Description', $this->info->documentElement));
 	}
 	
 	/**
