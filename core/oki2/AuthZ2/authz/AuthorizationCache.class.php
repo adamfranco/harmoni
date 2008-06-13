@@ -1173,6 +1173,14 @@ class AuthZ2_AuthorizationCache {
 	 * @since 4/21/08
 	 */
 	public function createHierarchyImplictAZs (Node $subtreeRootNode, array $newAncestorIds) {
+		// Wrap this operation in a transaction to prevent partial addition.
+		if (isset($this->harmoni_db)) {
+			$this->harmoni_db->beginTransaction();
+		} else {
+			$dbHandler = Services::getService("DatabaseManager");	
+			$dbHandler->beginTransaction($this->_dbIndex);
+		}
+		
 		// Get a list of Explicit Authorizations in the subtree that will
 		// cascade up to the new ancestors and add the corresponding
 		// implicit AZs to the new ancestors.
@@ -1186,6 +1194,14 @@ class AuthZ2_AuthorizationCache {
 		$nodes = $this->getQualifierDescendentIds($subtreeRootNode->getId());
 		$nodes[] = $subtreeRootNode->getId();
 		$this->createImplicitAZs($downAZs, $nodes);
+		
+		// Wrap this operation in a transaction to prevent partial addition.
+		if (isset($this->harmoni_db)) {
+			$this->harmoni_db->commit();
+		} else {
+			$dbHandler = Services::getService("DatabaseManager");	
+			$dbHandler->commitTransaction($this->_dbIndex);
+		}
 	}
 	
 	/**
