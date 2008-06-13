@@ -904,6 +904,7 @@ class HarmoniAgentManager
 	 * @access public
 	 */
 	function getGroupsByType ( Type $groupType ) {
+		throw new UnimplementedException;
 	} 
 	
 	/**
