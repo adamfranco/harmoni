@@ -221,7 +221,7 @@ class StatusStars {
 	 * @since 3/12/07
 	 */
 	function endBlock () {
-		print "</pre>";
+		print "</pre>\n";
 	}
 }
 
