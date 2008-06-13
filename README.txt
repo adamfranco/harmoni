@@ -1,5 +1,5 @@
 
-Harmoni v. 1.3.4 (2008-06-09)
+Harmoni v. 1.3.5 (2008-06-13)
 =================================
 
 What is Harmoni?
@@ -29,7 +29,11 @@ used independently of the other.
 
 Current Version Notes
 ---------------------
-This release adds support for a visitor registration authentication method.
+Harmoni versions 1.2.0 through 1.3.4 included a bug in AuthZ2 in which implicit
+authorizations were not created when new nodes were created with
+Hierarchy->createNode(). This release fixes that issue.
+
+For other improvements please see the change-log.
 
 
 Downloads
@@ -60,6 +64,16 @@ https://sourceforge.net/tracker/?group_id=82873&atid=567473
 | Prior Harmoni Release Notes
 | (See the Harmoni change log for more details)
 ===================================================================
+
+
+v. 1.3.5 (2008-06-13)
+----------------------------------------------------
+Harmoni versions 1.2.0 through 1.3.4 included a bug in AuthZ2 in which implicit
+authorizations were not created when new nodes were created with
+Hierarchy->createNode(). This release fixes that issue.
+
+For other improvements please see the change-log.
+
 
 
 v. 1.3.4 (2008-06-09)

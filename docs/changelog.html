@@ -23,7 +23,30 @@
 </head>
 <body>
 <h1>Harmoni Change Log</h1>
-<h2>Version 1.3.4</h2>
+<h2>Version 1.3.5</h2>
+<h3>2008-06-13</h3>
+<p>Harmoni versions 1.2.0 through 1.3.4 included a bug in AuthZ2 in which implicit authorizations were not created when new nodes were created with Hierarchy-&gt;createNode(). This release fixes that issue.
+<br>
+<br>For other improvements please see the change-log.</p>
+<ul>
+		
+		<li>
+<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1991183&amp;group_id=82171&amp;atid=565234">
+        			#1991183</a> AuthZ2: Fixed AuthZ2 issue where implicit AZs were not being created for new nodes.
+<br>
+<br>This had the effect of causing Admins to not be authorized to view new Segue sites. Implicit AZs were created OK in other situations because nodes were attached to parents via the addParent() method which triggered implicit AZ insertion. (<em>2008-06-12 - Adam Franco</em>)</li>
+		<li>
+<b>Change:</b> Request: Specifying null for a URL value will now remove the key rather than setting the value to an empty string. (<em>2008-06-10 - Adam Franco</em>)</li>
+		<li>
+<b>New feature:</b> Logging: Can now return a list of existing categories. (<em>2008-06-10 - Adam Franco</em>)</li>
+		<li>
+<b>Change:</b> AuthNMethods: Visitor registration system now logs registration and email confirmation steps. (<em>2008-06-10 - Adam Franco</em>)</li>
+		<li>
+<b>Change:</b> AuthNMethods: Visitor registration email now informs the user that their username is their email address. (<em>2008-06-10 - Adam Franco</em>)</li>
+		<li>
+<b>Bug Fix:</b> StatusStars: Now keeps the output buffers in the correct order. (<em>2008-06-13 - Adam Franco</em>)</li>
+	</ul>
+<br><h2>Version 1.3.4</h2>
 <h3>2008-06-09</h3>
 <p>This release adds support for a visitor registration authentication method.</p>
 <ul>
