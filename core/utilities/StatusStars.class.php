@@ -194,6 +194,7 @@ class StatusStars {
 	 * @since 2/20/06
 	 */
 	function _land_obs() {
+		ksort($this->_ob_data);	// Reverse the buffers so that they go back in the correct order.
 		foreach ($this->_ob_data as $level => $data) {
 			ob_start();
 			print $data;

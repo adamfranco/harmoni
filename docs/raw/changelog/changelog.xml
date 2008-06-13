@@ -36,6 +36,9 @@
 			AuthNMethods: Visitor registration email now informs the user that 
 			their username is their email address.
 		</change>
+		<fix author='adam' date='2008-06-13'>
+			StatusStars: Now keeps the output buffers in the correct order.
+		</fix>
 	</version>
 	<version number="1.3.4" date="2008-06-09">
 		<releaseNotes>
