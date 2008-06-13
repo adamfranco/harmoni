@@ -12,6 +12,15 @@
 		<releaseNotes>
 			
 		</releaseNotes>
+		<fix author='adam' date='2008-06-12' ref='1991183' reftype='segue_bug'>
+			AuthZ2: Fixed AuthZ2 issue where implicit AZs were not being created 
+			for new nodes.
+			
+			This had the effect of causing Admins to not be authorized to view new
+			Segue sites. Implicit AZs were created OK in other situations because
+			nodes were attached to parents via the addParent() method which triggered
+			implicit AZ insertion.
+		</fix>
 		<change author='adam' date='2008-06-10'>
 			Request: Specifying null for a URL value will now remove the key rather
 			than setting the value to an empty string.

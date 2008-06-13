@@ -279,7 +279,10 @@ class AuthZ2_Hierarchy
 		ArgumentValidator::validate($displayName, StringValidatorRule::getRule(), true);
 		ArgumentValidator::validate($description, StringValidatorRule::getRule(), true);
 		// ** end of parameter validation
-
+		
+		// Shouldn't need to worry about implicit AZs here as there are no parents
+		// or children of new Root Nodes.
+		
 		return $this->_cache->createRootNode($nodeId, $nodeType, $displayName, $description);
 	}
 
@@ -321,7 +324,14 @@ class AuthZ2_Hierarchy
 		ArgumentValidator::validate($description, StringValidatorRule::getRule(), true);
 		// ** end of parameter validation
 
-		return $this->_cache->createNode($nodeId, $parentId, $type, $displayName, $description);
+		$node = $this->_cache->createNode($nodeId, $parentId, $type, $displayName, $description);
+		
+		// Instruct the Authorization system to add any implicit AZs given
+		// the addintion of our ancestors.
+		$authZ = $this->_cache->getAuthorizationManager();
+		$authZ->getAuthorizationCache()->createHierarchyImplictAZs($node, $node->getAncestorIds());
+		
+		return $node;
 	}
 
 	/**
@@ -351,6 +361,8 @@ class AuthZ2_Hierarchy
 	 */
 	function deleteNode ( Id $nodeId ) {
 		$this->_cache->deleteNode($nodeId->getIdString());
+		
+		// Database foreign key constraints should take care of deleting implicit AZs.
 	}
 
 	/**

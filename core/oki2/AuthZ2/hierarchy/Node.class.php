@@ -533,10 +533,10 @@ class AuthZ2_Node
 	 * Answer an array of id objects for the parents and further ancestors of this node.
 	 * 
 	 * @return array
-	 * @access protected
+	 * @access public
 	 * @since 4/21/08
 	 */
-	protected function getAncestorIds () {
+	public function getAncestorIds () {
 		$ids = array();
 		$hierarchy = $this->getHierarchy();
 		$info = $hierarchy->traverse(
