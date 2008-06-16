@@ -78,4 +78,35 @@ class String
  			
 		return strcmp($anObject->asString(), $this->asString())==0?true:false;
 	}
+	
+	/**
+ 	 * Convert 'smart quotes' and other non-UTF8 characters to the UTF8 equivalent.
+ 	 *
+ 	 * Method implementation from Chris Shiflett:
+ 	 *		http://shiflett.org/blog/2005/oct/convert-smart-quotes-with-php
+ 	 * 
+ 	 * @param string $inputString
+ 	 * @return string
+ 	 * @access public
+ 	 * @since 6/16/08
+ 	 */
+ 	public function convertNonUtf8 () {
+		$search = array(	chr(145), 
+							chr(146), 
+							chr(147), 
+							chr(148), 
+							chr(151)); 
+		
+		$replace = array(	"'", 
+							"'", 
+							'"', 
+							'"', 
+							'-'); 
+		
+		// Convert any characters known
+		$this->_string = str_replace($search, $replace, $this->asString());
+		
+		// Strip out any remaining non-UTF8 characters
+		$this->_string = @ iconv("UTF-8", "UTF-8//IGNORE", $this->_string);
+ 	}
 }
