@@ -37,6 +37,9 @@ class HarmoniConfig extends DataContainer {
     	$type = "Harmoni";
 		$this -> add("defaultModule", StringValidatorRule::getRule(), $message, $type);
 		$this -> add("defaultModule", FieldRequiredValidatorRule::getRule(), $message, $type);
+		$message ="HarmoniConfig - if specified, the option 'defaultParams' must be set to a an array of string values!";
+		$this -> add("defaultParams",  OptionalRule::getRule(ArrayValidatorRuleWithRule::getRule(StringValidatorRule::getRule())), $message, $type);
+		
 		$this -> add("programTitle", StringValidatorRule::getRule(), $message, $type);
 		
 		$this -> add("sessionName", FieldRequiredValidatorRule::getRule());

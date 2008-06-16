@@ -41,7 +41,10 @@ class FieldSet {
 	 * @return mixed the value associated with $key
 	 **/
 	function get( $key ) {
-		return $this->_fields[$key];
+		if (isset($this->_fields[$key]))
+			return $this->_fields[$key];
+		else
+			return null;
 	}
 	
 	/**

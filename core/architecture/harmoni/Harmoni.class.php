@@ -328,6 +328,13 @@ class Harmoni {
 		} else if (ereg("^\.?$",$pair)) {
 			$module = $this->config->get("defaultModule");
 			$action = $this->config->get("defaultAction");
+			
+			// Set default params from the config
+			if (!is_null($this->config->get('defaultParams'))) {
+				foreach ($this->config->get('defaultParams') as $key => $val) {
+					$this->request->set($key, $val);
+				}
+			}
 		}
 		// that should cover it -- we now have a module and action to work with!
 		$pair = "$module.$action";

@@ -8,6 +8,15 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
+	<version number="1.3.6" date="The Future">
+		<releaseNotes>
+			
+		</releaseNotes>
+		<new author='adam' date='2008-06-16' ref='1995141' reftype='segue_fr'>
+			ActionHandler/HarmoniConfig: Can now specify default parameters along
+			with the default module and action.
+		</new>
+	</version>
 	<version number="1.3.5" date="2008-06-13">
 		<releaseNotes>
 			Harmoni versions 1.2.0 through 1.3.4 included a bug in AuthZ2 in 
