@@ -90,7 +90,7 @@ class String
  	 * @access public
  	 * @since 6/16/08
  	 */
- 	public function convertNonUtf8 () {
+ 	public function makeUtf8 () {
 		$search = array(	chr(145), 
 							chr(146), 
 							chr(147), 
@@ -106,7 +106,13 @@ class String
 		// Convert any characters known
 		$this->_string = str_replace($search, $replace, $this->asString());
 		
+		// Try to automatically convert if a a non-utf8 encoding is used, but 
+		// preserve UTF-8 by making it the first thing to match.
+		if (!function_exists('mb_convert_encoding'))
+			throw new ConfigurationFailedException("PHP must be compiled with the --enable-mbstring option");
+		$this->_string = mb_convert_encoding($this->_string, "UTF-8", "UTF-8, ISO-8859-1");
+
 		// Strip out any remaining non-UTF8 characters
-		$this->_string = @ iconv("UTF-8", "UTF-8//IGNORE", $this->_string);
+// 		$this->_string = @ iconv("UTF-8", "UTF-8//IGNORE", $this->_string);
  	}
 }

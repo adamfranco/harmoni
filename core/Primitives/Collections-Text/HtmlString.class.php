@@ -363,7 +363,7 @@ class HtmlString
  	 * @access public
  	 * @since 6/16/08
  	 */
- 	public function convertNonUtf8 () {
+ 	public function makeUtf8 () {
 		$search = array(	chr(145), 
 							chr(146), 
 							chr(147), 
@@ -378,7 +378,7 @@ class HtmlString
 		
 		$this->_string = str_replace($search, $replace, $this->asString());
 		
-		parent::convertNonUtf8();
+		parent::makeUtf8();
  	}
 	
 	/**

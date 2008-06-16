@@ -16,6 +16,10 @@
 			ActionHandler/HarmoniConfig: Can now specify default parameters along
 			with the default module and action.
 		</new>
+		<new author='adam' date='2008-06-16' ref='1993889' reftype='segue_fr'>
+			Primitives: String and HtmlString now include a new method for converting
+			non-UTF-8 characters to UTF-8: makeUtf8
+		</new>
 	</version>
 	<version number="1.3.5" date="2008-06-13">
 		<releaseNotes>
