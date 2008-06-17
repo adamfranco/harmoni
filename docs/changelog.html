@@ -23,7 +23,21 @@
 </head>
 <body>
 <h1>Harmoni Change Log</h1>
-<h2>Version 1.3.5</h2>
+<h2>Version 1.4.0</h2>
+<h3>2008-06-16</h3>
+<p>This release includes two improvements:
+<br>
+<br>* The ActionHandler now supports the specification of default parameters to be used when the default module and action are used. * New methods for converting strings to UTF-8 and converting 'smart-quotes'. Usage of this new String-&gt;makeUtf8() method requires PHP to be compiled with the --enable-mbstring option.</p>
+<ul>
+		
+		<li>
+<b>New feature:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1995141&amp;group_id=82171&amp;atid=565237">
+        			#1995141</a> ActionHandler/HarmoniConfig: Can now specify default parameters along with the default module and action. (<em>2008-06-16 - Adam Franco</em>)</li>
+		<li>
+<b>New feature:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1993889&amp;group_id=82171&amp;atid=565237">
+        			#1993889</a> Primitives: String and HtmlString now include a new method for converting non-UTF-8 characters to UTF-8: makeUtf8 (<em>2008-06-16 - Adam Franco</em>)</li>
+	</ul>
+<br><h2>Version 1.3.5</h2>
 <h3>2008-06-13</h3>
 <p>Harmoni versions 1.2.0 through 1.3.4 included a bug in AuthZ2 in which implicit authorizations were not created when new nodes were created with Hierarchy-&gt;createNode(). This release fixes that issue.
 <br>

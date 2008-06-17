@@ -8,9 +8,16 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
-	<version number="1.3.6" date="The Future">
+	<version number="1.4.0" date="2008-06-16">
 		<releaseNotes>
+			This release includes two improvements:
 			
+			* The ActionHandler now supports the specification of default parameters
+			  to be used when the default module and action are used.
+			  
+			* New methods for converting strings to UTF-8 and converting 'smart-quotes'.
+			  Usage of this new String->makeUtf8() method requires PHP to be compiled
+			  with the --enable-mbstring option.
 		</releaseNotes>
 		<new author='adam' date='2008-06-16' ref='1995141' reftype='segue_fr'>
 			ActionHandler/HarmoniConfig: Can now specify default parameters along

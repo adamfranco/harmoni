@@ -1,5 +1,5 @@
 
-Harmoni v. 1.3.5 (2008-06-13)
+Harmoni v. 1.4.0 (2008-06-16)
 =================================
 
 What is Harmoni?
@@ -29,11 +29,12 @@ used independently of the other.
 
 Current Version Notes
 ---------------------
-Harmoni versions 1.2.0 through 1.3.4 included a bug in AuthZ2 in which implicit
-authorizations were not created when new nodes were created with
-Hierarchy->createNode(). This release fixes that issue.
+This release includes two improvements:
 
-For other improvements please see the change-log.
+* The ActionHandler now supports the specification of default parameters to be used
+when the default module and action are used. * New methods for converting strings to
+UTF-8 and converting 'smart-quotes'. Usage of this new String->makeUtf8() method
+requires PHP to be compiled with the --enable-mbstring option.
 
 
 Downloads
@@ -64,6 +65,17 @@ https://sourceforge.net/tracker/?group_id=82873&atid=567473
 | Prior Harmoni Release Notes
 | (See the Harmoni change log for more details)
 ===================================================================
+
+
+v. 1.4.0 (2008-06-16)
+----------------------------------------------------
+This release includes two improvements:
+
+* The ActionHandler now supports the specification of default parameters to be used
+when the default module and action are used. * New methods for converting strings to
+UTF-8 and converting 'smart-quotes'. Usage of this new String->makeUtf8() method
+requires PHP to be compiled with the --enable-mbstring option.
+
 
 
 v. 1.3.5 (2008-06-13)
