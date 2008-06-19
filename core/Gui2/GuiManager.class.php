@@ -150,7 +150,21 @@ class Harmoni_Gui2_GuiManager
 		}
 		$head = $this->getHead();
 		
-		$css = str_replace("\n", "\n\t\t\t", $this->getCurrentTheme()->getCss());
+		$cssBaseUrl = $this->_configuration->getProperty('css_url');
+		$themeProperty = $this->_configuration->getProperty('css_url_theme_property');
+		// Link to a CSS file if possible to enable browser caching.
+		if (is_object($cssBaseUrl) && $cssBaseUrl instanceof UrlWriter 
+			&& strlen($themeProperty))
+		{
+			$cssBaseUrl->setValue($themeProperty, $this->getCurrentTheme()->getIdString());
+			$css = "<link rel='stylesheet' type='text/css' href='".$cssBaseUrl->write()."'/>";
+		} 
+		// Otherwise, put CSS inline
+		else {
+			$css = "<style type=\"text/css\">\n\t\t\t";
+			$css .= str_replace("\n", "\n\t\t\t", $this->getCurrentTheme()->getCss());
+			$css .= "\n\t\t</style>";
+		}
 		
 		if (!headers_sent())
 			header("Content-type: $doctype; charset=$characterSet");
@@ -163,9 +177,7 @@ $doctypeDef
 		
 		$head
 		
-		<style type="text/css">
-$css
-		</style>
+		$css
 	</head>
 	<body>
 		$printedContent
