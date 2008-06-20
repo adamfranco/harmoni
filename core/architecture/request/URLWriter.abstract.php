@@ -79,15 +79,39 @@ abstract class URLWriter
 		$toIgnore =  array(
 			"module", "action"
 		);
+		$toAllow[] = array();
+		
 		// Ensure that the session id does not get into the url if 
 		// configured to use only cookis for sessions.
 		$harmoni = Harmoni::instance();
-		if ($harmoni->config->get("sessionUseOnlyCookies") === true)
-			$toIgnore[] = $harmoni->config->get("sessionName");
+		if ($harmoni->config->get("sessionUseOnlyCookies") === true) {
+			// If we have a configuration for Actions which allow the session id
+			// to be passed in the URL, then check for those actions.
+			if ($harmoni->config->get("sessionInUrlActions") 
+				&& is_array($harmoni->config->get("sessionInUrlActions"))
+				&& count ($harmoni->config->get("sessionInUrlActions")))
+			{
+				
+				// If our current action is in the allowed list.
+				if (in_array($this->getModule().".".$this->getAction(),
+						$harmoni->config->get("sessionInUrlActions"))) 
+				{
+					$toAllow[] = $harmoni->config->get("sessionName");
+				} else {
+					$toIgnore[] = $harmoni->config->get("sessionName");
+				}
+			
+			} else {
+				$toIgnore[] = $harmoni->config->get("sessionName");
+			}
+		}
 		
 		// Add any cookie keys to the ignore list to prevent the addition of
 		// __utma and __utmz cookies from Google Analytics among others.
-		$toIgnore = array_merge($toIgnore, array_keys($_COOKIE));
+		foreach (array_keys($_COOKIE) as $key) {
+			if (!in_array($key, $toAllow))
+				$toIgnore[] = $key;
+		}
 		
 		foreach ($array as $key=>$val) {
 			if (!in_array($key, $toIgnore))
