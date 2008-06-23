@@ -468,7 +468,41 @@ class Harmoni {
 			$path .= '/';
 		
 		session_set_cookie_params(0, $path, $this->config->get("sessionCookieDomain"));
+		
+		// If we have a configuration for Actions which allow the session id
+		// to be passed in the URL, then check for those actions.
+		if ($this->config->get("sessionInUrlActions") 
+			&& is_array($this->config->get("sessionInUrlActions"))
+			&& count ($this->config->get("sessionInUrlActions")))
+		{
+			$this->request->update();
+			
+			// If our current action is in the allowed list.
+			if (in_array($this->request->getRequestedModuleAction(),
+					$this->config->get("sessionInUrlActions"))) 
+			{
+				$usingUrlSid = true;
+				if ($this->request->get(session_name()))
+					session_id($this->request->get(session_name()));
+			}
+		}
+		
 		session_start(); // yay!
+		
+		// if we are using an SID for a custom action that allows it in the url,
+		// overwrite the session cookie with a bogus one to prevent session
+		// fixation.
+		//
+		// This header line will not affect any existing cookies in the browser, it
+		// will simply prevent the Set-Cookie header from being sent with a valid
+		// session id. In this way, if a person sends another to the a URL where
+		// we are allowing the session id in the URL, that person's browser will
+		// only use the session id in the URL for this one request, not all future
+		// ones.
+		if (isset($usingUrlSid)) {
+			header('Set-Cookie: dummy=true;', true);
+		}
+			
 	}
 
 }
