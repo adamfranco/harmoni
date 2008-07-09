@@ -366,6 +366,11 @@ class MySQLDatabase
 				$this->_failedQueries++;
 				
 				switch (mysql_errno($this->_linkId)) {
+					// No Such Table
+					case 1146:
+					case 1177:
+						throw new NoSuchTableDatabaseException("MySQL Error: ".mysql_error($this->_linkId), mysql_errno($this->_linkId));
+					
 					// Duplicate Key
 					case 1022:
 					case 1062:

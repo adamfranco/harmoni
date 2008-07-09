@@ -15,6 +15,10 @@
 		<new author='adam' date='2008-06-18'>
 			GUI2: GUIManager now can be configured to link to theme styles at a URL.
 		</new>
+		<change author='adam' date='2008-07-08'>
+			DatabaseManager: New NoSuchTableDatabaseException to classify missing
+			table errors. Currently only supported by MySQL.
+		</change>
 	</version>
 	<version number="1.4.0" date="2008-06-16">
 		<releaseNotes>

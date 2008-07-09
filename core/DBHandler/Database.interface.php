@@ -274,4 +274,19 @@ class DuplucateKeyDatabaseException
 
 }
 
+/**
+ * This is an exception thrown when a table in the query does not exist.
+ * 
+ * @since 7/8/08
+ * @package harmoni.dbc
+ * 
+ * @copyright Copyright &copy; 2007, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ */
+class NoSuchTableDatabaseException
+	extends QueryDatabaseException
+{
+
+}
+
 ?>
