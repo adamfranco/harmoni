@@ -2,6 +2,29 @@
 Harmoni Change Log
 
 
+v. 1.4.1 (2008-07-10)
+----------------------------------------------------
+This release adds some minor improvements to support Segue.
+		
+		
+	* New feature: 
+		GUI2: GUIManager now can be configured to link to theme styles at a URL.
+		(2008-06-18 - Adam Franco)
+		
+	* Change: 
+		DatabaseManager: New NoSuchTableDatabaseException to classify missing table
+		errors. Currently only supported by MySQL.
+		(2008-07-08 - Adam Franco)
+		
+	* Bug Fix: 
+		Agent: The Users group now includes all groups except itself and Everyone
+		and all agents except Anonymous. This enables the Users group to be a
+		stand-in for any user who has been authenticated.
+		(2008-07-10 - Adam Franco)
+	
+
+
+
 v. 1.4.0 (2008-06-16)
 ----------------------------------------------------
 This release includes two improvements:

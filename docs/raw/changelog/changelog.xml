@@ -8,9 +8,9 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
-	<version number="1.4.1" date="The Future">
+	<version number="1.4.1" date="2008-07-10">
 		<releaseNotes>
-			
+			This release adds some minor improvements to support Segue.
 		</releaseNotes>
 		<new author='adam' date='2008-06-18'>
 			GUI2: GUIManager now can be configured to link to theme styles at a URL.
