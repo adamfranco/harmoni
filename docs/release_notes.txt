@@ -1,5 +1,5 @@
 
-Harmoni v. 1.4.1 (2008-07-10)
+Harmoni v. 1.4.2 (2008-07-11)
 =================================
 
 What is Harmoni?
@@ -29,7 +29,7 @@ used independently of the other.
 
 Current Version Notes
 ---------------------
-This release adds some minor improvements to support Segue.
+This release includes a minor improvement to support Segue.
 
 
 Downloads
@@ -60,6 +60,12 @@ https://sourceforge.net/tracker/?group_id=82873&atid=567473
 | Prior Harmoni Release Notes
 | (See the Harmoni change log for more details)
 ===================================================================
+
+
+v. 1.4.2 (2008-07-11)
+----------------------------------------------------
+This release includes a minor improvement to support Segue.
+
 
 
 v. 1.4.1 (2008-07-10)

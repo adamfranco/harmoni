@@ -10,7 +10,7 @@
 <changelog name="Harmoni">
 	<version number="1.4.2" date="2008-07-11">
 		<releaseNotes>
-			
+			This release includes a minor improvement to support Segue.
 		</releaseNotes>
 		<change author='adam' date='2008-07-11'>
 			AuthZ2: More use of prepared statements in Authorization fetching
