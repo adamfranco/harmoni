@@ -19,10 +19,10 @@
 			DatabaseManager: New NoSuchTableDatabaseException to classify missing
 			table errors. Currently only supported by MySQL.
 		</change>
-		<fix author='adam' date='2008-07-09' ref='2014319' reftype='segue_bug' reporter='jeff_merriman'>
-			ActionHandler/HarmoniConfig: Usage of default parameters now places 
-			these as spoofed request variables rather than as context parameters
-			to pass in future URLs.
+		<fix author='adam' date='2008-07-10'>
+			Agent: The Users group now includes all groups except itself and Everyone
+			and all agents except Anonymous. This enables the Users group to be a
+			stand-in for any user who has been authenticated.
 		</fix>
 	</version>
 	<version number="1.4.0" date="2008-06-16">

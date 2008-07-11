@@ -78,6 +78,11 @@ class AncestorGroupSearch
 		$agentManager = Services::getService("Agent");
 		$idManager = Services::getService("Id");
 		
+	// :: Special case for Everyone group, no parents
+		if ($searchCriteria->isEqual($this->everyoneId)) {
+			return new HarmoniAgentIterator(array());
+		}
+		
 	// :: Special case for Users group, parents are:
 	//		Everyone
 		if ($searchCriteria->isEqual($this->usersId)) {
@@ -85,11 +90,12 @@ class AncestorGroupSearch
 		}
 		
 		$allGroups = array();
+		$allGroups[] = $agentManager->getGroup($this->everyoneId);
 		
 		$isAgent = $agentManager->isAgent($searchCriteria) ;
 		
 	// :: Add Special Users group
-		if ($isAgent && !$searchCriteria->isEqual(
+		if (!$searchCriteria->isEqual(
 				$idManager->getId("edu.middlebury.agents.anonymous")))
 		{
 			$allGroups[] = $agentManager->getGroup($this->usersId);

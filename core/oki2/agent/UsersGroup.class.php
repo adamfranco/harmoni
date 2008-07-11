@@ -286,7 +286,21 @@ class UsersGroup
 	 * @access public
 	 */
 	function getGroups ( $includeSubgroups ) { 
-		$groups = array();		
+		$idManager = Services::getService("Id");
+		$agentManager = Services::getService("Agent");
+		$myId = $this->getId();
+		
+		//Filter out ourself
+		$everyoneGroup = $agentManager->getGroup(
+			$idManager->getId("edu.middlebury.agents.everyone"));
+		$groupIterator = $everyoneGroup->getGroups($includeSubgroups);
+		$groups = array();
+		while ($groupIterator->hasNext()) {
+			$group = $groupIterator->next();
+			if (!$myId->isEqual($group->getId()))
+				$groups[] = $group;
+		}
+		
 		$obj = new HarmoniAgentIterator($groups);
 		
 		return $obj;
