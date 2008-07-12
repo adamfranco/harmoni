@@ -792,9 +792,6 @@ class AuthZ2_AuthorizationCache {
 		// 2) If $returnExplicitOnly is FALSE, then we need to include inherited Authorizations
 		// as well.
 		
-		// setup the query
-		$dbHandler = Services::getService("DatabaseManager");
-		
 		// Agents/Groups
 		if (isset($aId))
 			$agentIds = array($aId);
@@ -802,26 +799,57 @@ class AuthZ2_AuthorizationCache {
 			$agentIds = array();
 		$allAgentIds = array_merge($agentIds, $groupIds);
 		
-		$explicitQuery = $this->getExplicitAZQuery($allAgentIds, $fId, $qId, $fType, $isActiveNow);
+		$explicitQueryResult = $this->getExplicitAZQueryResult($allAgentIds, $fId, $qId, $fType, $isActiveNow);
 		
 		if ($returnExplicitOnly) {
-			$explicitQueryResult = $dbHandler->query($explicitQuery, $this->_dbIndex);
-			
 			return $this->getAuthorizationsFromQueryResult($explicitQueryResult, $aId, $qId, $returnExplicitOnly);
 		} else {
-		
-			$implicitQuery = $this->getImplicitAZQuery($allAgentIds, $fId, $qId, $fType, $isActiveNow);
-			
-// 			printpre($explicitQuery->asString());
-// 			printpre($implicitQuery->asString());
-		
-			$explicitQueryResult = $dbHandler->query($explicitQuery, $this->_dbIndex);
-			$implicitQueryResult = $dbHandler->query($implicitQuery, $this->_dbIndex);
+			$implicitQueryResult = $this->getImplicitAZQueryResult($allAgentIds, $fId, $qId, $fType, $isActiveNow);		
 				
 			return array_merge(
 				$this->getAuthorizationsFromQueryResult($explicitQueryResult, $aId, $qId, $returnExplicitOnly),
 				$this->getAuthorizationsFromQueryResult($implicitQueryResult, $aId, $qId, $returnExplicitOnly));
 		}
+	}
+	
+	/**
+	 * Answer an ExplicitAZ query result for a set of agentIds, function, qualifiery, type,
+	 * and active-setting.
+	 * 
+	 * @param array $agentIds The string id of an agent.
+	 * @param string $fId The string id of a function.
+	 * @param string $qId The string id of a qualifier. This parameter can not be null
+	 * and used as a wildmark.
+	 * @param object $fType The type of a function.
+	 * @param boolean $isActiveNow If True, only active Authorizations will be returned.
+	 * @return object SelectQueryResultInterface
+	 * @access protected
+	 * @since 7/11/08
+	 */
+	protected function getExplicitAZQueryResult (array $agentIds, $fId, $qId, $fType, $isActiveNow) {
+		$dbHandler = Services::getService("DatabaseManager");
+		$query = $this->getExplicitAZQuery($agentIds, $fId, $qId, $fType, $isActiveNow);
+		return $dbHandler->query($query, $this->_dbIndex);
+	}
+	
+	/**
+	 * Answer an ExplicitAZ query result for a set of agentIds, function, qualifiery, type,
+	 * and active-setting.
+	 * 
+	 * @param array $agentIds The string id of an agent.
+	 * @param string $fId The string id of a function.
+	 * @param string $qId The string id of a qualifier. This parameter can not be null
+	 * and used as a wildmark.
+	 * @param object $fType The type of a function.
+	 * @param boolean $isActiveNow If True, only active Authorizations will be returned.
+	 * @return object SelectQueryResultInterface
+	 * @access protected
+	 * @since 7/11/08
+	 */
+	protected function getImplicitAZQueryResult (array $agentIds, $fId, $qId, $fType, $isActiveNow) {
+		$dbHandler = Services::getService("DatabaseManager");
+		$query = $this->getImplicitAZQuery($agentIds, $fId, $qId, $fType, $isActiveNow);
+		return $dbHandler->query($query, $this->_dbIndex);
 	}
 	
 	/**
