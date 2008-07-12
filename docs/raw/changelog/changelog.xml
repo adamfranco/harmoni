@@ -8,6 +8,15 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
+	<version number="1.4.2" date="2008-07-11">
+		<releaseNotes>
+			
+		</releaseNotes>
+		<change author='adam' date='2008-07-11'>
+			AuthZ2: More use of prepared statements in Authorization fetching
+			methods to speed up Segue's 'roles' UI.
+		</change>
+	</version>
 	<version number="1.4.1" date="2008-07-10">
 		<releaseNotes>
 			This release adds some minor improvements to support Segue.

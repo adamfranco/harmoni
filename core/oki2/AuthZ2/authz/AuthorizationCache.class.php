@@ -827,9 +827,15 @@ class AuthZ2_AuthorizationCache {
 	 * @since 7/11/08
 	 */
 	protected function getExplicitAZQueryResult (array $agentIds, $fId, $qId, $fType, $isActiveNow) {
-		$dbHandler = Services::getService("DatabaseManager");
-		$query = $this->getExplicitAZQuery($agentIds, $fId, $qId, $fType, $isActiveNow);
-		return $dbHandler->query($query, $this->_dbIndex);
+		if (isset($this->harmoni_db)) {
+			$statement = $this->getExplicitAZQueryStatement($agentIds, $fId, $qId, $fType, $isActiveNow);
+			$statement->execute();
+			return $statement->getResult();
+		} else {
+			$dbHandler = Services::getService("DatabaseManager");
+			$query = $this->getExplicitAZQuery($agentIds, $fId, $qId, $fType, $isActiveNow);
+			return $dbHandler->query($query, $this->_dbIndex);
+		}
 	}
 	
 	/**
@@ -847,9 +853,204 @@ class AuthZ2_AuthorizationCache {
 	 * @since 7/11/08
 	 */
 	protected function getImplicitAZQueryResult (array $agentIds, $fId, $qId, $fType, $isActiveNow) {
-		$dbHandler = Services::getService("DatabaseManager");
-		$query = $this->getImplicitAZQuery($agentIds, $fId, $qId, $fType, $isActiveNow);
-		return $dbHandler->query($query, $this->_dbIndex);
+		if (isset($this->harmoni_db)) {
+			$statement = $this->getImplicitAZQueryStatement($agentIds, $fId, $qId, $fType, $isActiveNow);
+			$statement->execute();
+			return $statement->getResult();
+		} else {
+			$dbHandler = Services::getService("DatabaseManager");
+			$query = $this->getImplicitAZQuery($agentIds, $fId, $qId, $fType, $isActiveNow);
+			return $dbHandler->query($query, $this->_dbIndex);
+		}
+	}
+	
+	/**
+	 * Answer the Harmoni_Db statement for an Explicit AZ query
+	 * 
+	 * @param array $agentIds The string id of an agent.
+	 * @param string $fId The string id of a function.
+	 * @param string $qId The string id of a qualifier. This parameter can not be null
+	 * and used as a wildmark.
+	 * @param object $fType The type of a function.
+	 * @return Harmoni_Db_Statement
+	 * @access protected
+	 * @since 7/11/08
+	 */
+	protected function getExplicitAZQueryStatement (array $agentIds, $fId, $qId, $fType, $isActiveNow) {
+		// 			$fType = new Type('Authorization', 'edu.middlebury.harmoni', 'View/Use'); // debug
+		
+		if (!isset($this->getExplicitAZQueryResult_stmts))
+				$this->getExplicitAZQueryResult_stmts = array();
+		
+		$queryKey = 'Query';
+		if (count($agentIds))
+			$queryKey .= ', with Agents: '.implode(' ', $agentIds);
+		if ($qId)
+			$queryKey .= ', with qId';
+		if ($fId)
+			$queryKey .= ', with fId';
+		if ($fType)
+			$queryKey .= ', with fType';
+		if ($isActiveNow)
+			$queryKey .= ', active';
+		
+		// Create the statement
+		if (!isset($this->getExplicitAZQueryResult_stmts[$queryKey])) {
+			$query = $this->harmoni_db->select();
+			$query->addColumn("id", "id", "az2_explicit_az");
+			$query->addColumn("fk_agent", "aid");
+			$query->addColumn("fk_function", "fid");
+			$query->addColumn("fk_qualifier", "qid");
+			$query->addColumn("effective_date", "eff_date");
+			$query->addColumn("expiration_date", "exp_date");
+	
+			$query->addTable("az2_explicit_az");
+			
+			if (count($agentIds))
+				$query->addWhereIn('fk_agent', $agentIds);
+				
+			if ($qId)
+				$query->addWhere($this->harmoni_db->quoteIdentifier('fk_qualifier').' = :qId');
+				
+			if ($fId)
+				$query->addWhere($this->harmoni_db->quoteIdentifier('fk_function').' = :fId');
+				
+			if ($fType) {
+				$subQuery = $this->harmoni_db->select();
+				$subQuery->addColumn("az2_function.id");
+				$subQuery->addTable("az2_function_type");
+				$subQuery->addTable("az2_function", INNER_JOIN, 'az2_function_type.id = az2_function.fk_type');
+				$subQuery->addWhere($this->harmoni_db->quoteIdentifier('domain').' = :domain');
+				$subQuery->addWhere($this->harmoni_db->quoteIdentifier('authority').' = :authority');
+				$subQuery->addWhere($this->harmoni_db->quoteIdentifier('keyword').' = :keyword');
+				
+				$query->addWhere($this->harmoni_db->quoteIdentifier('fk_function').' IN ('.$subQuery.')');
+// 					$query->addWhere('fk_function.id', $subQuery);
+			}
+			
+			// the isActiveNow criteria
+			if ($isActiveNow) {
+				$where = "(effective_date IS NULL OR (NOW() >= effective_date))";
+				$query->addWhere($where);
+				$where = "(expiration_date IS NULL OR (NOW() < expiration_date))";
+				$query->addWhere($where);
+			}
+			
+			$query->addOrderBy("az2_explicit_az.id");
+			
+// 			printpre($query->asString()); 
+// 				throw new Exception('debug');
+			
+			$this->getExplicitAZQueryResult_stmts[$queryKey] = $query->prepare();
+		}
+		
+		// Bind the params
+		if ($qId)
+			$this->getExplicitAZQueryResult_stmts[$queryKey]->bindValue(':qId', $qId);
+		if ($fId)
+			$this->getExplicitAZQueryResult_stmts[$queryKey]->bindValue(':fId', $fId);
+		if ($fType) {
+			$this->getExplicitAZQueryResult_stmts[$queryKey]->bindValue(':domain', $fType->getDomain());
+			$this->getExplicitAZQueryResult_stmts[$queryKey]->bindValue(':authority', $fType->getDomain());
+			$this->getExplicitAZQueryResult_stmts[$queryKey]->bindValue(':keyword', $fType->getDomain());
+		}
+		
+		return $this->getExplicitAZQueryResult_stmts[$queryKey];
+	}
+	
+	/**
+	 * Answer the Harmoni_Db statement for an Implicit AZ query
+	 * 
+	 * @param array $agentIds The string id of an agent.
+	 * @param string $fId The string id of a function.
+	 * @param string $qId The string id of a qualifier. This parameter can not be null
+	 * and used as a wildmark.
+	 * @param object $fType The type of a function.
+	 * @return Harmoni_Db_Statement
+	 * @access protected
+	 * @since 7/11/08
+	 */
+	protected function getImplicitAZQueryStatement (array $agentIds, $fId, $qId, $fType, $isActiveNow) {
+		// 			$fType = new Type('Authorization', 'edu.middlebury.harmoni', 'View/Use'); // debug
+		
+		if (!isset($this->getImplicitAZQueryResult_stmts))
+				$this->getImplicitAZQueryResult_stmts = array();
+		
+		$queryKey = 'Query';
+		if (count($agentIds))
+			$queryKey .= ', with Agents: '.implode(' ', $agentIds);
+		if ($qId)
+			$queryKey .= ', with qId';
+		if ($fId)
+			$queryKey .= ', with fId';
+		if ($fType)
+			$queryKey .= ', with fType';
+		if ($isActiveNow)
+			$queryKey .= ', active';
+		
+		// Create the statement
+		if (!isset($this->getImplicitAZQueryResult_stmts[$queryKey])) {
+			$query = $this->harmoni_db->select();
+			$query->addColumn("fk_explicit_az");
+			$query->addColumn("id", "id", "az2_implicit_az");
+			$query->addColumn("fk_agent", "aid");
+			$query->addColumn("fk_function", "fid");
+			$query->addColumn("fk_qualifier", "qid");
+			$query->addColumn("effective_date", "eff_date");
+			$query->addColumn("expiration_date", "exp_date");
+	
+			$query->addTable("az2_implicit_az");
+			
+			if (count($agentIds))
+				$query->addWhereIn('fk_agent', $agentIds);
+				
+			if ($qId)
+				$query->addWhere($this->harmoni_db->quoteIdentifier('fk_qualifier').' = :qId');
+				
+			if ($fId)
+				$query->addWhere($this->harmoni_db->quoteIdentifier('fk_function').' = :fId');
+				
+			if ($fType) {
+				$subQuery = $this->harmoni_db->select();
+				$subQuery->addColumn("az2_function.id");
+				$subQuery->addTable("az2_function_type");
+				$subQuery->addTable("az2_function", INNER_JOIN, 'az2_function_type.id = az2_function.fk_type');
+				$subQuery->addWhere($this->harmoni_db->quoteIdentifier('domain').' = :domain');
+				$subQuery->addWhere($this->harmoni_db->quoteIdentifier('authority').' = :authority');
+				$subQuery->addWhere($this->harmoni_db->quoteIdentifier('keyword').' = :keyword');
+				
+				$query->addWhere($this->harmoni_db->quoteIdentifier('fk_function').' IN ('.$subQuery.')');
+// 					$query->addWhere('fk_function.id', $subQuery);
+			}
+			
+			// the isActiveNow criteria
+			if ($isActiveNow) {
+				$where = "(effective_date IS NULL OR (NOW() >= effective_date))";
+				$query->addWhere($where);
+				$where = "(expiration_date IS NULL OR (NOW() < expiration_date))";
+				$query->addWhere($where);
+			}
+			
+			$query->addOrderBy("az2_implicit_az.id");
+			
+// 			printpre($query->asString()); 
+// 				throw new Exception('debug');
+			
+			$this->getImplicitAZQueryResult_stmts[$queryKey] = $query->prepare();
+		}
+		
+		// Bind the params
+		if ($qId)
+			$this->getImplicitAZQueryResult_stmts[$queryKey]->bindValue(':qId', $qId);
+		if ($fId)
+			$this->getImplicitAZQueryResult_stmts[$queryKey]->bindValue(':fId', $fId);
+		if ($fType) {
+			$this->getImplicitAZQueryResult_stmts[$queryKey]->bindValue(':domain', $fType->getDomain());
+			$this->getImplicitAZQueryResult_stmts[$queryKey]->bindValue(':authority', $fType->getDomain());
+			$this->getImplicitAZQueryResult_stmts[$queryKey]->bindValue(':keyword', $fType->getDomain());
+		}
+		
+		return $this->getImplicitAZQueryResult_stmts[$queryKey];
 	}
 	
 	/**
