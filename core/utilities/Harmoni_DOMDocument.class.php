@@ -238,7 +238,7 @@ class Harmoni_DOMDocument
 		$xmlErrorTmp = libxml_use_internal_errors(true);
 		libxml_clear_errors();
 		
-		$valid = $this->schemaValidate($schemaFilename);
+		$valid = @$this->schemaValidate($schemaFilename);
 		$errors = libxml_get_errors();
 		
 		// reset libxml errors
