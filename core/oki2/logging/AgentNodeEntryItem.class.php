@@ -79,8 +79,14 @@ class AgentNodeEntryItem
 	 * @since 3/6/06
 	 */
 	function getBacktrace () {
-		return "<div>".$this->_backtrace."</div>\n<div>"
-			.$this->_additionalBactraceText."</div>";
+		ob_start();
+		if (strlen(trim($this->_backtrace)))
+			print "\n<div class='backtrace'>\n\t".$this->_backtrace."\n</div>";
+		
+		if (strlen(trim($this->_additionalBactraceText)))
+			print "\n<div class='additional_backtrace'>\n\t".$this->_additionalBactraceText."\n</div>";
+		
+		return ob_get_clean();
 	}
 	
 	/**

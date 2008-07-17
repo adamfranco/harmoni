@@ -15,6 +15,9 @@
 		<fix author='adam' date='2008-07-17' ref='2018232' reftype='segue_bug'>
 			GUI2: Output handler now sends theme options in the theme CSS URL.
 		</fix>
+		<fix author='adam' date='2008-07-17' ref='2009090' reftype='segue_bug'>
+			Logging: Now returns an empty string if there is no backtrace.
+		</fix>
 	</version>
 	<version number="1.4.2" date="2008-07-11">
 		<releaseNotes>
