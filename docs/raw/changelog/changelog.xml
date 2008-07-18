@@ -8,9 +8,9 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
-	<version number="1.4.3" date="The Future">
+	<version number="1.4.3" date="2008-07-17">
 		<releaseNotes>
-			
+			This release fixes several issues with Themes and Logging.
 		</releaseNotes>
 		<fix author='adam' date='2008-07-17' ref='2018232' reftype='segue_bug'>
 			GUI2: Output handler now sends theme options in the theme CSS URL.

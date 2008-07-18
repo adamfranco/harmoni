@@ -2,6 +2,22 @@
 Harmoni Change Log
 
 
+v. 1.4.3 (2008-07-17)
+----------------------------------------------------
+This release fixes several issues with Themes and Logging.
+		
+		
+	* Bug Fix: #2018232 
+		GUI2: Output handler now sends theme options in the theme CSS URL.
+		(2008-07-17 - Adam Franco)
+		
+	* Bug Fix: #2009090 
+		Logging: Now returns an empty string if there is no backtrace.
+		(2008-07-17 - Adam Franco)
+	
+
+
+
 v. 1.4.2 (2008-07-11)
 ----------------------------------------------------
 This release includes a minor improvement to support Segue.
@@ -495,7 +511,7 @@ translation of language names from Wikipedia.org.
 		supports secondary three-letter codes such as 'cym', 'wel', and 'cy' for
 		'Welsh'. 
 		(2008-04-02 - Adam Franco)
-		(reported by Jos&#xE9; Alfonso Accino of University of M&#xE1;laga)
+		(reported by José Alfonso Accino of University of Málaga)
 		
 	* Change: 
 		Language: Country names are now nicely mixed-case rather than all upper.
@@ -510,14 +526,14 @@ translation of language names from Wikipedia.org.
 
 setlocale(LC_ALL, $this->_lang);
 		(2008-04-02 - Adam Franco)
-		(reported by Jos&#xE9; Alfonso Accino of University of M&#xE1;laga)
+		(reported by José Alfonso Accino of University of Málaga)
 		
 	* New feature: #1930291 
 		Language: New methods LanguageLocalizer::getCurrentLanguageCode() and
 		LanguageLocalizer::getCurrentCountryCode() to provide access to the simple
 		versions of the current codes.
 		(2008-04-02 - Adam Franco)
-		(reported by Jos&#xE9; Alfonso Accino of University of M&#xE1;laga)
+		(reported by José Alfonso Accino of University of Málaga)
 		
 	* Change: 
 		Language: Added new ISO 639-3 language list. Added language-name translation
@@ -636,7 +652,7 @@ This release fixes a few minor bugs.
 	* Change: 
 		AuthN: Removed legacy class HarmoniAuthenticationType.
 		(2008-02-26 - Adam Franco)
-		(reported by Jos&#xE9; Alfonso Accino of University of M&#xE1;laga)
+		(reported by José Alfonso Accino of University of Málaga)
 	
 
 
@@ -1151,7 +1167,7 @@ v. 0.12.2 (2007-09-20)
 		DBHandler: SQLUtils::runSQLdir() now explicitly sorts SQL files and runs
 		them in alphabetical order.
 		(2007-09-17 - Adam Franco)
-		(reported by Jos&#xE9; Alfonso Accino of University of M&#xE1;laga)
+		(reported by José Alfonso Accino of University of Málaga)
 		
 	* Bug Fix: 
 		Repository: Fixing PHP notices.
