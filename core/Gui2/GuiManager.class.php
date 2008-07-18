@@ -156,7 +156,22 @@ class Harmoni_Gui2_GuiManager
 		if (is_object($cssBaseUrl) && $cssBaseUrl instanceof UrlWriter 
 			&& strlen($themeProperty))
 		{
-			$cssBaseUrl->setValue($themeProperty, $this->getCurrentTheme()->getIdString());
+			$theme = $this->getCurrentTheme();
+			$cssBaseUrl->setValue($themeProperty, $theme->getIdString());
+			
+			// If the theme has non-default options, we need to pass those.
+			if ($theme->supportsOptions()) {
+				$optionsSess = $theme->getOptionsSession();
+				if (!$optionsSess->usesDefaults()) {
+					$harmoni->request->startNamespace('theme_options');
+					foreach ($optionsSess->getOptions() as $option) {
+						if ($option->getValue() != $option->getDefaultValue())
+							$cssBaseUrl->setValue($option->getIdString(), $option->getValue());
+					}
+					$harmoni->request->endNamespace();
+				}
+			}
+			
 			$css = "<link rel='stylesheet' type='text/css' href='".$cssBaseUrl->write()."'/>";
 		} 
 		// Otherwise, put CSS inline
