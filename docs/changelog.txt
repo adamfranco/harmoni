@@ -2,6 +2,32 @@
 Harmoni Change Log
 
 
+v. 1.4.4 (2008-07-21)
+----------------------------------------------------
+This release fixes an issue with Authorization settings for members of groups the
+ids of which contain quotes.
+		
+		
+	* Bug Fix: #2023672 
+		AuthZ/PDO: Adding temporary work-around for bug 2023672/ PHP bug 41125
+		
+		A PHP/PDO bug is resulting in problems when escaped quotes exist in an
+		SQL string that is then prepared. This is occurring for users who are
+		members of groups that have a quote in their LDAP DN.
+		
+		This is the second time this bug has bitten us, this time in the AuthZ2
+		AuthorizationCache. The first workaround was added to fix Harmoni bug 1970447.
+		
+		See:
+		https://sourceforge.net/tracker/index.php?func=detail&aid=1970447&group_id=82171&atid=565234
+		See: http://slug.middlebury.edu/~afranco/PHP_PDO_segfault/ See:
+		http://bugs.php.net/bug.php?id=41125 
+		(2008-07-21 - Adam Franco)
+		(reported by Hector Vila of Middlebury College)
+	
+
+
+
 v. 1.4.3 (2008-07-17)
 ----------------------------------------------------
 This release fixes several issues with Themes and Logging.

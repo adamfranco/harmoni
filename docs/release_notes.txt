@@ -1,5 +1,5 @@
 
-Harmoni v. 1.4.3 (2008-07-17)
+Harmoni v. 1.4.4 (2008-07-21)
 =================================
 
 What is Harmoni?
@@ -29,7 +29,8 @@ used independently of the other.
 
 Current Version Notes
 ---------------------
-This release fixes several issues with Themes and Logging.
+This release fixes an issue with Authorization settings for members of groups the
+ids of which contain quotes.
 
 
 Downloads
@@ -60,6 +61,13 @@ https://sourceforge.net/tracker/?group_id=82873&atid=567473
 | Prior Harmoni Release Notes
 | (See the Harmoni change log for more details)
 ===================================================================
+
+
+v. 1.4.4 (2008-07-21)
+----------------------------------------------------
+This release fixes an issue with Authorization settings for members of groups the
+ids of which contain quotes.
+
 
 
 v. 1.4.3 (2008-07-17)
