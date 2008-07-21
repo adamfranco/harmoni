@@ -8,6 +8,25 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
+	<version number="1.4.4" date="2008-07-21">
+		<releaseNotes>
+			
+		</releaseNotes>
+		<fix author='adam' date='2008-07-21' ref='2023672' reftype='segue_bug' reporter='hector_vila'>
+			AuthZ/PDO: Adding temporary work-around for bug 2023672/ PHP bug 41125
+			
+			A PHP/PDO bug is resulting in problems when escaped quotes exist in an SQL
+			string that is then prepared. This is occurring for users who are members
+			of groups that have a quote in their LDAP DN.
+			
+			This is the second time this bug has bitten us, this time in the AuthZ2
+			AuthorizationCache. The first workaround was added to fix Harmoni bug 1970447.
+			
+			See: https://sourceforge.net/tracker/index.php?func=detail&amp;aid=1970447&amp;group_id=82171&amp;atid=565234
+			See: http://slug.middlebury.edu/~afranco/PHP_PDO_segfault/
+			See: http://bugs.php.net/bug.php?id=41125
+		</fix>
+	</version>
 	<version number="1.4.3" date="2008-07-17">
 		<releaseNotes>
 			This release fixes several issues with Themes and Logging.
@@ -2368,6 +2387,10 @@
 		</reporter>
 		<reporter short="bryan_carson">
 			<name>Bryan Carson</name>
+			<institution>Middlebury College</institution>
+		</reporter>
+		<reporter short="hector_vila">
+			<name>Hector Vila</name>
 			<institution>Middlebury College</institution>
 		</reporter>
 		<reporter short="jeff_merriman">

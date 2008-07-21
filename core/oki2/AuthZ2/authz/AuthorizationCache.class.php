@@ -812,6 +812,32 @@ class AuthZ2_AuthorizationCache {
 		}
 	}
 	
+	var $shouldAvoidPdoBug = array();
+	/**
+	 * This is a temporary work-around for bug 1970447:
+	 * https://sourceforge.net/tracker/index.php?func=detail&aid=1970447&group_id=82171&atid=565234
+	 * 
+	 *  A PHP/PDO bug is resulting in problems when escaped quotes exist in an SQL 
+	 *  tring that is then prepared.
+	 *  
+	 *  See: http://slug.middlebury.edu/~afranco/PHP_PDO_segfault/
+	 *  See: http://bugs.php.net/bug.php?id=41125
+	 * 
+	 * @param array $agentIds
+	 * @return boolean
+	 * @access private
+	 * @since 5/23/08
+	 */
+	private function avoidPdoBug (array $agentIds) {
+		foreach ($agentIds as $id) {
+			if (strpos($id, "'") !== false) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
 	/**
 	 * Answer an ExplicitAZ query result for a set of agentIds, function, qualifiery, type,
 	 * and active-setting.
@@ -827,6 +853,22 @@ class AuthZ2_AuthorizationCache {
 	 * @since 7/11/08
 	 */
 	protected function getExplicitAZQueryResult (array $agentIds, $fId, $qId, $fType, $isActiveNow) {
+		// This is a temporary work-around for bug 1970447:
+		// https://sourceforge.net/tracker/index.php?func=detail&aid=1970447&group_id=82171&atid=565234
+		// 
+		// A PHP/PDO bug is resulting in problems when escaped quotes exist in an SQL 
+		// tring that is then prepared.
+		// 
+		// See: http://slug.middlebury.edu/~afranco/PHP_PDO_segfault/
+		// See: http://bugs.php.net/bug.php?id=41125
+		if ($this->avoidPdoBug($agentIds)) {
+			$dbHandler = Services::getService("DatabaseManager");
+			$query = $this->getExplicitAZQuery($agentIds, $fId, $qId, $fType, $isActiveNow);
+			return $dbHandler->query($query, $this->_dbIndex);
+		}
+		// Normal Case
+		
+		
 		if (isset($this->harmoni_db)) {
 			$statement = $this->getExplicitAZQueryStatement($agentIds, $fId, $qId, $fType, $isActiveNow);
 			$statement->execute();
@@ -853,6 +895,22 @@ class AuthZ2_AuthorizationCache {
 	 * @since 7/11/08
 	 */
 	protected function getImplicitAZQueryResult (array $agentIds, $fId, $qId, $fType, $isActiveNow) {
+		// This is a temporary work-around for bug 1970447:
+		// https://sourceforge.net/tracker/index.php?func=detail&aid=1970447&group_id=82171&atid=565234
+		// 
+		// A PHP/PDO bug is resulting in problems when escaped quotes exist in an SQL 
+		// tring that is then prepared.
+		// 
+		// See: http://slug.middlebury.edu/~afranco/PHP_PDO_segfault/
+		// See: http://bugs.php.net/bug.php?id=41125
+		if ($this->avoidPdoBug($agentIds)) {
+			$dbHandler = Services::getService("DatabaseManager");
+			$query = $this->getImplicitAZQuery($agentIds, $fId, $qId, $fType, $isActiveNow);
+			return $dbHandler->query($query, $this->_dbIndex);
+		}
+		// Normal Case
+		
+		
 		if (isset($this->harmoni_db)) {
 			$statement = $this->getImplicitAZQueryStatement($agentIds, $fId, $qId, $fType, $isActiveNow);
 			$statement->execute();
