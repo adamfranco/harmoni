@@ -8,6 +8,15 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
+	<version number="1.4.5" date="The Future">
+		<releaseNotes>
+			
+		</releaseNotes>
+		<fix author='adam' date='2008-07-22'>
+			GUI2: Now forces the empty namespace for the theme id parameter to 
+			prevent the CSS from breaking when namespaces are not closed.
+		</fix>
+	</version>
 	<version number="1.4.4" date="2008-07-21">
 		<releaseNotes>
 			This release fixes an issue with Authorization settings for members of 

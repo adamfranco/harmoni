@@ -157,7 +157,9 @@ class Harmoni_Gui2_GuiManager
 			&& strlen($themeProperty))
 		{
 			$theme = $this->getCurrentTheme();
+			$harmoni->request->startNamespace(null);
 			$cssBaseUrl->setValue($themeProperty, $theme->getIdString());
+			$harmoni->request->endNamespace();
 			
 			// If the theme has non-default options, we need to pass those.
 			if ($theme->supportsOptions()) {
