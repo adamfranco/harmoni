@@ -114,9 +114,11 @@ class PathInfoRequestHandler
 					// Add the rest of the path as name => value pairs
 					for ($i = 2; $i < count ($pathInfoParts); $i = $i + 2) {
 						$key = $pathInfoParts[$i];
-						if (isset($pathInfoParts[$i+1]))
-							$val = str_replace('_slash_', '/', $pathInfoParts[$i+1]);
-						else
+						if (isset($pathInfoParts[$i+1])) {
+							$val = $pathInfoParts[$i+1];
+							$val = str_replace('_slash_', '/', $val);
+							$val = str_replace('_quest_', '?', $val);
+						} else
 							$val = null;
 						
 						// Normal case (and multiple copies of the same value)
@@ -206,7 +208,8 @@ class PathInfoRequestHandler
 class PathInfoURLWriter 
 	extends URLWriter 
 {
-	/** 
+	
+	/**
 	 * The following function has many forms, and due to PHP's lack of
 	 * method overloading they are all contained within the same class
 	 * method. 
@@ -249,11 +252,19 @@ class PathInfoURLWriter
 			// For multi-select form elements
 			if (is_array($val)) {
 				foreach ($val as $arrayVal)
-					$pairs[] = $key . "/" . str_replace('%2F', '_slash_', rawurlencode($arrayVal));
+					$arrayVal = rawurlencode($arrayVal);
+					$arrayVal = str_replace('%2F', '_slash_', $arrayVal);
+					$arrayVal = str_replace('%3F', '_quest_', $arrayVal);
+					
+					$pairs[] = $key . "/" . $arrayVal;
 			} 
 			// normal single-string values
 			else {
-				$pairs[] = $key . "/" . str_replace('%2F', '_slash_', rawurlencode($val));
+				$val = rawurlencode($val);
+				$val = str_replace('%2F', '_slash_', $val);
+				$val = str_replace('%3F', '_quest_', $val);
+				
+				$pairs[] = $key . "/" . $val;
 			}
 		}
 		

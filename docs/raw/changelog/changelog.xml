@@ -12,6 +12,11 @@
 		<releaseNotes>
 			
 		</releaseNotes>
+		<fix author='adam' date='2008-07-23' ref='2021574' reftype='segue_bug'>
+			Request: PathInfoRequest handler now replaces encoded question marks
+			"%3F" with a "_quest_" placeholder to get around an issue with Apache's
+			mod_rewrite accidentally decoding encoded question marks in some situations.
+		</fix>
 		<fix author='adam' date='2008-07-22'>
 			GUI2: Now forces the empty namespace for the theme id parameter to 
 			prevent the CSS from breaking when namespaces are not closed.
