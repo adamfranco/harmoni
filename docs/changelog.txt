@@ -2,6 +2,25 @@
 Harmoni Change Log
 
 
+v. 1.4.5 (2008-07-24)
+----------------------------------------------------
+This release fixes a few minor issues that were causing problems with Segue.
+		
+		
+	* Bug Fix: #2021574 
+		Request: PathInfoRequest handler now replaces encoded question marks "%3F"
+		with a "_quest_" placeholder to get around an issue with Apache's
+		mod_rewrite accidentally decoding encoded question marks in some situations.
+		(2008-07-23 - Adam Franco)
+		
+	* Bug Fix: 
+		GUI2: Now forces the empty namespace for the theme id parameter to prevent
+		the CSS from breaking when namespaces are not closed.
+		(2008-07-22 - Adam Franco)
+	
+
+
+
 v. 1.4.4 (2008-07-21)
 ----------------------------------------------------
 This release fixes an issue with Authorization settings for members of groups the

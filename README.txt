@@ -1,5 +1,5 @@
 
-Harmoni v. 1.4.4 (2008-07-21)
+Harmoni v. 1.4.5 (2008-07-24)
 =================================
 
 What is Harmoni?
@@ -29,8 +29,7 @@ used independently of the other.
 
 Current Version Notes
 ---------------------
-This release fixes an issue with Authorization settings for members of groups the
-ids of which contain quotes.
+This release fixes a few minor issues that were causing problems with Segue.
 
 
 Downloads
@@ -61,6 +60,12 @@ https://sourceforge.net/tracker/?group_id=82873&atid=567473
 | Prior Harmoni Release Notes
 | (See the Harmoni change log for more details)
 ===================================================================
+
+
+v. 1.4.5 (2008-07-24)
+----------------------------------------------------
+This release fixes a few minor issues that were causing problems with Segue.
+
 
 
 v. 1.4.4 (2008-07-21)

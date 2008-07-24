@@ -23,7 +23,18 @@
 </head>
 <body>
 <h1>Harmoni Change Log</h1>
-<h2>Version 1.4.4</h2>
+<h2>Version 1.4.5</h2>
+<h3>2008-07-24</h3>
+<p>This release fixes a few minor issues that were causing problems with Segue.</p>
+<ul>
+		
+		<li>
+<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=2021574&amp;group_id=82171&amp;atid=565234">
+        			#2021574</a> Request: PathInfoRequest handler now replaces encoded question marks "%3F" with a "_quest_" placeholder to get around an issue with Apache's mod_rewrite accidentally decoding encoded question marks in some situations. (<em>2008-07-23 - Adam Franco</em>)</li>
+		<li>
+<b>Bug Fix:</b> GUI2: Now forces the empty namespace for the theme id parameter to prevent the CSS from breaking when namespaces are not closed. (<em>2008-07-22 - Adam Franco</em>)</li>
+	</ul>
+<br><h2>Version 1.4.4</h2>
 <h3>2008-07-21</h3>
 <p>This release fixes an issue with Authorization settings for members of groups the ids of which contain quotes.</p>
 <ul>
