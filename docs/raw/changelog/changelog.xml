@@ -8,6 +8,14 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
+	<version number="1.4.6" date="The Future">
+		<releaseNotes>
+			
+		</releaseNotes>
+		<fix author='adam' date='2008-07-25'>
+			AuthZ2: Fixed up Hierarchy Exceptions to use valid Exception classes.
+		</fix>
+	</version>
 	<version number="1.4.5" date="2008-07-24">
 		<releaseNotes>
 			This release fixes a few minor issues that were causing problems with

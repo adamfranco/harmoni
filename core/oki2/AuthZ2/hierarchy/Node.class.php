@@ -285,9 +285,9 @@ class AuthZ2_Node
 		
 		$queryResult =$dbHandler->query($query, $this->_cache->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0)
-			throwError(new Error(HierarchyException::OPERATION_FAILED(),"Hierarchy",true));
+			throw new OperationFailedException("No rows updated.");
 		if ($queryResult->getNumberOfRows() > 1)
-			throwError(new Error(HierarchyException::OPERATION_FAILED() ,"Hierarchy",true));
+			throw new OperationFailedException("Too many rows updated, expecting 1.");
 	}
 
 	/**
@@ -334,9 +334,9 @@ class AuthZ2_Node
 		
 		$queryResult =$dbHandler->query($query, $this->_cache->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0)
-			throwError(new Error(HierarchyException::OPERATION_FAILED(),"Hierarchy",true));
+			throw new OperationFailedException("No rows updated.");
 		if ($queryResult->getNumberOfRows() > 1)
-			throwError(new Error(HierarchyException::OPERATION_FAILED() ,"Hierarchy",true));
+			throw new OperationFailedException("Too many rows updated, expecting 1.");
 	}
 
 	/**

@@ -167,9 +167,9 @@ class AuthZ2_Hierarchy
 		
 		$queryResult =$dbHandler->query($query, $this->_cache->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0)
-			throwError(new Error(HierarchyException::OPERATION_FAILED(),"Hierarchy",true));
+			throw new OperationFailedException("No rows updated.");
 		if ($queryResult->getNumberOfRows() > 1)
-			throwError(new Error(HierarchyException::OPERATION_FAILED() ,"Hierarchy",true));
+			throw new OperationFailedException("Too many rows updated, expecting 1.");
 	}
 
 	/**
@@ -237,9 +237,9 @@ class AuthZ2_Hierarchy
 		
 		$queryResult =$dbHandler->query($query, $this->_cache->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0)
-			throwError(new Error(HierarchyException::OPERATION_FAILED(),"Hierarchy",true));
+			throw new OperationFailedException("No rows updated.");
 		if ($queryResult->getNumberOfRows() > 1)
-			throwError(new Error(HierarchyException::OPERATION_FAILED(),"Hierarchy",true));
+			throw new OperationFailedException("Too many rows updated, expecting 1.");
 	}
 	
 	/**
@@ -389,7 +389,7 @@ class AuthZ2_Hierarchy
 	 * @access public
 	 */
 	function addNodeType ( Type $type ) { 
-		throwError(new Error(HierarchyException::UNIMPLEMENTED(), "Hierarchy", true));
+		throw new UnimplementedException();
 	}
 
 	/**
@@ -419,7 +419,7 @@ class AuthZ2_Hierarchy
 	 * @access public
 	 */
 	function removeNodeType ( Type $type ) { 
-		throwError(new Error(HierarchyException::UNIMPLEMENTED(), "Hierarchy", true));
+		throw new UnimplementedException();
 	}
 
 	/**
@@ -711,7 +711,7 @@ class AuthZ2_Hierarchy
 
 		if ($mode != Hierarchy::TRAVERSE_MODE_DEPTH_FIRST) {
 			// Only depth-first traversal is supported in the current implementation.
-			throwError(new Error(HierarchyException::UNKNOWN_TRAVERSAL_DIRECTION(), "Hierarchy", true));
+			throw new OperationFailedException("Unknown Traversal Direction");
 		}
 
 		$down = ($direction == Hierarchy::TRAVERSE_DIRECTION_DOWN);
