@@ -12,6 +12,12 @@
 		<releaseNotes>
 			
 		</releaseNotes>
+		<fix author='adam' date='2008-07-29' ref='2031483' reftype='segue_bug' reporter='tom_coppeto'>
+			ImageProcessor: Thumbnail generation from multi-page PDFs now only extracts
+			the first page enabling valid thumbnails to be generated and preventing
+			extra processing of other pages that was being overwhelmed by very large
+			PDFs.
+		</fix>
 		<fix author='adam' date='2008-07-25'>
 			AuthZ2: Fixed up Hierarchy Exceptions to use valid Exception classes.
 		</fix>
@@ -2420,6 +2426,10 @@
 		<reporter short="jeff_merriman">
 			<name>Jeff Merriman</name>
 			<institution>MIT</institution>
+		</reporter>
+		<reporter short="tom_coppeto">
+			<name>Tom Coppeto</name>
+			<institution>OnTapSolutions/O.K.I.</institution>
 		</reporter>
 	</reporters>
 	<reftypes>

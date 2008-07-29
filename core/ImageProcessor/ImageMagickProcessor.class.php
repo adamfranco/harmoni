@@ -296,11 +296,14 @@ class ImageMagickProcessor {
 	 * @param string $ouputExtension The extension that corresponds to the output data.
 	 * @param integer $size	The max size in pixels of the output image
 	 * @param string $inputData	The input data.
+	 * @param optional boolean $preserveAllFrames Default false. If true, all frames of
+	 *		multi-frame images -- such as multi-page PDFs, TIFFs, or animated GIFs --
+	 *		will be preserved if the output format supports multiple frames.
 	 * @return string
 	 * @access public
 	 * @since 11/5/04
 	 */
-	function _generateData ($inputExtension, $ouputExtension, $size, $inputData) {
+	function _generateData ($inputExtension, $ouputExtension, $size, $inputData, $preserveAllFrames = false) {
 		if ($inputExtension == $ouputExtension && !$size) {
 			return $inputData;
 		} else {
@@ -326,7 +329,23 @@ class ImageMagickProcessor {
 			$convertString = $this->_ImageMagickPath."/convert ";
 			if ($size)
 				$convertString .= "-size ".$size."x".$size." ";
-			$convertString .= $sourcePath." ";
+			
+			// If we have elected to perserve multiple frames and the output format
+			// supports that, then just specify the source file as the input
+			if ($preserveAllFrames && $this->formatSupportsMultipleFrames($outputExtension)) {
+				// Set a not-too fast delay if going from anything else to a gif.
+				if (strtolower($inputExtension) != 'gif' && strtolower($ouputExtension) == 'gif')
+					$convertString .= ' -delay 180';
+				
+				$convertString .= $sourcePath." ";
+			}
+			// Specify only the first frame for outputing. This should be no problem
+			// for single frame images such as JPG and will force only one frame for
+			// multi-frame formats like PDF, animated gif, TIFF, etc.
+			else {
+				$convertString .= '"'.$sourcePath.'[0]" ';
+			}
+			
 			if ($size)
 				$convertString .= " -resize ".$size."x".$size." ";
 			$convertString .= $destPath;
@@ -359,6 +378,30 @@ class ImageMagickProcessor {
 			
 			return $outData;
 		}
+	}
+	
+	/**
+	 * 
+	 * 
+	 * @param string $extension
+	 * @return boolean
+	 * @access protected
+	 * @since 7/29/08
+	 */
+	protected function formatSupportsMultipleFrames ($extension) {
+		$supportsMultipleFrames = array(
+			'gif',
+			'pdf',
+			'tif',
+			'tiff',
+			'mng',
+			'jng',
+			'pwp'
+		);
+		if (in_array(strtolower($extension), $supportsMultipleFrames))
+			return true;
+		else
+			return false;
 	}
 	
 	
