@@ -23,7 +23,23 @@
 </head>
 <body>
 <h1>Harmoni Change Log</h1>
-<h2>Version 1.4.5</h2>
+<h2>Version 1.4.6</h2>
+<h3>2008-08-01</h3>
+<p>This release fixes a number of issues that were affecting Segue 2.
+<br>
+<br>Most important is a fix to the image-processor to correctly support generation of thumbnails from multi-page PDF files.</p>
+<ul>
+		
+		<li>
+<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=2031483&amp;group_id=82171&amp;atid=565234">
+        			#2031483</a> ImageProcessor: Thumbnail generation from multi-page PDFs now only extracts the first page enabling valid thumbnails to be generated and preventing extra processing of other pages that was being overwhelmed by very large PDFs. (<em>2008-07-29 - Adam Franco</em>)<br> (<em>reported by Tom Coppeto of OnTapSolutions/O.K.I.</em>)</li>
+		<li>
+<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=2034986&amp;group_id=82171&amp;atid=565234">
+        			#2034986</a> Sets: Fixed up SQL keys to allow sets to contain an item several times at different positions as is allowed in the interface. (<em>2008-08-01 - Adam Franco</em>)</li>
+		<li>
+<b>Bug Fix:</b> AuthZ2: Fixed up Hierarchy Exceptions to use valid Exception classes. (<em>2008-07-25 - Adam Franco</em>)</li>
+	</ul>
+<br><h2>Version 1.4.5</h2>
 <h3>2008-07-24</h3>
 <p>This release fixes a few minor issues that were causing problems with Segue.</p>
 <ul>

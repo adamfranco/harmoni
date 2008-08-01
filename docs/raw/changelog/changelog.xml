@@ -8,9 +8,12 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
-	<version number="1.4.6" date="The Future">
+	<version number="1.4.6" date="2008-08-01">
 		<releaseNotes>
+			This release fixes a number of issues that were affecting Segue 2.
 			
+			Most important is a fix to the image-processor to correctly support
+			generation of thumbnails from multi-page PDF files.
 		</releaseNotes>
 		<fix author='adam' date='2008-07-29' ref='2031483' reftype='segue_bug' reporter='tom_coppeto'>
 			ImageProcessor: Thumbnail generation from multi-page PDFs now only extracts

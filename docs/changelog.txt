@@ -2,6 +2,34 @@
 Harmoni Change Log
 
 
+v. 1.4.6 (2008-08-01)
+----------------------------------------------------
+This release fixes a number of issues that were affecting Segue 2.
+
+Most important is a fix to the image-processor to correctly support generation of
+thumbnails from multi-page PDF files.
+		
+		
+	* Bug Fix: #2031483 
+		ImageProcessor: Thumbnail generation from multi-page PDFs now only extracts
+		the first page enabling valid thumbnails to be generated and preventing
+		extra processing of other pages that was being overwhelmed by very large
+		PDFs. 
+		(2008-07-29 - Adam Franco)
+		(reported by Tom Coppeto of OnTapSolutions/O.K.I.)
+		
+	* Bug Fix: #2034986 
+		Sets: Fixed up SQL keys to allow sets to contain an item several times at
+		different positions as is allowed in the interface.
+		(2008-08-01 - Adam Franco)
+		
+	* Bug Fix: 
+		AuthZ2: Fixed up Hierarchy Exceptions to use valid Exception classes.
+		(2008-07-25 - Adam Franco)
+	
+
+
+
 v. 1.4.5 (2008-07-24)
 ----------------------------------------------------
 This release fixes a few minor issues that were causing problems with Segue.
