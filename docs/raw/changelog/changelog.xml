@@ -18,6 +18,10 @@
 			extra processing of other pages that was being overwhelmed by very large
 			PDFs.
 		</fix>
+		<fix author='adam' date='2008-08-01' ref='2034986' reftype='segue_bug'>
+			Sets: Fixed up SQL keys to allow sets to contain an item several times
+			at different positions as is allowed in the interface.
+		</fix>
 		<fix author='adam' date='2008-07-25'>
 			AuthZ2: Fixed up Hierarchy Exceptions to use valid Exception classes.
 		</fix>

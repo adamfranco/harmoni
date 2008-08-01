@@ -16,7 +16,7 @@ CREATE TABLE sets (
   id varchar(150) NOT NULL default '0',
   item_id varchar(150) NOT NULL default '0',
   item_order int(10) unsigned NOT NULL default '0',
-  PRIMARY KEY  (id,item_id)
+  KEY `set_item_index` (`id`,`item_id`)
 ) 
 CHARACTER SET utf8
 TYPE=InnoDB;

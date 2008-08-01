@@ -18,5 +18,4 @@ CREATE TABLE sets (
   item_order integer NOT NULL default '0'
 );
 
-ALTER TABLE ONLY sets
-	ADD CONSTRAINT sets_primary_key PRIMARY KEY (id, item_id);
+CREATE INDEX set_item_index ON sets (id, item_id);
