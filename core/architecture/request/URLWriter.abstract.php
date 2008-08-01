@@ -21,7 +21,7 @@ abstract class URLWriter
 	var $_action;
 	var $_vars;
 	
-	function URLWriter() {
+	function __construct() {
 		$this->_vars = array();
 		$this->_module = "";
 		$this->_action = "";

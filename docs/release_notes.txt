@@ -1,5 +1,5 @@
 
-Harmoni v. 1.4.0 (2008-06-16)
+Harmoni v. 1.4.6 (2008-08-01)
 =================================
 
 What is Harmoni?
@@ -29,12 +29,10 @@ used independently of the other.
 
 Current Version Notes
 ---------------------
-This release includes two improvements:
+This release fixes a number of issues that were affecting Segue 2.
 
-* The ActionHandler now supports the specification of default parameters to be used
-when the default module and action are used. * New methods for converting strings to
-UTF-8 and converting 'smart-quotes'. Usage of this new String->makeUtf8() method
-requires PHP to be compiled with the --enable-mbstring option.
+Most important is a fix to the image-processor to correctly support generation of
+thumbnails from multi-page PDF files.
 
 
 Downloads
@@ -65,6 +63,46 @@ https://sourceforge.net/tracker/?group_id=82873&atid=567473
 | Prior Harmoni Release Notes
 | (See the Harmoni change log for more details)
 ===================================================================
+
+
+v. 1.4.6 (2008-08-01)
+----------------------------------------------------
+This release fixes a number of issues that were affecting Segue 2.
+
+Most important is a fix to the image-processor to correctly support generation of
+thumbnails from multi-page PDF files.
+
+
+
+v. 1.4.5 (2008-07-24)
+----------------------------------------------------
+This release fixes a few minor issues that were causing problems with Segue.
+
+
+
+v. 1.4.4 (2008-07-21)
+----------------------------------------------------
+This release fixes an issue with Authorization settings for members of groups the
+ids of which contain quotes.
+
+
+
+v. 1.4.3 (2008-07-17)
+----------------------------------------------------
+This release fixes several issues with Themes and Logging.
+
+
+
+v. 1.4.2 (2008-07-11)
+----------------------------------------------------
+This release includes a minor improvement to support Segue.
+
+
+
+v. 1.4.1 (2008-07-10)
+----------------------------------------------------
+This release adds some minor improvements to support Segue.
+
 
 
 v. 1.4.0 (2008-06-16)

@@ -215,7 +215,7 @@ class AuthZ2_HierarchyManager
 
 		// check for supported hierarchies
 		if ($allowsRecursion)
-			throwError(new Error(HierarchyException::UNSUPPORTED_CREATION(), "HierarchyManager", 1));
+			throw new OperationFailedException("Unsuported creation. Does not support recursion.");
 		
 		$dbHandler = Services::getService("DatabaseManager");
 
@@ -434,7 +434,7 @@ class AuthZ2_HierarchyManager
 
 		// if the hierarchy contains any nodes, cannot delete
 		if ($row['num'] > 0) {
-			throwError(new Error(HierarchyException::HIERARCHY_NOT_EMPTY(), "Hierarchy", true));
+			throw new OperationFailedException("Hierarchy not empty.");
 			return;
 		}
 		
@@ -444,7 +444,7 @@ class AuthZ2_HierarchyManager
 		$query->addWhereEqual("id", $idValue);
 		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 		if ($queryResult->getNumberOfRows() != 1) {
-			throwError(new Error(HierarchyException::OPERATION_FAILED(), "Hierarchy", true));
+			throw new OperationFailedException("Wrong number of rows deleted. Expecting 1.");
 		}
 		
 		// update the cache

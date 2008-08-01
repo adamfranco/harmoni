@@ -332,7 +332,7 @@ class Harmoni {
 			// Set default params from the config
 			if (!is_null($this->config->get('defaultParams'))) {
 				foreach ($this->config->get('defaultParams') as $key => $val) {
-					$this->request->set($key, $val);
+					$this->request->setRequestParam($key, $val);
 				}
 			}
 		}

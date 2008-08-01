@@ -68,6 +68,19 @@ class StatusStars {
 		$this->_detail = $detail;
 		$this->_createStatusBar();
 	}
+	
+	/**
+	 * Answer true if the statistics are initialized
+	 * 
+	 * @return boolean
+	 * @access public
+	 * @since 7/29/08
+	 */
+	public function isInitialized () {
+		if (!isset($this->_totalAssets))
+			return false;
+		return true;
+	}
 
 	/**
 	 * Updates the number of granules imported for importer status

@@ -8,13 +8,98 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
-	<version number="1.4.1" date="The Future">
+	<version number="1.4.6" date="2008-08-01">
 		<releaseNotes>
+			This release fixes a number of issues that were affecting Segue 2.
 			
+			Most important is a fix to the image-processor to correctly support
+			generation of thumbnails from multi-page PDF files.
+		</releaseNotes>
+		<fix author='adam' date='2008-07-29' ref='2031483' reftype='segue_bug' reporter='tom_coppeto'>
+			ImageProcessor: Thumbnail generation from multi-page PDFs now only extracts
+			the first page enabling valid thumbnails to be generated and preventing
+			extra processing of other pages that was being overwhelmed by very large
+			PDFs.
+		</fix>
+		<fix author='adam' date='2008-08-01' ref='2034986' reftype='segue_bug'>
+			Sets: Fixed up SQL keys to allow sets to contain an item several times
+			at different positions as is allowed in the interface.
+		</fix>
+		<fix author='adam' date='2008-07-25'>
+			AuthZ2: Fixed up Hierarchy Exceptions to use valid Exception classes.
+		</fix>
+	</version>
+	<version number="1.4.5" date="2008-07-24">
+		<releaseNotes>
+			This release fixes a few minor issues that were causing problems with
+			Segue.
+		</releaseNotes>
+		<fix author='adam' date='2008-07-23' ref='2021574' reftype='segue_bug'>
+			Request: PathInfoRequest handler now replaces encoded question marks
+			"%3F" with a "_quest_" placeholder to get around an issue with Apache's
+			mod_rewrite accidentally decoding encoded question marks in some situations.
+		</fix>
+		<fix author='adam' date='2008-07-22'>
+			GUI2: Now forces the empty namespace for the theme id parameter to 
+			prevent the CSS from breaking when namespaces are not closed.
+		</fix>
+	</version>
+	<version number="1.4.4" date="2008-07-21">
+		<releaseNotes>
+			This release fixes an issue with Authorization settings for members of 
+			groups the ids of which contain quotes.
+		</releaseNotes>
+		<fix author='adam' date='2008-07-21' ref='2023672' reftype='segue_bug' reporter='hector_vila'>
+			AuthZ/PDO: Adding temporary work-around for bug 2023672/ PHP bug 41125
+			
+			A PHP/PDO bug is resulting in problems when escaped quotes exist in an SQL
+			string that is then prepared. This is occurring for users who are members
+			of groups that have a quote in their LDAP DN.
+			
+			This is the second time this bug has bitten us, this time in the AuthZ2
+			AuthorizationCache. The first workaround was added to fix Harmoni bug 1970447.
+			
+			See: https://sourceforge.net/tracker/index.php?func=detail&amp;aid=1970447&amp;group_id=82171&amp;atid=565234
+			See: http://slug.middlebury.edu/~afranco/PHP_PDO_segfault/
+			See: http://bugs.php.net/bug.php?id=41125
+		</fix>
+	</version>
+	<version number="1.4.3" date="2008-07-17">
+		<releaseNotes>
+			This release fixes several issues with Themes and Logging.
+		</releaseNotes>
+		<fix author='adam' date='2008-07-17' ref='2018232' reftype='segue_bug'>
+			GUI2: Output handler now sends theme options in the theme CSS URL.
+		</fix>
+		<fix author='adam' date='2008-07-17' ref='2009090' reftype='segue_bug'>
+			Logging: Now returns an empty string if there is no backtrace.
+		</fix>
+	</version>
+	<version number="1.4.2" date="2008-07-11">
+		<releaseNotes>
+			This release includes a minor improvement to support Segue.
+		</releaseNotes>
+		<change author='adam' date='2008-07-11'>
+			AuthZ2: More use of prepared statements in Authorization fetching
+			methods to speed up Segue's 'roles' UI.
+		</change>
+	</version>
+	<version number="1.4.1" date="2008-07-10">
+		<releaseNotes>
+			This release adds some minor improvements to support Segue.
 		</releaseNotes>
 		<new author='adam' date='2008-06-18'>
 			GUI2: GUIManager now can be configured to link to theme styles at a URL.
 		</new>
+		<change author='adam' date='2008-07-08'>
+			DatabaseManager: New NoSuchTableDatabaseException to classify missing
+			table errors. Currently only supported by MySQL.
+		</change>
+		<fix author='adam' date='2008-07-10'>
+			Agent: The Users group now includes all groups except itself and Everyone
+			and all agents except Anonymous. This enables the Users group to be a
+			stand-in for any user who has been authenticated.
+		</fix>
 	</version>
 	<version number="1.4.0" date="2008-06-16">
 		<releaseNotes>
@@ -2341,9 +2426,17 @@
 			<name>Bryan Carson</name>
 			<institution>Middlebury College</institution>
 		</reporter>
+		<reporter short="hector_vila">
+			<name>Hector Vila</name>
+			<institution>Middlebury College</institution>
+		</reporter>
 		<reporter short="jeff_merriman">
 			<name>Jeff Merriman</name>
 			<institution>MIT</institution>
+		</reporter>
+		<reporter short="tom_coppeto">
+			<name>Tom Coppeto</name>
+			<institution>OnTapSolutions/O.K.I.</institution>
 		</reporter>
 	</reporters>
 	<reftypes>

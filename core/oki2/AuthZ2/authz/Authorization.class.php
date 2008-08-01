@@ -514,16 +514,31 @@ class AuthZ2_Authorization
 		
 		if (isset($this->explicitAZId))
 			return $this->_cache->getExplicitAZById($this->explicitAZId);
-			
-		$dbHandler = Services::getService("DatabaseManager");
-		$query = new SelectQuery();
-		$query->addColumn("fk_explicit_az");
-		$query->addTable("az2_implicit_az");
-		$query->addWhereEqual("id", $this->getIdString());
-// 		printpre($query->asString());
-		$result = $dbHandler->query($query, $this->_cache->_dbIndex);
 		
-		return $this->_cache->getExplicitAZById($result->field("fk_explicit_az"));
+		if (isset($this->_cache->harmoni_db)) {
+			if (!isset($this->_cache->_getExplicitAZ_stmt)) {
+				$query = $this->_cache->harmoni_db->select();
+				$query->addColumn("fk_explicit_az");
+				$query->addTable("az2_implicit_az");
+				$query->addWhereEqual("id", '?');
+				$this->_cache->_getExplicitAZ_stmt = $query->prepare();
+			}
+			$this->_cache->_getExplicitAZ_stmt->bindValue(1, $this->getIdString());
+			$this->_cache->_getExplicitAZ_stmt->execute();
+			$result = $this->_cache->_getExplicitAZ_stmt->getResult();
+		} else {
+			$dbHandler = Services::getService("DatabaseManager");
+			$query = new SelectQuery();
+			$query->addColumn("fk_explicit_az");
+			$query->addTable("az2_implicit_az");
+			$query->addWhereEqual("id", $this->getIdString());
+	// 		printpre($query->asString());
+			$result = $dbHandler->query($query, $this->_cache->_dbIndex);
+		}
+		
+		$this->explicitAZId = $result->field("fk_explicit_az");
+		$result->free();
+		return $this->_cache->getExplicitAZById($this->explicitAZId);
 	}
 	
 	/**
