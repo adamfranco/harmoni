@@ -101,7 +101,7 @@ class OrderedSet
 			$this->_i++;
 			return $idManager->getId($this->_items[$this->_i]);
 		} else {
-			throwError(new Error(NO_MORE_ITERATOR_ELEMENTS, "Set", 1));
+			throw new NoMoreIteratorElementsException();
 		}
 	}
 	

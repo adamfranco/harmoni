@@ -8,6 +8,17 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
+	<version number="1.4.7" date="The Future">
+		<releaseNotes>
+			
+		</releaseNotes>
+		<change author='adam' date='2008-08-04'>
+			ErrorHandler: New NoMoreIteratorElementsException available. 
+			
+			UnimplementedException now includes class and method name of the unimplemented
+			method.
+		</change>
+	</version>
 	<version number="1.4.6" date="2008-08-01">
 		<releaseNotes>
 			This release fixes a number of issues that were affecting Segue 2.

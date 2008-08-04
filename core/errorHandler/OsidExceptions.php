@@ -64,7 +64,19 @@ class UnimplementedException
 	 * @since 9/5/07
 	 */
 	public function __construct ($message = '', $code = 0) {
-		parent::__construct('UNIMPLEMENTED: '.$message, $code);
+		
+		$trace = debug_backtrace();
+		$entry = $trace[1];
+		
+		$function = isset($entry['function'])?$entry['function']:'';
+		$class = isset($entry['class'])?$entry['class']:'';
+		$type = isset($entry['type'])?$entry['type']:'';
+		
+		$fullMessage = $class.$type.$function."() ";
+		if (strlen($message))
+			$fullMessage .= " -- ".$message;
+		
+		parent::__construct('UNIMPLEMENTED: '.$fullMessage, $code);
 	}
 	
 }
@@ -215,6 +227,36 @@ class UnknownTypeException
 	 */
 	public function __construct ($message = '', $code = 0) {
 		parent::__construct('UNKNOWN_TYPE: '.$message, $code);
+	}
+	
+}
+
+/**
+ * Thrown when there are no more iterator elements
+ * 
+ * @since 8/4/08
+ * @package harmoni.error_handler
+ * 
+ * @copyright Copyright &copy; 2007, Middlebury College
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ *
+ * @version $Id: OsidExceptions.php,v 1.1 2007/10/05 14:01:50 adamfranco Exp $
+ */
+class NoMoreIteratorElementsException
+	extends HarmoniException
+{
+		
+	/**
+	 * Constructor
+	 * 
+	 * @param string $message
+	 * @param optional integer $code
+	 * @return void
+	 * @access public
+	 * @since 9/5/07
+	 */
+	public function __construct ($message = '', $code = 0) {
+		parent::__construct('NO_MORE_ITERATOR_ELEMENTS: '.$message, $code);
 	}
 	
 }
