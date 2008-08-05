@@ -246,7 +246,7 @@ class PathInfoURLWriter
 		$pairs[] = $this->_action;
 		foreach ($this->_vars as $key=>$val) {
 			if (is_object($val)) {
-				throwError( new Error("Expecting string for key '$key', got '$val'.", "PathInfoRequestHandler", true));
+				throw new InvalidArgumentException("Expecting string for key '$key', got '$val' of class ".get_class($val).".");
 			}
 			
 			// For multi-select form elements
