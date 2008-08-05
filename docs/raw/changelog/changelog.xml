@@ -12,6 +12,9 @@
 		<releaseNotes>
 			
 		</releaseNotes>
+		<fix author='adam' date='2008-08-05'>
+			Logging: Log messages are now filtered to prevent Javascript insertion.
+		</fix>
 		<change author='adam' date='2008-08-04'>
 			ErrorHandler: New NoMoreIteratorElementsException available. 
 			
