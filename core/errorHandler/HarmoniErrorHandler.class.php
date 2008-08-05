@@ -393,7 +393,7 @@ class HarmoniErrorHandler {
 		if (ini_get('log_errors') === true || ini_get('log_errors') === 'On' 
 			|| ini_get('log_errors') === '1')
 		{
-			error_log("PHP ".$type.":  ".$message);
+			error_log("PHP ".$type.":  ".strip_tags($message));
 		}
 		
 		/*********************************************************
@@ -417,19 +417,19 @@ class HarmoniErrorHandler {
 				$log =$loggingManager->getLogForWriting($logName);
 				$formatType = new Type("logging", "edu.middlebury", "AgentsAndNodes",
 								"A format in which the acting Agent[s] and the target nodes affected are specified.");
-				$priorityType = new Type("logging", "edu.middlebury", $type,
+				$priorityType = new Type("logging", "edu.middlebury", strip_tags($type),
 									"Events involving critical system errors.");
 				
-				$item = new AgentNodeEntryItem($category, $message);
+				$item = new AgentNodeEntryItem(strip_tags($category), HtmlString::getSafeHtml($message));
 				$item->setBacktrace($backtrace);
 				if (isset($_SERVER['REQUEST_URI']))
 					$item->addTextToBactrace("\n<div><strong>REQUEST_URI: </strong>".$_SERVER['REQUEST_URI']."</div>");
 				if (isset($_SERVER['HTTP_REFERER']))
-						$item->addTextToBactrace("\n<div><strong>HTTP_REFERER: </strong>".$_SERVER['HTTP_REFERER']."</div>");
-				$item->addTextToBactrace("\n<div><strong>GET: </strong><pre>".print_r(self::stripPrivate($_GET), true)."</pre></div>");
-				$item->addTextToBactrace("\n<div><strong>POST: </strong><pre>".print_r(self::stripPrivate($_POST), true)."</pre></div>");
+						$item->addTextToBactrace("\n<div><strong>HTTP_REFERER: </strong>".htmlspecialchars($_SERVER['HTTP_REFERER'])."</div>");
+				$item->addTextToBactrace("\n<div><strong>GET: </strong><pre>".htmlspecialchars(print_r(self::stripPrivate($_GET), true))."</pre></div>");
+				$item->addTextToBactrace("\n<div><strong>POST: </strong><pre>".htmlspecialchars(print_r(self::stripPrivate($_POST), true))."</pre></div>");
 				if (isset($_SERVER['HTTP_USER_AGENT']))
-					$item->addTextToBactrace("\n<div><strong>HTTP_USER_AGENT: </strong><pre>".print_r($_SERVER['HTTP_USER_AGENT'], true)."</pre></div>");
+					$item->addTextToBactrace("\n<div><strong>HTTP_USER_AGENT: </strong><pre>".htmlspecialchars(print_r($_SERVER['HTTP_USER_AGENT'], true))."</pre></div>");
 				$log->appendLogWithTypes($item,	$formatType, $priorityType);
 			} catch (Exception $e) {
 				// Just continue if we can't log the exception.
