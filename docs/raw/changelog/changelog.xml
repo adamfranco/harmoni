@@ -12,7 +12,7 @@
 		<releaseNotes>
 			
 		</releaseNotes>
-		<fix author='adam' date='2008-08-05'>
+		<fix author='adam' date='2008-08-05' ref='2040255' reftype='segue_security'>
 			Logging: Log messages are now filtered to prevent Javascript insertion.
 		</fix>
 		<change author='adam' date='2008-08-04'>
@@ -2465,5 +2465,6 @@
 		<reftype name="segue_bug" group="82171" tracker='565234'/>
 		<reftype name="segue_fr" group="82171" tracker='565237'/>
 		<reftype name="segue_patch" group="82171" tracker='565236'/>
+		<reftype name="segue_security" group="82171" tracker='1098812'/>
 	</reftypes>
 </changelog>
