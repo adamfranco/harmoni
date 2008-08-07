@@ -1413,7 +1413,7 @@ class AuthZ2_AuthorizationCache {
 	 * @access protected
 	 * @since 4/21/08
 	 */
-	protected function createImplicitAZsUpForAZ (Authorization $explicitAZ) {
+	public function createImplicitAZsUpForAZ (Authorization $explicitAZ) {
 		$idMgr = Services::getService("Id");
 		if (!$explicitAZ->getFunction()->getId()->isEqual($idMgr->getId("edu.middlebury.authorization.view")))
 			return;
