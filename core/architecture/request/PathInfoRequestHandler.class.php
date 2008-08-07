@@ -57,9 +57,11 @@ class PathInfoRequestHandler
 	 * @return ref object URLWriter
 	 * @access public
 	 */
-	function createURLWriter() {
-		$writer = new PathInfoURLWriter();
-		return $writer;
+	function createURLWriter($base = null) {
+		if (!is_null($base))
+			return new PathInfoURLWriter($base);
+		else
+			return new PathInfoURLWriter();
 	}
 	
 	/**
@@ -159,7 +161,7 @@ class PathInfoRequestHandler
 	 * @static
 	 */
 	public static function getParameterListFromUrl ($inputUrl) {
-		$pattern = "/^".str_replace('/', '\/', MYURL).'([^?]*)\??(.*)$/i';
+		$pattern = "/^".str_replace('/', '\/', $this->_base).'([^?]*)\??(.*)$/i';
 		if (!preg_match($pattern, $inputUrl, $matches))
 			return FALSE;
 		else {
@@ -237,7 +239,7 @@ class PathInfoURLWriter
 			$this->setValues($args[0]);
 		}
 		
-		$url = MYURL;
+		$url = $this->_base;
 		$pairs = array();
 		$harmoni = Harmoni::instance();
 		if (!$harmoni->config->get("sessionUseOnlyCookies") && defined("SID") && SID) 

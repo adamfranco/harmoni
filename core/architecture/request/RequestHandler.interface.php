@@ -49,10 +49,11 @@ interface RequestHandler {
 	/**
 	 * Returns a new {@link URLWriter} object corresponding to this RequestHandler.
 	 *
+	 * @param optional string $base
 	 * @return ref object URLWriter
 	 * @access public
 	 */
-	public function createURLWriter();
+	public function createURLWriter($base = null);
 	
 	/**
 	 * Returns a dotted-pair string representing the module and action requested

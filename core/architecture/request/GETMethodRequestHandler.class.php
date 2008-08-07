@@ -61,9 +61,11 @@ class GETMethodRequestHandler
 	 * @return ref object URLWriter
 	 * @access public
 	 */
-	function createURLWriter() {
-		$writer = new GETMethodURLWriter();
-		return $writer;
+	function createURLWriter($base = null) {
+		if (!is_null($base))
+			return new GETMethodURLWriter($base);
+		else
+			return new GETMethodURLWriter();
 	}
 	
 	/**
@@ -104,7 +106,7 @@ class GETMethodRequestHandler
 	 * @static
 	 */
 	public static function getParameterListFromUrl ($inputUrl) {
-		$pattern = "/^".str_replace('/', '\/', MYURL).'\?(.*)$/i';
+		$pattern = "/^".str_replace('/', '\/', $this->_base).'\?(.*)$/i';
 		$replacement = '\1';
 		if (!preg_match($pattern, $inputUrl))
 			return FALSE;
@@ -159,7 +161,7 @@ class GETMethodURLWriter
 			$this->setValues($args[0]);
 		}
 		
-		$url = MYURL;
+		$url = $this->_base;
 		$pairs = array();
 		$harmoni = Harmoni::instance();
 		if (!$harmoni->config->get("sessionUseOnlyCookies") && defined("SID") && SID) 

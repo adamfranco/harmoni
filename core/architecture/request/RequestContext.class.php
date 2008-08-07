@@ -282,6 +282,48 @@ END;
 	
 	/**
 	 * Returns a new {@link URLWriter} from the {@link RequestHandler}, assigning
+	 * the module/action passed or keeping the current module/action. The new url
+	 * will have the base specified rather than MYURL
+	 *
+	 * @param optional string $module
+	 * @param optional string $action
+	 * @param optional array $variables
+	 * @return ref object URLWriter
+	 * @access public
+	 */
+	function mkUrlWithBase($base, $module = null, $action = null, $variables = null ) {
+		ArgumentValidator::validate($base, NonzeroLengthStringValidatorRule::getRule());
+		
+		// create a new URLWriter from the RequestHandler
+		$this->_checkForHandler();
+		$url =$this->_requestHandler->createURLWriter($base);
+		
+		
+		// Set the Module and Action
+		if ($module != null && $action != null) {
+			$url->setModuleAction($module, $action);
+		} else {
+			$harmoni = Harmoni::instance();
+			list($module, $action) = explode(".",$harmoni->getCurrentAction());
+			if (!$module) 
+				list($module, $action) = explode(".",$this->getRequestedModuleAction());
+
+			$url->setModuleAction($module, $action);
+		}
+		
+		// Add the current context data.
+		$url->batchSetValues($this->_contextData);
+		
+		// Addition $variables passed
+		if (is_array($variables)) {
+			$url->setValues($variables);
+		}
+		
+		return $url;
+	}
+	
+	/**
+	 * Returns a new {@link URLWriter} from the {@link RequestHandler}, assigning
 	 * the module/action passed or keeping the current module/action.
 	 * This method will return a url with no context data, only the variables passed.
 	 *

@@ -8,6 +8,16 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
+	<version number="1.4.8" date="The Future">
+		<releaseNotes>
+			
+		</releaseNotes>
+		<new author='adam' date='2008-08-07' ref='1820937' reftype='segue_fr'>
+			Request: RequestContext now has a new mkUrlWithBase() method that 
+			allows the specification of a base-url to be used instead of the
+			MYURL constant.
+		</new>
+	</version>
 	<version number="1.4.7" date="2008-08-07">
 		<releaseNotes>
 			This release fixes an authorization issue as well as enhances security
