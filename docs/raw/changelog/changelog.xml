@@ -12,6 +12,10 @@
 		<releaseNotes>
 			
 		</releaseNotes>
+		<fix author='adam' date='2008-08-07' reporter='peter_wilkins'>
+			AuthZ2: A typo in the view authorization id was preventing cascading-up
+			implicit view authorizations from ever being written.
+		</fix>
 		<fix author='adam' date='2008-08-05' ref='2040255' reftype='segue_security'>
 			Logging: Log messages are now filtered to prevent Javascript insertion.
 		</fix>
@@ -2446,6 +2450,10 @@
 		</reporter>
 		<reporter short="jeff_merriman">
 			<name>Jeff Merriman</name>
+			<institution>MIT</institution>
+		</reporter>
+		<reporter short="peter_wilkins">
+			<name>Peter Wilkins</name>
 			<institution>MIT</institution>
 		</reporter>
 		<reporter short="tom_coppeto">

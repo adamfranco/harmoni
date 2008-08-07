@@ -1415,7 +1415,7 @@ class AuthZ2_AuthorizationCache {
 	 */
 	protected function createImplicitAZsUpForAZ (Authorization $explicitAZ) {
 		$idMgr = Services::getService("Id");
-		if (!$explicitAZ->getFunction()->getId()->isEqual($idMgr->getId("edu.middilebury.authorization.view")))
+		if (!$explicitAZ->getFunction()->getId()->isEqual($idMgr->getId("edu.middlebury.authorization.view")))
 			return;
 		
 		$ancestorIds = $this->getQualifierAncestorIds($explicitAZ->getQualifier()->getId());
@@ -1594,7 +1594,7 @@ class AuthZ2_AuthorizationCache {
 		// get rid of the root node (it is not a ancestor of itsself)
 		$info->next();
 		while ($info->hasNext()) {
-			$ids[] = $info->next();
+			$ids[] = $info->next()->getNodeId();
 		}
 // 		printpre(count($ids)." ancestors found for Node, '".$qualifierId."', '".$node->getDisplayName()."'.");
 // 		exit;
