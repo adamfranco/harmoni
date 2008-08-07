@@ -23,7 +23,22 @@
 </head>
 <body>
 <h1>Harmoni Change Log</h1>
-<h2>Version 1.4.6</h2>
+<h2>Version 1.4.7</h2>
+<h3>2008-08-07</h3>
+<p>This release fixes an authorization issue as well as enhances security by preventing Javascript from being written to the logs. See the change log for details.</p>
+<ul>
+		
+		<li>
+<b>Bug Fix:</b> AuthZ2: A typo in the view authorization id was preventing cascading-up implicit view authorizations from ever being written. (<em>2008-08-07 - Adam Franco</em>)<br> (<em>reported by Peter Wilkins of MIT</em>)</li>
+		<li>
+<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=2040255&amp;group_id=82171&amp;atid=1098812">
+        			#2040255</a> Logging: Log messages are now filtered to prevent Javascript insertion. (<em>2008-08-05 - Adam Franco</em>)</li>
+		<li>
+<b>Change:</b> ErrorHandler: New NoMoreIteratorElementsException available. 
+<br>
+<br>UnimplementedException now includes class and method name of the unimplemented method. (<em>2008-08-04 - Adam Franco</em>)</li>
+	</ul>
+<br><h2>Version 1.4.6</h2>
 <h3>2008-08-01</h3>
 <p>This release fixes a number of issues that were affecting Segue 2.
 <br>

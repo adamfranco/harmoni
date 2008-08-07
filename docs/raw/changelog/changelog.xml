@@ -8,9 +8,11 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
-	<version number="1.4.7" date="The Future">
+	<version number="1.4.7" date="2008-08-07">
 		<releaseNotes>
-			
+			This release fixes an authorization issue as well as enhances security
+			by preventing Javascript from being written to the logs. See the change
+			log for details.
 		</releaseNotes>
 		<fix author='adam' date='2008-08-07' reporter='peter_wilkins'>
 			AuthZ2: A typo in the view authorization id was preventing cascading-up

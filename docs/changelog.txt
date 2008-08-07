@@ -2,6 +2,32 @@
 Harmoni Change Log
 
 
+v. 1.4.7 (2008-08-07)
+----------------------------------------------------
+This release fixes an authorization issue as well as enhances security by preventing
+Javascript from being written to the logs. See the change log for details.
+		
+		
+	* Bug Fix: 
+		AuthZ2: A typo in the view authorization id was preventing cascading-up
+		implicit view authorizations from ever being written.
+		(2008-08-07 - Adam Franco)
+		(reported by Peter Wilkins of MIT)
+		
+	* Bug Fix: #2040255 
+		Logging: Log messages are now filtered to prevent Javascript insertion.
+		(2008-08-05 - Adam Franco)
+		
+	* Change: 
+		ErrorHandler: New NoMoreIteratorElementsException available. 
+		
+		UnimplementedException now includes class and method name of the
+		unimplemented method.
+		(2008-08-04 - Adam Franco)
+	
+
+
+
 v. 1.4.6 (2008-08-01)
 ----------------------------------------------------
 This release fixes a number of issues that were affecting Segue 2.

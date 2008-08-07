@@ -1,5 +1,5 @@
 
-Harmoni v. 1.4.6 (2008-08-01)
+Harmoni v. 1.4.7 (2008-08-07)
 =================================
 
 What is Harmoni?
@@ -29,10 +29,8 @@ used independently of the other.
 
 Current Version Notes
 ---------------------
-This release fixes a number of issues that were affecting Segue 2.
-
-Most important is a fix to the image-processor to correctly support generation of
-thumbnails from multi-page PDF files.
+This release fixes an authorization issue as well as enhances security by preventing
+Javascript from being written to the logs. See the change log for details.
 
 
 Downloads
@@ -63,6 +61,13 @@ https://sourceforge.net/tracker/?group_id=82873&atid=567473
 | Prior Harmoni Release Notes
 | (See the Harmoni change log for more details)
 ===================================================================
+
+
+v. 1.4.7 (2008-08-07)
+----------------------------------------------------
+This release fixes an authorization issue as well as enhances security by preventing
+Javascript from being written to the logs. See the change log for details.
+
 
 
 v. 1.4.6 (2008-08-01)
