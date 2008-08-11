@@ -75,12 +75,13 @@ interface RequestHandler {
 	 *		module=moduleName&amp;action=actionName&amp;param1=value1&amp;param2=value2
 	 * 
 	 * @param string $inputUrl
+	 * @param optional string $base Defaults to MYURL
 	 * @return mixed string URL-encoded parameter list or FALSE if unmatched
 	 * @access public
 	 * @since 1/25/08
 	 * @static
 	 */
-	public static function getParameterListFromUrl ($inputUrl);
+	public static function getParameterListFromUrl ($inputUrl, $base = null);
 	
 }
 

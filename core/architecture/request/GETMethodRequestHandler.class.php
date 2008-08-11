@@ -100,13 +100,17 @@ class GETMethodRequestHandler
 	 *		module=moduleName&amp;action=actionName&amp;param1=value1&amp;param2=value2
 	 * 
 	 * @param string $inputUrl
+	 * @param optional string $base Defaults to MYURL
 	 * @return mixed string URL-encoded parameter list or FALSE if unmatched
 	 * @access public
 	 * @since 1/25/08
 	 * @static
 	 */
-	public static function getParameterListFromUrl ($inputUrl) {
-		$pattern = "/^".str_replace('/', '\/', $this->_base).'\?(.*)$/i';
+	public static function getParameterListFromUrl ($inputUrl, $base = null) {
+		if (is_null($base))
+			$base = MYURL;
+		
+		$pattern = "/^".str_replace('/', '\/', $base).'\?(.*)$/i';
 		$replacement = '\1';
 		if (!preg_match($pattern, $inputUrl))
 			return FALSE;
