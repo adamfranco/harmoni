@@ -17,6 +17,11 @@
 			allows the specification of a base-url to be used instead of the
 			MYURL constant.
 		</new>
+		<change author='adam' date='2008-08-11'>
+			Repository: HarmoniRepository's getAssetsByType() method now first loads
+			nodes by type to prevent lookups on all nodes. Cuts Segue 'All Visible'
+			portal page loading from 65 seconds to 10 seconds.
+		</change>
 	</version>
 	<version number="1.4.7" date="2008-08-07">
 		<releaseNotes>

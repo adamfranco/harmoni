@@ -522,18 +522,14 @@ class HarmoniRepository
 	 * @access public
 	 */
 	function getAssetsByType ( Type $assetType ) { 
-		ArgumentValidator::validate($assetType, ExtendsValidatorRule::getRule("Type"));
 		$assets = array();
-		$allAssets =$this->getAssets();
-		while ($allAssets->hasNext()) {
-			$asset =$allAssets->next();
-			if ($assetType->isEqual($asset->getAssetType()))
-				$assets[] =$asset;
+		$nodes = $this->_hierarchy->getNodesByType($assetType);
+		while ($nodes->hasNext()) {
+			$node = $nodes->next();
+			$assets[] = $this->getAsset($node->getId(), false);
 		}
 		
-		$obj = new HarmoniAssetIterator($assets);
-		
-		return $obj;
+		return new HarmoniAssetIterator($assets);
 	}
 
 	/**
