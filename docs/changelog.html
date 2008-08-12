@@ -23,7 +23,21 @@
 </head>
 <body>
 <h1>Harmoni Change Log</h1>
-<h2>Version 1.4.7</h2>
+<h2>Version 1.4.8</h2>
+<h3>The Future</h3>
+<p></p>
+<ul>
+		
+		<li>
+<b>New feature:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1820937&amp;group_id=82171&amp;atid=565237">
+        			#1820937</a> Request: RequestContext now has a new mkUrlWithBase() method that allows the specification of a base-url to be used instead of the MYURL constant. (<em>2008-08-07 - Adam Franco</em>)</li>
+		<li>
+<b>Change:</b> Repository: HarmoniRepository's getAssetsByType() method now first loads nodes by type to prevent lookups on all nodes. Cuts Segue 'All Visible' portal page loading from 65 seconds to 10 seconds. (<em>2008-08-11 - Adam Franco</em>)</li>
+		<li>
+<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=2048119&amp;group_id=82873&amp;atid=567473">
+        			#2048119</a> AuthZ2: Session-caching of authorizations now works again. (<em>2008-08-12 - Adam Franco</em>)<br> (<em>reported by Gabe Schine</em>)</li>
+	</ul>
+<br><h2>Version 1.4.7</h2>
 <h3>2008-08-07</h3>
 <p>This release fixes an authorization issue as well as enhances security by preventing Javascript from being written to the logs. See the change log for details.</p>
 <ul>

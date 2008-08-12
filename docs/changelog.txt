@@ -2,6 +2,30 @@
 Harmoni Change Log
 
 
+v. 1.4.8 (The Future)
+----------------------------------------------------
+
+		
+		
+	* New feature: #1820937 
+		Request: RequestContext now has a new mkUrlWithBase() method that allows the
+		specification of a base-url to be used instead of the MYURL constant.
+		(2008-08-07 - Adam Franco)
+		
+	* Change: 
+		Repository: HarmoniRepository's getAssetsByType() method now first loads
+		nodes by type to prevent lookups on all nodes. Cuts Segue 'All Visible'
+		portal page loading from 65 seconds to 10 seconds.
+		(2008-08-11 - Adam Franco)
+		
+	* Bug Fix: #2048119 
+		AuthZ2: Session-caching of authorizations now works again.
+		(2008-08-12 - Adam Franco)
+		(reported by Gabe Schine)
+	
+
+
+
 v. 1.4.7 (2008-08-07)
 ----------------------------------------------------
 This release fixes an authorization issue as well as enhances security by preventing

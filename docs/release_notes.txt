@@ -1,5 +1,5 @@
 
-Harmoni v. 1.4.7 (2008-08-07)
+Harmoni v. 1.4.8 (The Future)
 =================================
 
 What is Harmoni?
@@ -29,8 +29,7 @@ used independently of the other.
 
 Current Version Notes
 ---------------------
-This release fixes an authorization issue as well as enhances security by preventing
-Javascript from being written to the logs. See the change log for details.
+
 
 
 Downloads
@@ -61,6 +60,12 @@ https://sourceforge.net/tracker/?group_id=82873&atid=567473
 | Prior Harmoni Release Notes
 | (See the Harmoni change log for more details)
 ===================================================================
+
+
+v. 1.4.8 (The Future)
+----------------------------------------------------
+
+
 
 
 v. 1.4.7 (2008-08-07)
