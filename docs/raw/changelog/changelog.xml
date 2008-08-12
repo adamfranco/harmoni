@@ -25,6 +25,11 @@
 		<fix author='adam' date='2008-08-12' ref='2048119' reftype='bug' reporter='gabe'>
 			AuthZ2: Session-caching of authorizations now works again.
 		</fix>
+		<change author='adam' date='2008-08-12'>
+			AuthZ2: Authorization cache now expires after 10 minutes to prevent
+			users with very old sessions from retaining abilities due to cached 
+			authorizations.
+		</change>
 	</version>
 	<version number="1.4.7" date="2008-08-07">
 		<releaseNotes>
