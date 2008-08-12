@@ -22,6 +22,9 @@
 			nodes by type to prevent lookups on all nodes. Cuts Segue 'All Visible'
 			portal page loading from 65 seconds to 10 seconds.
 		</change>
+		<fix author='adam' date='2008-08-12' ref='2048119' reftype='bug'>
+			AuthZ2: Session-caching of authorizations now works again.
+		</fix>
 	</version>
 	<version number="1.4.7" date="2008-08-07">
 		<releaseNotes>

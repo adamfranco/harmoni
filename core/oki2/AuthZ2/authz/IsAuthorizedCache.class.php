@@ -357,11 +357,7 @@ class AuthZ2_IsAuthorizedCache {
 			if (!isset($this->_queue[$agentKey]))
 				$this->_queue[$agentKey] = array();
 			
-			if ((!isset($_SESSION['__isAuthorizedCache'][$agentKey][$idString])
-					|| !isset($_SESSION['__isAuthorizedCache']
-									[$agentKey]
-									[$idString]
-									['__IMPLICIT_CACHED']))
+			if (!isset($_SESSION['__isAuthorizedCache'][$agentKey][$idString])
 				&& !in_array($idString, $this->_queue[$agentKey])
 				&& !in_array($idString, $_SESSION['__isAuthorizedCacheUnknownIds']))
 			{
