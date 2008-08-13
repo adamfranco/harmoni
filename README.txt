@@ -1,5 +1,5 @@
 
-Harmoni v. 1.4.8 (The Future)
+Harmoni v. 1.5.0 (2008-08-13)
 =================================
 
 What is Harmoni?
@@ -29,7 +29,8 @@ used independently of the other.
 
 Current Version Notes
 ---------------------
-
+This release makes several improvements to the Authorization, Repository, and
+Request systems to support Segue 2. See the change log for details.
 
 
 Downloads
@@ -62,9 +63,10 @@ https://sourceforge.net/tracker/?group_id=82873&atid=567473
 ===================================================================
 
 
-v. 1.4.8 (The Future)
+v. 1.5.0 (2008-08-13)
 ----------------------------------------------------
-
+This release makes several improvements to the Authorization, Repository, and
+Request systems to support Segue 2. See the change log for details.
 
 
 

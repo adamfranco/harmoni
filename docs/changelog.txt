@@ -2,9 +2,10 @@
 Harmoni Change Log
 
 
-v. 1.4.8 (The Future)
+v. 1.5.0 (2008-08-13)
 ----------------------------------------------------
-
+This release makes several improvements to the Authorization, Repository, and
+Request systems to support Segue 2. See the change log for details.
 		
 		
 	* New feature: #1820937 
@@ -22,6 +23,12 @@ v. 1.4.8 (The Future)
 		AuthZ2: Session-caching of authorizations now works again.
 		(2008-08-12 - Adam Franco)
 		(reported by Gabe Schine)
+		
+	* Change: 
+		AuthZ2: Authorization cache now expires after 10 minutes to prevent users
+		with very old sessions from retaining abilities due to cached
+		authorizations. 
+		(2008-08-12 - Adam Franco)
 	
 
 

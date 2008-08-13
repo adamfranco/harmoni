@@ -23,9 +23,9 @@
 </head>
 <body>
 <h1>Harmoni Change Log</h1>
-<h2>Version 1.4.8</h2>
-<h3>The Future</h3>
-<p></p>
+<h2>Version 1.5.0</h2>
+<h3>2008-08-13</h3>
+<p>This release makes several improvements to the Authorization, Repository, and Request systems to support Segue 2. See the change log for details.</p>
 <ul>
 		
 		<li>
@@ -36,6 +36,8 @@
 		<li>
 <b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=2048119&amp;group_id=82873&amp;atid=567473">
         			#2048119</a> AuthZ2: Session-caching of authorizations now works again. (<em>2008-08-12 - Adam Franco</em>)<br> (<em>reported by Gabe Schine</em>)</li>
+		<li>
+<b>Change:</b> AuthZ2: Authorization cache now expires after 10 minutes to prevent users with very old sessions from retaining abilities due to cached authorizations. (<em>2008-08-12 - Adam Franco</em>)</li>
 	</ul>
 <br><h2>Version 1.4.7</h2>
 <h3>2008-08-07</h3>
