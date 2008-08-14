@@ -13,7 +13,7 @@
 			
 		</releaseNotes>
 		<new author='adam' date='2008-08-14' ref='2040513' reftype='segue_security'>
-			Security: Actions that involve data modification can now be configured
+			Security/Actions: Actions that involve data modification can now be configured
 			to require per-user	tokens in the request to prevent Cross-Site Request 
 			Forgeries.
 			
@@ -24,6 +24,9 @@
 			will include the per-user token and that token will be checked before
 			the action is allowed to execute.
 		</new>
+		<fix author='adam' date='2008-08-14' ref='2040501' reftype='segue_security'>
+			Security: Harmoni now supports setting the session.cookie_secure and session.cookie_httponly parameters in the harmoni config.
+		</fix>
 	</version>
 	<version number="1.5.0" date="2008-08-13">
 		<releaseNotes>

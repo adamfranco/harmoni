@@ -467,7 +467,7 @@ class Harmoni {
 		if ($path[strlen($path) - 1] != '/') 
 			$path .= '/';
 		
-		session_set_cookie_params(0, $path, $this->config->get("sessionCookieDomain"));
+		session_set_cookie_params(0, $path, $this->config->get("sessionCookieDomain"), $this->config->get("sessionCookiesSecure"), $this->config->get("sessionCookiesHttpOnly"));
 		session_start(); // yay!
 		
 		$this->ActionHandler->postSessionStart();

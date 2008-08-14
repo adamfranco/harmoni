@@ -52,6 +52,11 @@ class HarmoniConfig extends DataContainer {
 		$this -> set("sessionCookiePath","/");
 		$this -> add("sessionCookieDomain", StringValidatorRule::getRule(), "HarmoniConfig - You must set the 'sessionDomain' to the DNS domain you would like your session cookie sent to! (eg, '.mydomain.com')", "Harmoni");
 		$this -> set("sessionCookieDomain", ""); // default
+		
+		$this -> add("sessionCookiesSecure", BooleanValidatorRule::getRule());
+		$this -> set("sessionCookiesSecure",false);
+		$this -> add("sessionCookiesHttpOnly", BooleanValidatorRule::getRule());
+		$this -> set("sessionCookiesHttpOnly",true);
 	} 
 } 
 
