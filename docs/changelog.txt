@@ -2,6 +2,43 @@
 Harmoni Change Log
 
 
+v. 1.6.0 (2008-08-14)
+----------------------------------------------------
+This release fixes a number of security issues.
+
+Security issues fixed: 
+
+- Cross-Site Request Forgeries (CSRF) are now eliminated from data-modification
+actions. Read about CSRF at: http://shiflett.org/articles/cross-site-request-forgeries
+
+- Harmoni can now be configured to use secure/http-only cookies. 
+
+- Admin actions are now restricted to prevent listing of users and ids in the
+system. 
+		
+		
+	* New feature: #2040513 
+		Security/Actions: Actions that involve data modification can now be
+		configured to require per-usertokens in the request to prevent Cross-Site
+		Request Forgeries.
+		
+		Actions can be added to the list by using $harmoni->ActionHandler->addRequestTokenRequiredActions().
+		
+		Once a module/action pair is added to the list, all URLs written to it
+		will include the per-user token and that token will be checked before the
+		action is allowed to execute.
+		(2008-08-14 - Adam Franco)
+		(reported by Josh Abraham of Rapid7, LLC.)
+		
+	* Bug Fix: #2040501 
+		Security: Harmoni now supports setting the session.cookie_secure and
+		session.cookie_httponly parameters in the harmoni config.
+		(2008-08-14 - Adam Franco)
+		(reported by Josh Abraham of Rapid7, LLC.)
+	
+
+
+
 v. 1.5.0 (2008-08-13)
 ----------------------------------------------------
 This release makes several improvements to the Authorization, Repository, and
@@ -48,6 +85,7 @@ Javascript from being written to the logs. See the change log for details.
 	* Bug Fix: #2040255 
 		Logging: Log messages are now filtered to prevent Javascript insertion.
 		(2008-08-05 - Adam Franco)
+		(reported by Josh Abraham of Rapid7, LLC.)
 		
 	* Change: 
 		ErrorHandler: New NoMoreIteratorElementsException available. 

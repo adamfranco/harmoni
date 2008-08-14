@@ -8,11 +8,21 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
-	<version number="1.6.0" date="The Future">
+	<version number="1.6.0" date="2008-08-14">
 		<releaseNotes>
+			This release fixes a number of security issues.
 			
+			Security issues fixed: 
+						
+			- Cross-Site Request Forgeries (CSRF) are now eliminated from data-modification
+			actions. Read about CSRF at: http://shiflett.org/articles/cross-site-request-forgeries
+			
+			- Harmoni can now be configured to use secure/http-only cookies. 
+			
+			- Admin actions are now restricted to prevent listing of users and
+			ids in the system.
 		</releaseNotes>
-		<new author='adam' date='2008-08-14' ref='2040513' reftype='segue_security'>
+		<new author='adam' date='2008-08-14' ref='2040513' reftype='segue_security' reporter='josh_abraham'>
 			Security/Actions: Actions that involve data modification can now be configured
 			to require per-user	tokens in the request to prevent Cross-Site Request 
 			Forgeries.
@@ -24,7 +34,7 @@
 			will include the per-user token and that token will be checked before
 			the action is allowed to execute.
 		</new>
-		<fix author='adam' date='2008-08-14' ref='2040501' reftype='segue_security'>
+		<fix author='adam' date='2008-08-14' ref='2040501' reftype='segue_security' reporter='josh_abraham'>
 			Security: Harmoni now supports setting the session.cookie_secure and session.cookie_httponly parameters in the harmoni config.
 		</fix>
 	</version>
@@ -62,7 +72,7 @@
 			AuthZ2: A typo in the view authorization id was preventing cascading-up
 			implicit view authorizations from ever being written.
 		</fix>
-		<fix author='adam' date='2008-08-05' ref='2040255' reftype='segue_security'>
+		<fix author='adam' date='2008-08-05' ref='2040255' reftype='segue_security' reporter='josh_abraham'>
 			Logging: Log messages are now filtered to prevent Javascript insertion.
 		</fix>
 		<change author='adam' date='2008-08-04'>
@@ -2509,6 +2519,10 @@
 		<reporter short="tom_coppeto">
 			<name>Tom Coppeto</name>
 			<institution>OnTapSolutions/O.K.I.</institution>
+		</reporter>
+		<reporter short="josh_abraham">
+			<name>Josh Abraham</name>
+			<institution>Rapid7, LLC.</institution>
 		</reporter>
 	</reporters>
 	<reftypes>

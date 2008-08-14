@@ -23,7 +23,31 @@
 </head>
 <body>
 <h1>Harmoni Change Log</h1>
-<h2>Version 1.5.0</h2>
+<h2>Version 1.6.0</h2>
+<h3>2008-08-14</h3>
+<p>This release fixes a number of security issues.
+<br>
+<br>Security issues fixed: 
+<br>
+<br>- Cross-Site Request Forgeries (CSRF) are now eliminated from data-modification actions. Read about CSRF at: http://shiflett.org/articles/cross-site-request-forgeries
+<br>
+<br>- Harmoni can now be configured to use secure/http-only cookies. 
+<br>
+<br>- Admin actions are now restricted to prevent listing of users and ids in the system.</p>
+<ul>
+		
+		<li>
+<b>New feature:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=2040513&amp;group_id=82171&amp;atid=1098812">
+        			#2040513</a> Security/Actions: Actions that involve data modification can now be configured to require per-usertokens in the request to prevent Cross-Site Request Forgeries.
+<br>
+<br>Actions can be added to the list by using $harmoni-&gt;ActionHandler-&gt;addRequestTokenRequiredActions().
+<br>
+<br>Once a module/action pair is added to the list, all URLs written to it will include the per-user token and that token will be checked before the action is allowed to execute. (<em>2008-08-14 - Adam Franco</em>)<br> (<em>reported by Josh Abraham of Rapid7, LLC.</em>)</li>
+		<li>
+<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=2040501&amp;group_id=82171&amp;atid=1098812">
+        			#2040501</a> Security: Harmoni now supports setting the session.cookie_secure and session.cookie_httponly parameters in the harmoni config. (<em>2008-08-14 - Adam Franco</em>)<br> (<em>reported by Josh Abraham of Rapid7, LLC.</em>)</li>
+	</ul>
+<br><h2>Version 1.5.0</h2>
 <h3>2008-08-13</h3>
 <p>This release makes several improvements to the Authorization, Repository, and Request systems to support Segue 2. See the change log for details.</p>
 <ul>
@@ -48,7 +72,7 @@
 <b>Bug Fix:</b> AuthZ2: A typo in the view authorization id was preventing cascading-up implicit view authorizations from ever being written. (<em>2008-08-07 - Adam Franco</em>)<br> (<em>reported by Peter Wilkins of MIT</em>)</li>
 		<li>
 <b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=2040255&amp;group_id=82171&amp;atid=1098812">
-        			#2040255</a> Logging: Log messages are now filtered to prevent Javascript insertion. (<em>2008-08-05 - Adam Franco</em>)</li>
+        			#2040255</a> Logging: Log messages are now filtered to prevent Javascript insertion. (<em>2008-08-05 - Adam Franco</em>)<br> (<em>reported by Josh Abraham of Rapid7, LLC.</em>)</li>
 		<li>
 <b>Change:</b> ErrorHandler: New NoMoreIteratorElementsException available. 
 <br>
