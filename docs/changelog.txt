@@ -2,6 +2,21 @@
 Harmoni Change Log
 
 
+v. 1.6.1 (2008-08-14)
+----------------------------------------------------
+Fixed a thumbnail generation bug.
+		
+		
+	* Bug Fix: 
+		ImageProcessor: Now uses the ImageMagick 'identify' command to determine if
+		an image has one or more frames (such as a multi-page PDF). Only
+		multi-framed images will have the first-frame identifier '[0]' used when
+		generating thumbnails.
+		(2008-08-14 - Adam Franco)
+	
+
+
+
 v. 1.6.0 (2008-08-14)
 ----------------------------------------------------
 This release fixes a number of security issues.

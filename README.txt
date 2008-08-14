@@ -1,5 +1,5 @@
 
-Harmoni v. 1.6.0 (2008-08-14)
+Harmoni v. 1.6.1 (2008-08-14)
 =================================
 
 What is Harmoni?
@@ -29,17 +29,7 @@ used independently of the other.
 
 Current Version Notes
 ---------------------
-This release fixes a number of security issues.
-
-Security issues fixed: 
-
-- Cross-Site Request Forgeries (CSRF) are now eliminated from data-modification
-actions. Read about CSRF at: http://shiflett.org/articles/cross-site-request-forgeries
-
-- Harmoni can now be configured to use secure/http-only cookies. 
-
-- Admin actions are now restricted to prevent listing of users and ids in the
-system. 
+Fixed a thumbnail generation bug.
 
 
 Downloads
@@ -70,6 +60,12 @@ https://sourceforge.net/tracker/?group_id=82873&atid=567473
 | Prior Harmoni Release Notes
 | (See the Harmoni change log for more details)
 ===================================================================
+
+
+v. 1.6.1 (2008-08-14)
+----------------------------------------------------
+Fixed a thumbnail generation bug.
+
 
 
 v. 1.6.0 (2008-08-14)
