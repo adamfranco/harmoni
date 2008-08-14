@@ -469,6 +469,8 @@ class Harmoni {
 		
 		session_set_cookie_params(0, $path, $this->config->get("sessionCookieDomain"));
 		session_start(); // yay!
+		
+		$this->ActionHandler->postSessionStart();
 	}
 
 }

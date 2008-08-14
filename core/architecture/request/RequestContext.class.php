@@ -251,17 +251,16 @@ END;
 	 * @access public
 	 */
 	function mkURL($module = null, $action = null, $variables = null ) {
+		$harmoni = Harmoni::instance();
 		
 		// create a new URLWriter from the RequestHandler
 		$this->_checkForHandler();
 		$url =$this->_requestHandler->createURLWriter();
 		
-		
 		// Set the Module and Action
 		if ($module != null && $action != null) {
 			$url->setModuleAction($module, $action);
 		} else {
-			$harmoni = Harmoni::instance();
 			list($module, $action) = explode(".",$harmoni->getCurrentAction());
 			if (!$module) 
 				list($module, $action) = explode(".",$this->getRequestedModuleAction());
@@ -275,6 +274,14 @@ END;
 		// Addition $variables passed
 		if (is_array($variables)) {
 			$url->setValues($variables);
+		}
+		
+		// If the requested action requires a user request token to prevent
+		// cross-site request forgeries, add the token.
+		if ($harmoni->ActionHandler->requiresRequestToken($module, $action)) {
+			$this->startNamespace('request');
+			$url->setValue('token', $harmoni->ActionHandler->getRequestToken());
+			$this->endNamespace();
 		}
 		
 		return $url;

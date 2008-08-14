@@ -8,6 +8,23 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
+	<version number="1.6.0" date="The Future">
+		<releaseNotes>
+			
+		</releaseNotes>
+		<new author='adam' date='2008-08-14' ref='2040513' reftype='segue_security'>
+			Security: Actions that involve data modification can now be configured
+			to require per-user	tokens in the request to prevent Cross-Site Request 
+			Forgeries.
+			
+			Actions can be added to the list by using 
+			$harmoni-&gt;ActionHandler-&gt;addRequestTokenRequiredActions().
+			
+			Once a module/action pair is added to the list, all URLs written to it
+			will include the per-user token and that token will be checked before
+			the action is allowed to execute.
+		</new>
+	</version>
 	<version number="1.5.0" date="2008-08-13">
 		<releaseNotes>
 			This release makes several improvements to the Authorization, Repository,
