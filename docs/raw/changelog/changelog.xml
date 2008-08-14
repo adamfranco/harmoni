@@ -8,6 +8,17 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
+	<version number="1.6.1" date="The Future">
+		<releaseNotes>
+			
+		</releaseNotes>
+		<fix author='adam' date='2008-08-14' >
+			ImageProcessor: Now uses the ImageMagick 'identify' command to determine
+			if an image has one or more frames (such as a multi-page PDF). Only
+			multi-framed images will have the first-frame identifier '[0]' used
+			when generating thumbnails.
+		</fix>
+	</version>
 	<version number="1.6.0" date="2008-08-14">
 		<releaseNotes>
 			This release fixes a number of security issues.
