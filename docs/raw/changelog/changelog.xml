@@ -8,6 +8,15 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
+	<version number="1.6.2" date="The Future">
+		<releaseNotes>
+			
+		</releaseNotes>
+		<fix author='adam' date='2008-08-22'>
+			Request: RequestContext->mkURLWithBase() now supports addition of
+			request-tokens.
+		</fix>
+	</version>
 	<version number="1.6.1" date="2008-08-14">
 		<releaseNotes>
 			Fixed a thumbnail generation bug.

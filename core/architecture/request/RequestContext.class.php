@@ -326,6 +326,15 @@ END;
 			$url->setValues($variables);
 		}
 		
+		// If the requested action requires a user request token to prevent
+		// cross-site request forgeries, add the token.
+		$harmoni = Harmoni::instance();
+		if ($harmoni->ActionHandler->requiresRequestToken($module, $action)) {
+			$this->startNamespace('request');
+			$url->setValue('token', $harmoni->ActionHandler->getRequestToken());
+			$this->endNamespace();
+		}
+		
 		return $url;
 	}
 	
