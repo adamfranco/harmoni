@@ -180,7 +180,8 @@ class PathInfoRequestHandler
 					
 			// Add the rest of the path as name => value pairs
 			for ($i = 2; $i < count ($pathInfoParts); $i = $i + 2) {
-				$params[] = $pathInfoParts[$i].'='.$pathInfoParts[$i+1];
+				if (isset($pathInfoParts[$i+1]))
+					$params[] = $pathInfoParts[$i].'='.$pathInfoParts[$i+1];
 			}
 			
 			// If there is also a get component to the request add that on.
