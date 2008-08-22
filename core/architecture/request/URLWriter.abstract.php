@@ -128,6 +128,32 @@ abstract class URLWriter
 	}
 	
 	/**
+	 * Move a value to the beginning of the values array if it is set.
+	 * 
+	 * @param string $key
+	 * @return void
+	 * @access public
+	 * @since 8/22/08
+	 */
+	public function moveValueToBeginning ($key) {
+		$key = RequestContext::name($key);
+		if (isset($this->_vars[$key])) {
+			$newVars = array();
+			
+			// Add it first.
+			$newVars[$key] = $this->_vars[$key];
+			
+			// Add the rest after it.
+			foreach ($this->_vars as $key2 => $val) {
+				if ($key2 != $key)
+					$newVars[$key2] = $val;
+			}
+			
+			$this->_vars = $newVars;
+		}
+	}
+	
+	/**
 	 * Calls {@link RequestContext::locationHeader} with this URL.
 	 *
 	 * @return void

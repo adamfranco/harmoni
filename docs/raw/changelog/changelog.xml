@@ -12,6 +12,10 @@
 		<releaseNotes>
 			
 		</releaseNotes>
+		<change author='adam' date='2008-08-22'>
+			Request: UrlWriters now support moveValueToBeginning() method to
+			re-order how parameters appear in the URLs.
+		</change>
 		<fix author='adam' date='2008-08-22'>
 			Request: RequestContext->mkURLWithBase() now supports addition of
 			request-tokens.
