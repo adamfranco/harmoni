@@ -262,7 +262,8 @@ class PathInfoURLWriter
 					$arrayVal = str_replace('%2F', '_slash_', $arrayVal);
 					$arrayVal = str_replace('%3F', '_quest_', $arrayVal);
 					
-					$pairs[] = $key . "/" . $arrayVal;
+					if (strlen($arrayVal))
+						$pairs[] = $key . "/" . $arrayVal;
 			} 
 			// normal single-string values
 			else {
@@ -270,7 +271,8 @@ class PathInfoURLWriter
 				$val = str_replace('%2F', '_slash_', $val);
 				$val = str_replace('%3F', '_quest_', $val);
 				
-				$pairs[] = $key . "/" . $val;
+				if (strlen($val))
+					$pairs[] = $key . "/" . $val;
 			}
 		}
 		
