@@ -1,5 +1,5 @@
 
-Harmoni v. 1.6.1 (2008-08-14)
+Harmoni v. 1.6.2 (2008-08-25)
 =================================
 
 What is Harmoni?
@@ -29,7 +29,8 @@ used independently of the other.
 
 Current Version Notes
 ---------------------
-Fixed a thumbnail generation bug.
+This release makes a few improvements to the Request system. See the change log for
+details. 
 
 
 Downloads
@@ -60,6 +61,13 @@ https://sourceforge.net/tracker/?group_id=82873&atid=567473
 | Prior Harmoni Release Notes
 | (See the Harmoni change log for more details)
 ===================================================================
+
+
+v. 1.6.2 (2008-08-25)
+----------------------------------------------------
+This release makes a few improvements to the Request system. See the change log for
+details. 
+
 
 
 v. 1.6.1 (2008-08-14)

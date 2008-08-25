@@ -23,7 +23,20 @@
 </head>
 <body>
 <h1>Harmoni Change Log</h1>
-<h2>Version 1.6.1</h2>
+<h2>Version 1.6.2</h2>
+<h3>2008-08-25</h3>
+<p>This release makes a few improvements to the Request system. See the change log for details.</p>
+<ul>
+		
+		<li>
+<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=2068136&amp;group_id=82171&amp;atid=565234">
+        			#2068136</a> Request: PathInfo URLs now do not include empty values as these will break the order of arguments on the receiver side since PHP converts double-slashes (//) to a single slash (/) in the PATH_INFO variable. (<em>2008-08-22 - Adam Franco</em>)</li>
+		<li>
+<b>Change:</b> Request: UrlWriters now support moveValueToBeginning() method to re-order how parameters appear in the URLs. (<em>2008-08-22 - Adam Franco</em>)</li>
+		<li>
+<b>Bug Fix:</b> Request: RequestContext-&gt;mkURLWithBase() now supports addition of request-tokens. (<em>2008-08-22 - Adam Franco</em>)</li>
+	</ul>
+<br><h2>Version 1.6.1</h2>
 <h3>2008-08-14</h3>
 <p>Fixed a thumbnail generation bug.</p>
 <ul>
