@@ -233,7 +233,7 @@ class VisitorSQLDatabaseAuthNMethod
 			
 			$properties = $this->getPropertiesForTokens($authNTokens);
 			$item = new AgentNodeEntryItem("Visitor Registration", 
-					"Visitor Registration entered: <br/>&nbsp;&nbsp;&nbsp;&nbsp;Email: ".$authNTokens->getIdentifier()." <br/>Still need to confirm email.");
+					"Visitor Registration entered: <br/>&nbsp;&nbsp;&nbsp;&nbsp;Email: ".htmlspecialchars($authNTokens->getIdentifier())." <br/>Still need to confirm email.");
 			
 			$log->appendLogWithTypes($item,	$formatType, $priorityType);
 		}
@@ -385,12 +385,12 @@ class VisitorSQLDatabaseAuthNMethod
 			$properties = $this->getPropertiesForTokens($authNTokens);
 			if ($confirmed) {
 				$item = new AgentNodeEntryItem("Visitor Registration Confirmed", 
-					"Visitor Registration Confirmed: <br/>&nbsp;&nbsp;&nbsp;&nbsp;Name: ".$properties->getProperty('name')." <br/>&nbsp;&nbsp;&nbsp;&nbsp;Email: ".$authNTokens->getIdentifier());
+					"Visitor Registration Confirmed: <br/>&nbsp;&nbsp;&nbsp;&nbsp;Name: ".htmlspecialchars($properties->getProperty('name'))." <br/>&nbsp;&nbsp;&nbsp;&nbsp;Email: ".htmlspecialchars($authNTokens->getIdentifier()));
 			} else {
 				$priorityType = new Type("logging", "edu.middlebury", "User_Error",
 							"Events that indicate errors in user supplied data.");
 				$item = new AgentNodeEntryItem("Visitor Registration Failed", 
-					"Visitor Registration email confirmation failed. Confirmation code/email mis-match: <br/>&nbsp;&nbsp;&nbsp;&nbsp;Name: ".$properties->getProperty('name')." <br/>&nbsp;&nbsp;&nbsp;&nbsp;Email: ".$authNTokens->getIdentifier());
+					"Visitor Registration email confirmation failed. Confirmation code/email mis-match: <br/>&nbsp;&nbsp;&nbsp;&nbsp;Name: ".htmlspecialchars($properties->getProperty('name'))." <br/>&nbsp;&nbsp;&nbsp;&nbsp;Email: ".htmlspecialchars($authNTokens->getIdentifier()));
 			}
 			
 			$log->appendLogWithTypes($item,	$formatType, $priorityType);

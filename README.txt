@@ -1,5 +1,5 @@
 
-Harmoni v. 1.4.6 (2008-08-01)
+Harmoni v. 1.6.2 (2008-08-25)
 =================================
 
 What is Harmoni?
@@ -29,10 +29,8 @@ used independently of the other.
 
 Current Version Notes
 ---------------------
-This release fixes a number of issues that were affecting Segue 2.
-
-Most important is a fix to the image-processor to correctly support generation of
-thumbnails from multi-page PDF files.
+This release makes a few improvements to the Request system. See the change log for
+details. 
 
 
 Downloads
@@ -63,6 +61,49 @@ https://sourceforge.net/tracker/?group_id=82873&atid=567473
 | Prior Harmoni Release Notes
 | (See the Harmoni change log for more details)
 ===================================================================
+
+
+v. 1.6.2 (2008-08-25)
+----------------------------------------------------
+This release makes a few improvements to the Request system. See the change log for
+details. 
+
+
+
+v. 1.6.1 (2008-08-14)
+----------------------------------------------------
+Fixed a thumbnail generation bug.
+
+
+
+v. 1.6.0 (2008-08-14)
+----------------------------------------------------
+This release fixes a number of security issues.
+
+Security issues fixed: 
+
+- Cross-Site Request Forgeries (CSRF) are now eliminated from data-modification
+actions. Read about CSRF at: http://shiflett.org/articles/cross-site-request-forgeries
+
+- Harmoni can now be configured to use secure/http-only cookies. 
+
+- Admin actions are now restricted to prevent listing of users and ids in the
+system. 
+
+
+
+v. 1.5.0 (2008-08-13)
+----------------------------------------------------
+This release makes several improvements to the Authorization, Repository, and
+Request systems to support Segue 2. See the change log for details.
+
+
+
+v. 1.4.7 (2008-08-07)
+----------------------------------------------------
+This release fixes an authorization issue as well as enhances security by preventing
+Javascript from being written to the logs. See the change log for details.
+
 
 
 v. 1.4.6 (2008-08-01)

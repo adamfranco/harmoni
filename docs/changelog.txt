@@ -2,6 +2,141 @@
 Harmoni Change Log
 
 
+v. 1.6.2 (2008-08-25)
+----------------------------------------------------
+This release makes a few improvements to the Request system. See the change log for
+details. 
+		
+		
+	* Bug Fix: #2068136 
+		Request: PathInfo URLs now do not include empty values as these will break
+		the order of arguments on the receiver side since PHP converts
+		double-slashes (//) to a single slash (/) in the PATH_INFO variable.
+		(2008-08-22 - Adam Franco)
+		
+	* Change: 
+		Request: UrlWriters now support moveValueToBeginning() method to re-order
+		how parameters appear in the URLs.
+		(2008-08-22 - Adam Franco)
+		
+	* Bug Fix: 
+		Request: RequestContext->mkURLWithBase() now supports addition of
+		request-tokens. 
+		(2008-08-22 - Adam Franco)
+	
+
+
+
+v. 1.6.1 (2008-08-14)
+----------------------------------------------------
+Fixed a thumbnail generation bug.
+		
+		
+	* Bug Fix: 
+		ImageProcessor: Now uses the ImageMagick 'identify' command to determine if
+		an image has one or more frames (such as a multi-page PDF). Only
+		multi-framed images will have the first-frame identifier '[0]' used when
+		generating thumbnails.
+		(2008-08-14 - Adam Franco)
+	
+
+
+
+v. 1.6.0 (2008-08-14)
+----------------------------------------------------
+This release fixes a number of security issues.
+
+Security issues fixed: 
+
+- Cross-Site Request Forgeries (CSRF) are now eliminated from data-modification
+actions. Read about CSRF at: http://shiflett.org/articles/cross-site-request-forgeries
+
+- Harmoni can now be configured to use secure/http-only cookies. 
+
+- Admin actions are now restricted to prevent listing of users and ids in the
+system. 
+		
+		
+	* New feature: #2040513 
+		Security/Actions: Actions that involve data modification can now be
+		configured to require per-usertokens in the request to prevent Cross-Site
+		Request Forgeries.
+		
+		Actions can be added to the list by using $harmoni->ActionHandler->addRequestTokenRequiredActions().
+		
+		Once a module/action pair is added to the list, all URLs written to it
+		will include the per-user token and that token will be checked before the
+		action is allowed to execute.
+		(2008-08-14 - Adam Franco)
+		(reported by Josh Abraham of Rapid7, LLC.)
+		
+	* Bug Fix: #2040501 
+		Security: Harmoni now supports setting the session.cookie_secure and
+		session.cookie_httponly parameters in the harmoni config.
+		(2008-08-14 - Adam Franco)
+		(reported by Josh Abraham of Rapid7, LLC.)
+	
+
+
+
+v. 1.5.0 (2008-08-13)
+----------------------------------------------------
+This release makes several improvements to the Authorization, Repository, and
+Request systems to support Segue 2. See the change log for details.
+		
+		
+	* New feature: #1820937 
+		Request: RequestContext now has a new mkUrlWithBase() method that allows the
+		specification of a base-url to be used instead of the MYURL constant.
+		(2008-08-07 - Adam Franco)
+		
+	* Change: 
+		Repository: HarmoniRepository's getAssetsByType() method now first loads
+		nodes by type to prevent lookups on all nodes. Cuts Segue 'All Visible'
+		portal page loading from 65 seconds to 10 seconds.
+		(2008-08-11 - Adam Franco)
+		
+	* Bug Fix: #2048119 
+		AuthZ2: Session-caching of authorizations now works again.
+		(2008-08-12 - Adam Franco)
+		(reported by Gabe Schine)
+		
+	* Change: 
+		AuthZ2: Authorization cache now expires after 10 minutes to prevent users
+		with very old sessions from retaining abilities due to cached
+		authorizations. 
+		(2008-08-12 - Adam Franco)
+	
+
+
+
+v. 1.4.7 (2008-08-07)
+----------------------------------------------------
+This release fixes an authorization issue as well as enhances security by preventing
+Javascript from being written to the logs. See the change log for details.
+		
+		
+	* Bug Fix: 
+		AuthZ2: A typo in the view authorization id was preventing cascading-up
+		implicit view authorizations from ever being written.
+		(2008-08-07 - Adam Franco)
+		(reported by Peter Wilkins of MIT)
+		
+	* Bug Fix: #2040255 
+		Logging: Log messages are now filtered to prevent Javascript insertion.
+		(2008-08-05 - Adam Franco)
+		(reported by Josh Abraham of Rapid7, LLC.)
+		
+	* Change: 
+		ErrorHandler: New NoMoreIteratorElementsException available. 
+		
+		UnimplementedException now includes class and method name of the
+		unimplemented method.
+		(2008-08-04 - Adam Franco)
+	
+
+
+
 v. 1.4.6 (2008-08-01)
 ----------------------------------------------------
 This release fixes a number of issues that were affecting Segue 2.
@@ -584,7 +719,7 @@ translation of language names from Wikipedia.org.
 		supports secondary three-letter codes such as 'cym', 'wel', and 'cy' for
 		'Welsh'. 
 		(2008-04-02 - Adam Franco)
-		(reported by José Alfonso Accino of University of Málaga)
+		(reported by Jos&#xE9; Alfonso Accino of University of M&#xE1;laga)
 		
 	* Change: 
 		Language: Country names are now nicely mixed-case rather than all upper.
@@ -599,14 +734,14 @@ translation of language names from Wikipedia.org.
 
 setlocale(LC_ALL, $this->_lang);
 		(2008-04-02 - Adam Franco)
-		(reported by José Alfonso Accino of University of Málaga)
+		(reported by Jos&#xE9; Alfonso Accino of University of M&#xE1;laga)
 		
 	* New feature: #1930291 
 		Language: New methods LanguageLocalizer::getCurrentLanguageCode() and
 		LanguageLocalizer::getCurrentCountryCode() to provide access to the simple
 		versions of the current codes.
 		(2008-04-02 - Adam Franco)
-		(reported by José Alfonso Accino of University of Málaga)
+		(reported by Jos&#xE9; Alfonso Accino of University of M&#xE1;laga)
 		
 	* Change: 
 		Language: Added new ISO 639-3 language list. Added language-name translation
@@ -725,7 +860,7 @@ This release fixes a few minor bugs.
 	* Change: 
 		AuthN: Removed legacy class HarmoniAuthenticationType.
 		(2008-02-26 - Adam Franco)
-		(reported by José Alfonso Accino of University of Málaga)
+		(reported by Jos&#xE9; Alfonso Accino of University of M&#xE1;laga)
 	
 
 
@@ -1240,7 +1375,7 @@ v. 0.12.2 (2007-09-20)
 		DBHandler: SQLUtils::runSQLdir() now explicitly sorts SQL files and runs
 		them in alphabetical order.
 		(2007-09-17 - Adam Franco)
-		(reported by José Alfonso Accino of University of Málaga)
+		(reported by Jos&#xE9; Alfonso Accino of University of M&#xE1;laga)
 		
 	* Bug Fix: 
 		Repository: Fixing PHP notices.

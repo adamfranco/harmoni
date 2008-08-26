@@ -257,10 +257,10 @@ class HarmoniAuthenticationManager
 									"Normal events.");
 					
 					if ($isValid) {
-						$item = new AgentNodeEntryItem("Authentication Sucess", "Authentication Success: <br/>&nbsp;&nbsp;&nbsp;&nbsp;".$authenticationType->getKeyword()." <br/>&nbsp;&nbsp;&nbsp;&nbsp;".$authNTokens->getIdentifier());
+						$item = new AgentNodeEntryItem("Authentication Sucess", "Authentication Success: <br/>&nbsp;&nbsp;&nbsp;&nbsp;".htmlspecialchars($authenticationType->getKeyword())." <br/>&nbsp;&nbsp;&nbsp;&nbsp;".htmlspecialchars($authNTokens->getIdentifier()));
 						$item->addAgentId($agentId);
 					} else {
-						$item = new AgentNodeEntryItem("Authentication Failure", "Authentication Failure: <br/>&nbsp;&nbsp;&nbsp;&nbsp;".$authenticationType->getKeyword()." <br/>&nbsp;&nbsp;&nbsp;&nbsp;".$authNTokens->getIdentifier());
+						$item = new AgentNodeEntryItem("Authentication Failure", "Authentication Failure: <br/>&nbsp;&nbsp;&nbsp;&nbsp;".htmlspecialchars($authenticationType->getKeyword())." <br/>&nbsp;&nbsp;&nbsp;&nbsp;".htmlspecialchars($authNTokens->getIdentifier()));
 					}
 					
 					$log->appendLogWithTypes($item,	$formatType, $priorityType);
@@ -691,8 +691,8 @@ class HarmoniAuthenticationManager
 						"Admin users: <br/>&nbsp;&nbsp;&nbsp;&nbsp;"
 						.implode(", ", $_SESSION['__ADMIN_NAMES_ACTING_AS_OTHER'])
 						."<br/>Successfully authenticated as: <br/>&nbsp;&nbsp;&nbsp;&nbsp;"
-						.$authenticationType->getKeyword()
-						." <br/>&nbsp;&nbsp;&nbsp;&nbsp;".$authNTokens->getIdentifier());
+						.htmlspecialchars($authenticationType->getKeyword())
+						." <br/>&nbsp;&nbsp;&nbsp;&nbsp;".htmlspecialchars($authNTokens->getIdentifier()));
 					$item->addAgentId($agentId);
 					$item->addUserIds();
 					

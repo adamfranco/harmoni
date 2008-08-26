@@ -251,10 +251,59 @@ END;
 	 * @access public
 	 */
 	function mkURL($module = null, $action = null, $variables = null ) {
+		$harmoni = Harmoni::instance();
 		
 		// create a new URLWriter from the RequestHandler
 		$this->_checkForHandler();
 		$url =$this->_requestHandler->createURLWriter();
+		
+		// Set the Module and Action
+		if ($module != null && $action != null) {
+			$url->setModuleAction($module, $action);
+		} else {
+			list($module, $action) = explode(".",$harmoni->getCurrentAction());
+			if (!$module) 
+				list($module, $action) = explode(".",$this->getRequestedModuleAction());
+
+			$url->setModuleAction($module, $action);
+		}
+		
+		// Add the current context data.
+		$url->batchSetValues($this->_contextData);
+		
+		// Addition $variables passed
+		if (is_array($variables)) {
+			$url->setValues($variables);
+		}
+		
+		// If the requested action requires a user request token to prevent
+		// cross-site request forgeries, add the token.
+		if ($harmoni->ActionHandler->requiresRequestToken($module, $action)) {
+			$this->startNamespace('request');
+			$url->setValue('token', $harmoni->ActionHandler->getRequestToken());
+			$this->endNamespace();
+		}
+		
+		return $url;
+	}
+	
+	/**
+	 * Returns a new {@link URLWriter} from the {@link RequestHandler}, assigning
+	 * the module/action passed or keeping the current module/action. The new url
+	 * will have the base specified rather than MYURL
+	 *
+	 * @param optional string $module
+	 * @param optional string $action
+	 * @param optional array $variables
+	 * @return ref object URLWriter
+	 * @access public
+	 */
+	function mkUrlWithBase($base, $module = null, $action = null, $variables = null ) {
+		ArgumentValidator::validate($base, NonzeroLengthStringValidatorRule::getRule());
+		
+		// create a new URLWriter from the RequestHandler
+		$this->_checkForHandler();
+		$url =$this->_requestHandler->createURLWriter($base);
 		
 		
 		// Set the Module and Action
@@ -275,6 +324,15 @@ END;
 		// Addition $variables passed
 		if (is_array($variables)) {
 			$url->setValues($variables);
+		}
+		
+		// If the requested action requires a user request token to prevent
+		// cross-site request forgeries, add the token.
+		$harmoni = Harmoni::instance();
+		if ($harmoni->ActionHandler->requiresRequestToken($module, $action)) {
+			$this->startNamespace('request');
+			$url->setValue('token', $harmoni->ActionHandler->getRequestToken());
+			$this->endNamespace();
 		}
 		
 		return $url;

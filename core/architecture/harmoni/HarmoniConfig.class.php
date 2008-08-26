@@ -56,6 +56,10 @@ class HarmoniConfig extends DataContainer {
 		// An array of module.action in which session ids are allowed to be passed in the
 		// url
 		$this -> add("sessionInUrlActions",  OptionalRule::getRule(ArrayValidatorRuleWithRule::getRule(StringValidatorRule::getRule())), $message, $type);
+		$this -> add("sessionCookiesSecure", BooleanValidatorRule::getRule());
+		$this -> set("sessionCookiesSecure",false);
+		$this -> add("sessionCookiesHttpOnly", BooleanValidatorRule::getRule());
+		$this -> set("sessionCookiesHttpOnly",true);
 	} 
 } 
 

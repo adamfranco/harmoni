@@ -120,6 +120,13 @@ class ActionHandler extends EventTrigger {
 	var $_executing = false;
 	
 	/**
+	 * @var array $_tokenRequiredActions;  
+	 * @access private
+	 * @since 8/14/08
+	 */
+	private $_tokenRequiredActions;
+	
+	/**
 	 * The constructor.
 	 * @param object $httpVars A {@link FieldSet} object of HTTP variables.
 	 * @param optional object $context A {@link Context} object.
@@ -133,6 +140,22 @@ class ActionHandler extends EventTrigger {
 		$this->_actionSources = array();
 		
 		$this->_modulesSettings["callCount"] = 0;
+		
+		
+		// Set our request token to use for CSFR checking
+		$this->_tokenRequiredActions = array();
+	}
+	
+	/**
+	 * Initialize any session variables.
+	 * 
+	 * @return void
+	 * @access public
+	 * @since 8/14/08
+	 */
+	public function postSessionStart () {
+		if (!isset($_SESSION['__Harmoni_Request_Token']) || !strlen($_SESSION['__Harmoni_Request_Token']))
+			$_SESSION['__Harmoni_Request_Token'] = md5(uniqid(rand(), TRUE));
 	}
 	
 	/**
@@ -197,6 +220,10 @@ class ActionHandler extends EventTrigger {
 								Are we in an infinite loop?");
 			return false;
 		}
+		
+		if ($this->requiresRequestToken($module, $action)
+				&& !$this->isRequestTokenValid())
+			throw new PermissionDeniedException("Required request token does not match. Cannot Execute this action.");
 	
 		// go through each of the ActionSources and see if they have an action to execute. if so, execute it and stop
 		// cycling through them (only the first action will be executed).
@@ -419,6 +446,86 @@ class ActionHandler extends EventTrigger {
 	 **/
 	function getExecutedActions() {
 		return $this->_actionsExecuted;
+	}
+	
+	/**
+	 * Set a list of actions that require request tokens to prevent Cross-Site Request Forgery
+	 * attacks. All actions that could potentially change data should require this.
+	 *
+	 * Actions in this list will not be able to be loaded directly.
+	 * 
+	 * @param array $actions An array of module.action strings. '*' wildcards are allowed.
+	 * @return void
+	 * @access public
+	 * @since 8/14/08
+	 */
+	public function addRequestTokenRequiredActions ($actions) {
+		ArgumentValidator::validate($actions, ArrayValidatorRuleWithRule::getRule(
+			DottedPairValidatorRule::getRule()));
+		$this->_tokenRequiredActions = array_merge($this->_tokenRequiredActions, $actions);
+	}
+	
+	/**
+	 * Answer an array of actions that require request tokens. Needed for javascript url writing.
+	 * 
+	 * @return array
+	 * @access public
+	 * @since 8/14/08
+	 */
+	public function getRequestTokenRequired () {
+		return $this->_tokenRequiredActions;
+	}
+	
+	/**
+	 * Check to see if the selected module and action require Cross-Site Request Forgery
+	 * checking. All actions that could potentially change data should require this.
+	 * This list of actions can be configured using $harmoni->ActionHandler->addRequestTokenRequiredActions();
+	 * 
+	 * @param string $module
+	 * @param string $action
+	 * @return boolean
+	 * @access public
+	 * @since 8/14/08
+	 */
+	public function requiresRequestToken ($module, $action) {
+		$harmoni = Harmoni::instance();
+		return $harmoni->_isActionInArray($module.'.'.$action, $this->_tokenRequiredActions);
+	}
+	
+	/**
+	 * Validate the request token against the one in the current Session to prevent
+	 * Cross-Site Request Forgery (giving the user a url to an action that will have
+	 * a bad effect). If the token is not set in the session, then we have a new session
+	 * and an invalid request.
+	 * 
+	 * @return boolean
+	 * @access protected
+	 * @since 8/14/08
+	 */
+	protected function isRequestTokenValid () {
+		if (!isset($_SESSION['__Harmoni_Request_Token']))
+			return false;
+		$harmoni = Harmoni::instance();
+		$harmoni->request->startNamespace('request');
+		$token = RequestContext::value('token');
+		$harmoni->request->endNamespace();
+		if ($_SESSION['__Harmoni_Request_Token'] == $token)
+			return true;
+		else
+			return false;
+	}
+	
+	/**
+	 * Answer the request token for the current user
+	 * 
+	 * @return string
+	 * @access public
+	 * @since 8/14/08
+	 */
+	public function getRequestToken () {
+		if (!isset($_SESSION['__Harmoni_Request_Token']) || !strlen($_SESSION['__Harmoni_Request_Token']))
+			throw new ConfigurationErrorException("The Request Token should have been set in the session already.");
+		return $_SESSION['__Harmoni_Request_Token'];
 	}
 }
 

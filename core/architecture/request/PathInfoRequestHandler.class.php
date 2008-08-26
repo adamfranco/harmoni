@@ -57,9 +57,11 @@ class PathInfoRequestHandler
 	 * @return ref object URLWriter
 	 * @access public
 	 */
-	function createURLWriter() {
-		$writer = new PathInfoURLWriter();
-		return $writer;
+	function createURLWriter($base = null) {
+		if (!is_null($base))
+			return new PathInfoURLWriter($base);
+		else
+			return new PathInfoURLWriter();
 	}
 	
 	/**
@@ -153,13 +155,17 @@ class PathInfoRequestHandler
 	 *		module=moduleName&amp;action=actionName&amp;param1=value1&amp;param2=value2
 	 * 
 	 * @param string $inputUrl
+	 * @param optional string $base Defaults to MYURL
 	 * @return mixed string URL-encoded parameter list or FALSE if unmatched
 	 * @access public
 	 * @since 1/25/08
 	 * @static
 	 */
-	public static function getParameterListFromUrl ($inputUrl) {
-		$pattern = "/^".str_replace('/', '\/', MYURL).'([^?]*)\??(.*)$/i';
+	public static function getParameterListFromUrl ($inputUrl, $base = null) {
+		if (is_null($base))
+			$base = MYURL;
+		
+		$pattern = "/^".str_replace('/', '\/', $base).'([^?]*)\??(.*)$/i';
 		if (!preg_match($pattern, $inputUrl, $matches))
 			return FALSE;
 		else {
@@ -174,7 +180,8 @@ class PathInfoRequestHandler
 					
 			// Add the rest of the path as name => value pairs
 			for ($i = 2; $i < count ($pathInfoParts); $i = $i + 2) {
-				$params[] = $pathInfoParts[$i].'='.$pathInfoParts[$i+1];
+				if (isset($pathInfoParts[$i+1]))
+					$params[] = $pathInfoParts[$i].'='.$pathInfoParts[$i+1];
 			}
 			
 			// If there is also a get component to the request add that on.
@@ -237,7 +244,7 @@ class PathInfoURLWriter
 			$this->setValues($args[0]);
 		}
 		
-		$url = MYURL;
+		$url = $this->_base;
 		$pairs = array();
 		$harmoni = Harmoni::instance();
 		if (!$harmoni->config->get("sessionUseOnlyCookies") && defined("SID") && SID) 
@@ -246,7 +253,7 @@ class PathInfoURLWriter
 		$pairs[] = $this->_action;
 		foreach ($this->_vars as $key=>$val) {
 			if (is_object($val)) {
-				throwError( new Error("Expecting string for key '$key', got '$val'.", "PathInfoRequestHandler", true));
+				throw new InvalidArgumentException("Expecting string for key '$key', got '$val' of class ".get_class($val).".");
 			}
 			
 			// For multi-select form elements
@@ -256,7 +263,8 @@ class PathInfoURLWriter
 					$arrayVal = str_replace('%2F', '_slash_', $arrayVal);
 					$arrayVal = str_replace('%3F', '_quest_', $arrayVal);
 					
-					$pairs[] = $key . "/" . $arrayVal;
+					if (strlen($arrayVal))
+						$pairs[] = $key . "/" . $arrayVal;
 			} 
 			// normal single-string values
 			else {
@@ -264,7 +272,8 @@ class PathInfoURLWriter
 				$val = str_replace('%2F', '_slash_', $val);
 				$val = str_replace('%3F', '_quest_', $val);
 				
-				$pairs[] = $key . "/" . $val;
+				if (strlen($val))
+					$pairs[] = $key . "/" . $val;
 			}
 		}
 		

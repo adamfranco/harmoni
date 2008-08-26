@@ -41,8 +41,8 @@ class AgentNodeEntryItem
 		ArgumentValidator::validate($description, StringValidatorRule::getRule());
 		ArgumentValidator::validate($nodeIds, ArrayValidatorRule::getRule());
 		
-		$this->_category = $category;
-		$this->_description = $description;
+		$this->_category = htmlspecialchars($category);
+		$this->_description = HtmlString::getSafeHtml($description);
 		$this->_nodeIds = $nodeIds;
 		$this->_agentIds = array();
 		$this->_backtrace = '';
@@ -101,9 +101,9 @@ class AgentNodeEntryItem
 		if (is_array($backtrace)) {
 			ob_start();
 			HarmoniErrorHandler::printDebugBacktrace($backtrace);
-			$this->_backtrace = ob_get_clean();
+			$this->_backtrace = HtmlString::getSafeHtml(ob_get_clean());
 		} else
-			$this->_backtrace = $backtrace;
+			$this->_backtrace = HtmlString::getSafeHtml($backtrace);
 	}
 	
 	/**
@@ -115,7 +115,7 @@ class AgentNodeEntryItem
 	 * @since 8/1/06
 	 */
 	function addTextToBactrace ($additionalText) {
-		$this->_additionalBactraceText .= $additionalText;
+		$this->_additionalBactraceText .= HtmlString::getSafeHtml($additionalText);
 	}
 	
 	/**

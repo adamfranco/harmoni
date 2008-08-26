@@ -21,7 +21,11 @@ abstract class URLWriter
 	var $_action;
 	var $_vars;
 	
-	function __construct() {
+	function __construct($base = null) {
+		if (is_null($base))
+			$this->_base = MYURL;
+		else
+			$this->_base = $base;
 		$this->_vars = array();
 		$this->_module = "";
 		$this->_action = "";
@@ -145,6 +149,32 @@ abstract class URLWriter
 			unset($this->_vars[$key]);
 		else
 			$this->_vars[$key] = $value;
+	}
+	
+	/**
+	 * Move a value to the beginning of the values array if it is set.
+	 * 
+	 * @param string $key
+	 * @return void
+	 * @access public
+	 * @since 8/22/08
+	 */
+	public function moveValueToBeginning ($key) {
+		$key = RequestContext::name($key);
+		if (isset($this->_vars[$key])) {
+			$newVars = array();
+			
+			// Add it first.
+			$newVars[$key] = $this->_vars[$key];
+			
+			// Add the rest after it.
+			foreach ($this->_vars as $key2 => $val) {
+				if ($key2 != $key)
+					$newVars[$key2] = $val;
+			}
+			
+			$this->_vars = $newVars;
+		}
 	}
 	
 	/**

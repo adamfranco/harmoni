@@ -23,7 +23,83 @@
 </head>
 <body>
 <h1>Harmoni Change Log</h1>
-<h2>Version 1.4.6</h2>
+<h2>Version 1.6.2</h2>
+<h3>2008-08-25</h3>
+<p>This release makes a few improvements to the Request system. See the change log for details.</p>
+<ul>
+		
+		<li>
+<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=2068136&amp;group_id=82171&amp;atid=565234">
+        			#2068136</a> Request: PathInfo URLs now do not include empty values as these will break the order of arguments on the receiver side since PHP converts double-slashes (//) to a single slash (/) in the PATH_INFO variable. (<em>2008-08-22 - Adam Franco</em>)</li>
+		<li>
+<b>Change:</b> Request: UrlWriters now support moveValueToBeginning() method to re-order how parameters appear in the URLs. (<em>2008-08-22 - Adam Franco</em>)</li>
+		<li>
+<b>Bug Fix:</b> Request: RequestContext-&gt;mkURLWithBase() now supports addition of request-tokens. (<em>2008-08-22 - Adam Franco</em>)</li>
+	</ul>
+<br><h2>Version 1.6.1</h2>
+<h3>2008-08-14</h3>
+<p>Fixed a thumbnail generation bug.</p>
+<ul>
+		
+		<li>
+<b>Bug Fix:</b> ImageProcessor: Now uses the ImageMagick 'identify' command to determine if an image has one or more frames (such as a multi-page PDF). Only multi-framed images will have the first-frame identifier '[0]' used when generating thumbnails. (<em>2008-08-14 - Adam Franco</em>)</li>
+	</ul>
+<br><h2>Version 1.6.0</h2>
+<h3>2008-08-14</h3>
+<p>This release fixes a number of security issues.
+<br>
+<br>Security issues fixed: 
+<br>
+<br>- Cross-Site Request Forgeries (CSRF) are now eliminated from data-modification actions. Read about CSRF at: http://shiflett.org/articles/cross-site-request-forgeries
+<br>
+<br>- Harmoni can now be configured to use secure/http-only cookies. 
+<br>
+<br>- Admin actions are now restricted to prevent listing of users and ids in the system.</p>
+<ul>
+		
+		<li>
+<b>New feature:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=2040513&amp;group_id=82171&amp;atid=1098812">
+        			#2040513</a> Security/Actions: Actions that involve data modification can now be configured to require per-usertokens in the request to prevent Cross-Site Request Forgeries.
+<br>
+<br>Actions can be added to the list by using $harmoni-&gt;ActionHandler-&gt;addRequestTokenRequiredActions().
+<br>
+<br>Once a module/action pair is added to the list, all URLs written to it will include the per-user token and that token will be checked before the action is allowed to execute. (<em>2008-08-14 - Adam Franco</em>)<br> (<em>reported by Josh Abraham of Rapid7, LLC.</em>)</li>
+		<li>
+<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=2040501&amp;group_id=82171&amp;atid=1098812">
+        			#2040501</a> Security: Harmoni now supports setting the session.cookie_secure and session.cookie_httponly parameters in the harmoni config. (<em>2008-08-14 - Adam Franco</em>)<br> (<em>reported by Josh Abraham of Rapid7, LLC.</em>)</li>
+	</ul>
+<br><h2>Version 1.5.0</h2>
+<h3>2008-08-13</h3>
+<p>This release makes several improvements to the Authorization, Repository, and Request systems to support Segue 2. See the change log for details.</p>
+<ul>
+		
+		<li>
+<b>New feature:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1820937&amp;group_id=82171&amp;atid=565237">
+        			#1820937</a> Request: RequestContext now has a new mkUrlWithBase() method that allows the specification of a base-url to be used instead of the MYURL constant. (<em>2008-08-07 - Adam Franco</em>)</li>
+		<li>
+<b>Change:</b> Repository: HarmoniRepository's getAssetsByType() method now first loads nodes by type to prevent lookups on all nodes. Cuts Segue 'All Visible' portal page loading from 65 seconds to 10 seconds. (<em>2008-08-11 - Adam Franco</em>)</li>
+		<li>
+<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=2048119&amp;group_id=82873&amp;atid=567473">
+        			#2048119</a> AuthZ2: Session-caching of authorizations now works again. (<em>2008-08-12 - Adam Franco</em>)<br> (<em>reported by Gabe Schine</em>)</li>
+		<li>
+<b>Change:</b> AuthZ2: Authorization cache now expires after 10 minutes to prevent users with very old sessions from retaining abilities due to cached authorizations. (<em>2008-08-12 - Adam Franco</em>)</li>
+	</ul>
+<br><h2>Version 1.4.7</h2>
+<h3>2008-08-07</h3>
+<p>This release fixes an authorization issue as well as enhances security by preventing Javascript from being written to the logs. See the change log for details.</p>
+<ul>
+		
+		<li>
+<b>Bug Fix:</b> AuthZ2: A typo in the view authorization id was preventing cascading-up implicit view authorizations from ever being written. (<em>2008-08-07 - Adam Franco</em>)<br> (<em>reported by Peter Wilkins of MIT</em>)</li>
+		<li>
+<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=2040255&amp;group_id=82171&amp;atid=1098812">
+        			#2040255</a> Logging: Log messages are now filtered to prevent Javascript insertion. (<em>2008-08-05 - Adam Franco</em>)<br> (<em>reported by Josh Abraham of Rapid7, LLC.</em>)</li>
+		<li>
+<b>Change:</b> ErrorHandler: New NoMoreIteratorElementsException available. 
+<br>
+<br>UnimplementedException now includes class and method name of the unimplemented method. (<em>2008-08-04 - Adam Franco</em>)</li>
+	</ul>
+<br><h2>Version 1.4.6</h2>
 <h3>2008-08-01</h3>
 <p>This release fixes a number of issues that were affecting Segue 2.
 <br>

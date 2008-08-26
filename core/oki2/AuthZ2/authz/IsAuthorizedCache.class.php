@@ -186,6 +186,7 @@ class AuthZ2_IsAuthorizedCache {
 	 * @since 4/22/08
 	 */
 	private function initialize (AuthorizationManager $manager) {
+		
 		// Initialize our paremeters
 		$this->_queue = array();
 		$this->_agentIdStrings = array();
@@ -197,10 +198,21 @@ class AuthZ2_IsAuthorizedCache {
 		$this->_authorizationManagerObjectCache = $manager->_cache;
 		
 		
-		
 		// [Re]set up our cache if it doesn't exist or if we have a new user.
 		if(!isset($_SESSION['__isAuthorizedCache']))
 			$_SESSION['__isAuthorizedCache'] = array();
+		
+		// If we have been operating for more than the configured cache expiry time,
+		// reset our cache so that authorization revokation can take effect.
+		if (!isset($_SESSION['__isAuthorizedCacheInitTime']))
+			$_SESSION['__isAuthorizedCacheInitTime'] = DateAndTime::now();
+		
+		if (DateAndTime::now()->isGreaterThan(
+				$_SESSION['__isAuthorizedCacheInitTime']->plus(Duration::withMinutes(10))))
+		{
+			$_SESSION['__isAuthorizedCache'] = array();
+			$_SESSION['__isAuthorizedCacheInitTime'] = DateAndTime::now();
+		}
 		
 		if(!isset($_SESSION['__isAuthorizedCacheUnknownIds']))
 			$_SESSION['__isAuthorizedCacheUnknownIds'] = array();
@@ -357,11 +369,7 @@ class AuthZ2_IsAuthorizedCache {
 			if (!isset($this->_queue[$agentKey]))
 				$this->_queue[$agentKey] = array();
 			
-			if ((!isset($_SESSION['__isAuthorizedCache'][$agentKey][$idString])
-					|| !isset($_SESSION['__isAuthorizedCache']
-									[$agentKey]
-									[$idString]
-									['__IMPLICIT_CACHED']))
+			if (!isset($_SESSION['__isAuthorizedCache'][$agentKey][$idString])
 				&& !in_array($idString, $this->_queue[$agentKey])
 				&& !in_array($idString, $_SESSION['__isAuthorizedCacheUnknownIds']))
 			{

@@ -467,10 +467,12 @@ class Harmoni {
 		if ($path[strlen($path) - 1] != '/') 
 			$path .= '/';
 		
-		session_set_cookie_params(0, $path, $this->config->get("sessionCookieDomain"));
+		session_set_cookie_params(0, $path, $this->config->get("sessionCookieDomain"), $this->config->get("sessionCookiesSecure"), $this->config->get("sessionCookiesHttpOnly"));
 		
 		// If we have a configuration for Actions which allow the session id
 		// to be passed in the URL, then check for those actions.
+		// If we are at one of those actions we will take our session id from the
+		// url and not set a session cookie to prevent fixation.
 		if ($this->config->get("sessionInUrlActions") 
 			&& is_array($this->config->get("sessionInUrlActions"))
 			&& count ($this->config->get("sessionInUrlActions")))
@@ -502,7 +504,8 @@ class Harmoni {
 		if (isset($usingUrlSid)) {
 			header('Set-Cookie: dummy=true;', true);
 		}
-			
+		
+		$this->ActionHandler->postSessionStart();
 	}
 
 }

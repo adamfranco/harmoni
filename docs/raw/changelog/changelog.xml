@@ -8,6 +8,110 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
+	<version number="1.6.2" date="2008-08-25">
+		<releaseNotes>
+			This release makes a few improvements to the Request system. See the
+			change log for details.
+		</releaseNotes>
+		<fix author='adam' date='2008-08-22' ref='2068136' reftype='segue_bug'>
+			Request: PathInfo URLs now do not include empty values as these will 
+			break the order of arguments on the receiver side since PHP converts
+			double-slashes (//) to a single slash (/) in the PATH_INFO variable.
+		</fix>
+		<change author='adam' date='2008-08-22'>
+			Request: UrlWriters now support moveValueToBeginning() method to
+			re-order how parameters appear in the URLs.
+		</change>
+		<fix author='adam' date='2008-08-22'>
+			Request: RequestContext->mkURLWithBase() now supports addition of
+			request-tokens.
+		</fix>
+	</version>
+	<version number="1.6.1" date="2008-08-14">
+		<releaseNotes>
+			Fixed a thumbnail generation bug.
+		</releaseNotes>
+		<fix author='adam' date='2008-08-14' >
+			ImageProcessor: Now uses the ImageMagick 'identify' command to determine
+			if an image has one or more frames (such as a multi-page PDF). Only
+			multi-framed images will have the first-frame identifier '[0]' used
+			when generating thumbnails.
+		</fix>
+	</version>
+	<version number="1.6.0" date="2008-08-14">
+		<releaseNotes>
+			This release fixes a number of security issues.
+			
+			Security issues fixed: 
+						
+			- Cross-Site Request Forgeries (CSRF) are now eliminated from data-modification
+			actions. Read about CSRF at: http://shiflett.org/articles/cross-site-request-forgeries
+			
+			- Harmoni can now be configured to use secure/http-only cookies. 
+			
+			- Admin actions are now restricted to prevent listing of users and
+			ids in the system.
+		</releaseNotes>
+		<new author='adam' date='2008-08-14' ref='2040513' reftype='segue_security' reporter='josh_abraham'>
+			Security/Actions: Actions that involve data modification can now be configured
+			to require per-user	tokens in the request to prevent Cross-Site Request 
+			Forgeries.
+			
+			Actions can be added to the list by using 
+			$harmoni-&gt;ActionHandler-&gt;addRequestTokenRequiredActions().
+			
+			Once a module/action pair is added to the list, all URLs written to it
+			will include the per-user token and that token will be checked before
+			the action is allowed to execute.
+		</new>
+		<fix author='adam' date='2008-08-14' ref='2040501' reftype='segue_security' reporter='josh_abraham'>
+			Security: Harmoni now supports setting the session.cookie_secure and session.cookie_httponly parameters in the harmoni config.
+		</fix>
+	</version>
+	<version number="1.5.0" date="2008-08-13">
+		<releaseNotes>
+			This release makes several improvements to the Authorization, Repository,
+			and Request systems to support Segue 2. See the change log for details.
+		</releaseNotes>
+		<new author='adam' date='2008-08-07' ref='1820937' reftype='segue_fr'>
+			Request: RequestContext now has a new mkUrlWithBase() method that 
+			allows the specification of a base-url to be used instead of the
+			MYURL constant.
+		</new>
+		<change author='adam' date='2008-08-11'>
+			Repository: HarmoniRepository's getAssetsByType() method now first loads
+			nodes by type to prevent lookups on all nodes. Cuts Segue 'All Visible'
+			portal page loading from 65 seconds to 10 seconds.
+		</change>
+		<fix author='adam' date='2008-08-12' ref='2048119' reftype='bug' reporter='gabe'>
+			AuthZ2: Session-caching of authorizations now works again.
+		</fix>
+		<change author='adam' date='2008-08-12'>
+			AuthZ2: Authorization cache now expires after 10 minutes to prevent
+			users with very old sessions from retaining abilities due to cached 
+			authorizations.
+		</change>
+	</version>
+	<version number="1.4.7" date="2008-08-07">
+		<releaseNotes>
+			This release fixes an authorization issue as well as enhances security
+			by preventing Javascript from being written to the logs. See the change
+			log for details.
+		</releaseNotes>
+		<fix author='adam' date='2008-08-07' reporter='peter_wilkins'>
+			AuthZ2: A typo in the view authorization id was preventing cascading-up
+			implicit view authorizations from ever being written.
+		</fix>
+		<fix author='adam' date='2008-08-05' ref='2040255' reftype='segue_security' reporter='josh_abraham'>
+			Logging: Log messages are now filtered to prevent Javascript insertion.
+		</fix>
+		<change author='adam' date='2008-08-04'>
+			ErrorHandler: New NoMoreIteratorElementsException available. 
+			
+			UnimplementedException now includes class and method name of the unimplemented
+			method.
+		</change>
+	</version>
 	<version number="1.4.6" date="2008-08-01">
 		<releaseNotes>
 			This release fixes a number of issues that were affecting Segue 2.
@@ -2414,6 +2518,10 @@
 		<name short="john">John Lee</name>
 	</authors>
 	<reporters>
+		<reporter short="gabe">
+			<name>Gabe Schine</name>
+			<!-- <institution></institution> -->
+		</reporter>
 		<reporter short="chris_newton">
 			<name>Chris Newton</name>
 			<!-- <institution></institution> -->
@@ -2434,9 +2542,17 @@
 			<name>Jeff Merriman</name>
 			<institution>MIT</institution>
 		</reporter>
+		<reporter short="peter_wilkins">
+			<name>Peter Wilkins</name>
+			<institution>MIT</institution>
+		</reporter>
 		<reporter short="tom_coppeto">
 			<name>Tom Coppeto</name>
 			<institution>OnTapSolutions/O.K.I.</institution>
+		</reporter>
+		<reporter short="josh_abraham">
+			<name>Josh Abraham</name>
+			<institution>Rapid7, LLC.</institution>
 		</reporter>
 	</reporters>
 	<reftypes>
@@ -2451,5 +2567,6 @@
 		<reftype name="segue_bug" group="82171" tracker='565234'/>
 		<reftype name="segue_fr" group="82171" tracker='565237'/>
 		<reftype name="segue_patch" group="82171" tracker='565236'/>
+		<reftype name="segue_security" group="82171" tracker='1098812'/>
 	</reftypes>
 </changelog>

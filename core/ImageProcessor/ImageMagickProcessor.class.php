@@ -330,20 +330,28 @@ class ImageMagickProcessor {
 			if ($size)
 				$convertString .= "-size ".$size."x".$size." ";
 			
-			// If we have elected to perserve multiple frames and the output format
-			// supports that, then just specify the source file as the input
-			if ($preserveAllFrames && $this->formatSupportsMultipleFrames($outputExtension)) {
-				// Set a not-too fast delay if going from anything else to a gif.
-				if (strtolower($inputExtension) != 'gif' && strtolower($ouputExtension) == 'gif')
-					$convertString .= ' -delay 180';
-				
-				$convertString .= $sourcePath." ";
+			try {
+				$numFrames = $this->getNumFrames($sourcePath);
+			} catch (OperationFailedException $e) {
+				$numFrames = 1;
 			}
-			// Specify only the first frame for outputing. This should be no problem
-			// for single frame images such as JPG and will force only one frame for
-			// multi-frame formats like PDF, animated gif, TIFF, etc.
-			else {
-				$convertString .= '"'.$sourcePath.'[0]" ';
+			if ($numFrames > 1) {
+				// If we have elected to perserve multiple frames and the output format
+				// supports that, then just specify the source file as the input
+				if ($preserveAllFrames && $this->formatSupportsMultipleFrames($outputExtension)) {
+					// Set a not-too fast delay if going from anything else to a gif.
+					if (strtolower($inputExtension) != 'gif' && strtolower($ouputExtension) == 'gif')
+						$convertString .= ' -delay 180';
+					
+					$convertString .= $sourcePath." ";
+				}
+				// Specify only the first frame for outputing. This force only one frame for
+				// multi-frame formats like PDF, animated gif, TIFF, etc.
+				else {
+					$convertString .= '"'.$sourcePath.'[0]" ';
+				}
+			} else {
+				$convertString .= '"'.$sourcePath.'" ';
 			}
 			
 			if ($size)
@@ -378,6 +386,28 @@ class ImageMagickProcessor {
 			
 			return $outData;
 		}
+	}
+	
+	/**
+	 * Answer the number of frames or scenes in an image. 
+	 * 
+	 * @param string $sourcePath.
+	 * @return int
+	 * @access public
+	 * @since 8/14/08
+	 */
+	public function getNumFrames ($sourcePath) {
+		 if (!file_exists($sourcePath))
+		 	throw new OperationFailedException('Source image does not exist.');
+		 
+		 $execString = $this->_ImageMagickPath."/identify -format '%n' ";
+		 $execString .= '"'.$sourcePath.'"';
+		 
+		 $text = exec($execString, $output, $exitCode);
+		 if ($exitCode || !is_numeric($text))
+		 	throw new OperationFailedException('Could not determine the number of frames in the image.');
+		 
+		 return intval($text);
 	}
 	
 	/**
