@@ -8,6 +8,18 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
+	<version number="1.7.0" date="The Future">
+		<releaseNotes>
+			
+		</releaseNotes>
+		<new author='adam' date='2008-08-26' ref='1820865' reftype='segue_fr'>
+			Harmoni now allows configuration of actions that allow the SESSION ID in URLs.
+			
+			If we are using an SID for an action configured to allow it in the url,
+		    the Set-Cookie header is overwritted with a bogus one to prevent session
+		    fixation.
+		</new>
+	</version>
 	<version number="1.6.2" date="2008-08-25">
 		<releaseNotes>
 			This release makes a few improvements to the Request system. See the
