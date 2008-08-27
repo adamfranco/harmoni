@@ -89,6 +89,8 @@ class AgentPropertiesSearch
 		$result = $dbc->query($query, $this->databaseIndex);
 		while ($result->hasNext()) {
 			$row = $result->next();
+			if (!strlen($row['agent_id']))
+				throw new OperationFailedException("No valid agent_id found in row for query: ".$query->asString());
 			$info[] = new HarmoniTraversalInfo($idMgr->getId($row['agent_id']), '', 0);
 		}
 		
