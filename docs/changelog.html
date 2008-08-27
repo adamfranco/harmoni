@@ -23,7 +23,18 @@
 </head>
 <body>
 <h1>Harmoni Change Log</h1>
-<h2>Version 1.6.2</h2>
+<h2>Version 1.7.0</h2>
+<h3>2008-08-27</h3>
+<p>This release adds the ability to pass session information in the URLs to select actions, enabling access to some actions by Flash and other clients that do not reliably support cookies for all access.</p>
+<ul>
+		
+		<li>
+<b>New feature:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1820865&amp;group_id=82171&amp;atid=565237">
+        			#1820865</a> Harmoni now allows configuration of actions that allow the SESSION ID in URLs.
+<br>
+<br>If we are using an SID for an action configured to allow it in the url, the Set-Cookie header is overwritted with a bogus one to prevent session fixation. (<em>2008-08-26 - Adam Franco</em>)</li>
+	</ul>
+<br><h2>Version 1.6.2</h2>
 <h3>2008-08-25</h3>
 <p>This release makes a few improvements to the Request system. See the change log for details.</p>
 <ul>

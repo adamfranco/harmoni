@@ -8,9 +8,11 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
-	<version number="1.7.0" date="The Future">
+	<version number="1.7.0" date="2008-08-27">
 		<releaseNotes>
-			
+			This release adds the ability to pass session information in the URLs
+			to select actions, enabling access to some actions by Flash and other
+			clients that do not reliably support cookies for all access.
 		</releaseNotes>
 		<new author='adam' date='2008-08-26' ref='1820865' reftype='segue_fr'>
 			Harmoni now allows configuration of actions that allow the SESSION ID in URLs.

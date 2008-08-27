@@ -1,5 +1,5 @@
 
-Harmoni v. 1.6.2 (2008-08-25)
+Harmoni v. 1.7.0 (2008-08-27)
 =================================
 
 What is Harmoni?
@@ -29,8 +29,9 @@ used independently of the other.
 
 Current Version Notes
 ---------------------
-This release makes a few improvements to the Request system. See the change log for
-details. 
+This release adds the ability to pass session information in the URLs to select
+actions, enabling access to some actions by Flash and other clients that do not
+reliably support cookies for all access.
 
 
 Downloads
@@ -61,6 +62,14 @@ https://sourceforge.net/tracker/?group_id=82873&atid=567473
 | Prior Harmoni Release Notes
 | (See the Harmoni change log for more details)
 ===================================================================
+
+
+v. 1.7.0 (2008-08-27)
+----------------------------------------------------
+This release adds the ability to pass session information in the URLs to select
+actions, enabling access to some actions by Flash and other clients that do not
+reliably support cookies for all access.
+
 
 
 v. 1.6.2 (2008-08-25)
