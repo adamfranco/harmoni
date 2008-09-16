@@ -280,6 +280,9 @@ class UserPreferences {
 		if ($this->_getCurrentAgentId() == 'edu.middlebury.agents.anonymous')
 			return;
 		
+		if ($this->_fetchPref($key) == $val)
+			return;
+		
 		if (is_null($this->_fetchPref($key))) {
 			$query = new InsertQuery();
 			$query->addValue('agent_id', $this->_getCurrentAgentId());
