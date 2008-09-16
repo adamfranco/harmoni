@@ -115,6 +115,23 @@ class UserPreferences {
 	}
 	
 	/**
+	 * Answer all of the preference keys.
+	 * 
+	 * @return array
+	 * @access public
+	 * @since 9/16/08
+	 */
+	public function getPreferenceKeys () {
+		$this->_loadUserPrefs();
+		$keys = array();
+		if (isset($_SESSION['harmoni_user_prefs_persistant']))
+			$keys = array_keys($_SESSION['harmoni_user_prefs_persistant']);
+		$keys = array_unique(array_merge($keys, array_keys($_SESSION['harmoni_user_prefs'])));
+		sort($keys);
+		return $keys;
+	}
+	
+	/**
 	 * Clear the value of a preference.
 	 * 
 	 * @param string $key
@@ -160,9 +177,42 @@ class UserPreferences {
 		$query = new DeleteQuery();
 		$query->setTable('user_prefs');
 		$query->addWhereEqual('agent_id', $this->_getCurrentAgentId());
-		$dbc = Services::getService('Database');
+		$dbc = Services::getService('DatabaseManager');
 		$dbc->query($query);
 	}
+	
+	/**
+	 * Answer the session-value of a preference
+	 * 
+	 * @param string $key
+	 * @return string
+	 * @access public
+	 * @since 9/16/08
+	 */
+	public function getPreferenceSessionValue ($key) {
+		if (isset($_SESSION['harmoni_user_prefs'][$key]))
+			return $_SESSION['harmoni_user_prefs'][$key];
+		else
+			return null;
+	}
+	
+	/**
+	 * Answer the persistant-value of a preference.
+	 * 
+	 * @param string $key
+	 * @return string
+	 * @access public
+	 * @since 9/16/08
+	 */
+	public function getPreferencePersistantValue ($key) {
+		return $this->_fetchPref($key);
+	}
+	
+	
+	/*********************************************************
+	 * Private methods
+	 *********************************************************/
+	
 	
 	/**
 	 * Load all user preferences for the current user
@@ -188,7 +238,7 @@ class UserPreferences {
 			$query->addColumn('pref_val');
 			$query->addWhereEqual('agent_id', $this->_getCurrentAgentId());
 			
-			$dbc = Services::getService('Database');
+			$dbc = Services::getService('DatabaseManager');
 			$result = $dbc->query($query);
 			
 			$_SESSION['harmoni_user_prefs_user'] = $this->_getCurrentAgentId();
@@ -233,16 +283,21 @@ class UserPreferences {
 		if (is_null($this->_fetchPref($key))) {
 			$query = new InsertQuery();
 			$query->addValue('agent_id', $this->_getCurrentAgentId());
+			$query->addValue('pref_key', $key);
 		} else {
 			$query = new UpdateQuery();
 			$query->addWhereEqual('agent_id', $this->_getCurrentAgentId());
+			$query->addWhereEqual('pref_key', $key);
 		}
 		
-		$query->addValue('pref_key', $key);
+		$query->setTable('user_prefs');
+		
 		$query->addValue('pref_val', $val);
 		
-		$dbc = Services::getService('Database');
+		$dbc = Services::getService('DatabaseManager');
 		$dbc->query($query);
+		
+		$_SESSION['harmoni_user_prefs_persistant'][$key] = $val;
 	}
 	
 	/**
@@ -262,7 +317,7 @@ class UserPreferences {
 		$query->setTable('user_prefs');
 		$query->addWhereEqual('agent_id', $this->_getCurrentAgentId());
 		$query->addWhereEqual('pref_key', $key);
-		$dbc = Services::getService('Database');
+		$dbc = Services::getService('DatabaseManager');
 		$dbc->query($query);
 	}
 	
