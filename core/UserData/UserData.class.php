@@ -34,7 +34,7 @@
  *
  * @version $Id$
  */
-class UserPreferences {
+class UserData {
 		
 	/**
  	 * @var object  $instance;  
@@ -56,7 +56,7 @@ class UserPreferences {
 	 */
 	public static function instance () {
 		if (!isset(self::$instance))
-			self::$instance = new UserPreferences;
+			self::$instance = new UserData;
 		
 		return self::$instance;
 	}
