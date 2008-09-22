@@ -71,6 +71,8 @@ class UserData {
 	private function __construct () {
 		if (!isset($_SESSION['harmoni_user_prefs']))
 			$_SESSION['harmoni_user_prefs'] = array();
+			
+		$this->_syncSessionPreferences();
 	}
 	
 	/**
@@ -213,6 +215,24 @@ class UserData {
 	 * Private methods
 	 *********************************************************/
 	
+	/**
+	 * Synchronize preferences set in the session anonymously with the persistant
+	 * preferences stored in the database. This allows users to make preference-changes
+	 * while not logged in and then retain those preferences after they log in.
+	 * 
+	 * @return void
+	 * @access protected
+	 * @since 9/22/08
+	 */
+	protected function _syncSessionPreferences () {
+		if ($this->_storePersistently() && count($_SESSION['harmoni_user_prefs'])) {
+			// Store any sites visited while not logged in.
+			foreach ($_SESSION['harmoni_user_prefs'] as $key => $val) {
+				$this->_storePref($key, $val);
+			}
+			$_SESSION['harmoni_user_prefs'] = array();
+		}
+	}
 	
 	/**
 	 * Load all user preferences for the current user
