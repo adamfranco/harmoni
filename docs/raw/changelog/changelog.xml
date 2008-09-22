@@ -8,6 +8,15 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
+	<version number="1.7.1" date="The Future">
+		<releaseNotes>
+			
+		</releaseNotes>
+		<new author='adam' date='2008-09-22' ref='2112775' reftype='segue_fr'>
+			UserData: New UserData system for storing persistent and per-session
+			user preferences.
+		</new>
+	</version>
 	<version number="1.7.0" date="2008-08-27">
 		<releaseNotes>
 			This release adds the ability to pass session information in the URLs
@@ -18,7 +27,7 @@
 			Harmoni now allows configuration of actions that allow the SESSION ID in URLs.
 			
 			If we are using an SID for an action configured to allow it in the url,
-		    the Set-Cookie header is overwritted with a bogus one to prevent session
+		    the Set-Cookie header is overwritten with a bogus one to prevent session
 		    fixation.
 		</new>
 	</version>
