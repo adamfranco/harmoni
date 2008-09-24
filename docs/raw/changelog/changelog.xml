@@ -8,7 +8,7 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
-	<version number="1.7.1" date="The Future">
+	<version number="1.8.0" date="The Future">
 		<releaseNotes>
 			
 		</releaseNotes>
@@ -19,6 +19,12 @@
 			UserData: New UserData system for storing persistent and per-session
 			user preferences.
 		</new>
+		<change author='adam' date='2008-09-24'>
+			AuthZ2: IsAuthorizedCache now saves the current user's group ids for the
+			session to avoid unneeded groups membership searching. This doesn't 
+			change execution time too much, but does cut out between 17 and 18 queries
+			or statement executions per execution cycle.
+		</change>
 	</version>
 	<version number="1.7.0" date="2008-08-27">
 		<releaseNotes>

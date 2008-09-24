@@ -442,14 +442,32 @@ class AuthZ2_IsAuthorizedCache {
 			$this->_agentIdStrings[$agentKey] = array();
 			
  			if ($agentKey == 'USER') {
- 				// Store our current users
+ 				
+				// Store our current users
 				$userIds =$azManager->_getUserIds();
 				foreach ($userIds as $userId) {
 					$this->_agentIdStrings['USER'][] =	$userId->getIdString();
+				}
+				
+				// Cache the user's groups for the session. If they want load any
+ 				// new groups, they can log out, then log back in.
+ 				if (!isset($_SESSION['__isAuthorizedCache_USER_Strings'])
+ 					|| $_SESSION['__isAuthorizedCache_USER'] != implode(', ', $this->_agentIdStrings['USER'])) 
+ 				{
+ 					// Record the set of user ids we are caching groups for
+ 					$_SESSION['__isAuthorizedCache_USER'] = implode(', ', $this->_agentIdStrings['USER']);
+ 					
+ 					// Add the group ids.
+ 					foreach ($userIds as $userId) {
+						$this->_agentIdStrings['USER'] = array_merge(
+							$this->_agentIdStrings['USER'],	
+							$azManager->_getContainingGroupIdStrings($userId));
+					}
 					
-					$this->_agentIdStrings['USER'] = array_merge(
-						$this->_agentIdStrings['USER'],	
-						$azManager->_getContainingGroupIdStrings($userId));
+					// Record the array of user and group ids.
+					$_SESSION['__isAuthorizedCache_USER_Strings'] = $this->_agentIdStrings['USER'];
+				} else {
+					$this->_agentIdStrings['USER'] = $_SESSION['__isAuthorizedCache_USER_Strings'];
 				}
  			} else {
 				$agentId =$idManager->getId($agentKey);
