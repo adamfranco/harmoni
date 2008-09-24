@@ -1,5 +1,5 @@
 
-Harmoni v. 1.7.0 (2008-08-27)
+Harmoni v. 1.8.0 (2008-09-24)
 =================================
 
 What is Harmoni?
@@ -29,9 +29,10 @@ used independently of the other.
 
 Current Version Notes
 ---------------------
-This release adds the ability to pass session information in the URLs to select
-actions, enabling access to some actions by Flash and other clients that do not
-reliably support cookies for all access.
+This release adds support for IP-range-based group membership, user-preference
+storage, and caching of group membership information.
+
+New database tables must be installed for user-preferences.
 
 
 Downloads
@@ -62,6 +63,15 @@ https://sourceforge.net/tracker/?group_id=82873&atid=567473
 | Prior Harmoni Release Notes
 | (See the Harmoni change log for more details)
 ===================================================================
+
+
+v. 1.8.0 (2008-09-24)
+----------------------------------------------------
+This release adds support for IP-range-based group membership, user-preference
+storage, and caching of group membership information.
+
+New database tables must be installed for user-preferences.
+
 
 
 v. 1.7.0 (2008-08-27)

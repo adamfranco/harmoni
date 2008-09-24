@@ -8,9 +8,12 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
-	<version number="1.8.0" date="The Future">
+	<version number="1.8.0" date="2008-09-24">
 		<releaseNotes>
+			This release adds support for IP-range-based group membership,
+			user-preference storage, and caching of group membership information.
 			
+			New database tables must be installed for user-preferences.
 		</releaseNotes>
 		<new author='adam' date='2008-09-24' ref='2102311' reftype='segue_fr' reporter='bryan_carson'>
 			Agent: Now supports IP-range-based group membership.

@@ -2,6 +2,34 @@
 Harmoni Change Log
 
 
+v. 1.8.0 (2008-09-24)
+----------------------------------------------------
+This release adds support for IP-range-based group membership, user-preference
+storage, and caching of group membership information.
+
+New database tables must be installed for user-preferences.
+		
+		
+	* New feature: #2102311 
+		Agent: Now supports IP-range-based group membership.
+		(2008-09-24 - Adam Franco)
+		(reported by Bryan Carson of Middlebury College)
+		
+	* New feature: #2112775 
+		UserData: New UserData system for storing persistent and per-session user
+		preferences. 
+		(2008-09-22 - Adam Franco)
+		
+	* Change: 
+		AuthZ2: IsAuthorizedCache now saves the current user's group ids for the
+		session to avoid unneeded groups membership searching. This doesn't change
+		execution time too much, but does cut out between 17 and 18 queries or
+		statement executions per execution cycle.
+		(2008-09-24 - Adam Franco)
+	
+
+
+
 v. 1.7.0 (2008-08-27)
 ----------------------------------------------------
 This release adds the ability to pass session information in the URLs to select
@@ -13,7 +41,7 @@ reliably support cookies for all access.
 		Harmoni now allows configuration of actions that allow the SESSION ID in URLs.
 		
 		If we are using an SID for an action configured to allow it in the url,
-		the Set-Cookie header is overwritted with a bogus one to prevent session
+		the Set-Cookie header is overwritten with a bogus one to prevent session
 		fixation. 
 		(2008-08-26 - Adam Franco)
 	
