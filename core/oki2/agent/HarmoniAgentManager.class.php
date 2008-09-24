@@ -123,6 +123,19 @@ class HarmoniAgentManager
 		$hierarchyManager = Services::getService("Hierarchy");
 		$hierarchy =$hierarchyManager->getHierarchy($this->_hierarchyId);
 		
+		if ($this->_configuration->getProperty('group_ip_ranges')) {
+			ArgumentValidator::validate(
+				$this->_configuration->getProperty('group_ip_ranges'), 
+				ArrayValidatorRule::getRule());
+			
+			$stringRule = NonzeroLengthStringValidatorRule::getRule();
+			$rangeRule = RegexValidatorRule::getRule(
+				'^([0-9]{1,3}|\*|[0-9]{1,3}-[0-9]{1,3})\.([0-9]{1,3}|\*|[0-9]{1,3}-[0-9]{1,3})\.([0-9]{1,3}|\*|[0-9]{1,3}-[0-9]{1,3})\.([0-9]{1,3}|\*|[0-9]{1,3}-[0-9]{1,3})$');
+			foreach ($this->_configuration->getProperty('group_ip_ranges') as $groupIdString => $range) {
+				ArgumentValidator::validate($groupIdString, $stringRule);
+				ArgumentValidator::validate($range, $rangeRule);
+			}
+		}
 		
 		// initialize our Agent Search Types
 		$this->_agentSearches = array ();

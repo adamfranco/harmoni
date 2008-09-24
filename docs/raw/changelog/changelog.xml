@@ -12,6 +12,9 @@
 		<releaseNotes>
 			
 		</releaseNotes>
+		<new author='adam' date='2008-09-24' ref='2102311' reftype='segue_fr' reporter='bryan_carson'>
+			Agent: Now supports IP-range-based group membership.
+		</new>
 		<new author='adam' date='2008-09-22' ref='2112775' reftype='segue_fr'>
 			UserData: New UserData system for storing persistent and per-session
 			user preferences.

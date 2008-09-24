@@ -125,6 +125,18 @@ class AncestorGroupSearch
 		}
 		$allGroups = array_merge($allGroups, $this->getHierarchyAncestorsForExternalGroups($externalIdsToCheckForInternalParents));
 		
+	//	:: IP-Range based group-membership
+		$groupIpRanges = $agentManager->_configuration->getProperty('group_ip_ranges');
+		if ($groupIpRanges && count($groupIpRanges)) {
+			$userIp = $_SERVER['REMOTE_ADDR'];
+			
+			foreach ($groupIpRanges as $groupIdString => $range) {
+				if ($this->matchIp($userIp, $range))
+					$allGroups[] = $agentManager->getGroup(
+										$idManager->getId($groupIdString));
+			}
+		}
+		
 		$uniqueGroups = array();
 		foreach ($allGroups as $group) {
 			$added = false;
@@ -142,6 +154,60 @@ class AncestorGroupSearch
 		
 	// :: Return our iterator
 		return new HarmoniAgentIterator($uniqueGroups);
+	}
+	
+	/**
+	 * Match an IP address against a range
+	 * 
+	 * @param string $ip
+	 * @param string $range
+	 * @return boolean
+	 * @access private
+	 * @since 9/24/08
+	 */
+	private function matchIp ($ip, $range) {
+		preg_match(
+			'/^([0-9]{1,3}|\*|[0-9]{1,3}-[0-9]{1,3})\.([0-9]{1,3}|\*|[0-9]{1,3}-[0-9]{1,3})\.([0-9]{1,3}|\*|[0-9]{1,3}-[0-9]{1,3})\.([0-9]{1,3}|\*|[0-9]{1,3}-[0-9]{1,3})$/', $range, $rangeParts);
+		preg_match('/^([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})$/', 
+			$ip, $ipParts);
+		
+		for ($i = 1; $i <= 4; $i++) {
+			if (!$this->matchIpPart($ipParts[$i], $rangeParts[$i]))
+				return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * Match a single piece of the IPv4 quartet against a range.
+	 * 
+	 * @param string $ipPart
+	 * @param string $range
+	 * @return boolean
+	 * @access private
+	 * @since 9/24/08
+	 */
+	private function matchIpPart ($ipPart, $range) {
+		if ($range == '*')
+			return true;
+		
+		$ipPart = intval($ipPart);
+		
+		if (preg_match('/^[0-9]{1,3}$/', $range)) {
+			if (intval($range) == $ipPart)
+				return true;
+			else
+				return false;
+		}
+		
+		if (preg_match('/^([0-9]{1,3})-([0-9]{1,3})$/', $range, $rangeParts)) {
+			if ($ipPart > intval($rangeParts[1]) && $ipPart < intval($rangeParts[2]))
+				return true;
+			else
+				return false;
+		}
+		
+		throw new InvalidArgumentException("Unsupported IP range '".$range."'.");
 	}
 	
 	/**
