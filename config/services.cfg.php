@@ -401,5 +401,3 @@ if (LOAD_TAGGING) {
 }
 
 
-
-?>

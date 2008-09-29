@@ -458,5 +458,3 @@ class Schema extends SObject {
 		return $schema;
 	}
 }
-
-?>

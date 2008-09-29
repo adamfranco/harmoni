@@ -46,4 +46,3 @@ class BackgroundImageSP extends StyleProperty {
 
 }
 
-?>

@@ -222,5 +222,3 @@ class StorableRecordSet extends RecordSet {
 		parent::revertToDate($date);
 	}
 }
-
-?>

@@ -42,5 +42,3 @@ class AndSearch extends MultipleCriteriaSearch {
 	}
 	
 }
-
-?>

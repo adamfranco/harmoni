@@ -630,5 +630,3 @@ class RecordManager {
 		return $array;
 	}	
 }
-
-?>

@@ -720,5 +720,3 @@ class HarmoniAuthenticationManager
      */
     public function osidVersion_2_0 () {}
 }
-
-?>

@@ -639,5 +639,3 @@ class MySQLDatabase
 		$this->_startedTransactions--;
 	}
 }
-
-?>

@@ -827,4 +827,3 @@ class ValueIndexNotFoundError extends Error {
 	}
 }
 
-?>

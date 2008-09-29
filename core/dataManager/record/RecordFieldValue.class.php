@@ -412,5 +412,3 @@ class RecordFieldValue {
 		return $this->_id;
 	}
 }
-
-?>

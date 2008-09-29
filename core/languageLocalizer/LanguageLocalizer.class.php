@@ -509,5 +509,3 @@ if (!function_exists("gettext")) {
 		return TRUE;
 	}
 }
-
-?>

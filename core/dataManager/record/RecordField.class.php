@@ -405,5 +405,3 @@ class RecordField {
 	}
 	
 }
-
-?>

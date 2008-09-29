@@ -81,4 +81,3 @@ class HarmoniPartStructureIterator
 
 } // end PartStructureIterator
 
-?>

@@ -1734,5 +1734,3 @@ class AuthZ2_AuthorizationManager
     }
 }
 
-
-?>

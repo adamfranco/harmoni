@@ -669,4 +669,3 @@ class SafeHTML
  * End:
  */
 
-?>

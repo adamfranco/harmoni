@@ -40,5 +40,3 @@ class SchemaSearch extends SearchCriteria {
 	function postProcess($ids) { return $ids; }
 
 }
-
-?>

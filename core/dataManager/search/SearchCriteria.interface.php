@@ -71,5 +71,3 @@ class SearchCriteria {
 	 */
 	function postProcess($ids) {}
 }
-
-?>

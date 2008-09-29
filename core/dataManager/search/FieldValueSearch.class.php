@@ -64,5 +64,3 @@ class FieldValueSearch extends SearchCriteria {
 	function postProcess($ids) { return $ids; }
 	
 }
-
-?>

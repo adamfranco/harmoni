@@ -81,4 +81,3 @@ class HarmoniRecordStructureIterator
 
 } // end RecordStructureIterator
 
-?>

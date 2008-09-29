@@ -36,4 +36,3 @@ class ReferencedFieldSet extends FieldSet {
 	
 }
 
-?>

@@ -185,4 +185,3 @@ class Dearchiver {
 		return true;
 	}
 }
-?>

@@ -349,5 +349,3 @@ class SchemaField {
 		$this->_displayName = $name;
 	}
 }
-
-?>

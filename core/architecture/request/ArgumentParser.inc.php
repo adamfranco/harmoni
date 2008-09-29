@@ -99,4 +99,3 @@ function getParameterArray($argv) {
 	return $params;
 }
 
-?>

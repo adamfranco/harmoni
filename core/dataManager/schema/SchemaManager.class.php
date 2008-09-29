@@ -497,5 +497,3 @@ class SchemaManager {
 		return $c;
 	}
 }
-
-?>

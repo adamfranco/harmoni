@@ -25,5 +25,3 @@ class ActiveRecordsSearch extends SearchCriteria {
 
 	function postProcess($ids) { return $ids; }
 }
-
-?>
