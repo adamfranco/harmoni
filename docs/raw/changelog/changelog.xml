@@ -12,7 +12,7 @@
 		<releaseNotes>
 			
 		</releaseNotes>
-		<new author='adam' date='2008-09-30' ref='1939677' reftype='segue_fr'>
+		<new author='adam' date='2008-09-30' ref='1939677' reftype='segue_bug'>
 			Request Context: Added new method for accessing current context data.
 			
 			This provides access to the parameters currently passed-through so that
