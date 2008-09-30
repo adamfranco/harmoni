@@ -927,7 +927,7 @@ Also fixes a few other typos and bugs.
 		(2008-02-19 - Adam Franco)
 		
 	* Change: 
-		DatabaseManager: The DuplucateKeyDatabaseException now extends the
+		DatabaseManager: The DuplicateKeyDatabaseException now extends the
 		QueryDatabaseException as it occurs due to problems with a query.
 		(2008-02-21 - Adam Franco)
 	

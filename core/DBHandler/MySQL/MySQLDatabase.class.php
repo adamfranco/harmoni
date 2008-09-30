@@ -374,7 +374,7 @@ class MySQLDatabase
 					// Duplicate Key
 					case 1022:
 					case 1062:
-						throw new DuplucateKeyDatabaseException("MySQL Error: ".mysql_error($this->_linkId), mysql_errno($this->_linkId));
+						throw new DuplicateKeyDatabaseException("MySQL Error: ".mysql_error($this->_linkId), mysql_errno($this->_linkId));
 					
 					// max_allowed_packet
 					case 1153: // Got a packet bigger than 'max_allowed_packet' bytes

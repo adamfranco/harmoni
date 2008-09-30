@@ -268,7 +268,7 @@ class QuerySizeDatabaseException
  *
  * @version $Id: Database.interface.php,v 1.12 2008/02/21 18:59:22 adamfranco Exp $
  */
-class DuplucateKeyDatabaseException
+class DuplicateKeyDatabaseException
 	extends QueryDatabaseException
 {
 

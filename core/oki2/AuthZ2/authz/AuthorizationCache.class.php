@@ -252,7 +252,7 @@ class AuthZ2_AuthorizationCache {
 			if ($queryResult->getNumberOfRows() != 1) {
 				throw new OperationFailedException("AuthorizationFunction, $functionId, could not be inserted. ");
 			}
-		} catch (DuplucateKeyDatabaseException $e) {
+		} catch (DuplicateKeyDatabaseException $e) {
 			throw new OperationFailedException("AuthorizationFunction, $functionId, already exists.");
 		}
 

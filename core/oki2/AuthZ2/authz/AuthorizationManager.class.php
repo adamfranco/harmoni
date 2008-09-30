@@ -242,7 +242,7 @@ class AuthZ2_AuthorizationManager
 		
 			$isAuthorizedCache = $this->getIsAuthorizedCache();
 			$isAuthorizedCache->dirtyNode($qualifierId);
-		} catch (DuplucateKeyDatabaseException $e) {
+		} catch (DuplicateKeyDatabaseException $e) {
 			throw new OperationFailedException("An Explicit Authorization already exists for '$agentId' to '$functionId' at '$qualifierId'");
 		} catch (Zend_Db_Statement_Exception $e) {
 			throw new OperationFailedException("An Explicit Authorization already exists for '$agentId' to '$functionId' at '$qualifierId'");

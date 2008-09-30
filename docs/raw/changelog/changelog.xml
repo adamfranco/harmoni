@@ -12,6 +12,9 @@
 		<releaseNotes>
 			
 		</releaseNotes>
+		<fix author='adam' date='2008-09-30'>
+			Fixed typo in classname, 'DuplucateKeyDatabaseException' is now 'DuplicateKeyDatabaseException'.
+		</fix>
 		<new author='adam' date='2008-09-30' ref='1939677' reftype='segue_bug'>
 			Request Context: Added new method for accessing current context data.
 			
@@ -736,7 +739,7 @@
 			AuthZ: Fixed issue in default Type constructors.
 		</fix>
 		<change author='adam' date='2008-02-21'>
-			DatabaseManager: The DuplucateKeyDatabaseException now extends the 
+			DatabaseManager: The DuplicateKeyDatabaseException now extends the 
 			QueryDatabaseException as it occurs due to problems with a query.
 		</change>
 	</version>

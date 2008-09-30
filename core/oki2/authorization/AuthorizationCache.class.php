@@ -172,7 +172,7 @@ class AuthorizationCache {
 			
 			try {
 				$dbHandler->query($query, $this->_dbIndex);
-			} catch (DuplucateKeyDatabaseException $e) {
+			} catch (DuplicateKeyDatabaseException $e) {
 				throw new OperationFailedException("An Explicit Authorization already exists for '$agentId' to '$functionId' at '$qualifierId'");
 			}
 		}
