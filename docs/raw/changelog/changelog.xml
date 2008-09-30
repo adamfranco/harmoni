@@ -8,6 +8,17 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
+	<version number="1.8.1" date="The Future">
+		<releaseNotes>
+			
+		</releaseNotes>
+		<new author='adam' date='2008-09-30' ref='1939677' reftype='segue_fr'>
+			Request Context: Added new method for accessing current context data.
+			
+			This provides access to the parameters currently passed-through so that
+			they may be passed on to javascript functions.
+		</new>
+	</version>
 	<version number="1.8.0" date="2008-09-24">
 		<releaseNotes>
 			This release adds support for IP-range-based group membership,

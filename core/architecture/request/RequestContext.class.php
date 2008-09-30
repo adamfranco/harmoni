@@ -624,6 +624,39 @@ END;
 		
 		return $array;
 	}
+	/**
+	 * Answer an array of context information that is currently set to be passed through.
+	 * Each element of the array will be an object with the following properties:
+	 *		name		- the non-namespaced name
+	 *		fullName	- the name with namespace added
+	 *		namespace	- the namespace
+	 *		value		- the value of the context info
+	 * 
+	 * @return array
+	 * @access public
+	 * @since 9/30/08
+	 */
+	public function getContextInfo () {
+		$all = array();
+		
+		foreach ($this->_contextData as $key => $val) {
+			$info = new stdClass();
+			$info->fullName = $key;
+			$info->value = $val;
+			
+			if (preg_match("/^(.+)".REQUEST_HANDLER_CONTEXT_DELIMETER."(.+)$/", $key, $r)) {
+				$info->name = $r[2];
+				$info->namespace = $r[1];
+			} else {
+				$info->name = $key;
+				$info->namespace = null;
+			}
+			
+			$all[] = $info;
+		}
+		
+		return $all;
+	}
 	
 	/**
 	 * Given an input url written by the current handler, return a url-encoded
