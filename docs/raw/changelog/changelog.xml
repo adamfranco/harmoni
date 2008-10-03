@@ -8,9 +8,9 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
-	<version number="1.8.1" date="The Future">
+	<version number="1.8.1" date="2008-10-03">
 		<releaseNotes>
-			
+			This release fixes a few small issues. See the change-log for details.
 		</releaseNotes>
 		<fix author='adam' date='2008-09-30'>
 			Fixed typo in classname, 'DuplucateKeyDatabaseException' is now 'DuplicateKeyDatabaseException'.

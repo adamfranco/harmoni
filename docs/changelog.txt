@@ -2,6 +2,26 @@
 Harmoni Change Log
 
 
+v. 1.8.1 (2008-10-03)
+----------------------------------------------------
+This release fixes a few small issues. See the change-log for details.
+		
+		
+	* Bug Fix: 
+		Fixed typo in classname, 'DuplucateKeyDatabaseException' is now
+		'DuplicateKeyDatabaseException'. 
+		(2008-09-30 - Adam Franco)
+		
+	* New feature: #1939677 
+		Request Context: Added new method for accessing current context data.
+		
+		This provides access to the parameters currently passed-through so that
+		they may be passed on to javascript functions.
+		(2008-09-30 - Adam Franco)
+	
+
+
+
 v. 1.8.0 (2008-09-24)
 ----------------------------------------------------
 This release adds support for IP-range-based group membership, user-preference

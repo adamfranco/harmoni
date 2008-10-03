@@ -1,5 +1,5 @@
 
-Harmoni v. 1.8.0 (2008-09-24)
+Harmoni v. 1.8.1 (2008-10-03)
 =================================
 
 What is Harmoni?
@@ -29,10 +29,7 @@ used independently of the other.
 
 Current Version Notes
 ---------------------
-This release adds support for IP-range-based group membership, user-preference
-storage, and caching of group membership information.
-
-New database tables must be installed for user-preferences.
+This release fixes a few small issues. See the change-log for details.
 
 
 Downloads
@@ -63,6 +60,12 @@ https://sourceforge.net/tracker/?group_id=82873&atid=567473
 | Prior Harmoni Release Notes
 | (See the Harmoni change log for more details)
 ===================================================================
+
+
+v. 1.8.1 (2008-10-03)
+----------------------------------------------------
+This release fixes a few small issues. See the change-log for details.
+
 
 
 v. 1.8.0 (2008-09-24)
