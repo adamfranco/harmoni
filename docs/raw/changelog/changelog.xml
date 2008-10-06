@@ -16,6 +16,10 @@
 			AuthN: Now only logging login success so that usage of multiple authentication
 			methods doesn't fill the logs with failures when each method is tried.
 		</change>
+		<change author='adam' date='2008-10-06'>
+			Errors: IP addresses are now included in error logs for anonymous users
+			to aid in tracing anonymous intrusion attempts.
+		</change>
 	</version>
 	<version number="1.8.1" date="2008-10-03">
 		<releaseNotes>

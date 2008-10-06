@@ -426,10 +426,26 @@ class HarmoniErrorHandler {
 					$item->addTextToBactrace("\n<div><strong>REQUEST_URI: </strong>".$_SERVER['REQUEST_URI']."</div>");
 				if (isset($_SERVER['HTTP_REFERER']))
 						$item->addTextToBactrace("\n<div><strong>HTTP_REFERER: </strong>".htmlspecialchars($_SERVER['HTTP_REFERER'])."</div>");
-				$item->addTextToBactrace("\n<div><strong>GET: </strong><pre>".htmlspecialchars(print_r(self::stripPrivate($_GET), true))."</pre></div>");
-				$item->addTextToBactrace("\n<div><strong>POST: </strong><pre>".htmlspecialchars(print_r(self::stripPrivate($_POST), true))."</pre></div>");
+				
 				if (isset($_SERVER['HTTP_USER_AGENT']))
 					$item->addTextToBactrace("\n<div><strong>HTTP_USER_AGENT: </strong><pre>".htmlspecialchars(print_r($_SERVER['HTTP_USER_AGENT'], true))."</pre></div>");
+				
+				// Log IP addresses of unauthenticated users for help in tracing 
+				// anonymous intrusion attempts. Currently not logging IP addresses 
+				// of logged-in users for privacy, even though visitor accounts 
+				// mean that logged-in users may be just as dangerous as anonymous ones.
+				if (Services::serviceRunning("AuthN")) {
+					$authN = Services::getService("AuthN");
+					if (!$authN->isUserAuthenticatedWithAnyType()) {
+						$item->addTextToBactrace("\n<div><strong>REMOTE_ADDR: </strong><pre>".htmlspecialchars($_SERVER['REMOTE_ADDR'])."</pre></div>");
+						if (isset($_SERVER['REMOTE_HOST']))
+							$item->addTextToBactrace("\n<div><strong>REMOTE_HOST: </strong><pre>".htmlspecialchars($_SERVER['REMOTE_HOST'])."</pre></div>");
+					}
+				}
+				
+				$item->addTextToBactrace("\n<div><strong>GET: </strong><pre>".htmlspecialchars(print_r(self::stripPrivate($_GET), true))."</pre></div>");
+				$item->addTextToBactrace("\n<div><strong>POST: </strong><pre>".htmlspecialchars(print_r(self::stripPrivate($_POST), true))."</pre></div>");
+				
 				$log->appendLogWithTypes($item,	$formatType, $priorityType);
 			} catch (Exception $e) {
 				// Just continue if we can't log the exception.
