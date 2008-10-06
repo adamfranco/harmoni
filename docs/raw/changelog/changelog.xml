@@ -8,6 +8,15 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
+	<version number="1.8.2" date="The Future">
+		<releaseNotes>
+			<##>
+		</releaseNotes>
+		<change author='adam' date='2008-10-06'>
+			AuthN: Now only logging login success so that usage of multiple authentication
+			methods doesn't fill the logs with failures when each method is tried.
+		</change>
+	</version>
 	<version number="1.8.1" date="2008-10-03">
 		<releaseNotes>
 			This release fixes a few small issues. See the change-log for details.

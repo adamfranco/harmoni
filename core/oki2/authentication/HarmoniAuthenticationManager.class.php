@@ -247,8 +247,8 @@ class HarmoniAuthenticationManager
 					$isAuthorizedCache->dirtyUser();
 				}
 				
-				// Log the success or failure
-				if (Services::serviceRunning("Logging")) {
+				// Log the success
+				if (Services::serviceRunning("Logging") && $isValid) {
 					$loggingManager = Services::getService("Logging");
 					$log =$loggingManager->getLogForWriting("Authentication");
 					$formatType = new Type("logging", "edu.middlebury", "AgentsAndNodes",
@@ -256,13 +256,9 @@ class HarmoniAuthenticationManager
 					$priorityType = new Type("logging", "edu.middlebury", "Event_Notice",
 									"Normal events.");
 					
-					if ($isValid) {
-						$item = new AgentNodeEntryItem("Authentication Sucess", "Authentication Success: <br/>&nbsp;&nbsp;&nbsp;&nbsp;".htmlspecialchars($authenticationType->getKeyword())." <br/>&nbsp;&nbsp;&nbsp;&nbsp;".htmlspecialchars($authNTokens->getIdentifier()));
+					$item = new AgentNodeEntryItem("Authentication Sucess", "Authentication Success: <br/>&nbsp;&nbsp;&nbsp;&nbsp;".htmlspecialchars($authenticationType->getKeyword())." <br/>&nbsp;&nbsp;&nbsp;&nbsp;".htmlspecialchars($authNTokens->getIdentifier()));
 						$item->addAgentId($agentId);
-					} else {
-						$item = new AgentNodeEntryItem("Authentication Failure", "Authentication Failure: <br/>&nbsp;&nbsp;&nbsp;&nbsp;".htmlspecialchars($authenticationType->getKeyword())." <br/>&nbsp;&nbsp;&nbsp;&nbsp;".htmlspecialchars($authNTokens->getIdentifier()));
-					}
-					
+						
 					$log->appendLogWithTypes($item,	$formatType, $priorityType);
 				}
 			}
