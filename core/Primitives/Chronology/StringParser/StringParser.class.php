@@ -86,7 +86,8 @@ abstract class StringParser
 			'MonthNumberDayYearStringParser',
 			'KeywordStringParser',
 			'TimeStringParser',
-			'DateAndTimeStringParser'
+			'DateAndTimeStringParser',
+			'DateAndISOTimeStringParser'
 		);
 		
 		$handled = FALSE;
@@ -458,5 +459,6 @@ require_once(dirname(__FILE__)."/MonthNumberDayYearStringParser.class.php");
 require_once(dirname(__FILE__)."/KeywordStringParser.class.php");
 require_once(dirname(__FILE__)."/TimeStringParser.class.php");
 require_once(dirname(__FILE__)."/DateAndTimeStringParser.class.php");
+require_once(dirname(__FILE__)."/DateAndISOTimeStringParser.class.php");
 
 ?>

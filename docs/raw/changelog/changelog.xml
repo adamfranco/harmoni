@@ -20,6 +20,10 @@
 			Errors: IP addresses are now included in error logs for anonymous users
 			to aid in tracing anonymous intrusion attempts.
 		</change>
+		<new author='adam' date='2008-10-13'>
+			Primitives: New string parser to handle multiple date formats with times 
+			that include time-zone information.
+		</new>
 	</version>
 	<version number="1.8.1" date="2008-10-03">
 		<releaseNotes>
