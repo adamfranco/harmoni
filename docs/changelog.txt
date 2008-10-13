@@ -2,6 +2,30 @@
 Harmoni Change Log
 
 
+v. 1.8.2 (2008-10-13)
+----------------------------------------------------
+This release fixes a few small issues. See the change-log for details.
+		
+		
+	* Change: 
+		AuthN: Now only logging login success so that usage of multiple
+		authentication methods doesn't fill the logs with failures when each method
+		is tried.
+		(2008-10-06 - Adam Franco)
+		
+	* Change: 
+		Errors: IP addresses are now included in error logs for anonymous users to
+		aid in tracing anonymous intrusion attempts.
+		(2008-10-06 - Adam Franco)
+		
+	* New feature: 
+		Primitives: New string parser to handle multiple date formats with times
+		that include time-zone information.
+		(2008-10-13 - Adam Franco)
+	
+
+
+
 v. 1.8.1 (2008-10-03)
 ----------------------------------------------------
 This release fixes a few small issues. See the change-log for details.

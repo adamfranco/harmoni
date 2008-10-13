@@ -1,5 +1,5 @@
 
-Harmoni v. 1.8.1 (2008-10-03)
+Harmoni v. 1.8.2 (2008-10-13)
 =================================
 
 What is Harmoni?
@@ -60,6 +60,12 @@ https://sourceforge.net/tracker/?group_id=82873&atid=567473
 | Prior Harmoni Release Notes
 | (See the Harmoni change log for more details)
 ===================================================================
+
+
+v. 1.8.2 (2008-10-13)
+----------------------------------------------------
+This release fixes a few small issues. See the change-log for details.
+
 
 
 v. 1.8.1 (2008-10-03)
