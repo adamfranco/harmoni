@@ -200,6 +200,23 @@ class DateAndTimeTestCase extends UnitTestCase {
 			DateAndTime::fromString('20050820152510Z')));
 	}
 	
+	/*********************************************************
+	 * Test Year only edge cases
+	 *********************************************************/
+	function test_year () {
+		$dateAndTimeA = DateAndTime::withYearDay(2005, 0);
+		$dateAndTimeB = DateAndTime::withYearDay(2005, 1);
+		$dateAndTimeC = DateAndTime::fromString('2005');
+		$tz = DateAndTime::localTimeZone();
+		
+		$this->assertTrue($dateAndTimeA->isEqual($dateAndTimeB));
+		$this->assertTrue($dateAndTimeA->isEqual($dateAndTimeC));
+		
+		$this->assertEqual($dateAndTimeA->asString(), '2005-01-01T00:00:00'.$tz->asString());
+		$this->assertEqual($dateAndTimeB->asString(), '2005-01-01T00:00:00'.$tz->asString());
+		$this->assertEqual($dateAndTimeC->asString(), '2005-01-01T00:00:00'.$tz->asString());
+	}
+	
 	/**
 	 * Test comparisons
 	 */ 

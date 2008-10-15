@@ -18,7 +18,7 @@
  */
 
 	if (!defined('HARMONI')) {
-		define('HARMONI', dirname(__FILE__)."/../../../");
+		require_once (dirname(__FILE__)."/../../../../harmoni.inc.php");
 	}
 
 	if (!defined('SIMPLE_TEST')) {

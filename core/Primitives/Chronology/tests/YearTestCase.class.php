@@ -85,36 +85,36 @@ class YearTestCase extends UnitTestCase {
 	 */
 	function test_leap_years() {
 		// recent leap years
-		$this->assertTrue(Year::isLeapYear(1980));
-		$this->assertTrue(Year::isLeapYear(1984));
-		$this->assertTrue(Year::isLeapYear(1988));
-		$this->assertTrue(Year::isLeapYear(1992));
-		$this->assertTrue(Year::isLeapYear(1996));
-		$this->assertTrue(Year::isLeapYear(2000));
-		$this->assertTrue(Year::isLeapYear(2004));
-		$this->assertTrue(Year::isLeapYear(2008));
+		$this->assertTrue(Year::isYearLeapYear(1980));
+		$this->assertTrue(Year::isYearLeapYear(1984));
+		$this->assertTrue(Year::isYearLeapYear(1988));
+		$this->assertTrue(Year::isYearLeapYear(1992));
+		$this->assertTrue(Year::isYearLeapYear(1996));
+		$this->assertTrue(Year::isYearLeapYear(2000));
+		$this->assertTrue(Year::isYearLeapYear(2004));
+		$this->assertTrue(Year::isYearLeapYear(2008));
 		
 		// divisible-by 100 years
-		$this->assertTrue(Year::isLeapYear(1600));
-		$this->assertFalse(Year::isLeapYear(1700));
-		$this->assertFalse(Year::isLeapYear(1800));
-		$this->assertFalse(Year::isLeapYear(1900));
-		$this->assertTrue(Year::isLeapYear(2000));
-		$this->assertFalse(Year::isLeapYear(2100));
-		$this->assertFalse(Year::isLeapYear(2200));
-		$this->assertFalse(Year::isLeapYear(2300));
-		$this->assertTrue(Year::isLeapYear(2400));
+		$this->assertTrue(Year::isYearLeapYear(1600));
+		$this->assertFalse(Year::isYearLeapYear(1700));
+		$this->assertFalse(Year::isYearLeapYear(1800));
+		$this->assertFalse(Year::isYearLeapYear(1900));
+		$this->assertTrue(Year::isYearLeapYear(2000));
+		$this->assertFalse(Year::isYearLeapYear(2100));
+		$this->assertFalse(Year::isYearLeapYear(2200));
+		$this->assertFalse(Year::isYearLeapYear(2300));
+		$this->assertTrue(Year::isYearLeapYear(2400));
 		
 		// Non-leap years
-		$this->assertFalse(Year::isLeapYear(1981));
-		$this->assertFalse(Year::isLeapYear(1979));
-		$this->assertFalse(Year::isLeapYear(1999));
-		$this->assertFalse(Year::isLeapYear(2003));
-		$this->assertFalse(Year::isLeapYear(2001));
-		$this->assertFalse(Year::isLeapYear(1789));
-		$this->assertFalse(Year::isLeapYear(2002));
-		$this->assertFalse(Year::isLeapYear(1998));
-		$this->assertFalse(Year::isLeapYear(2005));
+		$this->assertFalse(Year::isYearLeapYear(1981));
+		$this->assertFalse(Year::isYearLeapYear(1979));
+		$this->assertFalse(Year::isYearLeapYear(1999));
+		$this->assertFalse(Year::isYearLeapYear(2003));
+		$this->assertFalse(Year::isYearLeapYear(2001));
+		$this->assertFalse(Year::isYearLeapYear(1789));
+		$this->assertFalse(Year::isYearLeapYear(2002));
+		$this->assertFalse(Year::isYearLeapYear(1998));
+		$this->assertFalse(Year::isYearLeapYear(2005));
 	
 		$aYear = Year::starting(DateAndTime::withYearDay(1980, 55));
 		$this->assertEqual($aYear->startYear(), 1980);
