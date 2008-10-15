@@ -118,12 +118,12 @@ This release fixes a number of security issues.
 
 Security issues fixed: 
 
-- Cross-Site Request Forgeries (CSRF) are now eliminated from data-modification
+* Cross-Site Request Forgeries (CSRF) are now eliminated from data-modification
 actions. Read about CSRF at: http://shiflett.org/articles/cross-site-request-forgeries
 
-- Harmoni can now be configured to use secure/http-only cookies. 
+ * Harmoni can now be configured to use secure/http-only cookies. 
 
-- Admin actions are now restricted to prevent listing of users and ids in the
+ * Admin actions are now restricted to prevent listing of users and ids in the
 system. 
 
 
@@ -187,9 +187,11 @@ v. 1.4.0 (2008-06-16)
 This release includes two improvements:
 
 * The ActionHandler now supports the specification of default parameters to be used
-when the default module and action are used. * New methods for converting strings to
-UTF-8 and converting 'smart-quotes'. Usage of this new String->makeUtf8() method
-requires PHP to be compiled with the --enable-mbstring option.
+when the default module and action are used. 
+
+ * New methods for converting strings to UTF-8 and converting 'smart-quotes'. Usage
+of this new String->makeUtf8() method requires PHP to be compiled with the
+--enable-mbstring option.
 
 
 

@@ -121,12 +121,10 @@
 			
 			Security issues fixed: 
 						
-			- Cross-Site Request Forgeries (CSRF) are now eliminated from data-modification
+			* Cross-Site Request Forgeries (CSRF) are now eliminated from data-modification
 			actions. Read about CSRF at: http://shiflett.org/articles/cross-site-request-forgeries
-			
-			- Harmoni can now be configured to use secure/http-only cookies. 
-			
-			- Admin actions are now restricted to prevent listing of users and
+			* Harmoni can now be configured to use secure/http-only cookies. 
+			* Admin actions are now restricted to prevent listing of users and
 			ids in the system.
 		</releaseNotes>
 		<new author='adam' date='2008-08-14' ref='2040513' reftype='segue_security' reporter='josh_abraham'>
@@ -1248,13 +1246,13 @@
 					
 					harmoni/core/oki2/repository/HarmoniRecord.class.php - getParts()
 							
-							- Moved the following line out of the if-statement:
+							* Moved the following line out of the if-statement:
 							
-							- $activeValue = $allRecordFieldValues[$key]->getActiveVersion();
+							* $activeValue = $allRecordFieldValues[$key]->getActiveVersion();
 					
 					harmoni/core/oki2/hierarchy/tree/Tree.class.php - _traverse()
 							
-							- Kept the first parameter being passed by reference. Needed in this case.
+							* Kept the first parameter being passed by reference. Needed in this case.
 		</change>
 		
 		<fix author='adam' date='2007-09-07'>
@@ -2595,6 +2593,22 @@
 		<name short="john">John Lee</name>
 	</authors>
 	<reporters>
+		<reporter short="alex">
+			<name>Alex Chapin</name>
+			<institution>Middlebury College</institution>
+		</reporter>
+		<reporter short="alex_chapin">
+			<name>Alex Chapin</name>
+			<institution>Middlebury College</institution>
+		</reporter>
+		<reporter short="adam">
+			<name>Adam Franco</name>
+			<institution>Middlebury College</institution>
+		</reporter>
+		<reporter short="adam_franco">
+			<name>Adam Franco</name>
+			<institution>Middlebury College</institution>
+		</reporter>
 		<reporter short="gabe">
 			<name>Gabe Schine</name>
 			<!-- <institution></institution> -->

@@ -153,12 +153,12 @@ This release fixes a number of security issues.
 
 Security issues fixed: 
 
-- Cross-Site Request Forgeries (CSRF) are now eliminated from data-modification
+* Cross-Site Request Forgeries (CSRF) are now eliminated from data-modification
 actions. Read about CSRF at: http://shiflett.org/articles/cross-site-request-forgeries
 
-- Harmoni can now be configured to use secure/http-only cookies. 
+ * Harmoni can now be configured to use secure/http-only cookies. 
 
-- Admin actions are now restricted to prevent listing of users and ids in the
+ * Admin actions are now restricted to prevent listing of users and ids in the
 system. 
 		
 		
@@ -372,9 +372,11 @@ v. 1.4.0 (2008-06-16)
 This release includes two improvements:
 
 * The ActionHandler now supports the specification of default parameters to be used
-when the default module and action are used. * New methods for converting strings to
-UTF-8 and converting 'smart-quotes'. Usage of this new String->makeUtf8() method
-requires PHP to be compiled with the --enable-mbstring option.
+when the default module and action are used. 
+
+ * New methods for converting strings to UTF-8 and converting 'smart-quotes'. Usage
+of this new String->makeUtf8() method requires PHP to be compiled with the
+--enable-mbstring option.
 		
 		
 	* New feature: #1995141 
@@ -456,7 +458,7 @@ Harmoni now includes a custom version of the Archive/Tar PEAR library with a fix
 for bug #14058 that prevents proper extraction of archives with Safe Mode on.
 		
 		
-	* Bug Fix: # 
+	* Bug Fix: 
 		AuthZ: Fix to old authorization implementation that was causing function
 		types to get messed up on installation of Concerto.
 		(2008-06-02 - Adam Franco)
@@ -469,7 +471,7 @@ for bug #14058 that prevents proper extraction of archives with Safe Mode on.
 		http://pear.php.net/bugs/bug.php?id=14058 
 		(2008-06-03 - Adam Franco)
 		
-	* Change: # 
+	* Change: 
 		Repository: Repository::getAssetsBySearch() now recognizes a null-type
 		properties object.
 		(2008-06-03 - Adam Franco)
@@ -498,7 +500,7 @@ users who are members of groups that have a quote in their LDAP DN.
 		http://bugs.php.net/bug.php?id=41125 
 		(2008-05-23 - Adam Franco)
 		
-	* Bug Fix: # 
+	* Bug Fix: 
 		Hierarchy: Fix to the older Hierarchy implementation to prevent errors when
 		not using Harmoni_Db.
 		(2008-05-22 - Adam Franco)
@@ -512,7 +514,7 @@ This release fixes a minor theming issue that was affecting the Polyphony
 log-browsing actions.
 		
 		
-	* Bug Fix: # 
+	* Bug Fix: 
 		Gui2: Theme URLs now do not get messed up in names-spaced actions like
 		log-browsing. 
 		(2008-05-21 - Adam Franco)
@@ -540,7 +542,7 @@ As well, a number of minor bugs have been fixed.
 		Similarly, themes may optionally support modification.
 		(2008-05-14 - Adam Franco)
 		
-	* Change: # 
+	* Change: 
 		Gui/Gui2: The EMPHASIZED_BLOCK has be deprecated and a SIDEBAR_BLOCK added
 		to enable better syntactical alignment between usage and theme definition.
 		(2008-05-20 - Adam Franco)
@@ -551,7 +553,7 @@ As well, a number of minor bugs have been fixed.
 		get and set Thumbnails and theme images.
 		(2008-05-20 - Adam Franco)
 		
-	* Change: # 
+	* Change: 
 		AuthNMethods: HttpAuth-token collector now can accept a user-function array
 		instead of just a string.
 		(2008-05-13 - Adam Franco)
@@ -563,7 +565,7 @@ As well, a number of minor bugs have been fixed.
 		(2008-05-20 - Adam Franco)
 		(reported by Jeff Merriman of MIT)
 		
-	* Change: # 
+	* Change: 
 		Request: Replacing slashes in path-info URLs.
 		
 		Apache denies requests where the path-info includes %2F, the encoded
@@ -574,11 +576,11 @@ As well, a number of minor bugs have been fixed.
 		path info urls and reverses that replacement on read.
 		(2008-05-13 - Adam Franco)
 		
-	* Bug Fix: # 
+	* Bug Fix: 
 		Primitives: Fixed static/non-static method access in Chronology.
 		(2008-05-13 - Adam Franco)
 		
-	* Bug Fix: # 
+	* Bug Fix: 
 		Primitives: Adding in a pass by reference to fix an Chronology bug.
 		
 		The _normalize() method needed an array passed by reference to act on. In
@@ -670,19 +672,19 @@ well as fixes to Tagging, Language, and Database services.
 		insert id from INSERT query executions.
 		(2008-04-24 - Adam Franco)
 		
-	* Bug Fix: # 
+	* Bug Fix: 
 		Harmoni_Db: Backtrace collection now works when preparing queries directly
 		as well as from query-building objects.
 		(2008-04-25 - Adam Franco)
 		
-	* Change: # 
+	* Change: 
 		Harmoni_Db: It seems that only the MySQL PDO adapter supports buffered
 		queries, so result buffering is now done in PHP in Harmoni_Db rather than in
 		the adapter. Hopefully performance won't take too much of a hit and
 		portability will be preserved.
 		(2008-04-29 - Adam Franco)
 		
-	* Bug Fix: # 
+	* Bug Fix: 
 		Harmoni_Db: New Harmoni_Db query result class for INSERT, UPDATE, and DELETE queries.
 		
 		Harmoni_Db_SelectResult is now only for SELECT results. Other modes of
@@ -695,12 +697,12 @@ well as fixes to Tagging, Language, and Database services.
 		strings rather than throwing InvalidArgumentExceptions.
 		(2008-04-18 - Adam Franco)
 		
-	* Change: # 
+	* Change: 
 		DatabaseManager: Now sends null instead of NULL for auto-increment columns
 		for better compatibility.
 		(2008-04-25 - Adam Franco)
 		
-	* Bug Fix: # 
+	* Bug Fix: 
 		DatabaseManager: Fix to transaction exception class name.
 		(2008-04-28 - Adam Franco)
 		
@@ -724,7 +726,7 @@ well as fixes to Tagging, Language, and Database services.
 		agent. 
 		(2008-04-18 - Adam Franco)
 		
-	* Bug Fix: # 
+	* Bug Fix: 
 		Language: Since putenv() is restricted in safe-mode, errors are now
 		suppressed when calling it with safe-mode on as it is not needed in many
 		systems. 
@@ -1621,13 +1623,13 @@ v. 0.11.0 (2007-09-07)
 		
 		harmoni/core/oki2/repository/HarmoniRecord.class.php - getParts()
 		
-		- Moved the following line out of the if-statement:
+		* Moved the following line out of the if-statement:
 		
-		- $activeValue = $allRecordFieldValues[$key]->getActiveVersion();
+		* $activeValue = $allRecordFieldValues[$key]->getActiveVersion();
 		
 		harmoni/core/oki2/hierarchy/tree/Tree.class.php - _traverse()
 		
-		- Kept the first parameter being passed by reference. Needed in this
+		* Kept the first parameter being passed by reference. Needed in this
 		case. 
 		(Adam Franco)
 		

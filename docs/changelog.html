@@ -111,11 +111,11 @@
 <br>
 <br>Security issues fixed: 
 <br>
-<br>- Cross-Site Request Forgeries (CSRF) are now eliminated from data-modification actions. Read about CSRF at: http://shiflett.org/articles/cross-site-request-forgeries
+<br>* Cross-Site Request Forgeries (CSRF) are now eliminated from data-modification actions. Read about CSRF at: http://shiflett.org/articles/cross-site-request-forgeries
 <br>
-<br>- Harmoni can now be configured to use secure/http-only cookies. 
+<br> * Harmoni can now be configured to use secure/http-only cookies. 
 <br>
-<br>- Admin actions are now restricted to prevent listing of users and ids in the system.</p>
+<br> * Admin actions are now restricted to prevent listing of users and ids in the system.</p>
 <ul>
 		
 		<li>
@@ -238,7 +238,9 @@
 <h3>2008-06-16</h3>
 <p>This release includes two improvements:
 <br>
-<br>* The ActionHandler now supports the specification of default parameters to be used when the default module and action are used. * New methods for converting strings to UTF-8 and converting 'smart-quotes'. Usage of this new String-&gt;makeUtf8() method requires PHP to be compiled with the --enable-mbstring option.</p>
+<br>* The ActionHandler now supports the specification of default parameters to be used when the default module and action are used. 
+<br>
+<br> * New methods for converting strings to UTF-8 and converting 'smart-quotes'. Usage of this new String-&gt;makeUtf8() method requires PHP to be compiled with the --enable-mbstring option.</p>
 <ul>
 		
 		<li>
@@ -288,16 +290,14 @@
 <ul>
 		
 		<li>
-<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=&amp;group_id=82873&amp;atid=567473">
-        			#</a> AuthZ: Fix to old authorization implementation that was causing function types to get messed up on installation of Concerto. (<em>2008-06-02 - Adam Franco</em>)</li>
+<b>Bug Fix:</b> AuthZ: Fix to old authorization implementation that was causing function types to get messed up on installation of Concerto. (<em>2008-06-02 - Adam Franco</em>)</li>
 		<li>
 <b>Change:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1912944&amp;group_id=88266&amp;atid=586054">
         			#1912944</a> Archiving: Harmoni now includes a custom version of Archive/Tar with a fix for bug #14058 that was preventing decompression of tar files that have a directory hierarchy when in PHP 5.2+ with Safe Mode on.
 <br>
 <br>http://pear.php.net/bugs/bug.php?id=14058 (<em>2008-06-03 - Adam Franco</em>)</li>
 		<li>
-<b>Change:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=&amp;group_id=82873&amp;atid=567476">
-        			#</a> Repository: Repository::getAssetsBySearch() now recognizes a null-type properties object. (<em>2008-06-03 - Adam Franco</em>)</li>
+<b>Change:</b> Repository: Repository::getAssetsBySearch() now recognizes a null-type properties object. (<em>2008-06-03 - Adam Franco</em>)</li>
 	</ul>
 <br><h2>Version 1.3.2</h2>
 <h3>2008-05-23</h3>
@@ -312,8 +312,7 @@
 <br>
 <br> See: https://sourceforge.net/tracker/index.php?func=detail&amp;aid=1970447&amp;group_id=82171&amp;atid=565234 See: http://slug.middlebury.edu/~afranco/PHP_PDO_segfault/ See: http://bugs.php.net/bug.php?id=41125 (<em>2008-05-23 - Adam Franco</em>)</li>
 		<li>
-<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=&amp;group_id=82873&amp;atid=567473">
-        			#</a> Hierarchy: Fix to the older Hierarchy implementation to prevent errors when not using Harmoni_Db. (<em>2008-05-22 - Adam Franco</em>)</li>
+<b>Bug Fix:</b> Hierarchy: Fix to the older Hierarchy implementation to prevent errors when not using Harmoni_Db. (<em>2008-05-22 - Adam Franco</em>)</li>
 	</ul>
 <br><h2>Version 1.3.1</h2>
 <h3>2008-05-22</h3>
@@ -321,8 +320,7 @@
 <ul>
 		
 		<li>
-<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=&amp;group_id=82873&amp;atid=567473">
-        			#</a> Gui2: Theme URLs now do not get messed up in names-spaced actions like log-browsing. (<em>2008-05-21 - Adam Franco</em>)</li>
+<b>Bug Fix:</b> Gui2: Theme URLs now do not get messed up in names-spaced actions like log-browsing. (<em>2008-05-21 - Adam Franco</em>)</li>
 	</ul>
 <br><h2>Version 1.3.0</h2>
 <h3>2008-05-20</h3>
@@ -337,29 +335,24 @@
 <br>
 <br>Themes may have options for varying their color scheme or other attributes, but this is an optional level of compliance, not forced. Similarly, themes may optionally support modification. (<em>2008-05-14 - Adam Franco</em>)</li>
 		<li>
-<b>Change:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=&amp;group_id=82873&amp;atid=567476">
-        			#</a> Gui/Gui2: The EMPHASIZED_BLOCK has be deprecated and a SIDEBAR_BLOCK added to enable better syntactical alignment between usage and theme definition. (<em>2008-05-20 - Adam Franco</em>)</li>
+<b>Change:</b> Gui/Gui2: The EMPHASIZED_BLOCK has be deprecated and a SIDEBAR_BLOCK added to enable better syntactical alignment between usage and theme definition. (<em>2008-05-20 - Adam Franco</em>)</li>
 		<li>
 <b>New feature:</b> Utilities/Filing: A simple Filing interface has been added to provide an abstraction on 'files'. These are currently used in the new Gui2 system to get and set Thumbnails and theme images. (<em>2008-05-20 - Adam Franco</em>)</li>
 		<li>
-<b>Change:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=&amp;group_id=82873&amp;atid=567476">
-        			#</a> AuthNMethods: HttpAuth-token collector now can accept a user-function array instead of just a string. (<em>2008-05-13 - Adam Franco</em>)</li>
+<b>Change:</b> AuthNMethods: HttpAuth-token collector now can accept a user-function array instead of just a string. (<em>2008-05-13 - Adam Franco</em>)</li>
 		<li>
 <b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1964729&amp;group_id=82171&amp;atid=565234">
         			#1964729</a> Request: Multiple calls to startNamespace(null) were not filling the name-space stack with null name-spaces, so when endNamespace() was then called, extra non-null name-spaces were removed from the stack. (<em>2008-05-20 - Adam Franco</em>)<br> (<em>reported by Jeff Merriman of MIT</em>)</li>
 		<li>
-<b>Change:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=&amp;group_id=82873&amp;atid=567476">
-        			#</a> Request: Replacing slashes in path-info URLs.
+<b>Change:</b> Request: Replacing slashes in path-info URLs.
 <br>
 <br>Apache denies requests where the path-info includes %2F, the encoded version of the forward slash, /. This is done to aid the security of CGI scripts, but means that we can't pass encoded slashes in PATH_INFO parameters.
 <br>
 <br>This fix replaces slashes with the string, '_slash_', when writing the path info urls and reverses that replacement on read. (<em>2008-05-13 - Adam Franco</em>)</li>
 		<li>
-<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=&amp;group_id=82873&amp;atid=567473">
-        			#</a> Primitives: Fixed static/non-static method access in Chronology. (<em>2008-05-13 - Adam Franco</em>)</li>
+<b>Bug Fix:</b> Primitives: Fixed static/non-static method access in Chronology. (<em>2008-05-13 - Adam Franco</em>)</li>
 		<li>
-<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=&amp;group_id=82873&amp;atid=567473">
-        			#</a> Primitives: Adding in a pass by reference to fix an Chronology bug.
+<b>Bug Fix:</b> Primitives: Adding in a pass by reference to fix an Chronology bug.
 <br>
 <br>The _normalize() method needed an array passed by reference to act on. In the PHP 5 migration the reference got deleted by accident, so the normalization wasn't being done. This had the effect of not rolling over days when adding durations that bumped a date and time over the length of a day. (<em>2008-05-14 - Adam Franco</em>)</li>
 	</ul>
@@ -396,24 +389,19 @@
 		<li>
 <b>Bug Fix:</b> Harmoni_Db: Can now set Auto-Increment table/key for retrieving the last insert id from INSERT query executions. (<em>2008-04-24 - Adam Franco</em>)</li>
 		<li>
-<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=&amp;group_id=82873&amp;atid=567473">
-        			#</a> Harmoni_Db: Backtrace collection now works when preparing queries directly as well as from query-building objects. (<em>2008-04-25 - Adam Franco</em>)</li>
+<b>Bug Fix:</b> Harmoni_Db: Backtrace collection now works when preparing queries directly as well as from query-building objects. (<em>2008-04-25 - Adam Franco</em>)</li>
 		<li>
-<b>Change:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=&amp;group_id=82873&amp;atid=567476">
-        			#</a> Harmoni_Db: It seems that only the MySQL PDO adapter supports buffered queries, so result buffering is now done in PHP in Harmoni_Db rather than in the adapter. Hopefully performance won't take too much of a hit and portability will be preserved. (<em>2008-04-29 - Adam Franco</em>)</li>
+<b>Change:</b> Harmoni_Db: It seems that only the MySQL PDO adapter supports buffered queries, so result buffering is now done in PHP in Harmoni_Db rather than in the adapter. Hopefully performance won't take too much of a hit and portability will be preserved. (<em>2008-04-29 - Adam Franco</em>)</li>
 		<li>
-<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=&amp;group_id=82873&amp;atid=567473">
-        			#</a> Harmoni_Db: New Harmoni_Db query result class for INSERT, UPDATE, and DELETE queries.
+<b>Bug Fix:</b> Harmoni_Db: New Harmoni_Db query result class for INSERT, UPDATE, and DELETE queries.
 <br>
 <br>Harmoni_Db_SelectResult is now only for SELECT results. Other modes of operation for INSERT, UPDATE, and DELETE queries have been moved to a new class, Harmoni_Db_InUpDeResult. (<em>2008-05-01 - Adam Franco</em>)</li>
 		<li>
 <b>Bug Fix:</b> DatabaseManager: InsertQueries will now convert numeric parameters to strings rather than throwing InvalidArgumentExceptions. (<em>2008-04-18 - Adam Franco</em>)</li>
 		<li>
-<b>Change:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=&amp;group_id=82873&amp;atid=567476">
-        			#</a> DatabaseManager: Now sends null instead of NULL for auto-increment columns for better compatibility. (<em>2008-04-25 - Adam Franco</em>)</li>
+<b>Change:</b> DatabaseManager: Now sends null instead of NULL for auto-increment columns for better compatibility. (<em>2008-04-25 - Adam Franco</em>)</li>
 		<li>
-<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=&amp;group_id=82873&amp;atid=567473">
-        			#</a> DatabaseManager: Fix to transaction exception class name. (<em>2008-04-28 - Adam Franco</em>)</li>
+<b>Bug Fix:</b> DatabaseManager: Fix to transaction exception class name. (<em>2008-04-28 - Adam Franco</em>)</li>
 		<li>
 <b>New feature:</b> ErrorHandler: Exceptions can now define a getHtmlMessage() method and have this HTML-formatted message printed without entity conversion. (<em>2008-04-18 - Adam Franco</em>)</li>
 		<li>
@@ -425,8 +413,7 @@
 <b>Change:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1940489&amp;group_id=82171&amp;atid=565237">
         			#1940489</a> Tagging: Can now specify a time-stamp when setting a tag for a particular agent. (<em>2008-04-18 - Adam Franco</em>)</li>
 		<li>
-<b>Bug Fix:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=&amp;group_id=82873&amp;atid=567473">
-        			#</a> Language: Since putenv() is restricted in safe-mode, errors are now suppressed when calling it with safe-mode on as it is not needed in many systems. (<em>2008-05-01 - Adam Franco</em>)</li>
+<b>Bug Fix:</b> Language: Since putenv() is restricted in safe-mode, errors are now suppressed when calling it with safe-mode on as it is not needed in many systems. (<em>2008-05-01 - Adam Franco</em>)</li>
 	</ul>
 <br><h2>Version 1.1.0</h2>
 <h3>2008-04-11</h3>
@@ -905,13 +892,13 @@
 <br>
 <br>harmoni/core/oki2/repository/HarmoniRecord.class.php - getParts()
 <br>
-<br>- Moved the following line out of the if-statement:
+<br>* Moved the following line out of the if-statement:
 <br>
-<br>- $activeValue = $allRecordFieldValues[$key]-&gt;getActiveVersion();
+<br>* $activeValue = $allRecordFieldValues[$key]-&gt;getActiveVersion();
 <br>
 <br>harmoni/core/oki2/hierarchy/tree/Tree.class.php - _traverse()
 <br>
-<br>- Kept the first parameter being passed by reference. Needed in this case. (<em>Adam Franco</em>)</li>
+<br>* Kept the first parameter being passed by reference. Needed in this case. (<em>Adam Franco</em>)</li>
 		
 		<li>
 <b>Bug Fix:</b> OutputHandler: fixing notices. (<em>2007-09-07 - Adam Franco</em>)</li>
