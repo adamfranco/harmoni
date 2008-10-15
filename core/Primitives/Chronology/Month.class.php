@@ -117,7 +117,7 @@ class Month
 		$monthDays = ChronologyConstants::DaysInMonth();
 		$days = $monthDays[$index];
 		
-		if ($index == 2 && Year::isLeapYear($yearInteger))
+		if ($index == 2 && Year::isYearLeapYear($yearInteger))
 			return $days + 1;
 		else
 			return $days;

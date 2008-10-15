@@ -159,7 +159,7 @@ class Year
 		$midnight =$asDateAndTime->atMidnight();
 		$year = new $class;
 		$year->setStart($midnight); 
-		$year->setDuration(Duration::withDays(Year::daysInYear($midnight->year())));
+		$year->setDuration(Duration::withDays(Year::getDaysInYear($midnight->year())));
 		
 		return $year;
 	}
@@ -186,71 +186,69 @@ class Year
 			);');
 		return $result;
 	}
+	
+	/**
+	 *  Return the number of days in a year.
+	 * 
+	 * @param integer $anInteger
+	 * @return integer
+	 * @access public
+	 * @since 10/15/08
+	 * @static
+	 */
+	public static function getDaysInYear ($anInteger) {
+		if (is_null($anInteger)) {
+			throw new InvalidArgumentException("Cannot execute daysInYear for NULL.");
+		}
+			
+		if (Year::isYearLeapYear($anInteger))
+			return 365 +1;
+		else
+			return 365;
+	}
+	
+	/**
+	 * Return TRUE if the year passed is a leap year
+	 * 
+	 * @param integer $anInteger
+	 * @return boolean
+	 * @access public
+	 * @since 10/15/08
+	 * @static
+	 */
+	public static function isYearLeapYear ($anInteger) {
+		if($anInteger > 0)
+			$adjustedYear = $anInteger;
+		else
+			$adjustedYear = 0 - ($anInteger + 1);
+		
+		if (($adjustedYear % 4 != 0) 
+			|| (($adjustedYear % 100 == 0) && ($adjustedYear % 400 != 0)))
+		{
+			return FALSE;
+		} else {
+			return TRUE;
+		}
+	}
 
 /*********************************************************
  * Hybrid Class/Instance Methods
  *********************************************************/
  
  	/**
-	 * Return TRUE if the year passed is a leap year
+	 * Return TRUE if this year passed is a leap year
 	 *
-	 * This method can be either called as a class method (with a parameter)
-	 * or as an instance method (without a parameter).
 	 * 
-	 * @param optional integer $anInteger
 	 * @return boolean
 	 * @access public
 	 * @since 5/4/05
 	 * @static
 	 */
-	function isLeapYear ( $anInteger = NULL ) {
-		if (is_null($anInteger) && is_object ($this))
-			return $this->isLeapYear($this->startYear());
-		else {
-			if($anInteger > 0)
-				$adjustedYear = $anInteger;
-			else
-				$adjustedYear = 0 - ($anInteger + 1);
-			
-			if (($adjustedYear % 4 != 0) 
-				|| (($adjustedYear % 100 == 0) && ($adjustedYear % 400 != 0)))
-			{
-				return FALSE;
-			} else {
-				return TRUE;
-			}
-		}
+	function isLeapYear () {
+		return self::isYearLeapYear($this->startYear());
 	}
 	
-	/**
-	 * Return the number of days in a year.
-	 *
-	 * This method can be either called as a class method (with a parameter)
-	 * or as an instance method (without a parameter).
-	 * 
-	 * @param optional integer $anInteger
-	 * @return integer
-	 * @access public
-	 * @since 5/4/05
-	 */
-	function daysInYear ( $anInteger = NULL ) {
-		if (is_null($anInteger) && is_object ($this))
-			return $this->duration->days();
-		else {
-			if (is_null($anInteger)) {
-				$errorString = "Cannot execute daysInYear for NULL.";
-				if (function_exists('throwError'))
-					throwError(new Error($errorString));
-				else
-					die ($errorString);
-			}
-				
-			if (Year::isLeapYear($anInteger))
-				return 365 +1;
-			else
-				return 365;
-		}
-	}
+
 
 /*********************************************************
  * Instance Methods - Accessing
@@ -265,6 +263,18 @@ class Year
 	 */
 	function printableString () {
 		return $this->startYear();
+	}
+	
+	/**
+	 * Return the number of days in a year.
+	 *
+	 * 
+	 * @return integer
+	 * @access public
+	 * @since 5/4/05
+	 */
+	function daysInYear () {
+		return $this->duration->days();
 	}
 
 /*********************************************************

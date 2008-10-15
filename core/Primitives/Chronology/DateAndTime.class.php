@@ -473,7 +473,10 @@ class DateAndTime
 				$aDurationOffset,
 				$class
 			);');
-		$day = Duration::withDays($anIntDayOfYear - 1);
+		if ($anIntDayOfYear <= 1)
+			$day = Duration::withDays(0);
+		else
+			$day = Duration::withDays($anIntDayOfYear - 1);
 		$obj =$result->plus($day);
 		return $obj;
 	}
@@ -607,6 +610,10 @@ class DateAndTime
 		{
 			die("Class, '$class', is not a subclass of 'DateAndTime'.");
 		}
+		
+		// Ensure that we have no days less than 1.
+		if ($anIntDay < 1)
+			$anIntDay = 1;
 		
 		
 		if (is_numeric($anIntOrStringMonth))
@@ -966,7 +973,7 @@ class DateAndTime
 	 * @since 5/4/05
 	 */
 	function isLeapYear () {
-		return Year::isLeapYear($this->year());
+		return Year::isYearLeapYear($this->year());
 	}
 	
 	/**
