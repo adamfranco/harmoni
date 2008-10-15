@@ -8,6 +8,17 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
+	<version number="1.8.3" date="2008-10-15">
+		<releaseNotes>
+			This release fixes an error in the Chronology library in which 
+			DateAndTime objects were off by a day when created with a year 
+			and no day parameter.
+		</releaseNotes>
+		<fix author='adam' date='2008-10-15' ref='2112633' reftype='segue_bug' reporter='bryan_carson'>
+			Primitives: Chronology's DateAndTime is now not off by a day when created
+			with a year and no day.
+		</fix>
+	</version>
 	<version number="1.8.2" date="2008-10-13">
 		<releaseNotes>
 			This release fixes a few small issues. See the change-log for details.

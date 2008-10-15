@@ -1,5 +1,5 @@
 
-Harmoni v. 1.8.2 (2008-10-13)
+Harmoni v. 1.8.3 (2008-10-15)
 =================================
 
 What is Harmoni?
@@ -29,7 +29,8 @@ used independently of the other.
 
 Current Version Notes
 ---------------------
-This release fixes a few small issues. See the change-log for details.
+This release fixes an error in the Chronology library in which DateAndTime objects
+were off by a day when created with a year and no day parameter.
 
 
 Downloads
@@ -60,6 +61,13 @@ https://sourceforge.net/tracker/?group_id=82873&atid=567473
 | Prior Harmoni Release Notes
 | (See the Harmoni change log for more details)
 ===================================================================
+
+
+v. 1.8.3 (2008-10-15)
+----------------------------------------------------
+This release fixes an error in the Chronology library in which DateAndTime objects
+were off by a day when created with a year and no day parameter.
+
 
 
 v. 1.8.2 (2008-10-13)

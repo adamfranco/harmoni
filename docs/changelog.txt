@@ -2,6 +2,21 @@
 Harmoni Change Log
 
 
+v. 1.8.3 (2008-10-15)
+----------------------------------------------------
+This release fixes an error in the Chronology library in which DateAndTime objects
+were off by a day when created with a year and no day parameter.
+		
+		
+	* Bug Fix: #2112633 
+		Primitives: Chronology's DateAndTime is now not off by a day when created
+		with a year and no day.
+		(2008-10-15 - Adam Franco)
+		(reported by Bryan Carson of Middlebury College)
+	
+
+
+
 v. 1.8.2 (2008-10-13)
 ----------------------------------------------------
 This release fixes a few small issues. See the change-log for details.
