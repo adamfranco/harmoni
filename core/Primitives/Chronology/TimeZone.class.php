@@ -207,6 +207,25 @@ class TimeZone
 	function name () {
 		return $this->name;
 	}
+	
+	/**
+	 * Answer a string version of this time zone
+	 * 
+	 * @return string
+	 * @access public
+	 * @since 10/15/08
+	 */
+	public function printableString () {
+		if ($this->offset->isLessThan(Duration::withSeconds(0)))
+			$string = '-';
+		else
+			$string = '+';
+		
+		$string .= str_pad(abs($this->offset->hours()), 2, '0', STR_PAD_LEFT);
+		$string .=':'.str_pad(abs($this->offset->minutes()), 2, '0', STR_PAD_LEFT);
+		
+		return $string;
+	}
 }
 
 ?>
