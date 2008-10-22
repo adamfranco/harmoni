@@ -8,6 +8,15 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
+	<version number="1.8.4" date="2008-10-22">
+		<releaseNotes>
+			This release fixes an omission in the Authorization cache that was
+			preventing HTTP authentication from working without cookies.
+		</releaseNotes>
+		<fix author='adam' date='2008-10-22' ref='2187465' reftype='bug'  reporter=''>
+			AuthZ2: Now properly clearing user-specific information after authentication.
+		</fix>
+	</version>
 	<version number="1.8.3" date="2008-10-15">
 		<releaseNotes>
 			This release fixes an error in the Chronology library in which 

@@ -914,6 +914,10 @@ class AuthZ2_IsAuthorizedCache {
 		unset($this->_agentIdStrings['USER']);
 		unset($_SESSION['__isAuthorizedCache']['USER']);
 		$_SESSION['__isAuthorizedCache']['USER'] = array();
+		unset($_SESSION['__isAuthorizedCache_USER']);
+		unset($_SESSION['__isAuthorizedCache_USER_Strings']);
+		unset($_SESSION['__isAuthorizedCacheAgents']['USER']);
+		unset($this->loadSingleAz_stmts['USER']);
 	}
 }
 

@@ -1,5 +1,5 @@
 
-Harmoni v. 1.8.3 (2008-10-15)
+Harmoni v. 1.8.4 (2008-10-22)
 =================================
 
 What is Harmoni?
@@ -29,8 +29,8 @@ used independently of the other.
 
 Current Version Notes
 ---------------------
-This release fixes an error in the Chronology library in which DateAndTime objects
-were off by a day when created with a year and no day parameter.
+This release fixes an omission in the Authorization cache that was preventing HTTP
+authentication from working without cookies.
 
 
 Downloads
@@ -61,6 +61,13 @@ https://sourceforge.net/tracker/?group_id=82873&atid=567473
 | Prior Harmoni Release Notes
 | (See the Harmoni change log for more details)
 ===================================================================
+
+
+v. 1.8.4 (2008-10-22)
+----------------------------------------------------
+This release fixes an omission in the Authorization cache that was preventing HTTP
+authentication from working without cookies.
+
 
 
 v. 1.8.3 (2008-10-15)

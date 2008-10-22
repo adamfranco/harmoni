@@ -2,6 +2,20 @@
 Harmoni Change Log
 
 
+v. 1.8.4 (2008-10-22)
+----------------------------------------------------
+This release fixes an omission in the Authorization cache that was preventing HTTP
+authentication from working without cookies.
+		
+		
+	* Bug Fix: #2187465 
+		AuthZ2: Now properly clearing user-specific information after
+		authentication. 
+		(2008-10-22 - Adam Franco)
+	
+
+
+
 v. 1.8.3 (2008-10-15)
 ----------------------------------------------------
 This release fixes an error in the Chronology library in which DateAndTime objects
