@@ -13,7 +13,7 @@
 			This release fixes an omission in the Authorization cache that was
 			preventing HTTP authentication from working without cookies.
 		</releaseNotes>
-		<fix author='adam' date='2008-10-22' ref='2187465' reftype='bug'  reporter=''>
+		<fix author='adam' date='2008-10-22' ref='2187465' reftype='segue_bug'  reporter=''>
 			AuthZ2: Now properly clearing user-specific information after authentication.
 		</fix>
 	</version>
