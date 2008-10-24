@@ -229,38 +229,7 @@ class HarmoniAuthenticationManager
 			$authNTokens =$this->_getAuthNTokensFromUser($authenticationType);
 			
 			if ($authNTokens) {
-				$authNMethodManager = Services::getService("AuthNMethods");
-				$authNMethod =$authNMethodManager->getAuthNMethodForType($authenticationType);
-				$isValid = $authNMethod->authenticateTokens($authNTokens);
-				
-				// If the authentication was successful, get the AgentId from the mapping
-				// system and record the result.
-				if ($isValid) {
-					$agentId =$this->_getAgentIdForAuthNTokens($authNTokens, $authenticationType);
-					$authenticationTypeString = $this->_getTypeString($authenticationType);
-					$_SESSION['__AuthenticatedAgents'][$authenticationTypeString]
-						=$agentId;
-					
-					// Ensure that the Authorization Cache gets the new users
-					$authZ = Services::getService("AuthZ");
-					$isAuthorizedCache = $authZ->getIsAuthorizedCache();
-					$isAuthorizedCache->dirtyUser();
-				}
-				
-				// Log the success
-				if (Services::serviceRunning("Logging") && $isValid) {
-					$loggingManager = Services::getService("Logging");
-					$log =$loggingManager->getLogForWriting("Authentication");
-					$formatType = new Type("logging", "edu.middlebury", "AgentsAndNodes",
-									"A format in which the acting Agent[s] and the target nodes affected are specified.");
-					$priorityType = new Type("logging", "edu.middlebury", "Event_Notice",
-									"Normal events.");
-					
-					$item = new AgentNodeEntryItem("Authentication Sucess", "Authentication Success: <br/>&nbsp;&nbsp;&nbsp;&nbsp;".htmlspecialchars($authenticationType->getKeyword())." <br/>&nbsp;&nbsp;&nbsp;&nbsp;".htmlspecialchars($authNTokens->getIdentifier()));
-						$item->addAgentId($agentId);
-						
-					$log->appendLogWithTypes($item,	$formatType, $priorityType);
-				}
+				$this->_authenticateTokensWithType($authNTokens, $authenticationType);
 			}
 		}
 	}
@@ -481,6 +450,53 @@ class HarmoniAuthenticationManager
 		if (!$typeValid)
 			throwError(new Error(AuthenticationException::UNKNOWN_TYPE()
 				.": ".$this->_getTypeString($type), "AuthenticationManager", 1));
+	}
+	
+	/**
+	 * Validate the tokens for the authentication type given
+	 * 
+	 * @param object AuthNTokens $authNTokens
+	 * @param object Type $authenticationType
+	 * @return void
+	 * @access public
+	 * @since 10/24/08
+	 */
+	public function _authenticateTokensWithType (AuthNTokens $authNTokens, Type $authenticationType) {
+		$this->_checkType($authenticationType);
+		$this->destroyAuthenticationForType($authenticationType);
+		
+		$authNMethodManager = Services::getService("AuthNMethods");
+		$authNMethod =$authNMethodManager->getAuthNMethodForType($authenticationType);
+		$isValid = $authNMethod->authenticateTokens($authNTokens);
+		
+		// If the authentication was successful, get the AgentId from the mapping
+		// system and record the result.
+		if ($isValid) {
+			$agentId =$this->_getAgentIdForAuthNTokens($authNTokens, $authenticationType);
+			$authenticationTypeString = $this->_getTypeString($authenticationType);
+			$_SESSION['__AuthenticatedAgents'][$authenticationTypeString]
+				=$agentId;
+			
+			// Ensure that the Authorization Cache gets the new users
+			$authZ = Services::getService("AuthZ");
+			$isAuthorizedCache = $authZ->getIsAuthorizedCache();
+			$isAuthorizedCache->dirtyUser();
+		}
+		
+		// Log the success
+		if (Services::serviceRunning("Logging") && $isValid) {
+			$loggingManager = Services::getService("Logging");
+			$log =$loggingManager->getLogForWriting("Authentication");
+			$formatType = new Type("logging", "edu.middlebury", "AgentsAndNodes",
+							"A format in which the acting Agent[s] and the target nodes affected are specified.");
+			$priorityType = new Type("logging", "edu.middlebury", "Event_Notice",
+							"Normal events.");
+			
+			$item = new AgentNodeEntryItem("Authentication Sucess", "Authentication Success: <br/>&nbsp;&nbsp;&nbsp;&nbsp;".htmlspecialchars($authenticationType->getKeyword())." <br/>&nbsp;&nbsp;&nbsp;&nbsp;".htmlspecialchars($authNTokens->getIdentifier()));
+				$item->addAgentId($agentId);
+				
+			$log->appendLogWithTypes($item,	$formatType, $priorityType);
+		}
 	}
 	
 	/**

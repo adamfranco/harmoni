@@ -21,6 +21,10 @@
 		<fix author='adam' date='2008-10-24' ref='' reftype='bug'>
 			MIME: Now recognizes mp4 and m4v files.
 		</fix>
+		<change author='adam' date='2008-10-24' ref='' reftype='fr'>
+			AuthN: Pulled token validation into its own method so that tokens 
+			can be validated independently of prompting.
+		</change>
 	</version>
 	<version number="1.8.4" date="2008-10-22">
 		<releaseNotes>
