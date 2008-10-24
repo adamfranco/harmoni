@@ -15,6 +15,9 @@
 		<fix author='adam' date='2008-10-24' ref='' reftype='bug'>
 			Chronology: TimeStamp->asDateAndTime() now returns a real DateAndTime object.
 		</fix>
+		<fix author='adam' date='2008-10-24' ref='' reftype='bug'>
+			Filing: FileSystemFile now returns a DateAndTime instead of a TimeStamp as per its doc.
+		</fix>
 	</version>
 	<version number="1.8.4" date="2008-10-22">
 		<releaseNotes>

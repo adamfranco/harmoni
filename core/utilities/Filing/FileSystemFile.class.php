@@ -188,7 +188,7 @@ class Harmoni_Filing_FileSystemFile
 		$tstamp = filemtime($this->path);
 		if ($tstamp === false)
 			throw new OperationFailedException("Could not get timestamp of '".$this->getBaseName()."'.");
-		return TimeStamp::fromUnixTimeStamp($tstamp);
+		return TimeStamp::fromUnixTimeStamp($tstamp)->asDateAndTime();
 	}
 }
 
