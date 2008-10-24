@@ -100,6 +100,8 @@ class MIMETypes {
 			"mp2v"	=> "mpeg",
 			"mpa2"	=> "mpeg",
 			"mp2"	=> "mpeg",
+			"mp4"	=> "mp4",
+			"m4v"	=> "x-m4v",
 			"qt"	=> "quicktime",
 			"mov"	=> "quicktime",
 			"moov"	=> "quicktime",
