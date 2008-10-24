@@ -497,6 +497,17 @@ class TimeStamp
  *********************************************************/
  	
  	/**
+	 * Answer a DateAndTime that represents this TimeStamp
+	 * 
+	 * @return object DateAndTime
+	 * @access public
+	 * @since 5/5/05
+	 */
+	function asDateAndTime () {
+		return DateAndTime::withYearMonthDayHourMinuteSecondOffset($this->year(), $this->month(), $this->dayOfMonth(), $this->hour(), $this->minute(), $this->second(), $this->offset());
+	}
+ 	
+ 	/**
 	 * Answer a Timestamp that represents this DateAndTime
 	 * 
 	 * @return object TimeStamp

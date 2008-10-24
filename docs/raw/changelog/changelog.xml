@@ -8,6 +8,14 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
+	<version number="1.8.5" date="The Future">
+		<releaseNotes>
+		
+		</releaseNotes>
+		<fix author='adam' date='2008-10-24' ref='' reftype='bug'>
+			Chronology: TimeStamp->asDateAndTime() now returns a real DateAndTime object.
+		</fix>
+	</version>
 	<version number="1.8.4" date="2008-10-22">
 		<releaseNotes>
 			This release fixes an omission in the Authorization cache that was
