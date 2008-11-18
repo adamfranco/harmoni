@@ -67,17 +67,21 @@ class ByteSize
 	 * @since 7/14/05
 	 */
 	static function fromString ( $stringValue, $class = 'ByteSize') {
-		if (preg_match("/([0-9\.]+)\s*(B|kB|MB|GB|TB|PB|EB|ZB|YB)/i", 
+		if (preg_match("/([0-9\.]+)\s*(B|k|kB|M|MB|G|GB|T|TB|P|PB|E|EB|Z|ZB|Y|YB)\s*$/i", 
 			$stringValue, $matches)) 
 		{
 			$suffixes = array("B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB");
-			$bytes = $matches[1] * pow(2, 
-				(10 * array_search(strtoupper($matches[2]), $suffixes)));
+			if (in_array($matches[2], $suffixes)) {
+				$bytes = $matches[1] * pow(2, (10 * array_search(strtoupper($matches[2]), $suffixes)));
+			} else {
+				$suffixes = array("", "K", "M", "G", "T", "P", "E", "Z", "Y");
+				$bytes = $matches[1] * pow(2, (10 * array_search(strtoupper($matches[2]), $suffixes)));
+			}
+				
 		} else if (preg_match("/^[0-9]+$/", $stringValue)) {
-			$bytes = intval($stringValue);
+			$bytes = $stringValue * 1;
 		} else {
-			print "not found, going with 0";
-			$bytes = 0;
+			throw new InvalidArgumentException("Format '$stringValue' not recognized.");
 		}
 		
 		eval('$result = '.$class.'::withValue($bytes, $class);');
