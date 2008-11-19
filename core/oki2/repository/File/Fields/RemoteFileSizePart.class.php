@@ -49,7 +49,11 @@ class RemoteFileSizePart
 		ArgumentValidator::validate($value, StringValidatorRule::getRule());
 		
 		// Store the size in the object in case its asked for again.
-		$size = ByteSize::fromString($value);
+		try {
+			$size = ByteSize::fromString($value);
+		} catch (InvalidArgumentException $e) {
+			$size = ByteSize::withValue(0);
+		}
 		$this->_size = $size->value();
 		
 	// then write it to the database.
