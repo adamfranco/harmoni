@@ -477,8 +477,46 @@ class LDAPGroup
 	 * 
 	 * @access public
 	 */
-	function getPropertiesByType ( Type $propertiesType ) { 
-		throwError(new Error(AgentException::UNIMPLEMENTED(), "LDAPGroup", true));
+	function getPropertiesByType ( Type $propertiesType ) {
+		if (!$propertiesType->isEqual(new Type('GroupProperties', 'edu.middlebury', 'LDAP Properties')))
+			throw new UnknownTypeException("Unsupported Properties type.");
+		
+		if (!isset($_SESSION['LDAP_GROUP_PROPERTIES'][$this->_idString])) {
+			$properties = new HarmoniProperties(new Type('GroupProperties', 'edu.middlebury', 'LDAP Properties'));
+			$properties->addProperty('identifier', $this->_idString);
+			
+			$propertiesFields = $this->_configuration->getProperty('group_properties_fields');
+			
+			if (is_array($propertiesFields)) {
+				$fieldsToFetch = array();
+				foreach ($propertiesFields as $propertyKey => $fieldName) {
+					$fieldsToFetch[] = $fieldName;
+				}
+				
+				$info = $this->_authNMethod->_connector->getInfo($this->_idString, $fieldsToFetch);
+				
+				if (!$info) {
+					// store a null so that we won't keep trying to fetch data.
+					$_SESSION['LDAP_GROUP_PROPERTIES'][$this->_idString] = null;
+					throw new OperationFailedException("Could not fetch LDAP group info.");
+				}
+				
+				foreach ($propertiesFields as $propertyKey => $fieldName) {
+					if (isset($info[$fieldName])) {
+						if (count($info[$fieldName]) <= 1)
+							$properties->addProperty($propertyKey, $info[$fieldName][0]);
+						else
+							$properties->addProperty($propertyKey, $info[$fieldName]);
+					}
+				}
+			}
+			$_SESSION['LDAP_GROUP_PROPERTIES'][$this->_idString] = $properties;
+		}
+		
+		if (is_null($_SESSION['LDAP_GROUP_PROPERTIES'][$this->_idString]))
+			throw new OperationFailedException("Could not fetch LDAP group info.");
+			
+		return $_SESSION['LDAP_GROUP_PROPERTIES'][$this->_idString];
 	} 
 
 	/**
@@ -504,7 +542,7 @@ class LDAPGroup
 	 * @access public
 	 */
 	function getPropertyTypes () { 
-		throwError(new Error(AgentException::UNIMPLEMENTED(), "LDAPGroup", true));
+		return new HarmoniIterator(array(new Type('GroupProperties', 'edu.middlebury', 'LDAP Properties')));
 	} 
 
 	/**
@@ -526,9 +564,7 @@ class LDAPGroup
 	 * @access public
 	 */
 	function getProperties () {
-		$a = array();
-		$i = new HarmoniIterator($a);
-		return $i;
+		return new HarmoniPropertiesIterator(array($this->getPropertiesByType(new Type('GroupProperties', 'edu.middlebury', 'LDAP Properties'))));
 	}	
 	
 	/**
