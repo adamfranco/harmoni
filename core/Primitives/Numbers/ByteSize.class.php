@@ -70,14 +70,15 @@ class ByteSize
 		if (preg_match("/([0-9\.]+)\s*(B|k|kB|M|MB|G|GB|T|TB|P|PB|E|EB|Z|ZB|Y|YB)\s*$/i", 
 			$stringValue, $matches)) 
 		{
+			$suffix = strtoupper($matches[2]);
+			
 			$suffixes = array("B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB");
-			if (in_array($matches[2], $suffixes)) {
-				$bytes = $matches[1] * pow(2, (10 * array_search(strtoupper($matches[2]), $suffixes)));
+			if (in_array($suffix, $suffixes)) {
+				$bytes = $matches[1] * pow(2, (10 * array_search($suffix, $suffixes)));
 			} else {
 				$suffixes = array("", "K", "M", "G", "T", "P", "E", "Z", "Y");
-				$bytes = $matches[1] * pow(2, (10 * array_search(strtoupper($matches[2]), $suffixes)));
+				$bytes = $matches[1] * pow(2, (10 * array_search($suffix, $suffixes)));
 			}
-				
 		} else if (preg_match("/^[0-9]+$/", $stringValue)) {
 			$bytes = $stringValue * 1;
 		} else {
