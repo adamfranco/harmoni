@@ -190,6 +190,39 @@ class Harmoni_Filing_FileSystemFile
 			throw new OperationFailedException("Could not get timestamp of '".$this->getBaseName()."'.");
 		return TimeStamp::fromUnixTimeStamp($tstamp)->asDateAndTime();
 	}
+	
+	/**
+	 * Answer true if the file is readable
+	 * 
+	 * @return boolean
+	 * @access public
+	 * @since 11/19/08
+	 */
+	public function isReadable () {
+		return is_readable($this->path);
+	}
+	
+	/**
+	 * Answer true if the file is writable
+	 * 
+	 * @return boolean
+	 * @access public
+	 * @since 11/19/08
+	 */
+	public function isWritable () {
+		return is_writeable($this->path);
+	}
+	
+	/**
+	 * Answer true if the file is executable
+	 * 
+	 * @return boolean
+	 * @access public
+	 * @since 11/19/08
+	 */
+	public function isExecutable () {
+		return is_executable($this->path);
+	}
 }
 
 ?>
