@@ -25,6 +25,12 @@
 			AuthN: Pulled token validation into its own method so that tokens 
 			can be validated independently of prompting.
 		</change>
+		<new author='adam' date='2008-11-19'>
+			AgentManagement: LDAP groups now support reading properties dynamically.
+		</new>
+		<change author='adam' date='2008-11-19'>
+			Primitives: ByteSize primitive now supports suffixes like 'M' as well as 'MB'.
+		</change>
 	</version>
 	<version number="1.8.4" date="2008-10-22">
 		<releaseNotes>
