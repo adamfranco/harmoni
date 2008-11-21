@@ -1235,6 +1235,19 @@ class DateAndTime
 		return "$month/$day/$year";
 	}
 	
+	/**
+	 * Answer a string formated using the php date() format sting.
+	 * See: http://us2.php.net/manual/en/function.date.php for details
+	 * 
+	 * @param string $format
+	 * @return string
+	 * @access public
+	 * @since 11/21/08
+	 */
+	public function format ($format) {
+		return $this->asDateTime()->format($format);
+	}
+	
 /*********************************************************
  * Instance methods - Comparing/Testing
  *********************************************************/
@@ -1471,6 +1484,45 @@ class DateAndTime
 	function asTimeStamp () {
 		$obj =$this->asA('TimeStamp');
 		return $obj;
+	}
+	
+	/**
+	 * Answer a PHP build-in DateTime object (PHP > 5.2) with our values.
+	 * 
+	 * @return object DateTime
+	 * @access public
+	 * @since 11/21/08
+	 */
+	public function asDateTime () {
+		$result = $this->ymdString(false);
+		$result .= 'T';
+		$result .= $this->hmsString();
+		
+		if ($this->offset->isPositive())
+			$result .= '+';
+		else
+			$result .= '-';
+		
+		$result .= str_pad(abs($this->offset->hours()), 2, '0', STR_PAD_LEFT);
+		$result .= ':';
+		$result .= str_pad(abs($this->offset->minutes()), 2, '0', STR_PAD_LEFT);
+		
+		$resultWithTZ = $result;
+		if ($this->offset->seconds() != 0) {
+			$resultWithTZ .= ':';
+			$resultWithTZ .= intval(abs($this->offset->minutes())/10);
+		}
+		
+		$dateTime = new DateTime($resultWithTZ);
+		
+		// If our timezone abbrieviation has the same value as the offset, use it.
+		$tzone = new DateTimeZone($this->timeZoneAbbreviation());
+ 		if ($tzone !== false && $tzone->getOffset($dateTime) == $this->offset->asSeconds()) {
+//  			printpre('setting timezone');
+ 			$dateTime->setTimezone($tzone);
+ 		}
+		
+		return $dateTime;
 	}
 	
 	/**

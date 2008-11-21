@@ -534,6 +534,92 @@ class DateAndTimeTestCase extends UnitTestCase {
 		$this->assertEqual($result->second(), 45);
 			
 	}
+	
+	/**
+	 * Test conversion to the PHP built-in DateTime
+	 * 
+	 * @return void
+	 * @access public
+	 * @since 11/21/08
+	 */
+	public function test_php_datetime () {
+		print "<h3>conversion to PHP DateTime</h3>";
+		
+		$ref = new ReflectionClass('DateTimeZone');
+		printpre($ref->getMethods());
+		
+		$dateAndTime = DateAndTime::withYearMonthDayHourMinuteSecondOffset(
+							2005, 6, 4, 15, 25, 10, Duration::withHours(-5));
+		$this->checkEquality($dateAndTime, $dateAndTime->asDateTime());
+		
+		$dateAndTime = DateAndTime::withYearMonthDayHourMinuteSecondOffset(
+							2005, 2, 4, 15, 25, 10, Duration::withHours(-4));
+		$this->checkEquality($dateAndTime, $dateAndTime->asDateTime());
+		
+		$dateAndTime = DateAndTime::withYearMonthDayHourMinuteSecondOffset(
+							1423, 2, 4, 15, 25, 10, Duration::withHours(0));
+		$this->checkEquality($dateAndTime, $dateAndTime->asDateTime());
+		
+		$dateAndTime = DateAndTime::withYearMonthDayHourMinuteSecondOffset(
+							732, 6, 3, 8, 0, 0, Duration::withHours(0));
+		$this->checkEquality($dateAndTime, $dateAndTime->asDateTime());
+		
+		$dateAndTime = DateAndTime::withYearMonthDayHourMinuteSecondOffset(
+							2, 6, 3, 8, 0, 0, Duration::withHours(0));
+		$this->checkEquality($dateAndTime, $dateAndTime->asDateTime());
+		
+		$dateAndTime = DateAndTime::withYearMonthDayHourMinuteSecondOffset(
+							0, 6, 3, 8, 0, 0, Duration::withHours(0));
+		$this->checkEquality($dateAndTime, $dateAndTime->asDateTime());
+		
+		$dateAndTime = DateAndTime::withYearMonthDayHourMinuteSecondOffset(
+							-460, 6, 3, 8, 0, 0, Duration::withHours(0));
+		$this->checkEquality($dateAndTime, $dateAndTime->asDateTime());
+		
+		$dateAndTime = DateAndTime::withYearMonthDayHourMinuteSecondOffset(
+							-8460, 6, 3, 8, 0, 0, Duration::withHours(0));
+		$this->checkEquality($dateAndTime, $dateAndTime->asDateTime());
+		
+		$dateAndTime = DateAndTime::now();
+		$this->checkEquality($dateAndTime, $dateAndTime->asDateTime());
+	}
+	
+	/**
+	 * Check the equality of a DateAndTime against a PHP DateTime object
+	 * 
+	 * @param object DateAndTime $dateAndTime
+	 * @param object DateTime $dateTime
+	 * @return void
+	 * @access protected
+	 * @since 11/21/08
+	 */
+	protected function checkEquality (DateAndTime $dateAndTime, DateTime $dateTime) {
+		print "<h4>".$dateAndTime->asString()."</h4>";
+		print "Year: ";
+		$this->assertEqual($dateAndTime->year(), intval($dateTime->format('Y')));
+		print "Month: ";
+		$this->assertEqual($dateAndTime->month(), intval($dateTime->format('n')));
+		print "Day of Month: ";
+		$this->assertEqual($dateAndTime->dayOfMonth(), intval($dateTime->format('j')));
+		print "Day of Year: ";
+		$this->assertEqual($dateAndTime->dayOfYear() - 1, intval($dateTime->format('z')));
+		
+		print "Hour: ";
+		$this->assertEqual($dateAndTime->hour(), intval($dateTime->format('G')));
+		print "Minute: ";
+		$this->assertEqual($dateAndTime->minute(), intval($dateTime->format('i')));
+		print "Second: ";
+		$this->assertEqual($dateAndTime->second(), intval($dateTime->format('s')));
+		
+// 		print "TZ abbriviation: ";
+// 		$this->assertEqual($dateAndTime->timeZoneAbbreviation(), $dateTime->format('T'));
+		
+		$datTZone = $dateAndTime->timeZone();
+		$dtTZone = $dateTime->getTimezone();
+		
+		print "TZ seconds: ";
+		$this->assertEqual($datTZone->offset()->asSeconds(), intval($dateTime->format('Z')));
+	}
 
 }
 
