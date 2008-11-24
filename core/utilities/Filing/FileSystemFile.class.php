@@ -152,6 +152,7 @@ class Harmoni_Filing_FileSystemFile
 	 */
 	public function setContents ($contents) {
 		file_put_contents($this->path, $contents);
+		clearstatcache();
 	}
 	
 	/**
