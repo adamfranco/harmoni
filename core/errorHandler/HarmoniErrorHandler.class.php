@@ -319,11 +319,12 @@ class HarmoniErrorHandler {
 	 * @param string $type The type of error or exception that occurred
 	 * @param string $message A message.
 	 * @param array $backtrace
+	 * @param optional int $code
 	 * @return void
 	 * @access public
 	 * @since 10/10/07
 	 */
-	public static function printPlainTextMessage ( $errorOrException, $type, $message, array $backtrace ) {
+	public static function printPlainTextMessage ( $errorOrException, $type, $message, array $backtrace, $code = null ) {
 		print "\n*****************************************************************************";
 		print "\n* ".$errorOrException.": ";
 		print "\n*\t".$type;
