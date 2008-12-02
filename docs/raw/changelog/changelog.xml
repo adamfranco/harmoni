@@ -39,7 +39,9 @@
 		<fix author='adam' date='2008-12-02'>
 			ErrorHandler: Now doesn't raise notices on empty backtrace arrays.
 		</fix>
-		
+		<fix author='adam' date='2008-12-02'>
+			CLI: Improvements to command-line request handling and error printing.
+		</fix>
 	</version>
 	<version number="1.8.4" date="2008-10-22">
 		<releaseNotes>

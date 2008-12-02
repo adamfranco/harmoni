@@ -81,11 +81,12 @@ class CommandLineRequestHandler
 	/**
 	 * Returns a new {@link URLWriter} object corresponding to this RequestHandler.
 	 *
+	 * @param optional string $base
 	 * @return ref object URLWriter
 	 * @access public
 	 */
-	public function createURLWriter() {
-		return new CommandLineUrlWriter;
+	public function createURLWriter($base = null) {
+		return new CommandLineUrlWriter($base);
 	}
 	
 	/**
@@ -120,13 +121,17 @@ class CommandLineRequestHandler
 	 *		module=moduleName&amp;action=actionName&amp;param1=value1&amp;param2=value2
 	 * 
 	 * @param string $inputUrl
+	 * @param optional string $base Defaults to MYURL
 	 * @return mixed string URL-encoded parameter list or FALSE if unmatched
 	 * @access public
 	 * @since 1/25/08
 	 * @static
 	 */
-	public static function getParameterListFromUrl ($inputUrl) {
-		$pattern = "/^".str_replace('/', '\/', MYURL).' (--([^\\s=]+)=(.+))*$/i';
+	public static function getParameterListFromUrl ($inputUrl, $base = null) {
+		if (is_null($base))
+			$base = MYURL;
+		
+		$pattern = "/^".str_replace('/', '\/', $base).' (--([^\\s=]+)=(.+))*$/i';
 		if (!preg_match($pattern, $inputUrl, $matches))
 			return FALSE;
 		else {
@@ -188,7 +193,7 @@ class CommandLineUrlWriter
 			$this->setValues($args[0]);
 		}
 		
-		$url = MYURL;
+		$url = $this->_base;
 		$pairs = array();
 		$harmoni = Harmoni::instance();
 		if (!$harmoni->config->get("sessionUseOnlyCookies") && defined("SID") && SID) 
