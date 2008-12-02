@@ -593,9 +593,9 @@ class HarmoniErrorHandler {
 		if (is_array($traceArray)) {			
 			foreach($traceArray as $i => $trace) {
 				/* each $traceArray element represents a step in the call hiearchy. Print them from bottom up. */
-				$file = basename($trace['file']);
-				$line = $trace['line'];
-				$function = $trace['function'];
+				$file = isset($trace['file'])?basename($trace['file']):'';
+				$line = isset($trace['line'])?$trace['line']:'';
+				$function = isset($trace['function'])?$trace['function']:'';
 				$class = isset($trace['class'])?$trace['class']:'';
 				$type = isset($trace['type'])?$trace['type']:'';
 				$args = ArgumentRenderer::renderManyArguments($trace['args'], false, false);

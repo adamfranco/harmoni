@@ -36,6 +36,10 @@
 			DateTime object as well as formatting strings using the PHP date() format
 			strings.
 		</new>
+		<fix author='adam' date='2008-12-02'>
+			ErrorHandler: Now doesn't raise notices on empty backtrace arrays.
+		</fix>
+		
 	</version>
 	<version number="1.8.4" date="2008-10-22">
 		<releaseNotes>
