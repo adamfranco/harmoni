@@ -42,6 +42,10 @@
 		<fix author='adam' date='2008-12-02'>
 			CLI: Improvements to command-line request handling and error printing.
 		</fix>
+		<fix author='adam' date='2008-12-04'>
+			Primitives: String->makeUtf8() now converts all ASCII control characters to 
+			empty strings.
+		</fix>
 	</version>
 	<version number="1.8.4" date="2008-10-22">
 		<releaseNotes>
