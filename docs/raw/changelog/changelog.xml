@@ -46,6 +46,9 @@
 			Primitives: String->makeUtf8() now converts all ASCII control characters to 
 			empty strings.
 		</fix>
+		<new author='adam' date='2009-01-09' ref='2189950' reftype='segue_bug'  reporter='alex'>
+			Request: New methods for parsing URLs created with alternate bases.
+		</new>
 	</version>
 	<version number="1.8.4" date="2008-10-22">
 		<releaseNotes>
