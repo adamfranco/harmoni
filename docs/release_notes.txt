@@ -1,5 +1,5 @@
 
-Harmoni v. 1.8.4 (2008-10-22)
+Harmoni v. 1.8.5 (2009-01-09)
 =================================
 
 What is Harmoni?
@@ -29,8 +29,8 @@ used independently of the other.
 
 Current Version Notes
 ---------------------
-This release fixes an omission in the Authorization cache that was preventing HTTP
-authentication from working without cookies.
+This release fixes a number of minor bugs and issues that were found during Segue
+and MiddMedia development. See the change-log for details.
 
 
 Downloads
@@ -61,6 +61,13 @@ https://sourceforge.net/tracker/?group_id=82873&atid=567473
 | Prior Harmoni Release Notes
 | (See the Harmoni change log for more details)
 ===================================================================
+
+
+v. 1.8.5 (2009-01-09)
+----------------------------------------------------
+This release fixes a number of minor bugs and issues that were found during Segue
+and MiddMedia development. See the change-log for details.
+
 
 
 v. 1.8.4 (2008-10-22)

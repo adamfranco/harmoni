@@ -8,9 +8,10 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
-	<version number="1.8.5" date="The Future">
+	<version number="1.8.5" date="2009-01-09">
 		<releaseNotes>
-		
+			This release fixes a number of minor bugs and issues that were found 
+			during Segue and MiddMedia development. See the change-log for details.
 		</releaseNotes>
 		<fix author='adam' date='2008-10-24' ref='' reftype='bug'>
 			Chronology: TimeStamp->asDateAndTime() now returns a real DateAndTime object.

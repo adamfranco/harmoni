@@ -23,7 +23,36 @@
 </head>
 <body>
 <h1>Harmoni Change Log</h1>
-<h2>Version 1.8.4</h2>
+<h2>Version 1.8.5</h2>
+<h3>2009-01-09</h3>
+<p>This release fixes a number of minor bugs and issues that were found during Segue and MiddMedia development. See the change-log for details.</p>
+<ul>
+		
+		<li>
+<b>Bug Fix:</b> Chronology: TimeStamp-&gt;asDateAndTime() now returns a real DateAndTime object. (<em>2008-10-24 - Adam Franco</em>)</li>
+		<li>
+<b>Bug Fix:</b> Filing: FileSystemFile now returns a DateAndTime instead of a TimeStamp as per its doc. (<em>2008-10-24 - Adam Franco</em>)</li>
+		<li>
+<b>Bug Fix:</b> MIME: Now recognizes mp4 and m4v files. (<em>2008-10-24 - Adam Franco</em>)</li>
+		<li>
+<b>Change:</b> AuthN: Pulled token validation into its own method so that tokens can be validated independently of prompting. (<em>2008-10-24 - Adam Franco</em>)</li>
+		<li>
+<b>New feature:</b> AgentManagement: LDAP groups now support reading properties dynamically. (<em>2008-11-19 - Adam Franco</em>)</li>
+		<li>
+<b>Change:</b> Primitives: ByteSize primitive now supports suffixes like 'M' as well as 'MB'. (<em>2008-11-19 - Adam Franco</em>)</li>
+		<li>
+<b>New feature:</b> Primitives: DateAndTime now supports conversion to PHP's new built-in DateTime object as well as formatting strings using the PHP date() format strings. (<em>2008-11-21 - Adam Franco</em>)</li>
+		<li>
+<b>Bug Fix:</b> ErrorHandler: Now doesn't raise notices on empty backtrace arrays. (<em>2008-12-02 - Adam Franco</em>)</li>
+		<li>
+<b>Bug Fix:</b> CLI: Improvements to command-line request handling and error printing. (<em>2008-12-02 - Adam Franco</em>)</li>
+		<li>
+<b>Bug Fix:</b> Primitives: String-&gt;makeUtf8() now converts all ASCII control characters to empty strings. (<em>2008-12-04 - Adam Franco</em>)</li>
+		<li>
+<b>New feature:</b><a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=2189950&amp;group_id=82171&amp;atid=565234">
+        			#2189950</a> Request: New methods for parsing URLs created with alternate bases. (<em>2009-01-09 - Adam Franco</em>)<br> (<em>reported by Alex Chapin of Middlebury College</em>)</li>
+	</ul>
+<br><h2>Version 1.8.4</h2>
 <h3>2008-10-22</h3>
 <p>This release fixes an omission in the Authorization cache that was preventing HTTP authentication from working without cookies.</p>
 <ul>
