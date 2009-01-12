@@ -353,35 +353,6 @@ class HtmlString
 	}
 	
 	/**
- 	 * Convert 'smart quotes' and other non-UTF8 characters to the UTF8 equivalent.
- 	 *
- 	 * Method implementation from Chris Shiflett:
- 	 *		http://shiflett.org/blog/2005/oct/convert-smart-quotes-with-php
- 	 * 
- 	 * @param string $inputString
- 	 * @return string
- 	 * @access public
- 	 * @since 6/16/08
- 	 */
- 	public function makeUtf8 () {
-		$search = array(	chr(145), 
-							chr(146), 
-							chr(147), 
-							chr(148), 
-							chr(151)); 
-		
-		$replace = array(	"&lsquo;", 
-							"&rsquo;", 
-							'&ldquo;', 
-							'&rdquo;', 
-							'&mdash;'); 
-		
-		$this->_string = str_replace($search, $replace, $this->asString());
-		
-		parent::makeUtf8();
- 	}
-	
-	/**
 	 * Clean up the html as much as possible
 	 * 
 	 * @return void

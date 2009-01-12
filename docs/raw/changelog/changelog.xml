@@ -8,6 +8,14 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
+	<version number="1.8.6" date="The Future">
+		<releaseNotes>
+			This release fixes a character-encoding issue in the String's makeUTF8() method.
+		</releaseNotes>
+		<fix author='adam' date='2009-01-12' ref='' reftype='bug'  reporter='kevin_moss'>
+			Primitives: Fixed UTF-8 conversion to not garble some instances of Russian Text.
+		</fix>
+	</version>
 	<version number="1.8.5" date="2009-01-09">
 		<releaseNotes>
 			This release fixes a number of minor bugs and issues that were found 
@@ -2679,6 +2687,10 @@
 		</reporter>
 		<reporter short="hector_vila">
 			<name>Hector Vila</name>
+			<institution>Middlebury College</institution>
+		</reporter>
+		<reporter short="kevin_moss">
+			<name>Kevin Moss</name>
 			<institution>Middlebury College</institution>
 		</reporter>
 		<reporter short="jeff_merriman">

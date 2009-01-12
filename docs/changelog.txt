@@ -2,6 +2,20 @@
 Harmoni Change Log
 
 
+v. 1.8.6 (The Future)
+----------------------------------------------------
+This release fixes a character-encoding issue in the String's makeUTF8() method.
+		
+		
+	* Bug Fix: 
+		Primitives: Fixed UTF-8 conversion to not garble some instances of Russian
+		Text. 
+		(2009-01-12 - Adam Franco)
+		(reported by Kevin Moss of Middlebury College)
+	
+
+
+
 v. 1.8.5 (2009-01-09)
 ----------------------------------------------------
 This release fixes a number of minor bugs and issues that were found during Segue

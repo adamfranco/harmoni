@@ -91,6 +91,13 @@ class String
  	 * @since 6/16/08
  	 */
  	public function makeUtf8 () {
+		// Try to automatically convert if a a non-utf8 encoding is used, but 
+		// preserve UTF-8 by making it the first thing to match.
+		if (!function_exists('mb_convert_encoding'))
+			throw new ConfigurationFailedException("PHP must be compiled with the --enable-mbstring option");
+		$this->_string = mb_convert_encoding($this->_string, "UTF-8", "UTF-8, ISO-8859-1");
+		
+ 	
 		$search = array(
 						// Control Chars
 							chr(0),		// NUL	(Null char)
@@ -145,13 +152,13 @@ class String
 // 							chr(142),	// Ž	(Latin captial letter Z with caron)
 // 							chr(143),	// 
 // 							chr(144),	// 
-							chr(145),	// ‘	(Left single quotation mark)
-							chr(146),	// ’	(Right single quotation mark)
-							chr(147),	// “	(Left double quotation mark)
-							chr(148),	// ”	(Right double quotation mark)
+// 							chr(145),	// ‘	(Left single quotation mark)
+// 							chr(146),	// ’	(Right single quotation mark)
+// 							chr(147),	// “	(Left double quotation mark)
+// 							chr(148),	// ”	(Right double quotation mark)
 // 							chr(149),	// •	(Bullet)
-							chr(150),	// –	(En dash)
-							chr(151),	// —	(Em dash)
+// 							chr(150),	// –	(En dash)
+// 							chr(151),	// —	(Em dash)
 // 							chr(152),	// ˜	(Small tilde)
 // 							chr(153),	// ™	(Trade mark sign)
 // 							chr(154),	// š	(Latin small letter S with caron)
@@ -217,13 +224,13 @@ class String
 // 							"Ž",	// Ž	(Latin captial letter Z with caron)
 // 							"",		// 
 // 							"",		// 
-							"'",	// ‘	(Left single quotation mark)
-							"'",	// ’	(Right single quotation mark)
-							'"',	// “	(Left double quotation mark)
-							'"',	// ”	(Right double quotation mark)
+// 							"'",	// ‘	(Left single quotation mark)
+// 							"'",	// ’	(Right single quotation mark)
+// 							'"',	// “	(Left double quotation mark)
+// 							'"',	// ”	(Right double quotation mark)
 // 							"•",	// •	(Bullet)
-							"-",	// –	(En dash)
-							"-",	// —	(Em dash)
+// 							"-",	// –	(En dash)
+// 							"-",	// —	(Em dash)
 // 							"˜",	// ˜	(Small tilde)
 // 							"™",	// ™	(Trade mark sign)
 // 							"š",	// š	(Latin small letter S with caron)
@@ -236,12 +243,6 @@ class String
 		
 		// Convert any characters known
 		$this->_string = str_replace($search, $replace, $this->asString());
-		
-		// Try to automatically convert if a a non-utf8 encoding is used, but 
-		// preserve UTF-8 by making it the first thing to match.
-		if (!function_exists('mb_convert_encoding'))
-			throw new ConfigurationFailedException("PHP must be compiled with the --enable-mbstring option");
-		$this->_string = mb_convert_encoding($this->_string, "UTF-8", "UTF-8, ISO-8859-1");
 
 		// Strip out any remaining non-UTF8 characters
 // 		$this->_string = @ iconv("UTF-8", "UTF-8//IGNORE", $this->_string);

@@ -1,5 +1,5 @@
 
-Harmoni v. 1.8.5 (2009-01-09)
+Harmoni v. 1.8.6 (The Future)
 =================================
 
 What is Harmoni?
@@ -29,8 +29,7 @@ used independently of the other.
 
 Current Version Notes
 ---------------------
-This release fixes a number of minor bugs and issues that were found during Segue
-and MiddMedia development. See the change-log for details.
+This release fixes a character-encoding issue in the String's makeUTF8() method.
 
 
 Downloads
@@ -61,6 +60,12 @@ https://sourceforge.net/tracker/?group_id=82873&atid=567473
 | Prior Harmoni Release Notes
 | (See the Harmoni change log for more details)
 ===================================================================
+
+
+v. 1.8.6 (The Future)
+----------------------------------------------------
+This release fixes a character-encoding issue in the String's makeUTF8() method.
+
 
 
 v. 1.8.5 (2009-01-09)
