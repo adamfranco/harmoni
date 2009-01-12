@@ -2,7 +2,7 @@
 Harmoni Change Log
 
 
-v. 1.8.6 (The Future)
+v. 1.8.6 (2009-01-12)
 ----------------------------------------------------
 This release fixes a character-encoding issue in the String's makeUTF8() method.
 		

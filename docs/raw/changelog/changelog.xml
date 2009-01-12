@@ -8,7 +8,7 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
-	<version number="1.8.6" date="The Future">
+	<version number="1.8.6" date="2009-01-12">
 		<releaseNotes>
 			This release fixes a character-encoding issue in the String's makeUTF8() method.
 		</releaseNotes>

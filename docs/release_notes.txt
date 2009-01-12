@@ -1,5 +1,5 @@
 
-Harmoni v. 1.8.6 (The Future)
+Harmoni v. 1.8.6 (2009-01-12)
 =================================
 
 What is Harmoni?
@@ -62,7 +62,7 @@ https://sourceforge.net/tracker/?group_id=82873&atid=567473
 ===================================================================
 
 
-v. 1.8.6 (The Future)
+v. 1.8.6 (2009-01-12)
 ----------------------------------------------------
 This release fixes a character-encoding issue in the String's makeUTF8() method.
 
