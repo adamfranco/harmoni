@@ -109,7 +109,8 @@ class MIMETypes {
 			"movie"	=> "x-sgi-movie",
 			"vdo"	=> "vdo",
 			"viv"	=> "vnd.vivo",
-			"wmv"	=> "x-ms-wmv"
+			"wmv"	=> "x-ms-wmv",
+			"flv"	=> "x-flv"
 		);
 		
 		$this->applicationTypes = array (

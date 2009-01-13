@@ -8,6 +8,14 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
+	<version number="1.8.7" date="The Future">
+		<releaseNotes>
+			
+		</releaseNotes>
+		<fix author='adam' date='2009-01-13' ref='' reftype='bug'  reporter=''>
+			MIME: added support for the flash video mime type, video/x-flv.
+		</fix>
+	</version>
 	<version number="1.8.6" date="2009-01-12">
 		<releaseNotes>
 			This release fixes a character-encoding issue in the String's makeUTF8() method.
