@@ -467,7 +467,15 @@ class Harmoni {
 		if ($path[strlen($path) - 1] != '/') 
 			$path .= '/';
 		
-		session_set_cookie_params(0, $path, $this->config->get("sessionCookieDomain"), $this->config->get("sessionCookiesSecure"), $this->config->get("sessionCookiesHttpOnly"));
+		if (version_compare(phpversion(), '5.2.0', "<")) {
+			if ($this->config->get("sessionCookiesHttpOnly"))
+				throw new ConfigurationErrorException('"sessionCookiesHttpOnly" specified, but PHP versions less than 5.2.0 do not support it. Using PHP '.phpversion().'.');
+			else	
+				session_set_cookie_params(0, $path, $this->config->get("sessionCookieDomain"), $this->config->get("sessionCookiesSecure"));
+		} else {
+			session_set_cookie_params(0, $path, $this->config->get("sessionCookieDomain"), $this->config->get("sessionCookiesSecure"), $this->config->get("sessionCookiesHttpOnly"));
+		}
+
 		
 		// If we have a configuration for Actions which allow the session id
 		// to be passed in the URL, then check for those actions.

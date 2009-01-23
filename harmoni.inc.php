@@ -98,7 +98,10 @@ if (get_magic_quotes_gpc()) {
 /*********************************************************
  * Check that the PHP version is at least 5
  *********************************************************/
-$minPhpVersion = "5.2.0";
+if (defined('HARMONI_MIN_PHP_VERSION'))
+	$minPhpVersion = HARMONI_MIN_PHP_VERSION;
+else
+	$minPhpVersion = "5.2.0";
 if (version_compare(phpversion(), $minPhpVersion, "<")) {
 	// but really throw an error
 	print '

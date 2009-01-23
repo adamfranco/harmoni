@@ -8,10 +8,15 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
-	<version number="1.8.7" date="The Future">
+	<version number="1.9.0" date="The Future">
 		<releaseNotes>
 			
 		</releaseNotes>
+		<fix author='adam' date='2009-01-23' ref='' reftype='bug'  reporter=''>
+			Fixes to allow Harmoni to run under PHP 5.1, which lacks full support of
+			__toString(), the DateTime class, and the HTTP_Only parameter for 
+			session_set_cookie_params().
+		</fix>
 		<fix author='adam' date='2009-01-13' ref='' reftype='bug'  reporter=''>
 			MIME: added support for the flash video mime type, video/x-flv.
 		</fix>

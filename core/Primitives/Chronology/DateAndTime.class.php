@@ -1245,6 +1245,11 @@ class DateAndTime
 	 * @since 11/21/08
 	 */
 	public function format ($format) {
+		// For PHP < 5.2.0
+		if (!class_exists('DateTime')) {
+			return date($format, $this->asTimestamp()->asUnixTimestamp());
+		}
+
 		return $this->asDateTime()->format($format);
 	}
 	

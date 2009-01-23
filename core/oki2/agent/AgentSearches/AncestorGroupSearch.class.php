@@ -121,7 +121,7 @@ class AncestorGroupSearch
 		
 		foreach ($externalGroups as $group) {
 			$allGroups[] = $group;
-			$externalIdsToCheckForInternalParents[] = $group->getId();
+			$externalIdsToCheckForInternalParents[] = $group->getId()->getIdString();
 		}
 		$allGroups = array_merge($allGroups, $this->getHierarchyAncestorsForExternalGroups($externalIdsToCheckForInternalParents));
 		
