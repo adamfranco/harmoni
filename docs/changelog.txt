@@ -2,6 +2,24 @@
 Harmoni Change Log
 
 
+v. 1.9.0 (2009-01-23)
+----------------------------------------------------
+This release includes a number of fixes to allow Harmoni to run under PHP 5.1.
+		
+		
+	* Bug Fix: 
+		Fixes to allow Harmoni to run under PHP 5.1, which lacks full support of
+		__toString(), the DateTime class, and the HTTP_Only parameter for
+		session_set_cookie_params(). 
+		(2009-01-23 - Adam Franco)
+		
+	* Bug Fix: 
+		MIME: added support for the flash video mime type, video/x-flv.
+		(2009-01-13 - Adam Franco)
+	
+
+
+
 v. 1.8.6 (2009-01-12)
 ----------------------------------------------------
 This release fixes a character-encoding issue in the String's makeUTF8() method.
