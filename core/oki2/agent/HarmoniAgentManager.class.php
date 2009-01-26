@@ -1118,6 +1118,16 @@ class HarmoniAgentManager
 		$query = new SelectQuery;
 		$query->addTable('agent_external_children');
 		$query->addColumn('DISTINCT fk_parent', 'parent');
+		
+		// Before PHP 5.2.0, __toString() was only called automatically 
+		// in print() statements, not in concatinations.
+		if (version_compare(phpversion(), '5.2.0', '<')) {
+			foreach ($groupIds as $key => $val) {
+				if (is_object($val))
+					$groupIds[$key] = $val->__toString();
+			}
+		}
+		
 		$query->addWhereIn('fk_child', $groupIds);
 		
 		$dbc = Services::getService("DBHandler");
