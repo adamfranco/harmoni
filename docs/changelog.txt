@@ -2,6 +2,19 @@
 Harmoni Change Log
 
 
+v. 1.9.1 (2009-01-26)
+----------------------------------------------------
+This release includes a fix to allow Harmoni to run under PHP 5.1.
+		
+		
+	* Bug Fix: 
+		Agent: Compatability fix to allow Harmoni to run under PHP 5.1, which lacks
+		full support of __toString()
+		(2009-01-26 - Adam Franco)
+	
+
+
+
 v. 1.9.0 (2009-01-23)
 ----------------------------------------------------
 This release includes a number of fixes to allow Harmoni to run under PHP 5.1.

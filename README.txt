@@ -1,5 +1,5 @@
 
-Harmoni v. 1.9.0 (2009-01-23)
+Harmoni v. 1.9.1 (2009-01-26)
 =================================
 
 What is Harmoni?
@@ -29,7 +29,7 @@ used independently of the other.
 
 Current Version Notes
 ---------------------
-This release includes a number of fixes to allow Harmoni to run under PHP 5.1.
+This release includes a fix to allow Harmoni to run under PHP 5.1.
 
 
 Downloads
@@ -60,6 +60,12 @@ https://sourceforge.net/tracker/?group_id=82873&atid=567473
 | Prior Harmoni Release Notes
 | (See the Harmoni change log for more details)
 ===================================================================
+
+
+v. 1.9.1 (2009-01-26)
+----------------------------------------------------
+This release includes a fix to allow Harmoni to run under PHP 5.1.
+
 
 
 v. 1.9.0 (2009-01-23)
