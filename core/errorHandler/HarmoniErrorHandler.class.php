@@ -9,6 +9,10 @@
  * @version $Id: HarmoniErrorHandler.class.php,v 1.20 2008/04/18 14:58:26 adamfranco Exp $
  */ 
 
+// E_RECOVERABLE_ERROR is not defined in PHP 5.1
+if (!defined('E_RECOVERABLE_ERROR'))
+	define('E_RECOVERABLE_ERROR', 4096);
+
 /**
  * This is an error handler class that can display and log errors and exceptions.
  *

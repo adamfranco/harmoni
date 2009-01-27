@@ -8,6 +8,14 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
+	<version number="1.9.2" date="The Future">
+		<releaseNotes>
+			
+		</releaseNotes>
+		<fix author='adam' date='2009-01-27' ref='' reftype='bug'  reporter=''>
+			ErrorHandler: Now defines E_RECOVERABLE_ERROR for PHP 5.1 support.
+		</fix>
+	</version>
 	<version number="1.9.1" date="2009-01-26">
 		<releaseNotes>
 			This release includes a fix to allow Harmoni to run under PHP 5.1.
