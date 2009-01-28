@@ -2,6 +2,24 @@
 Harmoni Change Log
 
 
+v. 1.9.2 (2009-01-28)
+----------------------------------------------------
+This release fixes a few minor issues with the ErrorHandler. See the Change Log for
+details. 
+		
+		
+	* Bug Fix: 
+		ErrorHandler: Now defines E_RECOVERABLE_ERROR for PHP 5.1 support.
+		(2009-01-27 - Adam Franco)
+		
+	* New feature: 
+		ErrorHandler: New method for printing exceptions,
+		HarmoniErrorHandler::printException(Exception $e)
+		(2009-01-28 - Adam Franco)
+	
+
+
+
 v. 1.9.1 (2009-01-26)
 ----------------------------------------------------
 This release includes a fix to allow Harmoni to run under PHP 5.1.

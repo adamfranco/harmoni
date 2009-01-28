@@ -242,17 +242,37 @@ class HarmoniErrorHandler {
 		if (ini_get('display_errors') === true || ini_get('display_errors') === 'On' 
 			|| ini_get('display_errors') === 'stdout' || ini_get('display_errors') === '1')
 		{
-			if (ini_get('html_errors')) {
-				if (method_exists($exception, 'getHtmlMessage'))
-					self::printHtmlMessage($priority.' of type', $type, $exception->getHtmlMessage(), $exception->getTrace(), $exception->getCode());
-				else
-					self::printMessage($priority.' of type', $type, $exception->getMessage(), $exception->getTrace(), $exception->getCode());
-			} else
-				self::printPlainTextMessage($priority.' of type', $type, $exception->getMessage(), $exception->getTrace(), $exception->getCode());
+			self::printException($exception);
 		}
 		
 		// Log the Exception
 		self::logMessage($priority, $exception->getMessage(), $exception->getTrace(), 'Harmoni', $type);
+	}
+	
+	/**
+	 * Print out an exception
+	 * 
+	 * @param Exception $exception
+	 * @return void
+	 * @access public
+	 * @since 1/27/09
+	 * @static
+	 */
+	public static function printException (Exception $exception) {
+		$priority = 'Uncaught Exception';
+		
+		if (method_exists($exception, "getType") && $exception->getType())
+			$type = $exception->getType();
+		else
+			$type = get_class($exception);
+		
+		if (ini_get('html_errors')) {
+			if (method_exists($exception, 'getHtmlMessage'))
+				self::printHtmlMessage($priority.' of type', $type, $exception->getHtmlMessage(), $exception->getTrace(), $exception->getCode());
+			else
+				self::printMessage($priority.' of type', $type, $exception->getMessage(), $exception->getTrace(), $exception->getCode());
+		} else
+			self::printPlainTextMessage($priority.' of type', $type, $exception->getMessage(), $exception->getTrace(), $exception->getCode());
 	}
 	
 	/**

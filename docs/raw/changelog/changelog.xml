@@ -8,13 +8,18 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
-	<version number="1.9.2" date="The Future">
+	<version number="1.9.2" date="2009-01-28">
 		<releaseNotes>
-			
+			This release fixes a few minor issues with the ErrorHandler.
+			See the Change Log for details.
 		</releaseNotes>
 		<fix author='adam' date='2009-01-27' ref='' reftype='bug'  reporter=''>
 			ErrorHandler: Now defines E_RECOVERABLE_ERROR for PHP 5.1 support.
 		</fix>
+		<new author='adam' date='2009-01-28' ref='' reftype='fr'  reporter=''>
+			ErrorHandler: New method for printing exceptions,
+			HarmoniErrorHandler::printException(Exception $e)
+		</new>
 	</version>
 	<version number="1.9.1" date="2009-01-26">
 		<releaseNotes>
