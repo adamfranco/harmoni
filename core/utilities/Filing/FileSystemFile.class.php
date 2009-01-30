@@ -37,7 +37,7 @@ class Harmoni_Filing_FileSystemFile
 	public function __construct ($path) {
 		ArgumentValidator::validate($path, NonzeroLengthStringValidatorRule::getRule());
 		if (!file_exists($path) || is_dir($path))
-			throw new Exception("'".$path."' is not a valid file.");
+			throw new InvalidArgumentException("'".$path."' is not a valid file.", 78345);
 		$this->path = $path;
 	}
 		

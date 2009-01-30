@@ -15,6 +15,11 @@
 		<fix author='adam' date='2009-01-30' ref='' reftype='bug'  reporter=''>
 			Fixed typo in in the String class's use of ConfigurationErrorException.
 		</fix>
+		<change author='adam' date='2009-01-30' ref='' reftype='fr'  reporter=''>
+			Filing: Creating a file-system-file object with an invalid path now
+			throws an InvalidArgumentException with code 78345 rather than a 
+			generic Exception.
+		</change>
 	</version>
 	<version number="1.9.2" date="2009-01-28">
 		<releaseNotes>
