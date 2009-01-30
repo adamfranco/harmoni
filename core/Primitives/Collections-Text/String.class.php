@@ -94,7 +94,7 @@ class String
 		// Try to automatically convert if a a non-utf8 encoding is used, but 
 		// preserve UTF-8 by making it the first thing to match.
 		if (!function_exists('mb_convert_encoding'))
-			throw new ConfigurationFailedException("PHP must be compiled with the --enable-mbstring option");
+			throw new ConfigurationErrorException("PHP must be compiled with the --enable-mbstring option");
 		$this->_string = mb_convert_encoding($this->_string, "UTF-8", "UTF-8, ISO-8859-1");
 		
  	

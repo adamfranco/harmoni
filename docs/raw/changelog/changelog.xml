@@ -8,6 +8,14 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
+	<version number="1.9.3" date="The Future">
+		<releaseNotes>
+			
+		</releaseNotes>
+		<fix author='adam' date='2009-01-30' ref='' reftype='bug'  reporter=''>
+			Fixed typo in in the String class's use of ConfigurationErrorException.
+		</fix>
+	</version>
 	<version number="1.9.2" date="2009-01-28">
 		<releaseNotes>
 			This release fixes a few minor issues with the ErrorHandler.
