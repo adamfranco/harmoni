@@ -2,6 +2,23 @@
 Harmoni Change Log
 
 
+v. 1.9.3 (2009-01-30)
+----------------------------------------------------
+This release makes a few minor improvements. See the change log for details.
+		
+		
+	* Bug Fix: 
+		Fixed typo in in the String class's use of ConfigurationErrorException.
+		(2009-01-30 - Adam Franco)
+		
+	* Change: 
+		Filing: Creating a file-system-file object with an invalid path now throws
+		an InvalidArgumentException with code 78345 rather than a generic Exception.
+		(2009-01-30 - Adam Franco)
+	
+
+
+
 v. 1.9.2 (2009-01-28)
 ----------------------------------------------------
 This release fixes a few minor issues with the ErrorHandler. See the Change Log for

@@ -8,9 +8,9 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
-	<version number="1.9.3" date="The Future">
+	<version number="1.9.3" date="2009-01-30">
 		<releaseNotes>
-			
+			This release makes a few minor improvements. See the change log for details.
 		</releaseNotes>
 		<fix author='adam' date='2009-01-30' ref='' reftype='bug'  reporter=''>
 			Fixed typo in in the String class's use of ConfigurationErrorException.

@@ -1,5 +1,5 @@
 
-Harmoni v. 1.9.2 (2009-01-28)
+Harmoni v. 1.9.3 (2009-01-30)
 =================================
 
 What is Harmoni?
@@ -29,8 +29,7 @@ used independently of the other.
 
 Current Version Notes
 ---------------------
-This release fixes a few minor issues with the ErrorHandler. See the Change Log for
-details. 
+This release makes a few minor improvements. See the change log for details.
 
 
 Downloads
@@ -61,6 +60,12 @@ https://sourceforge.net/tracker/?group_id=82873&atid=567473
 | Prior Harmoni Release Notes
 | (See the Harmoni change log for more details)
 ===================================================================
+
+
+v. 1.9.3 (2009-01-30)
+----------------------------------------------------
+This release makes a few minor improvements. See the change log for details.
+
 
 
 v. 1.9.2 (2009-01-28)
