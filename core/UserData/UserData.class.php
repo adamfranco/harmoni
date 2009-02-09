@@ -318,7 +318,14 @@ class UserData {
 		$query->addValue('pref_val', $val);
 		
 		$dbc = Services::getService('DatabaseManager');
-		$dbc->query($query);
+		try {
+			$dbc->query($query);
+		} catch (DuplicateKeyDatabaseException $e) {
+			// If we have another window open that alreay changed the preference,
+			// try again.
+			unset($_SESSION['harmoni_user_prefs_persistant']);
+			$this->_storePref($key, $val);
+		}
 		
 		$_SESSION['harmoni_user_prefs_persistant'][$key] = $val;
 	}

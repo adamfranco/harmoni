@@ -1,5 +1,5 @@
 
-Harmoni v. 1.9.3 (2009-01-30)
+Harmoni v. 1.9.4 (2009-02-09)
 =================================
 
 What is Harmoni?
@@ -60,6 +60,12 @@ https://sourceforge.net/tracker/?group_id=82873&atid=567473
 | Prior Harmoni Release Notes
 | (See the Harmoni change log for more details)
 ===================================================================
+
+
+v. 1.9.4 (2009-02-09)
+----------------------------------------------------
+This release makes a few minor improvements. See the change log for details.
+
 
 
 v. 1.9.3 (2009-01-30)

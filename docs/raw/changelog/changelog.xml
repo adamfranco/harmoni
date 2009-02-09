@@ -8,6 +8,14 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
+	<version number="1.9.4" date="2009-02-09">
+		<releaseNotes>
+			This release makes a few minor improvements. See the change log for details.
+		</releaseNotes>
+		<fix author='adam' date='2009-02-09' ref='' reftype='bug'  reporter=''>
+			UserData: Fixed storage conflicts when the same	user had two sessions going.
+		</fix>
+	</version>
 	<version number="1.9.3" date="2009-01-30">
 		<releaseNotes>
 			This release makes a few minor improvements. See the change log for details.

@@ -2,6 +2,18 @@
 Harmoni Change Log
 
 
+v. 1.9.4 (2009-02-09)
+----------------------------------------------------
+This release makes a few minor improvements. See the change log for details.
+		
+		
+	* Bug Fix: 
+		UserData: Fixed storage conflicts when the sameuser had two sessions going.
+		(2009-02-09 - Adam Franco)
+	
+
+
+
 v. 1.9.3 (2009-01-30)
 ----------------------------------------------------
 This release makes a few minor improvements. See the change log for details.
