@@ -621,7 +621,7 @@ class HarmoniAgentManager
 		$hierarchy->deleteNode($id);
 		
 		// update our cache for isGroup
-		if (is_array($this->_groupTreeIds)) {
+		if (isset($this->_groupTreeIds) && is_array($this->_groupTreeIds)) {
 			unset($this->_groupTreeIds[$id->getIdString()]);
 		}
 	}

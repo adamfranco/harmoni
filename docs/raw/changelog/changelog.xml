@@ -8,6 +8,14 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
+	<version number="1.9.5" date="The Future">
+		<releaseNotes>
+			
+		</releaseNotes>
+		<fix author='adam' date='2009-02-17' ref='' reftype='bug'  reporter=''>
+			Agent: Small fix to remove notice when deleting a group that was not fetched.
+		</fix>
+	</version>
 	<version number="1.9.4" date="2009-02-09">
 		<releaseNotes>
 			This release makes a few minor improvements. See the change log for details.
