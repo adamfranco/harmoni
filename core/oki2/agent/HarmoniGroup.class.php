@@ -189,6 +189,14 @@ class HarmoniGroup
 			}
 		}
 		
+		// Add any External Groups
+		if ($includeSubgroups) {
+			foreach ($agentManager->getExternalChildGroupIds($this->getId()) as $subgroupId) {
+				$subgroup = $agentManager->getGroup($subgroupId);
+				$subgroupIterators[] = $subgroup->getMembers($includeSubgroups);
+			}
+		}
+		
 		$members = new MultiIteratorIterator();
 		$members->addIterator(new HarmoniIterator($myMembers));
 		foreach ($subgroupIterators as $iterator)

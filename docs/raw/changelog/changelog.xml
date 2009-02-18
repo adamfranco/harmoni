@@ -15,6 +15,9 @@
 		<fix author='adam' date='2009-02-17' ref='' reftype='bug'  reporter=''>
 			Agent: Small fix to remove notice when deleting a group that was not fetched.
 		</fix>
+		<change author='adam' date='2009-02-18' ref='' reftype='fr'  reporter='alex'>
+			Agent: HarmoniGroups now include External sub-groups when returning members recursively.
+		</change>
 	</version>
 	<version number="1.9.4" date="2009-02-09">
 		<releaseNotes>

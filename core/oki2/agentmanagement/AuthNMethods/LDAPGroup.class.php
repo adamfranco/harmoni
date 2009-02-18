@@ -72,7 +72,7 @@ class LDAPGroup
 	 * @access public
 	 */
 	function updateDescription ( $description ) { 
-		throwError(new Error(AgentException::UNIMPLEMENTED(), "LDAPGroup", true));
+		throw new UnimplementedException();
 	} 
 
 	/**
@@ -196,7 +196,7 @@ class LDAPGroup
 	 * @access public
 	 */
 	function add ( Agent $memberOrGroup ) { 
-		throwError(new Error(AgentException::UNIMPLEMENTED(), "LDAPGroup", true));
+		throw new UnimplementedException();
 	} 
 
 	/**
@@ -222,7 +222,7 @@ class LDAPGroup
 	 * @access public
 	 */
 	function remove ( Agent $memberOrGroup ) { 
-		throwError(new Error(AgentException::UNIMPLEMENTED(), "LDAPGroup", true));
+		throw new UnimplementedException();
 	} 
 
 	/**
@@ -247,11 +247,11 @@ class LDAPGroup
 	 * @access public
 	 */
 	function getMembers ( $includeSubgroups ) {
-		if ($includeSubgroups) {
-			return $this->_getSubgroupMembers();
-		} else {
+// 		if ($includeSubgroups) {
+// 			return $this->_getSubgroupMembers();
+// 		} else {
 			return $this->_getMyMembers();
-		}
+// 		}
 	}
 	
 	/**
@@ -293,7 +293,7 @@ class LDAPGroup
 	 * @since 2/27/06
 	 */
 	function _getSubgroupMembers () {
-		throwError(new Error(AgentException::UNIMPLEMENTED(), "LDAPGroup", true));
+		throw new UnimplementedException();
 		
 		if (!isset($this->_subgroupMembers)) {
 				
@@ -341,11 +341,11 @@ class LDAPGroup
 	 * @access public
 	 */
 	function getGroups ( $includeSubgroups ) {
-		if ($includeSubgroups) {
-			return $this->_getSubgroupGroups();
-		} else {
+// 		if ($includeSubgroups) {
+// 			return $this->_getSubgroupGroups();
+// 		} else {
 			return $this->_getMyGroups();
-		}
+// 		}
 	}
 	
 	/**
@@ -382,7 +382,7 @@ class LDAPGroup
 	 * @since 2/27/06
 	 */
 	function _getSubgroupGroups () {
-		throwError(new Error(AgentException::UNIMPLEMENTED(), "LDAPGroup", true));
+		throw new UnimplementedException();
 									 
 		if (!isset($this->_subgroupGroups)) {
 			$connector = $this->_configuration->getProperty('connector');
