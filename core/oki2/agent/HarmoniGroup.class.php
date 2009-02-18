@@ -1,6 +1,7 @@
 <?php
 
 require_once(dirname(__FILE__)."/GroupsOnlyFromTraversalIterator.class.php");
+require_once(dirname(__FILE__)."/NoDuplicateAgentMultiIteratorIterator.class.php");
 require_once(OKI2."/osid/agent/Group.php");
 
 /**
@@ -173,7 +174,7 @@ class HarmoniGroup
 		
 		$agentManager = Services::getService("Agent");
 		
-		$allMembers = new MultiIteratorIterator();
+		$allMembers = new NoDuplicateAgentMultiIteratorIterator();
 		$myMembers = new HarmoniIterator(array());
 		$allMembers->addIterator($myMembers);
 		
@@ -231,7 +232,7 @@ class HarmoniGroup
 		
 		$agentManager = Services::getService("Agent");
 		
-		$allGroups = new MultiIteratorIterator();
+		$allGroups = new NoDuplicateAgentMultiIteratorIterator();
 		$myGroups = new HarmoniIterator(array());
 		$allGroups->addIterator($myGroups);
 		

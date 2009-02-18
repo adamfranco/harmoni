@@ -23,7 +23,7 @@ class MultiIteratorIterator
 	 * @access public
 	 * @since 12/6/06
 	 */
-	function MultiIteratorIterator () {
+	function __construct () {
 		if (func_num_args())
 			throw new HarmoniException(__CLASS__." does not take any constructor arguments.");
 		$this->HarmoniIterator($null = null);
