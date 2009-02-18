@@ -173,19 +173,21 @@ class HarmoniGroup
 		
 		$agentManager = Services::getService("Agent");
 		
-		$myMembers = array();
-		$subgroupIterators = array();
+		$allMembers = new MultiIteratorIterator();
+		$myMembers = new HarmoniIterator(array());
+		$allMembers->addIterator($myMembers);
+		
 		$children = $this->getNode()->getChildren();
 		while ($children->hasNext()) {
 			$child = $children->next();
 			// Add the agents of this group
 			if ($agentManager->isAgent($child->getId())) {
-				$myMembers[] = $agentManager->getAgent($child->getId());
+				$myMembers->add($agentManager->getAgent($child->getId()));
 			} 
 			// Add agents from subgroups if needed
 			else if ($includeSubgroups) {
 				$subgroup = $agentManager->getGroup($child->getId());
-				$subgroupIterators[] = $subgroup->getMembers($includeSubgroups);
+				$allMembers->addIterator($subgroup->getMembers($includeSubgroups));
 			}
 		}
 		
@@ -193,16 +195,11 @@ class HarmoniGroup
 		if ($includeSubgroups) {
 			foreach ($agentManager->getExternalChildGroupIds($this->getId()) as $subgroupId) {
 				$subgroup = $agentManager->getGroup($subgroupId);
-				$subgroupIterators[] = $subgroup->getMembers($includeSubgroups);
+				$allMembers->addIterator($subgroup->getMembers($includeSubgroups));
 			}
 		}
 		
-		$members = new MultiIteratorIterator();
-		$members->addIterator(new HarmoniIterator($myMembers));
-		foreach ($subgroupIterators as $iterator)
-			$members->addIterator($iterator);
-		
-		return $members;
+		return $allMembers;
 	}
 
 	/**
@@ -234,33 +231,30 @@ class HarmoniGroup
 		
 		$agentManager = Services::getService("Agent");
 		
-		$myGroups = array();
-		$subgroupIterators = array();
+		$allGroups = new MultiIteratorIterator();
+		$myGroups = new HarmoniIterator(array());
+		$allGroups->addIterator($myGroups);
+		
 		$children = $this->getNode()->getChildren();
 		while ($children->hasNext()) {
 			$child = $children->next();
 			if ($agentManager->isGroup($child->getId())) {
 				$subgroup = $agentManager->getGroup($child->getId());
-				$myGroups[] = $subgroup;
+				$myGroups->add($subgroup);
 				if ($includeSubgroups)
-					$subgroupIterators[] = $subgroup->getGroups($includeSubgroups);
+					$allGroups->addIterator($subgroup->getGroups($includeSubgroups));
 			}
 		}
 		
 		// Add any External Groups
 		foreach ($agentManager->getExternalChildGroupIds($this->getId()) as $subgroupId) {
 			$subgroup = $agentManager->getGroup($subgroupId);
-			$myGroups[] = $subgroup;
+			$myGroups->add($subgroup);
 			if ($includeSubgroups)
-				$subgroupIterators[] = $subgroup->getGroups($includeSubgroups);
+				$allGroups->addIterator($subgroup->getGroups($includeSubgroups));
 		}
 		
-		$groups = new MultiIteratorIterator();
-		$groups->addIterator(new HarmoniIterator($myGroups));
-		foreach ($subgroupIterators as $iterator)
-			$groups->addIterator($iterator);
-		
-		return $groups;
+		return $allGroups;
 	}
 
 	/**
