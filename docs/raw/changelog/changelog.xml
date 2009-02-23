@@ -18,6 +18,9 @@
 		<change author='adam' date='2009-02-18' ref='' reftype='fr'  reporter='alex'>
 			Agent: HarmoniGroups now include External sub-groups when returning members recursively.
 		</change>
+		<change author='adam' date='2009-02-18' ref='' reftype='fr'  reporter='alex'>
+			Agent: HarmoniGroups now filter out duplicate agents when returning members recursively.
+		</change>
 	</version>
 	<version number="1.9.4" date="2009-02-09">
 		<releaseNotes>
