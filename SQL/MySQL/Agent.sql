@@ -33,8 +33,8 @@ TYPE=InnoDB;
 -- Table structure for table agent_external_children
 -- 
 CREATE TABLE `agent_external_children` (
-  `fk_parent` varchar(70) collate utf8_bin NOT NULL,
-  `fk_child` varchar(70) collate utf8_bin NOT NULL,
+  `fk_parent` varchar(140) collate utf8_bin NOT NULL,
+  `fk_child` varchar(140) collate utf8_bin NOT NULL,
   UNIQUE KEY `parent_child_unique` (`fk_parent`,`fk_child`),
   KEY `fk_parent` (`fk_parent`),
   KEY `fk_child` (`fk_child`)

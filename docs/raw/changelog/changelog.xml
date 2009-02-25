@@ -21,6 +21,9 @@
 		<change author='adam' date='2009-02-18' ref='' reftype='fr'  reporter='alex'>
 			Agent: HarmoniGroups now filter out duplicate agents when returning members recursively.
 		</change>
+		<change author='adam' date='2009-02-25' ref='' reftype='fr'  reporter='alex'>
+			Agent/SQL: Size of agent_external_children columns has been increased from 70 characters to 140 characters to prevent long DNs from being truncated.
+		</change>
 	</version>
 	<version number="1.9.4" date="2009-02-09">
 		<releaseNotes>

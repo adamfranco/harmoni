@@ -35,8 +35,8 @@ ALTER TABLE ONLY agent_properties
 -- Table structure for table agent_external_children
 -- 
 CREATE TABLE agent_external_children (
-fk_parent VARCHAR( 70 ) NOT NULL ,
-fk_child VARCHAR( 70 ) NOT NULL
+fk_parent VARCHAR( 140 ) NOT NULL ,
+fk_child VARCHAR( 140 ) NOT NULL
 );
 
 ALTER TABLE ONLY agent_external_children
