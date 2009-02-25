@@ -23,7 +23,21 @@
 </head>
 <body>
 <h1>Harmoni Change Log</h1>
-<h2>Version 1.9.4</h2>
+<h2>Version 1.9.5</h2>
+<h3>2009-02-25</h3>
+<p>This release fixes a few issues with the Agent OSID implementation. Please note that the structure of the agent_external_children table has changed.</p>
+<ul>
+		
+		<li>
+<b>Bug Fix:</b> Agent: Small fix to remove notice when deleting a group that was not fetched. (<em>2009-02-17 - Adam Franco</em>)</li>
+		<li>
+<b>Change:</b> Agent: HarmoniGroups now include External sub-groups when returning members recursively. (<em>2009-02-18 - Adam Franco</em>)<br> (<em>reported by Alex Chapin of Middlebury College</em>)</li>
+		<li>
+<b>Change:</b> Agent: HarmoniGroups now filter out duplicate agents when returning members recursively. (<em>2009-02-18 - Adam Franco</em>)<br> (<em>reported by Alex Chapin of Middlebury College</em>)</li>
+		<li>
+<b>Change:</b> Agent/SQL: Size of agent_external_children columns has been increased from 70 characters to 140 characters to prevent long DNs from being truncated. (<em>2009-02-25 - Adam Franco</em>)<br> (<em>reported by Alex Chapin of Middlebury College</em>)</li>
+	</ul>
+<br><h2>Version 1.9.4</h2>
 <h3>2009-02-09</h3>
 <p>This release makes a few minor improvements. See the change log for details.</p>
 <ul>

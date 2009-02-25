@@ -2,6 +2,38 @@
 Harmoni Change Log
 
 
+v. 1.9.5 (2009-02-25)
+----------------------------------------------------
+This release fixes a few issues with the Agent OSID implementation. Please note that
+the structure of the agent_external_children table has changed.
+		
+		
+	* Bug Fix: 
+		Agent: Small fix to remove notice when deleting a group that was not
+		fetched. 
+		(2009-02-17 - Adam Franco)
+		
+	* Change: 
+		Agent: HarmoniGroups now include External sub-groups when returning members
+		recursively. 
+		(2009-02-18 - Adam Franco)
+		(reported by Alex Chapin of Middlebury College)
+		
+	* Change: 
+		Agent: HarmoniGroups now filter out duplicate agents when returning members
+		recursively. 
+		(2009-02-18 - Adam Franco)
+		(reported by Alex Chapin of Middlebury College)
+		
+	* Change: 
+		Agent/SQL: Size of agent_external_children columns has been increased from
+		70 characters to 140 characters to prevent long DNs from being truncated.
+		(2009-02-25 - Adam Franco)
+		(reported by Alex Chapin of Middlebury College)
+	
+
+
+
 v. 1.9.4 (2009-02-09)
 ----------------------------------------------------
 This release makes a few minor improvements. See the change log for details.
