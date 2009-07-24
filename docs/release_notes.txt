@@ -1,5 +1,5 @@
 
-Harmoni v. 1.9.5 (2009-02-25)
+Harmoni v. 1.9.6 (2009-07-24)
 =================================
 
 What is Harmoni?
@@ -29,8 +29,7 @@ used independently of the other.
 
 Current Version Notes
 ---------------------
-This release fixes a few issues with the Agent OSID implementation. Please note that
-the structure of the agent_external_children table has changed.
+This release fixes a small issue with the Agent OSID implementation.
 
 
 Downloads
@@ -61,6 +60,12 @@ https://sourceforge.net/tracker/?group_id=82873&atid=567473
 | Prior Harmoni Release Notes
 | (See the Harmoni change log for more details)
 ===================================================================
+
+
+v. 1.9.6 (2009-07-24)
+----------------------------------------------------
+This release fixes a small issue with the Agent OSID implementation.
+
 
 
 v. 1.9.5 (2009-02-25)

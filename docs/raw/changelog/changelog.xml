@@ -8,6 +8,16 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
+	<version number="1.9.6" date="2009-07-24">
+		<releaseNotes>
+			This release fixes a small issue with the Agent OSID implementation.
+		</releaseNotes>
+		<change author='adam' date='2009-07-24' ref='' reftype='fr'  reporter=''>
+			Agent: Updated the AnonymousAgent class to be operational. It appears 
+			not to have been used in a long time and no longer aligned with the 
+			HarmoniAgent parent class. It is now just a lightweight container.
+		</change>
+	</version>
 	<version number="1.9.5" date="2009-02-25">
 		<releaseNotes>
 			This release fixes a few issues with the Agent OSID implementation.
