@@ -1,5 +1,5 @@
 
-Harmoni v. 1.9.6 (2009-07-24)
+Harmoni v. 1.9.7 (2009-09-25)
 =================================
 
 What is Harmoni?
@@ -29,7 +29,8 @@ used independently of the other.
 
 Current Version Notes
 ---------------------
-This release fixes a small issue with the Agent OSID implementation.
+This release includes a few minor additions to the MIME Type list and a method in
+the FileSystemFile utility class.
 
 
 Downloads
@@ -60,6 +61,13 @@ https://sourceforge.net/tracker/?group_id=82873&atid=567473
 | Prior Harmoni Release Notes
 | (See the Harmoni change log for more details)
 ===================================================================
+
+
+v. 1.9.7 (2009-09-25)
+----------------------------------------------------
+This release includes a few minor additions to the MIME Type list and a method in
+the FileSystemFile utility class.
+
 
 
 v. 1.9.6 (2009-07-24)

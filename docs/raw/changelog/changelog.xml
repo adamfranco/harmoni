@@ -8,6 +8,12 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
+	<version number="1.9.7" date="2009-09-25">
+		<releaseNotes>
+			This release includes a few minor additions to the MIME Type list and
+			a method in the FileSystemFile utility class.
+		</releaseNotes>
+	</version>
 	<version number="1.9.6" date="2009-07-24">
 		<releaseNotes>
 			This release fixes a small issue with the Agent OSID implementation.
