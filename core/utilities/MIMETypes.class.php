@@ -105,12 +105,22 @@ class MIMETypes {
 			"qt"	=> "quicktime",
 			"mov"	=> "quicktime",
 			"moov"	=> "quicktime",
+			"asf"	=> "x-ms-asf",
 			"avi"	=> "x-msvideo",
 			"movie"	=> "x-sgi-movie",
 			"vdo"	=> "vdo",
 			"viv"	=> "vnd.vivo",
 			"wmv"	=> "x-ms-wmv",
-			"flv"	=> "x-flv"
+			"flv"	=> "x-flv",
+			"dv"	=> "x-dv",
+			"mjp"	=> "x-motion-jpeg",
+			"mj2"	=> "x-motion-jpeg",
+			"mjpg"	=> "x-motion-jpeg",
+			"mkv"	=> "x-matroska",
+			"ogv"	=> "ogg",
+			"rv"	=> "vnd-rn-realvideo",
+			"qt"	=> "quicktime ",
+			"wm"	=> "x-ms-wm",
 		);
 		
 		$this->applicationTypes = array (
@@ -202,7 +212,9 @@ class MIMETypes {
 			"vts"	=> "formulaone",
 			
 			"sxw"	=> "vnd.sun.xml.writer",
-			"sxc"	=> "vnd.sun.xml.calc"
+			"sxc"	=> "vnd.sun.xml.calc",
+			
+			"swf"	=> "x-shockwave-flash",
 		);
 	}
 	
