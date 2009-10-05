@@ -81,6 +81,15 @@ interface Harmoni_Filing_FileInterface {
 	public function setPath ($path);
 	
 	/**
+	 * Answer any file-extension
+	 * 
+	 * @return string
+	 * @access public
+	 * @since 9/24/09
+	 */
+	public function getExtension ();
+	
+	/**
 	 * Answer the size (bytes) of the file
 	 * 
 	 * @return int
