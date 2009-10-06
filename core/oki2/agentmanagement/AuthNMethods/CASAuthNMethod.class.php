@@ -76,6 +76,11 @@ class CASAuthNMethod
 		ArgumentValidator::validate($adminAccess, StringValidatorRule::getRule());
 		$this->adminAccess = $adminAccess;
 		
+		// Root Groups to expose
+		ArgumentValidator::validate (
+			$configuration->getProperty('ROOT_GROUPS'), 
+			ArrayValidatorRuleWithRule::getRule(StringValidatorRule::getRule()));
+		$this->rootGroups = array_unique($configuration->getProperty('ROOT_GROUPS'));
 	}
 	
 	/**
