@@ -398,42 +398,20 @@ class CASGroup
 		if (!$propertiesType->isEqual(new Type('GroupProperties', 'edu.middlebury', 'CAS Properties')))
 			throw new UnknownTypeException("Unsupported Properties type.");
 		
-		if (!isset($_SESSION['CAS_GROUP_PROPERTIES'][$this->_idString])) {
-			$properties = new HarmoniProperties(new Type('GroupProperties', 'edu.middlebury', 'CAS Properties'));
-			$properties->addProperty('identifier', $this->_idString);
-			
-			$propertiesFields = $this->_configuration->getProperty('group_properties_fields');
-			
-			if (is_array($propertiesFields)) {
-				$fieldsToFetch = array();
-				foreach ($propertiesFields as $propertyKey => $fieldName) {
-					$fieldsToFetch[] = $fieldName;
+		if (!isset($this->properties)) {
+			$result = $this->_authNMethod->_queryDirectory('get_group', array('id' => $this->_id->getIdString()));
+			if ($result) {
+				$elements = $result->getElementsByTagNameNS('http://www.yale.edu/tp/cas', 'entry');
+				if (!$elements->length) {
+					$this->properties = $this->_authNMethod->_getPropertiesFromCASEntry($elements->item(0));
+				} else {
+					$properties = new HarmoniProperties(new Type('GroupProperties', 'edu.middlebury', 'CAS Properties'));
 				}
-				
-				$info = $this->_authNMethod->_connector->getInfo($this->_idString, $fieldsToFetch);
-				
-				if (!$info) {
-					// store a null so that we won't keep trying to fetch data.
-					$_SESSION['CAS_GROUP_PROPERTIES'][$this->_idString] = null;
-					throw new OperationFailedException("Could not fetch CAS group info.");
-				}
-				
-				foreach ($propertiesFields as $propertyKey => $fieldName) {
-					if (isset($info[$fieldName])) {
-						if (count($info[$fieldName]) <= 1)
-							$properties->addProperty($propertyKey, $info[$fieldName][0]);
-						else
-							$properties->addProperty($propertyKey, $info[$fieldName]);
-					}
-				}
+			} else {
+				$properties = new HarmoniProperties(new Type('GroupProperties', 'edu.middlebury', 'CAS Properties'));
 			}
-			$_SESSION['CAS_GROUP_PROPERTIES'][$this->_idString] = $properties;
 		}
-		
-		if (is_null($_SESSION['CAS_GROUP_PROPERTIES'][$this->_idString]))
-			throw new OperationFailedException("Could not fetch CAS group info.");
-			
-		return $_SESSION['CAS_GROUP_PROPERTIES'][$this->_idString];
+		return $properties;
 	} 
 
 	/**
