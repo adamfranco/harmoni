@@ -43,12 +43,10 @@ class CasTokenCollector
 	 * @since 3/16/05
 	 */
 	function collect () {
-		if (phpCAS::isAuthenticated()) {
-			file_put_contents('/tmp/harmoni_cas2.out', "returning user ".phpCAS::getUser()."\n", FILE_APPEND);
+		if (phpCAS::isAuthenticated())
 			return phpCAS::getUser();
-		} else {
+		else
 			return null;
-		}
 	}
 }
 
