@@ -35,6 +35,10 @@ class CASAuthNMethod
 	function assignConfiguration ( Properties $configuration ) {
 		parent::assignConfiguration($configuration);
 		
+		$format = $configuration->getProperty('DISPLAY_NAME_FORMAT');
+		ArgumentValidator::validate($format, RegexValidatorRule::getRule('\[\[([^]]+)\]\]'));
+		$this->displayNameFormat = $format;
+		
 		if ($debug = $configuration->getProperty('CAS_DEBUG_PATH')) {
 			ArgumentValidator::validate($debug, StringValidatorRule::getRule());
 			phpCAS::setDebug($debug);
@@ -54,11 +58,6 @@ class CASAuthNMethod
 		} else {
 			phpCAS::setNoCasServerValidation();
 		}
-		
-		// Map CAS attribute keys to internal keys
-		ArgumentValidator::validate (
-			$configuration->getProperty('ATTRIBUTE_MAP'), 
-			ArrayValidatorRuleWithRule::getRule(StringValidatorRule::getRule()));
 		
 		
 		// Allow group lookup via a CASDirectory:
@@ -165,6 +164,33 @@ class CASAuthNMethod
 		}
 		
 		return $authNTokens->properties;
+	}
+	
+	/**
+	 * Should return the 'display_name_property' value for tokens
+	 * 
+	 * @param object AuthNTokens
+	 * @return string
+	 * @access public
+	 * @since 10/25/05
+	 */
+	function getDisplayNameForTokens ($authNTokens) {
+		if (!isset($authNTokens->displayName)) {
+			$this->getPropertiesForTokens($authNTokens);
+			
+			if (preg_match_all('/([^\[\]]*)\[\[([^\]]+)\]\]([^\[\]]*)/i', $this->displayNameFormat, $matches,  PREG_SET_ORDER )) {
+				$authNTokens->displayName = '';
+				foreach ($matches as $set) {
+					$authNTokens->displayName .= $set[1];
+					if ($set[2])
+						$authNTokens->displayName .= $authNTokens->properties->getProperty($set[2]);
+					$authNTokens->displayName .= $set[3];
+				}
+			} else {
+				$authNTokens->displayName = $authNTokens->getIdentifier();
+			}
+		}
+		return $authNTokens->displayName;
 	}
 	
 /*********************************************************
