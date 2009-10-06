@@ -343,7 +343,6 @@ class CASAuthNMethod
 	 */
 	public function _getPropertiesFromCASEntry (DOMElement $element) {
 		$properties = new HarmoniProperties(new Type('GroupProperties', 'edu.middlebury', 'CAS Properties'));
-		$properties->addProperty('identifier', $element->getElementsByTagNameNS('http://www.yale.edu/tp/cas', 'user')->item(0)->nodeValue);
 		foreach ($element->getElementsByTagNameNS('http://www.yale.edu/tp/cas', 'attribute') as $attra) {
 			if ($attra->getAttribute('name') != 'MemberOf')
 				$properties->addProperty($attra->getAttribute('name'), $attra->getAttribute('value'));
