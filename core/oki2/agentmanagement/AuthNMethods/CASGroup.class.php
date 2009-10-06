@@ -402,16 +402,16 @@ class CASGroup
 			$result = $this->_authNMethod->_queryDirectory('get_group', array('id' => $this->_id->getIdString()));
 			if ($result) {
 				$elements = $result->getElementsByTagNameNS('http://www.yale.edu/tp/cas', 'entry');
-				if (!$elements->length) {
+				if ($elements->length) {
 					$this->properties = $this->_authNMethod->_getPropertiesFromCASEntry($elements->item(0));
 				} else {
-					$properties = new HarmoniProperties(new Type('GroupProperties', 'edu.middlebury', 'CAS Properties'));
+					$this->properties = new HarmoniProperties(new Type('GroupProperties', 'edu.middlebury', 'CAS Properties'));
 				}
 			} else {
-				$properties = new HarmoniProperties(new Type('GroupProperties', 'edu.middlebury', 'CAS Properties'));
+				$this->properties = new HarmoniProperties(new Type('GroupProperties', 'edu.middlebury', 'CAS Properties'));
 			}
 		}
-		return $properties;
+		return $this->properties;
 	} 
 
 	/**

@@ -137,15 +137,70 @@ class CASAuthNMethod
 	 * @since 3/3/05
 	 */
 	function getTokensBySearch ( $searchString ) {
-		$result = $this->_queryDirectory('search_users', array('query' => $searchString));
-		$foundTokens = new HarmoniObjectIterator;
-		foreach ($result->getElementsByTagNameNS('http://www.yale.edu/tp/cas', 'entry') as $element) {
-			$id = $this->_getIdFromCASEntry($element);
-			$tokens = $this->createTokensForIdentifier($id);
-			$tokens->properties = $this->_getPropertiesFromCASEntry($element);
-			$foundTokens->add($tokens);
+		$doc = $this->_queryDirectory('search_users', array('query' => $searchString));
+		$foundTokens = new HarmoniObjectIterator(array());
+		if ($doc) {
+			foreach ($doc->getElementsByTagNameNS('http://www.yale.edu/tp/cas', 'entry') as $element) {
+				$id = $this->_getIdFromCASEntry($element);
+				$tokens = $this->createTokensForIdentifier($id);
+				$tokens->properties = $this->_getPropertiesFromCASEntry($element);
+				$foundTokens->add($tokens);
+			}
 		}
 		return $foundTokens;
+	}
+	
+	/**
+	 * Get an iterator of the AuthNTokens that match the search string passed.
+	 * The '*' wildcard character can be present in the string and will be
+	 * converted to the system wildcard for the AuthNMethod if wildcards are
+	 * supported or removed (and the exact string searched for) if they are not
+	 * supported.
+	 *
+	 * When multiple fields are searched on an OR search is performed, i.e.
+	 * '*ach*' would match username/fullname 'achapin'/'Chapin, Alex' as well as
+	 *  'zsmith'/'Smith, Zach'.
+	 * 
+	 * @param string $searchString
+	 * @return object ObjectIterator
+	 * @access public
+	 * @since 3/3/05
+	 */
+	function getGroupTokensBySearch ( $searchString ) {
+		ArgumentValidator::validate ($searchString, StringValidatorRule::getRule());
+		
+		$doc = $this->_queryDirectory('search_groups', array('query' => $searchString));
+		$foundTokens = new HarmoniObjectIterator(array());
+		if ($doc) {
+			foreach ($doc->getElementsByTagNameNS('http://www.yale.edu/tp/cas', 'entry') as $element) {
+				$id = $this->_getIdFromCASEntry($element);
+				$tokens = $this->createTokensForIdentifier($id);
+				$tokens->properties = $this->_getPropertiesFromCASEntry($element);
+				$foundTokens->add($tokens);
+			}
+		}
+		return $foundTokens;
+	}
+	
+	/**
+	 * Get an iterator of the AuthNTokens that match the search string passed.
+	 * The '*' wildcard character can be present in the string and will be
+	 * converted to the system wildcard for the AuthNMethod if wildcards are
+	 * supported or removed (and the exact string searched for) if they are not
+	 * supported.
+	 *
+	 * When multiple fields are searched on an OR search is performed, i.e.
+	 * '*ach*' would match username/fullname 'achapin'/'Chapin, Alex' as well as
+	 *  'zsmith'/'Smith, Zach'.
+	 * 
+	 * @param string $searchString
+	 * @return object ObjectIterator
+	 * @access public
+	 * @since 3/3/05
+	 */
+	function getClassTokensBySearch ( $searchString ) {
+		ArgumentValidator::validate ($searchString, StringValidatorRule::getRule());
+		throw new UnimplementedException();
 	}
 	
 	/**
@@ -348,6 +403,28 @@ class CASAuthNMethod
 				$properties->addProperty($attra->getAttribute('name'), $attra->getAttribute('value'));
 		}
 		return $properties;
+	}
+	
+	/**
+	 * Answer an identifier from a CAS entry XML element
+	 * 
+	 * @param DOMElement $element
+	 * @return string
+	 * @access public
+	 * @since 10/6/09
+	 */
+	public function _getIdFromCASEntry (DOMElement $element) {
+		// Check for a user id.
+		$ids = $element->getElementsByTagNameNS('http://www.yale.edu/tp/cas', 'user');
+		if ($ids->length)
+			return $ids->item(0)->nodeValue;
+		
+		// Check for a group id.
+		$ids = $element->getElementsByTagNameNS('http://www.yale.edu/tp/cas', 'group');
+		if ($ids->length)
+			return $ids->item(0)->nodeValue;
+		
+		throw new OperationFailedException("No cas:user or cas:group available in \n\n".$element->ownerDocument->saveXML($element));
 	}
 	
 }
