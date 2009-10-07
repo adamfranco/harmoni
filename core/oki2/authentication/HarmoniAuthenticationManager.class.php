@@ -473,6 +473,16 @@ class HarmoniAuthenticationManager
 		// system and record the result.
 		if ($isValid) {
 			$agentId =$this->_getAgentIdForAuthNTokens($authNTokens, $authenticationType);
+			
+			// Update any stale info that was previously loaded
+			$properties =$authNMethod->getPropertiesForTokens($authNTokens);
+			$displayName = $authNMethod->getDisplayNameForTokens($authNTokens);
+			$agentManager = Services::getService("Agent");
+			$agent = $agentManager->getAgent($agentId);
+			$agent->updateDisplayName($displayName);
+			$propertyManager = Services::getService("Property");
+			$propertyManager->storeProperties($agentId->getIdString(), $properties);
+			
 			$authenticationTypeString = $this->_getTypeString($authenticationType);
 			$_SESSION['__AuthenticatedAgents'][$authenticationTypeString]
 				=$agentId;
