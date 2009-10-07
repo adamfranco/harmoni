@@ -149,11 +149,10 @@ class AuthNMethodManager
 	function getAuthNMethodForType ( $authNType ) {
 		$key = $this->_getKey($authNType);
 		if (!isset($this->_authNMethods[$key]))
-			throwError(new Error("Unknown AuthNMethod Type, '"
+			throw new UnknownTypeException("Unknown AuthNMethod Type, '"
 				.$authNType->getDomain()."::"
 				.$authNType->getAuthority()."::"
-				.$authNType->getKeyword()."'", 
-				"AuthNMethodManager", 1));
+				.$authNType->getKeyword()."'", 3234);
 		
 		return $this->_authNMethods[$key];
 	}

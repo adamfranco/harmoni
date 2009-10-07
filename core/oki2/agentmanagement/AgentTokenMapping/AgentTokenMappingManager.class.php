@@ -599,12 +599,16 @@ class AgentTokenMappingManager
 					$row['keyword'], 
 					$row['description']);
 			
-			$authNMethod =$authNMethodManager->getAuthNMethodForType($types[$typeString]);
+			try {
+				$authNMethod =$authNMethodManager->getAuthNMethodForType($types[$typeString]);
 			
-			$mappings[] = new AgentTokenMapping( 
-				$types[$typeString],
-				$idManager->getId($row['agent_id']),
-				$authNMethod->createTokensForIdentifier($row['token_identifier']));
+				$mappings[] = new AgentTokenMapping( 
+					$types[$typeString],
+					$idManager->getId($row['agent_id']),
+					$authNMethod->createTokensForIdentifier($row['token_identifier']));
+			} catch (UnknownTypeException $e) {
+				// If an authn type is no longer enabled, just skip it.
+			}
 		
 			$result->advanceRow();
 		}
