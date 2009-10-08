@@ -281,6 +281,38 @@ class AgentTokenMappingManager
 	}
 	
 	/**
+	 * Answer an array of all mappings for a given type
+	 * 
+	 * @param object Type $authenticationType
+	 * @return array
+	 * @access public
+	 * @since 3/9/05
+	 */
+	function getMappingsByType ( Type $authenticationType ) {
+		// Otherwise use original method
+		
+		$this->_checkConfig();
+		
+		$dbc = Services::getService("DatabaseManager");
+		
+		$query =$this->_createSelectQuery();
+		
+		$query->addWhere(
+			"domain='".addslashes($authenticationType->getDomain())."'",
+			_AND);
+		$query->addWhere(
+			"authority='".addslashes($authenticationType->getAuthority())."'",
+			_AND);
+		$query->addWhere(
+			"keyword='".addslashes($authenticationType->getKeyword())."'",
+			_AND);
+		
+		$result =$dbc->query($query, $this->_dbId);
+		
+		return $this->_createMappingsFromResult($result);
+	}
+	
+	/**
 	 * Return the mapping for an AuthNTokens.
 	 * 
 	 * @param object AuthNTokens $authNTokens
