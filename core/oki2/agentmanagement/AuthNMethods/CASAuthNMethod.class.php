@@ -91,7 +91,7 @@ class CASAuthNMethod
 	 * @since 3/1/05
 	 */
 	function createTokensObject () {
-		return new CASAuthNTokens($this->_configuration, $this->directoryUrl);
+		return new CASAuthNTokens($this, $this->_configuration, $this->directoryUrl);
 	}
 	
 	/**

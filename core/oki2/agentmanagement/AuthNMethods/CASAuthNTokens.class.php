@@ -23,13 +23,15 @@ class CASAuthNTokens
 	/**
 	 * Constructor
 	 * 
+	 * @param object CASAuthNMethod $authNMethod
 	 * @param object Properties $configuration
 	 * @param optional string $directoryUrl
 	 * @return void
 	 * @access public
 	 * @since 10/5/09
 	 */
-	public function __construct (Properties $configuration, $directoryUrl = null) {
+	public function __construct (CASAuthNMethod $authNMethod, Properties $configuration, $directoryUrl = null) {
+		$this->_authNMethod = $authNMethod;
 		$this->_directoryUrl = $directoryUrl;
 		parent::AuthNTokens($configuration);
 	}
@@ -43,8 +45,25 @@ class CASAuthNTokens
 	 * @since 3/1/05
 	 */
 	function initializeForTokens ( $tokens ) {
-		ArgumentValidator::validate($tokens, NonzeroLengthStringValidatorRule::getRule());
-		$this->_identifier = $tokens;
+		// If we are passed a username, do a search to try to map that to an id.
+		if (is_array($tokens) && isset($tokens['username'])) {
+			$doc = $this->_authNMethod->_queryDirectory('search_users_by_attributes', array('Login' => $tokens['username']));
+			if ($doc) {
+				$elements = $doc->getElementsByTagNameNS('http://www.yale.edu/tp/cas', 'user');
+				if ($elements->length > 1) {
+					throw new UnknownIdException("Username '".$tokens['username']."' matches multiple CAS ids could not determine a single CAS Id.");
+				} else if ($elements->length == 1) {
+					$this->_identifier = $elements->item(0)->nodeValue;
+					return;
+				}
+			}
+			throw new UnknownIdException("Username '".$tokens['username']."' could not be mapped to a CAS id.");
+		}
+		// Normal Case
+		else {
+			ArgumentValidator::validate($tokens, NonzeroLengthStringValidatorRule::getRule());
+			$this->_identifier = $tokens;
+		}
 	}
 	
 	/**
