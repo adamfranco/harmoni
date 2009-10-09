@@ -10,6 +10,7 @@ require_once(HARMONI."oki2/shared/HarmoniProperties.class.php");
 require_once(dirname(__FILE__)."/HTTPAuthNamePassTokenCollector.class.php");
 require_once(dirname(__FILE__)."/BasicFormNamePassTokenCollector.class.php");
 require_once(dirname(__FILE__)."/FormActionNamePassTokenCollector.class.php");
+require_once(dirname(__FILE__)."/TokensAndTypeTokenCollector.class.php");
 
 /**
  * <p>
@@ -611,6 +612,17 @@ class HarmoniAuthenticationManager
 	 * @since 12/11/06
 	 */
 	function _authenticateAdminActAsUser () {
+		$this->jqueryUrl = $this->_configuration->getProperty('jquery_src');
+		if (is_null($this->jqueryUrl))
+			throw new ConfigurationErrorException('To use Admin-Act-As-User, the AuthenticationManager must be configured with a jquery_src');
+		$this->jqueryAutocompleteUrl = $this->_configuration->getProperty('jquery_autocomplete_src');
+		if (is_null($this->jqueryAutocompleteUrl))
+			throw new ConfigurationErrorException('To use Admin-Act-As-User, the AuthenticationManager must be configured with a jquery_autocomplete_src');
+		$this->jqueryAutocompleteCss = $this->_configuration->getProperty('jquery_autocomplete_css');
+		if (is_null($this->jqueryAutocompleteCss))
+			throw new ConfigurationErrorException('To use Admin-Act-As-User, the AuthenticationManager must be configured with a jquery_autocomplete_css');
+			
+		
 		// Check authorization. If the current user is not authorized to act as
 		// others, stop.
 		$authZ = Services::getService("AuthZ");
@@ -639,25 +651,16 @@ class HarmoniAuthenticationManager
 				}
 			}
 			
-			
-			// Run the authentication sequence on every other method
-			$authNTypes =$this->getAuthenticationTypes();
-			while ($authNTypes->hasNext()) {
-				$authenticationType =$authNTypes->next();
-				if (!$authenticationType->isEqual($this->_adminActAsType)) {
-				
-					// if we have successfully changed our user, log out all other
-					// Authentication Types so that we are left with just that user.
-					if ($this->_authenticateAdminActAsUserForType($authenticationType)) {
-						$authNTypes =$this->getAuthenticationTypes();
-						while ($authNTypes->hasNext()) {
-							$authenticationType =$authNTypes->next();
-							if (!$authenticationType->isEqual($this->_adminActAsType)) {
-								$this->destroyAuthenticationForType($authenticationType);
-							}
-						}
-						
-						break;
+			$tokenCollector = new TokensAndTypeTokenCollector($this->jqueryUrl, $this->jqueryAutocompleteUrl, $this->jqueryAutocompleteCss);
+			$tokens = $tokenCollector->collectTokens();
+			$newAuthNType = $tokenCollector->getAuthNType();
+			if ($this->_authenticateAdminActAsUserForType($tokens, $newAuthNType)) {
+				// If we've successfully logged in with the Admin-act-as type, destroy other authentications.
+				$authNTypes =$this->getAuthenticationTypes();
+				while ($authNTypes->hasNext()) {
+					$authenticationType = $authNTypes->next();
+					if (!$authenticationType->isEqual($this->_adminActAsType)) {
+						$this->destroyAuthenticationForType($authenticationType);
 					}
 				}
 			}
@@ -673,12 +676,10 @@ class HarmoniAuthenticationManager
 	 * @access public
 	 * @since 12/11/06
 	 */
-	function _authenticateAdminActAsUserForType ( Type $authenticationType ) {
+	function _authenticateAdminActAsUserForType (AuthNTokens $authNTokens, Type $authenticationType ) {
 		$this->_checkType($authenticationType);
 // 		$this->destroyAuthenticationForType($authenticationType);
-		
-		$authNTokens =$this->_getAuthNTokensFromUser($authenticationType);
-		
+				
 		if ($authNTokens) {
 			$authNMethodManager = Services::getService("AuthNMethods");
 			$authNMethod =$authNMethodManager->getAuthNMethodForType($authenticationType);
@@ -692,6 +693,15 @@ class HarmoniAuthenticationManager
 				$authenticationTypeString = $this->_getTypeString($this->_adminActAsType);
 				$_SESSION['__AuthenticatedAgents'][$authenticationTypeString]
 					=$agentId;
+				
+				// Update any stale info that was previously loaded
+				$properties =$authNMethod->getPropertiesForTokens($authNTokens);
+				$displayName = $authNMethod->getDisplayNameForTokens($authNTokens);
+				$agentManager = Services::getService("Agent");
+				$agent = $agentManager->getAgent($agentId);
+				$agent->updateDisplayName($displayName);
+				$propertyManager = Services::getService("Property");
+				$propertyManager->storeProperties($agentId->getIdString(), $properties);
 				
 				// Ensure that the Authorization Cache gets the new users
 				$authorizationMgr = Services::getService("AuthZ");
