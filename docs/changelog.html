@@ -23,7 +23,31 @@
 </head>
 <body>
 <h1>Harmoni Change Log</h1>
-<h2>Version 1.9.7</h2>
+<h2>Version 1.10.0</h2>
+<h3>2009-10-09</h3>
+<p>This release adds support for CAS authentication. 
+<br>
+<br>This release also reworks how admin-act-as-user authentication operates, requiring a change in the AuthenticationManager configuration.
+<br>
+<br>New AuthenticationManager configuration options are required if using admin-act-as-user authentication: 
+<br>
+<br>* jquery_src - The URL of a JQuery library &gt; 1.3
+<br>
+<br> * jquery_autocomplete_src - The URL of a JQuery-Autocomplete library
+<br>
+<br> * jquery_autocomplete_css - The URL of a JQuery-Autocomplete CSS.
+<br>
+<br>See: http://bassistance.de/jquery-plugins/jquery-plugin-autocomplete/</p>
+<ul>
+		
+		<li>
+<b>New feature:</b> Utilities: New Harmoni_Filing_FileInterface::getExtension() method. (<em>2009-10-09 - Adam Franco</em>)</li>
+		<li>
+<b>New feature:</b> Authentication: Added support for CAS authentication. (<em>2009-10-09 - Adam Franco</em>)</li>
+		<li>
+<b>Change:</b> Authentication: Reworked admin-act-as-user authentication to enable searching for user accounts and operation with any authentication menthod. (<em>2009-10-09 - Adam Franco</em>)</li>
+	</ul>
+<br><h2>Version 1.9.7</h2>
 <h3>2009-09-25</h3>
 <p>This release includes a few minor additions to the MIME Type list and a method in the FileSystemFile utility class.</p>
 <ul>

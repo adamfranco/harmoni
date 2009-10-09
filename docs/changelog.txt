@@ -2,6 +2,41 @@
 Harmoni Change Log
 
 
+v. 1.10.0 (2009-10-09)
+----------------------------------------------------
+This release adds support for CAS authentication. 
+
+This release also reworks how admin-act-as-user authentication operates, requiring
+a change in the AuthenticationManager configuration.
+
+New AuthenticationManager configuration options are required if using
+admin-act-as-user authentication: 
+
+* jquery_src - The URL of a JQuery library > 1.3
+
+ * jquery_autocomplete_src - The URL of a JQuery-Autocomplete library
+
+ * jquery_autocomplete_css - The URL of a JQuery-Autocomplete CSS.
+
+See: http://bassistance.de/jquery-plugins/jquery-plugin-autocomplete/
+		
+		
+	* New feature: 
+		Utilities: New Harmoni_Filing_FileInterface::getExtension() method.
+		(2009-10-09 - Adam Franco)
+		
+	* New feature: 
+		Authentication: Added support for CAS authentication.
+		(2009-10-09 - Adam Franco)
+		
+	* Change: 
+		Authentication: Reworked admin-act-as-user authentication to enable
+		searching for user accounts and operation with any authentication menthod.
+		(2009-10-09 - Adam Franco)
+	
+
+
+
 v. 1.9.7 (2009-09-25)
 ----------------------------------------------------
 This release includes a few minor additions to the MIME Type list and a method in
