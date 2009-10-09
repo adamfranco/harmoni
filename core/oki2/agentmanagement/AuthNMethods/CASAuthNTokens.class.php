@@ -47,6 +47,7 @@ class CASAuthNTokens
 	function initializeForTokens ( $tokens ) {
 		// If we are passed a username, do a search to try to map that to an id.
 		if (is_array($tokens) && isset($tokens['username'])) {
+			// Look up the user by username
 			$doc = $this->_authNMethod->_queryDirectory('search_users_by_attributes', array('Login' => $tokens['username']));
 			if ($doc) {
 				$elements = $doc->getElementsByTagNameNS('http://www.yale.edu/tp/cas', 'user');
@@ -57,7 +58,9 @@ class CASAuthNTokens
 					return;
 				}
 			}
-			throw new UnknownIdException("Username '".$tokens['username']."' could not be mapped to a CAS id.");
+			// If we didn't find an Id based on the username, just stuff the username
+			// into the identifier field to see if it happens to be a valid id and not a username.
+			$this->_identifier = $tokens['username'];
 		}
 		// Normal Case
 		else {
