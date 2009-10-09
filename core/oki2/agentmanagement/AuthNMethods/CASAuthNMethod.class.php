@@ -116,8 +116,12 @@ class CASAuthNMethod
 	 * @since 3/1/05
 	 */
 	function tokensExist ( $authNTokens ) {
-		$result = $this->_queryDirectory('get_user', array('id' => $authNTokens->getIdentifier()));
-		return (is_object($result));
+		try {
+			$result = $this->_queryDirectory('get_user', array('id' => $authNTokens->getIdentifier()));
+			return (is_object($result));
+		} catch (OperationFailedException $e) {
+			return false;
+		}
 	}
 	
 	/**
@@ -384,8 +388,12 @@ class CASAuthNMethod
 		
 		if($doc->load($url))
 			return $doc;
-		else
-			throw new OperationFailedException("Could not access document at $url");
+		else {
+			$paramstring = '';
+			foreach ($params as $key => $val)
+				$paramstring .= $key.' => \''.$val."'"; 
+			throw new OperationFailedException("Could not access directory with action '$action' and parameters [".$paramstring."].");
+		}
 	}
 	
 	/**
