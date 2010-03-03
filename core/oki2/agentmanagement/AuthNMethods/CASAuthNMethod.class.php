@@ -84,6 +84,14 @@ class CASAuthNMethod
 			$this->classRoot = null;
 		}
 		
+		$groupIdRegex = $configuration->getProperty('CASDIRECTORY_GROUP_ID_REGEX');
+		if ($groupIdRegex) {
+			ArgumentValidator::validate($groupIdRegex, StringValidatorRule::getRule());
+			$this->groupIdRegex = $groupIdRegex;
+		} else {
+			$this->groupIdRegex = null;
+		}
+				
 		// Root Groups to expose
 		ArgumentValidator::validate (
 			$configuration->getProperty('ROOT_GROUPS'), 
@@ -357,6 +365,9 @@ class CASAuthNMethod
 	 * @since 2/23/06
 	 */
 	function isGroup ( $id ) {
+		if ($this->groupIdRegex && !preg_match($this->groupIdRegex, $id))
+			return false;
+		
 		try {
 			$result = $this->_queryDirectory('get_group', array('id' => $id->getIdString()));
 			return (is_object($result));
