@@ -449,8 +449,7 @@ class HarmoniAuthenticationManager
 			}
 		}
 		if (!$typeValid)
-			throwError(new Error(AuthenticationException::UNKNOWN_TYPE()
-				.": ".$this->_getTypeString($type), "AuthenticationManager", 1));
+			throw new UnknownTypeException($this->_getTypeString($type));
 	}
 	
 	/**
