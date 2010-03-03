@@ -321,8 +321,12 @@ class CASAuthNMethod
 	 * @since 2/23/06
 	 */
 	function isGroup ( $id ) {
-		$result = $this->_queryDirectory('get_group', array('id' => $id->getIdString()));
-		return (is_object($result));
+		try {
+			$result = $this->_queryDirectory('get_group', array('id' => $id->getIdString()));
+			return (is_object($result));
+		} catch (OperationFailedException $e) {
+			return false;
+		}
 	}
 	
 	/**
