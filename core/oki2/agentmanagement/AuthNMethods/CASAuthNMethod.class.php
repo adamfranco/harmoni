@@ -407,7 +407,7 @@ class CASAuthNMethod
 	 * @since 2/23/06
 	 */
 	function getGroupsContainingGroup ( $id, $includeSubgroups ) {
-		$result = $this->_queryDirectory('get_group', array('id' => $authNTokens->getIdentifier(), 'include_membership' => 'true'));
+		$result = $this->_queryDirectory('get_group', array('id' => $id->getIdString(), 'include_membership' => 'true'));
 		$groups = new HarmoniIterator(array());
 		foreach ($result->getElementsByTagNameNS('http://www.yale.edu/tp/cas', 'attribute') as $element) {
 			if ($element->getAttribute('name') == 'MemberOf')
