@@ -7,7 +7,9 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  */ 
 
-require_once('CAS.php');
+if (!class_exists('phpCAS')) {
+	include_once('CAS.php');
+}
 require_once(dirname(__FILE__).'/CASGroup.class.php');
 
 /**
