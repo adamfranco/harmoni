@@ -8,6 +8,24 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="Harmoni">
+	<version number="1.10.1" date="2010-03-04">
+		<releaseNotes>
+			This release fixes a few minor errors related to CAS authentiation.
+		</releaseNotes>
+		<fix author='adam' date='2010-03-04' ref='' reftype='bug'  reporter=''>
+			CASAuthNMethod now doesn't throw errors when checking if a random id is a group id.
+		</fix>
+		<new author='adam' date='2010-03-04' ref='' reftype='fr'  reporter=''>
+			CASAuthNMethod: Added support for searching for class groups.
+		</new>
+		<new author='adam' date='2010-03-04' ref='' reftype='fr'  reporter=''>
+			CASAuthNMethod: Added optional regex to allow determining if an id is for a group 
+			without having to make a web service request for every single check.
+		</new>
+		<fix author='adam' date='2010-03-04' ref='' reftype='bug'  reporter=''>
+			CASAuthNMethod: Fixed usage of wrong parameter.
+		</fix>
+	</version>
 	<version number="1.10.0" date="2009-10-09">
 		<releaseNotes>
 			This release adds support for CAS authentication. 

@@ -2,6 +2,32 @@
 Harmoni Change Log
 
 
+v. 1.10.1 (2010-03-04)
+----------------------------------------------------
+This release fixes a few minor errors related to CAS authentiation.
+		
+		
+	* Bug Fix: 
+		CASAuthNMethod now doesn't throw errors when checking if a random id is a
+		group id.
+		(2010-03-04 - Adam Franco)
+		
+	* New feature: 
+		CASAuthNMethod: Added support for searching for class groups.
+		(2010-03-04 - Adam Franco)
+		
+	* New feature: 
+		CASAuthNMethod: Added optional regex to allow determining if an id is for a
+		group without having to make a web service request for every single check.
+		(2010-03-04 - Adam Franco)
+		
+	* Bug Fix: 
+		CASAuthNMethod: Fixed usage of wrong parameter.
+		(2010-03-04 - Adam Franco)
+	
+
+
+
 v. 1.10.0 (2009-10-09)
 ----------------------------------------------------
 This release adds support for CAS authentication. 

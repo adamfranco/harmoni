@@ -1,5 +1,5 @@
 
-Harmoni v. 1.10.0 (2009-10-09)
+Harmoni v. 1.10.1 (2010-03-04)
 =================================
 
 What is Harmoni?
@@ -29,21 +29,7 @@ used independently of the other.
 
 Current Version Notes
 ---------------------
-This release adds support for CAS authentication. 
-
-This release also reworks how admin-act-as-user authentication operates, requiring
-a change in the AuthenticationManager configuration.
-
-New AuthenticationManager configuration options are required if using
-admin-act-as-user authentication: 
-
-* jquery_src - The URL of a JQuery library > 1.3
-
- * jquery_autocomplete_src - The URL of a JQuery-Autocomplete library
-
- * jquery_autocomplete_css - The URL of a JQuery-Autocomplete CSS.
-
-See: http://bassistance.de/jquery-plugins/jquery-plugin-autocomplete/
+This release fixes a few minor errors related to CAS authentiation.
 
 
 Downloads
@@ -74,6 +60,12 @@ https://sourceforge.net/tracker/?group_id=82873&atid=567473
 | Prior Harmoni Release Notes
 | (See the Harmoni change log for more details)
 ===================================================================
+
+
+v. 1.10.1 (2010-03-04)
+----------------------------------------------------
+This release fixes a few minor errors related to CAS authentiation.
+
 
 
 v. 1.10.0 (2009-10-09)
