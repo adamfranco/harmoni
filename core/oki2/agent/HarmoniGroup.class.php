@@ -249,10 +249,14 @@ class HarmoniGroup
 		
 		// Add any External Groups
 		foreach ($agentManager->getExternalChildGroupIds($this->getId()) as $subgroupId) {
-			$subgroup = $agentManager->getGroup($subgroupId);
-			$myGroups->add($subgroup);
-			if ($includeSubgroups)
-				$allGroups->addIterator($subgroup->getGroups($includeSubgroups));
+            try {
+                $subgroup = $agentManager->getGroup($subgroupId);
+                $myGroups->add($subgroup);
+                if ($includeSubgroups)
+                    $allGroups->addIterator($subgroup->getGroups($includeSubgroups));
+            } catch (UnknownIdException $e) {
+                // Should probably log this or something.
+            }
 		}
 		
 		return $allGroups;
