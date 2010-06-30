@@ -12,12 +12,12 @@
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Table structure for table `log_agent`
--- 
+--
 
 CREATE TABLE `log_agent` (
-  `fk_entry` varchar(70) NOT NULL default '',
+  `fk_entry` int(10) unsigned NOT NULL,
   `fk_agent` varchar(70) NOT NULL default '',
   PRIMARY KEY  (`fk_entry`,`fk_agent`),
   KEY `fk_entry` (`fk_entry`)
@@ -25,9 +25,9 @@ CREATE TABLE `log_agent` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Table structure for table `log_entry`
--- 
+--
 
 CREATE TABLE `log_entry` (
   `log_name` varchar(70) NOT NULL default '',
@@ -41,16 +41,16 @@ CREATE TABLE `log_entry` (
   PRIMARY KEY  (`id`),
   KEY `log_name` (`log_name`),
   KEY `format_index` (`log_name`,`fk_format_type`,`fk_priority_type`,`timestamp`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Used by the OSID Logging Manager';
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Used by the OSID Logging Manager';
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Table structure for table `log_node`
--- 
+--
 
 CREATE TABLE `log_node` (
-  `fk_entry` varchar(70) NOT NULL default '',
+  `fk_entry` int(10) unsigned NOT NULL,
   `fk_node` varchar(70) NOT NULL default '',
   PRIMARY KEY  (`fk_entry`,`fk_node`),
   KEY `fk_entry` (`fk_entry`)
@@ -58,9 +58,9 @@ CREATE TABLE `log_node` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Table structure for table `log_type`
--- 
+--
 
 CREATE TABLE `log_type` (
   `id` int(11) NOT NULL auto_increment,
@@ -70,4 +70,21 @@ CREATE TABLE `log_type` (
   `description` text NOT NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `uniq` (`domain`,`authority`,`keyword`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `log_agent`
+--
+ALTER TABLE `log_agent`
+  ADD CONSTRAINT `log_agent_ibfk_1` FOREIGN KEY (`fk_entry`) REFERENCES `log_entry` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `log_node`
+--
+ALTER TABLE `log_node`
+  ADD CONSTRAINT `log_node_ibfk_2` FOREIGN KEY (`fk_entry`) REFERENCES `log_entry` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `log_node_ibfk_1` FOREIGN KEY (`fk_entry`) REFERENCES `log_entry` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
