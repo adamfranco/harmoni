@@ -462,7 +462,8 @@ class HarmoniErrorHandler {
 				if (Services::serviceRunning("AuthN")) {
 					$authN = Services::getService("AuthN");
 					if (!$authN->isUserAuthenticatedWithAnyType()) {
-						$item->addTextToBactrace("\n<div><strong>REMOTE_ADDR: </strong><pre>".htmlspecialchars($_SERVER['REMOTE_ADDR'])."</pre></div>");
+						if (isset($_SERVER['REMOTE_ADDR']))
+							$item->addTextToBactrace("\n<div><strong>REMOTE_ADDR: </strong><pre>".htmlspecialchars($_SERVER['REMOTE_ADDR'])."</pre></div>");
 						if (isset($_SERVER['REMOTE_HOST']))
 							$item->addTextToBactrace("\n<div><strong>REMOTE_HOST: </strong><pre>".htmlspecialchars($_SERVER['REMOTE_HOST'])."</pre></div>");
 					}
