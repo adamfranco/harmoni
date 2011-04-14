@@ -7,9 +7,16 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  */ 
 
+// Temporarily disable warnings while checking for the existance of phpCAS in
+// case autoload is being used and phpCAS hasn't been loaded yet.
+$tmp = error_reporting();
+error_reporting($tmp ^ E_WARNING);
 if (!class_exists('phpCAS')) {
 	include_once('CAS.php');
 }
+error_reporting($tmp);
+unset($tmp);
+
 require_once(dirname(__FILE__).'/CASGroup.class.php');
 
 /**
