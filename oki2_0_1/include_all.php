@@ -40,7 +40,7 @@ function includePHPFiles ( $dir ) {
 			}
 			
 			// If it is a php file, include it.
-			else if (ereg(".php$", $file)) {
+			else if (preg_match("/\.php$/", $file)) {
 				include_once($file);
 			}
 			

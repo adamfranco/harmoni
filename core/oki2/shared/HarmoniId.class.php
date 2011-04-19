@@ -43,7 +43,7 @@ class HarmoniId
 			true);
 		// ** end of parameter validation
 		
-// 		if (ereg('^#.+$', $id))
+// 		if (preg_match('/^#.+$/', $id))
 			$this->_id = strval($id);
 // 		else
 // 			$this->_id = '#'.md5($id);

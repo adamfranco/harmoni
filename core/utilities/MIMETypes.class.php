@@ -281,7 +281,7 @@ class MIMETypes {
 	 */
 	function getMIMETypeForFileName ( $filename ) {
 		// If we have an extension, sniff for it.
-		if (ereg(".+\.([^\.]+)", $filename, $parts)) {
+		if (preg_match("/.+\.([^\.]+)/", $filename, $parts)) {
 			$extension = $parts[1];
 			return MIMETypes::getMIMETypeForExtension($extension);
 		} else {

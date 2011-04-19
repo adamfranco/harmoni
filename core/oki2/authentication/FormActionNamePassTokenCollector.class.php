@@ -34,7 +34,7 @@ class FormActionNamePassTokenCollector
 	 * @since 3/22/05
 	 */
 	function FormActionNamePassTokenCollector ($url) {
-		if (count($_GET) && !ereg("\?", $url)) {
+		if (count($_GET) && !preg_match("/\?/", $url)) {
 			$url .= "?";
 			foreach ($_GET as $name => $value) {
 				$url .= "&amp;".$name."=".$value;

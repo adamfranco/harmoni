@@ -506,7 +506,7 @@ class PostgreSQLDatabase
 			return NULL;
 	
 		// Postgre
-		if (ereg("([a-zA-Z]{3}) ([a-zA-Z]{3}) ([0-9]{2}) ([0-9]{2}):([0-9]{2}):([0-9]{2}) ([0-9]{4})",$value,$r)) {
+		if (preg_match("/([a-zA-Z]{3}) ([a-zA-Z]{3}) ([0-9]{2}) ([0-9]{2}):([0-9]{2}):([0-9]{2}) ([0-9]{4})/",$value,$r)) {
 		 	$months = array("Jan"=>1,"Feb"=>2,"Mar"=>3,"Apr"=>4,"May"=>5,"Jun"=>6,"Jul"=>7,
 							"Aug"=>8,"Sep"=>9,"Oct"=>10,"Nov"=>11,"Dec"=>12);
 			return DateAndTime::withYearMonthDayHourMinuteSecond(
@@ -514,7 +514,7 @@ class PostgreSQLDatabase
 		}
 		
 		// German
-		if (ereg("([0-9]{2})\.([0-9]{2})\.([0-9]{4}) ([0-9]{2}):([0-9]{2}):([0-9]{2}).([0-9]{2}) ...",$value,$r))
+		if (preg_match("/([0-9]{2})\.([0-9]{2})\.([0-9]{4}) ([0-9]{2}):([0-9]{2}):([0-9]{2}).([0-9]{2}) .../",$value,$r))
 			return DateAndTime::withYearMonthDayHourMinuteSecond(
 				$r[3], $r[2], $r[1], $r[4], $r[5], $r[6]);
 		

@@ -659,7 +659,7 @@ END;
 		if ($pre) {
 			$keys = array_unique(array_merge(array_keys($this->_fileData), array_merge(array_keys($this->_requestData), array_keys($this->_contextData))));
 			foreach ($keys as $key) {
-				if (ereg("^$pre\\".REQUEST_HANDLER_CONTEXT_DELIMETER."(.+)", $key, $r)) {
+				if (preg_match("/^$pre\\".REQUEST_HANDLER_CONTEXT_DELIMETER."(.+)/", $key, $r)) {
 					$array[] = $r[1];
 				}
 			}
@@ -977,7 +977,7 @@ END;
 	 * @return void
 	 */
 	function _checkName($name) {
-		if (ereg("\\".REQUEST_HANDLER_CONTEXT_DELIMETER, $name)) {
+		if (preg_match("/\\".REQUEST_HANDLER_CONTEXT_DELIMETER.'/', $name)) {
 			throwError( new Error("Namespaces and field names cannot contain \"".REQUEST_HANDLER_CONTEXT_DELIMETER."\"s!", "RequestHandler", true));
 		}
 	}

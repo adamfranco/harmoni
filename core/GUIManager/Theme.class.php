@@ -319,7 +319,7 @@ class Theme extends ThemeInterface {
 		reset($this->_styles);
 		if (current($this->_styles)) {
 			$key = key($this->_styles);
-			while (!ereg("^.", $key)) {
+			while (!preg_match("/^./", $key)) {
 				next($this->_styles);
 				$key = key($this->_styles);
 			}

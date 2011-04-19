@@ -23,7 +23,7 @@ class IntegerValidatorRule
 	 * @return boolean TRUE, if the value is an integer; FALSE if it is not.
 	 **/
 	function check( $val ) {
-		return (is_integer($val) || $val === 0 || ereg("^[1-9][0-9]*$",$val));
+		return (is_integer($val) || $val === 0 || preg_match("/^[1-9][0-9]*$/",$val));
 	}
 	
 	/**

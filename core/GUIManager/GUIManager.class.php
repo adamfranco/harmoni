@@ -165,7 +165,7 @@ extends GUIManagerAbstract
 			$dh = opendir($themesDir);
 			while (($file = readdir($dh)) !== false) {
 				//ignore other files or directories
-				if (ereg(".class.php", $file)){
+				if (preg_match("/.class.php$/", $file)){
 
 					//strip the ".class.php" from the end of the file
 					$file = rtrim($file,".class.php");
@@ -203,7 +203,7 @@ extends GUIManagerAbstract
 			$dh = opendir($SPDir);
 			while (($file = readdir($dh)) !== false) {
 				//ignore other files or directories
-				if (ereg(".class.php", $file) && !ereg('^._', $file)){
+				if (preg_match("/.class.php$/", $file) && !preg_match('/^._/', $file)){
 
 					//strip the ".class.php" from the end of the file
 					$file = rtrim($file,".class.php");
@@ -242,7 +242,7 @@ extends GUIManagerAbstract
 			$dh = opendir($SCDir);
 			while (($file = readdir($dh)) !== false) {
 				//ignore other files or directories
-				if (ereg(".class.php", $file)){
+				if (preg_match("/.class.php$/", $file)){
 
 					//strip the ".class.php" from the end of the file
 					$file = rtrim($file,".class.php");
@@ -280,7 +280,7 @@ extends GUIManagerAbstract
 			$dh = opendir($ComponentDir);
 			while (($file = readdir($dh)) !== false) {
 				//ignore other files or directories
-				if (ereg(".class.php", $file)){
+				if (preg_match("/.class.php$/", $file)){
 
 					//strip the ".class.php" from the end of the file
 					$file = rtrim($file,".class.php");
@@ -318,7 +318,7 @@ extends GUIManagerAbstract
 			$dh = opendir($LayoutDir);
 			while (($file = readdir($dh)) !== false) {
 				//ignore other files or directories
-				if (ereg(".class.php", $file)){
+				if (preg_match("/.class.php$/", $file)){
 
 					//strip the ".class.php" from the end of the file
 					$file = rtrim($file,".class.php");

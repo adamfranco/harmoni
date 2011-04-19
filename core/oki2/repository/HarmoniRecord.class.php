@@ -228,7 +228,7 @@ class HarmoniRecord
 	 */
 	function deletePart ( Id $partId ) { 
 		$string = $partId->getIdString();
-		if (ereg("(.+)::(.+)::([0-9]+)",$string,$r)) {
+		if (preg_match("/(.+)::(.+)::([0-9]+)/",$string,$r)) {
 			$recordId = $r[1];
 			$label = $r[2];
 			$index = $r[3];

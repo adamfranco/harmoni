@@ -54,7 +54,7 @@ class ClassesActionSource
 	 * @access public
 	 */
 	function ClassesActionSource($basePath, $fileExtension, $classNameSuffix = '') {
-		$this->_basePath = ereg_replace(DIRECTORY_SEPARATOR."$", "", $basePath);
+		$this->_basePath = preg_replace('#'.DIRECTORY_SEPARATOR."$#", "", $basePath);
 		$this->_fileExtension = $fileExtension;
 		$this->_classNameSuffix = $classNameSuffix;
 	}

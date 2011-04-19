@@ -266,7 +266,7 @@ class DimensionsPart
 				$mimeType = $mimeTypePart->getValue();
 				
 				// Only try to get dimensions from image files
-				if (ereg("^image.*$", $mimeType)) {					
+				if (preg_match("/^image.*$/", $mimeType)) {					
 					$dataParts =$this->_record->getPartsByPartStructure(
 						$this->_dataPartStructId);
 					if ($dataParts->hasNext()) {

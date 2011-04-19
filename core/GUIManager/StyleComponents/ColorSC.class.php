@@ -59,13 +59,13 @@ class ColorSC extends StyleComponent {
 		
 		$array = array();
 		// check for #RGB and #RRGGBB format
-		if (ereg("^#[0-9a-fA-F]{3}$", $val)){
+		if (preg_match("/^#[0-9a-fA-F]{3}$/", $val)){
 			$array[0] = 17 * hexdec(substr($val,1,1));
 			$array[1] = 17 * hexdec(substr($val,2,1));
 			$array[2] = 17 * hexdec(substr($val,3,1));
 			return $array;
 		}
-		if (ereg("^#[0-9a-fA-F]{6}$", $val)){
+		if (preg_match("/^#[0-9a-fA-F]{6}$/", $val)){
 			$array[0] = hexdec(substr($val,1,2));
 			$array[1] = hexdec(substr($val,3,2));
 			$array[2] = hexdec(substr($val,5,2));
@@ -75,7 +75,7 @@ class ColorSC extends StyleComponent {
 		
 		$regs = array();	
 		// check for rgb(R,G,B) format
-		if (ereg("^rgb\(([0-9]{0,3}),\ *([0-9]{0,3}),\ *([0-9]{0,3})\)$", $val, $regs)) {
+		if (preg_match("/^rgb\(([0-9]{0,3}),\ *([0-9]{0,3}),\ *([0-9]{0,3})\)$/", $val, $regs)) {
 			if (($regs[1] >= 0) && ($regs[1] <= 255) &&
 				($regs[2] >= 0) && ($regs[2] <= 255) &&
 				($regs[3] >= 0) && ($regs[3] <= 255)){
@@ -86,7 +86,7 @@ class ColorSC extends StyleComponent {
 				}				
 		}
 		// check for rgb(R%,G%,B%) format
-		if (ereg("^rgb\(([0-9]{0,3}(\.[0-9]+)?)%,\ *([0-9]{0,3}(\.[0-9]+)?)%,\ *([0-9]{0,3}(\.[0-9]+)?)%\)$",
+		if (preg_match("/^rgb\(([0-9]{0,3}(\.[0-9]+)?)%,\ *([0-9]{0,3}(\.[0-9]+)?)%,\ *([0-9]{0,3}(\.[0-9]+)?)%\)$/",
 		    $val, $regs)) {
 			if (($regs[1] >= 0) && ($regs[1] <= 100) &&
 				($regs[3] >= 0) && ($regs[3] <= 100) &&
@@ -139,10 +139,10 @@ class CSSColorValidatorRule extends RegexValidatorRule {
 	function check($val) {
 		$regs = array();
 		// check for #RGB and #RRGGBB format
-		if (ereg("^#[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$", $val))
+		if (preg_match("/^#[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$/", $val))
 			return true;
 		// check for rgb(R,G,B) format
-		if (ereg("^rgb\(([0-9]{0,3}),\ *([0-9]{0,3}),\ *([0-9]{0,3})\)$", $val, $regs)) {
+		if (preg_match("/^rgb\(([0-9]{0,3}),\ *([0-9]{0,3}),\ *([0-9]{0,3})\)$/", $val, $regs)) {
 			if (($regs[1] >= 0) && ($regs[1] <= 255) &&
 				($regs[2] >= 0) && ($regs[2] <= 255) &&
 				($regs[3] >= 0) && ($regs[3] <= 255))
@@ -151,7 +151,7 @@ class CSSColorValidatorRule extends RegexValidatorRule {
 				return false;
 		}
 		// check for rgb(R%,G%,B%) format
-		if (ereg("^rgb\(([0-9]{0,3}(\.[0-9]+)?)%,\ *([0-9]{0,3}(\.[0-9]+)?)%,\ *([0-9]{0,3}(\.[0-9]+)?)%\)$",
+		if (preg_match("/^rgb\(([0-9]{0,3}(\.[0-9]+)?)%,\ *([0-9]{0,3}(\.[0-9]+)?)%,\ *([0-9]{0,3}(\.[0-9]+)?)%\)$/",
 		    $val, $regs)) {
 			if (($regs[1] >= 0) && ($regs[1] <= 100) &&
 				($regs[3] >= 0) && ($regs[3] <= 100) &&

@@ -47,7 +47,7 @@ class OptionalRule
 		if (is_null($val)) 
 			return true;
 		
-		if (isset($val) && (is_object($val) || is_array($val) || ereg("[^[:blank:]]+",$val))) {
+		if (isset($val) && (is_object($val) || is_array($val) || preg_match("/[^[:blank:]]+/",$val))) {
 			if (!$this->_rule->check($val))
 				return false;
 		}

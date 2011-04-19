@@ -12,7 +12,7 @@
  */
 $_dh = opendir(dirname(__FILE__));
 while ($_f = readdir($_dh)) {
-	if (ereg("^[^\.].+\.class\.php$", $_f))
+	if (preg_match("/^[^\.].+\.class\.php$/", $_f))
 		require_once(dirname(__FILE__)."/$_f");
 }
 unset($_f,$_dh);

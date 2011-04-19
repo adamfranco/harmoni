@@ -42,7 +42,7 @@ function getOptionArray($argv) {
 	// pull apart our arguments into options and params
 	for ($i=$startingIndex; $i < $argc; $i++) {
 		// for single-letter flags
-		if (ereg("^-[a-zA-Z]+$", $argv[$i])) {
+		if (preg_match("/^-[a-zA-Z]+$/", $argv[$i])) {
 			$list = substr( $argv[$i], 1);
 			
 			for($j=0; $j < strlen($list); $j++)
@@ -50,17 +50,17 @@ function getOptionArray($argv) {
 		}
 		
 		// for multi-letter flags
-		else if (ereg("^--[a-zA-Z0-9_\-]+$", $argv[$i])) {
+		else if (preg_match("/^--[a-zA-Z0-9_\-]+$/", $argv[$i])) {
 			$options[substr($argv[$i], 2)] = TRUE;
 		}
 		
 		// for options with values
-		else if (ereg("^-{1,2}([a-zA-Z0-9_\-]+)=(.+)$", $argv[$i], $parts)) {
+		else if (preg_match("/^-{1,2}([a-zA-Z0-9_\-]+)=(.+)$/", $argv[$i], $parts)) {
 			$options[$parts[1]] = $parts[2];
 		}
 		
 		// Otherwise, if it begins with a -, there is a problem
-		else if (ereg("^-", $argv[$i])) {
+		else if (preg_match("/^-/", $argv[$i])) {
 			die ("Mal-formed option, ".$argv[$i]);
 		}
 		
@@ -91,7 +91,7 @@ function getParameterArray($argv) {
 	// pull apart our arguments into options and params
 	for ($i=$startingIndex; $i < $argc; $i++) {
 		// If it doesn't begin with a -, there is a param
-		if (!ereg("^-", $argv[$i])) {
+		if (!preg_match("/^-/", $argv[$i])) {
 			$params[] = $argv[$i];
 		}
 	}

@@ -104,7 +104,7 @@ class RemoteFileRecord
 	 */
 	function deletePart(Id $partId) {
 		$string = $partId->getIdString();
-		if (ereg("(.*)-(".implode("|", array_keys($this->_parts)).")",$string,$r)) {
+		if (preg_match("/(.*)-(".implode("|", array_keys($this->_parts)).")/",$string,$r)) {
 			$recordId = $r[1];
 			$field = $r[2];
 			

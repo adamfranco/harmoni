@@ -80,7 +80,7 @@ class XLayout extends LayoutInterface {
 		
 		// Get the components
 		$components =$container->getComponents();
-		if (ereg('Right-Left', $this->_renderDirection))
+		if (preg_match('/Right-Left/', $this->_renderDirection))
 			$keys = array_reverse(array_keys($components));
 		else
 			$keys = array_keys($components);

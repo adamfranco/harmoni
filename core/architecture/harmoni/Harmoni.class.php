@@ -203,11 +203,11 @@ class Harmoni {
 	{
 		if (in_array($action, $array)) return true;
 		
-		ereg("(.+)\.(.+)",$action,$r);
+		preg_match("/(.+)\.(.+)/",$action,$r);
 		$reqMod = $r[1];
 		$reqAct = $r[2];
 		foreach ($array as $pair) {
-			ereg("(.+)\.(.+)",$pair,$r);
+			preg_match("/(.+)\.(.+)/",$pair,$r);
 			$mod = $r[1];
 			$act = $r[2];
 			
@@ -243,7 +243,7 @@ class Harmoni {
 		
 		$ar = $this->_getVersionParts($harmoniVersion);
 		
-		$num = (integer) ereg_replace("^0+","",sprintf("%02d%02d%02d",$ar[0],$ar[1], $ar[2]));
+		$num = (integer) preg_replace("/^0+/","",sprintf("%02d%02d%02d",$ar[0],$ar[1], $ar[2]));
 		return $num;
 	}
 	
@@ -255,7 +255,7 @@ class Harmoni {
 	 */
 	function _getVersionParts($string)
 	{
-		ereg("([0-9]+)(\.([0-9]+))?(\.([0-9]+))?", $string, $matches);
+		preg_match("/([0-9]+)(\.([0-9]+))?(\.([0-9]+))?/", $string, $matches);
 		$major = (integer) $matches[1];
 		$minor = (integer) $matches[3]?$matches[3]:0;
 		$release = (integer) $matches[5]?$matches[5]:0;
@@ -316,16 +316,16 @@ class Harmoni {
 		// 3) module	<-- same as above
 		// 3) .action <-- no good!
 		// 4) .		<-- ok, we'll use defaults
-		if (ereg("^[[:alnum:]_-]+\.[[:alnum:]_-]+$",$pair))
+		if (preg_match("/^[[:alnum:]_-]+\.[[:alnum:]_-]+$/",$pair))
 			list ($module, $action) = explode(".",$pair);
-		else if (ereg("^[[:alnum:]_-]+\.?$",$pair)) {
+		else if (preg_match("/^[[:alnum:]_-]+\.?$/",$pair)) {
 			$module = str_replace(".","",$pair);
 			$action = $this->config->get("defaultAction");
-		} else if (ereg("^\.[[:alnum:]_-]+$",$pair)) {
+		} else if (preg_match("/^\.[[:alnum:]_-]+$/",$pair)) {
 			// no good! throw an error
 			throw new UnknownActionException("Harmoni::execute() - Could not execute action '$pair' - a module needs to be specified!");
 			return false;
-		} else if (ereg("^\.?$",$pair)) {
+		} else if (preg_match("/^\.?$/",$pair)) {
 			$module = $this->config->get("defaultModule");
 			$action = $this->config->get("defaultAction");
 			

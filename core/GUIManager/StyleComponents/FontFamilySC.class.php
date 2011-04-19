@@ -85,13 +85,13 @@ class CSSFontFamilyValidatorRule extends RegexValidatorRule {
 		
 		foreach ($fonts as $font)
 			// no quotes, no white space
-			if (ereg("^ *([a-z|A-Z])+ *$", $font))
+			if (preg_match("/^ *([a-z|A-Z])+ *$/", $font))
 				continue;
 			// single quotes with optional white space
-			else if (ereg("^ *'([a-z|A-Z] *)+' *$", $font))
+			else if (preg_match("/^ *'([a-z|A-Z] *)+' *$/", $font))
 				continue;
 			// double quotes with optional white space
-			else if (ereg("^ *\"([a-z|A-Z] *)+\" *$", $font))
+			else if (preg_match("/^ *\"([a-z|A-Z] *)+\" *$/", $font))
 				continue;
 			else
 				return false;

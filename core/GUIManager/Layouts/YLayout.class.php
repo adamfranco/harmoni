@@ -77,7 +77,7 @@ class YLayout extends LayoutInterface {
 		// Get the components
 		// render the component in separate table cell
 		$components =$container->getComponents();
-		if (ereg('Bottom-Top', $this->_renderDirection))
+		if (preg_match('/Bottom-Top/', $this->_renderDirection))
 			$keys = array_reverse(array_keys($components));
 		else
 			$keys = array_keys($components);

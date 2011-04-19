@@ -24,7 +24,7 @@ class TemplateFactory {
 	}
 	
 	function setExtension($ext) {
-		$this->_ext = "." . ereg_replace("^\.","",$ext);
+		$this->_ext = "." . preg_replace("/^\./","",$ext);
 	}
 	
 	function newTemplate($name) {

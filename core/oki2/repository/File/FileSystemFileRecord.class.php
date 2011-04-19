@@ -90,7 +90,7 @@ class FileSystemFileRecord
 	 */
 	function deletePart(Id $partId) {
 		$string = $partId->getIdString();
-		if (ereg("(.*)-(FILE_SIZE|FILE_NAME|FILE_DATA|MIME_TYPE|THUMBNAIL_DATA|THUMBNAIL_MIME_TYPE)",$string,$r)) {
+		if (preg_match("/(.*)-(FILE_SIZE|FILE_NAME|FILE_DATA|MIME_TYPE|THUMBNAIL_DATA|THUMBNAIL_MIME_TYPE)/",$string,$r)) {
 			$recordId = $r[1];
 			$field = $r[2];
 			

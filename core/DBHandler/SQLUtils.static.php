@@ -52,16 +52,16 @@ class SQLUtils {
 	 */
 	public static function parseSQLString ( $queryString ) {
 		// Remove the comments
-		$queryString = ereg_replace("(#|--)[^\n\r]*(\n|\r|\n\r)", "", $queryString);
+		$queryString = preg_replace("/(#|--)[^\n\r]*(\n|\r|\n\r)/", "", $queryString);
 		
 		// Remove the line returns
-		$queryString = ereg_replace("\n|\r", " ", $queryString);
+		$queryString = preg_replace("/\n|\r/", " ", $queryString);
 		
 		// Remove multiple spaces
-		$queryString = ereg_replace("\ +", " ", $queryString);
+		$queryString = preg_replace("/\ +/", " ", $queryString);
 		
 		// Remove backticks included by MySQL since they aren't needed anyway.
-		$queryString = ereg_replace("`", "", $queryString);
+		$queryString = preg_replace("/`/", "", $queryString);
 		return $queryString;
 	}
 	
