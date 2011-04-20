@@ -112,7 +112,7 @@ class StyleComponent extends StyleComponentInterface {
 			$this->_rule =$rule;
 		}else{
 			//always true regex rule
-			$this->_rule = RegexValidatorRule::getRule(".*");
+			$this->_rule = RegexValidatorRule::getRule("/.*/");
 		}
 		
 		

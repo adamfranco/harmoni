@@ -130,7 +130,7 @@ class CSSColorValidatorRule extends RegexValidatorRule {
 		$percent = "(".$oneHundred."|".$underOneHundred.")%";
 		$type3 = "rgb(".$percent.",".$percent.",".$percent.")";
 		
-		$re = "^(".$type1."|".$type2."|".$type3.")$";
+		$re = "/^(".$type1."|".$type2."|".$type3.")$/";
 		$this->_regex=$re;
 	}
 	

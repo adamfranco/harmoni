@@ -45,7 +45,7 @@ class CASAuthNMethod
 		parent::assignConfiguration($configuration);
 		
 		$format = $configuration->getProperty('DISPLAY_NAME_FORMAT');
-		ArgumentValidator::validate($format, RegexValidatorRule::getRule('\[\[([^]]+)\]\]'));
+		ArgumentValidator::validate($format, RegexValidatorRule::getRule('/\[\[([^]]+)\]\]/'));
 		$this->displayNameFormat = $format;
 		
 		if ($debug = $configuration->getProperty('CAS_DEBUG_PATH')) {
@@ -54,11 +54,11 @@ class CASAuthNMethod
 		}
 		
 		$host = $configuration->getProperty('CAS_HOST');
-		ArgumentValidator::validate($host, RegexValidatorRule::getRule('^[a-z0-9]+\.[a-z0-9]+.[a-z]+$'));
+		ArgumentValidator::validate($host, RegexValidatorRule::getRule('/^[a-z0-9]+\.[a-z0-9]+.[a-z]+$/'));
 		$port = $configuration->getProperty('CAS_PORT');
-		ArgumentValidator::validate($port, RegexValidatorRule::getRule('^[0-9]+$'));
+		ArgumentValidator::validate($port, RegexValidatorRule::getRule('/^[0-9]+$/'));
 		$path = $configuration->getProperty('CAS_PATH');
-		ArgumentValidator::validate($path, RegexValidatorRule::getRule('^/.*$'));
+		ArgumentValidator::validate($path, RegexValidatorRule::getRule('/^\/.*$/'));
 		
 		phpCAS::client(CAS_VERSION_2_0, $host, intval($port), $path, false);
 		
@@ -78,7 +78,7 @@ class CASAuthNMethod
 		// set the callback URL for the PGT to be sent to. This must be an https url
 		// whose certificate is trusted by CAS.
 // 		$callbackUrl = $configuration->getProperty('CALLBACK_URL');
-// 		ArgumentValidator::validate($callbackUrl, RegexValidatorRule::getRule('^https:\/\/.*$'));
+// 		ArgumentValidator::validate($callbackUrl, RegexValidatorRule::getRule('/^https:\/\/.*$/'));
 // 		phpCAS::setFixedCallbackURL($callbackUrl);
 		
 		$adminAccess = $configuration->getProperty('CASDIRECTORY_ADMIN_ACCESS');

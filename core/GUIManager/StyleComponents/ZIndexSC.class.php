@@ -35,7 +35,7 @@ class ZIndexSC extends StyleComponent {
 		$errDescription .= "Allowed values are ".implode(", ", $options)." or a 
 							specific integer value.";
 		
-		$rule= RegexValidatorRule::getRule("^(auto|-?[0-9]+)$");
+		$rule= RegexValidatorRule::getRule("/^(auto|-?[0-9]+)$/");
 		
 		$displayName = "Z-Index";
 		$description = "Specifies the z-index. Allowed values are: ".implode(", ", $options).".

@@ -22,7 +22,7 @@ class FieldRequiredValidatorRule
 	 * @return void 
 	 **/
 	function FieldRequiredValidatorRule( ) {
-		$this->_regex = "[^[:blank:]]+"; // matches any string with at least one non-blank character
+		$this->_regex = "/[^[:blank:]]+/"; // matches any string with at least one non-blank character
 	}
 	
 	/**
