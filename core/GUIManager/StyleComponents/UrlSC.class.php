@@ -32,7 +32,7 @@ class UrlSC extends StyleComponent {
 						   Allowed values are: url(URL), where URL is an absolute or relative link 
 	   					   (optionally quoted with single or double quotes).";
 		
-		$rule = RegexValidatorRule::getRule("^url\(.+\)$");
+		$rule = RegexValidatorRule::getRule("/^url\(.+\)$/");
 
 		$displayName = "URL";
 		$description = "Specifies a url linking to a resource (an image, an audio file, etc).

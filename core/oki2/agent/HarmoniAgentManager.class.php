@@ -130,7 +130,7 @@ class HarmoniAgentManager
 			
 			$stringRule = NonzeroLengthStringValidatorRule::getRule();
 			$rangeRule = RegexValidatorRule::getRule(
-				'^([0-9]{1,3}|\*|[0-9]{1,3}-[0-9]{1,3})\.([0-9]{1,3}|\*|[0-9]{1,3}-[0-9]{1,3})\.([0-9]{1,3}|\*|[0-9]{1,3}-[0-9]{1,3})\.([0-9]{1,3}|\*|[0-9]{1,3}-[0-9]{1,3})$');
+				'/^([0-9]{1,3}|\*|[0-9]{1,3}-[0-9]{1,3})\.([0-9]{1,3}|\*|[0-9]{1,3}-[0-9]{1,3})\.([0-9]{1,3}|\*|[0-9]{1,3}-[0-9]{1,3})\.([0-9]{1,3}|\*|[0-9]{1,3}-[0-9]{1,3})$/');
 			foreach ($this->_configuration->getProperty('group_ip_ranges') as $groupIdString => $range) {
 				ArgumentValidator::validate($groupIdString, $stringRule);
 				ArgumentValidator::validate($range, $rangeRule);

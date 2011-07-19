@@ -1,0 +1,3 @@
+[submodule "ZendFramework"]
+	path = ZendFramework
+	url = http://community.middlebury.edu/~afranco/git/external/ZendFramework.git

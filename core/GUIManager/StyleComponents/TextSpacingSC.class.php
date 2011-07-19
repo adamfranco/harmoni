@@ -38,7 +38,7 @@ class TextSpacingSC extends StyleComponent {
   					       or a specific distance value (in length units, i.e. px,
 						   in, etc. but NOT %).";
 		
-		$rule= RegexValidatorRule::getRule("^(normal|-?[0-9]+(\.[0-9]+)?(in|cm|mm|em|ex|pt|pc|px))$");
+		$rule= RegexValidatorRule::getRule("/^(normal|-?[0-9]+(\.[0-9]+)?(in|cm|mm|em|ex|pt|pc|px))$/");
 		
 		$displayName = "Text Spacing";
 		$description = "Affects the text spacing between words. Allowed values are: ".implode(", ", $options)."

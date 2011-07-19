@@ -71,7 +71,7 @@ class CSSFontFamilyValidatorRule extends RegexValidatorRule {
 		$fontName = "(".$singleQuote."|".$doubleQuote."|".$noQuote.")";
 		
 		
-		$re = "^(serif|sans-serif|cursive|fantasy|monospace|".$fontName."(, *".$fontName.")?)$";
+		$re = "/^(serif|sans-serif|cursive|fantasy|monospace|".$fontName."(, *".$fontName.")?)$/";
 		
 		$this->_regex=$re;
 	}

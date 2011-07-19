@@ -41,7 +41,7 @@ class RegexValidatorRule
 	 * @return boolean true if the check succeeds, false if it (guess...) fails.
 	 **/
 	function check( $val ) {
-		return (ereg($this->_regex, $val)) ? true : false;
+		return (preg_match($this->_regex, $val)) ? true : false;
 	}
 	
 	/**
@@ -122,11 +122,11 @@ class RegexValidatorRule
 			throwError(new Error("RegexValidatorRule::getRuleByArray() requires an array with at least one value","RegexValidatorRule",true));		
 		}
 		
-		$regex = "^(".$options[0];
+		$regex = "/^(".$options[0];
 		for($i =1; $i<count($options); $i++){
 			$regex .= "|".$options[$i];
 		}
-		$regex.= ")$";
+		$regex.= ")$/";
 		
 		if (!isset($GLOBALS['validator_rules']) || !is_array($GLOBALS['validator_rules']))
 			$GLOBALS['validator_rules'] = array();

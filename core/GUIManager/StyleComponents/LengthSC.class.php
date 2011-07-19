@@ -54,7 +54,7 @@ class LengthSC extends StyleComponent {
 class CSSLengthValidatorRule extends RegexValidatorRule {
 
 	function CSSLengthValidatorRule(){		
-		$this->_regex= "^-?[0-9]+(\.[0-9]+)?(%|in|cm|mm|em|ex|pt|pc|px)$";
+		$this->_regex= "/^-?[0-9]+(\.[0-9]+)?(%|in|cm|mm|em|ex|pt|pc|px)$/";
 	}
 	
 	/**
@@ -124,14 +124,14 @@ class CSSLengthValidatorRuleWithOptions extends RegexValidatorRule {
 		
 		
 		if(count($options)==0){
-			$regex = "^-?[0-9]+(\.[0-9]+)?(%|in|cm|mm|em|ex|pt|pc|px)$";
+			$regex = "/^-?[0-9]+(\.[0-9]+)?(%|in|cm|mm|em|ex|pt|pc|px)$/";
 		}else{
 			
-			$regex = "^(".$options[0];
+			$regex = "/^(".$options[0];
 			for($i = 1; $i < count($options); $i++){
 				$regex .= "|".$options[$i];
 			}
-			$regex .= "|-?[0-9]+(\.[0-9]+)?(%|in|cm|mm|em|ex|pt|pc|px))$";
+			$regex .= "|-?[0-9]+(\.[0-9]+)?(%|in|cm|mm|em|ex|pt|pc|px))$/";
 		}
 
 		if (!isset($GLOBALS['validator_rules']) || !is_array($GLOBALS['validator_rules']))

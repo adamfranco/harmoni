@@ -55,7 +55,7 @@ class VisitorSQLDatabaseAuthNMethod
 		try {
 			ArgumentValidator::validate(
 				$configuration->getProperty('email_from_address'),
-				RegexValidatorRule::getRule('^.+@.+$'));
+				RegexValidatorRule::getRule('/^.+@.+$/'));
 		} catch (InvalidArgumentException $e) {
 			throw new ConfigurationErrorException("'email_from_address' must be an email address. ".$e->getMessage());
 		}
