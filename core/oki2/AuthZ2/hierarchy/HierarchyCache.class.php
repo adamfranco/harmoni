@@ -1079,24 +1079,24 @@ class AuthZ2_HierarchyCache {
 				$this->getParents_nodeId_key = $query->addWhereEqual("child.fk_child", $idValue);
 				$query->addOrderBy("parents.id");
 				
-				$query->addWhereRawNotIn("parents.id", array_fill(0, 10, '?'));
+				$query->addWhereRawNotIn("parents.id", array_fill(0, 15, '?'));
 				
 				$this->getParents_stmt = $query->prepare();
 			}
 			
 			$this->getParents_stmt->bindValue($this->getParents_nodeId_key, $idValue);
 			
-			// This will often be an empty array, but we will allow up to 10 values
+			// This will often be an empty array, but we will allow up to 15 values
 			// for now to limit the ammount of null values sent to the database.
 			// This can be increased if needed or other algorithms used.
 			$idsToExclude = array_keys($nodesToExclude);
-			if (count($idsToExclude) > 10)
-				throw new OperationFailedException("Current implementation doesn't support more than 10 exclusions, ".count($idsToExclude)." given.");
-			for ($i = count($idsToExclude); $i < 10; $i++) {
+			if (count($idsToExclude) > 15)
+				throw new OperationFailedException("Current implementation doesn't support more than 15 exclusions, ".count($idsToExclude)." given.");
+			for ($i = count($idsToExclude); $i < 15; $i++) {
 				$idsToExclude[] = 'NULL';
 			}
 			$j = 0;
-			for ($i = $this->getParents_nodeId_key + 1; $i < $this->getParents_nodeId_key + 11; $i++) {
+			for ($i = $this->getParents_nodeId_key + 1; $i < $this->getParents_nodeId_key + 16; $i++) {
 				$this->getParents_stmt->bindValue($i, $idsToExclude[$j]);
 				$j++;
 			}
