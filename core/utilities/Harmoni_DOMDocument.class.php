@@ -199,6 +199,9 @@ class Harmoni_DOMDocument
 				if ($childrenTabbed)
 					$node->appendChild($this->getWhitespace());
 				return true;
+			case XML_COMMENT_NODE:
+				$node->parentNode->insertBefore($this->getWhiteSpace(),	$node);
+				return true;
 			default:
 				return false;
 		}
