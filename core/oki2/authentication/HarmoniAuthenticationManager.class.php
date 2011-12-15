@@ -156,6 +156,19 @@ class HarmoniAuthenticationManager
 			}
 		}
 	}
+	
+	/**
+	 * Answer the configuration
+	 *
+	 * WARNING: NOT IN OSID - This method is not in the OSIDs as of version 2.0
+	 * Use at your own risk
+	 * @return Properties
+	 */
+	public function getConfiguration () {
+		if (empty($this->_configuration))
+			throw new OperationFailedException("No configuration available.");
+		return $this->_configuration;
+	}
 
 	/**
 	 * Get the authentication Types that are supported by the implementation.
