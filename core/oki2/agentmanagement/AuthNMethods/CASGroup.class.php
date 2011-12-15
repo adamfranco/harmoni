@@ -360,7 +360,7 @@ class CASGroup
 		}
 		
 		if ($searchSubgroups) {
-			$myGroups = $this->getGroups();
+			$myGroups = $this->getGroups(true);
 			while ($myGroups->hasNext()) {
 				if ($myGroups->next()->contains($memberOrGroup, true)) {
 					return true;
