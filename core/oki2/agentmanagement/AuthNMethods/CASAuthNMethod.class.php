@@ -446,7 +446,7 @@ class CASAuthNMethod
 		
 		$url = $this->directoryUrl.'?'.http_build_query($allParams, null, '&');
 		
-		if($doc->load($url))
+		if(@$doc->load($url))
 			return $doc;
 		else {
 			$paramstring = '';
