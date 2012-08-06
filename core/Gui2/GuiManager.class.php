@@ -174,6 +174,13 @@ class Harmoni_Gui2_GuiManager
 				}
 			}
 			
+			// Add a dummy property to the end of the URL that looks like a .css
+			// filename. Without this, archives of the site might not be hostable
+			// since the webserver won't send the correct content-type for the CSS.
+			$harmoni->request->startNamespace(null);
+			$cssBaseUrl->setValue('css', $theme->getIdString().'.css');
+			$harmoni->request->endNamespace();
+			
 			$css = "<link rel='stylesheet' type='text/css' href='".$cssBaseUrl->write()."'/>";
 		} 
 		// Otherwise, put CSS inline
