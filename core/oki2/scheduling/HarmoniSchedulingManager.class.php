@@ -333,7 +333,7 @@ class HarmoniSchedulingManager
 	function getAvailableTimes ( array $agents, $start, $end ) {
 		
 		if(count($agents)==0){
-			$array[] =&new HarmoniTimespan($start,$end);
+			$array[] = new HarmoniTimespan($start,$end);
 			$ret = new  HarmoniTimespanIterator($array);
 			return $ret;
 		}
