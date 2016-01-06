@@ -440,13 +440,26 @@ class CASAuthNMethod
 	 */
 	public function _queryDirectory ($action, $params = array()) {
 		$doc = new DOMDocument;
-		$allParams['action'] = $action;
-		$allParams['ADMIN_ACCESS'] = $this->adminAccess;
-		$allParams = array_merge($allParams, $params);
+		$params['action'] = $action;
 
-		$url = $this->directoryUrl.'?'.http_build_query($allParams, null, '&');
+		$url = $this->directoryUrl.'?'.http_build_query($params, null, '&');
 
-		if(@$doc->load($url))
+		if ($this->adminAccess) {
+			$opts = array(
+				'http' => array(
+					'header' =>
+						"ADMIN_ACCESS: ".$this->adminAccess."\r\n".
+						"User-Agent: Drupal CAS-MM-Sync\r\n",
+				)
+			);
+			$context = stream_context_create($opts);
+		} else {
+			$context = null;
+		}
+
+		$xml_string = file_get_contents($url, false, $context);
+
+		if(@$doc->loadXML($xml_string))
 			return $doc;
 		else {
 			$paramstring = '';
