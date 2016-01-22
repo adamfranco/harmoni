@@ -35,7 +35,7 @@ CREATE TABLE dr_asset_record (
   PRIMARY KEY  (structure_id,fk_asset,fk_record)
 ) 
 CHARACTER SET utf8
-TYPE=InnoDB;
+ENGINE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -79,7 +79,7 @@ CREATE TABLE dr_mime_type (
   PRIMARY KEY  (id)
 ) 
 CHARACTER SET utf8
-TYPE=InnoDB;
+ENGINE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -94,7 +94,7 @@ CREATE TABLE dr_repository_type (
   KEY fk_dr_type (fk_dr_type)
 ) 
 CHARACTER SET utf8
-TYPE=InnoDB;
+ENGINE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -111,7 +111,7 @@ CREATE TABLE dr_thumbnail (
   PRIMARY KEY  (fk_file)
 ) 
 CHARACTER SET utf8
-TYPE=InnoDB;
+ENGINE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -129,7 +129,7 @@ CREATE TABLE dr_type (
   UNIQUE KEY uniq (type_domain,type_authority,type_keyword)
 ) 
 CHARACTER SET utf8
-TYPE=InnoDB;
+ENGINE=InnoDB;
 
 
 -- --------------------------------------------------------

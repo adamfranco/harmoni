@@ -42,4 +42,4 @@ CREATE TABLE az_function (
   KEY fk_type (fk_type)
 ) 
 CHARACTER SET utf8
-TYPE=InnoDB;
+ENGINE=InnoDB;

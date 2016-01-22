@@ -17,4 +17,4 @@ CREATE TABLE id (
   PRIMARY KEY  (id_value)
 ) 
 CHARACTER SET utf8
-TYPE=InnoDB;
+ENGINE=InnoDB;

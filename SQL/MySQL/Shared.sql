@@ -21,7 +21,7 @@ CREATE TABLE shared_properties (
   PRIMARY KEY  (id)
 ) 
 CHARACTER SET utf8
-TYPE=InnoDB;
+ENGINE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -36,7 +36,7 @@ CREATE TABLE shared_property (
   PRIMARY KEY  (fk_properties,property_key)
 ) 
 CHARACTER SET utf8
-TYPE=InnoDB;
+ENGINE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -56,5 +56,5 @@ CREATE TABLE type (
   KEY keyword (type_keyword)
 ) 
 CHARACTER SET utf8
-TYPE=InnoDB;
+ENGINE=InnoDB;
         

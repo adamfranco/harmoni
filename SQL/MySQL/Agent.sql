@@ -25,7 +25,7 @@ CREATE TABLE `agent_properties` (
   KEY `fk_type_id` (`fk_type_id`)
 ) 
 CHARACTER SET utf8
-TYPE=InnoDB;
+ENGINE=InnoDB;
 
 
 -- --------------------------------------------------------
