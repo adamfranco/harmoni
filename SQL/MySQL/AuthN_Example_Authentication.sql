@@ -18,4 +18,4 @@ CREATE TABLE auth_db_user (
   PRIMARY KEY  (username)
 ) 
 CHARACTER SET utf8
-TYPE=InnoDB;
+ENGINE=InnoDB;

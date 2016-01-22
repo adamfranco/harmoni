@@ -22,7 +22,7 @@ CREATE TABLE `hierarchy` (
   KEY `hierarchy_multiparent` (`hierarchy_multiparent`)
 ) 
 CHARACTER SET utf8
-TYPE=InnoDB;
+ENGINE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -39,7 +39,7 @@ CREATE TABLE j_node_node (
   KEY fk_child (fk_child)
 ) 
 CHARACTER SET utf8
-TYPE=InnoDB;
+ENGINE=InnoDB;
 
 -- --------------------------------------------------------
 

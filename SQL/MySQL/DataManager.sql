@@ -18,7 +18,7 @@ CREATE TABLE dm_blob (
   PRIMARY KEY  (id)
 )
 CHARACTER SET utf8
-TYPE=InnoDB;
+ENGINE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -32,7 +32,7 @@ CREATE TABLE dm_boolean (
   PRIMARY KEY  (id)
 )
 CHARACTER SET utf8
-TYPE=InnoDB;
+ENGINE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -46,7 +46,7 @@ CREATE TABLE dm_float (
   PRIMARY KEY  (id)
 )
 CHARACTER SET utf8
-TYPE=InnoDB;
+ENGINE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -62,7 +62,7 @@ CREATE TABLE dm_fuzzydate (
   PRIMARY KEY  (id)
 )
 CHARACTER SET utf8
-TYPE=InnoDB;
+ENGINE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -76,7 +76,7 @@ CREATE TABLE dm_integer (
   PRIMARY KEY  (id)
 )
 CHARACTER SET utf8
-TYPE=InnoDB;
+ENGINE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -92,7 +92,7 @@ CREATE TABLE dm_okitype (
   PRIMARY KEY  (id)
 )
 CHARACTER SET utf8
-TYPE=InnoDB;
+ENGINE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -109,7 +109,7 @@ CREATE TABLE dm_record (
   KEY fk_schema (fk_schema)
 )
 CHARACTER SET utf8
-TYPE=InnoDB;
+ENGINE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -132,7 +132,7 @@ CREATE TABLE dm_record_field (
   KEY active (active)
 )
 CHARACTER SET utf8
-TYPE=InnoDB;
+ENGINE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -148,7 +148,7 @@ CREATE TABLE dm_record_set (
   KEY fk_record (fk_record)
 )
 CHARACTER SET utf8
-TYPE=InnoDB;
+ENGINE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -166,7 +166,7 @@ CREATE TABLE dm_schema (
   PRIMARY KEY  (id)
 )
 CHARACTER SET utf8
-TYPE=InnoDB;
+ENGINE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -187,7 +187,7 @@ CREATE TABLE dm_schema_field (
   KEY fk_schema (fk_schema)
 )
 CHARACTER SET utf8
-TYPE=InnoDB;
+ENGINE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -201,7 +201,7 @@ CREATE TABLE dm_shortstring (
   PRIMARY KEY  (id)
 )
 CHARACTER SET utf8
-TYPE=InnoDB;
+ENGINE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -215,7 +215,7 @@ CREATE TABLE dm_string (
   PRIMARY KEY  (id)
 ) 
 CHARACTER SET utf8
-TYPE=InnoDB;
+ENGINE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -232,7 +232,7 @@ CREATE TABLE dm_tag (
   KEY date (date)
 ) 
 CHARACTER SET utf8
-TYPE=InnoDB;
+ENGINE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -247,7 +247,7 @@ CREATE TABLE dm_tag_map (
   KEY fk_record_field (fk_record_field)
 ) 
 CHARACTER SET utf8
-TYPE=InnoDB;
+ENGINE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -265,5 +265,5 @@ CREATE TABLE dm_time (
   KEY jdn_sec (jdn,seconds)
 ) 
 CHARACTER SET utf8
-TYPE=InnoDB;
+ENGINE=InnoDB;
         

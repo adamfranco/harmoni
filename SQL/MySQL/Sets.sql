@@ -19,4 +19,4 @@ CREATE TABLE sets (
   KEY `set_item_index` (`id`,`item_id`)
 ) 
 CHARACTER SET utf8
-TYPE=InnoDB;
+ENGINE=InnoDB;
