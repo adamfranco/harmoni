@@ -314,7 +314,7 @@ class CASAuthNMethod
 	 * forces CAS logout and sends user back to index.php
 	 */
 	function destroyAuthentication() {
-		phpCAS::logoutWithUrl(MYURL);
+		phpCAS::logout();
 	}
 
 /*********************************************************
