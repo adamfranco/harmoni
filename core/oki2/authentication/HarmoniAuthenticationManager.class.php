@@ -406,6 +406,15 @@ class HarmoniAuthenticationManager
 		$_SESSION['__AuthenticatedAgents'] = array();
 		unset(	$_SESSION['__ADMIN_IDS_ACTING_AS_OTHER'],	
 				$_SESSION['__ADMIN_NAMES_ACTING_AS_OTHER']);
+
+		// Allow the auth methods to take additional logout steps.
+		$authNMethodManager = Services::getService("AuthNMethods");
+		$authTypes = $authNMethodManager->getAuthNTypes();
+		while ($authTypes->hasNext()) {
+			$authType = $authTypes->next();
+			$authNMethod = $authNMethodManager->getAuthNMethodForType($authType);
+			$authNMethod->destroyAuthentication();
+		}
 	}
 
 	/**

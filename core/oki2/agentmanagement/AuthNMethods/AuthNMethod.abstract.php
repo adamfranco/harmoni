@@ -383,6 +383,14 @@ class AuthNMethod {
 		return $authNTokens->getIdentifier();
 	}
 	
+	/**
+	 * default function to allow other AuthNMethods to add additional logout actions
+	 *
+	 * @return void
+	 * @access public
+	 * @since 1/22/16
+	 */
+	function destroyAuthentication() {}
 	
 	
 /*********************************************************

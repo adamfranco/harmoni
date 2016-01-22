@@ -310,6 +310,13 @@ class CASAuthNMethod
 		return $authNTokens->displayName;
 	}
 
+	/**
+	 * forces CAS logout and sends user back to index.php
+	 */
+	function destroyAuthentication() {
+		phpCAS::logout();
+	}
+
 /*********************************************************
  * 	Directory methods
  *********************************************************/
