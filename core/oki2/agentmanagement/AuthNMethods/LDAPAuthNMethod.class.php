@@ -366,8 +366,12 @@ class LDAPAuthNMethod
 		$groupDN = $this->_configuration->getProperty("GroupBaseDN");
 
 		// Parent Groups of Agents
-		$info = $this->_connector->getInfo($authNTokens->getUsername(), array('memberof'));
-		
+		try {
+			$info = $this->_connector->getInfo($authNTokens->getUsername(), array('memberof'));
+		} catch (LDAPException $e) {
+			return new HarmoniIterator($groups);
+		}
+
 		$groups = array();
 		
 		if (isset($info['memberof'])) {
