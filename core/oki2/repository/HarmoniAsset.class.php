@@ -872,8 +872,8 @@ class HarmoniAsset
 			$query = new SelectQuery();
 			$query->addTable("dr_asset_record");
 			$query->addColumn("fk_record");
-			$query->addWhere("fk_asset = '".$assetId->getIdString()."'");
-			$query->addWhere("structure_id = '".$recordStructureId->getIdString()."'", _AND);
+			$query->addWhereEqual("fk_asset", $assetId->getIdString());
+			$query->addWhereEqual("structure_id", $recordStructureId->getIdString(), _AND);
 			
 			$result =$dbHandler->query($query, $this->_dbIndex);
 			
@@ -1044,8 +1044,8 @@ class HarmoniAsset
 			$query = new DeleteQuery;
 			$query->setTable("dr_asset_record");
 			$myId =$this->getId();
-			$query->addWhere("fk_asset = '".$myId->getIdString()."'");
-			$query->addWhere("fk_record = '".$recordId->getIdString()."'");
+			$query->addWhereEqual("fk_asset", $myId->getIdString());
+			$query->addWhereEqual("fk_record", $recordId->getIdString());
 			
 			$result =$dbHandler->query($query, $this->_dbIndex);
 		}
@@ -1118,8 +1118,8 @@ class HarmoniAsset
 			$query = new SelectQuery();
 			$query->addTable("dr_asset_record");
 			$query->addColumn("structure_id");
-			$query->addWhere("fk_asset = '".$myId->getIdString()."'");
-			$query->addWhere("fk_record = '".$recordId->getIdString()."'", _AND);
+			$query->addWhereEqual("fk_asset", $myId->getIdString());
+			$query->addWhereEqual("fk_record", $recordId->getIdString(), _AND);
 			
 			$result =$dbHandler->query($query, $this->_dbIndex);
 			
@@ -1223,7 +1223,7 @@ class HarmoniAsset
 		$query = new SelectQuery();
 		$query->addTable("dr_asset_record");
 		$query->addColumn("fk_record");
-		$query->addWhere("fk_asset = '".$myId->getIdString()."'");
+		$query->addWhereEqual("fk_asset", $myId->getIdString());
 		
 		$result =$dbHandler->query($query, $this->_dbIndex);
 		
@@ -1283,8 +1283,8 @@ class HarmoniAsset
 			$query = new SelectQuery();
 			$query->addTable("dr_asset_record");
 			$query->addColumn("fk_record");
-			$query->addWhere("fk_asset = '".$myId->getIdString()."'");
-			$query->addWhere("structure_id = '".$recordStructureId->getIdString()."'", _AND);
+			$query->addWhereEqual("fk_asset", $myId->getIdString());
+			$query->addWhereEqual("structure_id", $recordStructureId->getIdString(), _AND);
 			
 			$result =$dbHandler->query($query, $this->_dbIndex);
 			
@@ -1697,7 +1697,7 @@ class HarmoniAsset
 		$query->addColumn("create_timestamp");
 		$query->addColumn("creator");
 		$query->addColumn("modify_timestamp");
-		$query->addWhere("asset_id='".$id->getIdString()."'");
+		$query->addWhereEqual("asset_id", $id->getIdString());
 		
 		$result =$dbHandler->query($query, $this->_dbIndex);
 		
@@ -1849,7 +1849,7 @@ class HarmoniAsset
 		$query = new UpdateQuery;
 		$query->setTable("dr_asset_info");
 		$query->addValue("creator", $agentId->getIdString());
-		$query->addWhere("asset_id='".$this->getId()->getIdString()."'");
+		$query->addWhereEqual("asset_id", $this->getId()->getIdString());
 		$dbHandler->query($query, $this->_dbIndex);
 		
 		$this->_creator = $agentId->getIdString();
@@ -1871,7 +1871,7 @@ class HarmoniAsset
 		$query = new UpdateQuery;
 		$query->setTable("dr_asset_info");
 		$query->addValue("create_timestamp", $date->asString());
-		$query->addWhere("asset_id='".$this->getId()->getIdString()."'");
+		$query->addWhereEqual("asset_id", $this->getId()->getIdString());
 		$dbHandler->query($query, $this->_dbIndex);
 		
 		$this->_createDate = $date;
@@ -1893,7 +1893,7 @@ class HarmoniAsset
 		$query = new UpdateQuery;
 		$query->setTable("dr_asset_info");
 		$query->addValue("modify_timestamp", $date->asString());
-		$query->addWhere("asset_id='".$this->getId()->getIdString()."'");
+		$query->addWhereEqual("asset_id", $this->getId()->getIdString());
 		$dbHandler->query($query, $this->_dbIndex);
 		
 		$this->_modifyDate = $date;

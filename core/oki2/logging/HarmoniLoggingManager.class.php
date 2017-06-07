@@ -390,7 +390,7 @@ class HarmoniLoggingManager
 		$query = new SelectQuery;
 		$query->addColumn("id");
 		$query->addTable("log_entry");
-		$query->addWhere("log_name = '".addslashes($logName)."'");
+		$query->addWhereEqual("log_name", $logName);
 		$result =$dbc->query($query, $this->_dbIndex);
 		$entryIds = array();
 		while ($result->hasMoreRows()) {
@@ -412,7 +412,7 @@ class HarmoniLoggingManager
 		// delete the entries
 		$query = new DeleteQuery;
 		$query->setTable("log_entry");
-		$query->addWhere("log_name = '".addslashes($logName)."'");
+		$query->addWhereEqual("log_name", $logName);
 		$dbc->query($query, $this->_dbIndex);
 	} 
 

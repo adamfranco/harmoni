@@ -62,7 +62,7 @@ class TagManager
 		$query->setGroupBy(array('value'));
 		$query->addOrderBy('occurances', DESCENDING);
 		
-		$query->addWhere("user_id='".addslashes($agentId->getIdString())."'");
+		$query->addWhereEqual("user_id", $agentId->getIdString());
 		
 		if ($max)
 			$query->limitNumberOfRows($max);
@@ -233,7 +233,7 @@ class TagManager
 		$query->addTable('tag');
 		$query->setGroupBy(array('value'));
 		$query->addOrderBy('occurances', DESCENDING);
-		$query->addWhere("user_id='".addslashes($agentId->getIdString())."'");
+		$query->addWhereEqual("user_id", $agentId->getIdString());
 		
 		if ($max)
 			$query->limitNumberOfRows($max);
@@ -354,7 +354,7 @@ class TagManager
 		$query->addTable('tag');
 		$query->setGroupBy(array('value'));
 		$query->addOrderBy('occurances', DESCENDING);
-		$query->addWhere("user_id!='".addslashes($agentId->getIdString())."'");
+		$query->addWhereNotEqual("user_id", $agentId->getIdString());
 		
 		if ($max)
 			$query->limitNumberOfRows($max);

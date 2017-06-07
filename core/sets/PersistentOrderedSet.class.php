@@ -45,7 +45,7 @@ class PersistentOrderedSet
 		$query->addColumn("item_order", "item_order");
 		$query->addColumn("item_id", "item_id");
 		$query->addTable("sets");
-		$query->addWhere("id = '".addslashes($this->_setId->getIdString())."'");
+		$query->addWhereEqual("id", $this->_setId->getIdString());
 		$query->addOrderBy("item_order");
 		
 		$dbHandler = Services::getService("DatabaseManager");
@@ -113,8 +113,8 @@ class PersistentOrderedSet
 		// Remove the item from the database
 		$query = new DeleteQuery;
 		$query->setTable("sets");
-		$query->addWhere("id='".addslashes($this->_setId->getIdString())."'");
-		$query->addWhere("item_id='".addslashes($id->getIdString())."'");
+		$query->addWhereEqual("id", $this->_setId->getIdString());
+		$query->addWhereEqual("item_id", $id->getIdString());
 		
 		$dbHandler = Services::getService("DatabaseManager");
 		$dbHandler->query($query, $this->_dbIndex);
@@ -131,8 +131,7 @@ class PersistentOrderedSet
 		// Remove the item from the database
 		$query = new DeleteQuery;
 		$query->setTable("sets");
-		$query->addWhere("id='".addslashes(
-			$this->_setId->getIdString())."'");
+		$query->addWhereEqual("id", $this->_setId->getIdString());
 				
 		$dbHandler = Services::getService("DatabaseManager");
 		$dbHandler->query($query, $this->_dbIndex);
@@ -210,8 +209,8 @@ class PersistentOrderedSet
 				$query->setColumns($columns);
 				$values = array($key);
 				$query->setValues($values);
-				$query->addWhere("id = '".addslashes($this->_setId->getIdString())."'");
-				$query->addWhere("item_id = '".addslashes($val)."'");
+				$query->addWhereEqual("id", $this->_setId->getIdString());
+				$query->addWhereEqual("item_id", $val);
 				
 				$dbHandler->query($query);
 			}

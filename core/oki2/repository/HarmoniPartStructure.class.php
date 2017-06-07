@@ -498,9 +498,9 @@ class HarmoniPartStructure
 			$query = new DeleteQuery;
 			$query->setTable('dr_authoritative_values');
 			$id =$this->getId();
-			$query->addWhere("fk_partstructure = '".addslashes($id->getIdString())."'");
-			$query->addWhere("fk_repository = '".addslashes($this->_repositoryId->getIdString())."'");
-			$query->addWhere("value = '".addslashes($value->asString())."'");
+			$query->addWhereEqual("fk_partstructure", $id->getIdString());
+			$query->addWhereEqual("fk_repository", $this->_repositoryId->getIdString());
+			$query->addWhereEqual("value", $value->asString());
 			
 			$dbc = Services::getService("DBHandler");
 			$configuration =$this->manager->_configuration;
@@ -605,8 +605,8 @@ class HarmoniPartStructure
 			$query->addTable('dr_authoritative_values');
 			$query->addColumn('value');
 			$id =$this->getId();
-			$query->addWhere("fk_partstructure = '".addslashes($id->getIdString())."'");
-			$query->addWhere("fk_repository = '".addslashes($this->_repositoryId->getIdString())."'");
+			$query->addWhereEqual("fk_partstructure", $id->getIdString());
+			$query->addWhereEqual("fk_repository", $this->_repositoryId->getIdString());
 			$query->addOrderBy("value", ASCENDING);
 			
 			$dbc = Services::getService("DBHandler");

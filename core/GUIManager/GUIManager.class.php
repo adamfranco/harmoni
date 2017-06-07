@@ -366,7 +366,7 @@ extends GUIManagerAbstract
 		$idValue = $themeId->getIdString();
 		$query = new SelectQuery();
 		$query->addTable($this->_dbName.".tm_theme");
-		$query->addWhere("theme_id = $idValue");
+		$query->addWhereEqual("theme_id", $idValue);
 		$query->addColumn("*");
 		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 
@@ -432,7 +432,7 @@ extends GUIManagerAbstract
 
 		$query = new SelectQuery();
 		$query->addTable($this->_dbName.".tm_style_collection");
-		$query->addWhere("fk_theme_id = $idValue");
+		$query->addWhereEqual("fk_theme_id", $idValue);
 		$query->addColumn("*");
 		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 
@@ -493,7 +493,7 @@ extends GUIManagerAbstract
 
 		$query = new SelectQuery();
 		$query->addTable($this->_dbName.".tm_style_property");
-		$query->addWhere("fk_collection_id = $idValue");
+		$query->addWhereEqual("fk_collection_id", $idValue);
 		$query->addColumn("*");
 		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 
@@ -532,7 +532,7 @@ extends GUIManagerAbstract
 
 		$query = new SelectQuery();
 		$query->addTable($this->_dbName.".tm_style_component");
-		$query->addWhere("fk_property_id = $idValue");
+		$query->addWhereEqual("fk_property_id", $idValue);
 		$query->addColumn("*");
 		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 
@@ -568,7 +568,7 @@ extends GUIManagerAbstract
 
 		$query = new SelectQuery();
 		$query->addTable($this->_dbName.".tm_theme");
-		$query->addWhere("theme_template = 1");
+		$query->addWhereEqual("theme_template", 1);
 		$query->addColumn("theme_id");
 		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 
@@ -606,7 +606,7 @@ extends GUIManagerAbstract
 			$idValue = $id->getIdString();
 			$query = new SelectQuery();
 			$query->addTable($this->_dbName.".tm_theme");
-			$query->addWhere("theme_id = $idValue");
+			$query->addWhereEqual("theme_id", $idValue);
 			$query->addColumn("theme_id");
 			$queryResult =$dbHandler->query($query, $this->_dbIndex);
 			if ($queryResult->getNumberOfRows() > 1) {
@@ -665,7 +665,7 @@ extends GUIManagerAbstract
 			$idValue = $id->getIdString();
 			$query = new SelectQuery();
 			$query->addTable($this->_dbName.".tm_style_collection");
-			$query->addWhere('collection_id = '.$idValue);
+			$query->addWhereEqual('collection_id', $idValue);
 			$query->addColumn("collection_id");
 			$queryResult =$dbHandler->query($query, $this->_dbIndex);
 			if ($queryResult->getNumberOfRows() > 1)
@@ -715,7 +715,7 @@ extends GUIManagerAbstract
 			$idValue = $id->getIdString();
 			$query = new SelectQuery();
 			$query->addTable($this->_dbName.".tm_style_property");
-			$query->addWhere('property_id = '.$idValue);
+			$query->addWhereEqual('property_id', $idValue);
 			$query->addColumn("property_id");
 			$queryResult =$dbHandler->query($query, $this->_dbIndex);
 			if ($queryResult->getNumberOfRows() > 1)
@@ -759,7 +759,7 @@ extends GUIManagerAbstract
 			$idValue = $id->getIdString();
 			$query = new SelectQuery();
 			$query->addTable($this->_dbName.".tm_style_component");
-			$query->addWhere('component_id = '.$idValue);
+			$query->addWhereEqual('component_id', $idValue);
 			$query->addColumn("component_id");
 			$queryResult =$dbHandler->query($query, $this->_dbIndex);
 			if ($queryResult->getNumberOfRows() > 1)
@@ -803,7 +803,7 @@ extends GUIManagerAbstract
 		$idValue = $id->getIdString();
 		$query = new DeleteQuery();
 		$query->setTable($this->_dbName.".tm_theme");
-		$query->addWhere("theme_id = $idValue");
+		$query->addWhereEqual("theme_id", $idValue);
 		$result =$dbHandler->query($query, $this->_dbIndex);
 
 		if ($result->getNumberOfRows() != 1){
@@ -832,7 +832,7 @@ extends GUIManagerAbstract
 		$idValue = $themeId->getIdString();
 		$query = new DeleteQuery();
 		$query->setTable($this->_dbName.".tm_style_collection");
-		$query->addWhere("fk_theme_id = $idValue");
+		$query->addWhereEqual("fk_theme_id", $idValue);
 		$result =$dbHandler->query($query, $this->_dbIndex);
 
 
@@ -857,7 +857,7 @@ extends GUIManagerAbstract
 		$idValue = $id->getIdString();
 		$query = new DeleteQuery();
 		$query->setTable($this->_dbName.".tm_style_property");
-		$query->addWhere("fk_collection_id = $idValue");
+		$query->addWhereEqual("fk_collection_id", $idValue);
 		$result =$dbHandler->query($query, $this->_dbIndex);
 
 
@@ -878,7 +878,7 @@ extends GUIManagerAbstract
 		$idValue = $id->getIdString();
 		$query = new DeleteQuery();
 		$query->setTable($this->_dbName.".tm_style_component");
-		$query->addWhere("fk_property_id = $idValue");
+		$query->addWhereEqual("fk_property_id", $idValue);
 		$result =$dbHandler->query($query, $this->_dbIndex);
 
 
@@ -916,11 +916,11 @@ extends GUIManagerAbstract
 		$query->addTable($this->_dbName.".tm_theme");
 		$query->addColumn("theme_id");
 		$query->addColumn("theme_display_name");
-		$query->addWhere("theme_owner_id = '".addslashes($users[0])."'");
+		$query->addWhereEqual("theme_owner_id", $users[0]);
 		for ($i = 1; $i < count($users); $i++) {
-			$query->addWhere("theme_owner_id = '".addslashes($users[$i])."'", _OR);
+			$query->addWhereEqual("theme_owner_id", $users[$i], _OR);
 		}
-		$query->addWhere("theme_template = '1'", _OR);
+		$query->addWhereEqual("theme_template", '1', _OR);
 
 		$result =$db->query($query, $this->_dbIndex);
 

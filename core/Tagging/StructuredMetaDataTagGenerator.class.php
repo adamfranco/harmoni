@@ -72,7 +72,7 @@ class StructuredMetaDataTagGenerator {
 			$query = new SelectQuery;
 			$query->addColumn('fk_partstruct');
 			$query->addTable('tag_part_map');
-			$query->addWhere("fk_repository ='".addslashes($repositoryId->getIdString())."'");
+			$query->addWhereEqual("fk_repository", $repositoryId->getIdString());
 			
 			$dbc = Services::getService("DatabaseManager");
 			$result =$dbc->query($query, $this->getDatabaseIndex());
@@ -151,8 +151,8 @@ class StructuredMetaDataTagGenerator {
 		// Delete it into the database
 		$query = new DeleteQuery;
 		$query->setTable('tag_part_map');
-		$query->addWhere("fk_repository='".addslashes($repositoryId->getIdString())."'");
-		$query->addWhere("fk_partstruct='".addslashes($partStructureId->getIdString())."'");
+		$query->addWhereEqual("fk_repository", $repositoryId->getIdString());
+		$query->addWhereEqual("fk_partstruct", $partStructureId->getIdString());
 		$dbc = Services::getService("DatabaseManager");
 		$result =$dbc->query($query, $this->getDatabaseIndex());
 			

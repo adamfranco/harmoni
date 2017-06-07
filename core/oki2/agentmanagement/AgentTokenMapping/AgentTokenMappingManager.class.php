@@ -203,13 +203,10 @@ class AgentTokenMappingManager
 		// Delete the mapping.
 		$query = new DeleteQuery;
 		$query->setTable($this->_mappingTable);
-		$query->addWhere(
-			"agent_id='".addslashes($agentId->getIdString())."'");
-		$query->addWhere(
-			"token_identifier='".addslashes($authNTokens->getIdentifier())."'",
+		$query->addWhereEqual("agent_id", $agentId->getIdString());
+		$query->addWhereEqual("token_identifier", $authNTokens->getIdentifier(),
 			_AND);
-		$query->addWhere(
-			"fk_type='".addslashes($typeKey)."'",
+		$query->addWhereEqual("fk_type", $typeKey,
 			_AND);
 		
 		$result =$dbc->query($query, $this->_dbId);
@@ -218,14 +215,13 @@ class AgentTokenMappingManager
 		$query = new SelectQuery;
 		$query->addTable($this->_mappingTable);
 		$query->addColumn("COUNT(*)", "count");
-		$query->addWhere("fk_type='".addslashes($typeKey)."'");
+		$query->addWhereEqual("fk_type", $typeKey);
 		$result =$dbc->query($query, $this->_dbId);
 		
 		if ($result->getNumberOfRows() == 0) {
 			$query = new DeleteQuery;
 			$query->addTable($this->_typeTable);
-			$query->addWhere(
-				"id='".addslashes($typeKey)."'");
+			$query->addWhereEqual("id", $typeKey);
 			$result =$dbc->query($query, $this->_dbId);
 		}
 		$result->free();
@@ -254,16 +250,12 @@ class AgentTokenMappingManager
 		
 		$query =$this->_createSelectQuery();
 		
-		$query->addWhere(
-			"token_identifier='".addslashes($authNTokens->getIdentifier())."'");
-		$query->addWhere(
-			"domain='".addslashes($authenticationType->getDomain())."'",
+		$query->addWhereEqual("token_identifier", $authNTokens->getIdentifier());
+		$query->addWhereEqual("domain", $authenticationType->getDomain(),
 			_AND);
-		$query->addWhere(
-			"authority='".addslashes($authenticationType->getAuthority())."'",
+		$query->addWhereEqual("authority", $authenticationType->getAuthority(),
 			_AND);
-		$query->addWhere(
-			"keyword='".addslashes($authenticationType->getKeyword())."'",
+		$query->addWhereEqual("keyword", $authenticationType->getKeyword(),
 			_AND);
 		
 		$result =$dbc->query($query, $this->_dbId);
@@ -297,14 +289,11 @@ class AgentTokenMappingManager
 		
 		$query =$this->_createSelectQuery();
 		
-		$query->addWhere(
-			"domain='".addslashes($authenticationType->getDomain())."'",
+		$query->addWhereEqual("domain", $authenticationType->getDomain(),
 			_AND);
-		$query->addWhere(
-			"authority='".addslashes($authenticationType->getAuthority())."'",
+		$query->addWhereEqual("authority", $authenticationType->getAuthority(),
 			_AND);
-		$query->addWhere(
-			"keyword='".addslashes($authenticationType->getKeyword())."'",
+		$query->addWhereEqual("keyword", $authenticationType->getKeyword(),
 			_AND);
 		
 		$result =$dbc->query($query, $this->_dbId);
@@ -385,16 +374,12 @@ class AgentTokenMappingManager
 		
 		$query =$this->_createSelectQuery();
 		
-		$query->addWhere(
-			"agent_id='".addslashes($agentId->getIdString())."'");
-		$query->addWhere(
-			"domain='".addslashes($authenticationType->getDomain())."'",
+		$query->addWhereEqual("agent_id", $agentId->getIdString());
+		$query->addWhereEqual("domain", $authenticationType->getDomain(),
 			_AND);
-		$query->addWhere(
-			"authority='".addslashes($authenticationType->getAuthority())."'",
+		$query->addWhereEqual("authority", $authenticationType->getAuthority(),
 			_AND);
-		$query->addWhere(
-			"keyword='".addslashes($authenticationType->getKeyword())."'",
+		$query->addWhereEqual("keyword", $authenticationType->getKeyword(),
 			_AND);
 		
 		$result =$dbc->query($query, $this->_dbId);
@@ -422,8 +407,7 @@ class AgentTokenMappingManager
 		
 		$query =$this->_createSelectQuery();
 		
-		$query->addWhere(
-			"agent_id='".addslashes($agentId->getIdString())."'");
+		$query->addWhereEqual("agent_id", $agentId->getIdString());
 		
 		$result =$dbc->query($query, $this->_dbId);
 		
@@ -457,19 +441,14 @@ class AgentTokenMappingManager
 			$this->_mappingTable.'.fk_type='.$this->_typeTable.'.id');
 		$query->addColumn('agent_id');
 		$query->addColumn('token_identifier');
-		$query->addWhere(
-			"agent_id='".addslashes($agentId->getIdString())."'");
-		$query->addWhere(
-			"token_identifier='".addslashes($authNTokens->getIdentifier())."'",
+		$query->addWhereEqual("agent_id", $agentId->getIdString());
+		$query->addWhereEqual("token_identifier", $authNTokens->getIdentifier(),
 			_AND);
-		$query->addWhere(
-			"domain='".addslashes($authenticationType->getDomain())."'",
+		$query->addWhereEqual("domain", $authenticationType->getDomain(),
 			_AND);
-		$query->addWhere(
-			"authority='".addslashes($authenticationType->getAuthority())."'",
+		$query->addWhereEqual("authority", $authenticationType->getAuthority(),
 			_AND);
-		$query->addWhere(
-			"keyword='".addslashes($authenticationType->getKeyword())."'",
+		$query->addWhereEqual("keyword", $authenticationType->getKeyword(),
 			_AND);
 		
 		$result =$dbc->query($query, $this->_dbId);
@@ -509,17 +488,13 @@ class AgentTokenMappingManager
 			$this->_mappingTable.'.fk_type='.$this->_typeTable.'.id');
 		$query->addColumn('agent_id');
 		$query->addColumn('token_identifier');
-		$query->addWhere(
-			"token_identifier='".addslashes($authNTokens->getIdentifier())."'",
+		$query->addWhereEqual("token_identifier", $authNTokens->getIdentifier(),
 			_AND);
-		$query->addWhere(
-			"domain='".addslashes($authenticationType->getDomain())."'",
+		$query->addWhereEqual("domain", $authenticationType->getDomain(),
 			_AND);
-		$query->addWhere(
-			"authority='".addslashes($authenticationType->getAuthority())."'",
+		$query->addWhereEqual("authority", $authenticationType->getAuthority(),
 			_AND);
-		$query->addWhere(
-			"keyword='".addslashes($authenticationType->getKeyword())."'",
+		$query->addWhereEqual("keyword", $authenticationType->getKeyword(),
 			_AND);
 		
 		$result =$dbc->query($query, $this->_dbId);
@@ -565,13 +540,10 @@ class AgentTokenMappingManager
 		$query = new SelectQuery;
 		$query->addTable($this->_typeTable);
 		$query->addColumn('id');
-		$query->addWhere(
-			"domain='".addslashes($type->getDomain())."'");
-		$query->addWhere(
-			"authority='".addslashes($type->getAuthority())."'",
+		$query->addWhereEqual("domain", $type->getDomain());
+		$query->addWhereEqual("authority", $type->getAuthority(),
 			_AND);
-		$query->addWhere(
-			"keyword='".addslashes($type->getKeyword())."'",
+		$query->addWhereEqual("keyword", $type->getKeyword(),
 			_AND);
 		
 		$result =$dbc->query($query, $this->_dbId);

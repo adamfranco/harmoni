@@ -79,16 +79,16 @@ class SearchEntryIterator
 		$dbc = Services::getService("DatabaseManager");
 		if ($this->_agentId) {
 			$query->addTable("log_agent", INNER_JOIN, "log_entry.id = search_agent.fk_entry", "search_agent");
-			$query->addWhere("search_agent.fk_agent = '".addslashes($this->_agentId->getIdString())."'");
+			$query->addWhereEqual("search_agent.fk_agent", $this->_agentId->getIdString());
 		}
 		
 		if ($this->_nodeId) {
 			$query->addTable("log_node", INNER_JOIN, "log_entry.id = search_node.fk_entry", "search_node");
-			$query->addWhere("search_node.fk_node = '".addslashes($this->_nodeId->getIdString())."'");
+			$query->addWhereEqual("search_node.fk_node", $this->_nodeId->getIdString());
 		}
 		
 		if ($this->_category) {
-			$query->addWhere("log_entry.category = '".addslashes($this->_category)."'");
+			$query->addWhereEqual("log_entry.category", $this->_category);
 		}
 		
 		$query->addWhere("log_entry.timestamp > ".$dbc->toDBDate($this->_startDate, $this->_dbIndex));

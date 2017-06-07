@@ -225,9 +225,9 @@ class HarmoniRepositoryManager
 		$query = new SelectQuery;
 		$query->addColumn("type_id");
 		$query->addTable("dr_type");
-		$query->addWhere("type_domain = '".addslashes($repositoryType->getDomain())."'");
-		$query->addWhere("type_authority = '".addslashes($repositoryType->getAuthority())."'", _AND);
-		$query->addWhere("type_keyword = '".addslashes($repositoryType->getKeyword())."'", _AND);
+		$query->addWhereEqual("type_domain", $repositoryType->getDomain());
+		$query->addWhereEqual("type_authority", $repositoryType->getAuthority(), _AND);
+		$query->addWhereEqual("type_keyword", $repositoryType->getKeyword(), _AND);
 		
 		$result =$dbc->query($query, $this->_dbIndex);
 		
@@ -452,9 +452,9 @@ class HarmoniRepositoryManager
 		$query->addColumn("repository_id");
 		$query->addTable("dr_repository_type");
 		$query->addTable("dr_type", INNER_JOIN, "fk_dr_type = type_id");
-		$query->addWhere("type_domain = '".addslashes($repositoryType->getDomain())."'");
-		$query->addWhere("type_authority = '".addslashes($repositoryType->getAuthority())."'", _AND);
-		$query->addWhere("type_keyword = '".addslashes($repositoryType->getKeyword())."'", _AND);
+		$query->addWhereEqual("type_domain", $repositoryType->getDomain());
+		$query->addWhereEqual("type_authority", $repositoryType->getAuthority(), _AND);
+		$query->addWhereEqual("type_keyword", $repositoryType->getKeyword(), _AND);
 		
 		$dbc = Services::getService("DatabaseManager");
 		$result =$dbc->query($query, $this->_dbIndex);

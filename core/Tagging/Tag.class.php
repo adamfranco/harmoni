@@ -136,7 +136,7 @@ class Tag {
 			$query = new SelectQuery;
 			$query->addColumn('COUNT(value)', 'occurances');
 			$query->addTable('tag');
-			$query->addWhere("value='".addslashes($this->getValue())."'");
+			$query->addWhereEqual("value", $this->getValue());
 			
 			$dbc = Services::getService("DatabaseManager");
 			$result =$dbc->query($query, $this->getDatabaseIndex());
@@ -173,8 +173,8 @@ class Tag {
 			$query = new SelectQuery;
 			$query->addColumn('COUNT(value)', 'occurances');
 			$query->addTable('tag');
-			$query->addWhere("value='".addslashes($this->getValue())."'");
-			$query->addWhere("user_id='".addslashes($agentId->getIdString())."'");
+			$query->addWhereEqual("value", $this->getValue());
+			$query->addWhereEqual("user_id", $agentId->getIdString());
 			
 			$dbc = Services::getService("DatabaseManager");
 			$result =$dbc->query($query, $this->getDatabaseIndex());
@@ -216,7 +216,7 @@ class Tag {
 		$subQuery->addColumn('tag.tstamp');
 		$subQuery->addTable('tag');
 		$subQuery->addTable('tag_item', INNER_JOIN, "tag.fk_item = tag_item.db_id");
-		$subQuery->addWhere("tag.value='".addslashes($this->getValue())."'");
+		$subQuery->addWhereEqual("tag.value", $this->getValue());
 		$subQuery->addOrderBy('tag.tstamp', DESCENDING);
 	
 		$query = new SelectQuery;
@@ -250,8 +250,8 @@ class Tag {
 		$subQuery->addColumn('tag.tstamp');
 		$subQuery->addTable('tag');
 		$subQuery->addTable('tag_item', INNER_JOIN, "tag.fk_item = tag_item.db_id");
-		$subQuery->addWhere("tag.value='".addslashes($this->getValue())."'");
-		$subQuery->addWhere("tag_item.system='".addslashes($system)."'");
+		$subQuery->addWhereEqual("tag.value", $this->getValue());
+		$subQuery->addWhereEqual("tag_item.system", $system);
 		$idList = array();
 		while ($ids->hasNext()) {
 			$id =$ids->next();
@@ -315,8 +315,8 @@ class Tag {
 		$subQuery->addColumn('tag.tstamp');
 		$subQuery->addTable('tag');
 		$subQuery->addTable('tag_item', INNER_JOIN, "tag.fk_item = tag_item.db_id");
-		$subQuery->addWhere("tag.value='".addslashes($this->getValue())."'");
-		$subQuery->addWhere("tag_item.system='".addslashes($system)."'");
+		$subQuery->addWhereEqual("tag.value", $this->getValue());
+		$subQuery->addWhereEqual("tag_item.system", $system);
 		$subQuery->addOrderBy('tag.tstamp', DESCENDING);
 		
 		$query = new SelectQuery;
@@ -344,8 +344,8 @@ class Tag {
 		$query->addColumn('tag_item.system');
 		$query->addTable('tag');
 		$query->addTable('tag_item', INNER_JOIN, "tag.fk_item = tag_item.db_id");
-		$query->addWhere("tag.value='".addslashes($this->getValue())."'");
-		$query->addWhere("tag.user_id='".addslashes($agentId->getIdString())."'");
+		$query->addWhereEqual("tag.value", $this->getValue());
+		$query->addWhereEqual("tag.user_id", $agentId->getIdString());
 		
 		$query->addOrderBy('tag.tstamp', DESCENDING);
 		
@@ -370,8 +370,8 @@ class Tag {
 		$query->addColumn('tag_item.system');
 		$query->addTable('tag');
 		$query->addTable('tag_item', INNER_JOIN, "tag.fk_item = tag_item.db_id");
-		$query->addWhere("tag.value='".addslashes($this->getValue())."'");
-		$query->addWhere("tag.user_id='".addslashes($agentId->getIdString())."'");
+		$query->addWhereEqual("tag.value", $this->getValue());
+		$query->addWhereEqual("tag.user_id", $agentId->getIdString());
 		$idList = array();
 		while ($ids->hasNext()) {
 			$id =$ids->next();
@@ -401,9 +401,9 @@ class Tag {
 		$query->addColumn('tag_item.system');
 		$query->addTable('tag');
 		$query->addTable('tag_item', INNER_JOIN, "tag.fk_item = tag_item.db_id");
-		$query->addWhere("tag.value='".addslashes($this->getValue())."'");
-		$query->addWhere("tag.user_id='".addslashes($agentId->getIdString())."'");
-		$query->addWhere("tag_item.system='".addslashes($system)."'");
+		$query->addWhereEqual("tag.value", $this->getValue());
+		$query->addWhereEqual("tag.user_id", $agentId->getIdString());
+		$query->addWhereEqual("tag_item.system", $system);
 		
 		$query->addOrderBy('tag.tstamp', DESCENDING);
 		
@@ -427,10 +427,10 @@ class Tag {
 		$query->addColumn('COUNT(*)', 'count');
 		$query->addTable('tag');
 		$query->addTable('tag_item', INNER_JOIN, "tag.fk_item = tag_item.db_id");
-		$query->addWhere("tag.value='".addslashes($this->getValue())."'");
-		$query->addWhere("tag.user_id='".addslashes($this->getCurrentUserIdString())."'");
-		$query->addWhere("tag_item.id='".addslashes($item->getIdString())."'");
-		$query->addWhere("tag_item.system='".addslashes($item->getSystem())."'");
+		$query->addWhereEqual("tag.value", $this->getValue());
+		$query->addWhereEqual("tag.user_id", $this->getCurrentUserIdString());
+		$query->addWhereEqual("tag_item.id", $item->getIdString());
+		$query->addWhereEqual("tag_item.system", $item->getSystem());
 				
 		$dbc = Services::getService("DatabaseManager");
 		$result =$dbc->query($query, $this->getDatabaseIndex());
@@ -533,8 +533,8 @@ class Tag {
 		
 		$query = new DeleteQuery;
 		$query->setTable('tag');
-		$query->addWhere("tag.value='".addslashes($this->getValue())."'");
-		$query->addWhere("tag.user_id='".addslashes($this->getCurrentUserIdString())."'");
+		$query->addWhereEqual("tag.value", $this->getValue());
+		$query->addWhereEqual("tag.user_id", $this->getCurrentUserIdString());
 		$query->addWhere("tag.fk_item IN (".implode(", ", $itemDbIds).")");		
 		
 		$dbc = Services::getService("DatabaseManager");
@@ -577,8 +577,8 @@ class Tag {
 		
 		$query = new DeleteQuery;
 		$query->setTable('tag');
-		$query->addWhere("tag.value='".addslashes($this->getValue())."'");
-		$query->addWhere("tag.user_id='".addslashes($agentId->getIdString())."'");
+		$query->addWhereEqual("tag.value", $this->getValue());
+		$query->addWhereEqual("tag.user_id", $agentId->getIdString());
 		$query->addWhere("tag.fk_item IN (".implode(", ", $itemDbIds).")");		
 		
 		$dbc = Services::getService("DatabaseManager");
@@ -601,8 +601,8 @@ class Tag {
 		$query->setTable('tag');
 		$query->setColumns(array('value'));
 		$query->setValues(array("'".addslashes($newTag->getValue())."'"));
-		$query->addWhere("tag.value='".addslashes($this->getValue())."'");
-		$query->addWhere("tag.user_id='".addslashes($agentId->getIdString())."'");
+		$query->addWhereEqual("tag.value", $this->getValue());
+		$query->addWhereEqual("tag.user_id", $agentId->getIdString());
 		
 		$dbc = Services::getService("DatabaseManager");
 		$dbc->query($query, $this->getDatabaseIndex());
@@ -630,8 +630,8 @@ class Tag {
 	function removeAllMine () {
 		$query = new DeleteQuery;
 		$query->setTable('tag');
-		$query->addWhere("tag.value='".addslashes($this->getValue())."'");
-		$query->addWhere("tag.user_id='".addslashes($this->getCurrentUserIdString())."'");
+		$query->addWhereEqual("tag.value", $this->getValue());
+		$query->addWhereEqual("tag.user_id", $this->getCurrentUserIdString());
 		
 		$dbc = Services::getService("DatabaseManager");
 		$dbc->query($query, $this->getDatabaseIndex());

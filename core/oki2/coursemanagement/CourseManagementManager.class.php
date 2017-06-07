@@ -368,7 +368,7 @@ class HarmoniCourseManagementManager
 		$dbManager = Services::getService("DatabaseManager");
 		$query= new DeleteQuery;
 		$query->setTable('cm_can');
-		$query->addWhere("id=".addslashes($canonicalCourseId->getIdString()));
+		$query->addWhereEqual("id", $canonicalCourseId->getIdString());
 		$dbManager->query($query);
 	}
 
@@ -488,7 +488,7 @@ class HarmoniCourseManagementManager
 		$query= new SelectQuery;
 		$query->addTable('cm_can');
 		$query->addColumn('id');
-		$query->addWhere("fk_cm_can_type='".addslashes($typeIndex)."'");
+		$query->addWhereEqual("fk_cm_can_type", $typeIndex);
 		$res=$dbManager->query($query);
 
 		//convert results to array of Canonical Courses
@@ -611,7 +611,7 @@ class HarmoniCourseManagementManager
 		$query= new SelectQuery;
 		$query->addTable('cm_enroll');
 		$query->addColumn('fk_cm_section');
-		$query->addWhere("fk_student_id='".addslashes($agentId->getIdString())."'");
+		$query->addWhereEqual("fk_student_id", $agentId->getIdString());
 
 
 		$res=$dbManager->query($query);
@@ -664,7 +664,7 @@ class HarmoniCourseManagementManager
 		$query= new SelectQuery;
 		$query->addTable('cm_enroll');
 		$query->addColumn('fk_cm_section');
-		$query->addWhere("fk_student_id='".addslashes($agentId->getIdString())."'");
+		$query->addWhereEqual("fk_student_id", $agentId->getIdString());
 
 
 		$res=$dbManager->query($query);
@@ -797,12 +797,12 @@ class HarmoniCourseManagementManager
 		$dbManager = Services::getService("DatabaseManager");
 		$query= new DeleteQuery;
 		$query->setTable('cm_term');
-		$query->addWhere("id=".addslashes($termId->getIdString()));
+		$query->addWhereEqual("id", $termId->getIdString());
 		$dbManager->query($query);
 
 		$query= new DeleteQuery;
 		$query->setTable('cm_schedule');
-		$query->addWhere("fk_id=".addslashes($termId->getIdString()));
+		$query->addWhereEqual("fk_id", $termId->getIdString());
 		$dbManager->query($query);
 
 	}
@@ -1263,7 +1263,7 @@ class HarmoniCourseManagementManager
 
 		$query->setTable('cm_grade_rec');
 
-		$query->addWhere("id=".addslashes($courseGradeRecordId->getIdString()));
+		$query->addWhereEqual("id", $courseGradeRecordId->getIdString());
 		$dbManager->query($query);
 	}
 
@@ -1312,14 +1312,14 @@ class HarmoniCourseManagementManager
 
 		if(!is_null($courseGradeType)){
 			$courseGradeType=$this->_typeToIndex('can',$courseGradeType);
-			$query->addWhere("fk_cm_grade_type='".addslashes($courseGradeType)."'");
+			$query->addWhereEqual("fk_cm_grade_type", $courseGradeType);
 		}
 		if(!is_null($agentId)){
-			$query->addWhere("fk_student_id='".addslashes($agentId->getIdString())."'");
+			$query->addWhereEqual("fk_student_id", $agentId->getIdString());
 		}
 		if(!is_null($courseOfferingId)){
 
-			$query->addWhere("fk_cm_offer='".addslashes($courseOfferingId->getIdString())."'");
+			$query->addWhereEqual("fk_cm_offer", $courseOfferingId->getIdString());
 		}
 
 
@@ -1709,7 +1709,7 @@ class HarmoniCourseManagementManager
 		$dbHandler = Services::getService("DBHandler");
 		$query= new SelectQuery;
 		$query->addTable('cm_'.$typename."_type");
-		$query->addWhere("id=".$index);
+		$query->addWhereEqual("id", $index);
 		$query->addColumn('domain');
 		$query->addColumn('authority');
 		$query->addColumn('keyword');
@@ -1754,9 +1754,9 @@ class HarmoniCourseManagementManager
 		$dbHandler = Services::getService("DBHandler");
 		$query= new SelectQuery;
 		$query->addTable('cm_'.$typename."_type");
-		$query->addWhere("domain='".$type->getDomain()."'");
-		$query->addWhere("authority='".$type->getAuthority()."'");
-		$query->addWhere("keyword='".$type->getKeyword()."'");
+		$query->addWhereEqual("domain", $type->getDomain());
+		$query->addWhereEqual("authority", $type->getAuthority());
+		$query->addWhereEqual("keyword", $type->getKeyword());
 		$query->addColumn('id');
 		$res=$dbHandler->query($query);
 
@@ -1820,7 +1820,7 @@ class HarmoniCourseManagementManager
 		$dbHandler = Services::getService("DBHandler");
 		$query= new UpdateQuery;
 		$query->setTable($table);
-		$query->addWhere("id='".addslashes($id->getIdString())."'");
+		$query->addWhereEqual("id", $id->getIdString());
 		$query->setColumns(array(addslashes($key)));
 		$query->setValues(array("'".addslashes($value)."'"));
 		$dbHandler->query($query);
@@ -1850,7 +1850,7 @@ class HarmoniCourseManagementManager
 		$dbHandler = Services::getService("DBHandler");
 		$query= new SelectQuery;
 		$query->addTable($table);
-		$query->addWhere("id='".addslashes($idString)."'");
+		$query->addWhereEqual("id", $idString);
 		$query->addColumn(addslashes($key));
 		$res =$dbHandler->query($query);
 

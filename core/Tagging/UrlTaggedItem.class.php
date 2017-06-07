@@ -120,7 +120,7 @@ class UrlTaggedItem
 			$query->addColumn('display_name');
 			$query->addColumn('description');
 			$query->addTable('tag_item');
-			$query->addWhere("id='".addslashes($this->getIdString())."'");
+			$query->addWhereEqual("id", $this->getIdString());
 			
 			$dbc = Services::getService("DatabaseManager");
 			$result =$dbc->query($query, $this->getDatabaseIndex());

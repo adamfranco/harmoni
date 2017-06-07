@@ -224,7 +224,7 @@ class FileSizePart
 			$query = new SelectQuery;
 			$query->addTable("dr_file");
 			$query->addColumn("size");
-			$query->addWhere("id = '".$this->_recordId->getIdString()."'");
+			$query->addWhereEqual("id", $this->_recordId->getIdString());
 			
 			$result =$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 			

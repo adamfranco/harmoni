@@ -225,7 +225,7 @@ class FileNamePart
 			$query = new SelectQuery;
 			$query->addTable("dr_file");
 			$query->addColumn("filename");
-			$query->addWhere("id = '".$this->_recordId->getIdString()."'");
+			$query->addWhereEqual("id", $this->_recordId->getIdString());
 			
 			$result =$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 			
@@ -279,7 +279,7 @@ class FileNamePart
 		$query = new SelectQuery;
 		$query->addTable("dr_file");
 		$query->addColumn("COUNT(*) as count");
-		$query->addWhere("id = '".$this->_recordId->getIdString()."'");
+		$query->addWhereEqual("id", $this->_recordId->getIdString());
 		$result =$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 		
 		// If it already exists, use an update query.
@@ -290,7 +290,7 @@ class FileNamePart
 				$query->addRawValue("filename", "NULL");
 			else
 				$query->addValue("filename", $this->_name);
-			$query->addWhere("id = '".$this->_recordId->getIdString()."'");
+			$query->addWhereEqual("id", $this->_recordId->getIdString());
 		}
 		// If it doesn't exist, use an insert query.
 		else {

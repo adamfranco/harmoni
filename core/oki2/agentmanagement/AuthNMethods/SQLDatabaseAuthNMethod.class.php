@@ -116,10 +116,8 @@ class SQLDatabaseAuthNMethod
 		$query =  new SelectQuery;
 		$query->addTable($authenticationTable);
 		$query->addColumn("COUNT(*)", "count");
-		$query->addWhere(
-			$usernameField."='".addslashes($authNTokens->getUsername())."'");
-		$query->addWhere(
-			$passwordField."='".addslashes($authNTokens->getPassword())."'", _AND);
+		$query->addWhereEqual($usernameField, $authNTokens->getUsername());
+		$query->addWhereEqual($passwordField, $authNTokens->getPassword(), _AND);
 		$result =  $dbc->query($query, $dbId);
 		
 		if ($result->field("count") == 1) {
@@ -157,8 +155,7 @@ class SQLDatabaseAuthNMethod
 		$query =  new SelectQuery;
 		$query->addTable($authenticationTable);
 		$query->addColumn("COUNT(*)", "count");
-		$query->addWhere(
-			$usernameField."='".addslashes($authNTokens->getUsername())."'");
+		$query->addWhereEqual($usernameField, $authNTokens->getUsername());
 		$result =  $dbc->query($query, $dbId);
 		
 		if ($result->field("count") == 1) {
@@ -209,8 +206,7 @@ class SQLDatabaseAuthNMethod
 			$query->addColumn($fieldName);
 		}
 		
-		$query->addWhere(
-			$usernameField."='".addslashes($authNTokens->getUsername())."'");
+		$query->addWhereEqual($usernameField, $authNTokens->getUsername());
 		$result =$dbc->query($query, $dbId);
 		
 		if ($result->getNumberOfRows() == 1) {
@@ -263,13 +259,11 @@ class SQLDatabaseAuthNMethod
 		$query =  new SelectQuery;
 		$query->addTable($authenticationTable);
 		$query->addColumn($usernameField);
-		$query->addWhere(
-			$usernameField." LIKE ('".addslashes($searchString)."')", _OR);
+		$query->addWhereLike($usernameField, $searchString, _OR);
 		
 		if (is_array($propertiesFields) && count($propertiesFields)) {
 			foreach ($propertiesFields as $propertyKey => $fieldName) {
-				$query->addWhere(
-					$fieldName." LIKE ('".addslashes($searchString)."')", _OR);
+				$query->addWhereLike($fieldName, $searchString, _OR);
 			}
 		}
 		
@@ -376,8 +370,7 @@ class SQLDatabaseAuthNMethod
 			
 			$query =  new DeleteQuery;
 			$query->setTable($authenticationTable);
-			$query->addWhere(
-				$usernameField."='".addslashes($authNTokens->getUsername())."'");
+			$query->addWhereEqual($usernameField, $authNTokens->getUsername());
 			$result =  $dbc->query($query, $dbId);
 		}
 	}
@@ -430,8 +423,7 @@ class SQLDatabaseAuthNMethod
 				"'".addslashes($newAuthNTokens->getUsername())."'",
 				"'".addslashes($newAuthNTokens->getPassword())."'"
 			));
-			$query->addWhere(
-				$usernameField."='".addslashes($oldAuthNTokens->getUsername())."'");
+			$query->addWhereEqual($usernameField, $oldAuthNTokens->getUsername());
 			$result =  $dbc->query($query, $dbId);
 		}
 	}
@@ -498,8 +490,7 @@ class SQLDatabaseAuthNMethod
 			$query->setColumns($columns);
 			$query->setValues($values);
 			
-			$query->addWhere(
-				$usernameField."='".addslashes($authNTokens->getUsername())."'");
+			$query->addWhereEqual($usernameField, $authNTokens->getUsername());
 			$result =  $dbc->query($query, $dbId);
 		}
 	}

@@ -168,7 +168,7 @@ class RemoteFileRecord
 		$query->addColumn("dr_file_url.url", "FILE_URL");
 		$query->addColumn("thumbnail_mime_type.type", "THUMBNAIL_MIME_TYPE");
 		$query->addColumn("dr_thumbnail.data", "THUMBNAIL_DATA");
-		$query->addWhere("dr_file.id = '".$this->_id->getIdString()."'");
+		$query->addWhereEqual("dr_file.id", $this->_id->getIdString());
 		$result =$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 		
 		if (!$result->getNumberOfRows()) {
@@ -222,7 +222,7 @@ class RemoteFileRecord
 		$query->addColumn("thumbnail_mime_type.type", "thumbnail_type");
 		$query->addColumn("dr_thumbnail.width", "thumb_width");
 		$query->addColumn("dr_thumbnail.height", "thumb_height");
-		$query->addWhere("dr_file.id = '".$this->_id->getIdString()."'");
+		$query->addWhereEqual("dr_file.id", $this->_id->getIdString());
 		
 		$result =$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 		

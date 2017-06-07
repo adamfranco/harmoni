@@ -516,7 +516,7 @@ class HarmoniSchedulingManager
 		if(!is_null($status)){
 			//get the index for the type
 			$typeIndex = $this->_typeToIndex('item_stat',$status);
-			$query->addWhere("fk_sc_item_stat_type='".addslashes($typeIndex)."'");
+			$query->addWhereEqual("fk_sc_item_stat_type", $typeIndex);
 		}
 		/*
 		$where = "(end_date >= '".addslashes($start)."'";
@@ -725,7 +725,7 @@ class HarmoniSchedulingManager
 		$query= new SelectQuery;
 		$query->addTable('sc_item');
 		$query->addColumn('id');
-		$query->addWhere("master_id='".addslashes($masterIdentifier)."'");
+		$query->addWhereEqual("master_id", $masterIdentifier);
 		$res=$dbHandler->query($query);
 
 		//convert results to array of ScheduleItems
@@ -948,9 +948,9 @@ class HarmoniSchedulingManager
 		$dbHandler = Services::getService("DBHandler");
 		$query= new SelectQuery;
 		$query->addTable('sc_'.$typename."_type");
-		$query->addWhere("domain='".$type->getDomain()."'");
-		$query->addWhere("authority='".$type->getAuthority()."'");
-		$query->addWhere("keyword='".$type->getKeyword()."'");
+		$query->addWhereEqual("domain", $type->getDomain());
+		$query->addWhereEqual("authority", $type->getAuthority());
+		$query->addWhereEqual("keyword", $type->getKeyword());
 		$query->addColumn('id');
 		$res=$dbHandler->query($query);
 
@@ -1014,7 +1014,7 @@ class HarmoniSchedulingManager
 		$dbHandler = Services::getService("DBHandler");
 		$query= new UpdateQuery;
 		$query->setTable($table);
-		$query->addWhere("id='".addslashes($id->getIdString())."'");
+		$query->addWhereEqual("id", $id->getIdString());
 		$query->setColumns(array(addslashes($key)));
 		$query->setValues(array("'".addslashes($value)."'"));
 		$dbHandler->query($query);
@@ -1040,7 +1040,7 @@ class HarmoniSchedulingManager
 		$dbHandler = Services::getService("DBHandler");
 		$query= new SelectQuery;
 		$query->addTable($table);
-		$query->addWhere("id='".addslashes($id->getIdString())."'");
+		$query->addWhereEqual("id", $id->getIdString());
 		$query->addColumn(addslashes($key));
 		$res=$dbHandler->query($query);
 		$row = $res->getCurrentRow();

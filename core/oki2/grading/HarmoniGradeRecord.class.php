@@ -341,7 +341,7 @@ class HarmoniGradeRecord
 		$query = new SelectQuery();
 		$query->addTable('gr_record');
 		$query->addColumn("*");
-		$query->addWhere("id='".addslashes($this->_id->getIdString())."'");				
+		$query->addWhereEqual("id", $this->_id->getIdString());
 		$res=$dbManager->query($query);
 		
 		

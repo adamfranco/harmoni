@@ -364,7 +364,7 @@ class HarmoniEntryIterator
 	 * @since 3/9/06
 	 */
 	function addWhereClauses ( $query ) {
-		$query->addWhere("log_name = '".addslashes($this->_logName)."'");
+		$query->addWhereEqual("log_name", $this->_logName);
 		
 		$subQuery = new SelectQuery;
 		$subQuery->addTable("log_type");

@@ -124,7 +124,7 @@ class HarmoniPropertyManager
 		$query->addTable("agent_properties");
 		$query->addTable("type", LEFT_JOIN, "agent_properties.fk_type_id=type.type_id");
 		$query->addColumn("*");
-		$query->addWhere("fk_object_id='".addslashes($object_id_string)."'");
+		$query->addWhereEqual("fk_object_id", $object_id_string);
 		$query->addOrderBy("fk_type_id");
 		
 		
@@ -181,7 +181,8 @@ class HarmoniPropertyManager
 		//If we don't delete them all every time we store then if we've deleted one off of the object it will remain in the DB
 		$query = new DeleteQuery();
 		$query->setTable("agent_properties");
-		$query->addWhere("fk_object_id='$object_id' AND fk_type_id='$typeIdString'");
+		$query->addWhereEqual("fk_object_id", $object_id);
+		$query->addWhereEqual('fk_type_id', $typeIdString, _AND);
 		
 		$dbHandler->query($query, $this->_dbIndex);
 		
@@ -228,9 +229,9 @@ class HarmoniPropertyManager
 		$query = new SelectQuery;
 		$query->addColumn("type_id");
 		$query->addTable("type");
-		$query->addWhere("type_domain='".addslashes($type->getDomain())."'");
-		$query->addWhere("type_authority='".addslashes($type->getAuthority())."'", _AND);
-		$query->addWhere("type_keyword='".addslashes($type->getKeyword())."'", _AND);
+		$query->addWhereEqual("type_domain", $type->getDomain());
+		$query->addWhereEqual("type_authority", $type->getAuthority(), _AND);
+		$query->addWhereEqual("type_keyword", $type->getKeyword(), _AND);
 		
 		$result =$dbc->query($query, $this->_dbIndex);
 		
@@ -280,7 +281,7 @@ class HarmoniPropertyManager
 	 	//create a query to remove all properties associated with $object_id_string
 	 	$query= new DeleteQuery();
 	 	$query->setTable("agent_properties");
-	 	$query->addWhere("fk_object_id='$object_id_string'");
+		$query->addWhereEqual("fk_object_id", $object_id_string);
 	 	
 	 	$result =$dbHandler->query($query, $this->_dbIndex);
 	 	

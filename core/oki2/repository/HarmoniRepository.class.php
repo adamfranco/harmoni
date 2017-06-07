@@ -232,7 +232,7 @@ class HarmoniRepository
 			$query->addColumn("type_description");
 			$query->addTable("dr_repository_type");
 			$query->addTable("dr_type", INNER_JOIN, "fk_dr_type = type_id");
-			$query->addWhere("repository_id = '".addslashes($myId->getIdString())."'");
+			$query->addWhereEqual("repository_id", $myId->getIdString());
 			
 			$dbc = Services::getService("DatabaseManager");
 			$result =$dbc->query($query, $this->_configuration->getProperty('database_index'));
@@ -1629,4 +1629,3 @@ class HarmoniRepository
 	}
 
 }
-

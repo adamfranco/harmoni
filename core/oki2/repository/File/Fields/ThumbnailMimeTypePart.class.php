@@ -228,7 +228,7 @@ class ThumbnailMimeTypePart
 			$query->addColumn("type");
 			$query->addTable("dr_thumbnail");
 			$query->addTable("dr_mime_type", INNER_JOIN, "fk_mime_type = dr_mime_type.id");
-			$query->addWhere("fk_file= '".$this->_recordId->getIdString()."'");
+			$query->addWhereEqual("fk_file", $this->_recordId->getIdString());
 			
 			$result =$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 			
@@ -279,7 +279,7 @@ class ThumbnailMimeTypePart
 			$query = new SelectQuery;
 			$query->addTable("dr_mime_type");
 			$query->addColumn("id");
-			$query->addWhere("type = '".$this->_type."'");
+			$query->addWhereEqual("type", $this->_type);
 			$result =$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 			
 			// If it doesn't exist, insert it.
@@ -307,7 +307,7 @@ class ThumbnailMimeTypePart
 		$query->setTable("dr_thumbnail");
 		$query->setColumns(array("fk_mime_type"));
 		$query->setValues(array($mimeId));
-		$query->addWhere("fk_file = '".$this->_recordId->getIdString()."'");
+		$query->addWhereEqual("fk_file", $this->_recordId->getIdString());
 		
 		// run the query
 		$dbHandler->query($query, $this->_configuration->getProperty("database_index"));

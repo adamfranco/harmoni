@@ -155,7 +155,7 @@ class FileSystemFileRecord
 // 		$query->addColumn("dr_file_data.data", "file_data");
 		$query->addColumn("thumbnail_mime_type.type", "thumbnail_type");
 		$query->addColumn("dr_thumbnail.data", "thumbnail_data");
-		$query->addWhere("dr_file.id = '".$this->_id->getIdString()."'");
+		$query->addWhereEqual("dr_file.id", $this->_id->getIdString());
 		$result =$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 		
 		$file = $this->_parts['FILE_DATA']->_getFilePath();

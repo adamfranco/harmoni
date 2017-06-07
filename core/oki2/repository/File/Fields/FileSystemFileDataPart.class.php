@@ -100,7 +100,7 @@ class FileSystemFileDataPart
 		$query = new SelectQuery;
 		$query->addTable("dr_file");
 		$query->addColumn("COUNT(*) as count");
-		$query->addWhere("id = '".$this->_recordId->getIdString()."'");
+		$query->addWhereEqual("id", $this->_recordId->getIdString());
 		$result =$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 		
 		// If it already exists, use an update query.
@@ -109,7 +109,7 @@ class FileSystemFileDataPart
 			$query->setTable("dr_file");
 			$query->setColumns(array("size"));
 			$query->setValues(array("'".strlen($value)."'"));
-			$query->addWhere("id = '".$this->_recordId->getIdString()."'");
+			$query->addWhereEqual("id", $this->_recordId->getIdString());
 		}
 		// If it doesn't exist, use an insert query.
 		else {

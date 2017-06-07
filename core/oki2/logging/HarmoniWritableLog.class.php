@@ -261,9 +261,9 @@ class HarmoniWritableLog
 			$query = new SelectQuery;
 			$query->addColumn("id");
 			$query->addTable("log_type");
-			$query->addWhere("domain = '".addslashes($type->getDomain())."'");
-			$query->addWhere("authority = '".addslashes($type->getAuthority())."'");
-			$query->addWhere("keyword = '".addslashes($type->getKeyword())."'");
+			$query->addWhereEqual("domain", $type->getDomain());
+			$query->addWhereEqual("authority", $type->getAuthority());
+			$query->addWhereEqual("keyword", $type->getKeyword());
 			$results =$dbc->query($query, $this->_dbIndex);
 			
 			if ($results->getNumberOfRows()) {

@@ -348,7 +348,7 @@ class Theme extends ThemeInterface {
 			$idValue = $id->getIdString();
 			$query = new DeleteQuery();
 			$query->setTable($guiManager->_dbName.".tm_style_collection");
-			$query->addWhere("fk_theme_id = $idValue");
+			$query->addWhereEqual("fk_theme_id", $idValue);
 			$result =$dbHandler->query($query, $guiManager->_dbIndex);
 		}
 		

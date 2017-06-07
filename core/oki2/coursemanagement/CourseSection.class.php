@@ -375,7 +375,7 @@ class HarmoniCourseSection
 		$query->addTable('cm_schedule');
 		$query->addTable('sc_item',INNER_JOIN,'cm_schedule.fk_sc_item = sc_item.id');
 		$query->addColumn('cm_schedule.fk_sc_item');
-		$query->addWhere("cm_schedule.fk_id='".addslashes($this->_id->getIdString())."'");
+		$query->addWhereEqual("cm_schedule.fk_id", $this->_id->getIdString());
 		$query->addOrderBy('sc_item.start');
 		$res=$dbManager->query($query);
 		$array=array();
@@ -556,8 +556,8 @@ class HarmoniCourseSection
 		$dbManager = Services::getService("DatabaseManager");
 		$query= new SelectQuery;
 		$query->addTable('cm_assets');
-		$query->addWhere("fk_course_id='".$this->_id->getIdString()."'");
-		$query->addWhere("fk_asset_id='".addslashes($assetId->getIdString())."'");
+		$query->addWhereEqual("fk_course_id", $this->_id->getIdString());
+		$query->addWhereEqual("fk_asset_id", $assetId->getIdString());
 		$query->addColumn('fk_course_id');//@TODO We don't need fk_course_id here--we only want to check to see if that asset is already there.
 		$res=$dbManager->query($query);
 
@@ -607,8 +607,8 @@ class HarmoniCourseSection
 			$dbManager = Services::getService("DatabaseManager");
 		$query= new DeleteQuery;
 		$query->setTable('cm_assets');
-		$query->addWhere("fk_course_id='".$this->_id->getIdString()."'");
-		$query->addWhere("fk_asset_id='".addslashes($assetId->getIdString())."'");
+		$query->addWhereEqual("fk_course_id", $this->_id->getIdString());
+		$query->addWhereEqual("fk_asset_id", $assetId->getIdString());
 		$dbManager->query($query);
 	} 
 
@@ -637,7 +637,7 @@ class HarmoniCourseSection
 		$dbManager = Services::getService("DatabaseManager");
 		$query= new SelectQuery;
 		$query->addTable('cm_assets');
-		$query->addWhere("fk_course_id='".$this->_id->getIdString()."'");
+		$query->addWhereEqual("fk_course_id", $this->_id->getIdString());
 		$query->addColumn('fk_asset_id');
 		$res=$dbManager->query($query);
 		$array=array();
@@ -763,8 +763,8 @@ class HarmoniCourseSection
 		$dbManager = Services::getService("DatabaseManager");
 		$query= new SelectQuery;
 		$query->addTable('cm_enroll');
-		$query->addWhere("fk_cm_section='".addslashes($this->_id->getIdString())."'");
-		$query->addWhere("fk_student_id='".addslashes($agentId->getIdString())."'");
+		$query->addWhereEqual("fk_cm_section", $this->_id->getIdString());
+		$query->addWhereEqual("fk_student_id", $agentId->getIdString());
 		
 		//I don't need Id, but I need to select something for the query to work
 		$query->addColumn('id');
@@ -820,8 +820,8 @@ class HarmoniCourseSection
 		$dbManager = Services::getService("DatabaseManager");
 		$query= new SelectQuery;
 		$query->addTable('cm_enroll');
-		$query->addWhere("fk_cm_section='".addslashes($this->_id->getIdString())."'");
-		$query->addWhere("fk_student_id='".addslashes($agentId->getIdString())."'");
+		$query->addWhereEqual("fk_cm_section", $this->_id->getIdString());
+		$query->addWhereEqual("fk_student_id", $agentId->getIdString());
 		
 		//I don't need Id, but I need to select something for the query to work
 		$query->addColumn('id');
@@ -839,8 +839,8 @@ class HarmoniCourseSection
 		$query->setTable('cm_enroll');
 
 		
-		$query->addWhere("fk_cm_section='".addslashes($this->_id->getIdString())."'");
-		$query->addWhere("fk_student_id='".addslashes($agentId->getIdString())."'");
+		$query->addWhereEqual("fk_cm_section", $this->_id->getIdString());
+		$query->addWhereEqual("fk_student_id", $agentId->getIdString());
 
 		
 		$query->setColumns(array('fk_cm_enroll_stat_type'));
@@ -884,8 +884,8 @@ class HarmoniCourseSection
 		$query->setTable('cm_enroll');
 
 	
-		$query->addWhere("fk_cm_section='".addslashes($this->_id->getIdString())."'");
-		$query->addWhere("fk_student_id='".addslashes($agentId->getIdString())."'");
+		$query->addWhereEqual("fk_cm_section", $this->_id->getIdString());
+		$query->addWhereEqual("fk_student_id", $agentId->getIdString());
 		
 		$dbManager->query($query);
 	} 
@@ -923,7 +923,7 @@ class HarmoniCourseSection
 			$query->addTable('cm_enroll');
 			//$query->addColumn('fk_student_id');
 			$query->addColumn('id');
-			$query->addWhere("fk_cm_section='".addslashes($this->_id->getIdString())."'");
+			$query->addWhereEqual("fk_cm_section", $this->_id->getIdString());
 
 
 			$res=$dbManager->query($query);
@@ -978,7 +978,7 @@ class HarmoniCourseSection
 			$query->addTable('cm_enroll');
 			//$query->addColumn('fk_student_id');
 			$query->addColumn('id');
-			//$query->addWhere("fk_cm_section='".addslashes($this->_id)."'");
+			//$query->addWhereEqual("fk_cm_section", $this->_id);
 $query->addWhere("fk_cm_section='".addslashes($this->_id->getIdString())."' AND fk_cm_enroll_stat_type='".addslashes($typeIndex)."'");
 
 			$res=$dbManager->query($query);
@@ -1070,7 +1070,7 @@ $query->addWhere("fk_cm_section='".addslashes($this->_id->getIdString())."' AND 
 		$query = new SelectQuery;
 		$query->addTable('cm_section');
 		$query->addColumn("*");
-		$query->addWhere("id='".addslashes($this->_id->getIdString())."'");				
+		$query->addWhereEqual("id", $this->_id->getIdString());
 		$res=$dbManager->query($query);
 		
 		

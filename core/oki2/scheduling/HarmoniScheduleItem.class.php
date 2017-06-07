@@ -439,7 +439,7 @@ class HarmoniScheduleItem
 			$query= new SelectQuery;
 			$query->addTable('sc_commit');
 			$query->addColumn('id');
-			$query->addWhere("fk_sc_item='".addslashes($this->_id->getIdString())."'");
+			$query->addWhereEqual("fk_sc_item", addslashes($this->_id->getIdString()));
 
 
 			$res=$dbHandler->query($query);
@@ -487,8 +487,8 @@ class HarmoniScheduleItem
 
 		
 		
-		$query->addWhere("fk_sc_item='".addslashes($this->_id->getIdString())."'");
-		$query->addWhere("fk_agent_id='".addslashes($agentId->getIdString())."'");
+		$query->addWhereEqual("fk_sc_item", addslashes($this->_id->getIdString()));
+		$query->addWhereEqual("fk_agent_id", addslashes($agentId->getIdString()));
 
 		$res =$dbHandler->query($query);
 		
@@ -529,8 +529,8 @@ class HarmoniScheduleItem
 
 		
 		
-		$query->addWhere("fk_sc_item='".addslashes($this->_id->getIdString())."'");
-		$query->addWhere("fk_agent_id='".addslashes($agentId->getIdString())."'");
+		$query->addWhereEqual("fk_sc_item", addslashes($this->_id->getIdString()));
+		$query->addWhereEqual("fk_agent_id", addslashes($agentId->getIdString()));
 		
 		$query->setColumns(array('fk_sc_commit_stat_type'));
 		$query->setValues(array("'".addslashes($typeIndex)."'"));
@@ -574,8 +574,8 @@ class HarmoniScheduleItem
 		$dbHandler = Services::getService("DBHandler");
 		$query= new SelectQuery;
 		$query->addTable('sc_commit');
-		$query->addWhere("fk_sc_item='".addslashes($this->_id->getIdString())."'");
-		$query->addWhere("fk_agent_id='".addslashes($agentId->getIdString())."'");
+		$query->addWhereEqual("fk_sc_item", addslashes($this->_id->getIdString()));
+		$query->addWhereEqual("fk_agent_id", addslashes($agentId->getIdString()));
 		$query->addColumn('id');//@TODO id is not really needed here--a count should probably be returned.
 		$res=$dbHandler->query($query);
 		if($res->getNumberOfRows()==0){
@@ -669,7 +669,7 @@ class HarmoniScheduleItem
 		$query = new SelectQuery();
 		$query->addTable('sc_item');
 		$query->addColumn("*");
-		$query->addWhere("id='".addslashes($this->_id->getIdString())."'");				
+		$query->addWhereEqual("id", addslashes($this->_id->getIdString()));
 		$res=$dbHandler->query($query);
 		
 		

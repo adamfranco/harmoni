@@ -224,7 +224,7 @@ class FileUrlPart
 			$query->addTable("dr_file");
 			$query->addTable("dr_file_url", LEFT_JOIN, "dr_file.id = dr_file_url.fk_file");
 			$query->addColumn("url");
-			$query->addWhere("dr_file.id = '".$this->_recordId->getIdString()."'");
+			$query->addWhereEqual("dr_file.id", $this->_recordId->getIdString());
 			
 			$result =$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 			
@@ -274,7 +274,7 @@ class FileUrlPart
 		if (is_null($value)) {
 			$query = new DeleteQuery;
 			$query->setTable("dr_file_data");
-			$query->addWhere("fk_file = '".$this->_recordId->getIdString()."'");
+			$query->addWhereEqual("fk_file", $this->_recordId->getIdString());
 			$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 			
 			$this->_asset->updateModificationDate();
@@ -286,7 +286,7 @@ class FileUrlPart
 		$query = new SelectQuery;
 		$query->addTable("dr_file_url");
 		$query->addColumn("COUNT(*) as count");
-		$query->addWhere("fk_file = '".$this->_recordId->getIdString()."'");
+		$query->addWhereEqual("fk_file", $this->_recordId->getIdString());
 		$result =$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 		
 		// If it already exists, use an update query.
@@ -295,7 +295,7 @@ class FileUrlPart
 			$query->setTable("dr_file_url");
 			$query->setColumns(array("url"));
 			$query->setValues(array("'".addslashes($value)."'"));
-			$query->addWhere("fk_file = '".$this->_recordId->getIdString()."'");
+			$query->addWhereEqual("fk_file", $this->_recordId->getIdString());
 		}
 		// If it doesn't exist, use an insert query.
 		else {

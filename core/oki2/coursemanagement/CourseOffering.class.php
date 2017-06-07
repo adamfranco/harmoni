@@ -602,12 +602,12 @@ class HarmoniCourseOffering
 		$dbManager = Services::getService("DatabaseManager");
 		$query= new DeleteQuery;
 		$query->setTable('cm_section');
-		$query->addWhere("id=".addslashes($courseSectionId->getIdString()));
+		$query->addWhereEqual("id", $courseSectionId->getIdString());
 		$dbManager->query($query);
 		
 		$query= new DeleteQuery;
 		$query->setTable('cm_schedule');
-		$query->addWhere("fk_id=".addslashes($courseSectionId->getIdString()));
+		$query->addWhereEqual("fk_id", $courseSectionId->getIdString());
 		$dbManager->query($query);
 	}
 
@@ -725,7 +725,7 @@ class HarmoniCourseOffering
 
 		$query->addTable('cm_sectopn');
 		$query->addColumn('id');
-		$query->addWhere("fk_cm_section_type='".addslashes($typeIndex)."'");
+		$query->addWhereEqual("fk_cm_section_type", $typeIndex));
 		$res=$dbManager->query($query);
 
 		$array = array();
@@ -773,8 +773,8 @@ class HarmoniCourseOffering
 	$dbManager = Services::getService("DatabaseManager");
 		$query= new SelectQuery;
 		$query->addTable('cm_assets');
-		$query->addWhere("fk_course_id='".$this->_id->getIdString()."'");
-		$query->addWhere("fk_asset_id='".addslashes($assetId->getIdString())."'");
+		$query->addWhereEqual("fk_course_id", $this->_id->getIdString());
+		$query->addWhereEqual("fk_asset_id", $assetId->getIdString());
 		$query->addColumn('fk_course_id');
 		$res=$dbManager->query($query);
 
@@ -825,8 +825,8 @@ class HarmoniCourseOffering
 		$dbManager = Services::getService("DatabaseManager");
 		$query= new DeleteQuery;
 		$query->setTable('cm_assets');
-		$query->addWhere("fk_course_id='".$this->_id->getIdString()."'");
-		$query->addWhere("fk_asset_id='".addslashes($assetId->getIdString())."'");
+		$query->addWhereEqual("fk_course_id", $this->_id->getIdString());
+		$query->addWhereEqual("fk_asset_id", $assetId->getIdString());
 		$dbManager->query($query);
 	}
 
@@ -856,7 +856,7 @@ class HarmoniCourseOffering
 		$dbManager = Services::getService("DatabaseManager");
 		$query= new SelectQuery;
 		$query->addTable('cm_assets');
-		$query->addWhere("fk_course_id='".$this->_id->getIdString()."'");
+		$query->addWhereEqual("fk_course_id", $this->_id->getIdString());
 		$query->addColumn('fk_asset_id');
 		$res=$dbManager->query($query);
 		$array=array();
@@ -1319,7 +1319,7 @@ class HarmoniCourseOffering
 		$query = new SelectQuery;
 		$query->addTable('cm_offer');
 		$query->addColumn("*");
-		$query->addWhere("id='".addslashes($this->_id->getIdString())."'");				
+		$query->addWhereEqual("id", $this->_id->getIdString());
 		$res=$dbManager->query($query);
 		
 			

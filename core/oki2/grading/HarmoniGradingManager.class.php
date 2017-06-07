@@ -246,14 +246,13 @@ class HarmoniGradingManager
 		//first delete the GradeRecords
 		$query= new DeleteQuery;
 		$query->setTable('gr_record');
-		$where = "fk_gr_gradable='".addslashes($gradableObjectId->getIdString())."'";
-		$query->addWhere($where);
+		$query->addWhereEqual('fk_gr_gradable', $gradableObjectId->getIdString());
 		$dbManager->query($query);
 		
 		//next delete the GradableObject
 		$query= new DeleteQuery;
 		$query->setTable('gr_gradable');
-		$query->addWhere("id=".addslashes($gradableObjectId->getIdString()));
+		$query->addWhereEqual("id", $gradableObjectId->getIdString());
 		$dbManager->query($query);
     } 
 
@@ -323,10 +322,10 @@ class HarmoniGradingManager
 		
 		//add appropriate wheres
 		if(!is_null($courseSectionId)){
-			$query->addWhere("fk_cm_section = '".addslashes($courseSectionId->getIdString())."'");		
+			$query->addWhereEqual("fk_cm_section", $courseSectionId->getIdString());
 		}
 		if(!is_null($externalReferenceId)){
-			$query->addWhere("fk_reference_id = '".addslashes($externalReferenceId->getIdString())."'");	
+			$query->addWhereEqual("fk_reference_id", $externalReferenceId->getIdString());
 		}
 	
 		
@@ -439,10 +438,10 @@ class HarmoniGradingManager
         $dbManager = Services::getService("DatabaseManager");
 		$query= new DeleteQuery;
 		$query->setTable('gr_record');
-		$query->addWhere("fk_gr_gradable='".addslashes($gradableObjectId->getIdString())."'");
-		$query->addWhere("fk_agent_id='".addslashes($agentId->getIdString())."'");
+		$query->addWhereEqual("fk_gr_gradable", $gradableObjectId->getIdString());
+		$query->addWhereEqual("fk_agent_id", $agentId->getIdString());
 		if(!is_null($GradeRecordType)){
-			$query->addWhere("fk_gr_record_type='".addslashes($this->_typeToIndex('record',$GradeRecordType))."'");
+			$query->addWhereEqual("fk_gr_record_type", $this->_typeToIndex('record',$GradeRecordType));
 		}
 		$dbManager->query($query);
     } 
@@ -504,19 +503,19 @@ class HarmoniGradingManager
 		
 		//add appropriate wheres
 		if(!is_null($courseSectionId)){
-			$query->addWhere("gr_gradable.fk_cm_section = '".addslashes($courseSectionId->getIdString())."'");		
+			$query->addWhereEqual("gr_gradable.fk_cm_section", $courseSectionId->getIdString());
 		}
 		if(!is_null($externalReferenceId)){
-			$query->addWhere("gr_gradable.fk_reference_id = '".addslashes($externalReferenceId->getIdString())."'");	
+			$query->addWhereEqual("gr_gradable.fk_reference_id", $externalReferenceId->getIdString());
 		}
 		if(!is_null($gradableObjectId)){			
-			$query->addWhere("gr_record.fk_gr_gradable = '".addslashes($gradableObjectId->getIdString())."'");
+			$query->addWhereEqual("gr_record.fk_gr_gradable", $gradableObjectId->getIdString());
 		}
 		if(!is_null($agentId)){			
-			$query->addWhere("gr_record.fk_agent_id='".addslashes($agentId->getIdString())."'");
+			$query->addWhereEqual("gr_record.fk_agent_id", $agentId->getIdString());
 		}
 		if(!is_null($GradeRecordType)){			
-			$query->addWhere("gr_record.fk_gr_record_type='".addslashes($this->_typeToIndex('record',$GradeRecordType))."'");
+			$query->addWhereEqual("gr_record.fk_gr_record_type", $this->_typeToIndex('record',$GradeRecordType));
 		}
 		
 		$res =$dbManager->query($query);
@@ -707,7 +706,7 @@ class HarmoniGradingManager
 		$dbHandler = Services::getService("DBHandler");
 		$query= new SelectQuery;
 		$query->addTable('gr_'.$typename."_type");
-		$query->addWhere("id=".$index);
+		$query->addWhereEqual("id", $index);
 		$query->addColumn('domain');
 		$query->addColumn('authority');
 		$query->addColumn('keyword');
@@ -752,9 +751,9 @@ class HarmoniGradingManager
 		$dbHandler = Services::getService("DBHandler");
 		$query= new SelectQuery;
 		$query->addTable('gr_'.$typename."_type");
-		$query->addWhere("domain='".$type->getDomain()."'");
-		$query->addWhere("authority='".$type->getAuthority()."'");
-		$query->addWhere("keyword='".$type->getKeyword()."'");
+		$query->addWhereEqual("domain", $type->getDomain());
+		$query->addWhereEqual("authority", $type->getAuthority());
+		$query->addWhereEqual("keyword", $type->getKeyword());
 		$query->addColumn('id');
 		$res=$dbHandler->query($query);
 
@@ -818,7 +817,7 @@ class HarmoniGradingManager
 		$dbHandler = Services::getService("DBHandler");
 		$query= new UpdateQuery;
 		$query->setTable($table);
-		$query->addWhere("id='".addslashes($id->getIdString())."'");
+		$query->addWhereEqual("id", $id->getIdString());
 		$query->setColumns(array(addslashes($key)));
 		$query->setValues(array("'".addslashes($value)."'"));
 		$dbHandler->query($query);
@@ -844,7 +843,7 @@ class HarmoniGradingManager
 		$dbHandler = Services::getService("DBHandler");
 		$query= new SelectQuery;
 		$query->addTable($table);
-		$query->addWhere("id='".addslashes($id->getIdString())."'");
+		$query->addWhereEqual("id", $id->getIdString());
 		$query->addColumn(addslashes($key));
 		$res=$dbHandler->query($query);
 		$row = $res->getCurrentRow();

@@ -251,7 +251,7 @@ class DimensionsPart
 			$query->addColumn($this->_heightColumn);
 			$query->addColumn("(height IS NOT NULL AND width IS NOT NULL)",
 				"dimensions_exist");
-			$query->addWhere($this->_idColumn." = '".$this->_recordId->getIdString()."'");
+			$query->addWhereEqual($this->_idColumn, $this->_recordId->getIdString());
 			
 			$result =$dbHandler->query($query, 
 				$this->_configuration->getProperty("database_index"));
@@ -322,7 +322,7 @@ class DimensionsPart
 			$query = new SelectQuery;
 			$query->addTable($this->_table);
 			$query->addColumn("COUNT(*)", "count");
-			$query->addWhere($this->_idColumn." = '".$this->_recordId->getIdString()."'");
+			$query->addWhereEqual($this->_idColumn, $this->_recordId->getIdString());
 			
 			$result =$dbHandler->query($query, 
 				$this->_configuration->getProperty("database_index"));
@@ -333,7 +333,7 @@ class DimensionsPart
 				$query->setColumns(array($this->_widthColumn, $this->_heightColumn));
 				$query->setValues(array("'".$this->_dimensions[0]."'",
 					"'".$this->_dimensions[1]."'"));
-				$query->addWhere($this->_idColumn." = '".$this->_recordId->getIdString()."'");
+				$query->addWhereEqual($this->_idColumn, $this->_recordId->getIdString());
 			} else {
 				$query = new InsertQuery;
 				$query->setTable($this->_table);

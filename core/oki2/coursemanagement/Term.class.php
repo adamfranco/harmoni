@@ -180,7 +180,7 @@ class HarmoniTerm
 		$query= new SelectQuery;
 		$query->addTable('cm_schedule');
 		$query->addColumn('fk_sc_item');
-		$query->addWhere("fk_id='".addslashes($this->_id->getIdString())."'");
+		$query->addWhereEqual("fk_id", $this->_id->getIdString());
 		//$query->addOrderBy
 		
 		

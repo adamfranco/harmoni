@@ -140,7 +140,7 @@ class RecordManager {
 		$query = new SelectQuery;
 		$query->addTable("dm_record_set");
 		$query->addColumn("id");
-		$query->addWhere("fk_record='".addslashes($id)."'");
+		$query->addWhereEqual("fk_record", $id);
 		
 		$dbHandler = Services::getService("DatabaseManager");
 		$result = $dbHandler->query($query,DATAMANAGER_DBID);
@@ -518,7 +518,7 @@ class RecordManager {
 		// Delete the set from the database
 		$query = new DeleteQuery;
 		$query->setTable("dm_record_set");
-		$query->addWhere("id = '".addslashes($id)."'");
+		$query->addWhereEqual("id", $id);
 		
 		$dbHandler = Services::getService("DatabaseManager");
 		$result =$dbHandler->query($query,DATAMANAGER_DBID);

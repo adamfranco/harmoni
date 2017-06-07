@@ -644,7 +644,7 @@ class HarmoniCanonicalCourse
 
 		$query->setTable('cm_offer');
 
-		$query->addWhere("id=".addslashes($courseOfferingId->getIdString()));
+		$query->addWhereEqual("id", $courseOfferingId->getIdString());
 		$dbManager->query($query);
 	} 
 
@@ -908,7 +908,7 @@ class HarmoniCanonicalCourse
 		$query= new SelectQuery;
 		$query->addTable($this->_table);
 		$query->addColumn('id');
-		$query->addWhere("equivalent ='".$this->_getField('equivalent')."'");
+		$query->addWhereEqual("equivalent", $this->_getField('equivalent'));
 		$res=$dbManager->query($query);
 		$array=array();
 		$idManager= Services::getService('IdManager');
@@ -953,8 +953,8 @@ class HarmoniCanonicalCourse
 		$dbManager = Services::getService("DatabaseManager");
 		$query= new SelectQuery;
 		$query->addTable('cm_topics');
-		$query->addWhere("fk_cm_can='".$this->_id->getIdString()."'");
-		$query->addWhere("topic='".addslashes($topic)."'");
+		$query->addWhereEqual("fk_cm_can", $this->_id->getIdString());
+		$query->addWhereEqual("topic", $topic);
 		//not really needed, but it keeps this from crashing.
 		$query->addColumn('topic');
 		$res=$dbManager->query($query);
@@ -1004,8 +1004,8 @@ class HarmoniCanonicalCourse
 		$dbManager = Services::getService("DatabaseManager");
 		$query= new DeleteQuery;
 		$query->setTable('cm_topics');
-		$query->addWhere("fk_cm_can='".$this->_id->getIdString()."'");
-		$query->addWhere("topic='".addslashes($topic)."'");
+		$query->addWhereEqual("fk_cm_can", $this->_id->getIdString());
+		$query->addWhereEqual("topic", $topic);
 		$dbManager->query($query);
 
 	} 
@@ -1039,7 +1039,7 @@ class HarmoniCanonicalCourse
 		$dbManager = Services::getService("DatabaseManager");
 		$query= new SelectQuery;
 		$query->addTable('cm_topics');
-		$query->addWhere("fk_cm_can='".$this->_id->getIdString()."'");
+		$query->addWhereEqual("fk_cm_can", $this->_id->getIdString());
 		$query->addColumn('topic');
 		$res=$dbManager->query($query);
 		$array=array();
@@ -1273,7 +1273,7 @@ class HarmoniCanonicalCourse
 		$query = new SelectQuery();
 		$query->addTable('cm_can');
 		$query->addColumn("*");
-		$query->addWhere("id='".addslashes($this->_id->getIdString())."'");				
+		$query->addWhereEqual("id", $this->_id->getIdString());
 		$res=$dbManager->query($query);
 		
 		

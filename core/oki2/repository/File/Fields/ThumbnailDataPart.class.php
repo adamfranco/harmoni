@@ -227,7 +227,7 @@ class ThumbnailDataPart
 			$query = new SelectQuery;
 			$query->addTable("dr_thumbnail");
 			$query->addColumn("data");
-			$query->addWhere("fk_file = '".$this->_recordId->getIdString()."'");
+			$query->addWhereEqual("fk_file", $this->_recordId->getIdString());
 			
 			$result =$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 			
@@ -276,7 +276,7 @@ class ThumbnailDataPart
 		if (is_null($value)) {
 			$query = new DeleteQuery;
 			$query->setTable("dr_thumbnail");
-			$query->addWhere("fk_file = '".$this->_recordId->getIdString()."'");
+			$query->addWhereEqual("fk_file", $this->_recordId->getIdString());
 			$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 			
 			$this->_asset->updateModificationDate();
@@ -290,7 +290,7 @@ class ThumbnailDataPart
 		$query = new SelectQuery;
 		$query->addTable("dr_thumbnail");
 		$query->addColumn("COUNT(*) as count");
-		$query->addWhere("fk_file = '".$this->_recordId->getIdString()."'");
+		$query->addWhereEqual("fk_file", $this->_recordId->getIdString());
 		$result =$dbHandler->query($query, $this->_configuration->getProperty("database_index"));
 		
 		// If it already exists, use an update query.
@@ -299,7 +299,7 @@ class ThumbnailDataPart
 			$query->setTable("dr_thumbnail");
 			$query->setColumns(array("data"));
 			$query->setValues(array("'".base64_encode($value)."'"));
-			$query->addWhere("fk_file = '".$this->_recordId->getIdString()."'");
+			$query->addWhereEqual("fk_file", $this->_recordId->getIdString());
 		}
 		// If it doesn't exist, use an insert query.
 		else {
