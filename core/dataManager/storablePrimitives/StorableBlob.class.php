@@ -122,7 +122,7 @@ class StorableBlob
 	 * @since 6/9/06
 	 */
 	function asAString () {
-		return String::fromString($this->asString());
+		return HarmoniString::fromString($this->asString());
 	}
 	
 	/**
@@ -133,6 +133,6 @@ class StorableBlob
 	 * @since 6/9/06
 	 */
 	function asAShortString () {
-		return String::fromString($this->asString());
+		return HarmoniString::fromString($this->asString());
 	}	
 }

@@ -564,7 +564,7 @@ class HarmoniRecordStructure
 		$recordMgr = Services::getService("RecordManager");
 		
 		$partStructure =$this->getPartStructure($partStructureId);
-		$dummyValues = array(String::withValue('4000-02-05'));
+		$dummyValues = array(HarmoniString::withValue('4000-02-05'));
 		$recordIdsWithValues = $recordMgr->getRecordSetIDsBySearch(
 				new FieldValueSearch(
 					$this->_schema->getID(),

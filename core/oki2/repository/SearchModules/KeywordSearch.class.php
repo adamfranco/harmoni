@@ -55,7 +55,7 @@ class KeywordSearch
 		$criteria = new OrSearch();
 		
 		// create one string value
-		$stringValue = String::withValue($searchCriteria);
+		$stringValue = HarmoniString::withValue($searchCriteria);
 		
 		foreach ($schemaIDs as $schemaID) {
 			if ($schemaID != $assetContentID) {
