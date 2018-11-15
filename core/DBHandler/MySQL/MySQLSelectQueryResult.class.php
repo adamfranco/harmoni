@@ -26,10 +26,22 @@ class MySQLSelectQueryResult
 	implements SelectQueryResultInterface 
 {
 
+	/**
+	 * @var mysqli $_link The datbase connection.
+	 */
+	var $_link;
+	
+	/**
+	 * The resource id for this SELECT query.
+	 * The resource id for this SELECT query.
+	 * @var mysqli_result $_result The query result for this query.
+	 * @access private
+	 */
+	var $_result;
 
 	/**
-     * The index of the current row in the result.
-     * The index of the current row in the result. The first row has an index of 0.
+		 * The index of the current row in the result.
+		 * The index of the current row in the result. The first row has an index of 0.
 	 * The last row has an index of getNumberOfRows() - 1.
 	 * @var integer $_currentRow The index of the current row in the result.
 	 */  
@@ -41,23 +53,6 @@ class MySQLSelectQueryResult
 	 * @variable private array _currentRow
 	 */
 	var $_currentRow;
-
-	/**
-	 * The resource id for this SELECT query.
-	 * The resource id for this SELECT query.
-	 * @var integer $_resourceId The resource id for this SELECT query.
-	 * @access private
-	 */
-	var $_resourceId;
-
-
-	/**
-	 * The link identifier for the database connection.
-	 * The link identifier for the database connection.
-	 * @param integer $_linkId The link identifier for the database connection.
-	 * @access private
-	 */
-	var $_linkId;
 	
 	
 	/**
@@ -67,24 +62,18 @@ class MySQLSelectQueryResult
 	 */
 	var $_boundVars;
 
-	
 	/**
-	 * Creates a new MySQLSelectQueryResult object.
-	 * Creates a new MySQLSelectQueryResult object.
+	 * Constructor
+	 * 
+	 * @param mysqli $link The database connection
+	 * @param mysqli_result $result The query result for this query.
 	 * @access public
-	 * @param integer $resourceId The resource id for this SELECT query.
-	 * @param integer $linkId The link identifier for the database connection.
-	 * @return object MySQLSelectQueryResult A new MySQLSelectQueryResult object.
+	 * @since 7/2/04
 	 */
-	function MySQLSelectQueryResult($resourceId, $linkId) {
-		// ** parameter validation
-		$resourceRule = ResourceValidatorRule::getRule();
-		ArgumentValidator::validate($resourceId, $resourceRule, true);
-		ArgumentValidator::validate($linkId, $resourceRule, true);
-		// ** end of parameter validation
-
-		$this->_resourceId = $resourceId;
-		$this->_linkId = $linkId;
+	function __construct (mysqli $link, mysqli_result $result) {
+		$this->_link = $link;
+		$this->_result = $result;
+		
 		$this->_currentRowIndex = 0;
 		$this->_currentRow = array();
 		$this->_currentRow[BOTH] = array();
@@ -94,26 +83,13 @@ class MySQLSelectQueryResult
 		
 		// if we have at least one row in the result, fetch its array
 		if ($this->hasMoreRows()) {
-			$this->_currentRow[BOTH] = mysql_fetch_array($this->_resourceId, MYSQL_BOTH);
+			$this->_currentRow[BOTH] = $this->_result->fetch_array(MYSQLI_BOTH);
 			foreach ($this->_currentRow[BOTH] as $key => $value)
 				if (is_int($key))
-				    $this->_currentRow[NUMERIC][$key] = $value;
+						$this->_currentRow[NUMERIC][$key] = $value;
 				else
-				    $this->_currentRow[ASSOC][$key] = $value;
+						$this->_currentRow[ASSOC][$key] = $value;
 		}
-	}
-		
-
-
-	/**
-	 * Returns the resource id for this SELECT query.
-	 * Returns the resource id for this SELECT query. The resource id is returned
-	 * by the mysql_query() function.
-	 * @access public
-	 * @return integer The resource id for this SELECT query.
-	 **/
-	function getResourceId() {
-		return $this->_resourceId;
 	}
 	
 	/**
@@ -157,21 +133,21 @@ class MySQLSelectQueryResult
 		// now, advance
 		$this->_currentRowIndex++;
 
-		$this->_currentRow[BOTH] = mysql_fetch_array($this->_resourceId, MYSQL_BOTH);
+		$this->_currentRow[BOTH] = $this->_result->fetch_array(MYSQLI_BOTH);
 		if (!is_array($this->_currentRow[BOTH]))
 			return false;
 		foreach ($this->_currentRow[BOTH] as $key => $value)
 			if (is_int($key))
-			    $this->_currentRow[NUMERIC][$key] = $value;
+					$this->_currentRow[NUMERIC][$key] = $value;
 			else
-			    $this->_currentRow[ASSOC][$key] = $value;
+					$this->_currentRow[ASSOC][$key] = $value;
 				
 		// update the value of bound variables				
 		foreach (array_keys($this->_boundVars) as $i => $key) {
 			if (is_int($key))
-		   		$this->_boundVars[$key] = $this->_currentRow[NUMERIC][$key];
+					 $this->_boundVars[$key] = $this->_currentRow[NUMERIC][$key];
 			else
-		   		$this->_boundVars[$key] = $this->_currentRow[ASSOC][$key];
+					 $this->_boundVars[$key] = $this->_currentRow[ASSOC][$key];
 		}
 		
 		return true;
@@ -216,7 +192,7 @@ class MySQLSelectQueryResult
 	 * @return integer The number of fields.
 	 **/
 	function getNumberOfFields() {
-		return mysql_num_fields($this->_resourceId);
+		return $this->_result->field_count;
 	}
 	
 
@@ -247,7 +223,7 @@ class MySQLSelectQueryResult
 		
 		$result = $this->_currentRow[$arrayType];
 		if (is_null($result))
-		    $result = $this->_currentRow[BOTH];
+				$result = $this->_currentRow[BOTH];
 			
 		return $result;
 	}
@@ -261,7 +237,7 @@ class MySQLSelectQueryResult
 	 * @return integer Number of rows that were processed by the query.
 	 */ 
 	function getNumberOfRows() {
-		return mysql_num_rows($this->_resourceId);
+		return $this->_result->num_rows;
 	}
 
 	
@@ -284,12 +260,12 @@ class MySQLSelectQueryResult
 			$str = "\$rowNumber must be in the range 0..(getNumberOfRows()-1)";
 			throw new DatabaseException($str);
 		}
-		    
-		$result = mysql_data_seek($this->_resourceId, $rowNumber);
+				
+		$result = $this->_result->data_seek($rowNumber);
 		
 		if ($result === true)
 			$this->_currentRowIndex = $rowNumber;
-		    
+				
 		return $result;
 		
 	}
@@ -319,9 +295,9 @@ class MySQLSelectQueryResult
 		// add $var to the array of bound variables and update its value
 		$this->_boundVars[$field] =$var; 
 		if (is_int($field))
-	   		$var = $this->_currentRow[NUMERIC][$field];
+				 $var = $this->_currentRow[NUMERIC][$field];
 		else
-	   		$var = $this->_currentRow[ASSOC][$field];
+				$var = $this->_currentRow[ASSOC][$field];
 	}
 	
 	/**
@@ -339,8 +315,8 @@ class MySQLSelectQueryResult
 		// ** end of parameter validation
 		
 		if (isset($this->_boundVars[$field])) {
-		    $this->_boundVars[$field] = null;
-		    unset($this->_boundVars[$field]);
+				$this->_boundVars[$field] = null;
+				unset($this->_boundVars[$field]);
 		}
 	}
 	
@@ -350,7 +326,18 @@ class MySQLSelectQueryResult
 	 * @return void
 	 */
 	function free() {
-		mysql_free_result($this->_resourceId);
+		$this->_result->free();
+	}
+	
+	/**
+	 * Returns the resource id for this SELECT query.
+	 * Returns the resource id for this SELECT query. The resource id is returned
+	 * by the mysql_query() function.
+	 * @access public
+	 * @return integer The resource id for this SELECT query.
+	 **/
+	function getResourceId() { 
+		return $this->_result;
 	}
 
 }

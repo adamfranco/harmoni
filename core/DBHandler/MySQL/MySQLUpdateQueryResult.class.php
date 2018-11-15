@@ -26,57 +26,34 @@ require_once(HARMONI."DBHandler/UpdateQueryResult.interface.php");
 class MySQLUpdateQueryResult 
 	implements UpdateQueryResultInterface 
 {
-
-
 	/**
-	 * The link identifier for the database connection.
-	 * The link identifier for the database connection.
-	 * @param integer $_linkId The link identifier for the database connection.
-	 * @access private
+	 * @var mysqli $_link The datbase connection.
 	 */
-	var $_linkId;
+	var $_link;
 
 
 	/**
-	 * Stores the number of rows processed by the query.
-	 * Stores the number of rows processed by the query.
-	 * @var integer $_numberOfRows The number of rows processed by the query.
-	 * @access private
-	 */
-	var $_numberOfRows;
-
-
-
-	/**
-	 * Creates a new MySQLINSERTQueryResult object.
-	 * Creates a new MySQLINSERTQueryResult object.
+	 * Constructor
+	 * 
+	 * @param mysqli $link The database connection
 	 * @access public
-	 * @param integer $linkId The link identifier for the database connection.
-	 * @return object MySQLINSERTQueryResult A new MySQLINSERTQueryResult object.
+	 * @since 7/2/04
 	 */
-	function MySQLUpdateQueryResult($linkId) {
-		// ** parameter validation
-		$resourceRule = ResourceValidatorRule::getRule();
-		ArgumentValidator::validate($linkId, $resourceRule, true);
-		// ** end of parameter validation
-
-		$this->_linkId = $linkId;
-
-		$this->_numberOfRows = mysql_affected_rows($this->_linkId);
+	function __construct (mysqli $link) {
+		$this->_link = $link;
 	}
-		
-
+	
 
 	/**
 	 * Returns the number of rows that the query processed.
 	 * Returns the number of rows that the query processed. For a SELECT query,
-	 * this would be the total number of rows selected. For a DELETE, INSERT, or
-	 * UPDATE query, this would be the number of rows that were affected.
+	 * this would be the total number of rows selected. For a DELETE, UPDATE, or
+	 * INSERT query, this would be the number of rows that were affected.
 	 * @return integer Number of rows that were processed by the query.
 	 * @access public
 	 */ 
 	function getNumberOfRows() {
-		return $this->_numberOfRows;
+		return $this->_link->affected_rows;
 	}
 
 }

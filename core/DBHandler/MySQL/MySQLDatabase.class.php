@@ -138,11 +138,11 @@ class MySQLDatabase
 		$this->_dbName = $dbName;
 		$this->_dbUser = $dbUser;
 		$this->_dbPass = $dbPass;
-	    $this->_link = false;
-	    $this->_isConnectionPersistant = NULL;
-	    $this->_successfulQueries = 0;
-	    $this->_failedQueries = 0;
-	    $this->_startedTransactions = 0;
+		$this->_link = false;
+		$this->_isConnectionPersistant = NULL;
+		$this->_successfulQueries = 0;
+		$this->_failedQueries = 0;
+		$this->_startedTransactions = 0;
 	}
 	
 	/**
@@ -198,9 +198,9 @@ class MySQLDatabase
 		// see if successful
 		if ($link) {
 			// reset the query counters
-		    $this->_successfulQueries = 0;
-		    $this->_failedQueries = 0;
-		    $this->_link = $link;
+			$this->_successfulQueries = 0;
+			$this->_failedQueries = 0;
+			$this->_link = $link;
 			return $link;
 		}
 		else {
@@ -230,16 +230,16 @@ class MySQLDatabase
 		// see if successful
 		if ($link) {
 			// reset the query counters
-		    $this->_successfulQueries = 0;
-		    $this->_failedQueries = 0;
-		    $this->_link = $link;
+			$this->_successfulQueries = 0;
+			$this->_failedQueries = 0;
+			$this->_link = $link;
 			return $link;
 		}
 		else {
 			$this->_link = false;
 			
 			throw new ConnectionDatabaseException($this->getConnectionErrorInfo()."Cannot connect to database.");
-		    
+				
 			return false;						
 		}
 	}
@@ -274,10 +274,10 @@ class MySQLDatabase
 //		echo "<br /> : ";
 
 		// attempt to run the query
-		$resourceId = $this->_query($queryString);
+		$queryResult = $this->_query($queryString);
 
 		// if query was unsuccessful, return a null QueryResult object
-//		if ($resourceId === false)
+//		if ($queryResult === false)
 //			throwError( new HarmoniError("The query had errors: \n".$queryString, "DBHandler", true));
 //
 		// create the appropriate QueryResult object
@@ -292,10 +292,10 @@ class MySQLDatabase
 				$result = new MySQLDeleteQueryResult($this->_link);
 				break;
 			case SELECT : 
-				$result = new MySQLSelectQueryResult($resourceId, $this->_link);
+				$result = new MySQLSelectQueryResult($this->_link, $queryResult);
 				break;
 			case GENERIC : 
-				$result = new MySQLGenericQueryResult($resourceId, $this->_link);
+				$result = new MySQLGenericQueryResult($this->_link, $queryResult);
 				break;
 			default:
 				throw new DatabaseException("Unsupported query type.");
@@ -333,18 +333,18 @@ class MySQLDatabase
 		}
 		
 		if (is_array($query))
-		    $queries = $query;
+				$queries = $query;
 		else if (is_string($query))
-		    $queries = array($query);
+				$queries = array($query);
 		
 		foreach ($queries as $q) {
 			// attempt to execute the query
-      
-			$resourceId = mysqli_query($this->_link, $q);
 			
-			debug::output("<pre>Query: <div>".$query."</div>Result: $resourceId</pre>", 1, "DBHandler");
+			$result = mysqli_query($this->_link, $q);
+			
+			debug::output("<pre>Query: <div>".$query."</div>", 1, "DBHandler");
 		
-			if ($resourceId === false) {
+			if ($result === false) {
 				$this->_failedQueries++;
 				
 				switch (mysqli_errno($this->_link)) {
@@ -371,10 +371,10 @@ class MySQLDatabase
 				}
 			}
 			else
-			    $this->_successfulQueries++;
+				$this->_successfulQueries++;
 		}
 		
-		return $resourceId;
+		return $result;
 	}
 
 
