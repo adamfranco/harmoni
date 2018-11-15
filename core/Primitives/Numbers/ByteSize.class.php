@@ -44,7 +44,7 @@ class ByteSize
 	static function suffixForPower ($power) {
 		$multiple = intval($power/10);
 		if ($multiple < 0 || $multiple > 8)
-			throwError(new Error("Invalid power, $power. Valid values are multiples of ten, 0-80.",
+			throwError(new HarmoniError("Invalid power, $power. Valid values are multiples of ten, 0-80.",
 				"ByteSize", true));
 		
 		$suffixes = array("B", "kB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB");

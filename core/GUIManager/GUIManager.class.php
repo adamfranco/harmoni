@@ -382,7 +382,7 @@ extends GUIManagerAbstract
 			// passes execution to collection loading from DB
 			$this->loadStyleCollectionsForTheme($theme);
 		} else {
-			throwError( new Error( "GUIManager", "NO or MULTIPLE THEMES FOR ID"));
+			throwError( new HarmoniError( "GUIManager", "NO or MULTIPLE THEMES FOR ID"));
 		}
 		return $theme;
 	}
@@ -472,7 +472,7 @@ extends GUIManagerAbstract
 			$styleCollection->getIndex());
 		}
 		if ($queryResult->getNumberOfRows == 0) {
-			//			throwError( new Error( "GUIManager", "NO STYLE COLLECTIONS FOR THEME ID"));
+			//			throwError( new HarmoniError( "GUIManager", "NO STYLE COLLECTIONS FOR THEME ID"));
 		}
 		$queryResult->free();
 	}
@@ -511,7 +511,7 @@ extends GUIManagerAbstract
 			$collection->addSP($styleProperty);
 		}
 		if ($queryResult->getNumberOfRows == 0) {
-			//			throwError( new Error( "GUIManager", "NO STYLE PROPERTIES FOR THEME ID"));
+			//			throwError( new HarmoniError( "GUIManager", "NO STYLE PROPERTIES FOR THEME ID"));
 		}
 		$queryResult->free();
 	}
@@ -547,7 +547,7 @@ extends GUIManagerAbstract
 			$property->addSC($styleComponent);
 		}
 		if ($queryResult->getNumberOfRows == 0) {
-			//			throwError( new Error( "GUIManager", "NO STYLE PROPERTIES FOR THEME ID"));
+			//			throwError( new HarmoniError( "GUIManager", "NO STYLE PROPERTIES FOR THEME ID"));
 		}
 		$queryResult->free();
 	}
@@ -610,7 +610,7 @@ extends GUIManagerAbstract
 			$query->addColumn("theme_id");
 			$queryResult =$dbHandler->query($query, $this->_dbIndex);
 			if ($queryResult->getNumberOfRows() > 1) {
-				throwError( new Error("GUIManager", "Theme id multiplicity"));
+				throwError( new HarmoniError("GUIManager", "Theme id multiplicity"));
 			} else if ($queryResult->getNumberOfRows() == 1) {
 				$queryResult->free();
 				$query = new UpdateQuery();
@@ -657,7 +657,7 @@ extends GUIManagerAbstract
 
 		$styleCollections =$this->_theme->getStyleCollections();
 		if(is_null($styleCollections)){
-			throwError(new Error("its null","poo",true));
+			throwError(new HarmoniError("its null","poo",true));
 		}
 		
 		foreach ($styleCollections as $styleCollection) {
@@ -669,7 +669,7 @@ extends GUIManagerAbstract
 			$query->addColumn("collection_id");
 			$queryResult =$dbHandler->query($query, $this->_dbIndex);
 			if ($queryResult->getNumberOfRows() > 1)
-			throwError( new Error("GUIManager", "collection id multiplicity"));
+			throwError( new HarmoniError("GUIManager", "collection id multiplicity"));
 			else if ($queryResult->getNumberOfRows() == 1) {
 				$queryResult->free();
 				$query = new UpdateQuery();
@@ -719,7 +719,7 @@ extends GUIManagerAbstract
 			$query->addColumn("property_id");
 			$queryResult =$dbHandler->query($query, $this->_dbIndex);
 			if ($queryResult->getNumberOfRows() > 1)
-			throwError( new Error("GUIManager", "property id multiplicity"));
+			throwError( new HarmoniError("GUIManager", "property id multiplicity"));
 			else if ($queryResult->getNumberOfRows() == 1) {
 				$queryResult->free();
 				$query = new UpdateQuery();
@@ -763,7 +763,7 @@ extends GUIManagerAbstract
 			$query->addColumn("component_id");
 			$queryResult =$dbHandler->query($query, $this->_dbIndex);
 			if ($queryResult->getNumberOfRows() > 1)
-			throwError( new Error("GUIManager", "component id multiplicity"));
+			throwError( new HarmoniError("GUIManager", "component id multiplicity"));
 			else if ($queryResult->getNumberOfRows() == 1) {
 				$queryResult->free();
 				$query = new UpdateQuery();
@@ -807,7 +807,7 @@ extends GUIManagerAbstract
 		$result =$dbHandler->query($query, $this->_dbIndex);
 
 		if ($result->getNumberOfRows() != 1){
-			throwError( new Error("Theme Deletion Error--instead of one row being deleted, ".$result->getNumberOfRows()." rows were deleted.","GUIManager",true));
+			throwError( new HarmoniError("Theme Deletion Error--instead of one row being deleted, ".$result->getNumberOfRows()." rows were deleted.","GUIManager",true));
 		}
 
 	}

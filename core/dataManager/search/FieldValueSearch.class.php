@@ -51,7 +51,7 @@ class FieldValueSearch extends SearchCriteria {
 		if (!$typeMgr->isObjectOfDataType($this->_value, $field->getType()) 
 			&& !$extendsRule->check($this->_value)) 
 		{
-			throwError( new Error("Cannot take a '".get_class($this->_value)."' object as search criteria
+			throwError( new HarmoniError("Cannot take a '".get_class($this->_value)."' object as search criteria
 			for field '$this->_label'; a '".$field->getType()."' is required.","FieldValueSearch",true));
 		}
 		

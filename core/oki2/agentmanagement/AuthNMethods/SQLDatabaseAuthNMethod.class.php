@@ -91,7 +91,7 @@ class SQLDatabaseAuthNMethod
 		if ($validatorRule->check($newTokens))
 			return $newTokens;
 		else
-			throwError( new Error("Configuration Error: tokens_class, '".$tokensClass."' does not extend UsernamePasswordAuthNTokens.",
+			throwError( new HarmoniError("Configuration Error: tokens_class, '".$tokensClass."' does not extend UsernamePasswordAuthNTokens.",
 									 "SQLDatabaseAuthNMethod", true));
 		
 	}
@@ -129,7 +129,7 @@ class SQLDatabaseAuthNMethod
 			return FALSE;
 		}
 		else
-			throwError( new Error("Authorization Error: "
+			throwError( new HarmoniError("Authorization Error: "
 							.$result->field("count")
 							." results were returned when authenticating '"
 							.$authNTokens->getUsername()."'; should be 0 or 1.",
@@ -167,7 +167,7 @@ class SQLDatabaseAuthNMethod
 			return FALSE;
 		}
 		else
-			throwError( new Error("Authorization Error: "
+			throwError( new HarmoniError("Authorization Error: "
 							.$result->field("count")
 							." results were returned when checking the existance of '"
 							.$authNTokens->getUsername()."'; should be 0 or 1.",
@@ -224,7 +224,7 @@ class SQLDatabaseAuthNMethod
 			return;
 		}
 		else
-			throwError( new Error("Authorization Error: "
+			throwError( new HarmoniError("Authorization Error: "
 							.$result->getNumberOfRows()
 							." results were returned when trying to populate the properties for '"
 							.$authNTokens->getUsername()."'; should be 0 or 1.",
@@ -308,7 +308,7 @@ class SQLDatabaseAuthNMethod
 		ArgumentValidator::validate($authNTokens, ExtendsValidatorRule::getRule("AuthNTokens"));
 		
 		if ($this->tokensExist($authNTokens)) {
-			throwError( new Error("Token Addition Error: ".
+			throwError( new HarmoniError("Token Addition Error: ".
 							"'".$authNTokens->getUsername()."' already exists.",
 									 "SQLDatabaseAuthNMethod", true));
 		} else {
@@ -358,7 +358,7 @@ class SQLDatabaseAuthNMethod
 		ArgumentValidator::validate($authNTokens, ExtendsValidatorRule::getRule("AuthNTokens"));
 		
 		if (!$this->tokensExist($authNTokens)) {
-			throwError( new Error("Token Deletion Error: "
+			throwError( new HarmoniError("Token Deletion Error: "
 							."'".$authNTokens->getUsername()."' does not exist.",
 									 "SQLDatabaseAuthNMethod", true));
 		} else {
@@ -403,7 +403,7 @@ class SQLDatabaseAuthNMethod
 		ArgumentValidator::validate($newAuthNTokens, ExtendsValidatorRule::getRule("AuthNTokens"));
 		
 		if (!$this->tokensExist($oldAuthNTokens)) {
-			throwError( new Error("Token Update Error: "
+			throwError( new HarmoniError("Token Update Error: "
 							."'".$oldAuthNTokens->getUsername()."' does not exist.",
 									 "SQLDatabaseAuthNMethod", true));
 		} else {
@@ -456,7 +456,7 @@ class SQLDatabaseAuthNMethod
 		ArgumentValidator::validate($newProperties, ExtendsValidatorRule::getRule("Properties"));
 		
 		if (!$this->tokensExist($authNTokens)) {
-			throwError( new Error("Properties Update Error: "
+			throwError( new HarmoniError("Properties Update Error: "
 							."'".$authNTokens->getUsername()."' does not exist.",
 									 "SQLDatabaseAuthNMethod", true));
 		} else {

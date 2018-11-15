@@ -173,7 +173,7 @@ class ImageProcessor {
 			&& $this->_ImageMagickProcessor->isSupported($format))
 			return $this->_ImageMagickProcessor->generateThumbnailData($format, $data);
 		
-		throwError(new Error("Unsupported Format, '$format'.", "ImageProcessor", true));
+		throwError(new HarmoniError("Unsupported Format, '$format'.", "ImageProcessor", true));
 	}
 	
 	/**
@@ -204,7 +204,7 @@ class ImageProcessor {
 			&& $this->_ImageMagickProcessor->isSupported($format))
 			return $this->_ImageMagickProcessor->getResizedFormat($format);
 		
-		throwError(new Error("Unsupported Format, '$format'.", "ImageProcessor", true));
+		throwError(new HarmoniError("Unsupported Format, '$format'.", "ImageProcessor", true));
 	}
 	
 	/**
@@ -226,7 +226,7 @@ class ImageProcessor {
 			&& $this->_ImageMagickProcessor->isSupported($format))
 			return $this->_ImageMagickProcessor->getResizedData($format, $size, $data);
 		
-		throwError(new Error("Unsupported Format, '$format'.", "ImageProcessor", true));
+		throwError(new HarmoniError("Unsupported Format, '$format'.", "ImageProcessor", true));
 	}
 	
 	/**
@@ -246,7 +246,7 @@ class ImageProcessor {
 			&& $this->_ImageMagickProcessor->isSupported($format))
 			return $this->_ImageMagickProcessor->getWebsafeFormat($format);
 		
-		throwError(new Error("Unsupported Format, '$format'.", "ImageProcessor", true));
+		throwError(new HarmoniError("Unsupported Format, '$format'.", "ImageProcessor", true));
 	}
 	
 	/**
@@ -268,7 +268,7 @@ class ImageProcessor {
 			&& $this->_ImageMagickProcessor->isSupported($format))
 			return $this->_ImageMagickProcessor->getWebsafeData($format, $size, $data);
 		
-		throwError(new Error("Unsupported Format, '$format'.", "ImageProcessor", true));
+		throwError(new HarmoniError("Unsupported Format, '$format'.", "ImageProcessor", true));
 	}
 }
 

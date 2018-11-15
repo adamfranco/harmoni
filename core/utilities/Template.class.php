@@ -47,7 +47,7 @@ class Template {
 			$this->_fullPath = $fullPath;
 		else {
 			// throw an error
-			throwError(new Error("Template - could not create new template from file '$file' because it could not be found!","Template",true));
+			throwError(new HarmoniError("Template - could not create new template from file '$file' because it could not be found!","Template",true));
 		}
 	}
 	
@@ -72,7 +72,7 @@ class Template {
 				foreach ($__keys as $__k)
 					$$__k = $__v->get($__k);
 			} else {
-				throwError(new Error("Template::output() - could not output: variables passed to method do not seem to be an associative array or a FieldSet."));
+				throwError(new HarmoniError("Template::output() - could not output: variables passed to method do not seem to be an associative array or a FieldSet."));
 				return false;
 			}			
 		} // for

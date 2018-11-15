@@ -260,7 +260,7 @@ abstract class Number
 	 */
 	function reciprical () {
 		if ($this->isEqualTo(Integer::withValue(0)))
-			throwError(new Error("Division by zero"));
+			throwError(new HarmoniError("Division by zero"));
 		else {
 			$one = Integer::withValue(1);
 			return $one->dividedBy($this);

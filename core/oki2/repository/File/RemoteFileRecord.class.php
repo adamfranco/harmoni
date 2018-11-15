@@ -133,7 +133,7 @@ class RemoteFileRecord
 				$this->_parts[$field]->updateValue("NULL");
 			}
 		} else {
-			throwError(new Error(RepositoryException::UNKNOWN_ID().": $string", "FileRecord", true));
+			throwError(new HarmoniError(RepositoryException::UNKNOWN_ID().": $string", "FileRecord", true));
 		}
 		
 		$this->_asset->updateModificationDate();

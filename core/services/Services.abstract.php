@@ -235,7 +235,7 @@ class ServicesAbstract
 			// if we have the error Handler, throw a pretty error with that,
 			// otherwise, use the die() function.
 			if ($GLOBALS[SERVICES_OBJECT]->available( 'ErrorHandler' )) {
-				throwError(new Error("A required Service <b>\"$service\"</b> ".(($start)? "could not be started":"is not available"), "Services", 1));
+				throwError(new HarmoniError("A required Service <b>\"$service\"</b> ".(($start)? "could not be started":"is not available"), "Services", 1));
 			} else {
 				$debug = debug_backtrace();
 				$str = "<B>FATAL ERROR</b><br /><br />";

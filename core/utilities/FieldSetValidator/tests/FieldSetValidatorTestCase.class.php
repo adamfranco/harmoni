@@ -114,7 +114,7 @@
 			// what the hell is this???
 			// $error = 1;
 			
-			$error = new Error("UnitTest", "UnitTest", false);
+			$error = new HarmoniError("UnitTest", "UnitTest", false);
 			
 			
 			$rq =  FieldRequiredValidatorRule::getRule();

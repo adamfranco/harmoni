@@ -636,7 +636,7 @@ class AuthZ2_AuthorizationCache {
 		
 		if ($queryResult->getNumberOfRows() != 1) {
 			$err = "Zero or more than one Authorization were deleted (must have been exactly one).";
-			throwError(new Error($err, "authorizarion", true));
+			throwError(new HarmoniError($err, "authorizarion", true));
 		}
 		
 		// update cache
@@ -699,7 +699,7 @@ class AuthZ2_AuthorizationCache {
 		
 		if ($queryResult->getNumberOfRows() != 1) {
 			$err = "Zero or more than one function were deleted (must have been exactly one).";
-			throwError(new Error($err, "authorizarion", true));
+			throwError(new HarmoniError($err, "authorizarion", true));
 		}
 		
 		// update cache

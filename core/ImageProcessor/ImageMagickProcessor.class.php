@@ -219,7 +219,7 @@ class ImageMagickProcessor {
 		if ($newExtension = $this->_formatConversions[$extension]) {
 			return $mime->getMIMETypeForExtension($newExtension);
 		} else
-			throwError(new Error("Unsupported Format for conversion Conversion, '$format'.",
+			throwError(new HarmoniError("Unsupported Format for conversion Conversion, '$format'.",
 				"ImageProcessor", true));
 	}
 	
@@ -241,7 +241,7 @@ class ImageMagickProcessor {
 		if ($newExtension = $mime->getExtensionForMIMEType($this->getResizedFormat($format))) {
 			return $this->_generateData($extension, $newExtension, $size, $data);
 		} else
-			throwError(new Error("Unsupported Format for conversion Conversion, '$format'.",
+			throwError(new HarmoniError("Unsupported Format for conversion Conversion, '$format'.",
 				"ImageProcessor", true));
 	}
 	
@@ -263,7 +263,7 @@ class ImageMagickProcessor {
 		if ($newExtension) {
 			return $mime->getMIMETypeForExtension($newExtension);
 		} else
-			throwError(new Error("Unsupported Format for conversion Conversion, '$format'.",
+			throwError(new HarmoniError("Unsupported Format for conversion Conversion, '$format'.",
 				"ImageProcessor", true));
 	}
 	
@@ -285,7 +285,7 @@ class ImageMagickProcessor {
 		if ($newExtension = $mime->getExtensionForMIMEType($this->getWebsafeFormat($format))) {
 			return $this->_generateData($extension, $newExtension, $size, $data);
 		} else
-			throwError(new Error("Unsupported Format for conversion Conversion, '$format'.",
+			throwError(new HarmoniError("Unsupported Format for conversion Conversion, '$format'.",
 				"ImageProcessor", true));
 	}
 	
@@ -315,13 +315,13 @@ class ImageMagickProcessor {
 			
 			// Write the data to the tmp directory.
 			if (!is_writable($this->_ImageMagickTempDir))
-				throwError(new Error("Temp dir, '".$this->_ImageMagickTempDir
+				throwError(new HarmoniError("Temp dir, '".$this->_ImageMagickTempDir
 								."', is not writable.", "ImageProcessor", true));
 			if (!$handle = fopen($sourcePath, 'w'))
-				throwError(new Error("'".$sourcePath
+				throwError(new HarmoniError("'".$sourcePath
 								."' can not be opened.", "ImageProcessor", true));
 			if (fwrite($handle, $inputData) === FALSE)
-				throwError(new Error("'".$sourcePath
+				throwError(new HarmoniError("'".$sourcePath
 								."' is not writable.", "ImageProcessor", true));
 			fclose($handle);
 			

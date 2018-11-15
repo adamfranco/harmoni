@@ -509,9 +509,9 @@ class HarmoniRepositoryManager
 		if (!isset($this->_createdRepositories[$repositoryId->getIdString()])) {
 			// Get the node for this dr to make sure its availible
 			if (!$node = $this->_hierarchy->getNode($repositoryId))
-				throwError(new Error(RepositoryException::UNKNOWN_ID(), "RepositoryManager", 1));
+				throwError(new HarmoniError(RepositoryException::UNKNOWN_ID(), "RepositoryManager", 1));
 			if (!$this->repositoryKeyType->isEqual($node->getType()))
-				throwError(new Error(RepositoryException::UNKNOWN_ID(), "RepositoryManager", 1));
+				throwError(new HarmoniError(RepositoryException::UNKNOWN_ID(), "RepositoryManager", 1));
 			
 			// create the repository and add it to the cache
 			$this->_createdRepositories[$repositoryId->getIdString()] = new HarmoniRepository($this, $this->_hierarchy, $repositoryId, $this->_configuration);
@@ -584,7 +584,7 @@ class HarmoniRepositoryManager
 	function getAssetByDate(Id $assetId, $date) {
 		// figure out which DR it is in.
 		if (! $repositoryId =$this->_getAssetRepository($assetId))
-			throwError(new Error(RepositoryException::UNKNOWN_ID(), "RepositoryManager", 1));
+			throwError(new HarmoniError(RepositoryException::UNKNOWN_ID(), "RepositoryManager", 1));
 			
 		$repository =$this->getRepository($repositoryId);
 		
@@ -620,7 +620,7 @@ class HarmoniRepositoryManager
   function getAssetDates ( Id $assetId ) { 
 		// figure out which Repository it is in.
 		if (! $repositoryId =$this->_getAssetRepository($assetId))
-			throwError(new Error(RepositoryException::UNKNOWN_ID(), "RepositoryManager", 1));
+			throwError(new HarmoniError(RepositoryException::UNKNOWN_ID(), "RepositoryManager", 1));
 			
 		$repository =$this->getRepository($repositoryId);
 		

@@ -77,7 +77,7 @@ class CornersStyleCollection
 	 */
 	function setBorderUrl ($position, $url, $height = 15, $width = 15) {
 		if (!in_array($position, $this->_positions))
-			throwError(new Error("Invalid Position, $position"));
+			throwError(new HarmoniError("Invalid Position, $position"));
 		
 		$this->_urls[$position] = $url;
 		$this->_heights[$position] = $height;
@@ -95,7 +95,7 @@ class CornersStyleCollection
 	 */
 	function getBorderUrl ($position) {
 		if (!in_array($position, $this->_positions))
-			throwError(new Error("Invalid Position, $position"));
+			throwError(new HarmoniError("Invalid Position, $position"));
 		
 		return $this->_urls[$position];
 	}

@@ -80,7 +80,7 @@ class RuleSet {
 			if (!$rule[0]->check( $val )) {
 				// throw an error
 				if ($throwErrors && $rule[1] !== null) {
-					throw new Error($rule[1], $rule[2]);
+					throw new HarmoniError($rule[1], $rule[2]);
 				}
 				
 				// set $error to true;

@@ -223,7 +223,7 @@ class StructuredMetaDataTagGenerator {
 		} 
 		// Error
 		else {
-			throwError(new Error("Invalid parameter, $assets, for \$assets", "Tagging"));
+			throwError(new HarmoniError("Invalid parameter, $assets, for \$assets", "Tagging"));
 		}
 	}
 	

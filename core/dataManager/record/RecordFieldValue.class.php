@@ -276,7 +276,7 @@ class RecordFieldValue {
 	*/
 	function getVersion( $verID ) {
 		if (!isset($this->_versions[$verID])) {
-			throwError( new Error("Could not find version ID $verID.","DMRecord",true));
+			throwError( new HarmoniError("Could not find version ID $verID.","DMRecord",true));
 		}
 		return $this->_versions[$verID];
 	}

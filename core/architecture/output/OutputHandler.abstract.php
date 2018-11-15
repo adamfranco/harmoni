@@ -136,7 +136,7 @@ class OutputHandler
 	 * @since 4/4/05
 	 */
 	function output ( $returnedContent, $printedContent ) {		
-		throwError(new Error("Method <b>".__FUNCTION__."()</b> declared in abstract class <b> ".__CLASS__."</b> has not been overloaded in a child class.","OutputHandler",true));
+		throwError(new HarmoniError("Method <b>".__FUNCTION__."()</b> declared in abstract class <b> ".__CLASS__."</b> has not been overloaded in a child class.","OutputHandler",true));
 	}
 	
 	/**

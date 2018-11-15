@@ -100,7 +100,7 @@ class StyleCollection extends StyleCollectionInterface {
 	 **/
 	function StyleCollection($selector, $classSelector, $displayName, $description) {
 		if(func_num_args()<=3){
-			throwError(new Error("Too few arguments--only ".func_num_args()." of 4","GUIManager",true));	
+			throwError(new HarmoniError("Too few arguments--only ".func_num_args()." of 4","GUIManager",true));	
 		}		
 		$this->_selector = $selector;
 		$this->_classSelector = $classSelector;
@@ -119,7 +119,7 @@ class StyleCollection extends StyleCollectionInterface {
 	 */
 	function setId ($id) {
 		if (!is_object($id))
-			throwError(new Error("String Id Passed","GUIManager",true));
+			throwError(new HarmoniError("String Id Passed","GUIManager",true));
 		$this->_id =$id;
 	}
 	

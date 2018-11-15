@@ -50,7 +50,7 @@ class FileSystemFileDataPart
 			return "";
 		
 		if (!is_readable($file))
-			throwError(new Error(RepositoryException::OPERATION_FAILED()
+			throwError(new HarmoniError(RepositoryException::OPERATION_FAILED()
 				.": '$file' could not read.", "FileSystemFileDataPart", true));
 		
 		return file_get_contents($file);
@@ -81,13 +81,13 @@ class FileSystemFileDataPart
 		$file = $this->_getFilePath();
 		
 		if (!$handle = fopen($file, 'w')) {
-			throwError(new Error(RepositoryException::OPERATION_FAILED()
+			throwError(new HarmoniError(RepositoryException::OPERATION_FAILED()
 				.": '$file' could not be opened for writing.", "FileSystemFileDataPart", true));
 		}
 		
 		if (fwrite($handle, $value) === FALSE) {
 			fclose($handle);
-			throwError(new Error(RepositoryException::OPERATION_FAILED()
+			throwError(new HarmoniError(RepositoryException::OPERATION_FAILED()
 				.": '$file' could not be written to.", "FileSystemFileDataPart", true));
 		}
 		
@@ -135,21 +135,21 @@ class FileSystemFileDataPart
 	 */
 	function _getFilePath () {
 		if (!$this->_configuration->getProperty('file_data_path'))
-			throwError(new Error(RepositoryException::CONFIGURATION_ERROR()
+			throwError(new HarmoniError(RepositoryException::CONFIGURATION_ERROR()
 				.": 'file_data_path' was not specified.", "FileSystemFileDataPart", true));
 		
 		$path = $this->_configuration->getProperty('file_data_path');
 		
 		if (!file_exists($path))
-			throwError(new Error(RepositoryException::CONFIGURATION_ERROR()
+			throwError(new HarmoniError(RepositoryException::CONFIGURATION_ERROR()
 				.": The 'file_data_path' specified, '$path', was does not exist.", "FileSystemFileDataPart", true));
 
 		if (!is_readable($path))
-			throwError(new Error(RepositoryException::CONFIGURATION_ERROR()
+			throwError(new HarmoniError(RepositoryException::CONFIGURATION_ERROR()
 				.": The 'file_data_path' specified, '$path', is not readable.", "FileSystemFileDataPart", true));
 		
 		if (!is_writable($path))
-			throwError(new Error(RepositoryException::CONFIGURATION_ERROR()
+			throwError(new HarmoniError(RepositoryException::CONFIGURATION_ERROR()
 				.": The 'file_data_path' specified, '$path', is not writable.", "FileSystemFileDataPart", true));
 				
 		return $this->_configuration->getProperty('file_data_path')."/".$this->_recordId->getIdString();

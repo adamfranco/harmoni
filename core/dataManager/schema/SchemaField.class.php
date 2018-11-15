@@ -70,7 +70,7 @@ class SchemaField {
 //		$typeMgr = Services::getService("DataTypeManager");
 //		if (!$typeMgr->typeRegistered($type)) {
 //			// throw an error
-//			throwError( new Error("Could not create new SchemaField for type '$type' because it doesn't
+//			throwError( new HarmoniError("Could not create new SchemaField for type '$type' because it doesn't
 //				seem to be a valid type. All types must be registered with a DataTypeManager first.","DataManager",true));
 //			return false;
 //		}
@@ -88,7 +88,7 @@ class SchemaField {
 		// first check if we're already attached to a Schema.
 		// if so, we're gonna dump
 		if ($this->_associated) {
-			throwError( new Error( "I'm (label '".$this->_label."') already associated with Schema type '".HarmoniType::typeToString($this->_schema->getType())."'. You shouldn't be trying to add me to multiple Schemas. Bad form.","DataManager",true));
+			throwError( new HarmoniError( "I'm (label '".$this->_label."') already associated with Schema type '".HarmoniType::typeToString($this->_schema->getType())."'. You shouldn't be trying to add me to multiple Schemas. Bad form.","DataManager",true));
 			return false;
 		}
 		
@@ -188,7 +188,7 @@ class SchemaField {
 			// we have no ID, we probably can't commit...unless we're going to be added to the DB.
 			// we'll also fail if our dataSetTypeDef doesn't have an ID. that meaning it wasn't meant to be
 			// synchronized into the database.
-			throwError( new Error("Could not commit() to database because either: 1) we don't have a local ID, 
+			throwError( new HarmoniError("Could not commit() to database because either: 1) we don't have a local ID, 
 			meaning we were not meant to be synchronized with the database, or 2) the Schema to which we 
 			belong is not linked with the database. (label: ".$this->_label.", schema name: ".$this->_schema->getDisplayName().")",
 			"DataManager",true));

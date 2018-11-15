@@ -715,7 +715,7 @@ class HarmoniGradingManager
 
 
 		if(!$res->hasMoreRows()){
-			throwError(new Error("No Type has Id '".$index."' in table 'gr_".$typename."_type'","CourseManagement", true));
+			throwError(new HarmoniError("No Type has Id '".$index."' in table 'gr_".$typename."_type'","CourseManagement", true));
 		}
 
 		//There should be exactly one result.  Convert it to a type and return it

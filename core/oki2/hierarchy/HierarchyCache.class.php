@@ -303,7 +303,7 @@ class HierarchyCache {
 		// make sure that we are not adding a second parent in a single-parent hierarchy
 		if (!$this->_allowsMultipleParents)
 			if ($childTreeNode->getParentsCount() > 1)
-				throwError(new Error(HierarchyException::SINGLE_PARENT_HIERARCHY(), "HierarchyCache", true));
+				throwError(new HarmoniError(HierarchyException::SINGLE_PARENT_HIERARCHY(), "HierarchyCache", true));
 
 
 
@@ -1296,7 +1296,7 @@ class HierarchyCache {
 			// continue.
 			if (!is_object($node)) {
 				continue;
-//				throwError(new Error("Missing node object", "Hierarchy Cache"));
+//				throwError(new HarmoniError("Missing node object", "Hierarchy Cache"));
 			}
 
 			$nodeId =$node->getId();

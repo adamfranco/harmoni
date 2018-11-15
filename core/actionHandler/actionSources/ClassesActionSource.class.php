@@ -93,7 +93,7 @@ class ClassesActionSource
 	{
 		$fullPath = $this->_mkFullPath($module, $action);
 		if (!$this->actionExists($module, $action)) {
-			throwError( new Error("ClassesActionSource::executeAction($module, $action) - could not proceed because the file to include does not exist!", "ActionHandler", true));
+			throwError( new HarmoniError("ClassesActionSource::executeAction($module, $action) - could not proceed because the file to include does not exist!", "ActionHandler", true));
 		}
 		
 		include_once($fullPath);
@@ -101,7 +101,7 @@ class ClassesActionSource
 		$actionClassname = $action.$this->_classNameSuffix;
 		
 		if (!class_exists($actionClassname)) {
-			throwError( new Error("ClassesActionSource::executeAction($module, $action) - could not proceed because the class name '$action' is not defined!","ActionHandler", true));
+			throwError( new HarmoniError("ClassesActionSource::executeAction($module, $action) - could not proceed because the class name '$action' is not defined!","ActionHandler", true));
 		}
 		
 		$class = new $actionClassname;
@@ -109,7 +109,7 @@ class ClassesActionSource
 		$method = ACTIONS_CLASSES_METHOD;
 		
 		if (!method_exists($class, $method)) {
-			throwError( new Error("ClassesActionSource::executeAction($module, $action) - could not proceed because the method '$method()' is not defined in the class '$action'!","ActionHandler", true));
+			throwError( new HarmoniError("ClassesActionSource::executeAction($module, $action) - could not proceed because the method '$method()' is not defined in the class '$action'!","ActionHandler", true));
 		}
 		
 		$result =$class->$method();

@@ -154,7 +154,7 @@ class UsersGroup
 	 * @access public
 	 */
 	function updateDescription ( $description ) {
-		throwError(new Error(AgentException::PERMISSION_DENIED(),"UsersGroup",true));
+		throwError(new HarmoniError(AgentException::PERMISSION_DENIED(),"UsersGroup",true));
 	}		
 
 	/**
@@ -180,7 +180,7 @@ class UsersGroup
 	 * @access public
 	 */
 	function add ( Agent $memberOrGroup ) { 
-		throwError(new Error(AgentException::PERMISSION_DENIED(),"UsersGroup",true));
+		throwError(new HarmoniError(AgentException::PERMISSION_DENIED(),"UsersGroup",true));
 	}
 
 	/**
@@ -204,7 +204,7 @@ class UsersGroup
 	 * 
 	 */
 	function attach( Agent $memberOrGroup) {
-		throwError(new Error(AgentException::PERMISSION_DENIED(),"UsersGroup",true));
+		throwError(new HarmoniError(AgentException::PERMISSION_DENIED(),"UsersGroup",true));
 	}
 	
 	/**
@@ -230,7 +230,7 @@ class UsersGroup
 	 * @access public
 	 */
 	function remove ( Agent $memberOrGroup ) {
-		throwError(new Error(AgentException::PERMISSION_DENIED(),"UsersGroup",true));
+		throwError(new HarmoniError(AgentException::PERMISSION_DENIED(),"UsersGroup",true));
 	}
 
 	

@@ -85,7 +85,7 @@ class RecordSet {
 	{
 		$id = $record->getID();
 		if (!$id) {
-			throwError(new Error("Could not remove record from set because the record does not yet have an ID.","RecordSet",false));
+			throwError(new HarmoniError("Could not remove record from set because the record does not yet have an ID.","RecordSet",false));
 			return;
 		}
 		

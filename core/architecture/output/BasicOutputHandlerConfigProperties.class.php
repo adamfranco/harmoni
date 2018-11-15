@@ -141,7 +141,7 @@ class BasicOutputHandlerConfigProperties
 	 */
 	function setProperty ( $key, $value ) {
 		if (!isset($this->_properties[serialize($key)]))
-			throwError(new Error("Invalid configuration key, '$key'.", "BasicOutputHandlerConfigProperties", true));
+			throwError(new HarmoniError("Invalid configuration key, '$key'.", "BasicOutputHandlerConfigProperties", true));
 		
 		$this->_properties[serialize($key)] = $value;
 	}

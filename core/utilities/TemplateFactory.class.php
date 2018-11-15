@@ -16,7 +16,7 @@ class TemplateFactory {
 	var $_ext="";
 	function TemplateFactory($searchPath1) {
 		if (!func_num_args()) {
-			throwError(new Error("TemplateFactory - you must specify at least one search path.","TemplateFactory",true));
+			throwError(new HarmoniError("TemplateFactory - you must specify at least one search path.","TemplateFactory",true));
 		}
 		foreach (func_get_args() as $arg) {
 			$this->_paths[] = $arg;

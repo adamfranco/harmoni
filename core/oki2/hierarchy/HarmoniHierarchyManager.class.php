@@ -203,7 +203,7 @@ class HarmoniHierarchyManager
 
 		// check for supported hierarchies
 		if ($allowsRecursion)
-			throwError(new Error(HierarchyException::UNSUPPORTED_CREATION(), "HierarchyManager", 1));
+			throwError(new HarmoniError(HierarchyException::UNSUPPORTED_CREATION(), "HierarchyManager", 1));
 		
 		$dbHandler = Services::getService("DatabaseManager");
 
@@ -422,7 +422,7 @@ class HarmoniHierarchyManager
 
 		// if the hierarchy contains any nodes, cannot delete
 		if ($row['num'] > 0) {
-			throwError(new Error(HierarchyException::HIERARCHY_NOT_EMPTY(), "Hierarchy", true));
+			throwError(new HarmoniError(HierarchyException::HIERARCHY_NOT_EMPTY(), "Hierarchy", true));
 			return;
 		}
 		
@@ -432,7 +432,7 @@ class HarmoniHierarchyManager
 		$query->addWhereEqual("hierarchy_id", $idValue);
 		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 		if ($queryResult->getNumberOfRows() != 1) {
-			throwError(new Error(HierarchyException::OPERATION_FAILED(), "Hierarchy", true));
+			throwError(new HarmoniError(HierarchyException::OPERATION_FAILED(), "Hierarchy", true));
 		}
 		
 		// update the cache

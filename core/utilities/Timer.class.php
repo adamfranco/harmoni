@@ -25,7 +25,7 @@ class Timer {
 	function printTime() {
 		if (!isset($this->_start) || !isset($this->_end)) {
 			$err = "Must call start() and end() first.";
-			throwError(new Error($err, "Timer", true));
+			throwError(new HarmoniError($err, "Timer", true));
 		}
 	
 		list($sm, $ss) = explode(" ", $this->_start);

@@ -142,7 +142,7 @@ class FileSizePart
 	 */
 	function createPart(Id $partStructureId, $value) {
 		throwError(
-			new Error(UNIMPLEMENTED, "HarmoniPart", true));
+			new HarmoniError(UNIMPLEMENTED, "HarmoniPart", true));
 	}
 
 	/**
@@ -169,7 +169,7 @@ class FileSizePart
 	 */
 	function deletePart(Id $partId) {
 		throwError(
-			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
+			new HarmoniError(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
 	}
 
 	/**
@@ -193,7 +193,7 @@ class FileSizePart
 	 */
 	function getParts() {
 		throwError(
-			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
+			new HarmoniError(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
 	}
 
 	/**
@@ -262,7 +262,7 @@ class FileSizePart
 	 */
 	function updateValue($value) {
 		throwError(
-			new Error(RepositoryException::PERMISSION_DENIED(), "FileSizePart", true));
+			new HarmoniError(RepositoryException::PERMISSION_DENIED(), "FileSizePart", true));
 	}
 
 	/**

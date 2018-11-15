@@ -195,7 +195,7 @@ class HarmoniFileRecordStructure
 		if ($this->_partStructures[$partStructureId->getIdString()]) {		
 			return $this->_partStructures[$partStructureId->getIdString()];
 		} else {
-			throwError(new Error(RepositoryException::UNKNOWN_ID(), "Repository :: FileRecordStructure", TRUE));
+			throwError(new HarmoniError(RepositoryException::UNKNOWN_ID(), "Repository :: FileRecordStructure", TRUE));
 		}
 	}
 

@@ -119,7 +119,7 @@ class RegexValidatorRule
 	static function getRuleByArray ($options) {
 		
 		if(!is_array($options) || count($options)==0){
-			throwError(new Error("RegexValidatorRule::getRuleByArray() requires an array with at least one value","RegexValidatorRule",true));		
+			throwError(new HarmoniError("RegexValidatorRule::getRuleByArray() requires an array with at least one value","RegexValidatorRule",true));		
 		}
 		
 		$regex = "/^(".$options[0];

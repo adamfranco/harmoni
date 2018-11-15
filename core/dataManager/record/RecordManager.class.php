@@ -580,7 +580,7 @@ class RecordManager {
 	function createRecord( $type, $verControl = false ) {
 		$schemaManager = Services::getService("SchemaManager");
 		if (!$schemaManager->schemaExists($type)) {
-			throwError ( new Error("could not create new DMRecord of type ".$type.
+			throwError ( new HarmoniError("could not create new DMRecord of type ".$type.
 			" because the requested type does not seem to be registered
 			with the SchemaManager.","RecordManager",true));
 		}

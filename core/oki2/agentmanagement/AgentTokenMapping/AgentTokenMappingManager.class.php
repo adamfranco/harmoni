@@ -138,7 +138,7 @@ class AgentTokenMappingManager
 		$this->_checkConfig();
 		
 		if ($this->mappingExists($agentId, $authNTokens, $authenticationType))
-			throwError( new Error("Cannot create Mapping. Mapping already exists: ('"
+			throwError( new HarmoniError("Cannot create Mapping. Mapping already exists: ('"
 				.$agentId->getIdString()."', '"
 				.$authNTokens->getIdentifier()."', '"
 				.$authenticationType->getDomain()."::"
@@ -147,7 +147,7 @@ class AgentTokenMappingManager
 				"AgentTokenMappingManager", true));
 		
 		if ($this->_mappingExistsForTokens($authNTokens, $authenticationType))
-			throwError( new Error("Cannot create Mapping. Mapping already exists for these tokens: ('"
+			throwError( new HarmoniError("Cannot create Mapping. Mapping already exists for these tokens: ('"
 				.$agentId->getIdString()."', '"
 				.$authNTokens->getIdentifier()."', '"
 				.$authenticationType->getDomain()."::"
@@ -266,7 +266,7 @@ class AgentTokenMappingManager
 			$mapping = FALSE;	// Returning by reference, so must create a var.
 			return $mapping;
 		} else if (count($mappings) != 1)
-			throwError( new Error("Invalid number of results: ".count($mappings),
+			throwError( new HarmoniError("Invalid number of results: ".count($mappings),
 									 "AgentTokenMappingManager", true));
 		else
 			return $mappings[0];
@@ -352,7 +352,7 @@ class AgentTokenMappingManager
 			$mapping = FALSE;	// Returning by reference, so must create a var.
 			return $mapping;
 		} else if (count($mappings) != 1)
-			throwError( new Error("Invalid number of results: ".count($mappings),
+			throwError( new HarmoniError("Invalid number of results: ".count($mappings),
 									 "AgentTokenMappingManager", true));
 		else
 			return $mappings[0];
@@ -462,7 +462,7 @@ class AgentTokenMappingManager
 			return FALSE;
 		}
 		else
-			throwError( new Error("Invalid number of results: ".$result->getNumberOfRows(),
+			throwError( new HarmoniError("Invalid number of results: ".$result->getNumberOfRows(),
 									 "AgentTokenMappingManager", true));
 	}
 	
@@ -508,7 +508,7 @@ class AgentTokenMappingManager
 			return FALSE;
 		}
 		else
-			throwError( new Error("Invalid number of results: ".$result->getNumberOfRows(),
+			throwError( new HarmoniError("Invalid number of results: ".$result->getNumberOfRows(),
 									 "AgentTokenMappingManager", true));
 	}
 	
@@ -521,7 +521,7 @@ class AgentTokenMappingManager
 	 */
 	function _checkConfig () {
 		if (!$this->_isInitialized)
-			throwError( new Error(OsidException::CONFIGURATION_ERROR(),
+			throwError( new HarmoniError(OsidException::CONFIGURATION_ERROR(),
 									 "AgentTokenMappingManager", true));
 	}
 	

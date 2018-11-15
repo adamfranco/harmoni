@@ -119,7 +119,7 @@ class LDAPAgentIterator
 			$agentManager = Services::getService("AgentManager");
 			
 			if (!isset($this->_dns[$this->_current]))
-				throwError(new Error("Tried to get Group for un-passed dn", "LDAPAgentIterator", true));
+				throwError(new HarmoniError("Tried to get Group for un-passed dn", "LDAPAgentIterator", true));
 			
 			$tokens =$this->_authNMethod->createTokensForIdentifier($this->_dns[$this->_current]);
 			$agentId =$authenticationManager->_getAgentIdForAuthNTokens($tokens, $this->_authNMethod->getType());

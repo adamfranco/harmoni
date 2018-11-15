@@ -130,7 +130,7 @@ class VisitorSQLDatabaseAuthNMethod
 			return FALSE;
 		}
 		else
-			throwError( new Error("Authorization Error: "
+			throwError( new HarmoniError("Authorization Error: "
 							.$result->field("count")
 							." results were returned when authenticating '"
 							.$authNTokens->getUsername()."'; should be 0 or 1.",

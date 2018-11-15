@@ -26,7 +26,7 @@ class HTMLcolor extends RGBcolor {
 					 $color[1].$color[1].
 					 $color[2].$color[2];
 		
-		if (strlen($color) != 6) throwError(new Error("HTMLcolor - can not create class for color '$color': it is not a valid HTML color.","HTMLcolor",false));
+		if (strlen($color) != 6) throwError(new HarmoniError("HTMLcolor - can not create class for color '$color': it is not a valid HTML color.","HTMLcolor",false));
 		// convert each part into its decimal equivaleng.
 		$rgb = explode(" ",chunk_split($color,2," "));
 		

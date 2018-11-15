@@ -827,7 +827,7 @@ class HarmoniCourseSection
 		$query->addColumn('id');
 		$res=$dbManager->query($query);
 		if($res->getNumberOfRows()==0){
-			throwError(new Error("Cannot change status of student [".$agentId->getIDString()."] because that student in not enrolled in the course[".$this->_id->getIdString()."]", "CourseManagement", true));
+			throwError(new HarmoniError("Cannot change status of student [".$agentId->getIDString()."] because that student in not enrolled in the course[".$this->_id->getIdString()."]", "CourseManagement", true));
 		}else if($res->getNumberOfRows()>1){
 			print "<b>Warning!</b> Student with id ".$agentId->getIdString()." is already enrolled in section ".$this->getDisplayName()." twice.";
 		}

@@ -101,7 +101,7 @@ class DataManager {
 	function setup( $dbID, $preloadTypes=null ) {
 		if (ini_get("magic_quotes_runtime")) {
 			throwError(
-				new Error(
+				new HarmoniError(
 					"The DataManager requires that the php.ini config option <B>magic_quotes_runtime</B> be OFF.",
 					"DataManager",
 					true));
@@ -124,7 +124,7 @@ class DataManager {
 		
 		if (!Services::serviceRunning("Id")) {
 			throwError(
-				new Error(
+				new HarmoniError(
 					"The DataManager requires the IdManager, but it is not running.",
 					"DataManager",
 					true));

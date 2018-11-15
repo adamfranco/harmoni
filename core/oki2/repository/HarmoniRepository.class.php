@@ -126,7 +126,7 @@ class HarmoniRepository
 	 * @return bool
 	 */
 	function isAssetValid( Id $assetId) {
-		throw(new Error("Method gone from OSID","Repository",TRUE));
+		throw(new HarmoniError("Method gone from OSID","Repository",TRUE));
 		return $this->_assetValidFlags[$assetId->getIdString()];
 	}
 
@@ -248,7 +248,7 @@ class HarmoniRepository
 			// Otherwise, throw an error
 			else {
 				$result->free();
-				throwError(new Error(RepositoryException::OPERATION_FAILED(), "Repository", 1));
+				throwError(new HarmoniError(RepositoryException::OPERATION_FAILED(), "Repository", 1));
 			}
 		}
 		
@@ -1198,7 +1198,7 @@ class HarmoniRepository
 			return $assetIterator;
 			
 		} else {
-			throwError(new Error(RepositoryException::UNKNOWN_TYPE()." ".$searchType->getDomain()."::".$searchType->getAuthority()."::".$searchType->getKeyword(), "Repository", 1));
+			throwError(new HarmoniError(RepositoryException::UNKNOWN_TYPE()." ".$searchType->getDomain()."::".$searchType->getAuthority()."::".$searchType->getKeyword(), "Repository", 1));
 		}
 	}
 
@@ -1390,7 +1390,7 @@ class HarmoniRepository
 		$recordIdsForSchema = $recordMgr->getRecordIDsByType($recordStructureId->getIdString());
 		
 		if (count($recordIdsForSchema)) {
-			throwError(new Error(
+			throwError(new HarmoniError(
 				RepositoryException::OPERATION_FAILED()
 					." when deleting RecordStructure: '"
 					.$recordStructureId->getIdString()

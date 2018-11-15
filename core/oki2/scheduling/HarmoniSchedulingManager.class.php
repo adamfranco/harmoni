@@ -214,7 +214,7 @@ class HarmoniSchedulingManager
 	function v3_createScheduleItem ( $displayName, $description, Type $scheduleItemStatusType, $start, $end, $masterIdentifier = null ) {
 
 		if($start>$end){
-			throwError(new Error("The end of a ScheduleItem cannot come before the end", "HarmoniSchedulingManager", true));
+			throwError(new HarmoniError("The end of a ScheduleItem cannot come before the end", "HarmoniSchedulingManager", true));
 		}
 
 		$idManager = Services::getService("IdManager");
@@ -907,7 +907,7 @@ class HarmoniSchedulingManager
 
 
 		if(!$res->hasMoreRows()){
-			throwError(new Error("No Type has Id '".$index."' in table 'sc_".$typename."_type'","CourseManagement", true));
+			throwError(new HarmoniError("No Type has Id '".$index."' in table 'sc_".$typename."_type'","CourseManagement", true));
 		}
 
 		//There should be exactly one result.  Convert it to a type and return it

@@ -9,14 +9,14 @@ require_once(HARMONI."errorHandler/HarmoniErrorHandler.class.php");
  * the default exception for compatability purposes
  *
  * @package harmoni.error_handler
- * 
+ *
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
  * @version $Id: Error.class.php,v 1.10 2008/04/18 14:58:26 adamfranco Exp $
  */
 
-class Error 
+class HarmoniError
 	extends HarmoniException
 {
 
@@ -39,13 +39,13 @@ class Error
  * the default exception for compatability purposes
  *
  * @package harmoni.error_handler
- * 
+ *
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
  * @version $Id: Error.class.php,v 1.10 2008/04/18 14:58:26 adamfranco Exp $
  */
-class UnknownDBError extends Error {
+class UnknownDBError extends HarmoniError {
 	function __construct($type) {
 		parent::Error("An unkonwn Database error occured.", $type, true);
 	}

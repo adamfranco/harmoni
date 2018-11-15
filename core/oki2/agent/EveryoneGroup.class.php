@@ -43,7 +43,7 @@ class EveryoneGroup
 	 * @access public
 	 */
 	function updateDescription ( $description ) {
-		throwError(new Error(AgentException::PERMISSION_DENIED(),"EveryoneGroup",true));
+		throwError(new HarmoniError(AgentException::PERMISSION_DENIED(),"EveryoneGroup",true));
 	}		
 
 	/**
@@ -69,7 +69,7 @@ class EveryoneGroup
 	 * @access public
 	 */
 	function add ( Agent $memberOrGroup ) { 
-		throwError(new Error(AgentException::PERMISSION_DENIED(),"EveryoneGroup",true));
+		throwError(new HarmoniError(AgentException::PERMISSION_DENIED(),"EveryoneGroup",true));
 	}
 
 	/**
@@ -93,7 +93,7 @@ class EveryoneGroup
 	 * 
 	 */
 	function attach( Agent $memberOrGroup) {
-		throwError(new Error(AgentException::PERMISSION_DENIED(),"EveryoneGroup",true));
+		throwError(new HarmoniError(AgentException::PERMISSION_DENIED(),"EveryoneGroup",true));
 	}
 	
 	/**
@@ -119,7 +119,7 @@ class EveryoneGroup
 	 * @access public
 	 */
 	function remove ( Agent $memberOrGroup ) {
-		throwError(new Error(AgentException::PERMISSION_DENIED(),"EveryoneGroup",true));
+		throwError(new HarmoniError(AgentException::PERMISSION_DENIED(),"EveryoneGroup",true));
 	}
 
 	

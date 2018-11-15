@@ -188,7 +188,7 @@ class Container extends Component /* implements ContainerInterface */ {
 		// ** end of parameter validation
 		
 		if (!in_array($placeholderId, $this->_placeholders))
-			throwError(new Error("Unknown placeholder id, '".$placeholderId."'.", "GUIManager"));
+			throwError(new HarmoniError("Unknown placeholder id, '".$placeholderId."'.", "GUIManager"));
 		
 		$constraint = array();
 		$constraint[0] = $width;

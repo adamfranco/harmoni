@@ -168,7 +168,7 @@ class HarmoniRecord
 			}
 		}
 		if (!$found) {
-			throwError(new Error(RepositoryException::UNKNOWN_ID().": $partID.", "HarmoniRecord", true));
+			throwError(new HarmoniError(RepositoryException::UNKNOWN_ID().": $partID.", "HarmoniRecord", true));
 		}
 		
 		$label = $schema->getFieldLabelFromID($id);
@@ -184,7 +184,7 @@ class HarmoniRecord
 			&& $this->_record->numValues($label) 
 			&& $this->_record->getValue($label)) {
 			
-			throwError(new Error(RepositoryException::PERMISSION_DENIED().": Can't add another field to a
+			throwError(new HarmoniError(RepositoryException::PERMISSION_DENIED().": Can't add another field to a
 			non-multi-valued part.", "HarmoniRecord", true));
 		
 		// If we dont' have an existing, deleted field to add to, create a new index.
@@ -238,7 +238,7 @@ class HarmoniRecord
 				$this->_record->commit(TRUE);
 			}
 		} else {
-			throwError(new Error(RepositoryException::UNKNOWN_ID().": $string", "HarmoniPart", true));
+			throwError(new HarmoniError(RepositoryException::UNKNOWN_ID().": $string", "HarmoniPart", true));
 		}
 		
 		$this->_asset->updateModificationDate();

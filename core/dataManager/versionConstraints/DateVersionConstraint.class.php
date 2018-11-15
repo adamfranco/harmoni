@@ -23,11 +23,11 @@ class DateVersionConstraint extends VersionConstraint {
 		$relative = strtotime($relativeDateString, $now);
 		
 		if ($relative === -1) {
-			throwError( new Error("DateVersionConstraint: the passed relative date string, '$relativeDateString', does not appear to be valid.","DateVersionConstraint",true));
+			throwError( new HarmoniError("DateVersionConstraint: the passed relative date string, '$relativeDateString', does not appear to be valid.","DateVersionConstraint",true));
 		}
 		
 		if ($relativeDateString >= $now) {
-			throwError( new Error("DateVersionConstraint: the specified relative date must be in the PAST.", "DateVersionConstraint", true));
+			throwError( new HarmoniError("DateVersionConstraint: the specified relative date must be in the PAST.", "DateVersionConstraint", true));
 		}
 		
 		$this->_cutoffDate = $relative;

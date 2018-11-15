@@ -184,7 +184,7 @@ class HarmoniRecordStructure
 						
 			// Check that the schema field exists
 			if (!$this->_schema->fieldExists($partId->getIdString()))
-				throwError(new Error(
+				throwError(new HarmoniError(
 					"Unknown PartStructure ID: ".$partId->getIdString(), 
 					"Repository", true));
 				
@@ -192,7 +192,7 @@ class HarmoniRecordStructure
 			
 			// Check that the schema field is active
 			if (!$schemaField->isActive())
-				throwError(new Error(
+				throwError(new HarmoniError(
 					"Unknown [Inactive] PartStructure ID: ".$partId->getIdString(), 
 					"Repository", true));
 			
@@ -432,7 +432,7 @@ class HarmoniRecordStructure
 			// check if this ID follows our Schema's ID
 			$id =$theid;
 			if (strpos($id->getIdString(), $this->_schema->getID()) != 0) {
-				throwError(new Error("Could not create PartStructure -- the passed ID does not conform to the Schema's internal ID: ".$this->_schema->getID(), "Repository", true));
+				throwError(new HarmoniError("Could not create PartStructure -- the passed ID does not conform to the Schema's internal ID: ".$this->_schema->getID(), "Repository", true));
 			}
 			
 			$label = str_replace($this->_schema->getID() . ".", "", $id->getIdString());
@@ -532,7 +532,7 @@ class HarmoniRecordStructure
 								
 								$newValueString = $newValue->asString();
 								if ($oldValueString != $newValueString) {
-									throwError(new Error("'$newValueString' should be equal to '$oldValueString'", "repository"));
+									throwError(new HarmoniError("'$newValueString' should be equal to '$oldValueString'", "repository"));
 								}
 							}
 						}
@@ -573,7 +573,7 @@ class HarmoniRecordStructure
 					SEARCH_TYPE_NOT_IN_LIST));
 		
 		if (count($recordIdsWithValues)) {
-			throwError(new Error(
+			throwError(new HarmoniError(
 				RepositoryException::OPERATION_FAILED()
 					." when deleting RecordStructure: '"
 					.$recordStructureId->getIdString()

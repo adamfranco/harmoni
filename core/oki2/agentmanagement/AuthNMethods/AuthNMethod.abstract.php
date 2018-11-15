@@ -100,7 +100,7 @@ class AuthNMethod {
 		if ($validatorRule->check($newTokens))
 			return $newTokens;
 		else
-			throwError( new Error("Configuration Error: tokens_class, '".$tokensClass."' does not extend AuthNTokens.",
+			throwError( new HarmoniError("Configuration Error: tokens_class, '".$tokensClass."' does not extend AuthNTokens.",
 									 "AuthNMethod", true));
 	}
 	
@@ -157,7 +157,7 @@ class AuthNMethod {
 	 * @since 3/1/05
 	 */
 	function authenticateTokens ( $authNTokens ) {
-		throwError( new Error("AuthNMethod::authenticate() should have been overridden in a child class.",
+		throwError( new HarmoniError("AuthNMethod::authenticate() should have been overridden in a child class.",
 									 "AuthNMethod", true));
 	}
 	
@@ -182,7 +182,7 @@ class AuthNMethod {
 	 * @since 3/1/05
 	 */
 	function tokensExist ( $authNTokens ) {
-		throwError( new Error("AuthNMethod::authenticate() should have been overridden in a child class.",
+		throwError( new HarmoniError("AuthNMethod::authenticate() should have been overridden in a child class.",
 									 "AuthNMethod", true));
 	}
 	
@@ -235,7 +235,7 @@ class AuthNMethod {
 	 * @since 3/1/05
 	 */
 	function _populateProperties ( $authNTokens, $properties ) {
-		throwError( new Error("AuthNMethod::_populateProperties() should have been overridden in a child class.",
+		throwError( new HarmoniError("AuthNMethod::_populateProperties() should have been overridden in a child class.",
 									 "AuthNMethod", true));
 	}
 	
@@ -256,7 +256,7 @@ class AuthNMethod {
 	 * @since 3/3/05
 	 */
 	function getTokensBySearch ( $searchString ) {
-		throwError( new Error("AuthNMethod::getTokensBySearch() should have been overridden in a child class.",
+		throwError( new HarmoniError("AuthNMethod::getTokensBySearch() should have been overridden in a child class.",
 									 "AuthNMethod", true));
 	}
 	
@@ -281,7 +281,7 @@ class AuthNMethod {
 	 * @since 3/1/05
 	 */
 	function addTokens ( $authNTokens ) {
-		throwError( new Error("AuthNMethod::addTokens() should have been overridden in a child class.",
+		throwError( new HarmoniError("AuthNMethod::addTokens() should have been overridden in a child class.",
 									 "AuthNMethod", true));
 	}
 	
@@ -306,7 +306,7 @@ class AuthNMethod {
 	 * @since 3/1/05
 	 */
 	function deleteTokens ( $authNTokens ) {
-		throwError( new Error("AuthNMethod::deleteTokens() should have been overridden in a child class.",
+		throwError( new HarmoniError("AuthNMethod::deleteTokens() should have been overridden in a child class.",
 									 "AuthNMethod", true));
 	}
 	
@@ -332,7 +332,7 @@ class AuthNMethod {
 	 * @since 3/1/05
 	 */
 	function updateTokens ( $oldAuthNTokens, $newAuthNTokens ) {
-		throwError( new Error("AuthNMethod::updateTokens() should have been overridden in a child class.",
+		throwError( new HarmoniError("AuthNMethod::updateTokens() should have been overridden in a child class.",
 									 "AuthNMethod", true));
 	}
 	
@@ -358,7 +358,7 @@ class AuthNMethod {
 	 * @since 3/1/05
 	 */
 	function updatePropertiesForTokens ( $authNTokens, $newProperties ) {
-		throwError( new Error("AuthNMethod::updateTokens() should have been overridden in a child class.",
+		throwError( new HarmoniError("AuthNMethod::updateTokens() should have been overridden in a child class.",
 									 "AuthNMethod", true));
 	}
 	

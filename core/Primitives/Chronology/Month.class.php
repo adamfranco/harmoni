@@ -64,7 +64,7 @@ class Month
 		
 		$errorString = $aNameString ." is not a recognized month name.";
 		if (function_exists('throwError'))
-			throwError(new Error($errorString));
+			throwError(new HarmoniError($errorString));
 		else
 			die ($errorString);
 	}
@@ -85,7 +85,7 @@ class Month
 		
 		$errorString = $anInteger ." is not a valid month index.";
 		if (function_exists('throwError'))
-			throwError(new Error($errorString));
+			throwError(new HarmoniError($errorString));
 		else
 			die ($errorString);
 	}
@@ -109,7 +109,7 @@ class Month
 		if ($index < 1 | $index > 12) {
 			$errorString = $index ." is not a valid month index.";
 			if (function_exists('throwError'))
-				throwError(new Error($errorString));
+				throwError(new HarmoniError($errorString));
 			else
 				die ($errorString);
 		}

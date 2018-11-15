@@ -179,7 +179,7 @@ class Schema extends SObject {
 		
 		// if we already have a field labeled $label we die
 		if (isset($this->_fields[$id]))
-			throwError( new Error("Already have a field with ID '$id' defined in Schema '".$this->getID()."'. If you feel this is in error, remember that previously deleted SchemaFields retain their id so as to avoid data fragmentation.","DataManager",true));
+			throwError( new HarmoniError("Already have a field with ID '$id' defined in Schema '".$this->getID()."'. If you feel this is in error, remember that previously deleted SchemaFields retain their id so as to avoid data fragmentation.","DataManager",true));
 		
 		// associate this field definition with this Schema
 		$field->associate($this);
@@ -195,13 +195,13 @@ class Schema extends SObject {
 	function load() {
 		// load our fields from the database
 		if ($this->loaded()) {
-//			throwError( new Error("Already loaded from the database for type ".HarmoniType::typeToString($this->_type).".","DataSetTypeDefinition",true));
+//			throwError( new HarmoniError("Already loaded from the database for type ".HarmoniType::typeToString($this->_type).".","DataSetTypeDefinition",true));
 			return true;
 		}
 
 		// attempt to get our ID from the SchemaManager
 		if (!$this->_isCreatedByManager) {
-			throwError( new Error("The Schema object of type '".HarmoniType::typeToString($this->_type)."'
+			throwError( new HarmoniError("The Schema object of type '".HarmoniType::typeToString($this->_type)."'
 				was not meant to interface with the database.","DataManager",true));
 			return false;
 		}
@@ -302,7 +302,7 @@ class Schema extends SObject {
 	function getFieldLabelFromID($id) {
 		$label = str_replace($this->getID() . ".", "", $id);
 		if (!isset($this->_fields[$id])) {
-			throwError(new Error("Schema::getFieldLabelFromID($id) - could not find a field corresponding to id.", "DataManager", true));
+			throwError(new HarmoniError("Schema::getFieldLabelFromID($id) - could not find a field corresponding to id.", "DataManager", true));
 		}
 		return $label;
 	}
@@ -316,7 +316,7 @@ class Schema extends SObject {
 	function getFieldIDFromLabel($label) {
 		$id = $this->getID() . "." . $label;
 		if (!isset($this->_fields[$id])) {
-			throwError(new Error("Schema::getFieldIDFromLabel($label) - could not find a field corresponding to label.", "DataManager", true));
+			throwError(new HarmoniError("Schema::getFieldIDFromLabel($label) - could not find a field corresponding to label.", "DataManager", true));
 		}
 		return $id;
 	}
@@ -366,7 +366,7 @@ class Schema extends SObject {
 	*/
 	function getField($id) {
 		if (!isset($this->_fields[$id])) {
-			throwError(new Error("I don't have a field id '$id'. I'm of type '".$this->getID()."'.","DataManager",true));
+			throwError(new HarmoniError("I don't have a field id '$id'. I'm of type '".$this->getID()."'.","DataManager",true));
 			return false;
 		}
 		

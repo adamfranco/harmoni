@@ -115,9 +115,9 @@ class HarmoniNodeTaggedItem
 		
 			// check for our parameters.
 			if (!$this->_config['HierarchyId'])
-				throwError(new Error("Invalid Configuration: Missing 'HierarchyId'", "Tagging"));
+				throwError(new HarmoniError("Invalid Configuration: Missing 'HierarchyId'", "Tagging"));
 			if (!$this->_config['UrlCallback'])
-				throwError(new Error("Invalid Configuration: Missing 'UrlCallback'", "Tagging"));
+				throwError(new HarmoniError("Invalid Configuration: Missing 'UrlCallback'", "Tagging"));
 		}
 	}
 	

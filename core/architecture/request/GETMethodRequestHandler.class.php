@@ -151,7 +151,7 @@ class GETMethodURLWriter
 	 */
 	function write(/* variable-length argument list*/) {
 		if (!defined("MYURL")) {
-			throwError( new Error("GETMethodURLWriter requires that 'MYURL' is defined and set to the full URL of the main index PHP script of this Harmoni program!", "GETMethodRequestHandler", true));
+			throwError( new HarmoniError("GETMethodURLWriter requires that 'MYURL' is defined and set to the full URL of the main index PHP script of this Harmoni program!", "GETMethodRequestHandler", true));
 		}
 		
 		$num = func_num_args();
@@ -174,7 +174,7 @@ class GETMethodURLWriter
 		$pairs[] = "action=".$this->_action;
 		foreach ($this->_vars as $key=>$val) {
 			if (is_object($val)) {
-				throwError( new Error("Expecting string for key '$key', got '$val'.", "GETMethodRequestHandler", true));
+				throwError( new HarmoniError("Expecting string for key '$key', got '$val'.", "GETMethodRequestHandler", true));
 			}
 			
 			// For multi-select form elements

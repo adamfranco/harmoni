@@ -270,9 +270,9 @@ class AuthZ2_Function
 		
 		$queryResult = $dbHandler->query($query, $this->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0)
-			throwError(new Error(AuthorizationExeption::OPERATION_FAILED(),"AuthorizationFunction",true));
+			throwError(new HarmoniError(AuthorizationExeption::OPERATION_FAILED(),"AuthorizationFunction",true));
 		if ($queryResult->getNumberOfRows() > 1)
-			throwError(new Error(AuthorizationExeption::OPERATION_FAILED() ,"AuthorizationFunction",true));
+			throwError(new HarmoniError(AuthorizationExeption::OPERATION_FAILED() ,"AuthorizationFunction",true));
 	}
 	
 	/**
@@ -321,9 +321,9 @@ class AuthZ2_Function
 		
 		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0)
-			throwError(new Error(AuthorizationExeption::OPERATION_FAILED(),"AuthorizationFunction",true));
+			throwError(new HarmoniError(AuthorizationExeption::OPERATION_FAILED(),"AuthorizationFunction",true));
 		if ($queryResult->getNumberOfRows() > 1)
-			throwError(new Error(AuthorizationExeption::OPERATION_FAILED() ,"AuthorizationFunction",true));
+			throwError(new HarmoniError(AuthorizationExeption::OPERATION_FAILED() ,"AuthorizationFunction",true));
 	}
 
 }

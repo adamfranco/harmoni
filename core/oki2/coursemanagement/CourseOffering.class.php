@@ -963,7 +963,7 @@ class HarmoniCourseOffering
 	* @access public
 	*/
 	function addStudent ( Id $agentId, Type $enrollmentStatusType ) {
-		throwError(new Error("addStudent() is not implemented for CourseOffering--it makes little sense", "CourseOffering", true));
+		throwError(new HarmoniError("addStudent() is not implemented for CourseOffering--it makes little sense", "CourseOffering", true));
 	}
 
 	/**
@@ -995,7 +995,7 @@ class HarmoniCourseOffering
 	* @access public
 	*/
 	function changeStudent ( Id $agentId, Type $enrollmentStatusType ) {
-		throwError(new Error("changeStudent() is not implemented for CourseOffering--it makes little sense", "CourseOffering", true));
+		throwError(new HarmoniError("changeStudent() is not implemented for CourseOffering--it makes little sense", "CourseOffering", true));
 	}
 
 	/**

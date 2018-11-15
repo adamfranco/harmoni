@@ -255,7 +255,7 @@ class AuthorizationCache {
 		$queryResult =$dbHandler->query($query, $this->_dbIndex);
 		if ($queryResult->getNumberOfRows() != 1) {
 			$err = "Could not insert into database.";
-			throwError(new Error($err, "authorizarion", true));
+			throwError(new HarmoniError($err, "authorizarion", true));
 		}
 
 		$this->_functions[$idValue] =$function;
@@ -643,7 +643,7 @@ class AuthorizationCache {
 		
 		if ($queryResult->getNumberOfRows() != 1) {
 			$err = "Zero or more than one Authorization were deleted (must have been exactly one).";
-			throwError(new Error($err, "authorizarion", true));
+			throwError(new HarmoniError($err, "authorizarion", true));
 		}
 		
 		// update cache
@@ -703,7 +703,7 @@ class AuthorizationCache {
 		
 		if ($queryResult->getNumberOfRows() != 1) {
 			$err = "Zero or more than one function were deleted (must have been exactly one).";
-			throwError(new Error($err, "authorizarion", true));
+			throwError(new HarmoniError($err, "authorizarion", true));
 		}
 		
 		// update cache

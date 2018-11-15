@@ -150,7 +150,7 @@ class HarmoniEntryIterator
      */
     function next () { 
        if (!$this->hasNext())
-	 		throwError(new Error(SharedException::NO_MORE_ITERATOR_ELEMENTS(),
+	 		throwError(new HarmoniError(SharedException::NO_MORE_ITERATOR_ELEMENTS(),
 	 			get_class($this), true));
 		
 		if (!isset($this->_entries[$this->_current]))
@@ -169,7 +169,7 @@ class HarmoniEntryIterator
 	 */
 	function skipNext() {
 // 		if (!$this->hasNext())
-// 			throwError(new Error(SharedException::NO_MORE_ITERATOR_ELEMENTS(),
+// 			throwError(new HarmoniError(SharedException::NO_MORE_ITERATOR_ELEMENTS(),
 // 				get_class($this), true));
 // 		
 // 		$this->_current++;

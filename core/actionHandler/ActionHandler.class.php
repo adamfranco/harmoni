@@ -180,7 +180,7 @@ class ActionHandler extends EventTrigger {
 			return;
 			throw new UnknownActionException("ActionHandler::forward($module, $action) - could not proceed. The action does not seem to be valid.");
 		}
-		throwError( new Error("ActionHandler::forward($module, $action) - could not proceed. The ActionHandler is not currently executing any actions.","ActionHandler",true));
+		throwError( new HarmoniError("ActionHandler::forward($module, $action) - could not proceed. The ActionHandler is not currently executing any actions.","ActionHandler",true));
 	}
 	
 	/**
@@ -325,7 +325,7 @@ class ActionHandler extends EventTrigger {
 	function setModulesLocation($location, $type, $fileExtension=null) {
 		// if $type=MODULES_CLASSES and $fileExtension is not set, throw an error
 		if ($type==MODULES_CLASSES && !$fileExtension) {
-			throwError(new Error("ActionHandler::setModulesLocation($location) - could not proceed: with \$type = MODULES_CLASSES you must specify the 3rd argument 'fileExtension'!","ActionHandler",true));
+			throwError(new HarmoniError("ActionHandler::setModulesLocation($location) - could not proceed: with \$type = MODULES_CLASSES you must specify the 3rd argument 'fileExtension'!","ActionHandler",true));
 			return false;
 		}
 		
@@ -355,7 +355,7 @@ class ActionHandler extends EventTrigger {
 	function setActionsType($type, $fileExtension=null) {
 		// we need a fileExtension for FLATFILES and CLASSES
 		if (($type == ACTIONS_FLATFILES || $type == ACTIONS_CLASSES) && !$fileExtension) {
-			throwError(new Error("ActionHandler::setActionsType - since \$type = ACTIONS_FLATFILE or ACTIONS_CLASSES, you must pass 2nd argument 'fileExtension'!","ActionHandler",true));
+			throwError(new HarmoniError("ActionHandler::setActionsType - since \$type = ACTIONS_FLATFILE or ACTIONS_CLASSES, you must pass 2nd argument 'fileExtension'!","ActionHandler",true));
 			return false;
 		}
 		
@@ -425,14 +425,14 @@ class ActionHandler extends EventTrigger {
 		
 		// lets make sure they're not creating a circular loop
 		if (($action == $actionOnFail) || ($action == $actionOnSuccess)) {
-			throwError ( new Error("ActionHandler::setActionThread($action) - you may not
+			throwError ( new HarmoniError("ActionHandler::setActionThread($action) - you may not
 			specify an action on fail or succeed to forward to the same action.","ActionHandler",true));
 		}
 		
 		// ok, now check if we've already defined a thread for $action.
 		// if so, throw a WARNING
 		if (isset($this->_threads[$action]))
-			throwError(new Error("WARNING: An action thread for '$action' has already been defined! New thread will override the old one!","ActionHandler",false));
+			throwError(new HarmoniError("WARNING: An action thread for '$action' has already been defined! New thread will override the old one!","ActionHandler",false));
 		
 		// ok, let's do the dirty
 		$this->_threads[$action] = array($actionOnFail,$actionOnSuccess);

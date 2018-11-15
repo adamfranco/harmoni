@@ -230,7 +230,7 @@ class PathInfoURLWriter
 	 */
 	function write(/* variable-length argument list*/) {
 		if (!defined("MYURL")) {
-			throwError( new Error("PathInfoURLWriter requires that 'MYURL' is defined and set to the full URL of the main index PHP script of this Harmoni program!", "PathInfoURLWriter", true));
+			throwError( new HarmoniError("PathInfoURLWriter requires that 'MYURL' is defined and set to the full URL of the main index PHP script of this Harmoni program!", "PathInfoURLWriter", true));
 		}
 		
 		$num = func_num_args();

@@ -1496,7 +1496,7 @@ class AuthZ2_AuthorizationManager
 		
 		if ($implicitAuthorization->isExplicit()) {
 			// "The Authorization must be implicit."
-			throwError(new Error(AuthorizationExeption::OPERATION_FAILED(), "AuthorizationManager", true));
+			throwError(new HarmoniError(AuthorizationExeption::OPERATION_FAILED(), "AuthorizationManager", true));
 		}
 		
 		return new HarmoniIterator(array($implicitAuthorization->getExplicitAZ()));

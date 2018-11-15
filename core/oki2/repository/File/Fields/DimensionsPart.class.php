@@ -166,7 +166,7 @@ class DimensionsPart
 	 */
 	function createPart(Id $partStructuretId, $value) {
 		throwError(
-			new Error(UNIMPLEMENTED, "HarmoniPart", true));
+			new HarmoniError(UNIMPLEMENTED, "HarmoniPart", true));
 	}
 
 	/**
@@ -193,7 +193,7 @@ class DimensionsPart
 	 */
 	function deletePart(Id $partId) {
 		throwError(
-			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
+			new HarmoniError(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
 	}
 
 	/**
@@ -217,7 +217,7 @@ class DimensionsPart
 	 */
 	function getParts() {
 		throwError(
-			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
+			new HarmoniError(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
 	}
 
 	/**

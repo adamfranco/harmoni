@@ -91,7 +91,7 @@ class StyleProperty extends StylePropertyInterface {
 	 */
 	function setId ($id) {
 		if (!is_object($id))
-			throwError(new Error("GUIMANAGER", "STRING ID PASSED"));
+			throwError(new HarmoniError("GUIMANAGER", "STRING ID PASSED"));
 		$this->_id =$id;
 	}
 	

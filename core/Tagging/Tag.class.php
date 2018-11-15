@@ -528,7 +528,7 @@ class Tag {
 		else if (method_exists($items, 'getDatabaseId')) {
 			$itemDbIds[] = "'".addslashes($items->getDatabaseId())."'";
 		} else {
-			throwError(new Error("Invalid parameter, $items, for \$items", "Tagging"));
+			throwError(new HarmoniError("Invalid parameter, $items, for \$items", "Tagging"));
 		}
 		
 		$query = new DeleteQuery;
@@ -572,7 +572,7 @@ class Tag {
 		else if (method_exists($items, 'getDatabaseId')) {
 			$itemDbIds[] = "'".addslashes($items->getDatabaseId())."'";
 		} else {
-			throwError(new Error("Invalid parameter, $items, for \$items", "Tagging"));
+			throwError(new HarmoniError("Invalid parameter, $items, for \$items", "Tagging"));
 		}
 		
 		$query = new DeleteQuery;

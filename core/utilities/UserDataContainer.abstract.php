@@ -29,7 +29,7 @@ class UserDataContainer extends DataContainer {
 		// first check if this is a valid field.
 		if (!in_array($field,$this->_ruleSet->getKeys())) {
 			// no good
-			throwError( new Error(get_class($this)." - can not set key '$field' because it is not a valid key!","UserDataContainer",true));
+			throwError( new HarmoniError(get_class($this)." - can not set key '$field' because it is not a valid key!","UserDataContainer",true));
 			return false;
 		}
 		if ($this->_ruleSet->validate($field, $val)) {

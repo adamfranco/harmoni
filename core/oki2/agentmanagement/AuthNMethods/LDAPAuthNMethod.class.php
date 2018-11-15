@@ -62,7 +62,7 @@ class LDAPAuthNMethod
 		if ($validatorRule->check($newTokens))
 			return $newTokens;
 		else
-			throwError( new Error("Configuration Error: tokens_class, '".$tokensClass."' does not extend UsernamePasswordAuthNTokens.",
+			throwError( new HarmoniError("Configuration Error: tokens_class, '".$tokensClass."' does not extend UsernamePasswordAuthNTokens.",
 									 "LDAPAuthNMethod", true));
 		
 	}

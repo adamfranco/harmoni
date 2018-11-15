@@ -50,7 +50,7 @@ class Cache {
 		$eval = '$bool = isset($cache'.$string.');';
 		eval($eval);
 		if ($bool) {
-			throwError( new Error(
+			throwError( new HarmoniError(
 				"Cache - an item with identifyer <b>".implode(":",$displayParts)."</b> is already stored!","Cache",true));
 		}
 		
@@ -101,7 +101,7 @@ class Cache {
 		eval($eval);
 		
 		if (!$bool) {
-			throwError( new Error(
+			throwError( new HarmoniError(
 				"Cache - no item with identifyer <b>".implode(":",$displayParts)."</b> is stored!","Cache",true));
 		}
 		

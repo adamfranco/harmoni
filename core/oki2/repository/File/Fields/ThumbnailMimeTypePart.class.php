@@ -144,7 +144,7 @@ class ThumbnailMimeTypePart
 	 */
 	function createPart(Id $partStructureId, $value) {
 		throwError(
-			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
+			new HarmoniError(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
 	}
 
 	/**
@@ -171,7 +171,7 @@ class ThumbnailMimeTypePart
 	 */
 	function deletePart(Id $partId) {
 		throwError(
-			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
+			new HarmoniError(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
 	}
 
 	/**
@@ -195,7 +195,7 @@ class ThumbnailMimeTypePart
 	 */
 	function getParts() {
 		throwError(
-			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
+			new HarmoniError(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
 	}
 
 	

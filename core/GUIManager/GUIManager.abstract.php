@@ -86,7 +86,7 @@ END;
 			// we got something else back... well, let's print out an error
 			// explaining what happened.
 			$type = gettype($content);
-			throwError(new Error("Harmoni::execute() - The result returned from action '$pair' was unexpected. Expecting a Layout
+			throwError(new HarmoniError("Harmoni::execute() - The result returned from action '$pair' was unexpected. Expecting a Layout
 					object, but got a variable of type '$type'.","Harmoni",true));
 		}
 	}

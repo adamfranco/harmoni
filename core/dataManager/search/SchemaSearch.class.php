@@ -22,7 +22,7 @@ class SchemaSearch extends SearchCriteria {
 	 */
 	function SchemaSearch( $id ) {
 		throwError(
-			new Error(
+			new HarmoniError(
 				"SchemaSearch has been deprecated. Use RecordManager::getRecordIDsByType().",
 				"RecordManager",
 				true

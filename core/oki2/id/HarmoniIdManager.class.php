@@ -201,7 +201,7 @@ class HarmoniIdManager
 			
 			$result =$dbHandler->query($query,$this->_dbIndex);
 			if ($result->getNumberOfRows() != 1) {
-				throwError( new Error(IdException::CONFIGURATION_ERROR(), "IdManager", true));
+				throwError( new HarmoniError(IdException::CONFIGURATION_ERROR(), "IdManager", true));
 			}
 			
 			$newID = $result->getLastAutoIncrementValue();

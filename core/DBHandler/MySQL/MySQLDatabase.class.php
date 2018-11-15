@@ -290,7 +290,7 @@ class MySQLDatabase
 
 		// if query was unsuccessful, return a null QueryResult object
 //		if ($resourceId === false)
-//			throwError( new Error("The query had errors: \n".$queryString, "DBHandler", true));
+//			throwError( new HarmoniError("The query had errors: \n".$queryString, "DBHandler", true));
 //
 		// create the appropriate QueryResult object
 		switch($query->getType()) {
