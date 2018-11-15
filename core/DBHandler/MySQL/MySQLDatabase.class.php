@@ -74,11 +74,11 @@ class MySQLDatabase
 	 * Stores the current connection's link identifier.
 	 * If a connection is open, this stores the connection's identifier. Otherwise,
 	 * it stores FALSE.
-	 * @var mixed $_linkId If a connection is open, this stores the connection's identifier. Otherwise,
+	 * @var mixed $_link If a connection is open, this stores the connection's identifier. Otherwise,
 	 * it stores FALSE.
 	 * @access private
 	 */ 
-	var $_linkId;
+	var $_link;
 	
 	/**
 	 * Persistant connections can not be closed or have a new link forced, so
@@ -138,7 +138,7 @@ class MySQLDatabase
 		$this->_dbName = $dbName;
 		$this->_dbUser = $dbUser;
 		$this->_dbPass = $dbPass;
-	    $this->_linkId = false;
+	    $this->_link = false;
 	    $this->_isConnectionPersistant = NULL;
 	    $this->_successfulQueries = 0;
 	    $this->_failedQueries = 0;
@@ -192,25 +192,19 @@ class MySQLDatabase
 		// The final TRUE parameter forces a new connection, preventing the need
 		// for calling mysql_select_db() before every query to ensure the proper
 		// database is selected
-		$linkId = mysql_connect($this->_dbHost, $this->_dbUser, $this->_dbPass, true);
+		$link = mysqli_connect($this->_dbHost, $this->_dbUser, $this->_dbPass, $this->_dbName);
 		$this->_isConnectionPersistant = false;
 		
 		// see if successful
-		if ($linkId) {
+		if ($link) {
 			// reset the query counters
 		    $this->_successfulQueries = 0;
 		    $this->_failedQueries = 0;
-		
-			// attempt to select the default database;
-			// if failure, not a big deal, because at this point we are connected
-			if (!mysql_select_db($this->_dbName, $linkId))
-				throw new ConnectionDatabaseException($this->getConnectionErrorInfo()."Cannot select database, ".$this->_dbName." : ".mysql_error($linkId));
-
-		    $this->_linkId = $linkId;
-			return $linkId;
+		    $this->_link = $link;
+			return $link;
 		}
 		else {
-			$this->_linkId = false;
+			$this->_link = false;
 			
 			throw new ConnectionDatabaseException($this->getConnectionErrorInfo()."Cannot connect to database.");
 
@@ -230,27 +224,21 @@ class MySQLDatabase
 		if ($this->isConnected()) $this->disconnect();
 		
 		// attempt to connect
-		$linkId = mysql_pconnect($this->_dbHost, $this->_dbUser, $this->_dbPass);
+		$link = mysqli_connect('p:'.$this->_dbHost, $this->_dbUser, $this->_dbPass, $this->_dbName);
 		$this->_isConnectionPersistant = true;
 		
 		// see if successful
-		if ($linkId) {
+		if ($link) {
 			// reset the query counters
 		    $this->_successfulQueries = 0;
 		    $this->_failedQueries = 0;
-
-			// attempt to select the default database;
-			// if failure, not a big deal, because at this point we are connected
-			if (!mysql_select_db($this->_dbName, $linkId))
-				throw new ConnectionDatabaseException($this->getConnectionErrorInfo()."Cannot select database, ".$this->_dbName." : ".mysql_error($linkId));
-
-		    $this->_linkId = $linkId;
-			return $linkId;
+		    $this->_link = $link;
+			return $link;
 		}
 		else {
-			$this->_linkId = false;
+			$this->_link = false;
 			
-			throw new ConnectionDatabaseException($this->getConnectionErrorInfo()."Cannot connect to database: ".mysql_error());
+			throw new ConnectionDatabaseException($this->getConnectionErrorInfo()."Cannot connect to database.");
 		    
 			return false;						
 		}
@@ -295,19 +283,19 @@ class MySQLDatabase
 		// create the appropriate QueryResult object
 		switch($query->getType()) {
 			case INSERT : 
-				$result = new MySQLInsertQueryResult($this->_linkId);
+				$result = new MySQLInsertQueryResult($this->_link);
 				break;
 			case UPDATE : 
-				$result = new MySQLUpdateQueryResult($this->_linkId);
+				$result = new MySQLUpdateQueryResult($this->_link);
 				break;
 			case DELETE : 
-				$result = new MySQLDeleteQueryResult($this->_linkId);
+				$result = new MySQLDeleteQueryResult($this->_link);
 				break;
 			case SELECT : 
-				$result = new MySQLSelectQueryResult($resourceId, $this->_linkId);
+				$result = new MySQLSelectQueryResult($resourceId, $this->_link);
 				break;
 			case GENERIC : 
-				$result = new MySQLGenericQueryResult($resourceId, $this->_linkId);
+				$result = new MySQLGenericQueryResult($resourceId, $this->_link);
 				break;
 			default:
 				throw new DatabaseException("Unsupported query type.");
@@ -349,43 +337,37 @@ class MySQLDatabase
 		else if (is_string($query))
 		    $queries = array($query);
 		
-		// If we have a persistant connection, it might be shared with other
-		// databases, so make sure our database is selected.
-		if ($this->_isConnectionPersistant == true) {
-			if (!mysql_select_db($this->_dbName, $this->_linkId))
-				throw new ConnectionDatabaseException("Cannot select database, ".$this->_dbName." : ".mysql_error($this->_linkId));
-		}
-		
 		foreach ($queries as $q) {
 			// attempt to execute the query
-			$resourceId = mysql_query($q, $this->_linkId);
+      
+			$resourceId = mysqli_query($this->_link, $q);
 			
 			debug::output("<pre>Query: <div>".$query."</div>Result: $resourceId</pre>", 1, "DBHandler");
 		
 			if ($resourceId === false) {
 				$this->_failedQueries++;
 				
-				switch (mysql_errno($this->_linkId)) {
+				switch (mysqli_errno($this->_link)) {
 					// No Such Table
 					case 1146:
 					case 1177:
-						throw new NoSuchTableDatabaseException("MySQL Error: ".mysql_error($this->_linkId), mysql_errno($this->_linkId));
+						throw new NoSuchTableDatabaseException("MySQL Error: ".mysqli_error($this->_link), mysqli_errno($this->_link));
 					
 					// Duplicate Key
 					case 1022:
 					case 1062:
-						throw new DuplicateKeyDatabaseException("MySQL Error: ".mysql_error($this->_linkId), mysql_errno($this->_linkId));
+						throw new DuplicateKeyDatabaseException("MySQL Error: ".mysqli_error($this->_link), mysqli_errno($this->_link));
 					
 					// max_allowed_packet
 					case 1153: // Got a packet bigger than 'max_allowed_packet' bytes
 					case 1162: // Result string is longer than 'max_allowed_packet' bytes
 					case 1301: // Result of %s() was larger than max_allowed_packet (%ld) - truncated
 						$size = ByteSize::withValue(strlen($query));
-						throw new QuerySizeDatabaseException("MySQL Error: ".mysql_error($this->_linkId)." (Query Size: ".$size->asString().")", mysql_errno($this->_linkId));
+						throw new QuerySizeDatabaseException("MySQL Error: ".mysqli_error($this->_link)." (Query Size: ".$size->asString().")", mysqli_errno($this->_link));
 					
 					
 					default:
-						throw new QueryDatabaseException("MySQL Error: ".mysql_error($this->_linkId), mysql_errno($this->_linkId));	
+						throw new QueryDatabaseException("MySQL Error: ".mysqli_error($this->_link), mysqli_errno($this->_link));	
 				}
 			}
 			else
@@ -409,9 +391,9 @@ class MySQLDatabase
 			return false;
 			
 		// attempt to disconnect
-		$isSuccessful = mysql_close($this->_linkId);
+		$isSuccessful = mysqli_close($this->_link);
 		if ($isSuccessful) {
-			$this->_linkId = false;
+			$this->_link = false;
 			$this->_isConnectionPersistant = NULL;
 		}
 		
@@ -427,7 +409,7 @@ class MySQLDatabase
 	 * @return boolean True if there is an open connection to the database; False, otherwise.
 	 */
 	function isConnected() {
-		$isConnected = ($this->_linkId !== false);
+		$isConnected = ($this->_link !== false);
 		return $isConnected;
 	}
 
@@ -472,7 +454,7 @@ class MySQLDatabase
 		// ** end of parameter validation
 	
 		$this->_dbName = $database;
-		return mysql_select_db($database, $this->_linkId);
+		return mysqli_select_db($database, $this->_link);
 	}
 
 
@@ -550,7 +532,7 @@ class MySQLDatabase
 	 */
 	function supportsTransactions () {
 		if ($this->_supportsTransactions == NULL) {
-			$versionString = mysql_get_server_info($this->_linkId);
+			$versionString = mysqli_get_server_info($this->_link);
 			if(!preg_match("/^([0-9]+).([0-9]+).([0-9]+)/", $versionString, $matches))
 				$this->_supportsTransactions = FALSE;
 			else {
