@@ -92,7 +92,7 @@ class Integer
 			$obj = Integer::withValue($this->value() + $aNumber->value());
 			return $obj;
 		} else {
-			$obj = Float::withValue($this->value() + $aNumber->value());
+			$obj = HarmoniFloat::withValue($this->value() + $aNumber->value());
 			return $obj;
 		}
 	}
@@ -112,31 +112,31 @@ class Integer
 			$obj = Integer::withValue($this->value() * $aNumber->value());
 			return $obj;
 		} else {
-			$obj = Float::withValue($this->value() * $aNumber->value());
+			$obj = HarmoniFloat::withValue($this->value() * $aNumber->value());
 			return $obj;
 		}
 	}
-	
+
 	/**
 	 * Answer the result of dividing the receiver and aNumber.
-	 * 
+	 *
 	 * @param object Number $aNumber
 	 * @return object Number
 	 * @access public
 	 * @since 7/14/05
 	 */
 	function dividedBy ( $aNumber ) {
-		$obj = Float::withValue($this->value() / $aNumber->value());
+		$obj = HarmoniFloat::withValue($this->value() / $aNumber->value());
 		return $obj;
 	}
-	
+
 /*********************************************************
  * Instance Methods - Private
  *********************************************************/
-	
+
 	/**
 	 * Set the internal value to a PHP primitive.
-	 * 
+	 *
 	 * @param mixed $value
 	 * @return void
 	 * @access private

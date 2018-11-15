@@ -660,6 +660,6 @@ class StorableTime
 	 */
 	function asAFloat () {
 		$tstamp =$this->asTimestamp();
-		return Float::withValue($tstamp->asUnixTimeStamp());
+		return HarmoniFloat::withValue($tstamp->asUnixTimeStamp());
 	}
 }

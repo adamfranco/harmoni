@@ -186,7 +186,7 @@ abstract class StorableStringAbstract
 	 * @since 6/9/06
 	 */
 	function asAFloat () {
-		return Float::fromString($this->asString());
+		return HarmoniFloat::fromString($this->asString());
 	}
 	
 }

@@ -212,7 +212,7 @@ class StorableBoolean
 	 * @since 6/9/06
 	 */
 	function asAFloat () {
-		return Float::withValue($this->getValue()?1:0);
+		return HarmoniFloat::withValue($this->getValue()?1:0);
 	}
 	
 	/**

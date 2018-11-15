@@ -342,7 +342,7 @@ abstract class Number
  	 * @since 7/14/05
  	 */
  	function asFloat () {
- 		$obj = Float::withValue(floatval($this->value()));
+ 		$obj = HarmoniFloat::withValue(floatval($this->value()));
  		return $obj;
  	}
  	
