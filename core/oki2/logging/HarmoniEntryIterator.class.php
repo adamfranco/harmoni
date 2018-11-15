@@ -44,7 +44,7 @@ class HarmoniEntryIterator
 	 * @access public
 	 * @since 3/1/06
 	 */
-	function HarmoniEntryIterator ( $logName, $formatType, $priorityType, $dbIndex ) {
+	function __construct ( $logName, $formatType, $priorityType, $dbIndex ) {
 		$this->_logName = $logName;
 		$this->_formatType =$formatType;
 		$this->_priorityType =$priorityType;

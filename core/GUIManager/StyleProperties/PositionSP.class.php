@@ -28,8 +28,8 @@ class PositionSP extends StyleProperty {
 	 * @access public
 	 * @param string value The value of the position.
 	 **/
-	function PositionSP($value) {
-		$this->StyleProperty("position", "Position", "This property specifies the position.");
+	function __construct($value) {
+		parent::__construct("position", "Position", "This property specifies the position.");
 		if (!is_null($value)) $this->addSC(new PositionSC($value));
 	}
 

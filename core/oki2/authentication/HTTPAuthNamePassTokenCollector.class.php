@@ -33,7 +33,7 @@ class HTTPAuthNamePassTokenCollector
 	 * @access public
 	 * @since 8/7/06
 	 */
-	function HTTPAuthNamePassTokenCollector ($relm = null, $cancelFunction = null) 
+	function __construct ($relm = null, $cancelFunction = null) 
 	{
 		if (is_null($relm))
 			$this->relm = "Harmoni-protected Realm";

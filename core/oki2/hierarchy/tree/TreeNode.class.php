@@ -50,7 +50,7 @@ class TreeNode extends TreeNodeInterface
 	 *
 	 * @param string $id The id of this Node.
 	 */
-	function TreeNode($id) {
+	function __construct($id) {
 		// ** parameter validation
 		$stringRule = StringValidatorRule::getRule();
 		ArgumentValidator::validate($id, $stringRule, true);

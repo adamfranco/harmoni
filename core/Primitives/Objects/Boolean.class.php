@@ -80,7 +80,7 @@ class Boolean
  * Instance Methods
  *********************************************************/
 
-	function Boolean($value=true) {
+	function __construct($value=true) {
 		$this->_bool = (bool) $value;
 	}
 	

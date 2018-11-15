@@ -31,7 +31,7 @@ class HarmoniTestId
 	 * @param string $id The desired id. If NULL, a new unique id is used.
 	 *
 	 */
-	function HarmoniTestId ( $id = NULL ) {
+	function __construct ( $id = NULL ) {
 		if ($id != NULL) {
 			// use this id
 			ArgumentValidator::validate($id, StringValidatorRule::getRule());

@@ -25,7 +25,7 @@ class YLayout extends LayoutInterface {
 	 * The constructor.
 	 * @access public
 	 **/
-	function YLayout() {
+	function __construct() {
 		$this->_renderDirection ='Left-Right/Top-Bottom';
 	}
 	

@@ -33,7 +33,7 @@ class AssetTypeSearch
 	 * @access public
 	 * @since 11/2/04
 	 */
-	function AssetTypeSearch ( $dr ) {
+	function __construct ( $dr ) {
 		$this->_dr =$dr;
 	}
 	

@@ -28,8 +28,8 @@ class LeftSP extends StyleProperty {
 	 * @access public
 	 * @param string length The distance of from the left of the block .
 	 **/
-	function LeftSP($length) {
-		$this->StyleProperty("left", "left", "This property specifies the distance from the left.");
+	function __construct($length) {
+		parent::__construct("left", "left", "This property specifies the distance from the left.");
 		if (!is_null($length)) $this->addSC(new AutoLengthSC($length));
 	}
 

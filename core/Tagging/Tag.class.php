@@ -34,7 +34,7 @@ class Tag {
 	 * @access public
 	 * @since 11/6/06
 	 */
-	function Tag ($value) {
+	function __construct ($value) {
 						// remove any trailing underbars
 		$this->_value = trim(
 						// use only one underbar at a time

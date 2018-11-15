@@ -43,7 +43,7 @@ class HarmoniRecord
 	 */
 	private $manager;
 	
-	function HarmoniRecord(RepositoryManager $manager, RecordStructure $recordStructure, DMRecord $record, Asset $asset ) {
+	function __construct(RepositoryManager $manager, RecordStructure $recordStructure, DMRecord $record, Asset $asset ) {
 		$this->manager = $manager;
 		$this->_record=$record;
 		$this->_recordStructure =$recordStructure;

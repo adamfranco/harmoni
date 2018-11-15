@@ -28,7 +28,7 @@ class ZIndexSC extends StyleComponent {
 	 * @param string value The value to assign to this SC.
 	 * @access public
 	 **/
-	function ZIndexSC($value) {
+	function __construct($value) {
 		$options = array("auto");
 	
 		$errDescription = "Could not validate the z-index StyleComponent value \"%s\". ";
@@ -41,7 +41,7 @@ class ZIndexSC extends StyleComponent {
 		$description = "Specifies the z-index. Allowed values are: ".implode(", ", $options).".
 						or a specific integer value.";
 		
-		$this->StyleComponent($value, $rule, $options, false, $errDescription, $displayName, $description);
+		parent::__construct($value, $rule, $options, false, $errDescription, $displayName, $description);
 	}
 		
 }

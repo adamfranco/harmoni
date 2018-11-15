@@ -24,7 +24,7 @@ class KeywordSearch
 	 * @access public
 	 * @since 11/2/04
 	 */
-	function KeywordSearch ( $dr ) {
+	function __construct ( $dr ) {
 		$this->_dr =$dr;
 	}
 	

@@ -28,8 +28,8 @@ class TextDecorationSP extends StyleProperty {
 	 * @access public
 	 * @param string value The value specifies the text-decoration property.
 	 **/
-	function TextDecorationSP($value) {
-		$this->StyleProperty("text-decoration", "Text Decoration", "This property specifies the text decoration.");
+	function __construct($value) {
+		parent::__construct("text-decoration", "Text Decoration", "This property specifies the text decoration.");
 		if (!is_null($value)) $this->addSC(new TextDecorationSC($value));
 	}
 

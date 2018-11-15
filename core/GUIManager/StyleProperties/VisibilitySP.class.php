@@ -28,8 +28,8 @@ class VisibilitySP extends StyleProperty {
 	 * @access public
 	 * @param string length The length of margin.
 	 **/
-	function VisibilitySP($value) {
-		$this->StyleProperty("visibility", "Visibility", "This property specifies the visibility.");
+	function __construct($value) {
+		parent::__construct("visibility", "Visibility", "This property specifies the visibility.");
 		if (!is_null($value)) $this->addSC(new VisibilitySC($value));
 	}
 

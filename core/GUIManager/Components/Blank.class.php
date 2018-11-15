@@ -33,7 +33,7 @@ class Blank extends Component {
 	 * result in copying the objects instead of referencing them as using
 	 * <code>addStyle()</code> would do.
 	 **/
-	function Blank($index = null) {
+	function __construct($index = null) {
 		if (is_null($index))
 			$index = 1;
 		parent::__construct(null, BLANK, $index);

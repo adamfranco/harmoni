@@ -51,7 +51,7 @@ class OrderedSet
 	 * Constructor.
 	 * @param object Id $setId The Id of this set.
 	 */
-	function OrderedSet ( $setId ) {
+	function __construct ( $setId ) {
 		ArgumentValidator::validate($setId, ExtendsValidatorRule::getRule("Id"), true);
 		
 		// Create our internal array

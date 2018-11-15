@@ -28,8 +28,8 @@ class TextAlignSP extends StyleProperty {
 	 * @access public
 	 * @param string value The value: left, center, right, justify.
 	 **/
-	function TextAlignSP($value) {
-		$this->StyleProperty("text-align", "Text Alignment", "This property specifies the text alignment.");
+	function __construct($value) {
+		parent::__construct("text-align", "Text Alignment", "This property specifies the text alignment.");
 		if (!is_null($value)) $this->addSC(new TextAlignSC($value));
 	}
 

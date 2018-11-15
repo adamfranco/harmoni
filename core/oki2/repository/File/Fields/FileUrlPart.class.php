@@ -28,7 +28,7 @@ class FileUrlPart
 	var $_partStructure;
 	var $_value;
 	
-	function FileUrlPart( $partStructure, $recordId, $configuration, $asset ) {
+	function __construct( $partStructure, $recordId, $configuration, $asset ) {
 		$this->_recordId =$recordId;
 		$this->_partStructure =$partStructure;
 		$this->_configuration =$configuration;

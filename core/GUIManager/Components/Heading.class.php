@@ -36,12 +36,12 @@ class Heading extends Component {
 	 * result in copying the objects instead of referencing them as using
 	 * <code>addStyle()</code> would do.
 	 **/
-	function Heading($content, $index) {
+	function __construct($content, $index) {
 		// ** parameter validation
 		ArgumentValidator::validate($content, StringValidatorRule::getRule(), true);
 		// ** end of parameter validation	
 
-		$this->Component($content, HEADING, $index);
+		parent::__construct($content, HEADING, $index);
 		
 		// if there are style collections to add
 		if (func_num_args() > 2)

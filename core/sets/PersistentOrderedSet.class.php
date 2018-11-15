@@ -32,8 +32,8 @@ class PersistentOrderedSet
  	 * @param integer $dbIndex The index of the database connection which has
 	 * 		tables in which to store the set.
 	 */
-	function PersistentOrderedSet ( $setId, $dbIndex ) {
-		parent::OrderedSet($setId);
+	function __construct ( $setId, $dbIndex ) {
+		parent::__construct($setId);
 		
 		ArgumentValidator::validate($dbIndex, IntegerValidatorRule::getRule(), true);
 		

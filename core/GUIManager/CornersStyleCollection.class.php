@@ -58,8 +58,8 @@ class CornersStyleCollection
 	 * @param string displayName The display name of this StyleCollection.
 	 * @param string description The description of this StyleCollection.
 	 **/
-	function CornersStyleCollection($selector, $classSelector, $displayName, $description) {
-		$this->StyleCollection($selector, $classSelector, $displayName, $description);
+	function __construct($selector, $classSelector, $displayName, $description) {
+		parent::__construct($selector, $classSelector, $displayName, $description);
 		$this->_positions = array("TopLeft", "TopRight", "BottomLeft", "BottomRight");
 		$this->_urls = array();
 	}

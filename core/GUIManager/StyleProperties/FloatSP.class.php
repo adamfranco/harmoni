@@ -28,8 +28,8 @@ class FloatSP extends StyleProperty {
 	 * @access public
 	 * @param string value The value of float.
 	 **/
-	function FloatSP($value) {
-		$this->StyleProperty("float", "Float", "This property specifies the float value.");
+	function __construct($value) {
+		parent::__construct("float", "Float", "This property specifies the float value.");
 		if (!is_null($value)) $this->addSC(new FloatSC($value));
 	}
 

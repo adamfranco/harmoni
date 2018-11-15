@@ -31,11 +31,6 @@ class PostgreSQLSelectQueryResultTestCase extends UnitTestCase {
 	// Resource id
 	var $rid;
 	
-	function PostgreSQLSelectQueryResultTestCase()
-	{
-		$this->UnitTestCase();	
-	} 
-	
 	/**
 	 * Sets up unit test wide variables at the start
 	 *       of each test method.

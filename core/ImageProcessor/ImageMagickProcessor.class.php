@@ -26,7 +26,7 @@ class ImageMagickProcessor {
 	 * @access public
 	 * @since 10/22/04
 	 */
-	function ImageMagickProcessor ($thumbnailFormat, $ImageMagickPath = "/usr/bin", 
+	function __construct ($thumbnailFormat, $ImageMagickPath = "/usr/bin", 
 			$ImageMagickTempDir = "/tmp") 
 	{
 		$this->_thumbnailFormat = $thumbnailFormat;

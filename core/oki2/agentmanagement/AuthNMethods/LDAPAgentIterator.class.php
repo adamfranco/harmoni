@@ -53,7 +53,7 @@ class LDAPAgentIterator
 	 * @access public
 	 * @since 8/30/05
 	 */
-	function LDAPAgentIterator ( $authNMethod, $agents, $dns = array() ) {
+	function __construct ( $authNMethod, $agents, $dns = array() ) {
 		
 		// determine the count (if we are passed dns, or just a poplulated $agents array)
 		if (count($dns) > count($agents))

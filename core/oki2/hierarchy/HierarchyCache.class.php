@@ -2068,7 +2068,7 @@ class HierarchyCache {
 		$this->_cache = null;
 		unset($this->_tree);
 		unset($this->_cache);
-		$this->HierarchyCache($this->_hierarchyId, $this->_allowsMultipleParents,
+		$this->__construct($this->_hierarchyId, $this->_allowsMultipleParents,
 							  $this->_dbIndex);
 	}
 	

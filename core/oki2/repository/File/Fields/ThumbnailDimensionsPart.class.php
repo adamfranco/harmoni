@@ -38,10 +38,10 @@ class ThumbnailDimensionsPart
 	 * @access public
 	 * @since 10/17/05
 	 */
-	function ThumbnailDimensionsPart ( $partStructure, $recordId, 
+	function __construct ( $partStructure, $recordId, 
 		$configuration, $record, $asset ) 
 	{
-		$this->DimensionsPart($partStructure, $recordId, $configuration, $record, $asset);
+		parent::__construct($partStructure, $recordId, $configuration, $record, $asset);
 		
 		$this->_table = "dr_thumbnail";
 		$this->_idColumn = "fk_file";

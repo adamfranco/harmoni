@@ -27,8 +27,8 @@ require_once(HARMONI."GUIManager/Theme.class.php");
 		
 		var $manager;
 
-		function GUIManagerTestCase() {
-			$this->UnitTestCase();
+		function __construct() {
+			parent::__construct();
 		}
 	
 		/**

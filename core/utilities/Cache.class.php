@@ -24,7 +24,7 @@ unset($_temp);
  */
 class Cache {
 
-	function Cache() {
+	function __construct() {
 		die("<b>Cache is a static class - it should not be instantiated!</b>");
 	}
 	

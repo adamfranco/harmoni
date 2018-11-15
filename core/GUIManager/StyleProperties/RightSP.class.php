@@ -28,8 +28,8 @@ class RightSP extends StyleProperty {
 	 * @access public
 	 * @param string length The distance of from the right of the block .
 	 **/
-	function RightSP($length) {
-		$this->StyleProperty("right", "right", "This property specifies the distance from the right.");
+	function __construct($length) {
+		parent::__construct("right", "right", "This property specifies the distance from the right.");
 		if (!is_null($length)) $this->addSC(new AutoLengthSC($length));
 	}
 

@@ -40,7 +40,7 @@ class FromNodesAssetIterator
 	 * @access public
 	 * @since 5/4/06
 	 */
-	function FromNodesAssetIterator ( $nodes, $repository ) {
+	function __construct ( $nodes, $repository ) {
 // 		ArgumentValidator::validate($nodes, ExtendsValidatorRule::getRule("Iterator"));
 		ArgumentValidator::validate($repository, ExtendsValidatorRule::getRule("Repository"));
 		

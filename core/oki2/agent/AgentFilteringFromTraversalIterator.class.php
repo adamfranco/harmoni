@@ -57,7 +57,7 @@ class AgentFilteringFromTraversalIterator
 	 * @access public
 	 * @since 8/30/05
 	 */
-	function AgentFilteringFromTraversalIterator ( $traversalInfoIterator ) {
+	function __construct ( $traversalInfoIterator ) {
 		$this->_traversalInfoIterator =$traversalInfoIterator;
 		$this->_idsToIgnore = array();
 		

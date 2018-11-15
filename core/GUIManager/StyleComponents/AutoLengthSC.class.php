@@ -29,7 +29,7 @@ class AutoLengthSC extends StyleComponent {
 	 * @param string value The value to assign to this SC.
 	 * @access public
 	 **/
-	function AutoLengthSC($value) {
+	function __construct($value) {
 		$options = array("auto");
 
 		$errDescription = "Could not validate the AutoLength StyleComponent value \"%s\".
@@ -44,7 +44,7 @@ class AutoLengthSC extends StyleComponent {
 						".implode(", ", $options).", or a specific value 
 						(a length value, i.e. px, in, %, etc.).";
 		
-		$this->StyleComponent($value, $rule, $options, false, $errDescription, $displayName, $description);
+		parent::__construct($value, $rule, $options, false, $errDescription, $displayName, $description);
 	}
 }
 ?>

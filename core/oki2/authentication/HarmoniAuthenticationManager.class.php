@@ -74,7 +74,7 @@ class HarmoniAuthenticationManager
 	 * Constructor. Ititializes the availible AuthenticationTypes and results.
 	 * @return void
 	 */
-	function HarmoniAuthenticationManager () {
+	function __construct () {
 		if (!isset($_SESSION['__AuthenticatedAgents']) || !is_array($_SESSION['__AuthenticatedAgents'])) {
 			$_SESSION['__AuthenticatedAgents'] = array();
 		}

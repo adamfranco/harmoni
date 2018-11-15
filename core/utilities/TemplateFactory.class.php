@@ -14,7 +14,7 @@ require_once(HARMONI."utilities/Template.class.php");
 class TemplateFactory {
 	var $_paths;
 	var $_ext="";
-	function TemplateFactory($searchPath1) {
+	function __construct($searchPath1) {
 		if (!func_num_args()) {
 			throwError(new HarmoniError("TemplateFactory - you must specify at least one search path.","TemplateFactory",true));
 		}

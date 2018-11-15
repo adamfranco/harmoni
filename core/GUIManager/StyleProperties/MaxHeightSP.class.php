@@ -28,8 +28,8 @@ class MaxHeightSP extends StyleProperty {
 	 * @access public
 	 * @param string value The value of the dimension.
 	 **/
-	function MaxHeightSP($value) {
-		$this->StyleProperty("max-height", "Maximum Height", "This property specifies the maximum height.");
+	function __construct($value) {
+		parent::__construct("max-height", "Maximum Height", "This property specifies the maximum height.");
 		if (!is_null($value)) $this->addSC(new MaxDimensionSC($value));
 	}
 

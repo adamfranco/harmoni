@@ -30,7 +30,7 @@ class RegexValidatorRule
 	 * @access public
 	 * @return void 
 	 **/
-	function RegexValidatorRule( $regex ) {
+	function __construct( $regex ) {
 		$this->_regex = $regex;
 	}
 	

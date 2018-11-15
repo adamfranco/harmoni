@@ -28,7 +28,7 @@ class ThumbnailDataPartStructure
 
 	var $_recordStructure;
 	
-	function ThumbnailDataPartStructure($recordStructure) {
+	function __construct($recordStructure) {
 		$this->_recordStructure =$recordStructure;
 	}
 	

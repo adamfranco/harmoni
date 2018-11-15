@@ -30,7 +30,7 @@ class ArrayValidatorRuleWithRule
 	 * @access public
 	 * @return void 
 	 **/
-	function ArrayValidatorRuleWithRule( $rule ) {
+	function __construct( $rule ) {
 		$this->_rule =  $rule;
 	}
 	

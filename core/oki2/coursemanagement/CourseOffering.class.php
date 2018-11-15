@@ -61,7 +61,7 @@ class HarmoniCourseOffering
 	* @access public
 	* @return void
 	*/
-	function HarmoniCourseOffering($id, $node)
+	function __construct($id, $node)
 	{
 		$this->_id =$id;
 		$this->_node =$node;

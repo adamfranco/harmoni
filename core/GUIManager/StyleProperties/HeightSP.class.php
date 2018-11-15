@@ -28,8 +28,8 @@ class HeightSP extends StyleProperty {
 	 * @access public
 	 * @param string length The length of margin.
 	 **/
-	function HeightSP($length) {
-		$this->StyleProperty("height", "Height", "This property specifies the height.");
+	function __construct($length) {
+		parent::__construct("height", "Height", "This property specifies the height.");
 		if (!is_null($length)) $this->addSC(new AutoLengthSC($length));
 	}
 

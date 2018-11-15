@@ -25,7 +25,7 @@ class RecordManager {
 	
 	var $_cacheMode;
 	
-	function RecordManager() {
+	function __construct() {
 		$this->_recordCache = array();
 		$this->_recordSetCache = array();
 		$this->_cacheMode = true;

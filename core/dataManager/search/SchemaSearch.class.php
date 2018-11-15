@@ -20,7 +20,7 @@ class SchemaSearch extends SearchCriteria {
 	 * The constructor.
 	 * @param string $id The id that describes the {@link Schema}.
 	 */
-	function SchemaSearch( $id ) {
+	function __construct( $id ) {
 		throwError(
 			new HarmoniError(
 				"SchemaSearch has been deprecated. Use RecordManager::getRecordIDsByType().",

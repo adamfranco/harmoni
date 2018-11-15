@@ -42,7 +42,7 @@ class FlatFileActionSource extends ActionSource{
 	 * @return void
 	 * @access public
 	 */
-	function FlatFileActionSource($basePath, $fileExtension=".php") {
+	function __construct($basePath, $fileExtension=".php") {
 //		$this->_basePath = preg_replace('#'.DIRECTORY_SEPARATOR."$#", "", $basePath);
 		$this->_basePath = $basePath;
 		$this->_fileExtension = $fileExtension;

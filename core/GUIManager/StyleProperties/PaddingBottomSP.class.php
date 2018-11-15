@@ -28,8 +28,8 @@ class PaddingBottomSP extends StyleProperty {
 	 * @access public
 	 * @param string length The length of padding.
 	 **/
-	function PaddingBottomSP($length) {
-		$this->StyleProperty("padding-bottom", "Bottom Padding", "This property specifies the bottom padding.");
+	function __construct($length) {
+		parent::__construct("padding-bottom", "Bottom Padding", "This property specifies the bottom padding.");
 		if (!is_null($length)) $this->addSC(new LengthSC($length));
 	}
 

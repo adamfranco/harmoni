@@ -43,7 +43,7 @@ class AuthNTokens {
 	 * @access public
 	 * @since 3/1/05
 	 */
-	function AuthNTokens ( $configuration ) {
+	function __construct ( $configuration ) {
 		$this->_configuration =$configuration;
 	}
 	

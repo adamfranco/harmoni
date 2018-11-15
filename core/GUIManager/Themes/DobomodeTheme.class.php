@@ -69,8 +69,8 @@ class DobomodeTheme extends MenuThemeAbstract {
 	 * here.
 	 * @access public
 	 **/
-	function DobomodeTheme() {
-		$this->Theme("Dobomode Theme", "The Dobomode Theme by Dobo Radichkov. Visit <a href=\"http://www.dobomode.com\">www.dobomode.com</a> for more information.");
+	function __construct() {
+		parent::__construct("Dobomode Theme", "The Dobomode Theme by Dobo Radichkov. Visit <a href=\"http://www.dobomode.com\">www.dobomode.com</a> for more information.");
 
 		// Add some global styles
 

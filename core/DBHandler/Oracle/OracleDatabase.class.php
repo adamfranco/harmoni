@@ -98,7 +98,7 @@ class OracleDatabase
 	 * @return integer $dbIndex The index of the new database
 	 * @access public
 	 */
-	function OracleDatabase($dbName, $dbUser, $dbPass) {
+	function __construct($dbName, $dbUser, $dbPass) {
 		// ** parameter validation
 		$stringRule = StringValidatorRule::getRule();
 		//ArgumentValidator::validate($dbHost, $stringRule, true);

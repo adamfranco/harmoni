@@ -33,7 +33,7 @@ class LDAPAuthNTokens
 	 * @access public
 	 * @since 3/4/05
 	 */
-	function LDAPAuthNTokens (  $configuration  ) {
+	function __construct (  $configuration  ) {
 		$par = get_parent_class($this);
 		parent::$par($configuration);
 		

@@ -28,8 +28,8 @@ class MarginBottomSP extends StyleProperty {
 	 * @access public
 	 * @param string length The length of margin.
 	 **/
-	function MarginBottomSP($length) {
-		$this->StyleProperty("margin-bottom", "Bottom Margin", "This property specifies the bottom margin.");
+	function __construct($length) {
+		parent::__construct("margin-bottom", "Bottom Margin", "This property specifies the bottom margin.");
 		if (!is_null($length)) $this->addSC(new LengthSC($length));
 	}
 

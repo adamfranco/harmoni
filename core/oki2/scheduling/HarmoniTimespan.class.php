@@ -41,7 +41,7 @@ class HarmoniTimespan
 	 * @access public
 	 * @return void
 	 */
-	function HarmoniTimespan($start, $end)
+	function __construct($start, $end)
 	{
 		
 		if($start>$end){

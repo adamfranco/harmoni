@@ -30,7 +30,7 @@ class DimensionsPartStructure
 	var $_partStructure;
 	var $_idString;
 	
-	function DimensionsPartStructure($partStructure, $idString) {
+	function __construct($partStructure, $idString) {
 		$this->_partStructure =$partStructure;
 		$this->_idString = $idString;
 	}

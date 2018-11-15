@@ -35,7 +35,7 @@ class ClassMethodsActionSource extends ActionSource{
 	 * @return void
 	 * @access public
 	 */
-	function ClassMethodsActionSource($basePath, $fileExtension) {
+	function __construct($basePath, $fileExtension) {
 		$this->_basePath = preg__replace('#'.DIRECTORY_SEPARATOR."$#", "", $basePath);
 		$this->_fileExtension = $fileExtension;
 	}

@@ -65,7 +65,7 @@ class HarmoniHierarchy
 	 * one that all other nodes in the Hierarchy are using.
 	 * @access public
 	 */
-	function HarmoniHierarchy(Id $id, $displayName, $description, HierarchyCache $cache) {
+	function __construct(Id $id, $displayName, $description, HierarchyCache $cache) {
 		// ** parameter validation
 		ArgumentValidator::validate($displayName, StringValidatorRule::getRule(), true);
 		ArgumentValidator::validate($description, StringValidatorRule::getRule(), true);

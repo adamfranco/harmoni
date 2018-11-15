@@ -134,7 +134,7 @@ class ActionHandler extends EventTrigger {
 	 * @access public
 	 * @return void
 	 **/
-	function ActionHandler() {
+	function __construct() {
 		$this->_actionsExecuted = array();
 		$this->_threads = array();
 		$this->_actionSources = array();

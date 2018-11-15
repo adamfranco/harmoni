@@ -39,7 +39,7 @@ class FontWeightSC extends StyleComponent {
 	 * @param string value The value to assign to this SC.
 	 * @access public
 	 **/
-	function FontWeightSC($value=null) {
+	function __construct($value=null) {
 		$options = array("100", "200", "300", "400", "500", 
 		                 "600", "700", "800", "900", "normal", 
 						 "bold", "lighter", "bolder");
@@ -52,7 +52,7 @@ class FontWeightSC extends StyleComponent {
 		$description = "Specifies the font weight (thickness). Allowed values are: ".implode(", ", $options).".";
 		
 		$rule = RegexValidatorRule::getRuleByArray($options);
-		$this->StyleComponent($value, $rule, $options, true, $errDescription, $displayName, $description);
+		parent::__construct($value, $rule, $options, true, $errDescription, $displayName, $description);
 	}
 }
 ?>

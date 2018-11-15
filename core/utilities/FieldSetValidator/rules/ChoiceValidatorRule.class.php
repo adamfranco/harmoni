@@ -31,7 +31,7 @@ class ChoiceValidatorRule
 	 * @access public
 	 * @return void 
 	 **/
-	function ChoiceValidatorRule() {
+	function __construct() {
 		$a = func_get_args();
 		$choices = array();
 		foreach ($a as $c) {

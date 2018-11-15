@@ -28,8 +28,8 @@ class PaddingSP extends StyleProperty {
 	 * @access public
 	 * @param string length The length of padding.
 	 **/
-	function PaddingSP($length) {
-		$this->StyleProperty("padding", "Padding", "This property specifies the four paddings at the same time.");
+	function __construct($length) {
+		parent::__construct("padding", "Padding", "This property specifies the four paddings at the same time.");
 		if (!is_null($length)) $this->addSC(new LengthSC($length));
 	}
 

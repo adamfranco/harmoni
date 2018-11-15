@@ -14,7 +14,7 @@ class Blob
 	extends HarmoniString 
 {
 
-	function Blob($string="") {
+	function __construct($string="") {
 		$this->_string = $string;
 	}
 	

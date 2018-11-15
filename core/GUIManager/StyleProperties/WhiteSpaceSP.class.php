@@ -28,8 +28,8 @@ class WhiteSpaceSP extends StyleProperty {
 	 * @access public
 	 * @param string value The value of the white space.
 	 **/
-	function WhiteSpaceSP($value) {
-		$this->StyleProperty("white-space", "White Space", "This property specifies the white space.");
+	function __construct($value) {
+		parent::__construct("white-space", "White Space", "This property specifies the white space.");
 		if (!is_null($value)) $this->addSC(new WhiteSpaceSC($value));
 	}
 

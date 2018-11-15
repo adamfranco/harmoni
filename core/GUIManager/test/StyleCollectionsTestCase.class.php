@@ -26,8 +26,8 @@ require_once(HARMONI."GUIManager/StyleProperties/BorderSP.class.php");
 
     class StyleCollectionsTestCase extends UnitTestCase {
 		
-		function StyleCollectionsTestCase() {
-			$this->UnitTestCase();
+		function __construct() {
+			parent::__construct();
 		}
 	
 		/**

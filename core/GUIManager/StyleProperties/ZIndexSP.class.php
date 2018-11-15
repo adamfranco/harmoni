@@ -28,8 +28,8 @@ class ZIndexSP extends StyleProperty {
 	 * @access public
 	 * @param string value The integer value of the z-index property.
 	 **/
-	function ZIndexSP($value) {
-		$this->StyleProperty("z-index", "Z-Index", "This property specifies the z-index.");
+	function __construct($value) {
+		parent::__construct("z-index", "Z-Index", "This property specifies the z-index.");
 		if (!is_null($value)) $this->addSC(new ZIndexSC($value));
 	}
 

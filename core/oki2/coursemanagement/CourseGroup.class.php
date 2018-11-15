@@ -35,7 +35,7 @@ class HarmoniCourseGroup
 	 * @param object Node $id
 	 * @return void
 	 */
-	function HarmoniCourseGroup($node)
+	function __construct($node)
 	{		
 		$this->_node =$node;	
 	}

@@ -23,7 +23,7 @@ class SchemaManager {
 	* @param array $preloadTypes An array containing a number of {@link Schema} type IDs to
 	* pre-load structure data for. This will avoid queries later on.
 	*/
-	function SchemaManager( $preloadTypes ) {
+	function __construct( $preloadTypes ) {
 		$this->_schemas = array();
 		
 		// talk to the DB

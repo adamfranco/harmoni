@@ -42,7 +42,7 @@ class HarmoniGradableObject
 	 * @access public
 	 * @return void
 	 */
-	function HarmoniGradableObject($id)
+	function __construct($id)
 	{
 		$this->_id =$id;
 		$this->_table = 'gr_gradable';

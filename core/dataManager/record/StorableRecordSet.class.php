@@ -19,8 +19,8 @@ class StorableRecordSet extends RecordSet {
 	var $_fetchMode;
 	var $_myID;
 	
-	function StorableRecordSet($id) {
-		parent::RecordSet();
+	function __construct($id) {
+		parent::__construct();
 		$this->_myID = $id;
 		
 		$this->_fetchMode = -1;

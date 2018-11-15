@@ -29,7 +29,7 @@ class FileSizePart
 	var $_partStructure;
 	var $_size;
 	
-	function FileSizePart( $partStructure, $recordId, $configuration, $asset ) {
+	function __construct( $partStructure, $recordId, $configuration, $asset ) {
 		$this->_recordId =$recordId;
 		$this->_partStructure =$partStructure;
 		$this->_configuration = $configuration;

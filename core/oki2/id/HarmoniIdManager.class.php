@@ -69,7 +69,7 @@ class HarmoniIdManager
 	 * Constructor. Set up any database connections needed.
 	 * @param integer dbIndex The database connection as returned by the DBHandler.
 	 */
-	function HarmoniIdManager() {		
+	function __construct() {		
 		// initialize cache
 		$this->_ids = array();
 		$this->_prefix = '';

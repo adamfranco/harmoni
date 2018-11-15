@@ -71,7 +71,7 @@ class InsertQuery
 	 * This is the constructor for a MySQL INSERT query.
 	 * @access public
 	 */
-	function InsertQuery() {
+	function __construct() {
 		$this->reset();
 	}
 	

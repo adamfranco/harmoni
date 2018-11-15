@@ -28,8 +28,8 @@ class FontSizeSP extends StyleProperty {
 	 * @access public
 	 * @param string size The font size.
 	 **/
-	function FontSizeSP($size) {
-		$this->StyleProperty("font-size", "Font Size", "This property sets the current font size.");
+	function __construct($size) {
+		parent::__construct("font-size", "Font Size", "This property sets the current font size.");
 
 		if (!is_null($size)) $this->addSC(new FontSizeSC($size));
 	}

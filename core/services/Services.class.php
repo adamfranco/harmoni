@@ -34,7 +34,7 @@ class Services extends ServicesAbstract {
 	 * @access public
 	 * @return void
 	 **/
-	function Services() {
+	function __construct() {
 		$this->_services = array();
 		$this->_aliases = array();
 	}

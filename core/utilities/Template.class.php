@@ -30,7 +30,7 @@ class Template {
 	 * @access public
 	 * @return void
 	 **/
-	function Template($file, $searchPaths=null) {
+	function __construct($file, $searchPaths=null) {
 		$fullPath = null;
 		if (file_exists($file)) $fullPath = $file;
 		else {

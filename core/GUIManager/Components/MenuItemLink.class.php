@@ -84,7 +84,7 @@ class MenuItemLink extends Component /* implements MenuItemInterface */ {
 	 * @param string toolTip The toolTip of this menu item.
 	 * @access public
 	 **/
-	function MenuItemLink($displayName, $url, $selected, $index, $target = null, $accessKey = null, $toolTip = null) {
+	function __construct($displayName, $url, $selected, $index, $target = null, $accessKey = null, $toolTip = null) {
 		// ** parameter validation
 		$rule = StringValidatorRule::getRule();
 		$optionalRule = OptionalRule::getRule($rule);
@@ -106,7 +106,7 @@ class MenuItemLink extends Component /* implements MenuItemInterface */ {
 		
 		$type = ($selected) ? MENU_ITEM_LINK_SELECTED : MENU_ITEM_LINK_UNSELECTED;
 
-		$this->Component(null, $type, $index);
+		parent::__construct(null, $type, $index);
 	}
 
 	/**

@@ -42,7 +42,7 @@ class GenericSQLQuery
 	 * This is the constructor for a GenericSQLQuery object.
 	 * @access public
 	 */
-	function GenericSQLQuery($sql=null) {
+	function __construct($sql=null) {
 		$this->reset();
 		if ($sql) 
 			$this->addSQLQuery($sql);

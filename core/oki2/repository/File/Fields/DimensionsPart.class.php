@@ -42,7 +42,7 @@ class DimensionsPart
 	 * @access public
 	 * @since 10/17/05
 	 */
-	function DimensionsPart( $partStructure, $recordId, $configuration, $record, $asset ) {
+	function __construct( $partStructure, $recordId, $configuration, $record, $asset ) {
 		$this->_recordId =$recordId;
 		$this->_partStructure =$partStructure;
 		$this->_configuration =$configuration;

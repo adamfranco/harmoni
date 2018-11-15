@@ -24,7 +24,7 @@ class DataTypeManager {
 	var $_registeredTypes;
 	var $_primitiveClassMapping;
 	
-	function DataTypeManager() {
+	function __construct() {
 		$this->_registeredTypes = array();
 		$this->_primitiveClassMapping = array();
 		

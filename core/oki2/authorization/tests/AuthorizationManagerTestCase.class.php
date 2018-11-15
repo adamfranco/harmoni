@@ -32,11 +32,6 @@ class DoboTemp {
 
 class HarmoniAuthorizationManagerTestCase extends UnitTestCase {
 
-
-	function HarmoniAuthorizationManagerTestCase() {
-		$this->UnitTestCase();
-	}
-
 	/**
 	 *	  Sets up unit test wide variables at the start
 	 *	  of each test method.

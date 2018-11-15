@@ -31,8 +31,8 @@ class BorderTopSP extends StyleProperty {
 	 * @param string style The style of the border.
 	 * @param string color The color of the border.
 	 **/
-	function BorderTopSP($width, $style, $color) {
-		$this->StyleProperty("border-top", "Top Border", "This property specifies the top border.");
+	function __construct($width, $style, $color) {
+		parent::__construct("border-top", "Top Border", "This property specifies the top border.");
 		if (!is_null($width)) $this->addSC(new LengthSC($width));
 		if (!is_null($style)) $this->addSC(new BorderStyleSC($style));
 		if (!is_null($color)) $this->addSC(new ColorSC($color));

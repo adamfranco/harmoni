@@ -107,7 +107,7 @@ class StyleComponent extends StyleComponentInterface {
 	 * @param string description The description of the SC.
 	 * @access public
 	 **/
-	function StyleComponent($value, $rule, $options, $limitedToOptions, $errorDescription, $displayName, $description) {
+	function __construct($value, $rule, $options, $limitedToOptions, $errorDescription, $displayName, $description) {
 		if (isset($rule)&&!is_null($rule)){
 			$this->_rule =$rule;
 		}else{

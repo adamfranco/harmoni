@@ -45,7 +45,7 @@ class LanguageLocalizer {
 	 * @return void
 	 * @todo -cLanguageLocalizer Implement LanguageLocalizer.constructor - use gettext functionality.
 	 **/
-	function LanguageLocalizer() {
+	function __construct() {
 	
 		// Get the current Language encoding from the session if it exists.
 		if (isset($_SESSION['__CurrentLanguageCodeset'])) {

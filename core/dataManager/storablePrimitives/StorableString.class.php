@@ -116,7 +116,7 @@ class StorableString
 		$this->_string = (string) $value;
 	}
 	
-	function StorableString() {
+	function __construct() {
 		$this->_table = "dm_string";
 	}
 		

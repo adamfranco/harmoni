@@ -35,7 +35,7 @@ class ImageProcessor {
 	 * @access public
 	 * @since 10/22/04
 	 */
-	function ImageProcessor () {}
+	function __construct () {}
 	
 	/**
 	 * Assign the configuration of this Manager. Valid configuration options are as

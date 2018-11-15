@@ -28,8 +28,8 @@ class MinWidthSP extends StyleProperty {
 	 * @access public
 	 * @param string value The value of the dimension.
 	 **/
-	function MinWidthSP($value) {
-		$this->StyleProperty("min-width", "Minimum Width", "This property specifies the minimum width.");
+	function __construct($value) {
+		parent::__construct("min-width", "Minimum Width", "This property specifies the minimum width.");
 		if (!is_null($value)) $this->addSC(new MaxDimensionSC($value));
 	}
 

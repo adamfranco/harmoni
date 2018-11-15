@@ -33,7 +33,7 @@ class RecordFieldValue {
 	
 	var $_id;
 	
-	function RecordFieldValue ($parent, $myIndex) {
+	function __construct ($parent, $myIndex) {
 		$this->_parent =$parent;
 		$this->_numVersions = 0;
 		$this->_myIndex = $myIndex;

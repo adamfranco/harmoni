@@ -18,7 +18,7 @@ class DateVersionConstraint extends VersionConstraint {
 	
 	var $_cutoffDate;
 	
-	function DateVersionConstraint( $relativeDateString ) {
+	function __construct( $relativeDateString ) {
 		$now = time();
 		$relative = strtotime($relativeDateString, $now);
 		

@@ -49,8 +49,8 @@ class RemoteFileRecord
 	 * @access public
 	 * @since 12/5/06
 	 */
-	function RemoteFileRecord ( $recordStructure, $id, $configuration, $asset ) {
-		$this->FileRecord($recordStructure, $id, $configuration, $asset);
+	function __construct ( $recordStructure, $id, $configuration, $asset ) {
+		parent::__construct($recordStructure, $id, $configuration, $asset);
 		
 		unset($this->_parts['FILE_DATA'], $this->_parts['FILE_SIZE']);
 		

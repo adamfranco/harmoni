@@ -32,7 +32,7 @@ class TaggedItemIterator
 	 * @access public
 	 * @since 11/8/06
 	 */
-	function TaggedItemIterator ( $result ) {
+	function __construct ( $result ) {
 		$this->_result =$result;
 	}
 	

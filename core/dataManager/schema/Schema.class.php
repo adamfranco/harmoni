@@ -41,7 +41,7 @@ class Schema extends SObject {
 	 * @param optional string $description A description.
 	 * @param optional mixed $otherParameters Other parameters to associated with this Schema. Can be anything. 
 	 */
-	function Schema($id, $displayName, $revision=1, $description="", $otherParameters=null) {
+	function __construct($id, $displayName, $revision=1, $description="", $otherParameters=null) {
 		$this->_id = $id;
 		$this->_displayName = $displayName;
 		$this->_revision = $revision;

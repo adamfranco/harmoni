@@ -17,10 +17,6 @@ require_once(HARMONI."utilities/ArgumentRenderer.class.php");
 
     class ArgumentRendererTestCase extends UnitTestCase {
 	
-		function ServicesTestCase() {
-			$this->UnitTestCase();
-		}
-	
 		/**
 		*  Sets up unit test wide variables at the start
 		*    of each test method.

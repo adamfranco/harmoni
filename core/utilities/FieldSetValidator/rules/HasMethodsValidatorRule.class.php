@@ -30,7 +30,7 @@ class HasMethodsValidatorRule
 	 * @param optional string $methodName2 specify as man additional strings as needed.
 	 * @return void 
 	 **/
-	function HasMethodsValidatorRule($methodName) {
+	function __construct($methodName) {
 		$this->_methods = func_get_args();		
 	}
 	

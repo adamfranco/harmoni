@@ -36,7 +36,7 @@ class LDAPGroup
 	 * @access public
 	 * @since 2/24/06
 	 */
-	function LDAPGroup ( $idString, $type, $configuration, $authNMethod ) {
+	function __construct ( $idString, $type, $configuration, $authNMethod ) {
 		ArgumentValidator::validate($idString, StringValidatorRule::getRule(), true);
 		ArgumentValidator::validate($type, 
 			ExtendsValidatorRule::getRule("Type"), true);

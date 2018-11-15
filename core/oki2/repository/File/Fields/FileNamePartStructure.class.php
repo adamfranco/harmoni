@@ -28,7 +28,7 @@ class FileNamePartStructure
 
 	var $_partStructure;
 	
-	function FileNamePartStructure($recordStructure) {
+	function __construct($recordStructure) {
 		$this->_recordStructure =$recordStructure;
 	}
 	

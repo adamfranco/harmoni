@@ -30,7 +30,7 @@ class TextSpacingSC extends StyleComponent {
 	 * @param string value The value to assign to this SC.
 	 * @access public
 	 **/
-	function TextSpacingSC($value) {
+	function __construct($value) {
 		$options = array("normal");
 
 		$errDescription = "Could not validate the text-spacing StyleComponent value \"%s\".
@@ -45,7 +45,7 @@ class TextSpacingSC extends StyleComponent {
   					    or a specific distance value (in length units, i.e. px,
 						in, etc. but NOT %).";
 		
-		$this->StyleComponent($value, $rule, $options, false, $errDescription, $displayName, $description);
+		parent::__construct($value, $rule, $options, false, $errDescription, $displayName, $description);
 	}
 }
 

@@ -27,8 +27,8 @@ class BottomSP extends StyleProperty {
 	 * @access public
 	 * @param string length The distance of from the bottom of the block .
 	 **/
-	function BottomSP($length) {
-		$this->StyleProperty("bottom", "bottom", "This property specifies the distance from the bottom.");
+	function __construct($length) {
+		parent::__construct("bottom", "bottom", "This property specifies the distance from the bottom.");
 		if (!is_null($length)) $this->addSC(new AutoLengthSC($length));
 	}
 

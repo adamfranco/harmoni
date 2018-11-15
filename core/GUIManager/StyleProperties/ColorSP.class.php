@@ -28,8 +28,8 @@ class ColorSP extends StyleProperty {
 	 * @access public
 	 * @param string value The HTML color value for this SP.
 	 **/
-	function ColorSP($value) {
-		$this->StyleProperty("color", "Color", "This property specifies the foreground color.");
+	function __construct($value) {
+		parent::__construct("color", "Color", "This property specifies the foreground color.");
 		if (!is_null($value)) $this->addSC(new ColorSC($value));
 	}
 

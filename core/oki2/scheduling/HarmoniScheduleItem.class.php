@@ -45,7 +45,7 @@ class HarmoniScheduleItem
 	 * @access public
 	 * @return void
 	 */
-	function HarmoniScheduleItem($id)
+	function __construct($id)
 	{
 		
 		

@@ -23,7 +23,7 @@ class HarmoniConfig extends DataContainer {
      * @access public 
      * @return void 
      */
-    function HarmoniConfig()
+    function __construct()
     { 
         // initialize the data container
         $this -> init(); 

@@ -39,7 +39,7 @@ class FieldSetValidator {
 	 * @access public
 	 * @return void 
 	 **/
-	function FieldSetValidator( $fieldset, $ruleset ) {
+	function __construct( $fieldset, $ruleset ) {
 		$this->_fieldset =  $fieldset;
 		$this->_ruleset =  $ruleset;
 	}
@@ -105,4 +105,3 @@ class FieldSetValidator {
 	}
 	
 }
-

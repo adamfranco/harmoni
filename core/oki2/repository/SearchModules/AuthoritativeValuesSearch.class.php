@@ -34,7 +34,7 @@ class AuthoritativeValuesSearch
 	 * @access public
 	 * @since 11/2/04
 	 */
-	function AuthoritativeValuesSearch ( $repository ) {
+	function __construct ( $repository ) {
 		$this->_repository =$repository;
 	}
 	

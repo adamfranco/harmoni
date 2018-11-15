@@ -55,7 +55,7 @@ class HarmoniCourseSection
 	 * @access public
 	 * @return void
 	 */
-	function HarmoniCourseSection($id, $node)
+	function __construct($id, $node)
 	{
 		$this->_id =$id;
 		$this->_node =$node;

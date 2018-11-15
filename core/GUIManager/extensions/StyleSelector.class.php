@@ -44,7 +44,7 @@ class StyleSelector extends StyleSelectorInterface {
 	 * @access public
 	 * @param string value The value of the selector.
 	 **/
-	function StyleSelector($value) {
+	function __construct($value) {
 		$this->_value = $value;
 	}
 	

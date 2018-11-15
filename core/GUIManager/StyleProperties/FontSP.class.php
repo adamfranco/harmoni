@@ -36,8 +36,8 @@ class FontSP extends StyleProperty {
 	 * @param optional string weight The font weight.
 	 * @param optional string variant The font variant.
 	 **/
-	function FontSP($family=null, $size=null, $style=null, $weight=null, $variant=null) {
-		$this->StyleProperty("font", "Font", "This property sets the current 
+	function __construct($family=null, $size=null, $style=null, $weight=null, $variant=null) {
+		parent::__construct("font", "Font", "This property sets the current 
 											  font family, size, style, weight,
 											  variant.");
 

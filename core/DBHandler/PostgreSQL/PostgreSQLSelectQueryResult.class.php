@@ -67,7 +67,7 @@ class PostgreSQLSelectQueryResult
 	 * @param integer $linkId The link identifier for the database connection.
 	 * @return object PostgreSQLSelectQueryResult A new PostgreSQLSelectQueryResult object.
 	 */
-	function PostgreSQLSelectQueryResult($resourceId, $linkId) {
+	function __construct($resourceId, $linkId) {
 		// ** parameter validation
 		$resourceRule = ResourceValidatorRule::getRule();
 		ArgumentValidator::validate($resourceId, $resourceRule, true);

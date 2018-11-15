@@ -39,7 +39,7 @@ class HarmoniRecordStructure
 	 */
 	private $manager;
 	
-	function HarmoniRecordStructure(RepositoryManager $manager, $schema, Id $repositoryId ) {
+	function __construct(RepositoryManager $manager, $schema, Id $repositoryId ) {
 		ArgumentValidator::validate($repositoryId, ExtendsValidatorRule::getRule("Id"));
 		
 		$this->manager = $manager;

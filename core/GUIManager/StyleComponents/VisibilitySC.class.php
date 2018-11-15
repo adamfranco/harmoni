@@ -28,7 +28,7 @@ class VisibilitySC extends StyleComponent {
 	 * @param string value The value to assign to this SC.
 	 * @access public
 	 **/
-	function VisibilitySC($value) {
+	function __construct($value) {
 		$options = array("visible", "hidden", "collapse");
 	
 		$errDescription = "Could not validate the visiblity StyleComponent value \"%s\". ";
@@ -38,7 +38,7 @@ class VisibilitySC extends StyleComponent {
 		$description = "Specifies the visibility. Allowed values are: ".implode(", ", $options).".";
 		
 		$rule = RegexValidatorRule::getRuleByArray($options);
-		$this->StyleComponent($value, $rule , $options, true, $errDescription, $displayName, $description);
+		parent::__construct($value, $rule , $options, true, $errDescription, $displayName, $description);
 	}
 }
 ?>

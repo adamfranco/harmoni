@@ -25,10 +25,6 @@
     class MySQLComprehensiveTestCase extends UnitTestCase {
 		
 		var $db;
-	
-		function MySQLComprehensiveTestCase() {
-			$this->UnitTestCase();
-		}
 
         /**
          *    Sets up unit test wide variables at the start

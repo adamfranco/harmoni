@@ -21,10 +21,6 @@
 	
 		var $_servicesObject = "__services__";
 	
-		function ServicesTestCase() {
-			$this->UnitTestCase();
-		}
-	
 		/**
 		*  Sets up unit test wide variables at the start
 		*    of each test method.

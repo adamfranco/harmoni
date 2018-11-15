@@ -28,8 +28,8 @@ class LineHeightSP extends StyleProperty {
 	 * @access public
 	 * @param string value The line height value.
 	 **/
-	function LineHeightSP($value) {
-		$this->StyleProperty("line-height", "Line Height", "Specifies the line height.");
+	function __construct($value) {
+		parent::__construct("line-height", "Line Height", "Specifies the line height.");
 		if (!is_null($value)) $this->addSC(new LineHeightSC($value));
 	}
 

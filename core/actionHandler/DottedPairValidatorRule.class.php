@@ -23,7 +23,7 @@ class DottedPairValidatorRule
 	 * @access public
 	 * @return void 
 	 **/
-	function DottedPairValidatorRule() {
+	function __construct() {
 		$this->_regex = "/^[[:alnum:]_-]+\.([[:alnum:]_-]+)|\*$/"; // matches a dotted-pair for modules.actions
 	}
 	

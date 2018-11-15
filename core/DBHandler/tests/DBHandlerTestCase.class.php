@@ -23,13 +23,9 @@
  * @version $Id: DBHandlerTestCase.class.php,v 1.7 2007/09/04 20:25:20 adamfranco Exp $
  */
 
-    class DBHandlerTestCase extends UnitTestCase {
+class DBHandlerTestCase extends UnitTestCase {
 	
 		var $dbhandler;
-
-		function MySQLDeleteQueryTestCase() {
-			$this->UnitTestCase();
-		}
 
         /**
          *    Sets up unit test wide variables at the start

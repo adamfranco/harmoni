@@ -30,7 +30,7 @@ class TextDecorationSC extends StyleComponent {
 	 * @param string value The value to assign to this SC.
 	 * @access public
 	 **/
-	function TextDecorationSC($value) {
+	function __construct($value) {
 		$options = array("none", "underline", "overline", "line-through", "blink");
 	
 		$errDescription = "Could not validate the text-decoration StyleComponent value \"%s\". ";
@@ -40,7 +40,7 @@ class TextDecorationSC extends StyleComponent {
 		$description = "Specifies the text decoration. Allowed values are: ".implode(", ", $options).".";
 		
 		$rule = RegexValidatorRule::getRuleByArray($options);		
-		$this->StyleComponent($value, $rule, $options, true, $errDescription, $displayName, $description);
+		parent::__construct($value, $rule, $options, true, $errDescription, $displayName, $description);
 	}
 }
 ?>

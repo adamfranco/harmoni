@@ -43,7 +43,7 @@ class GroupsFromNodesIterator
 	 * @access public
 	 * @since 8/30/05
 	 */
-	function GroupsFromNodesIterator ( $nodeIterator ) {
+	function __construct ( $nodeIterator ) {
 		$this->_nodeIterator =$nodeIterator;
 	}
 	

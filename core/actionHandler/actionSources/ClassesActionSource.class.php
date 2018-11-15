@@ -53,7 +53,7 @@ class ClassesActionSource
 	 * @return void
 	 * @access public
 	 */
-	function ClassesActionSource($basePath, $fileExtension, $classNameSuffix = '') {
+	function __construct($basePath, $fileExtension, $classNameSuffix = '') {
 		$this->_basePath = preg_replace('#'.DIRECTORY_SEPARATOR."$#", "", $basePath);
 		$this->_fileExtension = $fileExtension;
 		$this->_classNameSuffix = $classNameSuffix;

@@ -38,7 +38,7 @@ class HarmoniReadableLog
 	 * @access public
 	 * @since 3/1/06
 	 */
-	function HarmoniReadableLog ($name, $dbIndex) {
+	function __construct ($name, $dbIndex) {
 		ArgumentValidator::validate($name, StringValidatorRule::getRule());
 		ArgumentValidator::validate($dbIndex, IntegerValidatorRule::getRule());
 		$this->_name = $name;

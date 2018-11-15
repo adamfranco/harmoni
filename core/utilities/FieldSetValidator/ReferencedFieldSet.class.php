@@ -18,8 +18,8 @@ class ReferencedFieldSet extends FieldSet {
 	 * @access public
 	 * @return void 
 	 **/
-	function ReferencedFieldSet( $fields = null ) {
-		$this->FieldSet($fields);
+	function __construct( $fields = null ) {
+		parent::__construct($fields);
 	}
 	
 	/**
@@ -35,4 +35,3 @@ class ReferencedFieldSet extends FieldSet {
 	}
 	
 }
-

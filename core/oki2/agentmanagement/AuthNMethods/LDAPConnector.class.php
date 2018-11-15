@@ -48,7 +48,7 @@ class LDAPConnector {
 	 * @access public
 	 * @return void 
 	 **/
-	function LDAPConnector( $configuration ) {
+	function __construct( $configuration ) {
 		$this->_configuration =$configuration;
 		
 		// Validate the configuration options we use:

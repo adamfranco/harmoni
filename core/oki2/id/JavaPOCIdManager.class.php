@@ -51,7 +51,7 @@ class JavaPOCIdManager
 	/**
 	 * Constructor.
 	 */
-	function JavaPOCIdManager( $className ) {
+	function __construct( $className ) {
 		$this->_javaClassName = $className;
 		$testClass = new Java($className);
 		$ex = java_last_exception_get();

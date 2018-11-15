@@ -137,7 +137,7 @@ class Theme extends ThemeInterface {
 	 * @param string $displayName
 	 * @param string $description
 	 **/
-	function Theme($displayName, $description) {
+	function __construct($displayName, $description) {
 		// ** parameter validation
 		$rule = OptionalRule::getRule(StringValidatorRule::getRule());
 		ArgumentValidator::validate($displayName, $rule, true);

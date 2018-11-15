@@ -59,7 +59,7 @@ extends GUIManagerAbstract
 	* Constructor
 	* @access public
 	*/
-	function GUIManager() {
+	function __construct() {
 	}
 
 	/**

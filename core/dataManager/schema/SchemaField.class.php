@@ -39,7 +39,7 @@ class SchemaField {
 	 * @param optional boolean $required flag specifying if we will disallow a database commit without at least one value for this field
 	 * @param optional boolean $active flag specifying if this field is to be used or no.
 	 */
-	function SchemaField( $label, $name, $type, $description="", $mult=false, $required=false, $active=true ) {
+	function __construct( $label, $name, $type, $description="", $mult=false, $required=false, $active=true ) {
 		ArgumentValidator::validate($mult, BooleanValidatorRule::getRule());
 		ArgumentValidator::validate($type, StringValidatorRule::getRule());
 		ArgumentValidator::validate($label, StringValidatorRule::getRule());

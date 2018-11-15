@@ -14,7 +14,7 @@ require_once HARMONI."dataManager/search/SearchCriteria.interface.php";
  */
 class ActiveRecordsSearch extends SearchCriteria {
 	
-	function ActiveRecordsSearch() {
+	function __construct() {
 		throwError(
 			new HarmoniError("ActiveRecordsSearch has been deprecated as Records no longer have an active flag.", "RecordManager", true));
 	}

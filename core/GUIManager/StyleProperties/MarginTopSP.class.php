@@ -28,8 +28,8 @@ class MarginTopSP extends StyleProperty {
 	 * @access public
 	 * @param string length The length of margin.
 	 **/
-	function MarginTopSP($length) {
-		$this->StyleProperty("margin-top", "Top Margin", "This property specifies the top margin.");
+	function __construct($length) {
+		parent::__construct("margin-top", "Top Margin", "This property specifies the top margin.");
 		if (!is_null($length)) $this->addSC(new LengthSC($length));
 	}
 

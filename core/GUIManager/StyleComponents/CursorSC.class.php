@@ -43,7 +43,7 @@ class CursorSC extends StyleComponent {
 	 * @param string value The value to assign to this SC.
 	 * @access public
 	 **/
-	function CursorSC($value) {
+	function __construct($value) {
 		$options = array("auto","n-resize","ne-resize","e-resize","se-resize",
 		                 "s-resize","sw-resize","w-resize","nw-resize","crosshair",
 					     "pointer","move","text","wait","help","hand");
@@ -56,7 +56,7 @@ class CursorSC extends StyleComponent {
 					    the element . Allowed values are: ".implode(", ", $options).".";
   					
 		$rule = RegexValidatorRule::getRuleByArray($options);    		
-		$this->StyleComponent($value, $rule, $options, true, $errDescription, $displayName, $description);
+		parent::__construct($value, $rule, $options, true, $errDescription, $displayName, $description);
 	}
 }
 ?>

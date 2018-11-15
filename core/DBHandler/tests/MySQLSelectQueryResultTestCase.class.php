@@ -31,11 +31,6 @@ class MySQLSelectQueryResultTestCase extends UnitTestCase {
 	// Resource id
 	var $rid;
 	
-	function MySQLSelectQueryResultTestCase()
-	{
-		$this->UnitTestCase();	
-	} 
-	
 	/**
 	 * Sets up unit test wide variables at the start
 	 *       of each test method.

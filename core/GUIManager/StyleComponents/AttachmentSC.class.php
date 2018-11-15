@@ -27,7 +27,7 @@ class AttachmentSC extends StyleComponent {
 	 * @param string value The value to assign to this SC.
 	 * @access public
 	 **/
-	function AttachmentSC($value) {
+	function __construct($value) {
 		$options = array("scroll","fixed");
 
 		$errDescription = "Could not validate the Attachment StyleComponent value \"%s\".
@@ -38,7 +38,7 @@ class AttachmentSC extends StyleComponent {
 						".implode(", ", $options).".";
 		
 		$rule = RegexValidatorRule::getRuleByArray($options);
-		$this->StyleComponent($value, $rule, $options, true, $errDescription, $displayName, $description);
+		parent::__construct($value, $rule, $options, true, $errDescription, $displayName, $description);
 	}
 }
 ?>

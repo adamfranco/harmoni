@@ -35,7 +35,7 @@ class RuleSet {
 	 * @access public
 	 * @return void 
 	 **/
-	function RuleSet() {
+	function __construct() {
 		$this->_rules = array();
 	}
 		

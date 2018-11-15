@@ -28,8 +28,8 @@ class TopSP extends StyleProperty {
 	 * @access public
 	 * @param string length The distance of from the top of the block .
 	 **/
-	function TopSP($length) {
-		$this->StyleProperty("top", "top", "This property specifies the distance from the top.");
+	function __construct($length) {
+		parent::__construct("top", "top", "This property specifies the distance from the top.");
 		if (!is_null($length)) $this->addSC(new AutoLengthSC($length));
 	}
 

@@ -33,8 +33,8 @@ class BackgroundImageSP extends StyleProperty {
 	 * @access public
 	 * @param string value The HTML color value for this SP.
 	 **/
-	function BackgroundImageSP($imageURL=null, $repeat="repeat", $attachment="scroll", $xpos=null, $ypos=null) {
-		$this->StyleProperty("background", "Background Image", "This property specifies the background image and its settings.");
+	function __construct($imageURL=null, $repeat="repeat", $attachment="scroll", $xpos=null, $ypos=null) {
+		parent::__construct("background", "Background Image", "This property specifies the background image and its settings.");
 		if (!is_null($imageURL)) $this->addSC(new UrlSC($imageURL));
 		if (!is_null($repeat)) $this->addSC(new RepeatSC($repeat));
 		if (!is_null($attachment)) $this->addSC(new AttachmentSC($attachment));
@@ -45,4 +45,3 @@ class BackgroundImageSP extends StyleProperty {
 	}
 
 }
-

@@ -27,10 +27,6 @@
 	
 		var $query;
 
-		function PostgreSQLDeleteQueryTestCase() {
-			$this->UnitTestCase();
-		}
-
         /**
          *    Sets up unit test wide variables at the start
          *    of each test method.

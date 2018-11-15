@@ -165,7 +165,7 @@ class TimeZone
 	 * @access private
 	 * @since 5/3/05
 	 */
-	function TimeZone ( $aDuration, $aStringName, $aStringAbbreviation ) {
+	function __construct ( $aDuration, $aStringName, $aStringAbbreviation ) {
 		$this->offset =$aDuration;
 		$this->name = $aStringName;
 		$this->abbreviation = $aStringAbbreviation;

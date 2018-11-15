@@ -66,7 +66,7 @@ class Context {
 	 * @access public
 	 * @return void
 	 **/
-	function Context($module, $action, $execPath) {
+	function __construct($module, $action, $execPath) {
 		$this->sid = session_name() . "=" . session_id();
 		$this->hiddenFieldSID = "<input type='hidden' name='".session_name()."' value='".session_id()."' />";
 		$this->myURL = $_SERVER['PHP_SELF'];

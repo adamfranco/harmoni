@@ -27,10 +27,6 @@
 	
 		// OracleDatabase object
 		var $db;
-	
-		function OracleINSERTQueryResultTestCase() {
-			$this->UnitTestCase();
-		}
 
         /**
          *    Sets up unit test wide variables at the start

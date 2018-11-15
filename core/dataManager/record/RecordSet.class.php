@@ -16,7 +16,7 @@ class RecordSet {
 	
 	var $_dirty;
 	
-	function RecordSet() {
+	function __construct() {
 		$this->_records = array();
 		
 		$this->_dirty = false;

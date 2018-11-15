@@ -33,7 +33,7 @@ class HarmoniIterator
 	/**
 	 * Constructor
 	 */
-	function HarmoniIterator ($elementArray) {
+	function __construct ($elementArray) {
 		if($elementArray===NULL){
 			$elementArray=array();
 		}

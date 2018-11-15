@@ -38,7 +38,7 @@ class HarmoniAgentCommitment
 	 * @access public
 	 * @return void
 	 */
-	function HarmoniAgentCommitment($id)
+	function __construct($id)
 	{
 		$this->_id =$id;
 		$this->_table = 'sc_commit';

@@ -41,14 +41,14 @@ class MenuItemHeading extends Component /* implements MenuItemInterface */ {
 	 * result in copying the objects instead of referencing them as using
 	 * <code>addStyle()</code> would do.
 	 **/
-	function MenuItemHeading($displayName, $index) {
+	function __construct($displayName, $index) {
 		// ** parameter validation
 		ArgumentValidator::validate($displayName, StringValidatorRule::getRule(), true);
 		// ** end of parameter validation	
 
 		$this->_displayName = $displayName;
 
-		$this->Component($displayName, MENU_ITEM_HEADING, $index);
+		parent::__construct($displayName, MENU_ITEM_HEADING, $index);
 		
 		// if there are style collections to add
 		if (func_num_args() > 2)

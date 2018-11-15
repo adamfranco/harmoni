@@ -45,7 +45,7 @@ class HarmoniPropertyManager
 	var $_dbIndex;
 	var $_dbName;
 	
-	function HarmoniPropertiesManager(){
+	function __construct(){
 		
 	}
 	

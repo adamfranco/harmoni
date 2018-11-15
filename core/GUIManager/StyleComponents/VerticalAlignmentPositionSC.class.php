@@ -37,7 +37,7 @@ class VerticalAlignmentPositionSC extends StyleComponent {
 	 * @param string value The value to assign to this SC.
 	 * @access public
 	 **/
-	function VerticalAlignmentPositionSC($value) {
+	function __construct($value) {
 		$errDescription = "Could not validate the length StyleComponent value \"%s\". ";
 		$errDescription .= "Allowed units are: %, in, cm, mm, em, ex, pt, pc, px, or any of:";
 		
@@ -52,7 +52,7 @@ class VerticalAlignmentPositionSC extends StyleComponent {
 		inches (in), centimeters (cm), millimeters (mm), ems (em), X-height (ex),
 		points (pt), picas (pc), or	pixels (px) or an alignment: ".implode(", ",$options).".";
 		
-		$this->StyleComponent($value, $rule, $options, null, $errDescription, $displayName, $description);
+		parent::__construct($value, $rule, $options, null, $errDescription, $displayName, $description);
 	}
 }
 

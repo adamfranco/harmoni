@@ -30,7 +30,7 @@ class PositionSC extends StyleComponent {
 	 * @param string value The value to assign to this SC.
 	 * @access public
 	 **/
-	function PositionSC($value) {
+	function __construct($value) {
 		$options = array("static","relative","absolute","fixed");
 
 		$errDescription = "Could not validate the position StyleComponent value \"%s\".
@@ -41,7 +41,7 @@ class PositionSC extends StyleComponent {
 						.implode(", ", $options).".";
 		
 		$rule = RegexValidatorRule::getRuleByArray($options);
-		$this->StyleComponent($value, $rule, $options, true, $errDescription, $displayName, $description);
+		parent::__construct($value, $rule, $options, true, $errDescription, $displayName, $description);
 	}
 }
 ?>

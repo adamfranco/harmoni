@@ -37,7 +37,7 @@ class FontSizeSC extends StyleComponent {
 	 * @param string value The value to assign to this SC.
 	 * @access public
 	 **/
-	function FontSizeSC($value=null) {
+	function __construct($value=null) {
 		$options = array("xx-small","x-small","small","medium",
 					     "large","x-large","xx-large","smaller","larger");
 
@@ -54,7 +54,7 @@ class FontSizeSC extends StyleComponent {
   					    or a specific font-size value (in length units, i.e. px,
 						in, %, etc).";
 		
-		$this->StyleComponent($value, $rule, $options, false, $errDescription, $displayName, $description);
+		parent::__construct($value, $rule, $options, false, $errDescription, $displayName, $description);
 	}
 }
 ?>

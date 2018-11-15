@@ -69,7 +69,7 @@ class OracleSelectQueryResult
 	 * @param integer $linkId The link identifier for the database connection.
 	 * @return object OracleSelectQueryResult A new OracleSelectQueryResult object.
 	 */
-	function OracleSelectQueryResult($resourceId, $linkId) {
+	function __construct($resourceId, $linkId) {
 		// ** parameter validation
 		$resourceRule = ResourceValidatorRule::getRule();
 		ArgumentValidator::validate($resourceId, $resourceRule, true);

@@ -29,7 +29,7 @@ class OverflowSC extends StyleComponent {
 	 * @param string value The value to assign to this SC.
 	 * @access public
 	 **/
-	function OverflowSC($value) {
+	function __construct($value) {
 		$options = array("visible", "hidden", "scroll", "auto");
 	
 		$errDescription = "Could not validate the overflow StyleComponent value \"%s\". ";
@@ -39,7 +39,7 @@ class OverflowSC extends StyleComponent {
 		$description = "Specifies the overflow property value. Allowed values are: ".implode(", ", $options).".";
 		
 		$rule = RegexValidatorRule::getRuleByArray($options);
-		$this->StyleComponent($value, $rule, $options, true, $errDescription, $displayName, $description);
+		parent::__construct($value, $rule, $options, true, $errDescription, $displayName, $description);
 	}
 }
 ?>

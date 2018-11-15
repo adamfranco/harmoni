@@ -25,10 +25,6 @@
     class OracleComprehensiveTestCase extends UnitTestCase {
 		
 		var $db;
-	
-		function OracleComprehensiveTestCase() {
-			$this->UnitTestCase();
-		}
 
         /**
          *    Sets up unit test wide variables at the start

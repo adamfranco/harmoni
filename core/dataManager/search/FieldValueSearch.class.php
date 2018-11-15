@@ -27,7 +27,7 @@ class FieldValueSearch extends SearchCriteria {
 	 * @param optional int $comparisonType The comparison type to use (equals, contains, less than, etc.) See the SEARCH_TYPE_* constants. Defaults to SEARCH_TYPE_EQUALS
 	 * @return void
 	 */
-	function FieldValueSearch( $schemaID, $label, $value, $comparisonType=SEARCH_TYPE_EQUALS) {
+	function __construct( $schemaID, $label, $value, $comparisonType=SEARCH_TYPE_EQUALS) {
 		$this->_schemaID =$schemaID;
 		$this->_label = $label;
 		$this->_value =$value;

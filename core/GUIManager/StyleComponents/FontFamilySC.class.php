@@ -36,7 +36,7 @@ class FontFamilySC extends StyleComponent {
 	 * @param string value The value to assign to this SC.
 	 * @access public
 	 **/
-	function FontFamilySC($value=null) {
+	function __construct($value=null) {
 		$options = array("serif","sans-serif","cursive","fantasy","monospace");
 
 		$errDescription = "Could not validate the font-family StyleComponent value \"%s\".
@@ -52,7 +52,7 @@ class FontFamilySC extends StyleComponent {
 					    or a specific font-family name (names with white space must be quoted).
 						Also, you can specify one or many comma-separated values.";
 		
-		$this->StyleComponent($value, $rule, $options, false, $errDescription, $displayName, $description);
+		parent::__construct($value, $rule, $options, false, $errDescription, $displayName, $description);
 	}
 }
 
@@ -62,7 +62,7 @@ class CSSFontFamilyValidatorRule extends RegexValidatorRule {
 	//@todo not tested
 	
 	
-	function CSSFontFamilyValidatorRule(){
+	function __construct(){
 		
 		$singleQuote = "'[- A-Za-z0-9]+'";
 		$doubleQuote = "\"[- A-Za-z0-9]+\"";

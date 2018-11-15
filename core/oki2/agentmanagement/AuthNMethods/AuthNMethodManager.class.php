@@ -35,7 +35,7 @@ class AuthNMethodManager
 	 * @access public
 	 * @since 3/1/05
 	 */
-	function AuthNMethodManager () {
+	function __construct () {
 		$this->_isInitialized = FALSE;
 		$this->_osidContext = NULL;
 		$this->_configuration = NULL;

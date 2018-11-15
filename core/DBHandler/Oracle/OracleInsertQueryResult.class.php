@@ -58,7 +58,7 @@ class OracleInsertQueryResult
 	 * @param integer $lastId The last id that was inserted
 	 * @return object A new OracleINSERTQueryResult object.
 	 */
-	function OracleInsertQueryResult($resourceId, $lastId) {
+	function __construct($resourceId, $lastId) {
 		// ** parameter validation
 		$resourceRule = ResourceValidatorRule::getRule();
 		$integerRule = OptionalRule::getRule(IntegerValidatorRule::getRule());

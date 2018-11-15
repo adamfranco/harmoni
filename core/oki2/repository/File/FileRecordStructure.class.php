@@ -36,7 +36,7 @@ class HarmoniFileRecordStructure
 	
 	var $_partStructures;
 	
-	function HarmoniFileRecordStructure() {
+	function __construct() {
 		
 		// create an array of created PartStructures so we can return references to
 		// them instead of always making new ones.

@@ -29,7 +29,7 @@ class ClearSC extends StyleComponent {
 	 * @param string value The value to assign to this SC.
 	 * @access public
 	 **/
-	function ClearSC($value) {
+	function __construct($value) {
 		$options = array("none", "left", "right", "both");
 	
 		$errDescription = "Could not validate the clear StyleComponent value \"%s\". ";
@@ -40,7 +40,7 @@ class ClearSC extends StyleComponent {
 		
 		
 		$rule = RegexValidatorRule::getRuleByArray($options);
-		$this->StyleComponent($value, $rule, $options, true, $errDescription, $displayName, $description);
+		parent::__construct($value, $rule, $options, true, $errDescription, $displayName, $description);
 	}
 }
 ?>

@@ -65,7 +65,7 @@ class HarmoniSchedulingManager
 
 
 
-	function HarmoniSchedulingManager () {
+	function __construct () {
 
 
 	}

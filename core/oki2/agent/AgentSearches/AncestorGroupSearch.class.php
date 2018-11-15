@@ -32,7 +32,7 @@ class AncestorGroupSearch
 	 * @access public
 	 * @since 12/1/04
 	 */
-	function AncestorGroupSearch ( $hierarchy) {
+	function __construct ( $hierarchy) {
 		$this->_hierarchy =$hierarchy;
 		
 		$idManager = Services::getService("Id");

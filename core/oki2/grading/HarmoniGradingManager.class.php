@@ -85,7 +85,7 @@ class HarmoniGradingManager
 	/**
 	* @param ref object $drId A {@link HarmoniId} referencing our DR.
 	*/
-	function HarmoniCourseManagementManager () {
+	function __construct () {
 
 
 	}

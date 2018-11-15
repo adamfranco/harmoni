@@ -39,12 +39,12 @@ class UnstyledBlock extends Component {
 	 * result in copying the objects instead of referencing them as using
 	 * <code>addStyle()</code> would do.
 	 **/
-	function UnstyledBlock($content, $index = 1) {
+	function __construct($content, $index = 1) {
 		// ** parameter validation
 		ArgumentValidator::validate($content, StringValidatorRule::getRule(), true);
 		// ** end of parameter validation	
 
-		$this->Component($content, BLANK, $index);
+		parent::__construct($content, BLANK, $index);
 		
 		// if there are style collections to add
 		if (func_num_args() > 2)

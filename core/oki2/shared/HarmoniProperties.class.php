@@ -33,7 +33,7 @@ class HarmoniProperties
 	 * @access public
 	 * @since 11/18/04
 	 */
-	function HarmoniProperties (Type $type) {
+	function __construct (Type $type) {
 		$this->_type = $type;
 		$this->_properties = array();
 	}

@@ -31,7 +31,7 @@ class FileSystemFileRecord
 	extends FileRecord
 {
 	
-	function FileSystemFileRecord( $recordStructure, $id, $configuration, $asset ) {
+	function __construct( $recordStructure, $id, $configuration, $asset ) {
 		$this->_id =$id;
 		$this->_recordStructure =$recordStructure;
 		$this->_configuration = $configuration;

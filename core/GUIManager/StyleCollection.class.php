@@ -98,7 +98,7 @@ class StyleCollection extends StyleCollectionInterface {
 	 * @param string displayName The display name of this StyleCollection.
 	 * @param string description The description of this StyleCollection.
 	 **/
-	function StyleCollection($selector, $classSelector, $displayName, $description) {
+	function __construct($selector, $classSelector, $displayName, $description) {
 		if(func_num_args()<=3){
 			throwError(new HarmoniError("Too few arguments--only ".func_num_args()." of 4","GUIManager",true));	
 		}		

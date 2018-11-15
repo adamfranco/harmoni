@@ -51,7 +51,7 @@ class AgentTokenMappingManager
 	 * @access public
 	 * @since 3/1/05
 	 */
-	function AgentTokenMappingManager () {
+	function __construct () {
 		$this->_isInitialized = FALSE;
 		$this->_osidContext = NULL;
 		$this->_configuration = NULL;

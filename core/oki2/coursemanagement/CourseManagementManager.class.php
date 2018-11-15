@@ -129,7 +129,7 @@ class HarmoniCourseManagementManager
 
 
 
-	function HarmoniCourseManagementManager () {
+	function __construct () {
 
 
 	}

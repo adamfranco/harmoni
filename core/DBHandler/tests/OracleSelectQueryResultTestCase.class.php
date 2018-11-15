@@ -31,11 +31,6 @@ class OracleSelectQueryResultTestCase extends UnitTestCase {
 	// Resource id
 	var $rid;
 	
-	function OracleSelectQueryResultTestCase()
-	{
-		$this->UnitTestCase();	
-	} 
-	
 	/**
 	 * Sets up unit test wide variables at the start
 	 *       of each test method.

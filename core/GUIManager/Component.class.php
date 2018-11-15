@@ -96,7 +96,7 @@ class Component extends ComponentInterface {
 	 * result in copying the objects instead of referencing them as using
 	 * <code>addStyle()</code> would do.
 	 **/
-	function Component($content, $type, $index) {
+	function __construct($content, $type, $index) {
 		// ** parameter validation
 		$rule = OptionalRule::getRule(StringValidatorRule::getRule());
 		ArgumentValidator::validate($content, $rule, true);

@@ -28,8 +28,8 @@ class ClearSP extends StyleProperty {
 	 * @access public
 	 * @param string value The value of clear.
 	 **/
-	function ClearSP($value) {
-		$this->StyleProperty("clear", "Clear", "This property specifies the clear value.");
+	function __construct($value) {
+		parent::__construct("clear", "Clear", "This property specifies the clear value.");
 		if (!is_null($value)) $this->addSC(new ClearSC($value));
 	}
 

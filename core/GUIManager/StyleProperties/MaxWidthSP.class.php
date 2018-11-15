@@ -28,8 +28,8 @@ class MaxWidthSP extends StyleProperty {
 	 * @access public
 	 * @param string value The value of the dimension.
 	 **/
-	function MaxWidthSP($value) {
-		$this->StyleProperty("max-width", "Maximum Width", "This property specifies the maximum width.");
+	function __construct($value) {
+		parent::__construct("max-width", "Maximum Width", "This property specifies the maximum width.");
 		if (!is_null($value)) $this->addSC(new MaxDimensionSC($value));
 	}
 

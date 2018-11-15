@@ -31,8 +31,8 @@ class BackgroundSP extends StyleProperty {
 	 * @access public
 	 * @param string value The HTML color value for this SP.
 	 **/
-	function BackgroundSP($color, $url, $repeat, $attachment) {
-		$this->StyleProperty("background", "Background", "This property specifies the background settings.");
+	function __construct($color, $url, $repeat, $attachment) {
+		parent::__construct("background", "Background", "This property specifies the background settings.");
 		if (!is_null($color)) $this->addSC(new ColorSC($color));
 		if (!is_null($url)) $this->addSC(new UrlSC($url));
 		if (!is_null($repeat)) $this->addSC(new BackgroundRepeatSC($repeat));

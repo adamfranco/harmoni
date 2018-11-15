@@ -122,7 +122,7 @@ class DebugHandler {
 	 * @access public
 	 * @return void
 	 **/
-	function DebugHandler() {
+	function __construct() {
 		$this->_queue = array();
 		$this->_outputLevel = 0;
 	}

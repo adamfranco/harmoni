@@ -36,12 +36,12 @@ class Footer extends Component {
 	 * result in copying the objects instead of referencing them as using
 	 * <code>addStyle()</code> would do.
 	 **/
-	function Footer($content, $index) {
+	function __construct($content, $index) {
 		// ** parameter validation
 		ArgumentValidator::validate($content,StringValidatorRule::getRule(), true);
 		// ** end of parameter validation	
 
-		$this->Component($content, FOOTER, $index);
+		parent::__construct($content, FOOTER, $index);
 		
 		// if there are style collections to add
 		if (func_num_args() > 2)

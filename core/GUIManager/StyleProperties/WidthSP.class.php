@@ -28,8 +28,8 @@ class WidthSP extends StyleProperty {
 	 * @access public
 	 * @param string length The length of margin.
 	 **/
-	function WidthSP($length) {
-		$this->StyleProperty("width", "Width", "This property specifies the width.");
+	function __construct($length) {
+		parent::__construct("width", "Width", "This property specifies the width.");
 		if (!is_null($length)) $this->addSC(new AutoLengthSC($length));
 	}
 

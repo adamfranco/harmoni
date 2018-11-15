@@ -162,7 +162,7 @@ END;
 	 * Constructor.
 	 * @access public
 	 */
-	function RequestContext() {
+	function __construct() {
 		$this->_namespaces = array(); // normal
 		$this->_contextData = array(); // associative
 		$this->_requestData = array(); // associative

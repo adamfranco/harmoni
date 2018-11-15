@@ -76,7 +76,7 @@ class HarmoniRepository
 	/**
 	 * Constructor
 	 */
-	function HarmoniRepository (RepositoryManager $manager, Hierarchy $hierarchy, Id $id, ConfigurationProperties $configuration) {
+	function __construct (RepositoryManager $manager, Hierarchy $hierarchy, Id $id, ConfigurationProperties $configuration) {
 		$this->manager = $manager;
 		// Get the node coresponding to our id
 		$this->_hierarchy =$hierarchy;

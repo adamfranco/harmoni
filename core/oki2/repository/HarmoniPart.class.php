@@ -28,7 +28,7 @@ class HarmoniPart
 	var $_recordFieldValue;
 	var $_partStructure;
 	
-	function HarmoniPart( $partStructure, $recordFieldValue, $asset ) {
+	function __construct( $partStructure, $recordFieldValue, $asset ) {
 		$this->_recordFieldValue =$recordFieldValue;
 		$this->_partStructure =$partStructure;
 		$this->_asset =$asset;

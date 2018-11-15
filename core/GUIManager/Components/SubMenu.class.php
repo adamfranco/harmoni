@@ -39,8 +39,8 @@ class SubMenu
 	 * result in copying the objects instead of referencing them as using
 	 * <code>addStyle()</code> would do.
 	 **/
-	function SubMenu($layout, $index) {
-		$this->Container($layout, SUB_MENU, $index);
+	function __construct($layout, $index) {
+		parent::__construct($layout, SUB_MENU, $index);
 		
 		$this->_selectedId = null;
 

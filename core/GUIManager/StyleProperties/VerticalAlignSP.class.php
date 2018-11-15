@@ -28,8 +28,8 @@ class VerticalAlignSP extends StyleProperty {
 	 * @access public
 	 * @param string value The value of vertical-align.
 	 **/
-	function VerticalAlignSP($value) {
-		$this->StyleProperty("vertical-align", "Vertical Align", "This property specifies the vertical-line property.");
+	function __construct($value) {
+		parent::__construct("vertical-align", "Vertical Align", "This property specifies the vertical-line property.");
 		if (!is_null($value)) $this->addSC(new VerticalAlignSC($value));
 	}
 

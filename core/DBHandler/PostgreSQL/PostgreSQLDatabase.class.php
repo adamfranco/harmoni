@@ -100,7 +100,7 @@ class PostgreSQLDatabase
 	 * @return integer $dbIndex The index of the new database
 	 * @access public
 	 */
-	function PostgreSQLDatabase($dbHost, $dbName, $dbUser, $dbPass) {
+	function __construct($dbHost, $dbName, $dbUser, $dbPass) {
 		// ** parameter validation
 		$stringRule = StringValidatorRule::getRule();
 		ArgumentValidator::validate($dbHost, $stringRule, true);

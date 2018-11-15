@@ -57,7 +57,7 @@ class HarmoniRepositoryManager
 	 * manager.
 	 * @access public
 	 */
-	function HarmoniRepositoryManager ($configuration = NULL) {
+	function __construct ($configuration = NULL) {
 		
 		
 		// Define the type to use as a key for Identifying repositories

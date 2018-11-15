@@ -17,7 +17,7 @@ class NumberVersionConstraint extends VersionConstraint {
 	
 	var $_num;
 	
-	function NumberVersionConstraint( $num ) {
+	function __construct( $num ) {
 		$this->_num = $num;
 	}
 	

@@ -23,7 +23,7 @@ class RecordTag {
 	
 	var $_loaded;
 	
-	function RecordTag( $recordID, $date, $id = null ) {		
+	function __construct( $recordID, $date, $id = null ) {		
 		$this->_myID = $myID;
 		$this->_recordID = $recordID;
 		$this->_date =$date;

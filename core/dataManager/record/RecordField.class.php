@@ -23,7 +23,7 @@ class RecordField {
 	
 	var $_id;
 	
-	function RecordField( $schemaField, $parent ) {
+	function __construct( $schemaField, $parent ) {
 		$this->_myLabel = $schemaField->getLabel();
 		
 		$this->_parent =$parent;

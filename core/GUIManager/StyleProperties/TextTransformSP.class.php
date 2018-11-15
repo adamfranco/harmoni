@@ -28,8 +28,8 @@ class TextTransformSP extends StyleProperty {
 	 * @access public
 	 * @param string value The value specifies the text-transformation property.
 	 **/
-	function TextTransformSP($value) {
-		$this->StyleProperty("text-transform", "Text Transformation", "This property specifies the text transformation.");
+	function __construct($value) {
+		parent::__construct("text-transform", "Text Transformation", "This property specifies the text transformation.");
 		if (!is_null($value)) $this->addSC(new TextTransformSC($value));
 	}
 

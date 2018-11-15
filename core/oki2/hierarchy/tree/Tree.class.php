@@ -39,7 +39,7 @@ class Tree extends TreeInterface {
 	 * The constructor does some initializations.
 	 * @access public
 	 */
-	function Tree() {
+	function __construct() {
 		$this->_nodes = array();
 		$this->_size = 0;
 		$this->_traversalCache = array();

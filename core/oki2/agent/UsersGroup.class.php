@@ -29,7 +29,7 @@ class UsersGroup
 	 * @param integer dbIndex The database connection as returned by the DBHandler.
 	 * @access public
 	 */
-	function UsersGroup() {
+	function __construct() {
 		$idManager = Services::getService("Id");
 		$this->_id = $idManager->getId("edu.middlebury.agents.users");
 		$this->_idString = $this->_id->getIdString();
@@ -365,7 +365,7 @@ class UsersGroupIterator
 	var $_next;
 	var $_ignore;
 	
-	function UsersGroupIterator($agentIterator) {
+	function __construct($agentIterator) {
 		$this->_iterator = $agentIterator;
 		$this->_next = null;
 		$ids = Services::getService("Id");

@@ -21,11 +21,7 @@
 		var $testFieldSet;
 		var $testRuleSet;
 		var $testValidator;
-	
-		function FieldSetValidatorTestCase() {
-			$this->UnitTestCase();
-		}
-	
+
 		/**
 		*  Sets up unit test wide variables at the start
 		*    of each test method.

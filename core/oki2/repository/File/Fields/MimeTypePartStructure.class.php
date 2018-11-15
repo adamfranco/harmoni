@@ -28,7 +28,7 @@ class MimeTypePartStructure
 
 	var $_recordStructure;
 	
-	function MimeTypePartStructure($recordStructure) {
+	function __construct($recordStructure) {
 		$this->_recordStructure =$recordStructure;
 	}
 	

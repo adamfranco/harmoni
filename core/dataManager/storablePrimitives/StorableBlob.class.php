@@ -89,7 +89,7 @@ class StorableBlob
 		$this->_string = (string) $value;
 	}
 
-	function StorableBlob() {
+	function __construct() {
 		$this->_table = "dm_blob";
 	}
 	

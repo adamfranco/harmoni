@@ -21,7 +21,7 @@ class ArrayValidatorRule
 	 * @access public
 	 * @return void 
 	 **/
-	function ArrayValidatorRule() {
+	function __construct() {
 		$this->_rule =  AlwaysTrueValidatorRule::getRule();
 	}
 	

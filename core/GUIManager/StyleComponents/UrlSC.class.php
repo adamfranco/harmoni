@@ -27,7 +27,7 @@ class UrlSC extends StyleComponent {
 	 * @param string value The value to assign to this SC.
 	 * @access public
 	 **/
-	function UrlSC($value) {
+	function __construct($value) {
 		$errDescription = "Could not validate the url StyleComponent value \"%s\".
 						   Allowed values are: url(URL), where URL is an absolute or relative link 
 	   					   (optionally quoted with single or double quotes).";
@@ -39,7 +39,7 @@ class UrlSC extends StyleComponent {
 						Allowed values are: url(URL), where URL is an absolute or relative link 
 						(optionally quoted with single or double quotes).";
   					    		
-		$this->StyleComponent($value, $rule, null, null, $errDescription, $displayName, $description);
+		parent::__construct($value, $rule, null, null, $errDescription, $displayName, $description);
 	}
 }
 

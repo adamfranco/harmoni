@@ -57,7 +57,7 @@ class DMRecord {
 	 * @param optional boolean $verControl If set to TRUE this DMRecord will use version-control.
 	 * @param optional int $fetchMode USED INTERNALLY
 	 */
-	function DMRecord($schema, $verControl=false, $fetchMode = RECORD_FULL) {
+	function __construct($schema, $verControl=false, $fetchMode = RECORD_FULL) {
 		ArgumentValidator::validate($verControl, BooleanValidatorRule::getRule());
 //		ArgumentValidator::validate($schema, ExtendsValidatorRule::getRule("Schema"));
 		
@@ -813,7 +813,7 @@ class DMRecord {
  *@package harmoni.datamanager
  */
 class FieldNotFoundError extends HarmoniError {
-	function FieldNotFoundError($label,$type) {
+	function __construct($label,$type) {
 		parent::Error("The field labeled '$label' was not found in schema '$type'.","DMRecord",true);
 	}
 }
@@ -822,7 +822,7 @@ class FieldNotFoundError extends HarmoniError {
  * @package harmoni.datamanager
  */
 class ValueIndexNotFoundError extends HarmoniError {
-	function ValueIndexNotFoundError($label,$id,$index) {
+	function __construct($label,$id,$index) {
 		parent::Error("The value index $index was not found for field '$label' in DMRecord ID $id.","DMRecord",true);
 	}
 }

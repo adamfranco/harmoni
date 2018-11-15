@@ -23,7 +23,7 @@ class OrValidatorRule extends ValidatorRuleInterface {
 	 * @access public
 	 * @return void 
 	 **/
-	function OrValidatorRule( $rule1, $rule2 ) {
+	function __construct( $rule1, $rule2 ) {
 		$this->_rule1 =$rule1;
 		$this->_rule2 =$rule2;
 	}

@@ -44,7 +44,7 @@ class AuthNMethod {
 	 * @access public
 	 * @since 3/1/05
 	 */
-	function AuthNMethod () {}
+	function __construct () {}
 	
 	/**
 	 * Store the configuration.
