@@ -82,7 +82,13 @@ class Harmoni_Db_Insert
 	 * @access public
 	 * @since 3/8/07
 	 */
-	function addColumn ( $column ) {
+	function addColumn ( $column , $alias = "", $table = "") {
+		if (!empty($alias)) {
+			throw new InvalidArgumentException("\$alias not valid for insert queries.");
+		}
+		if (!empty($table)) {
+			throw new InvalidArgumentException("\$table not valid for insert queries.");
+		}
 		// Make sure that we have a row
 		if (!count($this->values))
 			$this->createRow();
