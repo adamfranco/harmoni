@@ -117,14 +117,23 @@ class TreeInterface {
 	
 	
 	/**
-	 * Traverses the hierarchy and returns all the nodes in an array. The traversal
-	 * is a pre-order traversal starting from the specified node.
-	 * @access public
-	 * @param optional ref object node An optional node to start traversal from.
-	 * @return ref array An array of all nodes in the hierarchy visited in a pre-order
-	 * manner.
+	 * Traverses the tree and returns all the nodes in an array. The traversal
+	 * is a depth-first pre-order traversal starting from the specified node.
+			 * @access public
+	 * @param ref object node The node to start traversal from.
+	 * @param boolean down If <code>true</code>, this argument specifies that the traversal will
+	 * go down the children; if <code>false</code> then it will go up the parents.
+	 * @param integer levels Specifies how many levels of nodes remain to be fetched. This
+	 * will be recursively decremented and at 0 the recursion will stop. If this is negative
+	 * then the recursion will go on until the last level is processed.
+	 * @return ref array An array of all nodes in the tree visited in a pre-order
+	 * manner. The keys of the array correspond to the nodes' ids.
+	 * Each element of the array is another array of two elements, the first
+	 * being the node itself, and the second being the depth of the node relative
+	 * to the starting node. Descendants are assigned increasingly positive levels; 
+	 * ancestors increasingly negative levels. 
 	 */
-	function traverse($node) {
+	function traverse($node, $down, $levels) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
