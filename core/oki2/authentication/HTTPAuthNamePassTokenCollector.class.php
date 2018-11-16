@@ -24,6 +24,7 @@ require_once(dirname(__FILE__)."/NamePassTokenCollector.abstract.php");
 class HTTPAuthNamePassTokenCollector
 	extends NamePassTokenCollector
 {
+	protected $authTypeKey;
 	
 	/**
 	 * Constructor, pass params
@@ -46,28 +47,36 @@ class HTTPAuthNamePassTokenCollector
 			$this->cancelFunction = $cancelFunction;
 	}
 	
+	/** 
+	 * Setting an AuthTypeKey allows the token colletor to know whether it
+	 * has prompted for tokens for the particular auth type yet, allowing
+	 * one prompting to return tokens for each authtype in an execution cycle.
+	 *
+	 * @param string $authTypeKey The Key.
+	 */
+	function setAuthTypeKey ($authTypeKey) {
+		$this->authTypeKey = $authTypeKey;
+	}
+	
 	/**
 	 * Run the token collection sequence involving prompting for and collecting
 	 * tokens.
 	 * 
-	 * @param string $authTypeKey Allows the token colletor to know whether it
-	 * 			has prompted for tokens for the particular auth type yet, allowing
-	 *			one prompting to return tokens for each authtype in an execution cycle.
 	 * @return mixed
 	 * @access public
 	 * @since 3/18/05
 	 */
-	function collectTokens ($authTypeKey) {
+	function collectTokens () {
 		
-		if ((isset($_SESSION['__LastLoginTokens '.$authTypeKey]) 
+		if ((isset($_SESSION['__LastLoginTokens '.$this->authTypeKey]) 
 				&& 	md5($_SERVER['PHP_AUTH_USER'].$_SERVER['PHP_AUTH_PW'])
-			 		== $_SESSION['__LastLoginTokens '.$authTypeKey]) 
+			 		== $_SESSION['__LastLoginTokens '.$this->authTypeKey]) 
 			 || !isset($_SERVER['PHP_AUTH_USER']) || !$_SERVER['PHP_AUTH_USER']) 
 		{
 			$this->prompt();
 		}
 		
-		$_SESSION['__LastLoginTokens '.$authTypeKey] 
+		$_SESSION['__LastLoginTokens '.$this->authTypeKey] 
 			= md5($_SERVER['PHP_AUTH_USER'].$_SERVER['PHP_AUTH_PW']);
 		
 		return $this->collect();

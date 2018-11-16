@@ -603,8 +603,10 @@ class HarmoniAuthenticationManager
 		} else {
 			$tokenCollector =$this->_defaultTokenCollector;
 		}
-		
-		$tokens = $tokenCollector->collectTokens($authenticationType->asString());
+		if (method_exists($tokenCollector, 'setAuthTypeKey')) {
+			$tokenCollector->setAuthTypeKey($authenticationType->asString());
+		}
+		$tokens = $tokenCollector->collectTokens();
 		
 		
 		// if we have tokens, create an AuthNTokens object for them.
