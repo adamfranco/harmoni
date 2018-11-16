@@ -33,7 +33,7 @@ class CASAuthNTokens
 	public function __construct (CASAuthNMethod $authNMethod, Properties $configuration, $directoryUrl = null) {
 		$this->_authNMethod = $authNMethod;
 		$this->_directoryUrl = $directoryUrl;
-		parent::AuthNTokens($configuration);
+		parent::__construct($configuration);
 	}
 
 	/**
