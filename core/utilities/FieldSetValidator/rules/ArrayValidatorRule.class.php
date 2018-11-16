@@ -13,7 +13,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/ArrayValidatorRuleWithRu
  * @version $Id: ArrayValidatorRule.class.php,v 1.7 2007/10/09 21:11:59 adamfranco Exp $
  */
 class ArrayValidatorRule
-	extends ArrayValidatorRuleWithRule
+	extends ValidatorRuleInterface
 {
 	/**
 	 * the constructor
@@ -23,6 +23,16 @@ class ArrayValidatorRule
 	 **/
 	function __construct() {
 		$this->_rule =  AlwaysTrueValidatorRule::getRule();
+	}
+	
+	/**
+	 * checks a given value to make sure it's an array and then runs $this->_rule on each value
+	 * @param mixed $val the value to check
+	 * @access public
+	 * @return boolean true if the check succeeds, false if it (guess...) fails.
+	 **/
+	function check( $val ) {
+		return is_array($val);
 	}
 	
 	/**

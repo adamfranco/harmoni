@@ -34,21 +34,21 @@ class ValidatorRuleInterface{
 	 * @static
 	 * @since 3/28/05
 	 */
-	static function getRule () {
-		// Because there is no way in PHP to get the class name of the descendent
-		// class on which this method is called, this method must be implemented
-		// in each descendent class.
-		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
-
-		if (!isset($GLOBALS['validator_rules']) || !is_array($GLOBALS['validator_rules']))
-			$GLOBALS['validator_rules'] = array();
-		
-		$class = __CLASS__;
-		if (!isset($GLOBALS['validator_rules'][$class]))
-			$GLOBALS['validator_rules'][$class] = new $class;
-		
-		return $GLOBALS['validator_rules'][$class];
-	}
+	// static function getRule () {
+	// 	// Because there is no way in PHP to get the class name of the descendent
+	// 	// class on which this method is called, this method must be implemented
+	// 	// in each descendent class.
+	// 	die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); 
+	// 
+	// 	if (!isset($GLOBALS['validator_rules']) || !is_array($GLOBALS['validator_rules']))
+	// 		$GLOBALS['validator_rules'] = array();
+	// 
+	// 	$class = __CLASS__;
+	// 	if (!isset($GLOBALS['validator_rules'][$class]))
+	// 		$GLOBALS['validator_rules'][$class] = new $class;
+	// 
+	// 	return $GLOBALS['validator_rules'][$class];
+	// }
 	
 	/**
 	 * Return a key that can be used to identify this Rule for caching purposes.
