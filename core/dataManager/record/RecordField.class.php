@@ -204,7 +204,8 @@ class RecordField {
 		
 		// Ensure that the value can be converted
 		if (method_exists($value, $dataTypeManager->getConversionMethod($type))) {
-			eval('$value =$value->'.$dataTypeManager->getConversionMethod($type).'();');
+			$function = $dataTypeManager->getConversionMethod($type);
+			$value = $value->$function();
 		}
 		
 		$this->_checkObjectType($value);
