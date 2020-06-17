@@ -6,7 +6,7 @@
  *
  *
  * @package harmoni
- * 
+ *
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
@@ -15,7 +15,7 @@
 
  /* :: start the output buffer, if it's not already :: */
 if (!ob_get_level()) ob_start();
- 
+
 /**
  * Defines the global harmoni directory.
  * @const string HARMONI The harmoni core directory.
@@ -42,66 +42,12 @@ define("OKI2",dirname(__FILE__).DIRECTORY_SEPARATOR."oki2_0_1".DIRECTORY_SEPARAT
 //require_once(OKI."inc.php");
 
 /*********************************************************
- * if magic quotes on then get rid of them as we assume that
- * they are off.
- *********************************************************/
-if (get_magic_quotes_gpc()) {
-	// but really throw an error
-	print '
-	<HTML>
-		<HEAD>
-			<TITLE>ERROR</TITLE>
-			<STYLE TYPE="text/css">
-				body {
-					background-color: #eee;
-					margin: 50px 150px 50px 150px;
-					padding: 30px;
-					color: #333;
-					font-family: Verdana;
-
-					border: 1px dotted #555;
-				}
-
-				body p {
-					font-size: 12px;
-					text-align: center;
-					color: #955;
-				}
-
-				body div {
-					font-size: 18px;
-					font-weight: normal;
-				}
-			</STYLE>
-		</HEAD>
-
-		<BODY>
-			<P>Harmoni could not be initialized for the following reason:</P>
-			<DIV>
-				PHP\'s config directive <b>magic_quotes_gpc</b> is set to <b>On</b> and should be <b>Off</b>.
-			</DIV>
-			<p>To have Harmoni run in compatability mode (stripping slashes from the GET, POST, COOKIE, and REQUEST arrays, comment out lines 49-86 of harmoni.inc.php (this file/message).
-		</BODY>
-	</HTML>';
-	exit(1);
-	
-	function array_walk_stripslashes(&$val, $key) {
-		if (is_array($val)) array_walk($val, 'array_walk_stripslashes');
-		else $val = stripslashes($val);
-	}
-   array_walk($_GET, 'array_walk_stripslashes');
-   array_walk($_POST, 'array_walk_stripslashes');
-   array_walk($_REQUEST, 'array_walk_stripslashes');
-   array_walk($_COOKIE, 'array_walk_stripslashes');
-}
-
-/*********************************************************
  * Check that the PHP version is at least 5
  *********************************************************/
 if (defined('HARMONI_MIN_PHP_VERSION'))
 	$minPhpVersion = HARMONI_MIN_PHP_VERSION;
 else
-	$minPhpVersion = "5.2.0";
+	$minPhpVersion = "5.4.0";
 if (version_compare(phpversion(), $minPhpVersion, "<")) {
 	// but really throw an error
 	print '
