@@ -443,7 +443,7 @@ class HarmoniErrorHandler {
 		}
 		
 		if (class_exists('Services') && Services::serviceRunning("Logging")) {
-			$logName = preg_replace('/[^a-z0-9_\s-.]/i', '', $logName);
+			$logName = preg_replace('/[^a-z0-9_\s\-.]/i', '', $logName);
 			try {
 				$loggingManager = Services::getService("Logging");
 				$log =$loggingManager->getLogForWriting($logName);
