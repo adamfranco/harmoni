@@ -169,10 +169,9 @@ class RecordField {
 		if ($dataTypeManager->isObjectOfDataType($object,$type)) return true;
 		
 		// otherwise... throw an error.
-		throwError( new HarmoniError(
+		throw new HarmoniError(
 		"While trying to add/set a value in DMRecord ID ".$this->_parent->getID().", we recieved an unexpected
-		data type. Expecting: $type, but got an object of class ".get_class($object).".", "DMRecord",true));
-		return false;
+		data type. Expecting: $type, but got an object of class ".get_class($object).".", "DMRecord",true);
 	}
 	
 	/**
