@@ -78,7 +78,7 @@ class Archive_Tar extends PEAR
     *                   boolean value 'true' means 'gz'.
     * @access public
     */
-    function Archive_Tar($p_tarname, $p_compress = null)
+    function __construct($p_tarname, $p_compress = null)
     {
         $this->PEAR();
         $this->_compress = false;
@@ -377,14 +377,14 @@ class Archive_Tar extends PEAR
     function addString($p_filename, $p_string)
     {
         $v_result = true;
-        
+
         if (!$this->_isArchive()) {
             if (!$this->_openWrite()) {
                 return false;
             }
             $this->_close();
         }
-        
+
         if (!$this->_openAppend())
             return false;
 
