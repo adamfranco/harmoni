@@ -52,14 +52,30 @@ class LDAPConnector {
 		$this->_configuration =$configuration;
 		
 		// Validate the configuration options we use:
-		ArgumentValidator::validate (
-			$this->_configuration->getProperty('LDAPHost'),  
-			FieldRequiredValidatorRule::getRule());
-			
-		ArgumentValidator::validate (
-			$this->_configuration->getProperty('LDAPPort'),  
-			OptionalRule::getRule(NumericValidatorRule::getRule()));
-			
+
+		// New-style LDAP URI. E.g. ldap://hostname:port or ldaps://hostname:port for SSL.
+		if (!empty($this->_configuration->getProperty('LDAPURI'))) {
+			ArgumentValidator::validate (
+				$this->_configuration->getProperty('LDAPURI'),
+				RegexValidatorRule::getRule('#^ldaps?://.+#'));
+
+			// Make sure we aren't confused with old-style options.
+			if (!empty($this->_configuration->getProperty('LDAPHost')) || !empty($this->_configuration->getProperty('LDAPPort'))) {
+				throw new InvalidArgumentException('LDAPHost and LDAPPort are deprecated and no longer can be used when using LDAPURI.');
+			}
+		}
+		// Old-style (deprecated) host/port connection.
+		else {
+			ArgumentValidator::validate (
+				$this->_configuration->getProperty('LDAPHost'),
+				FieldRequiredValidatorRule::getRule());
+
+			ArgumentValidator::validate (
+				$this->_configuration->getProperty('LDAPPort'),
+				OptionalRule::getRule(NumericValidatorRule::getRule()));
+		}
+
+
 		ArgumentValidator::validate (
 			$this->_configuration->getProperty('UserBaseDN'), 
 			FieldRequiredValidatorRule::getRule());
@@ -127,9 +143,16 @@ class LDAPConnector {
 	 * @return void 
 	 **/
 	function _connect() {		
-		$this->_conn = 
-			ldap_connect($this->_configuration->getProperty("LDAPHost"),
-			$this->_configuration->getProperty("LDAPPort"));
+		// New-style LDAP URI. E.g. ldap://hostname:port or ldaps://hostname:port for SSL.
+		if (!empty($this->_configuration->getProperty('LDAPURI'))) {
+			$this->_conn = ldap_connect($this->_configuration->getProperty('LDAPURI'));
+		}
+		// Old-style (deprecated) host/port connection.
+		else {
+			$this->_conn =
+				ldap_connect($this->_configuration->getProperty("LDAPHost"),
+				$this->_configuration->getProperty("LDAPPort"));
+		}
 		if ($this->_conn == false)
 			throw new LDAPException ("LDAPAuthenticationMethod::_connect() - could 
 				not connect to LDAP host <b>".
