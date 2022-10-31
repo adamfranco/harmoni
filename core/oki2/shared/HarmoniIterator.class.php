@@ -33,7 +33,7 @@ class HarmoniIterator
 	/**
 	 * Constructor
 	 */
-	function HarmoniIterator ($elementArray) {
+	function __construct ($elementArray) {
 		if($elementArray===NULL){
 			$elementArray=array();
 		}
@@ -68,7 +68,7 @@ class HarmoniIterator
 			$this->_i++;
 			return $this->_elements[$this->_i];
 		} else {
-			throwError(new Error(SharedException::NO_MORE_ITERATOR_ELEMENTS(), get_class($this), 1));
+			throwError(new HarmoniError(SharedException::NO_MORE_ITERATOR_ELEMENTS(), get_class($this), 1));
 		}
 	}
 
@@ -92,7 +92,7 @@ class HarmoniIterator
 	 	if ($this->hasNext())
 		 	$this->_i++;
 	 	else
-	 		throwError(new Error(SharedException::NO_MORE_ITERATOR_ELEMENTS(),
+	 		throwError(new HarmoniError(SharedException::NO_MORE_ITERATOR_ELEMENTS(),
 	 			get_class($this), true));
 	 }
 }

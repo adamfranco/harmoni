@@ -26,10 +26,6 @@
     class MySQLSelectQueryTestCase extends UnitTestCase {
 	
 		var $query;
-	
-		function MySQLSelectQueryTestCase() {
-			$this->UnitTestCase();
-		}
 
         /**
          *    Sets up unit test wide variables at the start

@@ -29,7 +29,7 @@ class BackgroundRepeatSC extends StyleComponent {
 	 * @param string value The value to assign to this SC.
 	 * @access public
 	 **/
-	function BackgroundRepeatSC($value) {
+	function __construct($value) {
 		$options = array("repeat", "repeat-x", "repeat-y", "no-repeat");
 	
 		$errDescription = "Could not validate the background-repeat StyleComponent value \"%s\". ";
@@ -40,7 +40,7 @@ class BackgroundRepeatSC extends StyleComponent {
 		
 		
 		$rule = RegexValidatorRule::getRuleByArray($options);
-		$this->StyleComponent($value, $rule, $options, true, $errDescription, $displayName, $description);
+		parent::__construct($value, $rule, $options, true, $errDescription, $displayName, $description);
 	}
 }
 ?>

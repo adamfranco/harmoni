@@ -26,10 +26,6 @@
 	
 		// PostgreSQLDatabase object
 		var $db;
-	
-		function PostgreSQLINSERTQueryResultTestCase() {
-			$this->UnitTestCase();
-		}
 
         /**
          *    Sets up unit test wide variables at the start

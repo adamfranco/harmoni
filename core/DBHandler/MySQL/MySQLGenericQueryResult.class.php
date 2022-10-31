@@ -28,41 +28,29 @@ class MySQLGenericQueryResult
 {
 	
 	/**
-	 * The resource id for this SELECT query.
-	 * The resource id for this SELECT query.
-	 * @var integer $_resourceId The resource id for this SELECT query.
-	 * @access private
+	 * @var mysqli $_link The datbase connection.
 	 */
-	var $_resourceId;
-
-
+	var $_link;
+	
 	/**
-	 * The link identifier for the database connection.
-	 * The link identifier for the database connection.
-	 * @param integer $_linkId The link identifier for the database connection.
+	 * The resource id for this SELECT query.
+	 * The resource id for this SELECT query.
+	 * @var mysqli_result $_result The query result for this query.
 	 * @access private
 	 */
-	var $_linkId;
+	var $_result;
 	
 	/**
 	 * Constructor
 	 * 
-	 * @param integer $resourceId The resource id for this SELECT query.
-	 * @param integer $linkId The link identifier for the database connection.
+	 * @param mysqli $link The database connection
+	 * @param mysqli_result $result The query result for this query.
 	 * @access public
 	 * @since 7/2/04
 	 */
-	function MySQLGenericQueryResult ($resourceId, $linkId) {
-		// ** parameter validation
-		$resourceRule = ResourceValidatorRule::getRule();
-		if (!is_bool($resourceId)) {
-			ArgumentValidator::validate($resourceId, $resourceRule, true);
-		}
-		ArgumentValidator::validate($linkId, $resourceRule, true);
-		// ** end of parameter validation
-
-		$this->_resourceId = $resourceId;
-		$this->_linkId = $linkId;
+	function __construct (mysqli $link, mysqli_result $result) {
+		$this->_link = $link;
+		$this->_result = $result;
 	}
 	
 	/**
@@ -73,18 +61,7 @@ class MySQLGenericQueryResult
 	 * @return integer Number of rows that were processed by the query.
 	 */ 
 	function getNumberOfRows() {
-		return mysql_num_rows($this->_resourceId);
-	}
-
-	/**
-	 * Returns the resource id for this SELECT query.
-	 * Returns the resource id for this SELECT query. The resource id is returned
-	 * by the mysql_query() function.
-	 * @access public
-	 * @return integer The resource id for this SELECT query.
-	 **/
-	function getResourceId() { 
-		return $this->_resourceId;
+		return $this->_result->num_rows;
 	}
 	
 	/**
@@ -95,8 +72,7 @@ class MySQLGenericQueryResult
 	 * @since 7/1/04
 	 */
 	function returnAsSelectQueryResult () {
-		$obj = new MySQLSelectQueryResult($this->_resourceId, $this->_linkId);
-		return $obj;
+		return new MySQLSelectQueryResult($this->_link, $this->_result);
 	}
 	
 	/**
@@ -107,8 +83,7 @@ class MySQLGenericQueryResult
 	 * @since 7/1/04
 	 */
 	function returnAsInsertQueryResult () {
-		$obj = new MySQLInsertQueryResult($this->_linkId);
-		return $obj;
+		return new MySQLInsertQueryResult($this->_link);
 	}
 	
 	/**
@@ -119,8 +94,7 @@ class MySQLGenericQueryResult
 	 * @since 7/1/04
 	 */
 	function returnAsUpdateQueryResult () {
-		$obj = new MySQLUpdateQueryResult($this->_linkId);
-		return $obj;
+		return new MySQLUpdateQueryResult($this->_link);
 	}
 	
 	/**
@@ -131,9 +105,20 @@ class MySQLGenericQueryResult
 	 * @since 7/1/04
 	 */
 	function returnAsDeleteQueryResult () {
-		$obj = new MySQLDeleteQueryResult($this->_linkId);
-		return $obj;
+		return new MySQLDeleteQueryResult($this->_link);
 	}
+	
+	/**
+	 * Returns the resource id for this SELECT query.
+	 * Returns the resource id for this SELECT query. The resource id is returned
+	 * by the mysql_query() function.
+	 * @access public
+	 * @return integer The resource id for this SELECT query.
+	 **/
+	function getResourceId() { 
+		return $this->_result;
+	}
+
 }
 
 ?>

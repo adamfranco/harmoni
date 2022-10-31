@@ -96,7 +96,7 @@ class Component extends ComponentInterface {
 	 * result in copying the objects instead of referencing them as using
 	 * <code>addStyle()</code> would do.
 	 **/
-	function Component($content, $type, $index) {
+	function __construct($content, $type, $index) {
 		// ** parameter validation
 		$rule = OptionalRule::getRule(StringValidatorRule::getRule());
 		ArgumentValidator::validate($content, $rule, true);
@@ -140,13 +140,13 @@ class Component extends ComponentInterface {
 		// make sure we can apply it
 		if (!$styleCollection->canBeApplied()) {
 			$err = "This style collection cannot be applied to components.";
-			throwError(new Error($err, "GUIManager", false));
+			throwError(new HarmoniError($err, "GUIManager", false));
 			return;
 		}
 		
 		if (isset($this->_styleCollections[$styleCollection->getSelector()])) {
 			$err = "Cannot add two StyleCollections with the same selector!";
-			throwError(new Error($err, "GUIManager", true));
+			throwError(new HarmoniError($err, "GUIManager", true));
 		}
 		
 	 	$this->_styleCollections[$styleCollection->getSelector()] =$styleCollection;

@@ -30,7 +30,7 @@ class FileDataPart
 	var $_partStructure;
 	var $_data;
 	
-	function FileDataPart( $partStructure, $recordId, $configuration, $asset ) {
+	function __construct( $partStructure, $recordId, $configuration, $asset ) {
 		$this->_recordId =$recordId;
 		$this->_partStructure =$partStructure;
 		$this->_configuration =$configuration;
@@ -143,7 +143,7 @@ class FileDataPart
 	 */
 	function createPart(Id $partStructureId, $value) {
 		throwError(
-			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
+			new HarmoniError(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
 	}
 
 	/**
@@ -170,7 +170,7 @@ class FileDataPart
 	 */
 	function deletePart(Id $partId) {
 		throwError(
-			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
+			new HarmoniError(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
 	}
 
 	/**
@@ -194,7 +194,7 @@ class FileDataPart
 	 */
 	function getParts() {
 		throwError(
-			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
+			new HarmoniError(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
 	}
 
 	/**

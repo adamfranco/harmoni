@@ -28,8 +28,8 @@ class BackgroundColorSP extends StyleProperty {
 	 * @access public
 	 * @param string value The HTML color value for this SP.
 	 **/
-	function BackgroundColorSP($value=null) {
-		$this->StyleProperty("background-color", "Background Color", "This property specifies the background color.");
+	function __construct($value=null) {
+		parent::__construct("background-color", "Background Color", "This property specifies the background color.");
 		if (!is_null($value)) $this->addSC(new ColorSC($value));
 	}
 

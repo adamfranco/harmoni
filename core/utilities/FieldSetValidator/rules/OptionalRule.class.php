@@ -31,7 +31,7 @@ class OptionalRule
 	 * @access public
 	 * @return void 
 	 **/
-	function OptionalRule( $rule ) {
+	function __construct( $rule ) {
 		$this->_rule =  $rule;
 	}
 	

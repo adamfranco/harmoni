@@ -414,7 +414,7 @@ class OctopusObject
 	 * @access public
 	 * @since 7/12/05
 	 */
-	function OctopusObject () {
+	function __construct () {
 		$this->numberOfLegs = 8;
 		$this->numberOfSuckers = 12345;
 	}
@@ -468,7 +468,7 @@ class DogObject
 	 * @access public
 	 * @since 7/12/05
 	 */
-	function DogObject () {
+	function __construct () {
 		$this->numberOfLegs = 8;
 		$this->numberOfTails = 1;
 	}

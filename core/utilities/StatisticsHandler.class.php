@@ -25,7 +25,7 @@ class StatisticsHandler {
     * @access public
     */	
 
-	function StatisticsHandler($data) { 
+	function __construct($data) { 
 		if(is_array($data)){
 			$this->_data = $data;
 		}
@@ -248,6 +248,3 @@ class StatisticsHandler {
 		return true;
 	}
 }
-
-
-

@@ -28,8 +28,8 @@ class MarginLeftSP extends StyleProperty {
 	 * @access public
 	 * @param string length The length of margin.
 	 **/
-	function MarginLeftSP($length) {
-		$this->StyleProperty("margin-left", "Left Margin", "This property specifies the left margin.");
+	function __construct($length) {
+		parent::__construct("margin-left", "Left Margin", "This property specifies the left margin.");
 		if (!is_null($length)) $this->addSC(new LengthSC($length));
 	}
 

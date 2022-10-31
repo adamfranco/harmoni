@@ -26,7 +26,7 @@
 // change them.
 $tmpReporting = error_reporting();
 if ($tmpReporting & E_STRICT)
-	error_reporting(E_ALL & ~ E_STRICT);
+	error_reporting(E_ALL & ~ E_STRICT & ~ E_DEPRECATED);
 
 $handler = HarmoniErrorHandler::instance();
 $tmpFatal = $handler->fatalErrors();

@@ -188,7 +188,7 @@ class Timespan
 	 * @access private
 	 * @since 5/2/05
 	 */
-	function Timespan () {
+	function __construct () {
 		
 	}
 

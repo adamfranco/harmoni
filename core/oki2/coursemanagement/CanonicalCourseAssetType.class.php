@@ -12,8 +12,8 @@
  */
 class CanonicalCourseAssetType extends HarmoniType {
 
-	function CanonicalCourseAssetType() {
-		parent::HarmoniType("Harmoni","ClassManagement","CanonicalCourse");
+	function __construct() {
+		parent::__construct("Harmoni","ClassManagement","CanonicalCourse");
 	}
 }
 

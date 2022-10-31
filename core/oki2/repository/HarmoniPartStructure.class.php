@@ -38,7 +38,7 @@ class HarmoniPartStructure
 	 */
 	private $manager;
 	
-	function HarmoniPartStructure(RepositoryManager $manager, RecordStructure $recordStructure, SchemaField $schemaField, Id $repositoryId) {
+	function __construct(RepositoryManager $manager, RecordStructure $recordStructure, SchemaField $schemaField, Id $repositoryId) {
 		$this->manager = $manager;
 		$this->_schemaField =$schemaField;
 		$this->_recordStructure =$recordStructure;

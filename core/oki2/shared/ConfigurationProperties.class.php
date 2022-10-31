@@ -30,7 +30,7 @@ class ConfigurationProperties
 	 * @access public
 	 * @since 11/18/04
 	 */
-	function ConfigurationProperties() {
+	function __construct() {
 		$this->_type = new ConfigurationPropertiesType;
 		$this->_properties = array();
 	}

@@ -435,10 +435,10 @@ class Harmoni_Db_Select
      * an array, but possibly as a string containing one column.
      * @return void
      */
-    protected function _tableCols($correlationName, $cols) {
+    protected function _tableCols($correlationName, $cols, $afterCorrelationName = null) {
     	// allow us to pass empty columns in joining so that we can add columns later.
     	if (!is_null($cols)) {
-    		parent::_tableCols($correlationName, $cols);
+    		parent::_tableCols($correlationName, $cols, $afterCorrelationName);
     	}
     }
 	
@@ -728,8 +728,11 @@ class Harmoni_Db_Select
      * @param integer $fetchMode OPTIONAL
      * @return PDO_Statement|Zend_Db_Statement
      */
-    public function query($fetchMode = null)
+    public function query($fetchMode = null, $bind = array())
     {
+        if (!empty($bind)) {
+            $this->bind($bind);
+        }
         $stmt = $this->_adapter->query($this, $this->placeholderValues);
         if ($fetchMode == null) {
             $fetchMode = $this->_adapter->getFetchMode();

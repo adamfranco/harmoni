@@ -38,7 +38,7 @@ class HarmoniTerm
 	 * @access public
 	 * @return void
 	 */
-	function HarmoniTerm($id)
+	function __construct($id)
 	{
 		$this->_id =$id;
 		$this->_table = 'cm_term';

@@ -30,7 +30,7 @@ class RepeatSC extends StyleComponent {
 	 * @param string value The value to assign to this SC.
 	 * @access public
 	 **/
-	function RepeatSC($value) {
+	function __construct($value) {
 		$options = array("repeat","repeat-x","repeat-y","no-repeat");
 
 		$errDescription = "Could not validate the Repeat StyleComponent value \"%s\".
@@ -40,7 +40,7 @@ class RepeatSC extends StyleComponent {
 		$description = "Specifies the values for CSS property 'repeat'. Allowed values are: 
 						".implode(", ", $options).".";
 		$rule = RegexValidatorRule::getRuleByArray($options);
-		$this->StyleComponent($value, $rule, $options, true, $errDescription, $displayName, $description);
+		parent::__construct($value, $rule, $options, true, $errDescription, $displayName, $description);
 	}
 }
 ?>

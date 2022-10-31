@@ -28,8 +28,8 @@ class MarginSP extends StyleProperty {
 	 * @access public
 	 * @param string length The length of margin.
 	 **/
-	function MarginSP($length) {
-		$this->StyleProperty("margin", "Margin", "This property specifies the four margins at the same time.");
+	function __construct($length) {
+		parent::__construct("margin", "Margin", "This property specifies the four margins at the same time.");
 		if (!is_null($length)) $this->addSC(new LengthSC($length));
 	}
 

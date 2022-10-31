@@ -21,7 +21,7 @@ class EmailValidatorRule
 	 * @access public
 	 * @return void 
 	 **/
-	function EmailValidatorRule( ) {
+	function __construct( ) {
 		$this->_regex = "/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)+$/"; // matches any string that is an email address
 	}
 	

@@ -62,7 +62,7 @@ class HarmoniCanonicalCourse
 	 * @access public
 	 * @return void
 	 */
-	function HarmoniCanonicalCourse($id, $node)
+	function __construct($id, $node)
 	{
 		$this->_id =$id;
 		$this->_node =$node;

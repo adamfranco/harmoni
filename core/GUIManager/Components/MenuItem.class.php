@@ -41,14 +41,14 @@ class MenuItem extends Component /* implements MenuItemInterface */ {
 	 * result in copying the objects instead of referencing them as using
 	 * <code>addStyle()</code> would do.
 	 **/
-	function MenuItem($text, $index) {
+	function __construct($text, $index) {
 		// ** parameter validation
 		ArgumentValidator::validate($text, StringValidatorRule::getRule(), true);
 		// ** end of parameter validation	
 
 		$this->_text = $text;
 
-		$this->Component($text, MENU_ITEM_HEADING, $index);
+		parent::__construct($text, MENU_ITEM_HEADING, $index);
 		
 		// if there are style collections to add
 		if (func_num_args() > 2)

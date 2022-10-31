@@ -29,7 +29,7 @@ class TextTransformSC extends StyleComponent {
 	 * @param string value The value to assign to this SC.
 	 * @access public
 	 **/
-	function TextTransformSC($value) {
+	function __construct($value) {
 		$options = array("none", "capitalize", "uppercase", "lowercase");
 	
 		$errDescription = "Could not validate the text-transform StyleComponent value \"%s\". ";
@@ -39,7 +39,7 @@ class TextTransformSC extends StyleComponent {
 		$description = "Specifies the text transformation. Allowed values are: ".implode(", ", $options).".";
 		$rule = RegexValidatorRule::getRuleByArray($options);
 		
-		$this->StyleComponent($value, $rule, $options, true, $errDescription, $displayName, $description);
+		parent::__construct($value, $rule, $options, true, $errDescription, $displayName, $description);
 	}
 }
 ?>

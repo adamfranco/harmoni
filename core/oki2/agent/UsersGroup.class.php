@@ -29,7 +29,7 @@ class UsersGroup
 	 * @param integer dbIndex The database connection as returned by the DBHandler.
 	 * @access public
 	 */
-	function UsersGroup() {
+	function __construct() {
 		$idManager = Services::getService("Id");
 		$this->_id = $idManager->getId("edu.middlebury.agents.users");
 		$this->_idString = $this->_id->getIdString();
@@ -154,7 +154,7 @@ class UsersGroup
 	 * @access public
 	 */
 	function updateDescription ( $description ) {
-		throwError(new Error(AgentException::PERMISSION_DENIED(),"UsersGroup",true));
+		throwError(new HarmoniError(AgentException::PERMISSION_DENIED(),"UsersGroup",true));
 	}		
 
 	/**
@@ -180,7 +180,7 @@ class UsersGroup
 	 * @access public
 	 */
 	function add ( Agent $memberOrGroup ) { 
-		throwError(new Error(AgentException::PERMISSION_DENIED(),"UsersGroup",true));
+		throwError(new HarmoniError(AgentException::PERMISSION_DENIED(),"UsersGroup",true));
 	}
 
 	/**
@@ -204,7 +204,7 @@ class UsersGroup
 	 * 
 	 */
 	function attach( Agent $memberOrGroup) {
-		throwError(new Error(AgentException::PERMISSION_DENIED(),"UsersGroup",true));
+		throwError(new HarmoniError(AgentException::PERMISSION_DENIED(),"UsersGroup",true));
 	}
 	
 	/**
@@ -230,7 +230,7 @@ class UsersGroup
 	 * @access public
 	 */
 	function remove ( Agent $memberOrGroup ) {
-		throwError(new Error(AgentException::PERMISSION_DENIED(),"UsersGroup",true));
+		throwError(new HarmoniError(AgentException::PERMISSION_DENIED(),"UsersGroup",true));
 	}
 
 	
@@ -365,7 +365,7 @@ class UsersGroupIterator
 	var $_next;
 	var $_ignore;
 	
-	function UsersGroupIterator($agentIterator) {
+	function __construct($agentIterator) {
 		$this->_iterator = $agentIterator;
 		$this->_next = null;
 		$ids = Services::getService("Id");

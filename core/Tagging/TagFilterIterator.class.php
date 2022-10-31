@@ -33,8 +33,8 @@ class TagFilterIterator
 	 * @access public
 	 * @since 12/8/06
 	 */
-	function TagFilterIterator ( $sourceIterator, $filterValues = array() ) {
-		$this->HarmoniIterator($null = null);
+	function __construct ( $sourceIterator, $filterValues = array() ) {
+		parent::__construct($null = null);
 		$this->_sourceIterator =$sourceIterator;
 		$this->_toFilter = array();
 		

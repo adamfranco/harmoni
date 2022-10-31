@@ -28,7 +28,7 @@ class ThumbnailMimeTypePartStructure
 
 	var $_partStructure;
 	
-	function ThumbnailMimeTypePartStructure($partStructure) {
+	function __construct($partStructure) {
 		$this->_partStructure =$partStructure;
 	}
 	

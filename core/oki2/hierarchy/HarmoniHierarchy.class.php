@@ -65,7 +65,7 @@ class HarmoniHierarchy
 	 * one that all other nodes in the Hierarchy are using.
 	 * @access public
 	 */
-	function HarmoniHierarchy(Id $id, $displayName, $description, HierarchyCache $cache) {
+	function __construct(Id $id, $displayName, $description, HierarchyCache $cache) {
 		// ** parameter validation
 		ArgumentValidator::validate($displayName, StringValidatorRule::getRule(), true);
 		ArgumentValidator::validate($description, StringValidatorRule::getRule(), true);
@@ -165,9 +165,9 @@ class HarmoniHierarchy
 		
 		$queryResult =$dbHandler->query($query, $this->_cache->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0)
-			throwError(new Error(HierarchyException::OPERATION_FAILED(),"Hierarchy",true));
+			throwError(new HarmoniError(HierarchyException::OPERATION_FAILED(),"Hierarchy",true));
 		if ($queryResult->getNumberOfRows() > 1)
-			throwError(new Error(HierarchyException::OPERATION_FAILED() ,"Hierarchy",true));
+			throwError(new HarmoniError(HierarchyException::OPERATION_FAILED() ,"Hierarchy",true));
 	}
 
 	/**
@@ -235,9 +235,9 @@ class HarmoniHierarchy
 		
 		$queryResult =$dbHandler->query($query, $this->_cache->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0)
-			throwError(new Error(HierarchyException::OPERATION_FAILED(),"Hierarchy",true));
+			throwError(new HarmoniError(HierarchyException::OPERATION_FAILED(),"Hierarchy",true));
 		if ($queryResult->getNumberOfRows() > 1)
-			throwError(new Error(HierarchyException::OPERATION_FAILED(),"Hierarchy",true));
+			throwError(new HarmoniError(HierarchyException::OPERATION_FAILED(),"Hierarchy",true));
 	}
 	
 	/**
@@ -375,7 +375,7 @@ class HarmoniHierarchy
 	 * @access public
 	 */
 	function addNodeType ( Type $type ) { 
-		throwError(new Error(HierarchyException::UNIMPLEMENTED(), "Hierarchy", true));
+		throwError(new HarmoniError(HierarchyException::UNIMPLEMENTED(), "Hierarchy", true));
 	}
 
 	/**
@@ -405,7 +405,7 @@ class HarmoniHierarchy
 	 * @access public
 	 */
 	function removeNodeType ( Type $type ) { 
-		throwError(new Error(HierarchyException::UNIMPLEMENTED(), "Hierarchy", true));
+		throwError(new HarmoniError(HierarchyException::UNIMPLEMENTED(), "Hierarchy", true));
 	}
 
 	/**
@@ -697,7 +697,7 @@ class HarmoniHierarchy
 
 		if ($mode != Hierarchy::TRAVERSE_MODE_DEPTH_FIRST) {
 			// Only depth-first traversal is supported in the current implementation.
-			throwError(new Error(HierarchyException::UNKNOWN_TRAVERSAL_DIRECTION(), "Hierarchy", true));
+			throwError(new HarmoniError(HierarchyException::UNKNOWN_TRAVERSAL_DIRECTION(), "Hierarchy", true));
 		}
 
 		$down = ($direction == Hierarchy::TRAVERSE_DIRECTION_DOWN);

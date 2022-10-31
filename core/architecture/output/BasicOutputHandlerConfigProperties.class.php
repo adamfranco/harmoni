@@ -42,7 +42,7 @@ class BasicOutputHandlerConfigProperties
 	 * @access public
 	 * @since 11/18/04
 	 */
-	function ConfigurationProperties() {
+	function __construct() {
 		$this->_type = new ConfigurationPropertiesType;
 		$this->_properties = array(
 			serialize('document_type') => serialize('text/html'),
@@ -141,7 +141,7 @@ class BasicOutputHandlerConfigProperties
 	 */
 	function setProperty ( $key, $value ) {
 		if (!isset($this->_properties[serialize($key)]))
-			throwError(new Error("Invalid configuration key, '$key'.", "BasicOutputHandlerConfigProperties", true));
+			throwError(new HarmoniError("Invalid configuration key, '$key'.", "BasicOutputHandlerConfigProperties", true));
 		
 		$this->_properties[serialize($key)] = $value;
 	}

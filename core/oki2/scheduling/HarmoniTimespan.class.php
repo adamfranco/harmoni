@@ -41,11 +41,11 @@ class HarmoniTimespan
 	 * @access public
 	 * @return void
 	 */
-	function HarmoniTimespan($start, $end)
+	function __construct($start, $end)
 	{
 		
 		if($start>$end){
-			throwError(new Error("The end of a Timespan cannot come before the end", "HarmoniTimespan", true));
+			throwError(new HarmoniError("The end of a Timespan cannot come before the end", "HarmoniTimespan", true));
 		}
 		$this->_start = $start;
 		$this->_end = $end;

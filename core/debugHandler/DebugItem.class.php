@@ -45,7 +45,7 @@ class DebugItem {
 	 * @access public
 	 * @return void
 	 **/
-	function DebugItem( $text, $level=5, $category="general" ) {
+	function __construct( $text, $level=5, $category="general" ) {
 		$this->_text = $text;
 		$this->_category = $category;
 		$this->_level = $level;

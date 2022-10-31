@@ -54,8 +54,8 @@ require_once(HARMONI."GUIManager/StyleComponents/BackgroundAttachmentSC.class.ph
 
     class StyleComponentsTestCase extends UnitTestCase {
 		
-		function StyleComponentsTestCase() {
-			$this->UnitTestCase();
+		function __construct() {
+			parent::__construct();
 		}
 	
 		/**

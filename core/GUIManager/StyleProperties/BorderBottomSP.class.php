@@ -31,8 +31,8 @@ class BorderBottomSP extends StyleProperty {
 	 * @param string style The style of the border.
 	 * @param string color The color of the border.
 	 **/
-	function BorderBottomSP($width, $style, $color) {
-		$this->StyleProperty("border-bottom", "Bottom Border", "This property specifies the bottom border.");
+	function __construct($width, $style, $color) {
+		parent::__construct("border-bottom", "Bottom Border", "This property specifies the bottom border.");
 		if (!is_null($width)) $this->addSC(new LengthSC($width));
 		if (!is_null($style)) $this->addSC(new BorderStyleSC($style));
 		if (!is_null($color)) $this->addSC(new ColorSC($color));

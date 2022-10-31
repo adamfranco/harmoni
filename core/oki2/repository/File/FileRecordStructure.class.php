@@ -36,7 +36,7 @@ class HarmoniFileRecordStructure
 	
 	var $_partStructures;
 	
-	function HarmoniFileRecordStructure() {
+	function __construct() {
 		
 		// create an array of created PartStructures so we can return references to
 		// them instead of always making new ones.
@@ -195,7 +195,7 @@ class HarmoniFileRecordStructure
 		if ($this->_partStructures[$partStructureId->getIdString()]) {		
 			return $this->_partStructures[$partStructureId->getIdString()];
 		} else {
-			throwError(new Error(RepositoryException::UNKNOWN_ID(), "Repository :: FileRecordStructure", TRUE));
+			throwError(new HarmoniError(RepositoryException::UNKNOWN_ID(), "Repository :: FileRecordStructure", TRUE));
 		}
 	}
 

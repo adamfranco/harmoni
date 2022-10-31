@@ -11,7 +11,7 @@
  * @version $Id: StorableString.abstract.php,v 1.13 2007/10/10 22:58:36 adamfranco Exp $
  */
 abstract class StorableStringAbstract 
-	extends String 
+	extends HarmoniString 
 	implements StorablePrimitive
 {
 
@@ -119,7 +119,7 @@ abstract class StorableStringAbstract
 	 * @since 6/9/06
 	 */
 	function asAString () {
-		return String::fromString($this->asString());
+		return HarmoniString::fromString($this->asString());
 	}
 	
 	/**
@@ -130,7 +130,7 @@ abstract class StorableStringAbstract
 	 * @since 6/9/06
 	 */
 	function asAShortString () {
-		return String::fromString($this->asString());
+		return HarmoniString::fromString($this->asString());
 	}
 	
 	/**
@@ -186,7 +186,7 @@ abstract class StorableStringAbstract
 	 * @since 6/9/06
 	 */
 	function asAFloat () {
-		return Float::fromString($this->asString());
+		return HarmoniFloat::fromString($this->asString());
 	}
 	
 }

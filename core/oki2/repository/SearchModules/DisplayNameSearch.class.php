@@ -34,7 +34,7 @@ class DisplayNameSearch
 	 * @access public
 	 * @since 11/2/04
 	 */
-	function DisplayNameSearch ( $dr ) {
+	function __construct ( $dr ) {
 		$this->_dr =$dr;
 	}
 	

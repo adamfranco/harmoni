@@ -26,10 +26,6 @@
     class OracleSelectQueryTestCase extends UnitTestCase {
 	
 		var $query;
-	
-		function OracleSelectQueryTestCase() {
-			$this->UnitTestCase();
-		}
 
         /**
          *    Sets up unit test wide variables at the start

@@ -37,8 +37,8 @@ require_once(HARMONI."GUIManager/Components/Menu.class.php");
 
     class ComponentsTestCase extends UnitTestCase {
 		
-		function ComponentsTestCase() {
-			$this->UnitTestCase();
+		function __construct() {
+			parent::__construct();
 		}
 	
 		/**

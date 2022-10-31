@@ -128,7 +128,7 @@ class SelectQuery
 	 * The constructor initializes the query object.
 	 * @access public
 	 */
-	function SelectQuery() {
+	function __construct() {
 		$this->reset();
 	}
 

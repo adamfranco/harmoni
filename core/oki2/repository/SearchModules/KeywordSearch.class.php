@@ -24,7 +24,7 @@ class KeywordSearch
 	 * @access public
 	 * @since 11/2/04
 	 */
-	function KeywordSearch ( $dr ) {
+	function __construct ( $dr ) {
 		$this->_dr =$dr;
 	}
 	
@@ -55,7 +55,7 @@ class KeywordSearch
 		$criteria = new OrSearch();
 		
 		// create one string value
-		$stringValue = String::withValue($searchCriteria);
+		$stringValue = HarmoniString::withValue($searchCriteria);
 		
 		foreach ($schemaIDs as $schemaID) {
 			if ($schemaID != $assetContentID) {

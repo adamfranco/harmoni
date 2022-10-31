@@ -86,7 +86,7 @@ END;
 			// we got something else back... well, let's print out an error
 			// explaining what happened.
 			$type = gettype($content);
-			throwError(new Error("Harmoni::execute() - The result returned from action '$pair' was unexpected. Expecting a Layout
+			throwError(new HarmoniError("Harmoni::execute() - The result returned from action '$pair' was unexpected. Expecting a Layout
 					object, but got a variable of type '$type'.","Harmoni",true));
 		}
 	}
@@ -215,30 +215,27 @@ END;
 
 
 	/**
-	 * Saves the theme state to the database. The theme state is saved by 
-	 * exporting the theme's style properties, and then serializing the output
-	 * and storing it into the database.  If the Theme already exists, it is 
-	 * merely replaced.
+	 * Saves the current theme by updating the theme settings in the database
+	 *
+	 * @return void
 	 * @access public
-	 * @param ref object theme The theme whose state needs to be saved.
-	 * @return ref object A HarmoniId objecting identifying the saved state uniquely.
-	 **/
-	function saveTheme($theme) {
+	 * @since 4/26/06
+	 */
+	function saveTheme () {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	
 
 	
 	/**
-	 * Loads the theme state stored priorly with <code>saveThemeState()</code>. This 
-	 * method reverses the steps of <code>saveThemeState()</code>. It first obtains
-	 * the database-stored theme state, unserializes it, and finally imports
-	 * it into the theme.
+	 * Load theme
+	 *
+	 * @param object HarmoniId $themeId
+	 * @return void
 	 * @access public
-	 * @param ref object stateId The id of the theme state that will be loaded.
-	 * @param ref object theme The theme whose state needs to be loaded.
-	 **/
-	function loadTheme($stateId, $theme) {
+	 * @since 4/26/06
+	 */
+	function loadTheme ($themeId) {
 		die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class.");
 	}
 	

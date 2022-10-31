@@ -29,7 +29,7 @@ class TextAlignSC extends StyleComponent {
 	 * @param string value The value to assign to this SC.
 	 * @access public
 	 **/
-	function TextAlignSC($value) {
+	function __construct($value) {
 		$options = array("left", "right", "center", "justify");
 	
 		$errDescription = "Could not validate the text-align StyleComponent value \"%s\". ";
@@ -39,7 +39,7 @@ class TextAlignSC extends StyleComponent {
 		$description = "Specifies the text alignment. Allowed values are: ".implode(", ", $options).".";
 		
 		$rule = RegexValidatorRule::getRuleByArray($options);
-		$this->StyleComponent($value, $rule, $options, true, $errDescription, $displayName, $description);
+		parent::__construct($value, $rule, $options, true, $errDescription, $displayName, $description);
 	}
 }
 ?>

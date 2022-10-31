@@ -51,7 +51,7 @@ class DeleteQuery
 	 * This is the constructor for a DELETE query.
 	 * @access public
 	 */
-	function DeleteQuery() {
+	function __construct() {
 		$this->reset();
 	}
 

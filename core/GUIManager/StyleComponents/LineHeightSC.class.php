@@ -30,7 +30,7 @@ class LineHeightSC extends StyleComponent {
 	 * @param string value The value to assign to this SC.
 	 * @access public
 	 **/
-	function LineHeightSC($value) {
+	function __construct($value) {
 		$options = array("normal");
 
 		$errDescription = "Could not validate the line-height StyleComponent value \"%s\".
@@ -47,7 +47,7 @@ class LineHeightSC extends StyleComponent {
 						multiplier (use 2 for double-spaced text), or a specific line-height value 
 						(a length value, i.e. px, in, %, etc.).";
 		
-		$this->StyleComponent($value, $rule, $options, false, $errDescription, $displayName, $description);
+		parent::__construct($value, $rule, $options, false, $errDescription, $displayName, $description);
 	}
 }
 

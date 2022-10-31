@@ -28,7 +28,7 @@ class FlowLayout extends LayoutInterface {
 	 * The constructor.
 	 * @access public
 	 **/
-	function FlowLayout() {
+	function __construct() {
 	}
 
 	/**

@@ -23,7 +23,7 @@ class RecordField {
 	
 	var $_id;
 	
-	function RecordField( $schemaField, $parent ) {
+	function __construct( $schemaField, $parent ) {
 		$this->_myLabel = $schemaField->getLabel();
 		
 		$this->_parent =$parent;
@@ -169,10 +169,9 @@ class RecordField {
 		if ($dataTypeManager->isObjectOfDataType($object,$type)) return true;
 		
 		// otherwise... throw an error.
-		throwError( new Error(
+		throw new HarmoniError(
 		"While trying to add/set a value in DMRecord ID ".$this->_parent->getID().", we recieved an unexpected
-		data type. Expecting: $type, but got an object of class ".get_class($object).".", "DMRecord",true));
-		return false;
+		data type. Expecting: $type, but got an object of class ".get_class($object).".", "DMRecord",true);
 	}
 	
 	/**
@@ -189,7 +188,7 @@ class RecordField {
 		// allow addValue() if we don't have any values yet.
 		if (!$this->_schemaField->getMultFlag() && $this->numValues(true)) {
 			$label = $this->_myLabel;
-			throwError ( new Error(
+			throwError ( new HarmoniError(
 			"Field label '$label' can not add a new value because it does not allow multiple
 				values. In Schema ".$this->_parent->getSchemaID().".",
 			"DMRecord",true));
@@ -204,7 +203,8 @@ class RecordField {
 		
 		// Ensure that the value can be converted
 		if (method_exists($value, $dataTypeManager->getConversionMethod($type))) {
-			eval('$value =$value->'.$dataTypeManager->getConversionMethod($type).'();');
+			$function = $dataTypeManager->getConversionMethod($type);
+			$value = $value->$function();
 		}
 		
 		$this->_checkObjectType($value);

@@ -183,7 +183,7 @@ class TagManager
 		else if (method_exists($items, 'getDatabaseId')) {
 			$itemDbIds[] = "'".addslashes($items->getDatabaseId())."'";
 		} else {
-			throwError(new Error("Invalid parameter, ".get_class($items).", for \$items", "Tagging"));
+			throwError(new HarmoniError("Invalid parameter, ".get_class($items).", for \$items", "Tagging"));
 		}
 		
 		// Return an empty iterator if we have no item ids
@@ -257,7 +257,7 @@ class TagManager
 		else if (method_exists($items, 'getDatabaseId')) {
 			$itemDbIds[] = "'".addslashes($items->getDatabaseId())."'";
 		} else {
-			throwError(new Error("Invalid parameter, ".get_class($items).", for \$items", "Tagging"));
+			throwError(new HarmoniError("Invalid parameter, ".get_class($items).", for \$items", "Tagging"));
 		}
 		$query->addWhere("tag.fk_item IN (".implode(", ", $itemDbIds).")");
 		
@@ -378,7 +378,7 @@ class TagManager
 		else if (method_exists($items, 'getDatabaseId')) {
 			$itemDbIds[] = "'".addslashes($items->getDatabaseId())."'";
 		} else {
-			throwError(new Error("Invalid parameter, ".get_class($items).", for \$items", "Tagging"));
+			throwError(new HarmoniError("Invalid parameter, ".get_class($items).", for \$items", "Tagging"));
 		}
 		$query->addWhere("tag.fk_item IN (".implode(", ", $itemDbIds).")");
 		
@@ -432,7 +432,7 @@ class TagManager
 		else if (method_exists($items, 'getDatabaseId')) {
 			$itemDbIds[] = "'".addslashes($items->getDatabaseId())."'";
 		} else {
-			throwError(new Error("Invalid parameter, $items, for \$items", "Tagging"));
+			throwError(new HarmoniError("Invalid parameter, $items, for \$items", "Tagging"));
 		}
 		
 		if (!count($itemDbIds))
@@ -517,7 +517,7 @@ class TagManager
     	
     	$systemConfiguration = $this->getConfigurationForSystem($system);
     	if (!$systemConfiguration['ItemClass'])
-    		throwError(new Error("Unconfigured ItemClass for system, '$system'", "Tagging"));
+    		throwError(new HarmoniError("Unconfigured ItemClass for system, '$system'", "Tagging"));
     	return $systemConfiguration['ItemClass'];
     }
     

@@ -63,14 +63,14 @@ class Container extends Component /* implements ContainerInterface */ {
 	 * result in copying the objects instead of referencing them as using
 	 * <code>addStyle()</code> would do.
 	 **/
-	function Container($layout, $type, $index) {
+	function __construct($layout, $type, $index) {
 		// ** parameter validation
 		$rule = ExtendsValidatorRule::getRule("LayoutInterface");
 		ArgumentValidator::validate($layout, $rule, true);
 		ArgumentValidator::validate($index, IntegerValidatorRule::getRule(), true);
 		// ** end of parameter validation	
 	
-		$this->Component(null, $type, $index);
+		parent::__construct(null, $type, $index);
 		$this->_layout =$layout;
 		$this->_components = array();
 		$this->_constraints = array();
@@ -188,7 +188,7 @@ class Container extends Component /* implements ContainerInterface */ {
 		// ** end of parameter validation
 		
 		if (!in_array($placeholderId, $this->_placeholders))
-			throwError(new Error("Unknown placeholder id, '".$placeholderId."'.", "GUIManager"));
+			throwError(new HarmoniError("Unknown placeholder id, '".$placeholderId."'.", "GUIManager"));
 		
 		$constraint = array();
 		$constraint[0] = $width;

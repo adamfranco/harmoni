@@ -48,7 +48,7 @@ class StatusStars {
 	 * @access public
 	 * @since 2/22/06
 	 */
-	function StatusStars ($label = '') {
+	function __construct ($label = '') {
 		// nothing to do here
 		$this->_label = $label;
 	}

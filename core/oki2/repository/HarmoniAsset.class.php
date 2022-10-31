@@ -58,7 +58,7 @@ class HarmoniAsset
 	/**
 	 * Constructor
 	 */
-	function HarmoniAsset (RepositoryManager $manager, Hierarchy $hierarchy, Repository $repository, Id $id, ConfigurationProperties $configuration) {
+	function __construct (RepositoryManager $manager, Hierarchy $hierarchy, Repository $repository, Id $id, ConfigurationProperties $configuration) {
 	 	// Get the node coresponding to our id
 	 	$this->manager = $manager;
 		$this->_hierarchy =$hierarchy;
@@ -1151,7 +1151,7 @@ class HarmoniAsset
 				// Make sure that we have a valid dataSet
 				$rule = ExtendsValidatorRule::getRule("DMRecord");
 				if (!$rule->check($record))
-					throwError(new Error(RepositoryException::UNKNOWN_ID(), "Repository :: Asset", TRUE));
+					throwError(new HarmoniError(RepositoryException::UNKNOWN_ID(), "Repository :: Asset", TRUE));
 				
 				// Get the record structure.
 				$schema =$record->getSchema();
@@ -1450,7 +1450,7 @@ class HarmoniAsset
 			if ($contentTypeId->isEqual($structure->getId()))
 				return $structure;
 		}
-		throwError(new Error(RepositoryException::OPERATION_FAILED(), "Repository :: Asset", TRUE));
+		throwError(new HarmoniError(RepositoryException::OPERATION_FAILED(), "Repository :: Asset", TRUE));
 	}
 	
 	
@@ -1492,7 +1492,7 @@ class HarmoniAsset
 			}
 		}
 		// Throw an error if we didn't find the part.
-		throwError(new Error(RepositoryException::UNKNOWN_ID(), "Repository :: Asset", TRUE));
+		throwError(new HarmoniError(RepositoryException::UNKNOWN_ID(), "Repository :: Asset", TRUE));
 	}
 	
 	/**

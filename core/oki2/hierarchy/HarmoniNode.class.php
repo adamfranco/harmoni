@@ -285,9 +285,9 @@ class HarmoniNode
 		
 		$queryResult =$dbHandler->query($query, $this->_cache->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0)
-			throwError(new Error(HierarchyException::OPERATION_FAILED(),"Hierarchy",true));
+			throwError(new HarmoniError(HierarchyException::OPERATION_FAILED(),"Hierarchy",true));
 		if ($queryResult->getNumberOfRows() > 1)
-			throwError(new Error(HierarchyException::OPERATION_FAILED() ,"Hierarchy",true));
+			throwError(new HarmoniError(HierarchyException::OPERATION_FAILED() ,"Hierarchy",true));
 	}
 
 	/**
@@ -334,9 +334,9 @@ class HarmoniNode
 		
 		$queryResult =$dbHandler->query($query, $this->_cache->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0)
-			throwError(new Error(HierarchyException::OPERATION_FAILED(),"Hierarchy",true));
+			throwError(new HarmoniError(HierarchyException::OPERATION_FAILED(),"Hierarchy",true));
 		if ($queryResult->getNumberOfRows() > 1)
-			throwError(new Error(HierarchyException::OPERATION_FAILED() ,"Hierarchy",true));
+			throwError(new HarmoniError(HierarchyException::OPERATION_FAILED() ,"Hierarchy",true));
 	}
 
 	/**

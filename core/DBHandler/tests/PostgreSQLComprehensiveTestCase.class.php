@@ -25,10 +25,6 @@
     class PostgreSQLComprehensiveTestCase extends UnitTestCase {
 		
 		var $db;
-	
-		function PostgreSQLComprehensiveTestCase() {
-			$this->UnitTestCase();
-		}
 
         /**
          *    Sets up unit test wide variables at the start

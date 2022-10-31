@@ -52,7 +52,7 @@ class PostgreSQLGenericQueryResult
 	 * @access public
 	 * @since 7/2/04
 	 */
-	function PostgreSQLGenericQueryResult ($resourceId, $linkId) {
+	function __construct ($resourceId, $linkId) {
 		// ** parameter validation
 		$resourceRule = ResourceValidatorRule::getRule();
 		if (!is_bool($resourceId)) {

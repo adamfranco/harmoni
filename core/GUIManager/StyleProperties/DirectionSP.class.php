@@ -28,8 +28,8 @@ class DirectionSP extends StyleProperty {
 	 * @access public
 	 * @param string value The value of the direction property.
 	 **/
-	function DirectionSP($value) {
-		$this->StyleProperty("direction", "Direction", "This property specifies the text direction.");
+	function __construct($value) {
+		parent::__construct("direction", "Direction", "This property specifies the text direction.");
 		if (!is_null($value)) $this->addSC(new DirectionSC($value));
 	}
 

@@ -11,10 +11,10 @@
  * @version $Id: Blob.class.php,v 1.9 2007/10/10 22:58:33 adamfranco Exp $
  */
 class Blob 
-	extends String 
+	extends HarmoniString 
 {
 
-	function Blob($string="") {
+	function __construct($string="") {
 		$this->_string = $string;
 	}
 	

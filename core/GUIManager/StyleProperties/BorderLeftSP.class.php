@@ -31,8 +31,8 @@ class BorderLeftSP extends StyleProperty {
 	 * @param string style The style of the border.
 	 * @param string color The color of the border.
 	 **/
-	function BorderLeftSP($width, $style, $color) {
-		$this->StyleProperty("border-left", "Left Border", "This property specifies the left border.");
+	function __construct($width, $style, $color) {
+		parent::__construct("border-left", "Left Border", "This property specifies the left border.");
 		if (!is_null($width)) $this->addSC(new LengthSC($width));
 		if (!is_null($style)) $this->addSC(new BorderStyleSC($style));
 		if (!is_null($color)) $this->addSC(new ColorSC($color));

@@ -20,7 +20,7 @@ class OrderedList {
 	 * Constructor. Create a new ordered list.
 	 * @access public
 	 */
-	function OrderedList(){
+	function __construct(){
 		$this->_list = array();
 	}
 
@@ -238,5 +238,3 @@ class OrderedList {
 		$this->_list = array();
 	}
 }
-
-

@@ -43,7 +43,7 @@ class AuthNTokens {
 	 * @access public
 	 * @since 3/1/05
 	 */
-	function AuthNTokens ( $configuration ) {
+	function __construct ( $configuration ) {
 		$this->_configuration =$configuration;
 	}
 	
@@ -56,7 +56,7 @@ class AuthNTokens {
 	 * @since 3/1/05
 	 */
 	function initializeForTokens ( $tokens ) {
-		throwError( new Error("AuthNTokens::initializeForTokens() should have been overridden in a child class.",
+		throwError( new HarmoniError("AuthNTokens::initializeForTokens() should have been overridden in a child class.",
 									 "AuthNTokens", true));
 	}
 	
@@ -71,7 +71,7 @@ class AuthNTokens {
 	 * @since 3/1/05
 	 */
 	function initializeForIdentifier ( $identifier ) {
-		throwError( new Error("AuthNTokens::initializeForIdentifier() should have been overridden in a child class.",
+		throwError( new HarmoniError("AuthNTokens::initializeForIdentifier() should have been overridden in a child class.",
 									 "AuthNTokens", true));
 	}
 	

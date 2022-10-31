@@ -48,8 +48,8 @@ class NiksTheme extends Theme {
 	 * here.
 	 * @access public
 	 **/
-	function NiksTheme() {
-		$this->Theme("Nik's Theme", "A basic theme based on simple borders and colored blocks.");
+	function __construct() {
+		parent::__construct("Nik's Theme", "A basic theme based on simple borders and colored blocks.");
 		
 		// =====================================================================
 		// global Theme style

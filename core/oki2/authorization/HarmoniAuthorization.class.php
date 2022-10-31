@@ -110,7 +110,7 @@ class HarmoniAuthorization
 		if (isset($effectiveDate) && isset($expirationDate))
 			if ($effectiveDate > $expirationDate) {
 				$str = "The effective date must be before the expiration date.";
-				throwError(new Error($str, "Authorization", true));
+				throwError(new HarmoniError($str, "Authorization", true));
 			}
 
 		$this->_id = $id;
@@ -194,7 +194,7 @@ class HarmoniAuthorization
 	 * @access public
 	 */
 	function getModifiedBy () { 
-		throwError(new Error(AuthorizationExeption::UNIMPLEMENTED(), "Authorization", true));
+		throwError(new HarmoniError(AuthorizationExeption::UNIMPLEMENTED(), "Authorization", true));
 	} 
 
 	/**
@@ -218,7 +218,7 @@ class HarmoniAuthorization
 	 * @access public
 	 */
 	function getModifiedDate () { 
-		throwError(new Error(AuthorizationExeption::UNIMPLEMENTED(), "Authorization", true));
+		throwError(new HarmoniError(AuthorizationExeption::UNIMPLEMENTED(), "Authorization", true));
 	} 
 
 	/**
@@ -385,7 +385,7 @@ class HarmoniAuthorization
 	function updateExpirationDate ( $expirationDate ) { 
 		if (!$this->isExplicit()) {
 			$str = "Cannot modify an implicit Authorization.";
-			throwError(new Error(AuthorizationException::OPERATION_FAILED(), 
+			throwError(new HarmoniError(AuthorizationException::OPERATION_FAILED(), 
 				"Authorization", true));
 		}
 		
@@ -396,7 +396,7 @@ class HarmoniAuthorization
 
 		// make sure effective date is before expiration date
 		if ($this->_effectiveDate->isGreaterThan($expirationDate)) {
-			throwError(new Error(AuthorizationException::EFFECTIVE_PRECEDE_EXPIRATION(), 
+			throwError(new HarmoniError(AuthorizationException::EFFECTIVE_PRECEDE_EXPIRATION(), 
 				"Authorization", true));
 		}
 
@@ -417,9 +417,9 @@ class HarmoniAuthorization
 		
 		$queryResult =$dbHandler->query($query, $this->_cache->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0)
-			throwError(new Error(AuthorizationException::OPERATION_FAILED(),"Authorization",true));
+			throwError(new HarmoniError(AuthorizationException::OPERATION_FAILED(),"Authorization",true));
 		if ($queryResult->getNumberOfRows() > 1)
-			throwError(new Error(AuthorizationException::OPERATION_FAILED() ,"Authorization",true));
+			throwError(new HarmoniError(AuthorizationException::OPERATION_FAILED() ,"Authorization",true));
 	}
 					
 	/**
@@ -448,7 +448,7 @@ class HarmoniAuthorization
 	function updateEffectiveDate ( $effectiveDate ) { 
 		if (!$this->isExplicit()) {
 			// "Cannot modify an implicit Authorization."
-			throwError(new Error(AuthorizationException::OPERATION_FAILED(), 
+			throwError(new HarmoniError(AuthorizationException::OPERATION_FAILED(), 
 				"Authorization", true));
 		}
 		
@@ -459,7 +459,7 @@ class HarmoniAuthorization
 
 		// make sure effective date is before expiration date
 		if ($effectiveDate->isGreaterThan($this->_expirationDate)) {
-			throwError(new Error(AuthorizationException::EFFECTIVE_PRECEDE_EXPIRATION(), 
+			throwError(new HarmoniError(AuthorizationException::EFFECTIVE_PRECEDE_EXPIRATION(), 
 				"Authorization", true));
 		}
 
@@ -480,9 +480,9 @@ class HarmoniAuthorization
 		
 		$queryResult =$dbHandler->query($query, $this->_cache->_dbIndex);
 		if ($queryResult->getNumberOfRows() == 0)
-			throwError(new Error(AuthorizationException::OPERATION_FAILED(),"Authorization",true));
+			throwError(new HarmoniError(AuthorizationException::OPERATION_FAILED(),"Authorization",true));
 		if ($queryResult->getNumberOfRows() > 1)
-			throwError(new Error(AuthorizationException::OPERATION_FAILED() ,"Authorization",true));
+			throwError(new HarmoniError(AuthorizationException::OPERATION_FAILED() ,"Authorization",true));
 	}
 
 

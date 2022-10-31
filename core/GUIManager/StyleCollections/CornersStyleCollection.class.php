@@ -58,8 +58,8 @@ class CornersStyleCollection
 	 * @param string displayName The display name of this StyleCollection.
 	 * @param string description The description of this StyleCollection.
 	 **/
-	function CornersStyleCollection($selector, $classSelector, $displayName, $description) {
-		$this->StyleCollection($selector, $classSelector, $displayName, $description);
+	function __construct($selector, $classSelector, $displayName, $description) {
+		parent::__construct($selector, $classSelector, $displayName, $description);
 		$this->_positions = array("TopLeft", "TopRight", "BottomLeft", "BottomRight");
 		$this->_urls = array();
 	}
@@ -77,7 +77,7 @@ class CornersStyleCollection
 	 */
 	function setBorderUrl ($position, $url, $height = 15, $width = 15) {
 		if (!in_array($position, $this->_positions))
-			throwError(new Error("Invalid Position, $position"));
+			throwError(new HarmoniError("Invalid Position, $position"));
 		
 		$this->_urls[$position] = $url;
 		$this->_heights[$position] = $height;
@@ -95,7 +95,7 @@ class CornersStyleCollection
 	 */
 	function getBorderUrl ($position) {
 		if (!in_array($position, $this->_positions))
-			throwError(new Error("Invalid Position, $position"));
+			throwError(new HarmoniError("Invalid Position, $position"));
 		
 		return $this->_urls[$position];
 	}

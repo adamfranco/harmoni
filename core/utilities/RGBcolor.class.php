@@ -22,7 +22,7 @@ class RGBColor {
 	 * @param integer $blue The value of the blue component of the color.
 	 * @access public
 	 */	
-	function RGBColor($red,$green,$blue) { 
+	function __construct($red,$green,$blue) { 
 		$this->_red = $red;
 		$this->_green = $green;
 		$this->_blue = $blue;
@@ -129,7 +129,7 @@ class RGBColor {
 	 * @access public
 	 */	
 	function setRGB($red,$green,$blue) {
-		$this->RGBColor($red,$green,$blue);
+		$this->__construct($red,$green,$blue);
 	}
 
  	/**
@@ -208,5 +208,3 @@ class RGBColor {
 		return $obj;
 	}
 }
-
-

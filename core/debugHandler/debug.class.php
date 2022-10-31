@@ -45,7 +45,7 @@ class debug {
 	 **/
 	static function level($level=null) {
 		if (!Services::serviceAvailable("Debug")) {
-			throwError ( new Error("Debug::level($level) called but Debug service isn't available.","debug wrapper",false));
+			throwError ( new HarmoniError("Debug::level($level) called but Debug service isn't available.","debug wrapper",false));
 			return;
 		}
 		

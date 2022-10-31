@@ -17,8 +17,8 @@ class DefaultNodeType
 	extends HarmoniType 
 {
 
-	function DefaultNodeType() {
-		$this->HarmoniType("Hierarchy", "Harmoni", "Node", "Default node type");
+	function __construct() {
+		parent::__construct("Hierarchy", "Harmoni", "Node", "Default node type");
 	}
 
 }

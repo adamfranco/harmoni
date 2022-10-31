@@ -107,7 +107,7 @@ class StyleComponent extends StyleComponentInterface {
 	 * @param string description The description of the SC.
 	 * @access public
 	 **/
-	function StyleComponent($value, $rule, $options, $limitedToOptions, $errorDescription, $displayName, $description) {
+	function __construct($value, $rule, $options, $limitedToOptions, $errorDescription, $displayName, $description) {
 		if (isset($rule)&&!is_null($rule)){
 			$this->_rule =$rule;
 		}else{
@@ -118,7 +118,7 @@ class StyleComponent extends StyleComponentInterface {
 		
 	
 		if(func_num_args()<7){
-			throwError(new Error("Too few parameters for StyleComponent", "GUIManager", true));
+			throwError(new HarmoniError("Too few parameters for StyleComponent", "GUIManager", true));
 		}
 			
 		$this->_displayName = $displayName;
@@ -143,7 +143,7 @@ class StyleComponent extends StyleComponentInterface {
 		
 		// validate the value		
 		if (!$this->_rule->check($value)){
-			throwError(new Error($this->_errorDescription, "GUIManager", true));
+			throwError(new HarmoniError($this->_errorDescription, "GUIManager", true));
 		}
 			
 		$this->_value = $value;
@@ -159,7 +159,7 @@ class StyleComponent extends StyleComponentInterface {
 	 */
 	function setId ($id) {
 		if (!is_object($id))
-			throwError(new Error("GUIMANAGER", "STRING ID PASSED"));
+			throwError(new HarmoniError("GUIMANAGER", "STRING ID PASSED"));
 		$this->_id =$id;
 	}
 	
@@ -236,7 +236,7 @@ class StyleComponent extends StyleComponentInterface {
 	function setValue($value) {
 		// validate the value
 		if (!$this->_rule->check($value))
-			throwError(new Error($this->_errorDescription, "GUIManager", false));
+			throwError(new HarmoniError($this->_errorDescription, "GUIManager", false));
 			
 		$this->_value = $value;
 	}

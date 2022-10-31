@@ -57,7 +57,7 @@ class PostgreSQLInsertQueryResult
 	 * @param integer $lastId The last id that was inserted
 	 * @return object A new PostgreSQLINSERTQueryResult object.
 	 */
-	function PostgreSQLInsertQueryResult($resourceId, $lastId) {
+	function __construct($resourceId, $lastId) {
 		// ** parameter validation
 		$resourceRule = ResourceValidatorRule::getRule();
 		$integerRule = OptionalRule::getRule(IntegerValidatorRule::getRule());

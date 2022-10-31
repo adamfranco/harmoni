@@ -28,8 +28,8 @@ class PaddingLeftSP extends StyleProperty {
 	 * @access public
 	 * @param string length The length of padding.
 	 **/
-	function PaddingLeftSP($length) {
-		$this->StyleProperty("padding-left", "Left Padding", "This property specifies the left padding.");
+	function __construct($length) {
+		parent::__construct("padding-left", "Left Padding", "This property specifies the left padding.");
 		if (!is_null($length)) $this->addSC(new LengthSC($length));
 	}
 

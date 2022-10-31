@@ -41,7 +41,7 @@ class HarmoniEntry
 	 * @access public
 	 * @since 3/1/06
 	 */
-	function HarmoniEntry ( $timestamp, $category, $description, $backtrace, $agents, $nodes, $formatType, $priorityType ) {
+	function __construct ( $timestamp, $category, $description, $backtrace, $agents, $nodes, $formatType, $priorityType ) {
 		ArgumentValidator::validate($timestamp, ExtendsValidatorRule::getRule("DateAndTime"));
 		ArgumentValidator::validate($category, StringValidatorRule::getRule());
 		ArgumentValidator::validate($description, StringValidatorRule::getRule());

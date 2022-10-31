@@ -18,7 +18,7 @@ class AuthZ2_DefaultNodeType
 {
 
 	function __construct() {
-		$this->HarmoniType("Hierarchy", "Harmoni", "Node", "Default node type");
+		parent::__construct("Hierarchy", "Harmoni", "Node", "Default node type");
 	}
 
 }

@@ -28,7 +28,7 @@ class FloatSC extends StyleComponent {
 	 * @param string value The value to assign to this SC.
 	 * @access public
 	 **/
-	function FloatSC($value) {
+	function __construct($value) {
 		$options = array("none","left","right");
 	
 		$errDescription = "Could not validate the float StyleComponent value \"%s\". ";
@@ -40,7 +40,7 @@ class FloatSC extends StyleComponent {
 		
 		
 		$rule = RegexValidatorRule::getRuleByArray($options);
-		$this->StyleComponent($value, $rule, $options, true, $errDescription, $displayName, $description);
+		parent::__construct($value, $rule, $options, true, $errDescription, $displayName, $description);
 	}
 }
 ?>

@@ -28,8 +28,8 @@ class PaddingTopSP extends StyleProperty {
 	 * @access public
 	 * @param string length The length of the padding.
 	 **/
-	function PaddingTopSP($length) {
-		$this->StyleProperty("padding-top", "Top Padding", "This property specifies the top padding.");
+	function __construct($length) {
+		parent::__construct("padding-top", "Top Padding", "This property specifies the top padding.");
 		if (!is_null($length)) $this->addSC(new LengthSC($length));
 	}
 

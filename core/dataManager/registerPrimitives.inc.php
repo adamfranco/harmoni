@@ -9,7 +9,7 @@
  */
  
 $this->addDataType("integer","Integer","StorableInteger", "asAnInteger");
-$this->addDataType("string","String","StorableString", "asAString");
+$this->addDataType("string","HarmoniString","StorableString", "asAString");
 $this->addDataType("blob","Blob","StorableBlob", "asABlob");
 $this->addDataType("shortstring","String","StorableShortString", "asAString");
 $this->addDataType("float","Float","StorableFloat", "asAFloat");

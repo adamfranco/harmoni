@@ -78,7 +78,7 @@ class DataContainer
 	function get( $field ) {
 		// check if this is a valid key
 		if (!in_array($field,$this->_ruleSet->getKeys())) {
-			throwError(new Error(get_class($this)." - can not get the value for key '$field' because it is not a valid key!","DataContainer",true));
+			throwError(new HarmoniError(get_class($this)." - can not get the value for key '$field' because it is not a valid key!","DataContainer",true));
 			return false;
 		}
 		return $this->_fieldSet->get( $field );
@@ -95,7 +95,7 @@ class DataContainer
 		// first check if this is a valid field.
 		if (!in_array($field,$this->_ruleSet->getKeys())) {
 			// no good
-			throwError( new Error(get_class($this)." - can not set key '$field' because it is not a valid key!","DataContainer",true));
+			throwError( new HarmoniError(get_class($this)." - can not set key '$field' because it is not a valid key!","DataContainer",true));
 			return false;
 		}
 		if ($this->_ruleSet->validate($field, $val)) {

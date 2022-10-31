@@ -26,10 +26,6 @@
     class PostgreSQLSelectQueryTestCase extends UnitTestCase {
 	
 		var $query;
-	
-		function PostgreSQLSelectQueryTestCase() {
-			$this->UnitTestCase();
-		}
 
         /**
          *    Sets up unit test wide variables at the start

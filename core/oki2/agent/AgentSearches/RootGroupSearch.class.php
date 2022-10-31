@@ -32,7 +32,7 @@ class RootGroupSearch
 	 * @access public
 	 * @since 12/1/04
 	 */
-	function RootGroupSearch ( $hierarchy) {
+	function __construct ( $hierarchy) {
 		$this->_hierarchy =$hierarchy;
 	}
 	

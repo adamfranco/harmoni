@@ -23,7 +23,7 @@ class RecordTag {
 	
 	var $_loaded;
 	
-	function RecordTag( $recordID, $date, $id = null ) {		
+	function __construct( $recordID, $date, $id = null ) {		
 		$this->_myID = $myID;
 		$this->_recordID = $recordID;
 		$this->_date =$date;
@@ -43,7 +43,7 @@ class RecordTag {
 			$index = $row["record_field_index"];
 			$verID = $row["record_field_id"];
 			
-			if (isset($this->_mappings[$id][$index])) throwError ( new Error(
+			if (isset($this->_mappings[$id][$index])) throwError ( new HarmoniError(
 				"While creating RecordTag mappings, we already have a mapping for $label -> $index. What's going on?","RecordTag",true));
 			
 			$this->_mappings[$id][$index] = $verID;

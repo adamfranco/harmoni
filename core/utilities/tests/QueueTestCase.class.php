@@ -28,10 +28,6 @@
 		var $testQueue;
 		var $testObject;
 	
-		function QueueTestCase() {
-			$this->UnitTestCase();
-		}
-	
 		/**
 		*  Sets up unit test wide variables at the start
 		*    of each test method.

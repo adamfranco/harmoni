@@ -27,7 +27,7 @@ class FieldValueSearch extends SearchCriteria {
 	 * @param optional int $comparisonType The comparison type to use (equals, contains, less than, etc.) See the SEARCH_TYPE_* constants. Defaults to SEARCH_TYPE_EQUALS
 	 * @return void
 	 */
-	function FieldValueSearch( $schemaID, $label, $value, $comparisonType=SEARCH_TYPE_EQUALS) {
+	function __construct( $schemaID, $label, $value, $comparisonType=SEARCH_TYPE_EQUALS) {
 		$this->_schemaID =$schemaID;
 		$this->_label = $label;
 		$this->_value =$value;
@@ -51,7 +51,7 @@ class FieldValueSearch extends SearchCriteria {
 		if (!$typeMgr->isObjectOfDataType($this->_value, $field->getType()) 
 			&& !$extendsRule->check($this->_value)) 
 		{
-			throwError( new Error("Cannot take a '".get_class($this->_value)."' object as search criteria
+			throwError( new HarmoniError("Cannot take a '".get_class($this->_value)."' object as search criteria
 			for field '$this->_label'; a '".$field->getType()."' is required.","FieldValueSearch",true));
 		}
 		

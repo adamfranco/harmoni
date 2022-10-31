@@ -50,7 +50,7 @@ class PostgreSQLUpdateQueryResult
 	 * @access public
 	 * @param integer $resourceId The resource id for this query.
 	 */
-	function PostgreSQLUpdateQueryResult($resourceId) {
+	function __construct($resourceId) {
 		// ** parameter validation
 		$resourceRule = ResourceValidatorRule::getRule();
 		ArgumentValidator::validate($resourceId, $resourceRule, true);

@@ -35,7 +35,7 @@ class VerticalAlignSC extends StyleComponent {
 	 * @param string value The value to assign to this SC.
 	 * @access public
 	 **/
-	function VerticalAlignSC($value) {
+	function __construct($value) {
 		$options = array("baseline","middle","top","bottom","text-top","text-bottom",
 					"super","sub");
 
@@ -50,7 +50,7 @@ class VerticalAlignSC extends StyleComponent {
 						".implode(", ", $options).", or a distance value 
 						(a length value, i.e. px, in, %, etc.).";
 		
-		$this->StyleComponent($value, $rule, $options, false, $errDescription, $displayName, $description);
+		parent::__construct($value, $rule, $options, false, $errDescription, $displayName, $description);
 	}
 }
 

@@ -39,7 +39,7 @@ class Tree extends TreeInterface {
 	 * The constructor does some initializations.
 	 * @access public
 	 */
-	function Tree() {
+	function __construct() {
 		$this->_nodes = array();
 		$this->_size = 0;
 		$this->_traversalCache = array();
@@ -79,7 +79,7 @@ class Tree extends TreeInterface {
 			// make sure $parent is in the tree
 			if (!$this->nodeExists($parent->getId())) {
 				$str = "Attempted to create a child for a node that is not in the tree.";
-				throwError(new Error($str, "Hierarchy", true));
+				throwError(new HarmoniError($str, "Hierarchy", true));
 			}
 			
 			// now add $node as a child to $parent
@@ -123,7 +123,7 @@ class Tree extends TreeInterface {
 		
 		if (($node->getParentsCount() != 0) || ($node->getChildrenCount() != 0)) {
 				$str = "Cannot delete a node that has parents or children.";
-				throwError(new Error($str, "Hierarchy", true));
+				throwError(new HarmoniError($str, "Hierarchy", true));
 		}
 		
 		// now delete it
@@ -240,7 +240,7 @@ class Tree extends TreeInterface {
 		
 		if (!$this->nodeExists($node->getId())) {
 			$str = "Attempted to traverse from a node that does not exist in the tree.";
-			throwError(new Error($str, "Hierarchy", true));
+			throwError(new HarmoniError($str, "Hierarchy", true));
 		}
 		
 		$cacheKey =  $this->getCacheKey($node, $down, $levels);

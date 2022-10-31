@@ -32,8 +32,8 @@ class BorderSP extends StyleProperty {
 	 * @param string style The style of the border.
 	 * @param string color The color of the border.
 	 **/
-	function BorderSP($width, $style, $color) {
-		$this->StyleProperty("border", "Border", "This property specifies all four borders at once.");
+	function __construct($width, $style, $color) {
+		parent::__construct("border", "Border", "This property specifies all four borders at once.");
 		if (!is_null($width)) $this->addSC(new LengthSC($width));
 		if (!is_null($style)) $this->addSC(new BorderStyleSC($style));
 		if (!is_null($color)) $this->addSC(new ColorSC($color));

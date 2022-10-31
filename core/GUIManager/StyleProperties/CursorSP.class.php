@@ -28,8 +28,8 @@ class CursorSP extends StyleProperty {
 	 * @access public
 	 * @param string value This is the value of the property.
 	 **/
-	function CursorSP($value) {
-		$this->StyleProperty("cursor", "Cursor", "Specifies the cursor type.");
+	function __construct($value) {
+		parent::__construct("cursor", "Cursor", "Specifies the cursor type.");
 		if (!is_null($value)) $this->addSC(new CursorSC($value));
 	}
 

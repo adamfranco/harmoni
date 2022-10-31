@@ -47,8 +47,8 @@ class GenericTheme extends Theme {
 	 * here. 
 	 * @access public
 	 **/
-	function GenericTheme() {
-		$this->Theme(null,null);
+	function __construct() {
+		parent::__construct(null,null);
 		
 	}
 

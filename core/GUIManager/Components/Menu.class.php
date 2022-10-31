@@ -39,8 +39,8 @@ class Menu extends Container /* implements MenuInterface */ {
 	 * result in copying the objects instead of referencing them as using
 	 * <code>addStyle()</code> would do.
 	 **/
-	function Menu($layout, $index) {
-		$this->Container($layout, MENU, $index);
+	function __construct($layout, $index) {
+		parent::__construct($layout, MENU, $index);
 		
 		$this->_selectedId = null;
 

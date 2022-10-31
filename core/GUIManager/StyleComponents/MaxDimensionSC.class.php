@@ -29,7 +29,7 @@ class MaxDimensionSC extends StyleComponent {
 	 * @param string value The value to assign to this SC.
 	 * @access public
 	 **/
-	function MaxDimensionSC($value) {
+	function __construct($value) {
 		$options = array("none");
 
 		$errDescription = "Could not validate the MaxDimension StyleComponent value \"%s\".
@@ -45,7 +45,7 @@ class MaxDimensionSC extends StyleComponent {
   					    or a specific distance value (in length units, i.e. px,
 						in, %, etc).";
 		
-		$this->StyleComponent($value, $rule, $options, false, $errDescription, $displayName, $description);
+		parent::__construct($value, $rule, $options, false, $errDescription, $displayName, $description);
 	}
 }
 ?>

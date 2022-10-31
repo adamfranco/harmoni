@@ -39,12 +39,12 @@ class Block extends Component {
 	 * result in copying the objects instead of referencing them as using
 	 * <code>addStyle()</code> would do.
 	 **/
-	function Block($content, $index) {
+	function __construct($content, $index) {
 		// ** parameter validation
 		ArgumentValidator::validate($content, StringValidatorRule::getRule(), true);
 		// ** end of parameter validation	
 
-		$this->Component($content, BLOCK, $index);
+		parent::__construct($content, BLOCK, $index);
 		
 		// if there are style collections to add
 		if (func_num_args() > 2)

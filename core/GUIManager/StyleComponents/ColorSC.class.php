@@ -31,7 +31,7 @@ class ColorSC extends StyleComponent {
 	 * @param string value The value to assign to this SC.
 	 * @access public
 	 **/
-	function ColorSC($value) {
+	function __construct($value) {
 		$errDescription = "Could not validate the color StyleComponent value \"%s\". ";
 		$errDescription .= "Allowed formats are: #RGB, #RRGGBB, rgb(R,G,B), and rgb(R%%,G%%,B%%).";
 		
@@ -42,7 +42,7 @@ class ColorSC extends StyleComponent {
 		(R stands for Red, G stands for Green, and B stands for Blue):
 		#RGB, #RRGGBB (R,G,B are 0-F hexadecimal digits), rgb(R,G,B) (R,G,B are
 		0-255 decimals), rgb(R%,G%,B%) (R%,G%,B% are floating-point 0-100 percentages).";
-		$this->StyleComponent($value, $rule, null, null, $errDescription, $displayName, $description);
+		parent::__construct($value, $rule, null, null, $errDescription, $displayName, $description);
 	}
 	
 
@@ -116,7 +116,7 @@ class CSSColorValidatorRule extends RegexValidatorRule {
 	
 	
 	
-	function CSSColorValidatorRule(){
+	function __construct(){
 		
 		$type1 = "#[0-9a-fA-F]{3}([0-9a-fA-F]{3})?";
 		

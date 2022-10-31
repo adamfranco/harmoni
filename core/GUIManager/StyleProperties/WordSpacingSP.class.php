@@ -28,8 +28,8 @@ class WordSpacingSP extends StyleProperty {
 	 * @access public
 	 * @param string length The length of margin, but CANNOT be in % format.
 	 **/
-	function WordSpacingSP($length) {
-		$this->StyleProperty("word-spacing", "Word Spacing", "This property specifies the word spacing.");
+	function __construct($length) {
+		parent::__construct("word-spacing", "Word Spacing", "This property specifies the word spacing.");
 		if (!is_null($length)) $this->addSC(new TextSpacingSC($length));
 	}
 

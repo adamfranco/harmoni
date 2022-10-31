@@ -28,7 +28,7 @@ class WhiteSpaceSC extends StyleComponent {
 	 * @param string value The value to assign to this SC.
 	 * @access public
 	 **/
-	function WhiteSpaceSC($value) {
+	function __construct($value) {
 		$options = array("normal","pre","nowrap");
 	
 		$errDescription = "Could not validate the white-space StyleComponent value \"%s\". ";
@@ -40,7 +40,7 @@ class WhiteSpaceSC extends StyleComponent {
 		
 		$rule = RegexValidatorRule::getRuleByArray($options);
 		
-		$this->StyleComponent($value, $rule, $options, true, $errDescription, $displayName, $description);
+		parent::__construct($value, $rule, $options, true, $errDescription, $displayName, $description);
 	}
 }
 ?>

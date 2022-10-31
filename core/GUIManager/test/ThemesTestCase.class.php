@@ -33,8 +33,8 @@ require_once(HARMONI."GUIManager/StyleProperties/FontSP.class.php");
 
     class ThemesTestCase extends UnitTestCase {
 		
-		function ThemesTestCase() {
-			$this->UnitTestCase();
+		function __construct() {
+			parent::__construct();
 		}
 	
 		/**

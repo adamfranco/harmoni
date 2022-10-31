@@ -59,7 +59,7 @@ class HarmoniAgent
 	 * @param object Node $node
 	 * @access public
 	 */
-	function HarmoniAgent($hierarchy, $node) {
+	function __construct($hierarchy, $node) {
 		// ** parameter validation
 		ArgumentValidator::validate($node, ExtendsValidatorRule::getRule("Node"), true);
 		ArgumentValidator::validate($hierarchy, ExtendsValidatorRule::getRule("Hierarchy"), true);

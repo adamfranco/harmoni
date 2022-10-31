@@ -27,7 +27,7 @@ class RecordFieldData {
 	var $_prune = false;
 	var $_recast = false;
 	
-	function RecordFieldData($parent, $active=false) {
+	function __construct($parent, $active=false) {
 		$this->_date = DateAndTime::now();
 		$this->_active = $active;
 		

@@ -30,7 +30,7 @@ class FileDataPartStructure
 
 	var $_recordStructure;
 	
-	function FileDataPartStructure($recordStructure) {
+	function __construct($recordStructure) {
 		$this->_recordStructure =$recordStructure;
 	}
 	

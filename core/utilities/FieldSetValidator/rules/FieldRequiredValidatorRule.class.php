@@ -21,7 +21,7 @@ class FieldRequiredValidatorRule
 	 * @access public
 	 * @return void 
 	 **/
-	function FieldRequiredValidatorRule( ) {
+	function __construct( ) {
 		$this->_regex = "/[^[:blank:]]+/"; // matches any string with at least one non-blank character
 	}
 	

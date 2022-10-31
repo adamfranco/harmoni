@@ -129,7 +129,7 @@ class HarmoniCourseManagementManager
 
 
 
-	function HarmoniCourseManagementManager () {
+	function __construct () {
 
 
 	}
@@ -1202,7 +1202,7 @@ class HarmoniCourseManagementManager
 
 		$courseOffering =$this->getCourseOffering($courseOfferingId);
 		if($courseGradeType!=null && !$courseGradeType->isEqual($courseOffering->getGradeType())){
-			throwError(new Error("Cannot create a CourseGradeRecord if the GradeType differs from the CourseOffering","CourseManagementManager",true));
+			throwError(new HarmoniError("Cannot create a CourseGradeRecord if the GradeType differs from the CourseOffering","CourseManagementManager",true));
 		}
 
 
@@ -1718,7 +1718,7 @@ class HarmoniCourseManagementManager
 
 
 		if(!$res->hasMoreRows()){
-			throwError(new Error("No Type has Id '".$index."' in table 'cm_".$typename."_type'","CourseManagement", true));
+			throwError(new HarmoniError("No Type has Id '".$index."' in table 'cm_".$typename."_type'","CourseManagement", true));
 		}
 
 		//There should be exactly one result.  Convert it to a type and return it
@@ -1855,7 +1855,7 @@ class HarmoniCourseManagementManager
 		$res =$dbHandler->query($query);
 
 		if(!$res->hasMoreRows()){
-			throwError(new Error("Cannot get key '".$key."' from non-existant object with id '".$idString."'", "CourseManagement", true));
+			throwError(new HarmoniError("Cannot get key '".$key."' from non-existant object with id '".$idString."'", "CourseManagement", true));
 		}
 
 		$row = $res->getCurrentRow();

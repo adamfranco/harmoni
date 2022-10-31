@@ -31,7 +31,7 @@ class AgentTokenMapping {
 	 * @access public
 	 * @since 3/1/05
 	 */
-	function AgentTokenMapping ( $authenticationType, $agentId, $authNTokens ) {
+	function __construct ( $authenticationType, $agentId, $authNTokens ) {
 		ArgumentValidator::validate($authNTokens, ExtendsValidatorRule::getRule("AuthNTokens"));
 		ArgumentValidator::validate($agentId, ExtendsValidatorRule::getRule("Id"));
 		ArgumentValidator::validate($authenticationType, ExtendsValidatorRule::getRule("Type"));

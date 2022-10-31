@@ -1399,7 +1399,7 @@ class HarmoniAuthorizationManager
 		
 // 		printpre("a: $agentIdString \nf: $functionIdString \nq: $qualifierIdString");
 // 		printpre($containingGroups);
-// 		throwError(new Error("failed"));
+// 		throwError(new HarmoniError("failed"));
 		
 		
 		// We need to check all of the groups that may contain $aId as well as
@@ -1507,7 +1507,7 @@ class HarmoniAuthorizationManager
 		
 		if ($implicitAuthorization->isExplicit()) {
 			// "The Authorization must be implicit."
-			throwError(new Error(AuthorizationExeption::OPERATION_FAILED(), "AuthorizationManager", true));
+			throwError(new HarmoniError(AuthorizationExeption::OPERATION_FAILED(), "AuthorizationManager", true));
 		}
 		
 		$agentId =$implicitAuthorization->getAgentId();

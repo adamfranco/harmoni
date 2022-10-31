@@ -614,7 +614,7 @@ class StorableTime
 	 * @since 6/9/06
 	 */
 	function asAString () {
-		return String::fromString($this->asString());
+		return HarmoniString::fromString($this->asString());
 	}
 	
 	/**
@@ -625,7 +625,7 @@ class StorableTime
 	 * @since 6/9/06
 	 */
 	function asAShortString () {
-		return String::fromString($this->asString());
+		return HarmoniString::fromString($this->asString());
 	}
 	
 	/**
@@ -660,6 +660,6 @@ class StorableTime
 	 */
 	function asAFloat () {
 		$tstamp =$this->asTimestamp();
-		return Float::withValue($tstamp->asUnixTimeStamp());
+		return HarmoniFloat::withValue($tstamp->asUnixTimeStamp());
 	}
 }

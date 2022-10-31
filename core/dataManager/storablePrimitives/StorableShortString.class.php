@@ -117,7 +117,7 @@ class StorableShortString
 	}
 	
 
-	function StorableShortString() {
+	function __construct() {
 		$this->_table = "dm_shortstring";
 	}
 		

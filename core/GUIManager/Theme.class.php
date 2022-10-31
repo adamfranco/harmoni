@@ -137,7 +137,7 @@ class Theme extends ThemeInterface {
 	 * @param string $displayName
 	 * @param string $description
 	 **/
-	function Theme($displayName, $description) {
+	function __construct($displayName, $description) {
 		// ** parameter validation
 		$rule = OptionalRule::getRule(StringValidatorRule::getRule());
 		ArgumentValidator::validate($displayName, $rule, true);
@@ -167,7 +167,7 @@ class Theme extends ThemeInterface {
 // 		$idManager = Services::getService("Id");
 // 		$this->_id =$idManager->getId($id);
 		if (!is_object($id))
-			throwError(new Error("GUIMANAGER", "STRING ID PASSED"));
+			throwError(new HarmoniError("GUIMANAGER", "STRING ID PASSED"));
 		$this->_id =$id;
 	}
 	
@@ -480,7 +480,7 @@ class Theme extends ThemeInterface {
 		// make sure we can apply it
 		if (!$styleCollection->canBeApplied()) {
 			$err = "This style collection cannot be applied to components.";
-			throwError(new Error($err, "GUIManager", false));
+			throwError(new HarmoniError($err, "GUIManager", false));
 			return;
 		}
 		
@@ -873,7 +873,7 @@ class Theme extends ThemeInterface {
 		// of elements in the importData array, then it's no good!
 		if (count($importData) != count($scs)) {
 		    $err = "Invalid import data or invalid style property id!";
-			throwError(new Error($err, "GUIManager", true));
+			throwError(new HarmoniError($err, "GUIManager", true));
 			return;
 		}
 		

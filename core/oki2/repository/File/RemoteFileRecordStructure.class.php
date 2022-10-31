@@ -48,13 +48,13 @@ class RemoteFileRecordStructure
 	 * @access public
 	 * @since 12/5/06
 	 */
-	function RemoteFileRecordStructure () {
+	function __construct () {
 		if (!is_array($this->_partStructures))
 			$this->_partStructures = array();
 		
 		$this->_partStructures['FILE_URL'] = new FileUrlPartStructure($this);
 		
-		$this->HarmoniFileRecordStructure();
+		parent::__construct();
 		unset($this->_partStructures['FILE_DATA'], $this->_partStructures['FILE_SIZE']);
 		
 		$this->_partStructures['FILE_SIZE'] = new RemoteFileSizePartStructure($this);

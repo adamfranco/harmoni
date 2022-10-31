@@ -28,8 +28,8 @@ class FontFamilySP extends StyleProperty {
 	 * @access public
 	 * @param string family The font family.
 	 **/
-	function FontFamilySP($family) {
-		$this->StyleProperty("font-family", "Font Family", "This property sets the font family.");
+	function __construct($family) {
+		parent::__construct("font-family", "Font Family", "This property sets the font family.");
 
 		if (!is_null($family)) $this->addSC(new FontFamilySC($family));
 	}

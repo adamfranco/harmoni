@@ -74,7 +74,7 @@ class HarmoniAuthenticationManager
 	 * Constructor. Ititializes the availible AuthenticationTypes and results.
 	 * @return void
 	 */
-	function HarmoniAuthenticationManager () {
+	function __construct () {
 		if (!isset($_SESSION['__AuthenticatedAgents']) || !is_array($_SESSION['__AuthenticatedAgents'])) {
 			$_SESSION['__AuthenticatedAgents'] = array();
 		}
@@ -603,8 +603,10 @@ class HarmoniAuthenticationManager
 		} else {
 			$tokenCollector =$this->_defaultTokenCollector;
 		}
-		
-		$tokens = $tokenCollector->collectTokens($authenticationType->asString());
+		if (method_exists($tokenCollector, 'setAuthTypeKey')) {
+			$tokenCollector->setAuthTypeKey($authenticationType->asString());
+		}
+		$tokens = $tokenCollector->collectTokens();
 		
 		
 		// if we have tokens, create an AuthNTokens object for them.

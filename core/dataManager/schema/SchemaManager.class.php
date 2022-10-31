@@ -23,7 +23,7 @@ class SchemaManager {
 	* @param array $preloadTypes An array containing a number of {@link Schema} type IDs to
 	* pre-load structure data for. This will avoid queries later on.
 	*/
-	function SchemaManager( $preloadTypes ) {
+	function __construct( $preloadTypes ) {
 		$this->_schemas = array();
 		
 		// talk to the DB
@@ -165,7 +165,7 @@ class SchemaManager {
 	function _addSchema($type, $displayName, $revision, $description) {
 		debug::output("Adding Schema type '".$type."' to database.",DEBUG_SYS1,"DataManager");
 		if ($this->schemaExists($type)) {
-			throwError( new Error(
+			throwError( new HarmoniError(
 				"A Schema for this Type already exists, so the existing one has been returned.",
 				"DataManager",false));
 			debug::output("Returning existing Schema for '".$type."'",DEBUG_SYS5, "DataManager");
@@ -219,7 +219,7 @@ class SchemaManager {
 			foreach ($this->_schemas as $key => $val)
 				$list[] = $key;
 			
-			throwError ( new Error(
+			throwError ( new HarmoniError(
 				"Could not find Schema with ID '$id' in (".printpre($list, true).")!","DataManager",true));
 		}
 		return $this->_schemas[$id];
@@ -358,7 +358,7 @@ class SchemaManager {
 			$newType = $newField->getType();
 			if ($newType != $oldType) {
 				// go PSYCHO!!!!
-				throwError( new Error(
+				throwError( new HarmoniError(
 					"While synchronizing Schema '".$this->_type."', it appears that the
 					field type for id '$label' is different from what we have stored. It is not possible
 					to synchronize without potential data loss. Aborting.","DataManager",true));
@@ -429,7 +429,7 @@ class SchemaManager {
 				}
 				// otherwise, throw an error!
 				if ($oldReq && !$newReq) {
-					throwError( new Error("synchronize() can not change a field's required flag from NO to YES!","DataManager",true));
+					throwError( new HarmoniError("synchronize() can not change a field's required flag from NO to YES!","DataManager",true));
 					return false;
 				}
 			}

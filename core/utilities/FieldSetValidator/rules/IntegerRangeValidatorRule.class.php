@@ -36,7 +36,7 @@ class IntegerRangeValidatorRule
 	 * Initializes the rule
 	 * @access public
 	 */
-	function IntegerRangeValidatorRule($min, $max) {
+	function __construct($min, $max) {
 		$this->_min = $min;
 		$this->_max = $max;
 	}

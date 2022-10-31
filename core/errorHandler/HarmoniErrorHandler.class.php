@@ -236,7 +236,7 @@ class HarmoniErrorHandler {
 	 * @since 10/10/07
 	 * @static
 	 */
-	public static function handleException (Exception $exception) {
+	public static function handleException ( Throwable $exception) {
 		$priority = 'Uncaught Exception';
 		
 		if (method_exists($exception, "getType") && $exception->getType())
@@ -265,7 +265,7 @@ class HarmoniErrorHandler {
 	 * @since 1/27/09
 	 * @static
 	 */
-	public static function printException (Exception $exception) {
+	public static function printException (Throwable $exception) {
 		$priority = 'Uncaught Exception';
 		
 		if (method_exists($exception, "getType") && $exception->getType())
@@ -443,7 +443,7 @@ class HarmoniErrorHandler {
 		}
 		
 		if (class_exists('Services') && Services::serviceRunning("Logging")) {
-			$logName = preg_replace('/[^a-z0-9_\s-.]/i', '', $logName);
+			$logName = preg_replace('/[^a-z0-9_\s\-.]/i', '', $logName);
 			try {
 				$loggingManager = Services::getService("Logging");
 				$log =$loggingManager->getLogForWriting($logName);

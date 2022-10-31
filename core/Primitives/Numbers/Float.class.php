@@ -22,7 +22,7 @@ require_once(dirname(__FILE__)."/Number.class.php");
  *
  * @version $Id: Float.class.php,v 1.7 2007/10/10 22:58:34 adamfranco Exp $
  */
-class Float 
+class HarmoniFloat 
 	extends Number
 {
 	

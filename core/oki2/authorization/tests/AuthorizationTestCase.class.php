@@ -27,11 +27,6 @@ require_once(HARMONI.'oki/authorization/DefaultFunctionType.class.php');
  */
 class HarmoniAuthorizationTestCase extends UnitTestCase {
 
-
-	function HarmoniAuthorizationTestCase() {
-		$this->UnitTestCase();
-	}
-
 	/**
 	 *	  Sets up unit test wide variables at the start
 	 *	  of each test method.

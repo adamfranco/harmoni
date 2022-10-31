@@ -27,7 +27,7 @@ class DirectionSC extends StyleComponent {
 	 * @param string value The value to assign to this SC.
 	 * @access public
 	 **/
-	function DirectionSC($value) {
+	function __construct($value) {
 		$options = array("ltr","rtl");
 	
 		$errDescription = "Could not validate the direction StyleComponent value \"%s\". ";
@@ -38,7 +38,7 @@ class DirectionSC extends StyleComponent {
 						Allowed values are: ".implode(", ", $options).".";
 		
 		$rule = RegexValidatorRule::getRuleByArray($options);
-		$this->StyleComponent($value, $rule, $options, true, $errDescription, $displayName, $description);
+		parent::__construct($value, $rule, $options, true, $errDescription, $displayName, $description);
 	}
 }
 ?>

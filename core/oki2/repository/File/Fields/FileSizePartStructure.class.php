@@ -29,7 +29,7 @@ class FileSizePartStructure
 
 	var $_partStructure;
 	
-	function FileSizePartStructure($partStructure) {
+	function __construct($partStructure) {
 		$this->_partStructure =$partStructure;
 	}
 	

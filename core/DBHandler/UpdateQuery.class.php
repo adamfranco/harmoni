@@ -60,7 +60,7 @@ class UpdateQuery
 	 * This is the constructor for a MySQL UPDATE query.
 	 * @access public
 	 */
-	function UpdateQuery() {
+	function __construct() {
 		$this->reset();
 	}
 	

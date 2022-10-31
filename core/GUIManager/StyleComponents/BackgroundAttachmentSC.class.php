@@ -27,7 +27,7 @@ class BackgroundAttachmentSC extends StyleComponent {
 	 * @param string value The value to assign to this SC.
 	 * @access public
 	 **/
-	function BackgroundAttachmentSC($value) {
+	function __construct($value) {
 		$options = array("scroll", "fixed");
 	
 		$errDescription = "Could not validate the background-attachment StyleComponent value \"%s\". ";
@@ -37,7 +37,7 @@ class BackgroundAttachmentSC extends StyleComponent {
 		$description = "Specifies the background-attachment value. Allowed values are: ".implode(", ", $options).".";
 		
 		$rule = RegexValidatorRule::getRuleByArray($options);
-		$this->StyleComponent($value, $rule, $options, true, $errDescription, $displayName, $description);
+		parent::__construct($value, $rule, $options, true, $errDescription, $displayName, $description);
 	}
 }
 ?>

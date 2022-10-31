@@ -28,7 +28,7 @@ class HarmoniStringId
 	 * @param string $id The desired id. If NULL, a new unique id is used.
 	 *
 	 */
-	function HarmoniStringId ( $id = NULL ) {
+	function __construct ( $id = NULL ) {
 		if ($id !== NULL) {
 			// use this id
 			// SLOW-VALIDATE -- comment validation out to increase program speed.

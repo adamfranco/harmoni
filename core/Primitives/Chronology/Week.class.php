@@ -61,7 +61,7 @@ class Week
 		
 		$errorString = $aNameString ." is not a recognized day name.";
 		if (function_exists('throwError'))
-			throwError(new Error($errorString));
+			throwError(new HarmoniError($errorString));
 		else
 			die ($errorString);
 	}
@@ -81,7 +81,7 @@ class Week
 		
 		$errorString = $anInteger ." is not a valid day index.";
 		if (function_exists('throwError'))
-			throwError(new Error($errorString));
+			throwError(new HarmoniError($errorString));
 		else
 			die ($errorString);
 	}

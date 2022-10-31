@@ -44,7 +44,7 @@ class HarmoniEnrollmentRecord
 	 * @access public
 	 * @return void
 	 */
-	function HarmoniEnrollmentRecord($id)
+	function __construct($id)
 	{
 		$this->_id =$id;
 		$this->_table = 'cm_enroll';

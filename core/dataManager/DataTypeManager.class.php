@@ -24,7 +24,7 @@ class DataTypeManager {
 	var $_registeredTypes;
 	var $_primitiveClassMapping;
 	
-	function DataTypeManager() {
+	function __construct() {
 		$this->_registeredTypes = array();
 		$this->_primitiveClassMapping = array();
 		
@@ -78,7 +78,7 @@ class DataTypeManager {
 	 */
 	function newPrimitive( $name ) {
 		if (!$this->typeRegistered($name)) {
-			throwError( new Error("Could not create new DataType object for '$name' because it doesn't seem to be registered.",
+			throwError( new HarmoniError("Could not create new DataType object for '$name' because it doesn't seem to be registered.",
 			"DataTypeManager",true));
 		}
 		
@@ -97,7 +97,7 @@ class DataTypeManager {
 	function primitiveClassForType($type) {
 		$type = strtolower($type);
 		if (!$this->typeRegistered($type)) {
-			throwError( new Error("Could not create new DataType object for '$type' because it doesn't seem to be registered.",
+			throwError( new HarmoniError("Could not create new DataType object for '$type' because it doesn't seem to be registered.",
 			"DataTypeManager",true));
 		}
 		
@@ -116,7 +116,7 @@ class DataTypeManager {
 	{
 		$type = strtolower($type);
 		if (!$this->typeRegistered($type)) {
-			throwError( new Error("Could not create new DataType object for '$type' because it doesn't seem to be registered.",
+			throwError( new HarmoniError("Could not create new DataType object for '$type' because it doesn't seem to be registered.",
 			"DataTypeManager",true));
 		}
 		
@@ -172,7 +172,7 @@ class DataTypeManager {
 	function isObjectOfDataType($object, $type) {
 		$type = strtolower($type);
 		if (!$this->typeRegistered($type)) {
-			throwError ( new Error("AAAH! Trying to check the data type of an object... but '$type' isn't defined!","DataTypeManager",true));
+			throwError ( new HarmoniError("AAAH! Trying to check the data type of an object... but '$type' isn't defined!","DataTypeManager",true));
 			return false;
 		}
 		
@@ -190,7 +190,7 @@ class DataTypeManager {
 	 */
 	function getConversionMethod ($type) {
 		if (!$this->typeRegistered($type)) {
-			throwError ( new Error("AAAH! Trying to check the data type of an object... but '$type' isn't defined!","DataTypeManager",true));
+			throwError ( new HarmoniError("AAAH! Trying to check the data type of an object... but '$type' isn't defined!","DataTypeManager",true));
 			return false;
 		}
 		

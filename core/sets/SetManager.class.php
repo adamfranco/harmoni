@@ -34,7 +34,7 @@ class SetManager {
 	 * @access public
 	 * @since 6/28/04
 	 */
-	function SetManager () {
+	function __construct () {
 		$this->_persistentSets = array ();
 		if (!isset($_SESSION['__temporarySets']) 
 			|| !is_array($_SESSION['__temporarySets']))

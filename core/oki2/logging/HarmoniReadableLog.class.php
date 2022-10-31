@@ -38,7 +38,7 @@ class HarmoniReadableLog
 	 * @access public
 	 * @since 3/1/06
 	 */
-	function HarmoniReadableLog ($name, $dbIndex) {
+	function __construct ($name, $dbIndex) {
 		ArgumentValidator::validate($name, StringValidatorRule::getRule());
 		ArgumentValidator::validate($dbIndex, IntegerValidatorRule::getRule());
 		$this->_name = $name;
@@ -128,7 +128,7 @@ class HarmoniReadableLog
 	function getEntriesBySearch ( $searchCriteria, Type $searchType, Type $formatType, Type $priorityType ) { 
 		$validType = new Type("logging_search", "edu.middlebury", "Date-Range/Agent/Node");
 		if (!$validType->isEqual($searchType)) {
-			throwError(new Error("Invalid search type, ".$searchType->asString().".", "Logging"));
+			throwError(new HarmoniError("Invalid search type, ".$searchType->asString().".", "Logging"));
 		}
 		
 		$iterator = new SearchEntryIterator($this->_name, $searchCriteria, $formatType, $priorityType, $this->_dbIndex);

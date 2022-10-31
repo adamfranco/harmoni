@@ -47,7 +47,7 @@ class HarmoniCourseGradeRecord
 	 * @access public
 	 * @return void
 	 */
-	function HarmoniCourseGradeRecord($id)
+	function __construct($id)
 	{
 		$this->_id = $id;
 		$this->_table = 'cm_grade_rec';

@@ -26,7 +26,7 @@ class MultiIteratorIterator
 	function __construct () {
 		if (func_num_args())
 			throw new HarmoniException(__CLASS__." does not take any constructor arguments.");
-		$this->HarmoniIterator($null = null);
+		parent::__construct($null = null);
 	}
 	
 	/**
@@ -59,7 +59,7 @@ class MultiIteratorIterator
 			else
 				$this->_i++;
 		}
-		throwError(new Error(SharedException::NO_MORE_ITERATOR_ELEMENTS(), get_class($this), 1));
+		throwError(new HarmoniError(SharedException::NO_MORE_ITERATOR_ELEMENTS(), get_class($this), 1));
 	}
 
 	/**
@@ -91,7 +91,7 @@ class MultiIteratorIterator
 			} else
 				$this->_i++;
 		}
-		throwError(new Error(SharedException::NO_MORE_ITERATOR_ELEMENTS(), get_class($this), 1));
+		throwError(new HarmoniError(SharedException::NO_MORE_ITERATOR_ELEMENTS(), get_class($this), 1));
 	 }
 }
 

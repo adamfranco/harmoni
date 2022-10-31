@@ -35,7 +35,7 @@ class LengthSC extends StyleComponent {
 	 * @param string value The value to assign to this SC.
 	 * @access public
 	 **/
-	function LengthSC($value) {
+	function __construct($value) {
 		$errDescription = "Could not validate the length StyleComponent value \"%s\". ";
 		$errDescription .= "Allowed units are: %, in, cm, mm, em, ex, pt, pc, px.";
 		
@@ -47,13 +47,13 @@ class LengthSC extends StyleComponent {
 		inches (in), centimeters (cm), millimeters (mm), ems (em), X-height (ex),
 		points (pt), picas (pc), or	pixels (px).";
 		
-		$this->StyleComponent($value, $rule, null, null, $errDescription, $displayName, $description);
+		parent::__construct($value, $rule, null, null, $errDescription, $displayName, $description);
 	}
 }
 
 class CSSLengthValidatorRule extends RegexValidatorRule {
 
-	function CSSLengthValidatorRule(){		
+	function __construct(){		
 		$this->_regex= "/^-?[0-9]+(\.[0-9]+)?(%|in|cm|mm|em|ex|pt|pc|px)$/";
 	}
 	

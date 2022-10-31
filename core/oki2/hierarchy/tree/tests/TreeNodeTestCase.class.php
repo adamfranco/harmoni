@@ -16,10 +16,6 @@ require_once(dirname(__FILE__)."/../TreeNode.class.php");
  */
 
 	class TreeNodeTestCase extends UnitTestCase {
-		
-		function TreeNodeTestCase() {
-			$this->UnitTestCase();
-		}
 	
 		/**
 		*  Sets up unit test wide variables at the start

@@ -34,7 +34,7 @@ class Services extends ServicesAbstract {
 	 * @access public
 	 * @return void
 	 **/
-	function Services() {
+	function __construct() {
 		$this->_services = array();
 		$this->_aliases = array();
 	}
@@ -62,7 +62,7 @@ class Services extends ServicesAbstract {
 		if ($this->running($name)) {
 			// if we have the error Handler, throw a pretty error with that,
 			// otherwise, use the die() function.
-			throwError(new Error("Services::registerService('$name') - can not 
+			throwError(new HarmoniError("Services::registerService('$name') - can not 
 					register service '$name' because it is already registered AND 
 					running.", "Services", 1));
 			return false;
@@ -70,7 +70,7 @@ class Services extends ServicesAbstract {
 		if (!class_exists($class)) {
 			// if we have the error Handler, throw a pretty error with that,
 			// otherwise, use the die() function.
-			throwError(new Error("Services::registerService('$name') - can not 
+			throwError(new HarmoniError("Services::registerService('$name') - can not 
 				register service '$name' because the class '$class' does not exist!"
 				, "Services", 1));
 			return false;
@@ -108,14 +108,14 @@ class Services extends ServicesAbstract {
 		if (!$this->_registeredServices[$registeredName]) {
 			// if we have the error Handler, throw a pretty error with that,
 			// otherwise, use the die() function.
-			throwError(new Error("Services::createAlias('$registeredName', '$aliasName') - failed because an '$registeredName' wasn't registered yet."
+			throwError(new HarmoniError("Services::createAlias('$registeredName', '$aliasName') - failed because an '$registeredName' wasn't registered yet."
 				, "Services", 1));
 		}
 		
 		if (isset($this->_aliases[$aliasName]) || isset($this->_registeredServices[$aliasName])) {
 			// if we have the error Handler, throw a pretty error with that,
 			// otherwise, use the die() function.
-			throwError(new Error("Services::createAlias('$registeredName', '$aliasName') - failed because an '$aliasName' is already in use."
+			throwError(new HarmoniError("Services::createAlias('$registeredName', '$aliasName') - failed because an '$aliasName' is already in use."
 				, "Services", 1));
 		}
 		
@@ -145,7 +145,7 @@ class Services extends ServicesAbstract {
 		if (!$this->running($name)) {
 			// if we have the error Handler, throw a pretty error with that,
 			// otherwise, use the die() function.
-			throwError(new Error("Services::getService('$name') - can not get service
+			throwError(new HarmoniError("Services::getService('$name') - can not get service
 					'$name' because it is not yet started.", "Services", 1));
 			return false;
 		}
@@ -182,7 +182,7 @@ class Services extends ServicesAbstract {
 //		print "<br />$str";
 
 		if (!$classname)
-			throwError(new Error("Services::startService('$name') - could not 
+			throwError(new HarmoniError("Services::startService('$name') - could not 
 				start service - A classname was not registered for this service
 				correctly", "Services", 1));
 				
@@ -196,7 +196,7 @@ class Services extends ServicesAbstract {
 		{
 			// if we have the error Handler, throw a pretty error with that,
 			// otherwise, use the die() function.
-			throwError(new Error("Services::startService('$name') - could not 
+			throwError(new HarmoniError("Services::startService('$name') - could not 
 				start service - the object of class $classname was not instantiated 
 				correctly", "Services", 1));
 			return false;
@@ -225,7 +225,7 @@ class Services extends ServicesAbstract {
 		$classname = $this->_registeredServices[$name];
 		
 		if (!$classname)
-			throwError(new Error("Services::startService('$name') - could not 
+			throwError(new HarmoniError("Services::startService('$name') - could not 
 				start service - A classname was not registered for this service
 				correctly", "Services", 1));
 						
@@ -240,7 +240,7 @@ class Services extends ServicesAbstract {
 		{
 			// if we have the error Handler, throw a pretty error with that,
 			// otherwise, use the die() function.
-			throwError(new Error("Services::startService('$name') - could not 
+			throwError(new HarmoniError("Services::startService('$name') - could not 
 				start service - the object of class $classname was not instantiated 
 				correctly", "Services", 1));
 			return false;

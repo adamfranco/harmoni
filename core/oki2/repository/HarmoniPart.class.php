@@ -28,7 +28,7 @@ class HarmoniPart
 	var $_recordFieldValue;
 	var $_partStructure;
 	
-	function HarmoniPart( $partStructure, $recordFieldValue, $asset ) {
+	function __construct( $partStructure, $recordFieldValue, $asset ) {
 		$this->_recordFieldValue =$recordFieldValue;
 		$this->_partStructure =$partStructure;
 		$this->_asset =$asset;
@@ -162,7 +162,7 @@ class HarmoniPart
 	 */
 	function createPart ( Id $partStructureId, $value ) { 
 		throwError(
-			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
+			new HarmoniError(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
 		
 		$this->_asset->updateModificationDate();
 	}
@@ -193,7 +193,7 @@ class HarmoniPart
 	 */
 	function deletePart ( Id $partId ) { 
 		throwError(
-			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
+			new HarmoniError(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
 		
 		$this->_asset->updateModificationDate();
 	}
@@ -219,7 +219,7 @@ class HarmoniPart
 	 */
 	function getParts () { 
 		throwError(
-			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
+			new HarmoniError(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
 	}
 
 	/**

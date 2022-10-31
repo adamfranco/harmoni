@@ -31,7 +31,7 @@ class TableLayout
 	 * @param integer $numberOfColumns
 	 * @access public
 	 **/
-	function TableLayout( $numberOfColumns, $tdStyles = null ) {
+	function __construct( $numberOfColumns, $tdStyles = null ) {
 		ArgumentValidator::validate($numberOfColumns, IntegerValidatorRule::getRule());
 		
 		$this->_numColumns = $numberOfColumns;

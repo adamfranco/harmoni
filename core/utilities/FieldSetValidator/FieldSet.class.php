@@ -28,7 +28,7 @@ class FieldSet {
 	 * @access public
 	 * @return void 
 	 **/
-	function FieldSet( $fields = null ) {
+	function __construct( $fields = null ) {
 		if ($fields && is_array($fields)) $this->_fields =  $fields;
 		else $this->clear();
 	}
@@ -101,4 +101,3 @@ class FieldSet {
 		unset($this->_fields[$key]);
 	}
 }
-

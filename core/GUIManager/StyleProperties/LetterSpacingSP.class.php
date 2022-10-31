@@ -28,8 +28,8 @@ class LetterSpacingSP extends StyleProperty {
 	 * @access public
 	 * @param string length The length of margin, but CANNOT be in % format.
 	 **/
-	function LetterSpacingSP($length) {
-		$this->StyleProperty("letter-spacing", "Letter Spacing", "This property specifies the letter spacing.");
+	function __construct($length) {
+		parent::__construct("letter-spacing", "Letter Spacing", "This property specifies the letter spacing.");
 		if (!is_null($length)) $this->addSC(new TextSpacingSC($length));
 	}
 

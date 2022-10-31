@@ -42,7 +42,7 @@ class FlatFileActionSource extends ActionSource{
 	 * @return void
 	 * @access public
 	 */
-	function FlatFileActionSource($basePath, $fileExtension=".php") {
+	function __construct($basePath, $fileExtension=".php") {
 //		$this->_basePath = preg_replace('#'.DIRECTORY_SEPARATOR."$#", "", $basePath);
 		$this->_basePath = $basePath;
 		$this->_fileExtension = $fileExtension;
@@ -83,7 +83,7 @@ class FlatFileActionSource extends ActionSource{
 	{ 
 		$fullPath = $this->_mkFullPath($module, $action);
 		if (!$this->actionExists($module, $action)) {
-			throwError( new Error("FlatFileActionSource::executeAction($module, $action) - could not proceed because the file to include does not exist!", "ActionHandler", true));
+			throwError( new HarmoniError("FlatFileActionSource::executeAction($module, $action) - could not proceed because the file to include does not exist!", "ActionHandler", true));
 		}
 		
 		$result = include($fullPath);

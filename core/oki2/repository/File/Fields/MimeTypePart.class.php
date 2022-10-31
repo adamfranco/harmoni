@@ -30,7 +30,7 @@ class MimeTypePart
 	var $_partStructure;
 	var $_type;
 	
-	function MimeTypePart( $partStructure, $recordId, $configuration, $asset ) {
+	function __construct( $partStructure, $recordId, $configuration, $asset ) {
 		$this->_recordId =$recordId;
 		$this->_partStructure =$partStructure;
 		$this->_configuration = $configuration;
@@ -143,7 +143,7 @@ class MimeTypePart
 	 */
 	function createPart(Id $partStructuretId, $value) {
 		throwError(
-			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
+			new HarmoniError(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
 	}
 
 	
@@ -171,7 +171,7 @@ class MimeTypePart
 	 */
 	function deletePart(Id $partId) {
 		throwError(
-			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
+			new HarmoniError(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
 	}
 
 	/**
@@ -195,7 +195,7 @@ class MimeTypePart
 	 */
 	function getParts() {
 		throwError(
-			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
+			new HarmoniError(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
 	}
 
 	/**

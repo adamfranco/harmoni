@@ -49,7 +49,7 @@ class Queue {
 	 * @param boolean $reversed The order of extraction from the queue.
 	 * @access public
 	 */
-	function Queue($reversed = false){
+	function __construct($reversed = false){
 		$this->_reversed = $reversed;
 		$this->clear();
 	}

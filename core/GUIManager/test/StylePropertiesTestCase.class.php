@@ -75,8 +75,8 @@ require_once(HARMONI."GUIManager/StyleProperties/BackgroundSP.class.php");
 
     class StylePropertiesTestCase extends UnitTestCase {
 		
-		function StylePropertiesTestCase() {
-			$this->UnitTestCase();
+		function __construct() {
+			parent::__construct();
 		}
 	
 		/**

@@ -38,8 +38,8 @@ class SimpleTheme extends Theme {
 	 * here.
 	 * @access public
 	 **/
-	function SimpleTheme() {
-		$this->Theme("Simple Theme", "A simple theme with rounded boxes.");
+	function __construct() {
+		parent::__construct("Simple Theme", "A simple theme with rounded boxes.");
 		
 		// =====================================================================
 		// global Theme style

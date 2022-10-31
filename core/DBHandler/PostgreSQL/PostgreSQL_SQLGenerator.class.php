@@ -197,7 +197,7 @@ class PostgreSQL_SQLGenerator extends SQLGeneratorInterface {
 							$sql .= "\n\t\tOR";
 							break;
 						default:
-							throw(new Error("Unsupported logical operator!", "DBHandler", true));				;
+							throw(new HarmoniError("Unsupported logical operator!", "DBHandler", true));				;
 					} // switch
 				}
 				
@@ -247,7 +247,7 @@ class PostgreSQL_SQLGenerator extends SQLGeneratorInterface {
 							$sql .= "\n\t\tOR";
 							break;
 						default:
-							throw(new Error("Unsupported logical operator!", "DBHandler", true));				;
+							throw(new HarmoniError("Unsupported logical operator!", "DBHandler", true));				;
 					} // switch
 				}
 				

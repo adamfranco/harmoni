@@ -60,12 +60,12 @@ class MenuThemeAbstract extends Theme /* implements MenuThemeInterface */ {
 		// 2) no menu has been set for this level already
 		if ($level > 1 && !isset($this->_menus[$level-1])) {
 			$err = "Error when adding a menu to a theme: all prior menu levels must be non-empty.";
-			throwError(new Error($err, "GUIManager", false));
+			throwError(new HarmoniError($err, "GUIManager", false));
 			return;		    
 		}
 		if (isset($this->_menus[$level])) {
 			$err = "A menu has already been set for the given level.";
-			throwError(new Error($err, "GUIManager", false));
+			throwError(new HarmoniError($err, "GUIManager", false));
 			return;		    
 		}
 		

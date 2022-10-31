@@ -98,11 +98,11 @@ class HarmoniWritableLog
 	 */
 	function appendLog ( $entryItem ) {
 		if (!$entryItem)
-			throwError(new Error(LoggingException::NULL_ARGUMENT(), "HarmoniWritableLog"));
+			throwError(new HarmoniError(LoggingException::NULL_ARGUMENT(), "HarmoniWritableLog"));
 		if (!isset($this->_formatType))
-			throwError(new Error(LoggingException::FORMAT_TYPE_NOT_SET(), "HarmoniWritableLog"));
+			throwError(new HarmoniError(LoggingException::FORMAT_TYPE_NOT_SET(), "HarmoniWritableLog"));
 		if (!isset($this->_priorityType))
-			throwError(new Error(LoggingException::PRIORITY_TYPE_NOT_SET(), "HarmoniWritableLog"));
+			throwError(new HarmoniError(LoggingException::PRIORITY_TYPE_NOT_SET(), "HarmoniWritableLog"));
 		
 		$this->appendLogWithTypes($entryItem, $this->_formatType, $this->_priorityType);
 	} 

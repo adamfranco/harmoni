@@ -43,7 +43,7 @@ class MenuItemLinkWithAdditionalHtml
 	 * @param string toolTip The toolTip of this menu item.
 	 * @access public
 	 **/
-	function MenuItemLinkWithAdditionalHtml($displayName, $url, $selected, 
+	function __construct($displayName, $url, $selected, 
 		$index, $target = null, $accessKey = null, $toolTip = null, 
 		$additionalHtml = '') 
 	{
@@ -51,7 +51,7 @@ class MenuItemLinkWithAdditionalHtml
 		// ** end of parameter validation	
 		
 		$this->_additionalHtml = $additionalHtml;
-		$this->MenuItemLink($displayName, $url, $selected, $index, $target,
+		parent::__construct($displayName, $url, $selected, $index, $target,
 							$accessKey, $toolTip);
 	}
 

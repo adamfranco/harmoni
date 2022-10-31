@@ -39,7 +39,7 @@ class HarmoniGradeRecord
 	 * @access public
 	 * @return void
 	 */
-	function HarmoniGradeRecord($id)
+	function __construct($id)
 	{
 		$this->_id =$id;
 		$this->_table = 'gr_record';

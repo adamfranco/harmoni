@@ -73,7 +73,7 @@ class StyleProperty extends StylePropertyInterface {
 	 * @param string displayName The display name of this StyleProperty.
 	 * @param string description The description of this StyleProperty.
 	 **/
-	function StyleProperty($name, $displayName, $description) {
+	function __construct($name, $displayName, $description) {
 		$this->_name = $name;
 		$this->_SCs = array();
 
@@ -91,7 +91,7 @@ class StyleProperty extends StylePropertyInterface {
 	 */
 	function setId ($id) {
 		if (!is_object($id))
-			throwError(new Error("GUIMANAGER", "STRING ID PASSED"));
+			throwError(new HarmoniError("GUIMANAGER", "STRING ID PASSED"));
 		$this->_id =$id;
 	}
 	

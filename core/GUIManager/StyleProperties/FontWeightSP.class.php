@@ -28,8 +28,8 @@ class FontWeightSP extends StyleProperty {
 	 * @access public
 	 * @param string weight The font weight.
 	 **/
-	function FontWeightSP($weight) {
-		$this->StyleProperty("font-weight", "Font Weight", "This property sets the font weight.");
+	function __construct($weight) {
+		parent::__construct("font-weight", "Font Weight", "This property sets the font weight.");
 
 		if (!is_null($weight)) $this->addSC(new FontWeightSC($weight));
 	}

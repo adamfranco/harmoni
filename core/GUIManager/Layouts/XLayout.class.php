@@ -25,7 +25,7 @@ class XLayout extends LayoutInterface {
 	 * The constructor.
 	 * @access public
 	 **/
-	function XLayout() {
+	function __construct() {
 		$this->_renderDirection ='Left-Right/Top-Bottom';
 	}
 	

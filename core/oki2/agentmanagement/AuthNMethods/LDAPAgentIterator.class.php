@@ -53,7 +53,7 @@ class LDAPAgentIterator
 	 * @access public
 	 * @since 8/30/05
 	 */
-	function LDAPAgentIterator ( $authNMethod, $agents, $dns = array() ) {
+	function __construct ( $authNMethod, $agents, $dns = array() ) {
 		
 		// determine the count (if we are passed dns, or just a poplulated $agents array)
 		if (count($dns) > count($agents))
@@ -119,7 +119,7 @@ class LDAPAgentIterator
 			$agentManager = Services::getService("AgentManager");
 			
 			if (!isset($this->_dns[$this->_current]))
-				throwError(new Error("Tried to get Group for un-passed dn", "LDAPAgentIterator", true));
+				throwError(new HarmoniError("Tried to get Group for un-passed dn", "LDAPAgentIterator", true));
 			
 			$tokens =$this->_authNMethod->createTokensForIdentifier($this->_dns[$this->_current]);
 			$agentId =$authenticationManager->_getAgentIdForAuthNTokens($tokens, $this->_authNMethod->getType());

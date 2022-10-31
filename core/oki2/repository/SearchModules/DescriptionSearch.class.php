@@ -34,7 +34,7 @@ class DescriptionSearch
 	 * @access public
 	 * @since 11/2/04
 	 */
-	function DescriptionSearch ( $dr ) {
+	function __construct ( $dr ) {
 		$this->_dr =$dr;
 	}
 	

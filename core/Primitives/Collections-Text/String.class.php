@@ -13,13 +13,13 @@ require_once(dirname(__FILE__)."/../Objects/SObject.class.php");
  *
  * @version $Id: String.class.php,v 1.8 2008/02/14 20:20:24 adamfranco Exp $
  */
-class String 
+class HarmoniString 
 	extends SObject 
 {
 	
 	protected $_string;
 
-	function String($string="") {
+	function __construct($string="") {
 		$this->_string = (string) $string;
 	}
 	
@@ -43,7 +43,7 @@ class String
 	 * @static
 	 */
 	static function withValue($value) {
-		$string = new String($value);
+		$string = new HarmoniString($value);
 		return $string;
 	}
 	
@@ -57,7 +57,7 @@ class String
 	 * @static
 	 */
 	static function fromString($aString) {
-		$string = new String($aString);
+		$string = new HarmoniString($aString);
 		return $string;
 	}
 

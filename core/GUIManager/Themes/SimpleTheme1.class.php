@@ -51,8 +51,8 @@ class SimpleTheme1 extends Theme {
 	 * here.
 	 * @access public
 	 **/
-	function SimpleTheme1() {
-		$this->Theme("Simple Theme One", "A basic theme based on simple borders and colored blocks.");
+	function __construct() {
+		parent::__construct("Simple Theme One", "A basic theme based on simple borders and colored blocks.");
 		
 		// =====================================================================
 		// global Theme style

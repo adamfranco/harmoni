@@ -198,7 +198,7 @@ class MySQL_SQLGenerator extends SQLGeneratorInterface {
 							$sql .= "\n    OR ";
 							break;
 						default:
-							throw(new Error("Unsupported logical operator!", "DBHandler", true));
+							throw(new HarmoniError("Unsupported logical operator!", "DBHandler", true));
 					} // switch
 				}
 				
@@ -247,7 +247,7 @@ class MySQL_SQLGenerator extends SQLGeneratorInterface {
 							$sql .= "\n    OR ";
 							break;
 						default:
-							throw(new Error("Unsupported logical operator!", "DBHandler", true));
+							throw(new HarmoniError("Unsupported logical operator!", "DBHandler", true));
 					} // switch
 				}
 				

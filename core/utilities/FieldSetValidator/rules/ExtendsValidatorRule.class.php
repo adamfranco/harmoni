@@ -32,7 +32,7 @@ class ExtendsValidatorRule
 	 * whether the given object extends this parent class.
 	 * @return void 
 	 **/
-	function ExtendsValidatorRule($parentClassName) {
+	function __construct($parentClassName) {
 		$this->_parentClassName = strtolower($parentClassName);		
 	}
 	

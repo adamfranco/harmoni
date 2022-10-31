@@ -28,8 +28,8 @@ class MinHeightSP extends StyleProperty {
 	 * @access public
 	 * @param string value The value of the dimension.
 	 **/
-	function MinHeightSP($value) {
-		$this->StyleProperty("min-height", "Minimum Height", "This property specifies the minimum height.");
+	function __construct($value) {
+		parent::__construct("min-height", "Minimum Height", "This property specifies the minimum height.");
 		if (!is_null($value)) $this->addSC(new MaxDimensionSC($value));
 	}
 

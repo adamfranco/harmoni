@@ -28,8 +28,8 @@ class OverflowSP extends StyleProperty {
 	 * @access public
 	 * @param string value The value of overflow.
 	 **/
-	function OverflowSP($value) {
-		$this->StyleProperty("overflow", "overflow", "This property specifies the overflow.");
+	function __construct($value) {
+		parent::__construct("overflow", "overflow", "This property specifies the overflow.");
 		if (!is_null($value)) $this->addSC(new OverflowSC($value));
 	}
 

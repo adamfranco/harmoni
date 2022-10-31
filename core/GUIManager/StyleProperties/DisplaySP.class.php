@@ -28,8 +28,8 @@ class DisplaySP extends StyleProperty {
 	 * @access public
 	 * @param string value This is the value of the property.
 	 **/
-	function DisplaySP($value) {
-		$this->StyleProperty("display", "Display", "Specifies the display type.");
+	function __construct($value) {
+		parent::__construct("display", "Display", "Specifies the display type.");
 		if (!is_null($value)) $this->addSC(new DisplaySC($value));
 	}
 

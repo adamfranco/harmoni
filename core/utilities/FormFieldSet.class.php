@@ -19,7 +19,7 @@ class FormFieldSet extends FieldSet {
 	var $_changed;
 	var $_valid;
 	
-	function FormFieldSet( $fields = null ) {
+	function __construct( $fields = null ) {
 		$this->_changed=array();
 		$this->_valid = array();
 		if ($fields && is_array($fields)) {
@@ -28,7 +28,7 @@ class FormFieldSet extends FieldSet {
 				$this->_valid[$k] = true;
 			}
 		}
-		parent::FieldSet( $fields );
+		parent::__construct( $fields );
 	}
 	
 	function set( $key, $val ) {

@@ -50,7 +50,7 @@ class TreeNode extends TreeNodeInterface
 	 *
 	 * @param string $id The id of this Node.
 	 */
-	function TreeNode($id) {
+	function __construct($id) {
 		// ** parameter validation
 		$stringRule = StringValidatorRule::getRule();
 		ArgumentValidator::validate($id, $stringRule, true);
@@ -99,14 +99,14 @@ class TreeNode extends TreeNodeInterface
 		// check whether we are duplicating $child
 		if (isset($this->_children[$child->_id])) {
 			$str = "A child with the given id already exists!";
-			throwError(new Error($str, "Hierarchy", true));
+			throwError(new HarmoniError($str, "Hierarchy", true));
 		}
 
 		// check if we are duplicating $this
 		$childsParents = $child->getParents();
 		if (isset($childsParents[$this->_id])) {
 			$str = "Child node already has a parent with the given id!";
-			throwError(new Error($str, "Hierarchy", true));
+			throwError(new HarmoniError($str, "Hierarchy", true));
 		}
 
 		// now perform cycle check
@@ -115,7 +115,7 @@ class TreeNode extends TreeNodeInterface
 		// **********************************************************
 		if ($this->isDescendantOf($child)) {
 			$str = "Adding this node would result in a cycle!";
-			throwError(new Error($str, "Hierarchy", true));
+			throwError(new HarmoniError($str, "Hierarchy", true));
 			return;
 		}
 
@@ -145,7 +145,7 @@ class TreeNode extends TreeNodeInterface
 		// check if $child is really a child of $this
 		if (!$this->isChild($child)) {
 			$str = "The given node is not a child of this node.";
-			throwError(new Error($str, "Hierarchy", true));
+			throwError(new HarmoniError($str, "Hierarchy", true));
 		}
 		
 		// remove $child from $this's list of children

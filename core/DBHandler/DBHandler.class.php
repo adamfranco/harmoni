@@ -87,7 +87,7 @@ class DBHandler {
 	 * Constructor.
 	 * @access public
 	 */
-	function DBHandler() {
+	function __construct() {
 		$this->_databases = array();
 	}
 	

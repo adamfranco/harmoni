@@ -45,7 +45,7 @@ class SearchEntryIterator
 	 * @access public
 	 * @since 3/1/06
 	 */
-	function SearchEntryIterator ( $logName, $searchCriteria, $formatType, $priorityType, $dbIndex ) {
+	function __construct ( $logName, $searchCriteria, $formatType, $priorityType, $dbIndex ) {
 		$this->_startDate =$searchCriteria['start'];
 		$this->_endDate =$searchCriteria['end'];
 		
@@ -64,7 +64,7 @@ class SearchEntryIterator
 		else
 			$this->_category = false;
 				
-		$this->HarmoniEntryIterator($logName, $formatType, $priorityType, $dbIndex);
+		parent::__construct($logName, $formatType, $priorityType, $dbIndex);
 	}
 	
 	/**

@@ -51,7 +51,7 @@ class OrderedSet
 	 * Constructor.
 	 * @param object Id $setId The Id of this set.
 	 */
-	function OrderedSet ( $setId ) {
+	function __construct ( $setId ) {
 		ArgumentValidator::validate($setId, ExtendsValidatorRule::getRule("Id"), true);
 		
 		// Create our internal array
@@ -138,7 +138,7 @@ class OrderedSet
 		ArgumentValidator::validate($id, ExtendsValidatorRule::getRule("Id"), true);
 		
 		if (!$this->isInSet($id))
-			throwError(new Error("Item specified, ".$id->getIdString().", does not exist", "Set", 1));
+			throwError(new HarmoniError("Item specified, ".$id->getIdString().", does not exist", "Set", 1));
 		
 		// Move it to the end to update the order keys
 		$this->moveToPosition($id, $this->count()-1);
@@ -229,7 +229,7 @@ class OrderedSet
 		}
 		
 		if ($position < 0 || $position >= $this->count()) {
-			throwError(new Error("Position specified, '".$position."', is out of bounds.", "Set", TRUE));
+			throwError(new HarmoniError("Position specified, '".$position."', is out of bounds.", "Set", TRUE));
 		}
 	}
 	

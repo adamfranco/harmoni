@@ -57,7 +57,7 @@ class DMRecord {
 	 * @param optional boolean $verControl If set to TRUE this DMRecord will use version-control.
 	 * @param optional int $fetchMode USED INTERNALLY
 	 */
-	function DMRecord($schema, $verControl=false, $fetchMode = RECORD_FULL) {
+	function __construct($schema, $verControl=false, $fetchMode = RECORD_FULL) {
 		ArgumentValidator::validate($verControl, BooleanValidatorRule::getRule());
 //		ArgumentValidator::validate($schema, ExtendsValidatorRule::getRule("Schema"));
 		
@@ -341,7 +341,7 @@ class DMRecord {
 		if (!$this->_myID && $row['record_id']) 
 			$this->_myID = $row['record_id'];
 		else if ($row['record_id'] != $this->_myID) {
-			throwError( new Error("Can not take database row because it does not seem to correspond with our
+			throwError( new HarmoniError("Can not take database row because it does not seem to correspond with our
 			DMRecord ID.", "DMRecord",true));
 		}
 		
@@ -362,7 +362,7 @@ class DMRecord {
 		$label = $this->_getFieldLabel($fieldID);
 
 		if (!isset($this->_fields[$fieldID])) {
-			throwError( new Error("Could not populate DMRecord with label '$label' because it doesn't
+			throwError( new HarmoniError("Could not populate DMRecord with label '$label' because it doesn't
 				seem to be defined in the Schema.","record",true));
 		}
 		
@@ -498,7 +498,7 @@ class DMRecord {
 				$fieldDef =$this->_schema->getField($id);
 				if ($fieldDef->isRequired() && ($this->_fields[$id]->numValues(true) == 0 ||
 						$this->_fields[$id]->numValues() == 0) && !$ignoreMandatory) {
-					throwError(new Error("Could not commit DMRecord to database because the required field '$id' does
+					throwError(new HarmoniError("Could not commit DMRecord to database because the required field '$id' does
 					not have any values!","DMRecord",true));
 					return false;
 				}
@@ -684,7 +684,7 @@ class DMRecord {
 	function activateTag($tag) {
 		// check to make sure the tag is affiliated with us
 		if ($this->getID() != $tag->getRecordID()) {
-			throwError (new Error("Can not activate tag because it is not affiliated with this DMRecord.","DMRecord",true));
+			throwError (new HarmoniError("Can not activate tag because it is not affiliated with this DMRecord.","DMRecord",true));
 			return false;
 		}
 		
@@ -812,8 +812,8 @@ class DMRecord {
 /**
  *@package harmoni.datamanager
  */
-class FieldNotFoundError extends Error {
-	function FieldNotFoundError($label,$type) {
+class FieldNotFoundError extends HarmoniError {
+	function __construct($label,$type) {
 		parent::Error("The field labeled '$label' was not found in schema '$type'.","DMRecord",true);
 	}
 }
@@ -821,9 +821,8 @@ class FieldNotFoundError extends Error {
 /**
  * @package harmoni.datamanager
  */
-class ValueIndexNotFoundError extends Error {
-	function ValueIndexNotFoundError($label,$id,$index) {
+class ValueIndexNotFoundError extends HarmoniError {
+	function __construct($label,$id,$index) {
 		parent::Error("The value index $index was not found for field '$label' in DMRecord ID $id.","DMRecord",true);
 	}
 }
-

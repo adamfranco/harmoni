@@ -23,7 +23,7 @@ require_once(dirname(__FILE__)."/Float.class.php");
  * @version $Id: Double.class.php,v 1.6 2007/10/10 22:58:34 adamfranco Exp $
  */
 class Double 
-	extends Float
+	extends HarmoniFloat
 {
 	
 /*********************************************************

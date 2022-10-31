@@ -19,14 +19,14 @@ class HTMLcolor extends RGBcolor {
 	 * @access public
 	 * @return void 
 	 **/
-	function HTMLcolor($color) {
+	function __construct($color) {
 		$color = preg_replace("/^\#/","",$color);
 		if (strlen($color) == 3)
 			$color = $color[0].$color[0].
 					 $color[1].$color[1].
 					 $color[2].$color[2];
 		
-		if (strlen($color) != 6) throwError(new Error("HTMLcolor - can not create class for color '$color': it is not a valid HTML color.","HTMLcolor",false));
+		if (strlen($color) != 6) throwError(new HarmoniError("HTMLcolor - can not create class for color '$color': it is not a valid HTML color.","HTMLcolor",false));
 		// convert each part into its decimal equivaleng.
 		$rgb = explode(" ",chunk_split($color,2," "));
 		

@@ -31,7 +31,7 @@ class FileSystemFileRecord
 	extends FileRecord
 {
 	
-	function FileSystemFileRecord( $recordStructure, $id, $configuration, $asset ) {
+	function __construct( $recordStructure, $id, $configuration, $asset ) {
 		$this->_id =$id;
 		$this->_recordStructure =$recordStructure;
 		$this->_configuration = $configuration;
@@ -100,7 +100,7 @@ class FileSystemFileRecord
 				// Delete the data
 				$file = $this->_parts['FILE_DATA']->_getFilePath();
 				if (!unlink($file))
-					throwError(new Error(RepositoryException::OPERATION_FAILED()
+					throwError(new HarmoniError(RepositoryException::OPERATION_FAILED()
 						.": '$file' could not be deleted.", "FileSystemFileRecord", true));
 				
 				// Delete the thumbnail
@@ -125,7 +125,7 @@ class FileSystemFileRecord
 				$this->_parts[$field]->updateValue("NULL");
 			}
 		} else {
-			throwError(new Error(RepositoryException::UNKNOWN_ID().": $string", "FileSystemFileRecord", true));
+			throwError(new HarmoniError(RepositoryException::UNKNOWN_ID().": $string", "FileSystemFileRecord", true));
 		}
 	}
 	

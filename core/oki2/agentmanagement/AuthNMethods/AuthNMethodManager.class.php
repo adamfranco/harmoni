@@ -35,7 +35,7 @@ class AuthNMethodManager
 	 * @access public
 	 * @since 3/1/05
 	 */
-	function AuthNMethodManager () {
+	function __construct () {
 		$this->_isInitialized = FALSE;
 		$this->_osidContext = NULL;
 		$this->_configuration = NULL;
@@ -114,7 +114,7 @@ class AuthNMethodManager
     	ArgumentValidator::validate($authNType, ExtendsValidatorRule::getRule("Type"));
     	
     	if ($this->_getKey($authNType) !== NULL)
-    		throwError( new Error("Cannot add again, Type '"
+    		throwError( new HarmoniError("Cannot add again, Type '"
 						.$this->_typeToString($authNType)."' already added.",
 						"AuthNMethodManager", true));
 		

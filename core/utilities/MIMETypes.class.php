@@ -19,7 +19,7 @@ class MIMETypes {
 	 * @access public
 	 * @since 10/22/04
 	 */
-	function MIMETypes () {
+	function __construct () {
 
 		$this->textTypes = array (
 		//	extension => subType

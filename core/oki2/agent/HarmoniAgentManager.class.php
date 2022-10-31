@@ -418,7 +418,7 @@ class HarmoniAgentManager
 		// get the Agent Search object
 		$agentSearch =$this->_agentSearches[$typeString];
 		if (!is_object($agentSearch))
-			throwError(new Error(AgentException::UNKNOWN_TYPE(),"AgentManager",true));
+			throwError(new HarmoniError(AgentException::UNKNOWN_TYPE(),"AgentManager",true));
 		
 		return $agentSearch->getAgentsBySearch($searchCriteria); 
 	}
@@ -547,7 +547,7 @@ class HarmoniAgentManager
 		$types =$authNMethodManager->getAuthNTypes();
 		while ($types->hasNext()) {
 			if ($groupType->isEqual($types->next()))
-				throwError(new Error(AgentException::PERMISSION_DENIED(),"GroupManager",true));
+				throwError(new HarmoniError(AgentException::PERMISSION_DENIED(),"GroupManager",true));
 		}
 		
 		// ** end of parameter validation
@@ -614,7 +614,7 @@ class HarmoniAgentManager
 		$hierarchyManager = Services::getService("Hierarchy");
 		$hierarchy =$hierarchyManager->getHierarchy($this->_hierarchyId);
 		if (!$hierarchy->nodeExists($id)) {
-			throwError(new Error(AgentException::PERMISSION_DENIED(),"GroupManager",true));
+			throwError(new HarmoniError(AgentException::PERMISSION_DENIED(),"GroupManager",true));
 		}
 		
 		
@@ -775,7 +775,7 @@ class HarmoniAgentManager
 		// get the Group Search object
 		$groupSearch = $this->_groupSearches[$typeString];
 		if (!is_object($groupSearch))
-			throwError(new Error(AgentException::UNKNOWN_TYPE().", ".$groupSearchType->asString(),"GroupManager",true));
+			throwError(new HarmoniError(AgentException::UNKNOWN_TYPE().", ".$groupSearchType->asString(),"GroupManager",true));
 		
 		return $groupSearch->getGroupsBySearch($searchCriteria); 
 	}

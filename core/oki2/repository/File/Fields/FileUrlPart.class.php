@@ -28,7 +28,7 @@ class FileUrlPart
 	var $_partStructure;
 	var $_value;
 	
-	function FileUrlPart( $partStructure, $recordId, $configuration, $asset ) {
+	function __construct( $partStructure, $recordId, $configuration, $asset ) {
 		$this->_recordId =$recordId;
 		$this->_partStructure =$partStructure;
 		$this->_configuration =$configuration;
@@ -141,7 +141,7 @@ class FileUrlPart
 	 */
 	function createPart(Id $partStructureId, $value) {
 		throwError(
-			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
+			new HarmoniError(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
 	}
 
 	/**
@@ -168,7 +168,7 @@ class FileUrlPart
 	 */
 	function deletePart(Id $partId) {
 		throwError(
-			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
+			new HarmoniError(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
 	}
 
 	/**
@@ -192,7 +192,7 @@ class FileUrlPart
 	 */
 	function getParts() {
 		throwError(
-			new Error(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
+			new HarmoniError(RepositoryException::UNIMPLEMENTED(), "HarmoniPart", true));
 	}
 	
 	/**

@@ -162,7 +162,7 @@ END;
 	 * Constructor.
 	 * @access public
 	 */
-	function RequestContext() {
+	function __construct() {
 		$this->_namespaces = array(); // normal
 		$this->_contextData = array(); // associative
 		$this->_requestData = array(); // associative
@@ -953,7 +953,7 @@ END;
 	 */
 	function _checkForHandler() {
 		if (!isset($this->_requestHandler)) {
-			throwError( new Error("RequestContext requires a RequestHandler for proper functionality! Please set one by calling RequestContext::assignRequestHandler()", "RequestContext", true));
+			throwError( new HarmoniError("RequestContext requires a RequestHandler for proper functionality! Please set one by calling RequestContext::assignRequestHandler()", "RequestContext", true));
 		}
 	}
 			
@@ -978,7 +978,7 @@ END;
 	 */
 	function _checkName($name) {
 		if (preg_match("/\\".REQUEST_HANDLER_CONTEXT_DELIMETER.'/', $name)) {
-			throwError( new Error("Namespaces and field names cannot contain \"".REQUEST_HANDLER_CONTEXT_DELIMETER."\"s!", "RequestHandler", true));
+			throwError( new HarmoniError("Namespaces and field names cannot contain \"".REQUEST_HANDLER_CONTEXT_DELIMETER."\"s!", "RequestHandler", true));
 		}
 	}
 	

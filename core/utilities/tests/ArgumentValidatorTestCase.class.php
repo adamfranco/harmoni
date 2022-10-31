@@ -18,11 +18,7 @@ require_once(HARMONI."utilities/FieldSetValidator/rules/inc.php");
  **/
 
     class ArgumentValidatorTestCase extends UnitTestCase {
-	
-		function ServicesTestCase() {
-			$this->UnitTestCase();
-		}
-	
+
 		/**
 		*  Sets up unit test wide variables at the start
 		*    of each test method.

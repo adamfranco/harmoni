@@ -32,7 +32,7 @@ class SQLGeneratorInterface {
 	 * @static
 	 * @access public
 	 */
-	static function generateSQLQuery($query) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
+	static function generateSQLQuery(Query $query) { die ("Method <b>".__FUNCTION__."()</b> declared in interface<b> ".__CLASS__."</b> has not been overloaded in a child class."); }
 
 	
 }

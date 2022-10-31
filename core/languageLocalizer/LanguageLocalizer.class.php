@@ -45,7 +45,7 @@ class LanguageLocalizer {
 	 * @return void
 	 * @todo -cLanguageLocalizer Implement LanguageLocalizer.constructor - use gettext functionality.
 	 **/
-	function LanguageLocalizer() {
+	function __construct() {
 	
 		// Get the current Language encoding from the session if it exists.
 		if (isset($_SESSION['__CurrentLanguageCodeset'])) {
@@ -169,7 +169,7 @@ class LanguageLocalizer {
 	 */
 	function addApplication ($application, $langDir) {
 		if (!file_exists($langDir)) {
-			throwError(new Error("LanguageLocalizer - could not find language folder '$langDir'.","LanguageLocalizer",true));
+			throwError(new HarmoniError("LanguageLocalizer - could not find language folder '$langDir'.","LanguageLocalizer",true));
 			return false;
 		}
 		
@@ -195,7 +195,7 @@ class LanguageLocalizer {
 	 **/
 	function setLanguage($language) {
 		if (!preg_match("/^[a-z]{2,3}_[A-Z]{2}$/",$language)) {
-			throwError(new Error("LanguageLocalizer::setLanguage($language) - language must start with 'xx_XX' or 'xxx_XX' (where x/X is any letter). Example: 'en_US'.","LanguageLocalizer",true));
+			throwError(new HarmoniError("LanguageLocalizer::setLanguage($language) - language must start with 'xx_XX' or 'xxx_XX' (where x/X is any letter). Example: 'en_US'.","LanguageLocalizer",true));
 			return false;
 		}
 		
@@ -206,7 +206,7 @@ class LanguageLocalizer {
 // 					. $application . ".mo";
 // 			
 // 			if (! file_exists($file) ) {
-// 				throwError(new Error("LanguageLocalizer::setLanguage($language) - could not set language. The translation file '$file' does not exist!","LanguageLocalizer", true));
+// 				throwError(new HarmoniError("LanguageLocalizer::setLanguage($language) - could not set language. The translation file '$file' does not exist!","LanguageLocalizer", true));
 // 				return false;
 // 			}
 // 		}
