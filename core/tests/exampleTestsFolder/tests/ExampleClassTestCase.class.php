@@ -16,9 +16,9 @@ require_once(HARMONI.'examlePackageDir/ExampleClass.class.php');
  **/
 
     class ExampleClassTestCase extends UnitTestCase {
-	
-		function ExampleClassTestCase() {
-			$this->UnitTestCase();
+
+		function __construct() {
+			parent::__construct();
 		}
 	
 		/**
