@@ -73,6 +73,9 @@ class HarmoniString
  	 * @since 7/11/05
  	 */
  	function isEqualTo ( $anObject ) {
+		if (!is_object($anObject)) {
+			return false;
+		}
  		if (!method_exists($anObject, 'asString'))
  			return false;
  			
