@@ -52,6 +52,10 @@ class CASAuthNMethod
 			ArgumentValidator::validate($debug, StringValidatorRule::getRule());
 			phpCAS::setDebug($debug);
 		}
+		if ($logger = $configuration->getProperty('CAS_LOGGER')) {
+			ArgumentValidator::validate($logger, ExtendsValidatorRule::getRule('Psr\Log\LoggerInterface'));
+			phpCAS::setLogger($logger);
+		}
 
 		$host = $configuration->getProperty('CAS_HOST');
 		ArgumentValidator::validate($host, RegexValidatorRule::getRule('/^[a-z0-9]+\.[a-z0-9]+.[a-z]+$/'));
@@ -59,8 +63,8 @@ class CASAuthNMethod
 		ArgumentValidator::validate($port, RegexValidatorRule::getRule('/^[0-9]+$/'));
 		$path = $configuration->getProperty('CAS_PATH');
 		ArgumentValidator::validate($path, RegexValidatorRule::getRule('/^\/.*$/'));
-
-		phpCAS::client(CAS_VERSION_2_0, $host, intval($port), $path, false);
+		$service_base_url = $configuration->getProperty('CAS_SERVICE_BASE_URL');
+		phpCAS::client(CAS_VERSION_2_0, $host, intval($port), $path, $service_base_url, false);
 
 		if ($cert = $configuration->getProperty('CAS_CERT')) {
 			phpCAS::setCasServerCACert($cert);
