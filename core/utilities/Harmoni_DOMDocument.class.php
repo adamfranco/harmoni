@@ -61,7 +61,7 @@ class Harmoni_DOMDocument
 	 * @access public
 	 * @since 1/23/08
 	 */
-	public function load ($filename, $options = null) {
+	public function load ($filename, $options = 0) {
 		$tmpErrorHandler = set_error_handler(array($this, 'handleLoadError'));
 		try {
 			$result = parent::load($filename, $options);
@@ -83,7 +83,7 @@ class Harmoni_DOMDocument
 	 * @access public
 	 * @since 1/23/08
 	 */
-	public function loadXML ($source, $options = null) {
+	public function loadXML ($source, $options = 0) {
 		$tmpErrorHandler = set_error_handler(array($this, 'handleLoadError'));
 		try {
 			$result = parent::loadXML($source, $options);
@@ -107,7 +107,7 @@ class Harmoni_DOMDocument
 	 * @access public
 	 * @since 1/23/08
 	 */
-	public function handleLoadError ($errno, $errstr, $errfile, $errline, array $errcontext) {
+	public function handleLoadError ($errno, $errstr, $errfile, $errline, array $errcontext = []) {
 		throw new DOMException($errstr, $errno);
 	}
 	
