@@ -101,7 +101,7 @@ abstract class QueryAbstract
 	function addWhereComparison ( $column, $value, $comparison, $logicalOperation = _AND ) {
 		$this->addWhereRawComparison(
 			$column, 
-			"'".addslashes($value)."'",
+			"'".addslashes($value? $value : '')."'",
 			$comparison, 
 			$logicalOperation);
 	}
