@@ -157,7 +157,7 @@ class SQLUtils {
 	 * @since 04/28/08
 	 * @static
 	 */
-	public static function runSQLdirWithExceptions ($dir, array $exceptions = array(), $dbIndex, $extn = 'sql') {
+	public static function runSQLdirWithExceptions ($dir, array $exceptions, $dbIndex, $extn = 'sql') {
 		$sqlFiles = array();
 		if ($handle = opendir($dir)) {
 			while (false !== ($file = readdir($handle))) {
