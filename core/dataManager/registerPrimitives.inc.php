@@ -11,7 +11,7 @@
 $this->addDataType("integer","Integer","StorableInteger", "asAnInteger");
 $this->addDataType("string","HarmoniString","StorableString", "asAString");
 $this->addDataType("blob","Blob","StorableBlob", "asABlob");
-$this->addDataType("shortstring","String","StorableShortString", "asAString");
+$this->addDataType("shortstring","HarmoniString","StorableShortString", "asAString");
 $this->addDataType("float","Float","StorableFloat", "asAFloat");
 $this->addDataType("boolean","Boolean","StorableBoolean", "asABoolean");
 $this->addDataType("datetime","DateAndTime","StorableTime", "asADateTime");
