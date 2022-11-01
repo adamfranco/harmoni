@@ -453,7 +453,7 @@ class CASAuthNMethod
 		$doc = new DOMDocument;
 		$params['action'] = $action;
 
-		$url = $this->directoryUrl.'?'.http_build_query($params, null, '&');
+		$url = $this->directoryUrl.'?'.http_build_query($params, '', '&');
 
 		if ($this->adminAccess) {
 			$opts = array(
