@@ -452,7 +452,7 @@ class HarmoniErrorHandler {
 				$priorityType = new Type("logging", "edu.middlebury", strip_tags($type),
 									"Events involving critical system errors.");
 				
-				$item = new AgentNodeEntryItem(strip_tags($category), HtmlString::getSafeHtml($message));
+				$item = new AgentNodeEntryItem($category?strip_tags($category):null, HtmlString::getSafeHtml($message));
 				$item->setBacktrace($backtrace);
 				if (isset($_SERVER['REQUEST_URI']))
 					$item->addTextToBactrace("\n<div><strong>REQUEST_URI: </strong>".$_SERVER['REQUEST_URI']."</div>");
