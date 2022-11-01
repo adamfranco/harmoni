@@ -451,7 +451,7 @@ class HarmoniPartStructure
 			$this->_authoritativeValueObjects = array();
 			
 			foreach ($this->_authoritativeValueStrings as $valueString) {
-				eval('$valueObject = '.$class.'::fromString($valueString);');
+				$valueObject = $class::fromString($valueString);
 				if ($valueObject)
 					$this->_authoritativeValueObjects[$valueString] =$valueObject;				
 			}
@@ -571,7 +571,7 @@ class HarmoniPartStructure
 		$type =$this->getType();
 		$class = $dtm->primitiveClassForType($type->getKeyword());
 	
-		eval('$valueObject = '.$class.'::fromString($valueString);');
+		$valueObject = $class::fromString($valueString);
 		return $valueObject;
 	}
 	
