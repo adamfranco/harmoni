@@ -140,7 +140,7 @@ class TokensAndTypeTokenCollector
 		$identifier = $harmoni->request->get("identifier");
 		$harmoni->request->endNamespace();
 		
-		if (!strlen($typeString) || !strlen($identifier))
+		if (empty($typeString) || empty($identifier))
 			return null;
 		
 		$authNMethodManager = Services::getService("AuthNMethods");
