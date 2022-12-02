@@ -459,8 +459,8 @@ class CASAuthNMethod
 			$opts = array(
 				'http' => array(
 					'header' =>
-						"ADMIN_ACCESS: ".$this->adminAccess."\r\n".
-						"User-Agent: Drupal CAS-MM-Sync\r\n",
+						"Admin-Access: ".$this->adminAccess."\r\n".
+						"User-Agent: Harmoni CASAuthNMethod\r\n",
 				)
 			);
 			$context = stream_context_create($opts);
