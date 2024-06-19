@@ -316,7 +316,13 @@ class DimensionsPart
 	function updateValue($value) {
 		if (is_array($value)) {
 			$this->_dimensions = $value;
-			
+			if (empty($this->_dimensions[0])) {
+				$this->_dimensions[0] = 0;
+			}
+			if (empty($this->_dimensions[1])) {
+				$this->_dimensions[1] = 0;
+			}
+
 			$dbHandler = Services::getService("DatabaseManager");
 
 			$query = new SelectQuery;
