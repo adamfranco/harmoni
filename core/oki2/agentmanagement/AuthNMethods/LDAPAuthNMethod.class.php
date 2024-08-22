@@ -369,7 +369,7 @@ class LDAPAuthNMethod
 		try {
 			$info = $this->_connector->getInfo($authNTokens->getUsername(), array('memberof'));
 		} catch (LDAPException $e) {
-			return new HarmoniIterator($groups);
+			return new HarmoniIterator([]);
 		}
 
 		$groups = array();
