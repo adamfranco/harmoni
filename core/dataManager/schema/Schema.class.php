@@ -302,7 +302,7 @@ class Schema extends SObject {
 	function getFieldLabelFromID($id) {
 		$label = str_replace($this->getID() . ".", "", $id);
 		if (!isset($this->_fields[$id])) {
-			throwError(new HarmoniError("Schema::getFieldLabelFromID($id) - could not find a field corresponding to id.", "DataManager", true));
+			throwError(new HarmoniError("Schema::getFieldLabelFromID($id) - could not find a field corresponding to id '$id'. in ".print_r(array_keys($this->_fields), true), "DataManager", true));
 		}
 		return $label;
 	}

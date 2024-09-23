@@ -324,7 +324,14 @@ class RecordManager {
 					if ($this->_cacheMode) $this->_recordCache[$id] =$records[$id];
 				}
 				
+				try {
 				$records[$id]->takeRow($a);
+				} catch (HarmoniException $e) {
+					if ($e->getType() == 'DataManager') {
+						// Skip over broken records.
+						HarmoniErrorHandler::logException($e);
+					}
+				}
 				unset($a);
 			}
 			
